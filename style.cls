@@ -70,7 +70,7 @@
     \footnotesize\centerline
     \@publicationseries{}%\\
     Dissertations, No. \@publicationnumber
-  }\\[25mm]
+  }\\[10em]
   {
     \LARGE
     \@title
@@ -80,32 +80,30 @@
     \@author
   }\\
   \vfill
-  \includegraphics[width=35mm]{\@logo}\\[12mm]
+  \includegraphics[width=12em]{\@logo}\\[3em]
   {
     \footnotesize
     Linköping University\\
     \@department\\
     \@division\\
     SE-581 83 Linköping, Sweden\\
-    \vspace*{5mm}
+    \vspace*{2em}
     Linköping \@publicationyear\\
   }
 }
 
 \newcommand{\abstractpages}{%
-  \vspace*{6mm}
   \begin{swedish}
-    \setlength{\parindent}{0mm}
-    \setlength\parskip{8pt}\centerline{POPULÄRVETENSKAPLIG SAMMANFATTNING}
-    \vspace{3mm}
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{1em}
+    \centerline{\textsc{Populärvetenskaplig sammanfattning}}
     \footnotesize{\@abstractswedish}
   \end{swedish}
   \newpage
-  \vspace*{6mm}
   {
-    \setlength{\parindent}{0mm}
-    \setlength\parskip{8pt}\centerline{ABSTRACT}
-    \vspace{3mm}
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{1em}
+    \centerline{\textsc{Abstract}}
     \footnotesize{\@abstractenglish}
   }
 }
@@ -166,10 +164,10 @@
   \checkandfixthelayout
   \pagestyle{empty}
   \pagenumbering{roman}
-  \begin{adjustwidth}{-1cm}{-1cm}
+  {
     \maketitle
     \newpage
-  \end{adjustwidth}
+  }
   \pagestyle{plain}
   \makepermission
   \makededication
