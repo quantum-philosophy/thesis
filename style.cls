@@ -29,7 +29,7 @@
 \ExecuteOptions{a4paper}
 \ProcessOptions*
 
-\LoadClass{memoir}
+\LoadClass[showtrims]{memoir}
 
 \RequirePackage{pdfpages}
 \RequirePackage{pbox}
