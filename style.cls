@@ -54,12 +54,6 @@
 \addtolength{\marginboxlength}{-\spinemargin}
 \addtolength{\marginboxlength}{-2mm}
 
-\newcounter{article}
-\setcounter{article}{0}
-\renewcommand{\thearticle}{\Roman{article}}
-\setlength{\TPVertModule}{2cm}
-\setlength{\TPHorizModule}{\paperwidth - 4.3cm}
-
 \def\typeface#1{
   \count255=\interactionmode
   \batchmode
@@ -71,32 +65,30 @@
 
 \renewcommand{\maketitle}{
   \typeface{MillerText}
+  \center
   {
-    \center
-    {
-      \footnotesize\centerline
-      \@publicationseries{}%\\
-      Dissertations, No. \@publicationnumber
-    }\\[25mm]
-    {
-      \LARGE\bfseries
-      \@title
-    }\\[20mm]
-    {
-      \Large\bfseries
-      \@author
-    }\\
-    \vfill
-    \includegraphics[width=35mm]{\@logo}\\[12mm]
-    {
-      \footnotesize
-      Linköping University\\
-      \@department\\
-      \@division\\
-      SE-581 83 Linköping, Sweden\\
-      \vspace*{5mm}
-      Linköping \@publicationyear\\
-    }
+    \footnotesize\centerline
+    \@publicationseries{}%\\
+    Dissertations, No. \@publicationnumber
+  }\\[25mm]
+  {
+    \LARGE
+    \@title
+  }\\[20mm]
+  {
+    \Large
+    \@author
+  }\\
+  \vfill
+  \includegraphics[width=35mm]{\@logo}\\[12mm]
+  {
+    \footnotesize
+    Linköping University\\
+    \@department\\
+    \@division\\
+    SE-581 83 Linköping, Sweden\\
+    \vspace*{5mm}
+    Linköping \@publicationyear\\
   }
 }
 
