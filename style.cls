@@ -14,7 +14,6 @@
 \createvariable{department}
 \createvariable{divanumber}
 \createvariable{division}
-\createvariable{edition}
 \createvariable{isbn}
 \createvariable{issn}
 \createvariable{publicationseries}
@@ -122,14 +121,13 @@
   \mbox{}
   \vfill
   \begin{flushleft}
-    Edition \@edition\\[5mm]
-    \copyright{} \@publicationyear\ \@author\\
+    \copyright\ \@publicationyear\ \@author\\[1em]
     ISBN \@isbn\\
     ISSN \@issn\\
-    URL \texttt{http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/}\\[1cm]
+    URL \texttt{http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/}\\[3em]
     Published articles have been reprinted with permission from the respective
-    copyright holder.\\
-    Typeset using \XeTeX\\[1cm]
+    copyright holder.\\[3em]
+    Typeset in Korolev LiU and Miller Text\\
     Printed by LiU-Tryck, Linköping \@publicationyear
   \end{flushleft}
   \clearpage
