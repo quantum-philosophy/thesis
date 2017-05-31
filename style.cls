@@ -42,10 +42,11 @@
 \usepackage{polyglossia}
 \usepackage{xltxtra}
 
-\defaultfontfeatures{Mapping=tex-text}
-
 \setmainlanguage{english}
 \setotherlanguages{swedish}
+
+\usepackage[backend=biber,hyperref]{biblatex}
+\ExecuteBibliographyOptions{maxnames=99}
 
 \newlength{\marginboxlength}
 \setlength{\marginboxlength}{\paperwidth}
@@ -160,6 +161,11 @@
   \setlrmargins{*}{*}{1.5}
   \setulmargins{2cm}{*}{*}
 }
+
+\setmainfont{MillerText}[
+  ItalicFont="MillerText-Italic",
+  SmallCapsFont="MillerText-RomanSC"
+]
 
 \linespread{1.05}
 
