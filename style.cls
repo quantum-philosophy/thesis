@@ -74,7 +74,7 @@
   {
     \LARGE
     \@title
-  }\\[20mm]
+  }\\[5em]
   {
     \Large
     \@author
