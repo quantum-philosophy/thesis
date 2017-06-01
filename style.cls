@@ -1,10 +1,19 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{style}[2017/05/31 Thesis]
+\ProvidesClass{style}[2017/06/01 Thesis]
 
-\RequirePackage{xkeyval}
-\RequirePackage[absolute]{textpos}
-\RequirePackage[figure,table]{totalcount}
+\LoadClass[a4paper,showtrims]{memoir}
+
+\usepackage{geometry}
+
+\usepackage{hyperref}
+\usepackage{ifthen}
+\usepackage{microtype}
+\usepackage{pbox}
+\usepackage{pdfpages}
+\usepackage{polyglossia}
+\usepackage[figure,table]{totalcount}
+\usepackage{xltxtra}
 
 \def\createvariable#1{
   \expandafter\def\csname #1\endcsname{\expandafter\gdef\csname @#1\endcsname}
@@ -26,27 +35,10 @@
 \gdef\@dedication{\input{include/dedication}}
 \gdef\@logo{include/assets/figures/logo}
 
-\ExecuteOptions{a4paper}
-\ProcessOptions*
-
-\LoadClass[showtrims]{memoir}
-
-\RequirePackage{pdfpages}
-\RequirePackage{pbox}
-\RequirePackage{ifthen}
-\RequirePackage{geometry}
-\RequirePackage[pdfusetitle]{hyperref}
-\RequirePackage[MnSymbol]{mathspec}
-
-\usepackage{calc}
-\usepackage{polyglossia}
-\usepackage{xltxtra}
-
 \setmainlanguage{english}
 \setotherlanguages{swedish}
 
 \usepackage[backend=biber,hyperref]{biblatex}
-\ExecuteBibliographyOptions{maxnames=99}
 
 \newlength{\marginboxlength}
 \setlength{\marginboxlength}{\paperwidth}
@@ -54,17 +46,65 @@
 \addtolength{\marginboxlength}{-\spinemargin}
 \addtolength{\marginboxlength}{-2mm}
 
-\def\typeface#1{
-  \count255=\interactionmode
-  \batchmode
-  \font\bodyfont="#1"\space at 10pt
-  \fontspec{#1}
-  \setmainfont{#1}
-  \interactionmode=\count255
+\clubpenalty=10000
+\widowpenalty=10000
+\raggedbottom
+\midsloppy
+
+\setstocksize{297mm}{210mm}
+\settrimmedsize{242mm}{165mm}{*}
+\settypeblocksize{*}{28pc}{1.618}
+
+\setmainfont{MillerText}[
+  ItalicFont="MillerText-Italic",
+  SmallCapsFont="MillerText-RomanSC"
+]
+
+\linespread{1.05}
+
+\newcommand{\makeabstract}{
+  \begin{swedish}
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{1em}
+    \centerline{\textsc{Populärvetenskaplig sammanfattning}}
+    \footnotesize{\@abstractswedish}
+  \end{swedish}
+  \newpage
+  \begin{english}
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{1em}
+    \centerline{\textsc{Abstract}}
+    \footnotesize{\@abstractenglish}
+  \end{english}
+}
+
+\newcommand{\makededication}{
+  \mbox{}
+  \vfill
+  \begin{center}
+    \@dedication\\
+  \end{center}
+  \vfill
+}
+
+\newcommand{\makepermission}{
+  \mbox{}
+  \vfill
+  \begin{flushleft}
+    \copyright\ \@publicationyear\ \@author\\[1em]
+    ISBN \@isbn\\
+    ISSN \@issn\\
+    URL \texttt{http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/}\\[3em]
+    Published articles have been reprinted with permission from the respective
+    copyright holder.\\[3em]
+    Typeset in Korolev LiU and Miller Text\\
+    Printed by LiU-Tryck, Linköping \@publicationyear
+  \end{flushleft}
+  \clearpage
 }
 
 \renewcommand{\maketitle}{
-  \typeface{MillerText}
+  \selecttypeface{MillerText}
   \center
   {
     \footnotesize\centerline
@@ -92,56 +132,6 @@
   }
 }
 
-\newcommand{\abstractpages}{%
-  \begin{swedish}
-    \setlength{\parindent}{0em}
-    \setlength{\parskip}{1em}
-    \centerline{\textsc{Populärvetenskaplig sammanfattning}}
-    \footnotesize{\@abstractswedish}
-  \end{swedish}
-  \newpage
-  \begin{english}
-    \setlength{\parindent}{0em}
-    \setlength{\parskip}{1em}
-    \centerline{\textsc{Abstract}}
-    \footnotesize{\@abstractenglish}
-  \end{english}
-}
-
-\newcommand{\makepermission}{
-  \mbox{}
-  \vfill
-  \begin{flushleft}
-    \copyright\ \@publicationyear\ \@author\\[1em]
-    ISBN \@isbn\\
-    ISSN \@issn\\
-    URL \texttt{http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/}\\[3em]
-    Published articles have been reprinted with permission from the respective
-    copyright holder.\\[3em]
-    Typeset in Korolev LiU and Miller Text\\
-    Printed by LiU-Tryck, Linköping \@publicationyear
-  \end{flushleft}
-  \clearpage
-}
-
-\newcommand{\makededication}{
-  \mbox{}
-  \vfill
-  \begin{center}
-    \@dedication\\
-  \end{center}
-  \vfill
-}
-
-\clubpenalty=10000
-\widowpenalty=10000
-\raggedbottom
-\midsloppy
-
-\setstocksize{297mm}{210mm}
-\settrimmedsize{242mm}{165mm}{*}
-\settypeblocksize{*}{28pc}{1.618}
-
 \newcommand{\resetlayout}{
   \setlength{\trimtop}{\stockheight}
   \addtolength{\trimtop}{-\paperheight}
@@ -152,12 +142,14 @@
   \setulmargins{2cm}{*}{*}
 }
 
-\setmainfont{MillerText}[
-  ItalicFont="MillerText-Italic",
-  SmallCapsFont="MillerText-RomanSC"
-]
-
-\linespread{1.05}
+\def\selecttypeface#1{
+  \count255=\interactionmode
+  \batchmode
+  \font\bodyfont="#1"\space at 10pt
+  \fontspec{#1}
+  \setmainfont{#1}
+  \interactionmode=\count255
+}
 
 \AtBeginDocument{
   \resetlayout
@@ -175,7 +167,7 @@
   \phantomsection
   \addcontentsline{toc}{chapter}{Abstract}
   \clearpage
-  \abstractpages
+  \makeabstract
   \clearpage
   \newpage
   \@acknowledgments
