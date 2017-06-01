@@ -2,32 +2,27 @@
 
 \newif\ifNoChapNumber
 
-\newcommand\Pattern{
-  \def\Line{\rule[-2cm]{1pt}{5cm}\hspace{1mm}\relax}
-  \Line\Line\Line\Line\Line\Line\Line
-}
-
 \makeatletter
-  \setlength\midchapskip{0pt}
   \makechapterstyle{Quantum}{
-    \renewcommand\chapternamenum{}
     \renewcommand\printchaptername{}
     \renewcommand\printchapternum{}
-    \renewcommand\chapnumfont{\Huge\bfseries\centering}
-    \renewcommand\chaptitlefont{\Huge\bfseries\raggedright}
     \renewcommand\printchaptertitle[1]{
-      \Pattern
-      \hspace*{-2em}
-      \begin{tabular}{@{}p{1cm} p{\textwidth-3cm}}
-        \ifNoChapNumber
-          \relax
-        \else
-          \colorbox{black}{
-            \color{white}
-            \makebox[.8cm]{\chapnumfont\strut \thechapter}
-          }
-        \fi
-        & \chaptitlefont ##1
+      \setlength\tabcolsep{0pt}
+      \begin{tabular}{p{5em}b{\fill}}
+        \colorbox{black}{
+          \begin{minipage}[c][10em][t]{2.2em}
+            \centering\color{white}\Huge
+            \ifNoChapNumber
+              \strut
+            \else
+              \strut\thechapter
+            \fi
+          \end{minipage}
+        } & {
+          \begin{minipage}[c][10em][c]{\fill}
+            \Huge ##1
+          \end{minipage}
+        }
       \end{tabular}
       \NoChapNumberfalse
     }
