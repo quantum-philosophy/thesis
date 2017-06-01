@@ -100,12 +100,12 @@
     \footnotesize{\@abstractswedish}
   \end{swedish}
   \newpage
-  {
+  \begin{english}
     \setlength{\parindent}{0em}
     \setlength{\parskip}{1em}
     \centerline{\textsc{Abstract}}
     \footnotesize{\@abstractenglish}
-  }
+  \end{english}
 }
 
 \newcommand{\makepermission}{
@@ -193,3 +193,5 @@
   \pagenumbering{arabic}
   \pagestyle{ruled}
 }
+
+% vim: set ft=tex:
