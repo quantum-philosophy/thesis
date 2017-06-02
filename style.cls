@@ -78,6 +78,34 @@
   \end{english}
 }
 
+\newif\ifNoChapterNumber
+
+\makechapterstyle{blackbox}{
+  \renewcommand\printchaptername{}
+  \renewcommand\printchapternonum{\NoChapterNumbertrue}
+  \renewcommand\printchapternum{}
+  \renewcommand\printchaptertitle[1]{
+    \setlength\tabcolsep{0pt}
+    \begin{tabular}{p{5em}b{\fill}}
+      \colorbox{black}{
+        \begin{minipage}[c][10em][t]{2.2em}
+          \centering\color{white}\Huge
+          \ifNoChapterNumber
+            \strut
+          \else
+            \strut\thechapter
+          \fi
+        \end{minipage}
+      } & {
+        \begin{minipage}[c][10em][c]{\fill}
+          \Huge ##1
+        \end{minipage}
+      }
+    \end{tabular}
+    \NoChapterNumberfalse
+  }
+}
+
 \newcommand{\makededication}{
   \mbox{}
   \vfill
@@ -184,6 +212,7 @@
   \cleartorecto
   \pagenumbering{arabic}
   \pagestyle{ruled}
+  \chapterstyle{blackbox}
 }
 
 % vim: set ft=tex:
