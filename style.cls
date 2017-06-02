@@ -55,6 +55,8 @@
 \settrimmedsize{242mm}{165mm}{*}
 \settypeblocksize{*}{28pc}{1.618}
 
+\newfontfamily\headingfont[]{KorolevLiU Medium}
+
 \setmainfont{MillerText}[
   ItalicFont="MillerText-Italic",
   SmallCapsFont="MillerText-RomanSC"
@@ -66,15 +68,15 @@
   \begin{swedish}
     \setlength{\parindent}{0em}
     \setlength{\parskip}{1em}
-    \centerline{\textsc{Populärvetenskaplig sammanfattning}}
-    \footnotesize{\@abstractswedish}
+    \centerline{\Large\textsc{Populärvetenskaplig sammanfattning}}
+    \@abstractswedish
   \end{swedish}
   \newpage
   \begin{english}
     \setlength{\parindent}{0em}
     \setlength{\parskip}{1em}
-    \centerline{\textsc{Abstract}}
-    \footnotesize{\@abstractenglish}
+    \centerline{\Large\textsc{Abstract}}
+    \@abstractenglish
   \end{english}
 }
 
@@ -88,8 +90,9 @@
     \setlength\tabcolsep{0pt}
     \begin{tabular}{p{5em}b{\fill}}
       \colorbox{black}{
-        \begin{minipage}[c][10em][t]{2.2em}
-          \centering\color{white}\Huge
+        \begin{minipage}[c][10em][t]{2em}
+          \centering\color{white}
+          \headingfont\Huge
           \ifNoChapterNumber
             \strut
           \else
@@ -98,7 +101,8 @@
         \end{minipage}
       } & {
         \begin{minipage}[c][10em][c]{\fill}
-          \Huge ##1
+          \headingfont\Huge
+          ##1
         \end{minipage}
       }
     \end{tabular}
@@ -140,15 +144,15 @@
     Dissertations, No. \@publicationnumber
   }\\[10em]
   {
-    \LARGE
+    \headingfont\huge
     \@title
-  }\\[5em]
+  }\\[4em]
   {
-    \Large
+    \headingfont\LARGE
     \@author
   }\\
   \vfill
-  \includegraphics[width=12em]{\@logo}\\[3em]
+  \includegraphics[width=12em]{\@logo}\\[2em]
   {
     \footnotesize
     Linköping University\\
@@ -180,6 +184,7 @@
 }
 
 \AtBeginDocument{
+  \chapterstyle{blackbox}
   \resetlayout
   \checkandfixthelayout
   \pagestyle{empty}
@@ -212,7 +217,6 @@
   \cleartorecto
   \pagenumbering{arabic}
   \pagestyle{ruled}
-  \chapterstyle{blackbox}
 }
 
 % vim: set ft=tex:
