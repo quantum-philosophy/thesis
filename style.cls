@@ -114,6 +114,7 @@
   \mbox{}
   \vfill
   \begin{center}
+    \Large
     \@dedication\\
   \end{center}
   \vfill
@@ -144,11 +145,11 @@
     Dissertations, No. \@publicationnumber
   }\\[10em]
   {
-    \headingfont\huge
+    \headingfont\Huge
     \@title
   }\\[4em]
   {
-    \headingfont\LARGE
+    \headingfont\huge
     \@author
   }\\
   \vfill
