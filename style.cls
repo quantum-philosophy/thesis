@@ -58,6 +58,7 @@
 \newfontfamily\headingfont[]{KorolevLiU Medium}
 
 \setmainfont{MillerText}[
+  BoldFont="MillerText-Roman",
   ItalicFont="MillerText-Italic",
   SmallCapsFont="MillerText-RomanSC"
 ]
@@ -89,20 +90,23 @@
   \renewcommand\printchaptertitle[1]{%
     \setlength\fboxsep{0pt}%
     \setlength\tabcolsep{0pt}%
-    \begin{tabular}{p{5em}b{\fill}}
+    \begin{tabular}{p{5em}b{\textwidth-5em}}
       \colorbox{black}{%
         \begin{minipage}[c][10em][t]{2.5em}
-          \centering\color{white}
-          \headingfont\Huge
           \ifNoChapterNumber
             \strut
           \else
-            \strut\thechapter
+            \headingfont\Huge
+            \color{white}
+            \vspace{0.4em}
+            \centering
+            \thechapter
           \fi
         \end{minipage}
       } & \colorbox{white}{%
-        \begin{minipage}[c][10em][c]{\fill}
+        \begin{minipage}[c][10em][c]{\textwidth-5em}
           \headingfont\Huge
+          \raggedright
           ##1
         \end{minipage}
       }
