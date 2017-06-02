@@ -86,11 +86,12 @@
   \renewcommand\printchaptername{}
   \renewcommand\printchapternonum{\NoChapterNumbertrue}
   \renewcommand\printchapternum{}
-  \renewcommand\printchaptertitle[1]{
-    \setlength\tabcolsep{0pt}
+  \renewcommand\printchaptertitle[1]{%
+    \setlength\fboxsep{0pt}%
+    \setlength\tabcolsep{0pt}%
     \begin{tabular}{p{5em}b{\fill}}
-      \colorbox{black}{
-        \begin{minipage}[c][10em][t]{2em}
+      \colorbox{black}{%
+        \begin{minipage}[c][10em][t]{2.5em}
           \centering\color{white}
           \headingfont\Huge
           \ifNoChapterNumber
@@ -99,7 +100,7 @@
             \strut\thechapter
           \fi
         \end{minipage}
-      } & {
+      } & \colorbox{white}{%
         \begin{minipage}[c][10em][c]{\fill}
           \headingfont\Huge
           ##1
