@@ -107,7 +107,7 @@
             \centering
             \thechapter
           \fi
-        \end{minipage}
+        \end{minipage}%
       } & \colorbox{white}{%
         \begin{minipage}[c][10em][c]{\textwidth-5em}
           \headingfont\Huge
