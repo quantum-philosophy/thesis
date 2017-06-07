@@ -39,7 +39,6 @@
 \setotherlanguages{swedish}
 
 \usepackage[
-  backend=biber,
   hyperref,
   maxnames=42,
   sorting=none,
