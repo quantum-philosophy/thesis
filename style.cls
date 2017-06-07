@@ -38,12 +38,6 @@
 \setmainlanguage{english}
 \setotherlanguages{swedish}
 
-\usepackage[
-  hyperref,
-  maxnames=42,
-  sorting=none,
-]{biblatex}
-
 \newlength{\marginboxlength}
 \setlength{\marginboxlength}{\paperwidth}
 \addtolength{\marginboxlength}{-\textwidth}
