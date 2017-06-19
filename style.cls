@@ -65,17 +65,13 @@
 
 \newcommand{\makeabstract}{
   \begin{swedish}
-    \setlength{\parindent}{0em}
-    \setlength{\parskip}{1em}
-    \centerline{\Large\textsc{Populärvetenskaplig sammanfattning}}
-    \@abstractswedish
+    \centerline{\Large\textsc{Populärvetenskaplig Sammanfattning}}
+    \noindent\@abstractswedish
   \end{swedish}
   \newpage
   \begin{english}
-    \setlength{\parindent}{0em}
-    \setlength{\parskip}{1em}
     \centerline{\Large\textsc{Abstract}}
-    \@abstractenglish
+    \noindent\@abstractenglish
   \end{english}
 }
 
