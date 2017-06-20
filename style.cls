@@ -64,15 +64,17 @@
 \linespread{1.05}
 
 \newcommand{\makeabstract}{
-  \begin{swedish}
-    \centerline{\Large\textsc{Populärvetenskaplig Sammanfattning}}
-    \noindent\@abstractswedish
-  \end{swedish}
-  \newpage
   \begin{english}
     \centerline{\Large\textsc{Abstract}}
+    \vspace{1em}
     \noindent\@abstractenglish
   \end{english}
+  \newpage
+  \begin{swedish}
+    \centerline{\Large\textsc{Sammanfattning}}
+    \vspace{1em}
+    \noindent\@abstractswedish
+  \end{swedish}
 }
 
 \newif\ifNoChapterNumber
