@@ -4,29 +4,32 @@ the tasks entrusted to them. It is then readily understandable that the design
 of computer systems is an acutely difficult and vastly far-reaching process.
 
 One major concern of the designer of a computer system is the presence of
-uncertainty, which, in many cases, is inherent and inevitable. A prominent
-source of uncertainty is process variation: the process parameters of fabricated
-nanoscale devices deviate from their nominal values since the contemporary
-fabrication process cannot be controlled precisely down to the level of
-individual atoms. Another source is performance variation: the performance of
-the system under consideration degrades over time due to natural or accelerated
-wear. Yet another and arguably the most consequential source of uncertainty is
-workload variation: the actual runtime workload that the system will be exposed
-to in a production environment is rarely, if ever, known in advance.
+uncertainty due to such phenomena as process variation and workload variation.
+In many cases, uncertainty is inherent and inevitable, and it leads to
+degradation of the quality and efficiency of service in the best case and to
+severe faults or burnt silicon in the worst-case scenario. Therefore, it is
+crucial to acknowledge and analyze uncertainty and to mitigate its deteriorating
+consequences by designing computer systems in such a way that they are well
+aware of uncertainty and well equipped to effectively and efficiently tackle it.
 
-Uncertainty can lead to degradation of the quality and efficiency of service in
-the best case and to severe faults or burnt silicon in the worst-case scenario.
-Therefore, it is crucial to acknowledge and analyze uncertainty and to mitigate
-its deteriorating consequences by designing computer systems that are well aware
-of and well equipped to effectively and efficiently tackle uncertainty.
-
-As the first step, we consider deterministic techniques for analyzing certain
+In this work, we first consider techniques for deterministic analysis of certain
 aspects of computer systems. These techniques do not take uncertainty into
 account; however, they serve as a foundation for those that do. Our attention
 revolves primarily around temperature analysis as temperature is of central
-importance for ensuring robustness and energy efficiency. We develop a novel and
-fast approach to dynamic steady-state temperature analysis of multiprocessor
+importance for attaining robustness and energy efficiency. We develop a novel
+and fast approach to dynamic steady-state temperature analysis of multiprocessor
 systems and apply it in the context of reliability optimization.
 
-We then proceed to developing stochastic techniques for analyzing computer
-systems. These techniques do take uncertainty into account.
+We then proceed to developing techniques that are particularly concerned with
+uncertainty. The first technique of this kind is to infer the variability of
+process parameters that is induced by process variation, across silicon wafers
+based on nonintrusive measurements such as readings from thermal sensors. The
+second technique is to quantify the variability of transient power and
+temperature profiles of multiprocessor systems originated from process
+variation. This technique is then extended to dynamic steady-state temperature
+analysis and utilized for design-space exploration with probabilistic
+constraints related to reliability. The next technique is to address less smooth
+sources of uncertainty than process variation such as workload variation. The
+technique is exemplified by quantifying the effect of random execution times on
+the timing-, power-, and temperature-related characteristics of multiprocessor
+systems.
