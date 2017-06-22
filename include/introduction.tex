@@ -1,13 +1,59 @@
 \chapter{Introduction}
-\dropcap{U}{ncertainty} is important. A prominent source of uncertainty is
-process variation: the process parameters of fabricated nanoscale devices
-deviate from their nominal values since the contemporary fabrication process
-cannot be controlled precisely down to the level of individual atoms. Another
-source is performance variation: the performance of electronic systems degrades
-over time due to natural or accelerated wear. Yet another and arguably the most
-consequential source of uncertainty is workload variation: the actual runtime
-workload that the system at hand will be exposed to in a production environment
-is rarely, if ever, known in advance.
+Computer systems are omnipresent and omniscient. They penetrate deep into
+everyday life and are unsettlingly indispensable and increasingly intelligent at
+the tasks entrusted to them. It is then understandable that the design of
+computer systems is an acutely difficult and vastly far-reaching process.
+
+One major concern of the designer of a computer system is the presence of
+uncertainty, which, in many cases, is inherent and inevitable. A prominent
+source of uncertainty is process variation: the process parameters of fabricated
+nanoscale devices deviate from their nominal values since the contemporary
+fabrication process cannot be controlled precisely down to the level of
+individual atoms. Another source is performance variation: the performance of
+electronic systems degrades over time due to natural or accelerated wear. Yet
+another and arguably the most consequential source of uncertainty is workload
+variation: the actual runtime workload that the system at hand will be exposed
+to in a production environment is rarely, if ever, known in advance.
+
+The aforementioned uncertainty in computer systems leads to degradation of the
+quality and efficiency of service in the best case and to severe faults or burnt
+silicon in the worst-case scenario. Therefore, it is crucial to acknowledge and
+analyze uncertainty and to mitigate its deteriorating consequences by designing
+computer systems in such a way that they are well aware of uncertainty and well
+equipped with mechanisms to effectively and efficiently tackle it.
+
+We begin by considering techniques for deterministic analysis of certain aspects
+of computer systems. These techniques do not take uncertainty into account;
+however, they serve as a solid foundation for those that do. Our attention
+revolves primarily around temperature analysis as temperature is of central
+importance for attaining robustness and energy efficiency. We develop a novel
+and fast approach to dynamic steady-state temperature analysis of multiprocessor
+systems and apply it in the context of reliability optimization.
+
+We then proceed to developing techniques that address uncertainty. The first
+technique of this kind is to infer the variability of process parameters that is
+induced by process variation, across silicon wafers based on indirect
+measurements such as readings from thermal sensors. The second technique is to
+progressively analyze transient power and temperature profiles of multiprocessor
+systems with respect to the variability originated from process variation. The
+third technique is based on the same machinery as the second but operates from a
+different perspective. This technique is suitable for diverse quantities of
+interest including dynamic steady-state temperature profiles, and it is
+illustrated by addressing a problem of design-space exploration with
+probabilistic constraints related to reliability. The fourth technique that we
+develop is to efficiently tackle less regular sources of uncertainty than
+process variation such as workload variation. This technique is exemplified by
+quantifying the effect that workload units with uncertain processing times have
+on the timing-, power-, and temperature-related characteristics of
+multiprocessor systems.
+
+We finish by focusing on runtime management of computer systems under
+uncertainty. In this context, we investigate the utility of advanced prediction
+techniques for the purpose of fine-grained long-range forecasting of the
+resource usage in cluster clusters. We also develop a computationally efficient
+infrastructure for data synthesis in order to facilitate further research in
+this direction by making it tractable to experiment with the highly promising
+but data-demanding state-of-the-art techniques for modeling and prediction.
 
 \section{Motivation}
 She sells seashells on the seashore.
