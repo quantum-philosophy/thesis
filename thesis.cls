@@ -61,8 +61,6 @@
   SmallCapsFont="MillerText-RomanSC"
 ]
 
-\linespread{1.05}
-
 \newcommand{\makeabstract}{
   \begin{english}
     \centerline{\Large\textsc{Abstract}}
