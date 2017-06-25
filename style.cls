@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{style}[2017/06/01 Thesis]
+\ProvidesClass{style}[2017/06/25 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -138,7 +138,6 @@
 }
 
 \renewcommand{\maketitle}{
-  \selecttypeface{MillerText}
   \center
   {
     \footnotesize\centerline
@@ -174,15 +173,6 @@
   \settrims{0.5\trimtop}{0.5\trimedge}
   \setlrmargins{*}{*}{1.5}
   \setulmargins{2cm}{*}{*}
-}
-
-\def\selecttypeface#1{
-  \count255=\interactionmode
-  \batchmode
-  \font\bodyfont="#1"\space at 10pt
-  \fontspec{#1}
-  \setmainfont{#1}
-  \interactionmode=\count255
 }
 
 \AtBeginDocument{
