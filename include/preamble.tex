@@ -17,17 +17,42 @@
 \usepackage{titlesec}
 \titleformat*{\section}{\Large}
 \titleformat*{\subsection}{\Large}
+\titleformat*{\subsubsection}{\Large}
 
 \setcounter{tocdepth}{2}
-\setcounter{secnumdepth}{2}
+\setcounter{secnumdepth}{3}
 
 %
 % Shortcuts
 %
 
-\newcommand{\slab}[1]{\label{sec:#1}}
-\newcommand{\sref}[1]{Section~\ref{sec:#1}}
+\newcommand{\elab}[1]{\label{equation:#1}}
+\newcommand{\eref}[1]{(\ref{equation:#1})}
 
+\newcommand{\flab}[1]{\label{figure:#1}}
+\renewcommand{\fref}[1]{Figure~\ref{figure:#1}}
+
+\newcommand{\slab}[1]{\label{section:#1}}
+\newcommand{\sref}[1]{Section~\ref{section:#1}}
+
+\newcommand{\tlab}[1]{\label{table:#1}}
+\renewcommand{\tref}[1]{Table~\ref{table:#1}}
+
+%
+% Mathematics
+%
+
+\usepackage{amssymb}
 \usepackage{mathtools}
 
-\DeclareMathSizes{10}{10}{10}{10}
+\numberwithin{equation}{chapter}
+
+\newcommand{\m}[1]{\mathbf{#1}}
+\renewcommand{\v}[1]{\mathbf{#1}}
+
+\newcommand{\tm}[1]{\tilde{\m{#1}}}
+\newcommand{\tv}[1]{\tilde{\v{#1}}}
+
+\newcommand{\range}[2]{#1, \dots, #2}
+
+\newcommand{\diag}[2]{\text{diag} \left( \range{#1}{#2} \right)}
