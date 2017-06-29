@@ -38,12 +38,6 @@
 \setmainlanguage{english}
 \setotherlanguages{swedish}
 
-\newlength{\marginboxlength}
-\setlength{\marginboxlength}{\paperwidth}
-\addtolength{\marginboxlength}{-\textwidth}
-\addtolength{\marginboxlength}{-\spinemargin}
-\addtolength{\marginboxlength}{-2mm}
-
 \clubpenalty=10000
 \widowpenalty=10000
 \raggedbottom
