@@ -6,11 +6,12 @@
 
 \usepackage{geometry}
 
+\usepackage{color}
+\usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{ifthen}
 \usepackage{microtype}
 \usepackage{pbox}
-\usepackage{pdfpages}
 \usepackage{polyglossia}
 \usepackage[figure,table]{totalcount}
 
