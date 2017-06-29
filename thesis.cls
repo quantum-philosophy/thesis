@@ -7,6 +7,7 @@
 \usepackage{geometry}
 
 \usepackage{color}
+\usepackage[no-math]{fontspec}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{ifthen}
