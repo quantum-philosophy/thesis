@@ -126,7 +126,7 @@
     \begin{tabular}{p{3em}b{\textwidth-3em}}
       ISBN & \texttt{\@isbn} \\
       ISSN & \texttt{\@issn} \\
-      URL  & \texttt{http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/} \\
+      URL  & \texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/} \\
     \end{tabular}\\[2em]
     Published articles have been reprinted with permission from the respective
     copyright holder.\\[2em]
