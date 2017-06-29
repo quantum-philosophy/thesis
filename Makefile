@@ -9,6 +9,7 @@ clean:
 	rm -f {,**/}*.fdb_latexmk
 	rm -f {,**/}*.fls
 	rm -f {,**/}*.log
+	rm -f {,**/}*.lot
 	rm -f {,**/}*.out
 	rm -f {,**/}*.run.xml
 	rm -f {,**/}*.toc
