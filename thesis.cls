@@ -11,7 +11,6 @@
 \usepackage{hyperref}
 \usepackage{ifthen}
 \usepackage{microtype}
-\usepackage{pbox}
 \usepackage{polyglossia}
 \usepackage[figure,table]{totalcount}
 
