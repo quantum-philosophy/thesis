@@ -13,7 +13,6 @@
 \usepackage{pdfpages}
 \usepackage{polyglossia}
 \usepackage[figure,table]{totalcount}
-\usepackage{xltxtra}
 
 \def\createvariable#1{
   \expandafter\def\csname #1\endcsname{\expandafter\gdef\csname @#1\endcsname}
