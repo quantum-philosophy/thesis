@@ -128,9 +128,7 @@
       ISSN & \texttt{\@issn} \\
       URL  & \texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/} \\
     \end{tabular}\\[2em]
-    Published articles have been reprinted with permission from the respective
-    copyright holder.\\[2em]
-    Typeset in Korolev LiU, Miller Text, and Input Mono\\
+    Typeset in Korolev LiU, Miller Text, Computer Modern, and Input Mono\\
     Printed by LiU-Tryck, Linköping \@publicationyear
   \end{flushleft}
   \clearpage
