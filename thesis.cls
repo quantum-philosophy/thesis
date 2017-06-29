@@ -47,7 +47,7 @@
 \settrimmedsize{242mm}{165mm}{*}
 \settypeblocksize{*}{28pc}{1.618}
 
-\newfontfamily\headingfont[]{KorolevLiU Medium}
+\newfontfamily{\headingfont}[]{KorolevLiU Medium}
 
 \setmainfont{MillerText}[
   BoldFont="MillerText-Roman",
