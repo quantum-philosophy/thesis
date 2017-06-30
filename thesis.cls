@@ -150,7 +150,7 @@
     \@author
   }\\
   \vfill
-  \includegraphics[width=12em]{\@logo}\\[2em]
+  \includegraphics[width=14em]{\@logo}\\[2em]
   {
     \footnotesize
     Linköping University\\

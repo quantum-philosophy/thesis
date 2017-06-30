@@ -1,32 +1,52 @@
 \chapter{Development with Certainty}
 
-In this paper we propose an analytical technique for the steady-state dynamic
-temperature analysis (SSDTA) of multiprocessor systems with periodic
-applications. The approach is accurate and, moreover, fast, such that it can be
-included inside an optimization loop for embedded system design. Using the
-proposed solution, a temperature-aware reliability optimization, based on the
-thermal cycling failure mechanism, is presented. The experimental results
-confirm the quality and speed of our SSDTA technique, compared to the state of
-the art. They also show that the lifetime of an embedded system can
-significantly be improved, without sacrificing its energy efficiency, by taking
-into consideration, during the design stage, the steady-state dynamic
-temperature profile of the system.
+In this chapter, we elaborate on deterministic analysis of computer systems. The
+techniques that we discuss here do not take uncertainty into account. However,
+these techniques provide a solid foundation for those that do as we shall
+describe in the following chapter, \cref{development-uncertainty}.
 
 \section{Introduction}
 
-Due to increasing power densities, temperature has evolved into a major concern
-for designers of modern embedded systems. Thus, temperature analysis has become
-an important component of current embedded system design frameworks.
+Due to the rapidly increasing power densities, temperature has evolved into an
+acute concern of the designer of computer systems, and temperature analysis has
+become an essential component of the designer's workflow. With this in mind, we
+focus our attention on this type of analysis of computer systems.
 
-Temperature-aware system-level design methods rely on the availability of
-temperature modeling and analysis tools. System-level temperature modeling
-approaches are mostly based on the duality between heat transfer and electrical
-phenomena \cite{kreith2000}. The basic idea is to build an equivalent circuit of
-thermal resistances and capacitances capturing both the architecture blocks and
-elements of the thermal package. HotSpot \cite{skadron2003}, an architecture and
-system-level model and simulator, is the state of the art choice for
-system-level temperature analysis, as in \cite{srinivasan2004, liao2005,
-coskun2006, liu2007, huang2009, xiang2010, thiele2011}.
+Temperature analysis is chiefly based on the duality between the transfer of
+heat and the transfer of electric charge \cite{kreith2000}. The core idea is to
+construct an equivalent thermal \up{RC} circuit of the computer system under
+consideration. Such a circuit is composed of thermal resistances and thermal
+capacitances, and it is to capture the physical structure and thermal behavior
+of the system. For instance, in the case of a multiprocessor system of a chip,
+such a circuit would reflect the processing elements as well as the thermal
+package.
+
+Broadly speaking, there are two types of temperature analysis: \one\
+steady-state analysis and \two\ transient analysis. The first produces the
+temperature that the circuit attains and retains when it is running for a long
+time under a spatially arbitrary but temporally constant power distribution. The
+second produces the temperature that the circuit transitions over time when it
+is exposed to a spatially and temporally arbitrary power distribution.
+
+There is a third type of temperature analysis, which borrows features from the
+aforementioned two. Similar to transient analysis, the system is exposed to a
+spatially and temporally arbitrary power distribution, but this distribution
+indefinitely repeats over time. Similar to steady-state analysis, the system
+reaches a steady state, but, rather than being a static heat map, this steady
+state is a temperature distribution that varies over time, following the changes
+of the power distribution. In what follows, we shall refer to steady-state
+analysis as \emph{static} steady-state analysis and to this third type as
+\emph{dynamic} steady-state analysis, making them be two different cases of
+steady-state analysis.
+
+The steady-state temperature produced by steady-state analysis is an
+approximation of the thermal behavior with limited applicability. It assumes
+that, eventually, the circuit will function at one constant temperature.  This,
+however, is very often not the case in reality. In the context of a variable
+power profile applied periodically, the circuit will not reach a constant
+steady-state temperature but a steady state in which temperature is varying
+according to a certain periodic pattern. This pattern is captured by the
+steady-state dynamic temperature profile (SSDTP).
 
 However, temperature analysis time with HotSpot, or other similar approaches, is
 too long to be used inside a temperature-aware system-level optimization loop.
@@ -39,23 +59,6 @@ for example, are strictly restricted to monocore systems. The method described
 in \cite{rao2009} is restricted to homogeneous platforms and to applications in
 which the execution time of individual tasks is long, comparable with the
 thermal time constant of the package (in the order of 100 $s$).
-
-Broadly speaking, there are two types of thermal analysis: (1) static
-temperature analysis, that produces a hypothetical temperature value (the
-steady-state temperature) at which the circuit is supposed to function if
-running for a long time under a certain constant (average) input power; (2)
-dynamic temperature analysis, that produces a transient temperature curve,
-describing the temperature behavior of the circuit as a function of time, when
-exposed to an arbitrary power profile.
-
-The steady-state temperature, as produced by static analysis, is an
-approximation of the thermal behavior with limited applicability. It assumes
-that, eventually, the circuit will function at one constant temperature.  This,
-however, is very often not the case in reality. In the context of a variable
-power profile applied periodically, the circuit will not reach a constant
-steady-state temperature but a steady state in which temperature is varying
-according to a certain periodic pattern. This pattern is captured by the
-steady-state dynamic temperature profile (SSDTP).
 
 In the case of applications that exhibit periodic or close to periodic behavior
 (or which are characterized by several operation modes, each of which exhibits a
@@ -101,7 +104,65 @@ scheduling technique that addresses the TC ageing effect. Experiments
 demonstrate the superiority of the proposed techniques, compared to the state of
 the art.
 
-\section{Analysis of Transient Temperature} \slab{thermal-circuit}
+\section{Analysis of Transient Temperature} \slab{thermal-model}
+
+Our proposed technique is based on the RC thermal model that employs the analogy
+between electrical and thermal circuits \cite{kreith2000}. Heat transfer is
+modeled with the following system of differential equations:
+\begin{equation} \elab{fourier-model}
+  \m{C} \frac{d\v{T}(t)}{dt} + \m{G} (\v{T}(t) - \v{T}_\text{amb}) = \v{P}(t)
+\end{equation}
+where $\v{T}$ is the temperature vector, $\v{T}_\text{amb}$ is the ambient
+temperature vector, $\m{C}$ is the thermal capacitance matrix, $\m{G}$ is the
+thermal conductance matrix, and $\v{P}$ is the power dissipation vector. The
+dimensions of the system are \mbox{$N_n \times N_n$}, where $N_n$ is the number
+of nodes in the equivalent RC thermal circuit.
+
+The equivalent circuit of a multiprocessor system with a thermal package can be
+built in different ways depending on the intended level of details.
+Consequently, the number of nodes $N_n$ and structure of the matrices $\m{C}$
+and $\v{G}$ in \eref{fourier-model} depend on the particular model. Thermal
+nodes that belong to the package are called inactive, in the sense that their
+power dissipation is assumed to be zero.
+
+Without loss of generality, in this paper we use thermal circuits where each of
+the $N_p$ processing elements is captured by one thermal node. Similar to
+\cite{skadron2003}, in the model, three cooling layers are present, namely the
+thermal interface material, heat spreader, and heat sink captured by $N_p$, $N_p
++ 4$, and $N_p + 8$ inactive thermal nodes, respectively. Therefore, the total
+number of thermal nodes $N_n$ is $4 \times N_p + 12$. The parameters of the die
+and thermal package, used throughout this paper, are given in \tref{parameters}.
+
+A simplified example of such a thermal circuit for a dual-core architecture is
+depicted in \fref{circuit}. It can be seen that the inter-core thermal influence
+is taken into account by modeling the heat flux between the cores (the top two
+thermal nodes) with the corresponding thermal resistance.
+
+Some or all cores can be also modeled at a finer level of granularity, where
+caches, ALUs, or registers will be captured as individual thermal nodes.
+
+\begin{table}[b]
+  \vspace{15pt}
+  \caption{Parameters of the die and package.}
+  \tlab{parameters}
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline
+    Parameter & Value \\
+    \hline
+    \hline
+    Ambient temperature                   &   27 ${}^\circ C$ \\
+    Convection capacitance                & 140.4 J/K \\
+    Convection resistance                 & 0.1 K/W \\
+    Die thickness                         & 0.15 $mm$ \\
+    Thermal interface material thickness  & 0.02 $mm$ \\
+    Heat spreader side                    &   20 $mm$ \\
+    Heat spreader thickness               &    1 $mm$ \\
+    Heat sink side                        &   30 $mm$ \\
+    Heat sink thickness                   &   15 $mm$ \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \section{Analysis of Static Steady-State Temperature}
 
@@ -172,6 +233,11 @@ that the system has reached the thermal steady state. The simulator performs the
 transient temperature analysis where the common approach is to solve
 \eref{fourier-model} numerically, for instance, using the fourth-order
 Runge-Kutta method \cite{press2007}.
+
+HotSpot \cite{skadron2003}, an architecture and system-level model and
+simulator, is the state of the art choice for system-level temperature analysis,
+as in \cite{srinivasan2004, liao2005, coskun2006, liu2007, huang2009, xiang2010,
+thiele2011}.
 
 The number of iterations required to reach the SSDTP depends on the thermal
 characteristics of the system. In order to illustrate this aspect, we have
@@ -513,6 +579,16 @@ optimizations. One of them is reliability optimization that we discuss in this
 section. We perform a temperature-aware task mapping and scheduling in order to
 address the thermal cycling fatigue.
 
+\subsection{Platform Model} \slab{platform-model}
+
+We consider a heterogeneous multicore architecture with a set of processing
+elements $\Pi$ defined as the following:
+\[
+  \Pi = \{ \pi_i = (V_i, f_i, N_{\text{gate} \: i}): \; i = \range{0}{N_p - 1} \}
+\]
+where $V_i$, $f_i$, and $N_{\text{gate} \: i}$ are the supply voltage,
+frequency, and number of gates \cite{liao2005} of the $i$th core, respectively.
+
 \subsection{Application Model} \slab{application-model}
 
 The periodic application is modeled as a task graph $G = (V, \: E, \: \tau)$
@@ -523,15 +599,7 @@ processing element $\pi_j \in \Pi$ is characterized by a tuple $(N_{\text{clock}
 \: ij}, C_{\text{eff} \; ij})$, where $N_{\text{clock} \: ij}$ is the number of
 clock cycles and $C_{\text{eff} \; ij}$ is the effective switched capacitance.
 
-\subsection{Architecture, Power, and Thermal Models} \slab{architecture-model} \slab{power-model} \slab{thermal-model}
-
-We consider a heterogeneous multicore architecture with a set of processing
-elements $\Pi$ defined as the following:
-\[
-  \Pi = \{ \pi_i = (V_i, f_i, N_{\text{gate} \: i}): \; i = \range{0}{N_p - 1} \}
-\]
-where $V_i$, $f_i$, and $N_{\text{gate} \: i}$ are the supply voltage,
-frequency, and number of gates \cite{liao2005} of the $i$th core, respectively.
+\subsection{Power Model} \slab{power-model}
 
 The total power dissipation of a processing element is defined as the sum of the
 dynamic and leakage power: $P = P_\text{dyn} + P_\text{leak}$. The dynamic part
@@ -547,19 +615,6 @@ $N_\text{gate}$ is the number of gates in the circuit, $I_0$ is the average
 leakage current at the reference temperature and supply voltage. $A$, $B$,
 $\alpha$, $\beta$, $\gamma$, and $\delta$ are the technology-dependent constants
 found in \cite{liao2005}.
-
-Our proposed technique is based on the RC thermal model that employs the analogy
-between electrical and thermal circuits \cite{kreith2000}. Heat transfer is
-modeled with the following system of differential equations:
-\begin{equation} \elab{fourier-model}
-  \m{C} \frac{d\v{T}(t)}{dt} + \m{G} (\v{T}(t) - \v{T}_\text{amb}) = \v{P}(t)
-\end{equation}
-where $\v{T}$ is the temperature vector, $\v{T}_\text{amb}$ is the ambient
-temperature vector, $\m{C}$ is the thermal capacitance matrix, $\m{G}$ is the
-thermal conductance matrix, and $\v{P}$ is the power dissipation vector. The
-dimensions of the system are \mbox{$N_n \times N_n$}, where $N_n$ is the number
-of nodes in the equivalent RC thermal circuit, which is further discussed in
-\sref{thermal-circuit}.
 
 \subsection{Reliability Model} \slab{reliability-model}
 
@@ -616,7 +671,7 @@ The problem formulation is the following:
 Given:
 \begin{itemize}
 
-\item A multiprocessor system $\Pi$ (\sref{architecture-model}).
+\item A multiprocessor system $\Pi$ (\sref{platform-model}).
 
 \item A periodic application $G$ (\sref{application-model}).
 
@@ -794,53 +849,6 @@ lifetime without affecting its energy efficiency. The improvement, compared
 using the state of the art, is significant.
 
 \section{Appendix}
-
-\subsection{RC Thermal Circuit} \slab{thermal-circuits}
-
-The equivalent circuit of a multiprocessor system with a thermal package can be
-built in different ways depending on the intended level of details.
-Consequently, the number of nodes $N_n$ and structure of the matrices $\m{C}$
-and $\v{G}$ in \eref{fourier-model} depend on the particular model. Thermal
-nodes that belong to the package are called inactive, in the sense that their
-power dissipation is assumed to be zero.
-
-Without loss of generality, in this paper we use thermal circuits where each of
-the $N_p$ processing elements is captured by one thermal node. Similar to
-\cite{skadron2003}, in the model, three cooling layers are present, namely the
-thermal interface material, heat spreader, and heat sink captured by $N_p$, $N_p
-+ 4$, and $N_p + 8$ inactive thermal nodes, respectively. Therefore, the total
-number of thermal nodes $N_n$ is $4 \times N_p + 12$. The parameters of the die
-and thermal package, used throughout this paper, are given in \tref{parameters}.
-
-A simplified example of such a thermal circuit for a dual-core architecture is
-depicted in \fref{circuit}. It can be seen that the inter-core thermal influence
-is taken into account by modeling the heat flux between the cores (the top two
-thermal nodes) with the corresponding thermal resistance.
-
-Some or all cores can be also modeled at a finer level of granularity, where
-caches, ALUs, or registers will be captured as individual thermal nodes.
-\begin{table}[b]
-  \vspace{15pt}
-  \caption{Parameters of the die and package.}
-  \tlab{parameters}
-  \centering
-  \begin{tabular}{|l|r|}
-    \hline
-    Parameter & Value \\
-    \hline
-    \hline
-    Ambient temperature                   &   27 ${}^\circ C$ \\
-    Convection capacitance                & 140.4 J/K \\
-    Convection resistance                 & 0.1 K/W \\
-    Die thickness                         & 0.15 $mm$ \\
-    Thermal interface material thickness  & 0.02 $mm$ \\
-    Heat spreader side                    &   20 $mm$ \\
-    Heat spreader thickness               &    1 $mm$ \\
-    Heat sink side                        &   30 $mm$ \\
-    Heat sink thickness                   &   15 $mm$ \\
-    \hline
-  \end{tabular}
-\end{table}
 
 \subsection{Analytical Solution}
 
