@@ -8,103 +8,45 @@ describe in the following chapter, \cref{development-uncertainty}.
 \section{Introduction}
 
 Due to the rapidly increasing power densities, temperature has evolved into an
-acute concern of the designer of computer systems, and temperature analysis has
-become an essential component of the designer's workflow. With this in mind, we
-focus our attention on this type of analysis of computer systems.
+acute concern of computer-system designs, and temperature analysis has become an
+essential component of design workflows. With this in mind, we focus our
+attention on this analysis and its accompanying disciplines.
+
+There are two types of temperature analysis: \one~transient analysis and
+\two~steady-state analysis. The first delivers the temperature that the system
+at hand transitions over within an arbitrary time interval staring from
+arbitrary initial conditions when it is exposed to an arbitrary, both spatially
+and temporally, power distribution. The second delivers the temperature that the
+system attains and retains once it has reached a thermal equilibrium under a
+power distribution that is spatially arbitrary but temporally constant or
+repeating.
+
+Steady-state analysis can be further classified into two categories, which have
+already been alluded to: \one~static analysis and \two~dynamic analysis. The
+first is concerned with temporally constant power distributions, that is, with
+those that do not change over time. In this case, temperature distributions do
+not change over time either. The second is concerned with temporary arbitrary
+power distributions that are periodic, that is, with those that repeat with
+certain periods. In this case, temperature distributions change over time with
+the same periods as the corresponding repeating power distributions.
+
+Transient analysis, static steady-state analysis, and dynamic steady-state
+analysis will be discussed in the following sections, \sref{transient-analysis},
+\sref{static-steady-state-analysis}, and \sref{dynamic-steady-state-analysis},
+respectively. The importance of the last in the context of reliability
+optimization will be covered in \sref{reliability-optimization}.
+
+\section{Analysis of Transient Temperature}
+\slab{transient-analysis}
 
 Temperature analysis is chiefly based on the duality between the transfer of
 heat and the transfer of electric charge \cite{kreith2000}. The core idea is to
 construct an equivalent thermal \up{RC} circuit of the computer system under
 consideration. Such a circuit is composed of thermal resistances and thermal
 capacitances, and it is to capture the physical structure and thermal behavior
-of the system. For instance, in the case of a multiprocessor system of a chip,
-such a circuit would reflect the processing elements as well as the thermal
+of the system. In the case of a multiprocessor system of a chip, such a circuit
+would account for all the processing elements as well as for the thermal
 package.
-
-Broadly speaking, there are two types of temperature analysis: \one\
-steady-state analysis and \two\ transient analysis. The first produces the
-temperature that the circuit attains and retains when it is running for a long
-time under a spatially arbitrary but temporally constant power distribution. The
-second produces the temperature that the circuit transitions over time when it
-is exposed to a spatially and temporally arbitrary power distribution.
-
-There is a third type of temperature analysis, which borrows features from the
-aforementioned two. Similar to transient analysis, the system is exposed to a
-spatially and temporally arbitrary power distribution, but this distribution
-indefinitely repeats over time. Similar to steady-state analysis, the system
-reaches a steady state, but, rather than being a static heat map, this steady
-state is a temperature distribution that varies over time, following the changes
-of the power distribution. In what follows, we shall refer to steady-state
-analysis as \emph{static} steady-state analysis and to this third type as
-\emph{dynamic} steady-state analysis, making them be two different cases of
-steady-state analysis.
-
-The steady-state temperature produced by steady-state analysis is an
-approximation of the thermal behavior with limited applicability. It assumes
-that, eventually, the circuit will function at one constant temperature.  This,
-however, is very often not the case in reality. In the context of a variable
-power profile applied periodically, the circuit will not reach a constant
-steady-state temperature but a steady state in which temperature is varying
-according to a certain periodic pattern. This pattern is captured by the
-steady-state dynamic temperature profile (SSDTP).
-
-However, temperature analysis time with HotSpot, or other similar approaches, is
-too long to be used inside a temperature-aware system-level optimization loop.
-The long thermal simulation time can severely limit the efficiency of the design
-space exploration. There has been some work on establishing fast system-level
-temperature analysis techniques. They also build on the duality between heat
-transfer and electrical phenomena and are based on restrictive assumptions in
-order to simplify the model. The approaches proposed in \cite{rai2011, bao2010},
-for example, are strictly restricted to monocore systems. The method described
-in \cite{rao2009} is restricted to homogeneous platforms and to applications in
-which the execution time of individual tasks is long, comparable with the
-thermal time constant of the package (in the order of 100 $s$).
-
-In the case of applications that exhibit periodic or close to periodic behavior
-(or which are characterized by several operation modes, each of which exhibits a
-periodic behavior), the SSDTP is of particular importance for system design. Any
-design optimization has to be performed such that the efficiency and reliability
-of the system are maximized considering not a very short transient time interval
-at system start (or mode setup) but the context in which the system functions
-over a long period of time.
-
-A typical design task, for which the SSDTP is of central importance, is
-temperature-aware reliability optimization. The impact of temperature on the
-lifetime of electronic circuits is well-known \cite{srinivasan2004, coskun2006,
-xiang2010, jedec2010}. The failure mechanisms commonly considered are
-electromigration, time-dependent dielectric breakdown, and thermal cycling,
-which are directly driven by the temperature \cite{jedec2010}. What is important
-in this context is that not only average and maximum temperature, but also the
-amplitude and frequency of temperature oscillations, have a huge impact on the
-overall lifetime of the chip. Thus, efficient reliability optimization depends
-on the availability of the actual SSDTP.
-
-Two approaches have been applied in the literature in order to obtain the SSDTP,
-as a prerequisite for reliability optimization. An approximate SSDTP can be
-produced by running a temperature simulator over one or more successive periods
-of the application until one can assume that a sufficient approximation of the
-thermal steady state has been reached \cite{srinivasan2004}. Such an approach is
-both time consuming and potentially inaccurate. A very rough but fast
-approximation of the SSDTP is proposed in \cite{huang2009}. It constructs a
-stepwise temperature curve where each step corresponds to the static
-steady-state temperature that would be reached if a certain constant power was
-applied for a sufficiently long time. In \sref{hotspot-solution} we will further
-elaborate on these two state of the art solutions. As our experiments show, they
-are too slow and/or too inaccurate in order to efficiently be used inside a
-temperature-aware system-level optimization loop for, e.g., reliability
-optimization.
-
-In this paper we consider multiprocessor systems running applications exhibiting
-a power profile that can be considered periodic. Our contribution is twofold.
-First, we propose an approach that is both accurate and fast, for SSDTP
-calculation. Second, we show how our approach makes it possible to efficiently
-perform reliability optimization, based on the thermal cycling (TC) failure
-mechanism. More exactly, we propose a temperature-aware task mapping and
-scheduling technique that addresses the TC ageing effect. Experiments
-demonstrate the superiority of the proposed techniques, compared to the state of
-the art.
-
-\section{Analysis of Transient Temperature} \slab{thermal-model}
 
 Our proposed technique is based on the RC thermal model that employs the analogy
 between electrical and thermal circuits \cite{kreith2000}. Heat transfer is
@@ -165,8 +107,75 @@ caches, ALUs, or registers will be captured as individual thermal nodes.
 \end{table}
 
 \section{Analysis of Static Steady-State Temperature}
+\slab{static-steady-state-analysis}
 
 \section{Analysis of Dynamic Steady-State Temperature}
+\slab{dynamic-steady-state-analysis}
+
+The static steady-state temperature produced by static steady-state analysis is
+an approximation of the system's thermal behavior with limited applicability. It
+assumes that, eventually, the system will function at one constant temperature
+at each spatial location. This, however, is very often not the case in reality.
+In the context of a variable power profile applied periodically, the circuit
+will not reach a constant steady-state temperature but a steady state in which
+temperature is varying according to a certain periodic pattern. This pattern is
+captured by the steady-state dynamic temperature profile (SSDTP).
+
+However, temperature analysis time with HotSpot, or other similar approaches, is
+too long to be used inside a temperature-aware system-level optimization loop.
+The long thermal simulation time can severely limit the efficiency of the design
+space exploration. There has been some work on establishing fast system-level
+temperature analysis techniques. They also build on the duality between heat
+transfer and electrical phenomena and are based on restrictive assumptions in
+order to simplify the model. The approaches proposed in \cite{rai2011, bao2010},
+for example, are strictly restricted to monocore systems. The method described
+in \cite{rao2009} is restricted to homogeneous platforms and to applications in
+which the execution time of individual tasks is long, comparable with the
+thermal time constant of the package (in the order of 100 $s$).
+
+In the case of applications that exhibit periodic or close to periodic behavior
+(or which are characterized by several operation modes, each of which exhibits a
+periodic behavior), the SSDTP is of particular importance for system design. Any
+design optimization has to be performed such that the efficiency and reliability
+of the system are maximized considering not a very short transient time interval
+at system start (or mode setup) but the context in which the system functions
+over a long period of time.
+
+A typical design task, for which the SSDTP is of central importance, is
+temperature-aware reliability optimization. The impact of temperature on the
+lifetime of electronic circuits is well-known \cite{srinivasan2004, coskun2006,
+xiang2010, jedec2010}. The failure mechanisms commonly considered are
+electromigration, time-dependent dielectric breakdown, and thermal cycling,
+which are directly driven by the temperature \cite{jedec2010}. What is important
+in this context is that not only average and maximum temperature, but also the
+amplitude and frequency of temperature oscillations, have a huge impact on the
+overall lifetime of the chip. Thus, efficient reliability optimization depends
+on the availability of the actual SSDTP.
+
+Two approaches have been applied in the literature in order to obtain the SSDTP,
+as a prerequisite for reliability optimization. An approximate SSDTP can be
+produced by running a temperature simulator over one or more successive periods
+of the application until one can assume that a sufficient approximation of the
+thermal steady state has been reached \cite{srinivasan2004}. Such an approach is
+both time consuming and potentially inaccurate. A very rough but fast
+approximation of the SSDTP is proposed in \cite{huang2009}. It constructs a
+stepwise temperature curve where each step corresponds to the static
+steady-state temperature that would be reached if a certain constant power was
+applied for a sufficiently long time. In \sref{hotspot-solution} we will further
+elaborate on these two state of the art solutions. As our experiments show, they
+are too slow and/or too inaccurate in order to efficiently be used inside a
+temperature-aware system-level optimization loop for, e.g., reliability
+optimization.
+
+In this paper we consider multiprocessor systems running applications exhibiting
+a power profile that can be considered periodic. Our contribution is twofold.
+First, we propose an approach that is both accurate and fast, for SSDTP
+calculation. Second, we show how our approach makes it possible to efficiently
+perform reliability optimization, based on the thermal cycling (TC) failure
+mechanism. More exactly, we propose a temperature-aware task mapping and
+scheduling technique that addresses the TC ageing effect. Experiments
+demonstrate the superiority of the proposed techniques, compared to the state of
+the art.
 
 \subsection{Problem Formulation}
 
@@ -221,11 +230,13 @@ when the steady state is reached.
 Reasonable requirements for a solution are speed and accuracy, since the
 temperature analysis is often a part of an intensive optimization procedure
 where the SSDTP is to be computed thousands of times. Such a problem is
-described in \sref{reliability}.
+described in \sref{reliability-optimization}.
 
-\subsection{State of the Art Solutions} \slab{hotspot-solution}
+\subsection{State of the Art Solutions}
+\slab{hotspot-solution}
 
-\subsubsection{Iterative Simulation} \slab{hotspot-iterative-solution}
+\subsubsection{Iterative Simulation}
+\slab{hotspot-iterative-solution}
 
 A rough approximation of the SSDTP can be obtained by running a temperature
 simulation over successive periods of the application until it can be assumed
@@ -256,7 +267,8 @@ for example, after 15 iterations, the NRMSE is still close to 20\%. This leads
 to large computation times, making it difficult to apply the technique inside an
 intensive optimization loop.
 
-\subsubsection{Steady-State Approximation (SSA)} \slab{steady-state-approximation}
+\subsubsection{Steady-State Approximation (SSA)}
+\slab{steady-state-approximation}
 
 An approximation of the SSDTP has been proposed in \cite{huang2009}. Instead of
 solving the system of equations in \eref{fourier-model}, it is assumed that
@@ -280,9 +292,11 @@ for die areas between 1 and 25 $mm^2$. The NRMSE relative to the correct SSDTP
 is shown in \fref{steady-state-error}. It can be seen that, e.g., for a die area
 of 10 $mm^2$ and a period of $100~ms$ the NRMSE with the SSA is close to 40\%.
 
-\subsection{Proposed Technique} \slab{condensed-equation}
+\subsection{Proposed Technique}
+\slab{condensed-equation}
 
-\subsection{Analytical Solution} \slab{analytical-solution}
+\subsection{Analytical Solution}
+\slab{analytical-solution}
 
 As shown in \sref{hotspot-solution}, the state of the art solutions either
 produce inaccurate and, in many cases, completely useless results, or they are
@@ -381,7 +395,8 @@ are equal to $-1$. Linear systems with the same structure arise in boundary
 value problems for ODEs where a technique to solve them is to form a so-called
 condensed equation (CE), or condensed system \cite{stoer2002}.
 
-\subsection{Auxiliary Transformation} \slab{ce-auxiliary}
+\subsection{Auxiliary Transformation}
+\slab{ce-auxiliary}
 
 The analytical solution in \eref{solution} includes two computationally
 expensive operations, namely the matrix exponential and inverse involving
@@ -437,7 +452,8 @@ following way:
   \tm{B}_i = \m{U} \: \diag{\frac{e^{\Delta t_i \: \lambda_0} - 1}{\lambda_0}}{\frac{e^{\Delta t_i \: \lambda_{N_n - 1}} - 1}{\lambda_{N_n - 1}}} \: \m{U}^T \: \m{C}^{-\frac{1}{2}}
 \]
 
-\subsection{Solution with Condensed Equation (CE)} \slab{ce-solution}
+\subsection{Solution with Condensed Equation (CE)}
+\slab{ce-solution}
 
 In the recurrence given by \eref{recurrent-equation} we denote $\m{Q}_i =
 \tm{B}_i \: \v{P}_i$:
@@ -536,7 +552,8 @@ temperature that cannot be neglected (\sref{power-model}). Two techniques can be
 applied to include in our proposed solution temperature-dependent leakage
 modeling.
 
-\subsubsection{Iterative Computation} \slab{iterative-leakage}
+\subsubsection{Iterative Computation}
+\slab{iterative-leakage}
 
 In this case, we have an iterative process, depicted in \fref{leakage}, where
 the temperature and power profiles are calculated in turns. With each new
@@ -548,7 +565,8 @@ profiles is below a predefined bound. In our experiments we used $0.5^\circ C$
 as the maximal acceptable difference and observed that the number of required
 iterations to converge is 4--7.
 
-\subsubsection{Linear Approximation} \slab{linearized-leakage}
+\subsubsection{Linear Approximation}
+\slab{linearized-leakage}
 
 A linear approximation of the leakage power has the following matrix form:
 $\v{P}_\text{leak}(\v{T}) = \m{A} \: \v{T}(t) + \v{B}$ where $\m{A}$ is a $N_n
@@ -572,14 +590,16 @@ For the linearization, the power curve fitting with the least squares regression
 $80^\circ C$. From the experiments we have observed that the NRMSE is bounded by
 1--2\%, indicating a good accuracy of the linear approximation.
 
-\section{Reliability Optimization} \slab{reliability}
+\section{Reliability Optimization}
+\slab{reliability-optimization}
 
 The proposed calculation of the SSDTA can be used in a wide range of system
 optimizations. One of them is reliability optimization that we discuss in this
 section. We perform a temperature-aware task mapping and scheduling in order to
 address the thermal cycling fatigue.
 
-\subsection{Platform Model} \slab{platform-model}
+\subsection{Platform Model}
+\slab{platform-model}
 
 We consider a heterogeneous multicore architecture with a set of processing
 elements $\Pi$ defined as the following:
@@ -589,7 +609,8 @@ elements $\Pi$ defined as the following:
 where $V_i$, $f_i$, and $N_{\text{gate} \: i}$ are the supply voltage,
 frequency, and number of gates \cite{liao2005} of the $i$th core, respectively.
 
-\subsection{Application Model} \slab{application-model}
+\subsection{Application Model}
+\slab{application-model}
 
 The periodic application is modeled as a task graph $G = (V, \: E, \: \tau)$
 where $V$ is a set of $N_t$ tasks (vertices of the graph), $E$ is a set of data
@@ -599,7 +620,8 @@ processing element $\pi_j \in \Pi$ is characterized by a tuple $(N_{\text{clock}
 \: ij}, C_{\text{eff} \; ij})$, where $N_{\text{clock} \: ij}$ is the number of
 clock cycles and $C_{\text{eff} \; ij}$ is the effective switched capacitance.
 
-\subsection{Power Model} \slab{power-model}
+\subsection{Power Model}
+\slab{power-model}
 
 The total power dissipation of a processing element is defined as the sum of the
 dynamic and leakage power: $P = P_\text{dyn} + P_\text{leak}$. The dynamic part
@@ -616,7 +638,8 @@ leakage current at the reference temperature and supply voltage. $A$, $B$,
 $\alpha$, $\beta$, $\gamma$, and $\delta$ are the technology-dependent constants
 found in \cite{liao2005}.
 
-\subsection{Reliability Model} \slab{reliability-model}
+\subsection{Reliability Model}
+\slab{reliability-model}
 
 We address temperature-driven failure mechanisms with the reliability model
 presented in \cite{huang2009, xiang2010}. In this paper, our particular focus is
@@ -705,7 +728,8 @@ The optimization procedure is based on a genetic algorithm (GA)
 
 \subsection{Experimental Results}
 
-\subsubsection{SSDTP Calculation} \slab{results-ssdtp}
+\subsubsection{SSDTP Calculation}
+\slab{results-ssdtp}
 
 In this subsection we investigate the scaling properties of the proposed
 solution for the SSDTP calculation and compare it with the approach based on the
@@ -739,11 +763,12 @@ regard to the number of processing elements. The application period is fixed to
 the proposed technique provides a significant performance improvement relative
 to the alternative solutions.
 
-\subsubsection{Reliability Optimization} \slab{reliability-results}
+\subsubsection{Reliability Optimization}
+\slab{reliability-results}
 
 In this section we evaluate the reliability optimization approach described in
-\sref{reliability}, first with a set of synthetic applications and, finally,
-using a real-life example.
+\sref{reliability-optimization}, first with a set of synthetic applications and,
+finally, using a real-life example.
 
 The experimental setup is the following. Heterogeneous platforms and periodic
 applications are generated randomly \cite{dick1998} in such a way that the
@@ -856,7 +881,8 @@ In this section we further discuss the analytical solution from
 \sref{analytical-solution}, its application for the TTA, and possible solution
 techniques in the case of the SSDTA.
 
-\subsubsection{Transient Temperature Analysis (TTA)} \slab{tta-analytical}
+\subsubsection{Transient Temperature Analysis (TTA)}
+\slab{tta-analytical}
 
 The recurrence obtained with the analytical solution in \eref{solution} is the
 following (\eref{recurrent-system}):
@@ -878,7 +904,8 @@ speed up the SSDTP calculation. However, the number of required iterations is
 similar to the case when HotSpot is used (see \fref{hotspot-error}), still
 keeping the computational process slow (\sref{results-ssdtp}).
 
-\subsubsection{Straight-Forward Solutions (SSDTA)} \slab{straight-forward}
+\subsubsection{Straight-Forward Solutions (SSDTA)}
+\slab{straight-forward}
 
 The first straight-forward way to solve the system in \eref{system} is to use
 dense solvers such as the LU decomposition \cite{press2007}. However, a more
@@ -908,10 +935,11 @@ experiments we did not observe any advantages of using these methods compared to
 the others considered in this paper. Therefore, they are excluded from the
 discussion.
 
-\subsection{Reliability Optimization} \slab{reliability-optimization}
+\subsection{Reliability Optimization}
 
 This section contains the derivation of the reliability model discussed in
-\sref{reliability} and the description of the actual optimization procedure.
+\sref{reliability-optimization} and the description of the actual optimization
+procedure.
 
 \subsubsection{Temperature-Aware Reliability Model}
 
@@ -988,7 +1016,8 @@ In order to identify thermal cycles in the temperature curve, we follow the
 approach given in \cite{xiang2010} where the rainflow counting method is
 employed.
 
-\subsubsection{Optimization Procedure} \slab{genetic-algorithm}
+\subsubsection{Optimization Procedure}
+\slab{genetic-algorithm}
 
 The optimization procedure is based on a genetic algorithm \cite{schmitz2004}
 with the fitness function $\mathcal{F}$ given by \eref{fitness-function}. Each
