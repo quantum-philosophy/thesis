@@ -22,7 +22,7 @@
 \setcounter{secnumdepth}{3}
 
 %
-% Shortcuts
+% References
 %
 
 \newcommand{\clab}[1]{\label{chapter:#1}}
@@ -40,6 +40,10 @@
 \newcommand{\tlab}[1]{\label{table:#1}}
 \renewcommand{\tref}[1]{Table~\ref{table:#1}}
 
+%
+% Formatting
+%
+
 \newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
 
 \newcommand{\one}{(i)}
@@ -51,16 +55,44 @@
 
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usepackage{xspace}
 
 \numberwithin{equation}{chapter}
 
-\newcommand{\m}[1]{\mathbf{#1}}
-\renewcommand{\v}[1]{\mathbf{#1}}
-
-\newcommand{\tm}[1]{\tilde{\m{#1}}}
-\newcommand{\tv}[1]{\tilde{\v{#1}}}
-
 \renewcommand{\text}[1]{\mathrm{#1}}
 
-\newcommand{\diag}[2]{\text{diag} \left( \range{#1}{#2} \right)}
+\newcommand{\m}[1]{\mathbf{#1}}
+\newcommand{\tm}[1]{\tilde{\m{#1}}}
+
+\renewcommand{\v}[1]{\mathbf{#1}}
+\newcommand{\tv}[1]{\tilde{\v{#1}}}
+
+\newcommand{\diagonal}[2]{\text{diag}\left(\range{#1}{#2}\right)}
 \newcommand{\range}[2]{#1, \dots, #2}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\transpose}{\text{T}}
+
+\newcommand{\numberof}[1]{\ensuremath{{n_\text{#1}}}\xspace}
+
+%
+% Platform modeling
+%
+
+\newcommand{\nc}{\numberof{c}}
+
+%
+% Power modeling
+%
+
+\newcommand{\vp}{\v{p}}
+
+%
+% Temperature modeling
+%
+
+\newcommand{\nn}{\numberof{n}}
+
+\newcommand{\vq}{\v{q}}
+\newcommand{\vs}{\v{s}}
+
+\newcommand{\ambient}{\text{amb}}

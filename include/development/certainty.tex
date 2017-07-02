@@ -30,42 +30,71 @@ power distributions that are periodic, that is, with those that repeat with
 certain periods. In this case, temperature distributions change over time with
 the same periods as the corresponding repeating power distributions.
 
-Transient analysis, static steady-state analysis, and dynamic steady-state
-analysis will be discussed in the following sections, \sref{transient-analysis},
+The agenda for the rest of this chapter is as follows. In
+\sref{temperature-analysis}, we present the general model that is used in all
+the three aforementioned types of temperature analysis. Transient analysis,
+static steady-state analysis, and dynamic steady-state analysis are then
+discussed separately in \sref{transient-analysis},
 \sref{static-steady-state-analysis}, and \sref{dynamic-steady-state-analysis},
-respectively. The importance of the last in the context of reliability
-optimization will be covered in \sref{reliability-optimization}.
+respectively. Lastly, the importance of the last in the context of reliability
+optimization is covered in \sref{reliability-optimization}.
+
+\section{Analysis of Temperature}
+\slab{temperature-analysis}
+
+Temperature analysis of electronic systems is chiefly based on the duality
+between the transfer of heat and the transfer of electric charge
+\cite{kreith2000}. The core idea is to construct and study an equivalent thermal
+\up{RC} circuit of the system under consideration \cite{skadron2003}. The
+circuit is a collection of thermal nodes that are characterized by thermal
+capacitances and connected with each other via thermal resistances. It is to
+capture the relevant physical structure and thermal properties of the system
+and, thereby, to model the system's thermal dynamics.
+
+Consider a heterogeneous electronic system that consists of \nc processing
+elements and is equipped with a thermal package. The processing elements are the
+active components of the system, that is, those that consume power. The thermal
+package comprises the passive components of the system, that is, those that do
+not consume power, as well as any other cooling equipment.
+
+The processing elements can be identified at different levels of granularity
+such as \up{SoC}s, \up{CPU}s, and \up{ALU}s. Similarly, an equivalent thermal
+\up{RC} circuit of the system can be constructed at different levels of
+granularity, which refers primarily to the number and placement of thermal
+nodes. It should be noted that the chosen granularity impacts the accuracy of
+the subsequent analysis.
+
+Suppose now that an equivalent thermal \up{RC} circuit of the considered system
+has been constructed and comprises $\nn$ thermal nodes. Regardless of the
+circuit's structure, the thermal dynamics of the circuit are governed by the
+following system of $\nn$ differential and $\nc$ algebraic equations:
+\begin{equation} \elab{temperature-model-original}
+  \begin{cases}
+    & \m{C} \frac{d\vs(t)}{dt} + \m{G} \vs(t) = \m{M} \vp(t) \\
+    & \vq(t) = \m{W} \vs(t) + \vq_\ambient
+  \end{cases}.
+\end{equation}
+In \eref{temperature-model-original}, $\vq \in \real^\nc$, $\vq_\ambient \in
+\real^\nc$, and $\vp \in \real^\nc$ are vectors of the operating temperature,
+ambient temperature, and power dissipation of the processing elements,
+respectively. Furthermore, $\vs \in \real^\nn$ captures the relative temperature
+of the thermal nodes, and $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in
+\real^{\nn \times \nn}$ are a diagonal matrix of the thermal capacitance and a
+symmetric and positive-definite matrix of the thermal conductance, respectively.
+Lastly, $\m{M} \in \real^{\nn \times \nc}$ is a matrix that maps the power of
+the processing elements onto the thermal nodes, and $\m{W} \in \real^{\nc \times
+\nn}$ is a matrix that maps the temperature of the thermal nodes onto the
+processing elements. Without loss of generality, $\m{M}$ is assumed to be a
+rectangular diagonal matrix whose diagonal elements are equal to unity, and
+$\m{W} = \m{M}^\transpose$.
 
 \section{Analysis of Transient Temperature}
 \slab{transient-analysis}
 
-Temperature analysis is chiefly based on the duality between the transfer of
-heat and the transfer of electric charge \cite{kreith2000}. The core idea is to
-construct an equivalent thermal \up{RC} circuit of the computer system under
-consideration. Such a circuit is composed of thermal resistances and thermal
-capacitances, and it is to capture the physical structure and thermal behavior
-of the system. In the case of a multiprocessor system of a chip, such a circuit
-would account for all the processing elements as well as for the thermal
-package.
-
-Our proposed technique is based on the RC thermal model that employs the analogy
-between electrical and thermal circuits \cite{kreith2000}. Heat transfer is
-modeled with the following system of differential equations:
-\begin{equation} \elab{fourier-model}
-  \m{C} \frac{d\v{T}(t)}{dt} + \m{G} (\v{T}(t) - \v{T}_\text{amb}) = \v{P}(t)
-\end{equation}
-where $\v{T}$ is the temperature vector, $\v{T}_\text{amb}$ is the ambient
-temperature vector, $\m{C}$ is the thermal capacitance matrix, $\m{G}$ is the
-thermal conductance matrix, and $\v{P}$ is the power dissipation vector. The
-dimensions of the system are \mbox{$N_n \times N_n$}, where $N_n$ is the number
-of nodes in the equivalent RC thermal circuit.
-
-The equivalent circuit of a multiprocessor system with a thermal package can be
-built in different ways depending on the intended level of details.
 Consequently, the number of nodes $N_n$ and structure of the matrices $\m{C}$
-and $\v{G}$ in \eref{fourier-model} depend on the particular model. Thermal
-nodes that belong to the package are called inactive, in the sense that their
-power dissipation is assumed to be zero.
+and $\v{G}$ in \eref{temperature-model-original} depend on the particular model.
+Thermal nodes that belong to the package are called inactive, in the sense that
+their power dissipation is assumed to be zero.
 
 Without loss of generality, in this paper we use thermal circuits where each of
 the $N_p$ processing elements is captured by one thermal node. Similar to
@@ -242,8 +271,8 @@ A rough approximation of the SSDTP can be obtained by running a temperature
 simulation over successive periods of the application until it can be assumed
 that the system has reached the thermal steady state. The simulator performs the
 transient temperature analysis where the common approach is to solve
-\eref{fourier-model} numerically, for instance, using the fourth-order
-Runge-Kutta method \cite{press2007}.
+\eref{temperature-model-original} numerically, for instance, using the
+fourth-order Runge-Kutta method \cite{press2007}.
 
 HotSpot \cite{skadron2003}, an architecture and system-level model and
 simulator, is the state of the art choice for system-level temperature analysis,
@@ -271,13 +300,13 @@ intensive optimization loop.
 \slab{steady-state-approximation}
 
 An approximation of the SSDTP has been proposed in \cite{huang2009}. Instead of
-solving the system of equations in \eref{fourier-model}, it is assumed that
-during each time interval $\Delta t_i$, in which the power is constant, the
-system stays in its steady state. The derivative $d\v{T}/dt = 0$ and temperature
-can be calculated as $\v{T}_i = \m{G}^{-1} \v{P}_i$. The result is a stepwise
-temperature curve where each step corresponds to the steady-state temperature
-$\v{T}_i$ that would be reached if the constant power $\v{P}_i$ was applied for
-a sufficiently long time.
+solving the system of equations in \eref{temperature-model-original}, it is
+assumed that during each time interval $\Delta t_i$, in which the power is
+constant, the system stays in its steady state. The derivative $d\v{T}/dt = 0$
+and temperature can be calculated as $\v{T}_i = \m{G}^{-1} \v{P}_i$. The result
+is a stepwise temperature curve where each step corresponds to the steady-state
+temperature $\v{T}_i$ that would be reached if the constant power $\v{P}_i$ was
+applied for a sufficiently long time.
 
 An example of such an approximation (SSA) along with the corresponding SSDTP for
 an application with 10 tasks and period of 0.1 $s$ is given in
@@ -305,10 +334,10 @@ an analytical solution for the SSDTP and tackle the second one in
 \sref{condensed-equation} where a fast solution technique is proposed.
 
 In the following explanation, without loss of generality, we assume $\v{T}(t)
-\equiv \v{T}(t) - \v{T}_\text{amb}$. Let the power consumption vector $\v{P}(t)$
-be constant and equal to $\v{P}$; then the system given by \eref{fourier-model}
-is a system of ordinary differential equations (ODE) with the following
-solution:
+\equiv \v{T}(t) - \v{T}_\ambient$. Let the power consumption vector $\v{P}(t)$
+be constant and equal to $\v{P}$; then the system given by
+\eref{temperature-model-original} is a system of ordinary differential equations
+(ODE) with the following solution:
 \begin{equation} \elab{solution}
   \v{T}(t) = e^{\m{A} t} \; \v{T}_0 + \m{A}^{-1} (e^{\m{A} t} - \m{I}) \; \m{C}^{-1} \v{P}
 \end{equation}
@@ -427,8 +456,8 @@ desired symmetry:
 where $\tm{A}$ is symmetric\footnote{$\tm{A}^T = -(\m{C}^{-\frac{1}{2}} \m{G}
 \m{C}^{-\frac{1}{2}})^T = -(\m{C}^{-\frac{1}{2}})^T \m{G}^T
 (\m{C}^{-\frac{1}{2}})^T = \tilde{\m{A}}$.}. Consequently, the system of ODEs
-(\eref{fourier-model}) and its solutions (\eref{solution}) can be rewritten as
-the following:
+(\eref{temperature-model-original}) and its solutions (\eref{solution}) can be
+rewritten as the following:
 \begin{align*}
   & \frac{d\tilde{\v{T}}(t)}{dt} = \tilde{\m{A}} \: \m{Y}(t) + \m{C}^{-\frac{1}{2}} \v{P} \\
   & \tilde{\v{T}}(t) = e^{\tilde{\m{A}} t} \tilde{\v{T}}_0 + \tilde{\m{A}}^{-1} (e^{\tilde{\m{A}} t} - \m{I}) \m{C}^{-\frac{1}{2}} \v{P}
@@ -436,7 +465,7 @@ the following:
 where $\tilde{\m{A}}$ is a symmetric matrix. Therefore, in the case of, e.g.,
 the matrix exponential we have:
 \begin{equation} \elab{matrix-exponential}
-  e^{\tm{A} t} = \m{U} \: e^{\m{\Lambda} t} \: \m{U}^T = \m{U} \: \diag{e^{t \lambda_0}}{e^{t \lambda_{N_n - 1}}} \: \m{U}^T
+  e^{\tm{A} t} = \m{U} \: e^{\m{\Lambda} t} \: \m{U}^T = \m{U} \: \diagonal{e^{t \lambda_0}}{e^{t \lambda_{N_n - 1}}} \: \m{U}^T
 \end{equation}
 where $diag$ denotes a diagonal matrix and $\lambda_i$ are the eigenvalues of
 $\tm{A}$. A similar equation can be obtained for $\tm{A}^{-1}$.
@@ -449,7 +478,7 @@ The next step is to update the SSDTP system in \eref{recurrent-system}:
 Using the eigenvalue decomposition, the last equation can be computed in the
 following way:
 \[
-  \tm{B}_i = \m{U} \: \diag{\frac{e^{\Delta t_i \: \lambda_0} - 1}{\lambda_0}}{\frac{e^{\Delta t_i \: \lambda_{N_n - 1}} - 1}{\lambda_{N_n - 1}}} \: \m{U}^T \: \m{C}^{-\frac{1}{2}}
+  \tm{B}_i = \m{U} \: \diagonal{\frac{e^{\Delta t_i \: \lambda_0} - 1}{\lambda_0}}{\frac{e^{\Delta t_i \: \lambda_{N_n - 1}} - 1}{\lambda_{N_n - 1}}} \: \m{U}^T \: \m{C}^{-\frac{1}{2}}
 \]
 
 \subsection{Solution with Condensed Equation (CE)}
@@ -486,7 +515,7 @@ We recall that $\tm{K}_i$ is the matrix exponential given by
 \]
 Consequently:
 \[
-  \prod_{j = 0}^{N_s - 1} \tm{K}_j = \m{U} \: \diag{e^{\tau \lambda_0}}{e^{\tau \lambda_{N_n - 1}}} \: \m{U}^T
+  \prod_{j = 0}^{N_s - 1} \tm{K}_j = \m{U} \: \diagonal{e^{\tau \lambda_0}}{e^{\tau \lambda_{N_n - 1}}} \: \m{U}^T
 \]
 where $\tau$ is the application period. Substituting this product into
 \eref{core-system}, we obtain the following system:
@@ -499,7 +528,7 @@ The identity matrix $\m{I}$ can be split into $\m{U} \m{U}^T$, hence:
 \end{equation}
 where:
 \[
-  \m{Z} = \m{U} \: \diag{\frac{1}{1 - e^{\tau \lambda_0}}}{\frac{1}{1 - e^{\tau \lambda_{N_n - 1}}}} \: \m{U}^T
+  \m{Z} = \m{U} \: \diagonal{\frac{1}{1 - e^{\tau \lambda_0}}}{\frac{1}{1 - e^{\tau \lambda_{N_n - 1}}}} \: \m{U}^T
 \]
 The equation gives the initial solution vector $\tv{T}_0$; the rest of vectors
 $\tv{T}_i$ for $i = \range{1}{N_s - 1}$ are successively found from
@@ -573,12 +602,12 @@ $\v{P}_\text{leak}(\v{T}) = \m{A} \: \v{T}(t) + \v{B}$ where $\m{A}$ is a $N_n
 \times N_n$ diagonal matrix of the proportionality and $\v{B}$ is a vector with
 $N_n$ elements of the intercept. Both characterize the leakage power for each of
 the $N_n$ thermal nodes in the system. It can be seen that the approximation
-keeps \eref{fourier-model} untouched: $\m{C} \: \frac{d\v{T}(t)}{dt} +
-\bar{\m{G}} \: (\v{T}(t) - \v{T}_\text{amb}) = \bar{\v{P}}$ where $\bar{\m{G}} =
-\m{G} - \m{A}$ and $\bar{\v{P}} = \v{P}_\text{dyn} + \m{A} \: \v{T}_\text{amb} +
-\v{B}$. Therefore, all solutions proposed in this paper are perfectly valid with
-the linearized model. Moreover, in spite of its simplicity, the model provides a
-good estimation, as shown in \cite{liu2007}.
+keeps \eref{temperature-model-original} untouched: $\m{C} \:
+\frac{d\v{T}(t)}{dt} + \bar{\m{G}} \: (\v{T}(t) - \v{T}_\ambient) = \bar{\v{P}}$
+where $\bar{\m{G}} = \m{G} - \m{A}$ and $\bar{\v{P}} = \v{P}_\text{dyn} + \m{A}
+\: \v{T}_\ambient + \v{B}$. Therefore, all solutions proposed in this paper are
+perfectly valid with the linearized model. Moreover, in spite of its simplicity,
+the model provides a good estimation, as shown in \cite{liu2007}.
 
 In order to evaluate the linearization, we have constructed a number of
 hypothetical platforms with 2--32 cores (other parameters are given in
