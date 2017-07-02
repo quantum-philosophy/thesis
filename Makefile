@@ -8,6 +8,7 @@ clean:
 	rm -f {,**/}*.blg
 	rm -f {,**/}*.fdb_latexmk
 	rm -f {,**/}*.fls
+	rm -f {,**/}*.lof
 	rm -f {,**/}*.log
 	rm -f {,**/}*.lot
 	rm -f {,**/}*.out
