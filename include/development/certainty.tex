@@ -39,35 +39,47 @@ discussed separately in \sref{transient-analysis},
 respectively. Lastly, the importance of the last in the context of reliability
 optimization is covered in \sref{reliability-optimization}.
 
-\section{Analysis of Temperature}
+\section{Temperature Analysis}
 \slab{temperature-analysis}
 
 Temperature analysis of electronic systems is chiefly based on the duality
 between the transfer of heat and the transfer of electric charge
-\cite{kreith2000}. The core idea is to construct and study an equivalent thermal
-\up{RC} circuit of the system under consideration \cite{skadron2003}. The
-circuit is a collection of thermal nodes that are characterized by thermal
-capacitances and connected with each other via thermal resistances. It is to
-capture the relevant physical structure and thermal properties of the system
-and, thereby, to model the system's thermal dynamics.
+\cite{kreith2000}. The core idea is to construct a so-called thermal \up{RC}
+circuit for the system under consideration \cite{skadron2003}. Such a circuit is
+a collection of thermal nodes that are characterized by thermal capacitances and
+connected with each other via thermal resistances. The circuit is to capture the
+relevant physical structure and thermal properties of the system and, thereby,
+to model the system's thermal dynamics.
 
-Consider a heterogeneous electronic system that consists of \nc processing
+Consider now a generic electronic system that consists of \nc processing
 elements and is equipped with a thermal package. The processing elements are the
 active components of the system, that is, those that consume power. The thermal
-package comprises the passive components of the system, that is, those that do
-not consume power, as well as any other cooling equipment.
+package is the cooling equipment of the system including any passive components,
+that is, those that do not consume power. Processing elements can be identified
+at different levels of granularity; for instance, a processing element can be a
+whole \up{SoC}, an individual \up{CPU}, or even an \up{ALU}. A thermal \up{RC}
+circuit can also be constructed at different levels of granularity, which
+primarily refers to the number thermal nodes, denoted by \nn in what follows,
+and their placement. It should be understood that the chosen granularity level
+has a profound impact on the accuracy of the subsequent temperature analysis.
 
-The processing elements can be identified at different levels of granularity
-such as \up{SoC}s, \up{CPU}s, and \up{ALU}s. Similarly, an equivalent thermal
-\up{RC} circuit of the system can be constructed at different levels of
-granularity, which refers primarily to the number and placement of thermal
-nodes. It should be noted that the chosen granularity impacts the accuracy of
-the subsequent analysis.
+\input{include/assets/figures/circuit}
+In order to give a better intuition about thermal \up{RC} circuits,
+\fref{circuit} depicts a simplified example of a circuit constructed for a
+hypothetical dual-core chip equipped with a thermal package composed of a
+thermal interface material, heat spreader, and heat sink. Each of the $\nc$
+processing elements is represented by one thermal node, and the thermal
+interface material, heat spreader, and heat sink are captured by \nc, $\nc + 4$,
+and $\nc + 8$ nodes, respectively. Thus, the total number of thermal nodes \nn
+is $4 \times \nc + 12$. In this example, $\nc = 2$ and $\nn = 20$. The general
+construction principle described above is the one presented in
+\cite{skadron2003, huang2008}, and it is also the one used throughout this
+thesis.
 
-Suppose now that an equivalent thermal \up{RC} circuit of the considered system
-has been constructed and comprises $\nn$ thermal nodes. Regardless of the
-circuit's structure, the thermal dynamics of the circuit are governed by the
-following system of $\nn$ differential and $\nc$ algebraic equations:
+Suppose now that an adequate thermal \up{RC} circuit has been constructed for
+the considered electronic system. Regardless of the structure of the circuit,
+the thermal dynamics of the circuit (and the electronic system) are governed by
+the following system of $\nn$ differential and $\nc$ algebraic equations:
 \begin{equation} \elab{temperature-model-original}
   \begin{cases}
     & \m{C} \frac{d\vs(t)}{dt} + \m{G} \vs(t) = \m{M} \vp(t) \\
@@ -88,29 +100,11 @@ processing elements. Without loss of generality, $\m{M}$ is assumed to be a
 rectangular diagonal matrix whose diagonal elements are equal to unity, and
 $\m{W} = \m{M}^\transpose$.
 
-\section{Analysis of Transient Temperature}
+\section{Transient Temperature Analysis}
 \slab{transient-analysis}
 
-Consequently, the number of nodes $N_n$ and structure of the matrices $\m{C}$
-and $\v{G}$ in \eref{temperature-model-original} depend on the particular model.
-Thermal nodes that belong to the package are called inactive, in the sense that
-their power dissipation is assumed to be zero.
-
-Without loss of generality, in this paper we use thermal circuits where each of
-the $N_p$ processing elements is captured by one thermal node. Similar to
-\cite{skadron2003}, in the model, three cooling layers are present, namely the
-thermal interface material, heat spreader, and heat sink captured by $N_p$, $N_p
-+ 4$, and $N_p + 8$ inactive thermal nodes, respectively. Therefore, the total
-number of thermal nodes $N_n$ is $4 \times N_p + 12$. The parameters of the die
-and thermal package, used throughout this paper, are given in \tref{parameters}.
-
-A simplified example of such a thermal circuit for a dual-core architecture is
-depicted in \fref{circuit}. It can be seen that the inter-core thermal influence
-is taken into account by modeling the heat flux between the cores (the top two
-thermal nodes) with the corresponding thermal resistance.
-
-Some or all cores can be also modeled at a finer level of granularity, where
-caches, ALUs, or registers will be captured as individual thermal nodes.
+The parameters of the die and thermal package, used throughout this paper, are
+given in \tref{parameters}.
 
 \begin{table}[b]
   \vspace{15pt}
@@ -135,10 +129,10 @@ caches, ALUs, or registers will be captured as individual thermal nodes.
   \end{tabular}
 \end{table}
 
-\section{Analysis of Static Steady-State Temperature}
+\section{Static Steady-State Temperature Analysis}
 \slab{static-steady-state-analysis}
 
-\section{Analysis of Dynamic Steady-State Temperature}
+\section{Dynamic Steady-State Temperature Analysis}
 \slab{dynamic-steady-state-analysis}
 
 The static steady-state temperature produced by static steady-state analysis is
