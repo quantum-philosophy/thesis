@@ -59,32 +59,35 @@
 
 \numberwithin{equation}{chapter}
 
-\renewcommand{\text}[1]{\mathrm{#1}}
-
 \newcommand{\m}[1]{\mathbf{#1}}
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
 \renewcommand{\v}[1]{\mathbf{#1}}
 \newcommand{\tv}[1]{\tilde{\v{#1}}}
 
-\newcommand{\diagonal}[2]{\text{diag}\left(\range{#1}{#2}\right)}
+\newcommand{\diagonal}[2]{\mathrm{diag}\left(\range{#1}{#2}\right)}
 \newcommand{\range}[2]{#1, \dots, #2}
 \newcommand{\real}{\mathbb{R}}
-\newcommand{\transpose}{\text{T}}
+\newcommand{\transpose}{\mathrm{T}}
 
-\newcommand{\numberof}[1]{\ensuremath{{n_\text{#1}}}\xspace}
+\renewcommand{\math}[1]{\ensuremath{#1}\xspace}
+\newcommand{\numberof}[1]{\math{{n_\mathrm{#1}}}}
 
 %
 % Platform modeling
 %
 
 \newcommand{\nc}{\numberof{c}}
+\newcommand{\ns}{\numberof{s}}
+
+\newcommand{\dt}{\math{\Delta t}}
 
 %
 % Power modeling
 %
 
 \newcommand{\vp}{\v{p}}
+\renewcommand{\mp}{\m{P}}
 
 %
 % Temperature modeling
@@ -92,7 +95,8 @@
 
 \newcommand{\nn}{\numberof{n}}
 
+\newcommand{\mq}{\m{Q}}
 \newcommand{\vq}{\v{q}}
 \newcommand{\vs}{\v{s}}
 
-\newcommand{\ambient}{\text{amb}}
+\newcommand{\ambient}{\mathrm{amb}}
