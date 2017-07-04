@@ -119,7 +119,7 @@ are typically understood from the context.
 \section{Transient Temperature Analysis}
 \slab{transient-analysis}
 
-The goal of this analysis is to compute the temperature profile \mq that
+The goal of transient analysis is to compute the temperature profile \mq that
 corresponds to a given power profile \mp by solving
 \eref{temperature-model-original}. Suppose for now that the power consumption is
 constant: $\vp(t) = \vp$. Then \eref{temperature-differential-original} is a
@@ -176,7 +176,7 @@ becomes trivial as follows:
   = \m{U} \: \diagonal{e^{\lambda_1 \dt}}{e^{\lambda_\nn \dt}} \transpose{\m{U}} \text{ and} \elab{matrix-exponential} \\
   & \m{A}^{-1}
   = \m{U} \m{\Lambda}^{-1} \transpose{\m{U}}
-  = \m{U} \: \diagonal{\lambda_1^{-1}}{\lambda_\nn^{-1}} \transpose{\m{U}}. \nonumber
+  = \m{U} \: \diagonal{\lambda_1^{-1}}{\lambda_\nn^{-1}} \transpose{\m{U}}. \elab{matrix-inverse}
 \end{align}
 
 In order to obtain such an $\m{A}$, we propose to perform an auxiliary
@@ -235,6 +235,18 @@ contexts as we shall see later on.
 
 \section{Static Steady-State Temperature Analysis}
 \slab{static-steady-state-analysis}
+
+The goal of static steady-state analysis is to calculate the temperature of the
+thermal equilibrium that the system reaches when the power consumption stays at
+a certain constant level $\mp = \vp$ for a sufficiently long time. In this case,
+there are no dynamics, which means that the derivative in
+\eref{temperature-differential} is zero. Then the steady-state temperature $\mq
+= \vq$ can be calculated simply as
+\[
+  \vs = -\m{A}^{-1} \m{B} \vp,
+\]
+followed by \eref{temperature-algebraic} as usual, where $\m{A}^{-1}$ is
+efficiently computer using \eref{matrix-inverse}.
 
 \section{Dynamic Steady-State Temperature Analysis}
 \slab{dynamic-steady-state-analysis}
@@ -394,11 +406,11 @@ intensive optimization loop.
 An approximation of the SSDTP has been proposed in \cite{huang2009}. Instead of
 solving the system of equations in \eref{temperature-model-original}, it is
 assumed that during each time interval $\Delta t_i$, in which the power is
-constant, the system stays in its steady state. The derivative $d\v{T}/dt = 0$
-and temperature can be calculated as $\v{T}_i = \m{G}^{-1} \v{P}_i$. The result
-is a stepwise temperature curve where each step corresponds to the steady-state
-temperature $\v{T}_i$ that would be reached if the constant power $\v{P}_i$ was
-applied for a sufficiently long time.
+constant, the system stays in its steady state.
+
+The result is a stepwise temperature curve where each step corresponds to the
+steady-state temperature $\v{T}_i$ that would be reached if the constant power
+$\v{P}_i$ was applied for a sufficiently long time.
 
 An example of such an approximation (SSA) along with the corresponding SSDTP for
 an application with 10 tasks and period of 0.1 $s$ is given in
