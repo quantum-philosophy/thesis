@@ -80,12 +80,10 @@ Suppose now that an adequate thermal \up{RC} circuit has been constructed for
 the considered electronic system. Regardless of the structure of the circuit,
 the thermal dynamics of the circuit (and the electronic system) are governed by
 the following system of $\nn$ differential and $\nc$ algebraic equations:
-\begin{equation} \elab{temperature-model-original}
-  \begin{cases}
-    & \m{C} \frac{d\tvs(t)}{dt} + \m{G} \tvs(t) = \tm{B} \vp(t) \\
-    & \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient
-  \end{cases}.
-\end{equation}
+\begin{subnumcases}{\elab{temperature-model-original}}
+  \m{C} \frac{d\tvs(t)}{dt} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
+  \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
+\end{subnumcases}
 In \eref{temperature-model-original}, $\vq \in \real^\nc$, $\vq_\ambient \in
 \real^\nc$, and $\vp \in \real^\nc$ are vectors of the operating temperature,
 ambient temperature, and power dissipation of the processing elements,
@@ -124,9 +122,9 @@ are typically understood from the context.
 The goal of this analysis is to compute the temperature profile \mq that
 corresponds to a given power profile \mp by solving
 \eref{temperature-model-original}. Suppose for now that the power consumption is
-constant: $\vp(t) = \vp$. Then the differential equations in
-\eref{temperature-model-original} are ordinary, and the system has the following
-analytical solution:
+constant: $\vp(t) = \vp$. Then \eref{temperature-differential-original} is a
+system of ordinary differential equations that has the following analytical
+solution:
 \begin{equation} \elab{solution-original}
   \tvs(t) = e^{\tm{A} t} \tvs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
 \end{equation}
@@ -149,8 +147,8 @@ for $i = \range{1}{\ns}$ where
   & \tm{F} = \tm{A}^{-1}(e^{\tm{A} \dt} - \m{I})\m{C}^{-1} \tm{B}.
 \end{align*}
 It should be noted that, in order to obtain the actual \mq, the recurrence
-should be followed by the two trivial operations shown at the bottom of
-\eref{temperature-model-original}.
+should be followed by \eref{temperature-algebraic-original}, which involves two
+trivial algebraic operations.
 
 Similar to the observation is made in \cite{thiele2011}, our experiments show
 the approach to transient temperature analysis described above provides a
@@ -203,25 +201,23 @@ where $\m{A}$ is symmetric since
   = \m{A}.
 \]
 Consequently, \eref{temperature-model-original} is rewritten as follows:
-\begin{align*}
-  \begin{cases}
-    & \frac{d\vs(t)}{dt} = \m{A} \vs(t) + \m{B} \vp(t) \\
-    & \vq(t) = \transpose{\m{B}} \vs(t) + \vq_\ambient
-  \end{cases}
-\end{align*}
+\begin{subnumcases}{\elab{temperature-model}}
+  \frac{d\vs(t)}{dt} = \m{A} \vs(t) + \m{B} \vp(t) \elab{temperature-differential} \\
+  \vq(t) = \transpose{\m{B}} \vs(t) + \vq_\ambient \elab{temperature-algebraic}
+\end{subnumcases}
 where
 \[
   \m{B} = \m{C}^{-\frac{1}{2}} \tm{B}.
 \]
-Similarly, \eref{solution-original} becomes
+Similarly, the solution in \eref{solution-original} becomes
 \[
   \vs(t) = e^{\m{A} t} \vs_0 + \m{A}^{-1} (e^{\m{A} t} - \m{I}) \m{B} \v{P},
 \]
-and \eref{recurrence-original} becomes
-\begin{equation} \elab{recurrent-equation}
+and the recurrence in \eref{recurrence-original} becomes
+\begin{equation} \elab{recurrence}
   \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
 \end{equation}
-where
+for $i = \range{1}{\ns}$ where
 \begin{align*}
   & \vs_0 = 0, \\
   & \m{E} = e^{\m{A} \dt}, \text{ and} \\
@@ -232,8 +228,10 @@ be efficiently computed in the following way:
 \[
   \m{F} = \m{U} \: \diagonal{\frac{e^{\lambda_1 \dt} - 1}{\lambda_1}}{\frac{e^{\lambda_\nn \dt} - 1}{\lambda_\nn}} \transpose{\m{U}} \m{B}.
 \]
-The performed auxiliary transformation is helpful not only for transient
-analysis but also in other contexts as we shall see later on.
+As before, the recurrence in \eref{recurrence} should be followed by
+\eref{temperature-algebraic} in order to obtain \mq. The performed auxiliary
+transformation is helpful not only for transient analysis but also in other
+contexts as we shall see later on.
 
 \section{Static Steady-State Temperature Analysis}
 \slab{static-steady-state-analysis}
@@ -506,8 +504,8 @@ condensed equation (CE), or condensed system \cite{stoer2002}.
 \subsection{Solution with Condensed Equation (CE)}
 \slab{ce-solution}
 
-In the recurrence given by \eref{recurrent-equation} we denote $\m{Q}_i =
-\tm{B}_i \: \v{P}_i$:
+In the recurrence given by \eref{recurrence} we denote $\m{Q}_i = \tm{B}_i \:
+\v{P}_i$:
 \begin{align}
   & \tv{T}_{i + 1} = \tm{K}_i \: \tv{T}_i + \m{Q}_i, \; i = \range{0}{N_s - 1} \elab{ce-recurrent} \\
   & \tv{T}_0 = \tv{T}_{N_s} \nonumber
