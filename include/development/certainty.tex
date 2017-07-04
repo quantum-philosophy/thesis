@@ -60,8 +60,8 @@ at different levels of granularity; for instance, a processing element can be a
 whole \up{SoC}, an individual \up{CPU}, or even an \up{ALU}. A thermal \up{RC}
 circuit can also be constructed at different levels of granularity, which
 primarily refers to the number thermal nodes, denoted by \nn in what follows,
-and their placement. It should be understood that the chosen granularity level
-has a profound impact on the accuracy of the subsequent temperature analysis.
+and their placement. It should be understood that the chosen granularity has a
+profound impact on the accuracy of the subsequent temperature analysis.
 
 \input{include/assets/figures/circuit}
 In order to give a better intuition about thermal \up{RC} circuits,
@@ -82,154 +82,172 @@ the thermal dynamics of the circuit (and the electronic system) are governed by
 the following system of $\nn$ differential and $\nc$ algebraic equations:
 \begin{equation} \elab{temperature-model-original}
   \begin{cases}
-    & \m{C} \frac{d\vs(t)}{dt} + \m{G} \vs(t) = \m{M} \vp(t) \\
-    & \vq(t) = \m{W} \vs(t) + \vq_\ambient
+    & \m{C} \frac{d\tvs(t)}{dt} + \m{G} \tvs(t) = \tm{B} \vp(t) \\
+    & \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient
   \end{cases}.
 \end{equation}
 In \eref{temperature-model-original}, $\vq \in \real^\nc$, $\vq_\ambient \in
 \real^\nc$, and $\vp \in \real^\nc$ are vectors of the operating temperature,
 ambient temperature, and power dissipation of the processing elements,
-respectively. Furthermore, $\vs \in \real^\nn$ captures the relative temperature
-of the thermal nodes, and $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in
-\real^{\nn \times \nn}$ are a diagonal matrix of the thermal capacitance and a
-symmetric and positive-definite matrix of the thermal conductance, respectively.
-Lastly, $\m{M} \in \real^{\nn \times \nc}$ is a matrix that maps the power of
-the processing elements onto the thermal nodes, and $\m{W} \in \real^{\nc \times
-\nn}$ is a matrix that maps the temperature of the thermal nodes onto the
-processing elements. Without loss of generality, $\m{M}$ is assumed to be a
-rectangular diagonal matrix whose diagonal elements are equal to unity, and
-$\m{W} = \m{M}^\transpose$.
+respectively. Further, $\tvs \in \real^\nn$ represents the state of the thermal
+nodes, and $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in \real^{\nn \times
+\nn}$ are a diagonal matrix of the thermal capacitance and a symmetric and
+positive-definite matrix of the thermal conductance, respectively. Lastly,
+$\tm{B} \in \real^{\nn \times \nc}$ is a mapping between the processing elements
+and the thermal nodes, which, without loss of generality, is assumed to be a
+rectangular diagonal matrix whose diagonal elements are equal to unity.
 
-Lastly, let us introduce the notions of a power and a temperature profile. A
-power profile of the system is defined to be an $\nc \times \ns$ matrix
+It can be seen in \eref{temperature-model-original} that the input to
+temperature analysis is power, and the output is temperature. For practical
+computations, these quantities should be discrete. To this end, we introduce the
+notions of a power and a temperature profile. A power profile of the system is
+defined to be an $\nc \times \ns$ matrix
 \[
-  \mp = \left( \range{\vp_1}{\vp_\ns} \right) \in \real^{\nc \times \ns}
+  \mp = \left( \range{\vp_1}{\vp_\ns} \right)
+  := \left( \range{\vp(t_1)}{\vp(t_\ns)} \right) \in \real^{\nc \times \ns}
 \]
-that captures the power consumption of the \nc processing elements at \ns time
-moments with a certain time step \dt called the sampling interval. Similarly, a
+that contains \ns samples of the power consumption of the \nc processing
+elements at \ns time moments with a certain sampling interval \dt. Similarly, a
 temperature profile is defined to be an $\nc \times \ns$ matrix
 \[
-  \mq = \left( \range{\vq_1}{\vq_\ns} \right) \in \real^{\nc \times \ns}
+  \mq = \left( \range{\vq_1}{\vq_\ns} \right)
+  := \left( \range{\vq(t_1)}{\vq(t_\ns)} \right) \in \real^{\nc \times \ns}
 \]
 that captures the heat dissipation of the processing elements over a number of
-equidistant time moments. As we shall see, power and temperature profiles are
-typical inputs and outputs, respectively, of temperature analysis, and the
-corresponding time frames are understood from the context.
+equidistant time moments. Even though the exact time frame and sampling interval
+of a power or a temperature profile are not included in the above notation, they
+are typically understood from the context.
 
 \section{Transient Temperature Analysis}
 \slab{transient-analysis}
 
-Consider \eref{temperature-model-original} and suppose for now that the power
-consumption is constant: $\vp(t) \equiv \vp$. Then the differential equations in
+The goal of this analysis is to compute the temperature profile \mq that
+corresponds to a given power profile \mp by solving
+\eref{temperature-model-original}. Suppose for now that the power consumption is
+constant: $\vp(t) = \vp$. Then the differential equations in
 \eref{temperature-model-original} are ordinary, and the system has the following
 analytical solution:
-\begin{equation} \elab{solution}
-  \vs(t) = e^{\tm{A} t} \vs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \vp
+\begin{equation} \elab{solution-original}
+  \tvs(t) = e^{\tm{A} t} \tvs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
 \end{equation}
-where $\vs_0$ is the initial condition, $\m{I}$ is the identity matrix, and
+where $\tvs_0$ is the initial condition, $\m{I}$ is the identity matrix, and
 \[
   \tm{A} = -\m{C}^{-1} \m{G}.
 \]
-Therefore, given a discrete power profile, the corresponding temperature profile
-can be found using the following recurrence:
-\begin{equation} \elab{recurrent-system}
-  \vs_{i + 1} = \tm{E}_i \vs_i + \tm{F}_i \vp_i
+Assume now that the sampling interval \dt of \mp is sufficiently small so that
+the power consumption in the interval $[t_i, t_{i + 1})$ can reasonably be
+approximated by a constant equal to $\vp_i = \vp(t_i)$. Then the corresponding
+\mq can be found by applying the following recurrence derived from
+\eref{solution-original}:
+\begin{equation} \elab{recurrence-original}
+  \tvs_{i} = \tm{E} \tvs_{i - 1} + \tm{F} \vp_i
+\end{equation}
+for $i = \range{1}{\ns}$ where
+\begin{align*}
+  & \tvs_0 = 0, \\
+  & \tm{E} = e^{\tm{A} \dt}, \text{ and} \\
+  & \tm{F} = \tm{A}^{-1}(e^{\tm{A} \dt} - \m{I})\m{C}^{-1} \tm{B}.
+\end{align*}
+It should be noted that, in order to obtain the actual \mq, the recurrence
+should be followed by the two trivial operations shown at the bottom of
+\eref{temperature-model-original}.
+
+Similar to the observation is made in \cite{thiele2011}, our experiments show
+the approach to transient temperature analysis described above provides a
+significant performance improvement compared to iterative solutions to ordinary
+differential equations such as the Runge--Kutta fourth-order method
+\cite{press2007}. However, there is still room for improvement as follows.
+
+Even though the matrices $\tm{E}$ and $\tm{F}$ have to be computed only once,
+they necessitate two computationally problematic operations: the matrix
+exponential and matrix inverse involving $\tm{A} \in \real^{\nn \times \nn}$,
+which is a generic matrix. It is preferable to have a symmetric matrix $\m{A}
+\in \real^{\nn \times \nn}$ when these operations are concerned since such a
+matrix admits the eigendecomposition \cite{press2007}
+\begin{equation} \elab{eigendecomposition}
+  \m{A} = \m{U} \m{\Lambda} \transpose{\m{U}}
+\end{equation}
+where $\m{U}$ is a square matrix of the eigenvectors of $\m{A}$ that are
+orthogonal, and $\m{\Lambda} = \diagonal{\lambda_1}{\lambda_\nn}$ is a diagonal
+matrix of the eigenvalues of $\m{A}$ that are real. Having computer such a
+decomposition, the calculation of the matrix exponential and matrix inverse
+becomes trivial as follows:
+\begin{align}
+  & e^{\m{A} \dt}
+  = \m{U} e^{\m{\Lambda} \dt} \transpose{\m{U}}
+  = \m{U} \: \diagonal{e^{\lambda_1 \dt}}{e^{\lambda_\nn \dt}} \transpose{\m{U}} \text{ and} \elab{matrix-exponential} \\
+  & \m{A}^{-1}
+  = \m{U} \m{\Lambda}^{-1} \transpose{\m{U}}
+  = \m{U} \: \diagonal{\lambda_1^{-1}}{\lambda_\nn^{-1}} \transpose{\m{U}}. \nonumber
+\end{align}
+
+In order to obtain such an $\m{A}$, we propose to perform an auxiliary
+transformation. Recall first that the conductance matrix $\m{G}$ is a symmetric
+matrix, which intuitively is due to the fact that, if node $i$ is connected to
+node $j$ with a certain conductance, node $j$ is also connected to node $i$ with
+the same conductance (see \fref{circuit}). However, $\tm{A} = -\m{C}^{-1} \m{G}$
+does not have this property. The desired symmetry can be kept intact using the
+following substitution:
+\begin{align} \elab{substitution}
+  \begin{split}
+    & \vs(t) = \m{C}^{\frac{1}{2}} \tvs(t) \text{ and} \\
+    & \m{A} = -\m{C}^{-\frac{1}{2}} \m{G} \: \m{C}^{-\frac{1}{2}}
+  \end{split}
+\end{align}
+where $\m{A}$ is symmetric since
+\[
+  \transpose{\m{A}}
+  = -\transpose{(\m{C}^{-\frac{1}{2}} \m{G} \m{C}^{-\frac{1}{2}})}
+  = -\transpose{(\m{C}^{-\frac{1}{2}})} \transpose{\m{G}} \transpose{(\m{C}^{-\frac{1}{2}})}
+  = -\m{C}^{-\frac{1}{2}} \m{G} \m{C}^{-\frac{1}{2}}
+  = \m{A}.
+\]
+Consequently, \eref{temperature-model-original} is rewritten as follows:
+\begin{align*}
+  \begin{cases}
+    & \frac{d\vs(t)}{dt} = \m{A} \vs(t) + \m{B} \vp(t) \\
+    & \vq(t) = \transpose{\m{B}} \vs(t) + \vq_\ambient
+  \end{cases}
+\end{align*}
+where
+\[
+  \m{B} = \m{C}^{-\frac{1}{2}} \tm{B}.
+\]
+Similarly, \eref{solution-original} becomes
+\[
+  \vs(t) = e^{\m{A} t} \vs_0 + \m{A}^{-1} (e^{\m{A} t} - \m{I}) \m{B} \v{P},
+\]
+and \eref{recurrence-original} becomes
+\begin{equation} \elab{recurrent-equation}
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
 \end{equation}
 where
 \begin{align*}
-  & \tm{E}_i = e^{\tm{A} \Delta t_i} \text{ and} \\
-  & \tm{F}_i = \tm{A}^{-1}(e^{\tm{A} \Delta t_i} - \m{I})\m{C}^{-1}.
+  & \vs_0 = 0, \\
+  & \m{E} = e^{\m{A} \dt}, \text{ and} \\
+  & \m{F} = \m{A}^{-1} \left( e^{\m{A} \dt} - \m{I} \right) \m{B}.
 \end{align*}
-The approach can be used to perform the TTA as it is discussed in the appendix
-(\sref{tta-analytical}).
-
-The recurrence obtained with the analytical solution in \eref{solution} is the
-following (\eref{recurrent-system}):
+Using the eigendecomposition in \eref{eigendecomposition}, the last equation can
+be efficiently computed in the following way:
 \[
-  \v{T}_{i+1} = \m{K}_i \: \v{T}_i + \m{B}_i \: \v{P}_i
+  \m{F} = \m{U} \: \diagonal{\frac{e^{\lambda_1 \dt} - 1}{\lambda_1}}{\frac{e^{\lambda_\nn \dt} - 1}{\lambda_\nn}} \transpose{\m{U}} \m{B}.
 \]
-Given the initial temperature $\v{T}_0$, it can be applied to perform the TTA.
-Our experiments show that, since intervals $\Delta t_i$ have the same length and
-matrices $\m{K}_i$ and $\m{B}_i$ become constant, this approach produces a
-significant performance improvement compared to iterative solutions of ODEs,
-e.g., the fourth-order Runge-Kutta method used in HotSpot. The same observation
-is made in \cite{thiele2011}.
-
-The TTA using the analytical technique given in \eref{recurrent-system} can be
-employed to approximate the SSDTP by applying it over successive application
-periods, as shown in \sref{hotspot-iterative-solution}. Since each iteration,
-with this approach, is much faster than with HotSpot, it will significantly
-speed up the SSDTP calculation. However, the number of required iterations is
-similar to the case when HotSpot is used (see \fref{hotspot-error}), still
-keeping the computational process slow (\sref{results-ssdtp}).
-
-The analytical solution in \eref{solution} includes two computationally
-expensive operations, namely the matrix exponential and inverse involving
-\mbox{$\m{A} = - \m{C}^{-1} \: \m{G}$}, which is an arbitrary square matrix. It
-is preferable to have a symmetric matrix to perform these computations, since
-for a real symmetric matrix $\m{M}$ the following eigenvalue decomposition with
-independent eigenvectors holds \cite{press2007}:
-\begin{equation} \elab{eigenvalue-decomposition}
-  \m{M} = \m{U} \m{\Lambda} \m{U}^\v{T}
-\end{equation}
-where $\m{U}$ is a square matrix of the eigenvectors, $\m{U}^T$ is the transpose
-of $\m{U}$, and $\m{\Lambda}$ is a diagonal matrix of the eigenvalues
-$\lambda_i$ of $\m{M}$. With such a decomposition, the calculation of the matrix
-exponential and inverse becomes trivial: $e^\m{M} = \m{U} \: e^{\m{\Lambda}} \:
-\m{U}^\v{T}$ and $\m{M}^{-1} = \m{U} \: \m{\Lambda}^{-1} \: \m{U}^\v{T}$, where
-the central matrices are diagonal with elements $e^{\lambda_i}$ and
-$\lambda_i^{-1}$, respectively.
-
-The conductance matrix $\m{G}$ is a symmetric matrix, since if a node A is
-connected to B, then B is also connected to A with the same conductance.
-However, as it is mentioned previously, the product of $\m{G}$ with the inverse
-of the capacitance matrix $\m{C}$ does not have this property. Since $\m{C}$ is
-a diagonal matrix, we use the following transformation in order to keep the
-desired symmetry:
-\begin{equation} \elab{substitution}
-  \tilde{\v{T}}(t) = \m{C}^{\frac{1}{2}} \v{T}(t) \hspace{10mm} \tilde{\m{A}} = -\m{C}^{-\frac{1}{2}} \m{G} \: \m{C}^{-\frac{1}{2}}
-\end{equation}
-where $\tm{A}$ is symmetric\footnote{$\tm{A}^T = -(\m{C}^{-\frac{1}{2}} \m{G}
-\m{C}^{-\frac{1}{2}})^T = -(\m{C}^{-\frac{1}{2}})^T \m{G}^T
-(\m{C}^{-\frac{1}{2}})^T = \tilde{\m{A}}$.}. Consequently, the system of ODEs
-(\eref{temperature-model-original}) and its solutions (\eref{solution}) can be
-rewritten as the following:
-\begin{align*}
-  & \frac{d\tilde{\v{T}}(t)}{dt} = \tilde{\m{A}} \: \m{Y}(t) + \m{C}^{-\frac{1}{2}} \v{P} \\
-  & \tilde{\v{T}}(t) = e^{\tilde{\m{A}} t} \tilde{\v{T}}_0 + \tilde{\m{A}}^{-1} (e^{\tilde{\m{A}} t} - \m{I}) \m{C}^{-\frac{1}{2}} \v{P}
-\end{align*}
-where $\tilde{\m{A}}$ is a symmetric matrix. Therefore, in the case of, e.g.,
-the matrix exponential we have:
-\begin{equation} \elab{matrix-exponential}
-  e^{\tm{A} t} = \m{U} \: e^{\m{\Lambda} t} \: \m{U}^T = \m{U} \: \diagonal{e^{t \lambda_0}}{e^{t \lambda_{N_n - 1}}} \: \m{U}^T
-\end{equation}
-where $diag$ denotes a diagonal matrix and $\lambda_i$ are the eigenvalues of
-$\tm{A}$. A similar equation can be obtained for $\tm{A}^{-1}$.
-
-The next step is to update the SSDTP system in \eref{recurrent-system}:
-\begin{align}
-  & \tv{T}_{i+1} = \tm{K}_i \: \tv{T}_i + \tm{B}_i \: \v{P}_i \elab{recurrent-equation} \\
-  & \tm{K}_i = e^{\tm{A} \: \Delta t_i} \hspace{10mm} \tm{B}_i = \tm{A}^{-1} \left( e^{\tm{A} \Delta t_i} - \m{I} \right) \m{C}^{-\frac{1}{2}} \nonumber
-\end{align}
-Using the eigenvalue decomposition, the last equation can be computed in the
-following way:
-\[
-  \tm{B}_i = \m{U} \: \diagonal{\frac{e^{\Delta t_i \: \lambda_0} - 1}{\lambda_0}}{\frac{e^{\Delta t_i \: \lambda_{N_n - 1}} - 1}{\lambda_{N_n - 1}}} \: \m{U}^T \: \m{C}^{-\frac{1}{2}}
-\]
-
-To begin with, \eref{temperature-model-original} is transformed as follows:
-\begin{equation} \elab{temperature-model}
-  \begin{cases}
-    & \frac{d\vs(t)}{dt} = \m{A} \vs(t) + \m{B} \vp(t) \\
-    & \vq(t) = \m{B}^\transpose \vs(t) + \vq_\ambient
-  \end{cases}.
-\end{equation}
+The performed auxiliary transformation is helpful not only for transient
+analysis but also in other contexts as we shall see later on.
 
 \section{Static Steady-State Temperature Analysis}
 \slab{static-steady-state-analysis}
 
 \section{Dynamic Steady-State Temperature Analysis}
 \slab{dynamic-steady-state-analysis}
+
+The TTA using the analytical technique given in \eref{recurrence-original} can
+be employed to approximate the SSDTP by applying it over successive application
+periods, as shown in \sref{hotspot-iterative-solution}. Since each iteration,
+with this approach, is much faster than with HotSpot, it will significantly
+speed up the SSDTP calculation. However, the number of required iterations is
+similar to the case when HotSpot is used (see \fref{hotspot-error}), still
+keeping the computational process slow (\sref{results-ssdtp}).
 
 The static steady-state temperature produced by static steady-state analysis is
 an approximation of the system's thermal behavior with limited applicability. It
@@ -410,7 +428,7 @@ an analytical solution for the SSDTP and tackle the second one in
 \sref{condensed-equation} where a fast solution technique is proposed.
 
 For the SSDTA calculation the following system of linear equations can be
-derived from \eref{recurrent-system}:
+derived from \eref{recurrence-original}:
 \[
   \begin{cases}
     \m{K}_0 \: \v{T}_0 - \v{T}_1 & = -\m{B}_0 \: \v{P}_0 \\
@@ -565,9 +583,9 @@ backward substitution opposite to \eref{substitution}:
 
 As we see, the auxiliary substitution from \sref{ce-auxiliary} allows us to
 perform the single-time eigenvalue decomposition with orthogonal eigenvectors
-(\eref{eigenvalue-decomposition}) that later eases the computational process at
-several stages. In \sref{ce-solution} it can be observed that the solution of
-the system in \eref{system} has been reduced to two successive recurrences in
+that later eases the computational process at several stages. In
+\sref{ce-solution} it can be observed that the solution of the system in
+\eref{system} has been reduced to two successive recurrences in
 \eref{final-p-recurrence} and \eref{final-y-recurrence} over $N_s$ steps in the
 power profile, which implies a linear complexity on $N_s$ mentioned earlier.
 
@@ -770,7 +788,7 @@ TTA with HotSpot (\sref{hotspot-iterative-solution})\footnote{All the
 experiments are performed on a Linux machine with Intel\textregistered\
 Core\texttrademark\ i7-2600 3.4GHz and 8Gb of RAM.}. We also include in the
 comparison two additional techniques described in the appendix, namely the TTA
-with the analytical solution (\sref{tta-analytical}) and the fast Fourier
+with the analytical solution (\sref{transient-analysis}) and the fast Fourier
 transform (FFT) (\sref{straight-forward}). In the cases of the TTA, the
 simulation over successive iterations is run until the NRMSE relative to the
 SSDTP obtained with the proposed method is less than 1\%.
@@ -913,9 +931,6 @@ using the state of the art, is significant.
 In this section we further discuss the analytical solution from
 \sref{analytical-solution}, its application for the TTA, and possible solution
 techniques in the case of the SSDTA.
-
-\subsubsection{Transient Temperature Analysis (TTA)}
-\slab{tta-analytical}
 
 \subsubsection{Straight-Forward Solutions (SSDTA)}
 \slab{straight-forward}

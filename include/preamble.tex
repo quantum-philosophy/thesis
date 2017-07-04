@@ -68,7 +68,7 @@
 \newcommand{\diagonal}[2]{\mathrm{diag}\left(\range{#1}{#2}\right)}
 \newcommand{\range}[2]{#1, \dots, #2}
 \newcommand{\real}{\mathbb{R}}
-\newcommand{\transpose}{\mathrm{T}}
+\newcommand{\transpose}[1]{{#1}^\mathrm{T}}
 
 \renewcommand{\math}[1]{\ensuremath{#1}\xspace}
 \newcommand{\numberof}[1]{\math{{n_\mathrm{#1}}}}
@@ -87,7 +87,7 @@
 %
 
 \newcommand{\vp}{\v{p}}
-\renewcommand{\mp}{\m{P}}
+\renewcommand{\mp}{\math{\m{P}}}
 
 %
 % Temperature modeling
@@ -95,8 +95,9 @@
 
 \newcommand{\nn}{\numberof{n}}
 
-\newcommand{\mq}{\m{Q}}
+\newcommand{\mq}{\math{\m{Q}}}
 \newcommand{\vq}{\v{q}}
 \newcommand{\vs}{\v{s}}
+\newcommand{\tvs}{\tv{s}}
 
 \newcommand{\ambient}{\mathrm{amb}}
