@@ -1,0 +1,11 @@
+The goal of static steady-state analysis is to calculate the temperature of the
+thermal equilibrium that the system reaches when the power consumption stays at
+a certain constant level $\mp = \vp$ for a sufficiently long time. In this case,
+there are no dynamics, which means that the derivative in
+\eref{temperature-differential} is zero. Then the steady-state temperature $\mq
+= \vq$ can be calculated simply as
+\[
+  \vs = -\m{A}^{-1} \m{B} \vp,
+\]
+followed by \eref{temperature-algebraic} as usual, where $\m{A}^{-1}$ is
+efficiently computer using \eref{matrix-inverse}.

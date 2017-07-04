@@ -1,0 +1,113 @@
+The goal of transient analysis is to compute the temperature profile \mq that
+corresponds to a given power profile \mp by solving
+\eref{temperature-model-original}. Suppose for now that the power consumption is
+constant: $\vp(t) = \vp$. Then \eref{temperature-differential-original} is a
+system of ordinary differential equations that has the following analytical
+solution:
+\begin{equation} \elab{solution-original}
+  \tvs(t) = e^{\tm{A} t} \tvs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
+\end{equation}
+where $\tvs_0$ is the initial condition, $\m{I}$ is the identity matrix, and
+\[
+  \tm{A} = -\m{C}^{-1} \m{G}.
+\]
+Assume now that the sampling interval \dt of \mp is sufficiently small so that
+the power consumption in the interval $[t_i, t_{i + 1})$ can reasonably be
+approximated by a constant equal to $\vp_i = \vp(t_i)$. Then the corresponding
+\mq can be found by applying the following recurrence derived from
+\eref{solution-original}:
+\begin{equation} \elab{recurrence-original}
+  \tvs_{i} = \tm{E} \tvs_{i - 1} + \tm{F} \vp_i
+\end{equation}
+for $i = \range{1}{\ns}$ where
+\begin{align*}
+  & \tvs_0 = 0, \\
+  & \tm{E} = e^{\tm{A} \dt}, \text{ and} \\
+  & \tm{F} = \tm{A}^{-1}(e^{\tm{A} \dt} - \m{I})\m{C}^{-1} \tm{B}.
+\end{align*}
+It should be noted that, in order to obtain the actual \mq, the recurrence
+should be followed by \eref{temperature-algebraic-original}, which involves two
+trivial algebraic operations.
+
+Similar to the observation is made in \cite{thiele2011}, our experiments show
+the approach to transient temperature analysis described above provides a
+significant performance improvement compared to iterative solutions to ordinary
+differential equations such as the Runge--Kutta fourth-order method
+\cite{press2007}. However, there is still room for improvement as follows.
+
+Even though the matrices $\tm{E}$ and $\tm{F}$ have to be computed only once,
+they necessitate two computationally problematic operations: the matrix
+exponential and matrix inverse involving $\tm{A} \in \real^{\nn \times \nn}$,
+which is a generic matrix. It is preferable to have a symmetric matrix $\m{A}
+\in \real^{\nn \times \nn}$ when these operations are concerned since such a
+matrix admits the eigendecomposition \cite{press2007}
+\begin{equation} \elab{eigendecomposition}
+  \m{A} = \m{U} \m{\Lambda} \transpose{\m{U}}
+\end{equation}
+where $\m{U}$ is a square matrix of the eigenvectors of $\m{A}$ that are
+orthogonal, and $\m{\Lambda} = \diagonal{\lambda_1}{\lambda_\nn}$ is a diagonal
+matrix of the eigenvalues of $\m{A}$ that are real. Having computer such a
+decomposition, the calculation of the matrix exponential and matrix inverse
+becomes trivial as follows:
+\begin{align}
+  & e^{\m{A} \dt}
+  = \m{U} e^{\m{\Lambda} \dt} \transpose{\m{U}}
+  = \m{U} \: \diagonal{e^{\lambda_1 \dt}}{e^{\lambda_\nn \dt}} \transpose{\m{U}} \text{ and} \elab{matrix-exponential} \\
+  & \m{A}^{-1}
+  = \m{U} \m{\Lambda}^{-1} \transpose{\m{U}}
+  = \m{U} \: \diagonal{\lambda_1^{-1}}{\lambda_\nn^{-1}} \transpose{\m{U}}. \elab{matrix-inverse}
+\end{align}
+
+In order to obtain such an $\m{A}$, we propose to perform an auxiliary
+transformation. Recall first that the conductance matrix $\m{G}$ is a symmetric
+matrix, which intuitively is due to the fact that, if node $i$ is connected to
+node $j$ with a certain conductance, node $j$ is also connected to node $i$ with
+the same conductance (see \fref{circuit}). However, $\tm{A} = -\m{C}^{-1} \m{G}$
+does not have this property. The desired symmetry can be kept intact using the
+following substitution:
+\begin{align} \elab{substitution}
+  \begin{split}
+    & \vs(t) = \m{C}^{\frac{1}{2}} \tvs(t) \text{ and} \\
+    & \m{A} = -\m{C}^{-\frac{1}{2}} \m{G} \: \m{C}^{-\frac{1}{2}}
+  \end{split}
+\end{align}
+where $\m{A}$ is symmetric since
+\[
+  \transpose{\m{A}}
+  = -\transpose{(\m{C}^{-\frac{1}{2}} \m{G} \m{C}^{-\frac{1}{2}})}
+  = -\transpose{(\m{C}^{-\frac{1}{2}})} \transpose{\m{G}} \transpose{(\m{C}^{-\frac{1}{2}})}
+  = -\m{C}^{-\frac{1}{2}} \m{G} \m{C}^{-\frac{1}{2}}
+  = \m{A}.
+\]
+Consequently, \eref{temperature-model-original} is rewritten as follows:
+\begin{subnumcases}{\elab{temperature-model}}
+  \frac{d\vs(t)}{dt} = \m{A} \vs(t) + \m{B} \vp(t) \elab{temperature-differential} \\
+  \vq(t) = \transpose{\m{B}} \vs(t) + \vq_\ambient \elab{temperature-algebraic}
+\end{subnumcases}
+where
+\[
+  \m{B} = \m{C}^{-\frac{1}{2}} \tm{B}.
+\]
+Similarly, the solution in \eref{solution-original} becomes
+\[
+  \vs(t) = e^{\m{A} t} \vs_0 + \m{A}^{-1} (e^{\m{A} t} - \m{I}) \m{B} \v{P},
+\]
+and the recurrence in \eref{recurrence-original} becomes
+\begin{equation} \elab{recurrence}
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
+\end{equation}
+for $i = \range{1}{\ns}$ where
+\begin{align*}
+  & \vs_0 = 0, \\
+  & \m{E} = e^{\m{A} \dt}, \text{ and} \\
+  & \m{F} = \m{A}^{-1} \left( e^{\m{A} \dt} - \m{I} \right) \m{B}.
+\end{align*}
+Using the eigendecomposition in \eref{eigendecomposition}, the last equation can
+be efficiently computed in the following way:
+\[
+  \m{F} = \m{U} \: \diagonal{\frac{e^{\lambda_1 \dt} - 1}{\lambda_1}}{\frac{e^{\lambda_\nn \dt} - 1}{\lambda_\nn}} \transpose{\m{U}} \m{B}.
+\]
+As before, the recurrence in \eref{recurrence} should be followed by
+\eref{temperature-algebraic} in order to obtain \mq. The performed auxiliary
+transformation is helpful not only for transient analysis but also in other
+contexts as we shall see later on.
