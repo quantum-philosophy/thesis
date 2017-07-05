@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/06/25 Thesis]
+\ProvidesClass{thesis}[2017/07/01 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
