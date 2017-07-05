@@ -1,9 +1,9 @@
 \chapter{Development with Certainty}
 
-In this chapter, we elaborate on deterministic analysis of computer systems. The
-techniques that we discuss here do not take uncertainty into account. However,
-these techniques provide a solid foundation for those that do as we shall
-describe in the following chapter, \cref{development-uncertainty}.
+In this chapter, we elaborate on deterministic system-level analysis of computer
+systems. The techniques that we discuss here do not take uncertainty into
+account. However, these techniques provide a solid foundation for those that do
+as we shall describe in the following chapter, \cref{development-uncertainty}.
 
 \section{Introduction}
 \input{include/development/certainty/introduction}
@@ -23,34 +23,16 @@ describe in the following chapter, \cref{development-uncertainty}.
 \section{Dynamic Steady-State Temperature Analysis}
 \slab{dynamic-steady-state-analysis}
 
-The TTA using the analytical technique given in \eref{recurrence-original} can
-be employed to approximate the SSDTP by applying it over successive application
-periods, as shown in \sref{hotspot-iterative-solution}. Since each iteration,
-with this approach, is much faster than with HotSpot, it will significantly
-speed up the SSDTP calculation. However, the number of required iterations is
-similar to the case when HotSpot is used (see \fref{hotspot-error}), still
-keeping the computational process slow (\sref{results-ssdtp}).
+Dynamic steady-state analysis addresses the shortcomings of static steady-state
+analysis in one particular but important context. It tackles the scenario where
+the power consumption follows a certain periodic pattern. In this case, after a
+sufficiently long time, the system will not reach a static steady state but
+instead a dynamic steady state: temperature will starts to exhibit a periodic
+patter following the periodic patter of power. Then the goal of the analysis is
+to find the periodic temperature profile \mq, called the dynamic steady-state
+temperature profile, that corresponds to a given periodic power profile \mp.
 
-The static steady-state temperature produced by static steady-state analysis is
-an approximation of the system's thermal behavior with limited applicability. It
-assumes that, eventually, the system will function at one constant temperature
-at each spatial location. This, however, is very often not the case in reality.
-In the context of a variable power profile applied periodically, the circuit
-will not reach a constant steady-state temperature but a steady state in which
-temperature is varying according to a certain periodic pattern. This pattern is
-captured by the steady-state dynamic temperature profile (SSDTP).
-
-However, temperature analysis time with HotSpot, or other similar approaches, is
-too long to be used inside a temperature-aware system-level optimization loop.
-The long thermal simulation time can severely limit the efficiency of the design
-space exploration. There has been some work on establishing fast system-level
-temperature analysis techniques. They also build on the duality between heat
-transfer and electrical phenomena and are based on restrictive assumptions in
-order to simplify the model. The approaches proposed in \cite{rai2011, bao2010},
-for example, are strictly restricted to monocore systems. The method described
-in \cite{rao2009} is restricted to homogeneous platforms and to applications in
-which the execution time of individual tasks is long, comparable with the
-thermal time constant of the package (in the order of 100 $s$).
+\subsection{Motivation}
 
 In the case of applications that exhibit periodic or close to periodic behavior
 (or which are characterized by several operation modes, each of which exhibits a
@@ -96,52 +78,18 @@ scheduling technique that addresses the TC ageing effect. Experiments
 demonstrate the superiority of the proposed techniques, compared to the state of
 the art.
 
-\subsection{Problem Formulation}
-
-Consider a multicore system that consists of $N_p$ processing elements $\Pi = \{
-\pi_i: i = \range{0}{N_p - 1} \}$ and executes a periodic application with a
-period $\tau$. We construct an equivalent RC thermal circuit of the system that
-contains $N_n$ thermal nodes.
-The profile is called the steady-state dynamic temperature profile (SSDTP).
-
-Given:
-\begin{itemize}
-
-\item A multicore system with a set of processing elements $\Pi$ executing a
-periodic application.
-
-\item The discrete dynamic power profile $\mathbb{P}_\text{dyn}$ of the
-system\footnote{Power dissipation of inactive nodes, i.e., the nodes that belong
-to the thermal package, is zero.} with the sampling interval $\Delta t$.
-
-\item The floorplan of the chip corresponding to the level of details at which
-the thermal modeling is performed.
-
-\item The configuration of the thermal package, i.e., dimensions of the thermal
-interface material, heat spreader, and heat sink.
-
-\item The thermal parameters of the die and package, e.g., the thermal
-conductivity and thermal capacitance.
-
-\end{itemize}
-
-Find:
-\begin{itemize}
-
-\item The corresponding periodic temperature profile $\mathbb{T}$ of the system
-when the steady state is reached.
-
-\end{itemize}
-Reasonable requirements for a solution are speed and accuracy, since the
-temperature analysis is often a part of an intensive optimization procedure
-where the SSDTP is to be computed thousands of times. Such a problem is
-described in \sref{reliability-optimization}.
-
-\subsection{State of the Art Solutions}
+\subsection{Prior Solutions}
 \slab{hotspot-solution}
-
-\subsubsection{Iterative Simulation}
 \slab{hotspot-iterative-solution}
+\slab{steady-state-approximation}
+
+The TTA using the analytical technique given in \eref{recurrence-original} can
+be employed to approximate the SSDTP by applying it over successive application
+periods, as shown in \sref{hotspot-iterative-solution}. Since each iteration,
+with this approach, is much faster than with HotSpot, it will significantly
+speed up the SSDTP calculation. However, the number of required iterations is
+similar to the case when HotSpot is used (see \fref{hotspot-error}), still
+keeping the computational process slow (\sref{results-ssdtp}).
 
 A rough approximation of the SSDTP can be obtained by running a temperature
 simulation over successive periods of the application until it can be assumed
@@ -149,11 +97,6 @@ that the system has reached the thermal steady state. The simulator performs the
 transient temperature analysis where the common approach is to solve
 \eref{temperature-model-original} numerically, for instance, using the
 fourth-order Runge-Kutta method \cite{press2007}.
-
-HotSpot \cite{skadron2003}, an architecture and system-level model and
-simulator, is the state of the art choice for system-level temperature analysis,
-as in \cite{srinivasan2004, liao2005, coskun2006, liu2007, huang2009, xiang2010,
-thiele2011}.
 
 The number of iterations required to reach the SSDTP depends on the thermal
 characteristics of the system. In order to illustrate this aspect, we have
@@ -172,17 +115,18 @@ for example, after 15 iterations, the NRMSE is still close to 20\%. This leads
 to large computation times, making it difficult to apply the technique inside an
 intensive optimization loop.
 
-\subsubsection{Steady-State Approximation (SSA)}
-\slab{steady-state-approximation}
+HotSpot \cite{skadron2003}, an architecture and system-level model and
+simulator, is the state of the art choice for system-level temperature analysis,
+as in \cite{srinivasan2004, liao2005, coskun2006, liu2007, huang2009, xiang2010,
+thiele2011}.
 
 An approximation of the SSDTP has been proposed in \cite{huang2009}. Instead of
 solving the system of equations in \eref{temperature-model-original}, it is
 assumed that during each time interval $\Delta t_i$, in which the power is
-constant, the system stays in its steady state.
-
-The result is a stepwise temperature curve where each step corresponds to the
-steady-state temperature $\v{T}_i$ that would be reached if the constant power
-$\v{P}_i$ was applied for a sufficiently long time.
+constant, the system stays in its steady state. The result is a stepwise
+temperature curve where each step corresponds to the steady-state temperature
+$\v{T}_i$ that would be reached if the constant power $\v{P}_i$ was applied for
+a sufficiently long time.
 
 An example of such an approximation (SSA) along with the corresponding SSDTP for
 an application with 10 tasks and period of 0.1 $s$ is given in
@@ -197,11 +141,8 @@ for die areas between 1 and 25 $mm^2$. The NRMSE relative to the correct SSDTP
 is shown in \fref{steady-state-error}. It can be seen that, e.g., for a die area
 of 10 $mm^2$ and a period of $100~ms$ the NRMSE with the SSA is close to 40\%.
 
-\subsection{Proposed Technique}
+\subsection{Our Solution}
 \slab{condensed-equation}
-
-\subsection{Analytical Solution}
-\slab{analytical-solution}
 
 As shown in \sref{hotspot-solution}, the state of the art solutions either
 produce inaccurate and, in many cases, completely useless results, or they are
@@ -260,7 +201,7 @@ solve it and their disadvantages are further discussed in the appendix
 (\sref{straight-forward}).
 
 In this section we propose a fast approach to solve the system in \eref{system}.
-The approach consists of an auxiliary transformation (\sref{ce-auxiliary}) and
+The approach consists of an auxiliary transformation (\sref{substitution}) and
 the actual solution (\sref{ce-solution}).
 
 The major problem with straight-forward techniques (see \eref{straight-forward})
@@ -281,9 +222,6 @@ is composed of $N_n \times N_n$ matrices while all elements of the subdiagonals
 are equal to $-1$. Linear systems with the same structure arise in boundary
 value problems for ODEs where a technique to solve them is to form a so-called
 condensed equation (CE), or condensed system \cite{stoer2002}.
-
-\subsection{Auxiliary Transformation}
-\slab{ce-auxiliary}
 
 \subsection{Solution with Condensed Equation (CE)}
 \slab{ce-solution}
@@ -363,7 +301,7 @@ backward substitution opposite to \eref{substitution}:
   \v{T}_i = \m{C}^{-\frac{1}{2}} \: \tv{T}_i, \: i = \range{0}{N_s - 1}
 \]
 
-As we see, the auxiliary substitution from \sref{ce-auxiliary} allows us to
+As we see, the auxiliary substitution from \sref{substitution} allows us to
 perform the single-time eigenvalue decomposition with orthogonal eigenvectors
 that later eases the computational process at several stages. In
 \sref{ce-solution} it can be observed that the solution of the system in
@@ -709,10 +647,6 @@ using the state of the art, is significant.
 \section{Appendix}
 
 \subsection{Analytical Solution}
-
-In this section we further discuss the analytical solution from
-\sref{analytical-solution}, its application for the TTA, and possible solution
-techniques in the case of the SSDTA.
 
 \subsubsection{Straight-Forward Solutions (SSDTA)}
 \slab{straight-forward}

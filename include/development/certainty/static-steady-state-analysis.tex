@@ -1,11 +1,24 @@
 The goal of static steady-state analysis is to calculate the temperature of the
 thermal equilibrium that the system reaches when the power consumption stays at
-a certain constant level $\mp = \vp$ for a sufficiently long time. In this case,
-there are no dynamics, which means that the derivative in
-\eref{temperature-differential} is zero. Then the steady-state temperature $\mq
-= \vq$ can be calculated simply as
-\[
+a certain constant level $\vp$ for a sufficiently long time. In this case, there
+are no dynamics, which means that the derivative in
+\eref{temperature-differential} is zero. Then the steady-state temperature $\vq$
+can be calculated simply as
+\begin{equation} \elab{static-steady-state}
   \vs = -\m{A}^{-1} \m{B} \vp,
-\]
-followed by \eref{temperature-algebraic} as usual, where $\m{A}^{-1}$ is
-efficiently computer using \eref{matrix-inverse}.
+\end{equation}
+followed by \eref{temperature-algebraic}, where $\m{A}^{-1}$ is computed using
+\eref{matrix-inverse}. In this case, \vp and \vq can be viewed as a degenerate
+power profile \mp and a degenerate temperature profile \mq, respectively, in the
+sense that their number of samples \ns is one.
+
+The static steady-state temperature produced by static steady-state analysis is
+frequently used as a computationally cheap approximation of the system's thermal
+behavior. For instance, given a full-fledged power profile \mp---that is, a
+power profile with $\ns > 1$---one might simply compute the average power vector
+\vp, perform the static analysis, and use the resulting static \vq as a guide
+inside a temperature-aware design-space-exploration procedure.
+
+However, this approximation is of limited applicability. It assumes that the
+system functions at one constant temperature at each spatial location, which is
+very often not the case in reality since the power consumption changes.

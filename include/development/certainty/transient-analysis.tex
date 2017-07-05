@@ -1,9 +1,12 @@
 The goal of transient analysis is to compute the temperature profile \mq that
 corresponds to a given power profile \mp by solving
-\eref{temperature-model-original}. Suppose for now that the power consumption is
-constant: $\vp(t) = \vp$. Then \eref{temperature-differential-original} is a
-system of ordinary differential equations that has the following analytical
-solution:
+\eref{temperature-model-original}. Traditionally, this operation is undertaken
+numerically \cite{skadron2003}; however, we are interested in obtaining an
+analytical solution to the system since it has many advantages as we shall see
+throughout the thesis. To this end, suppose for now that the power consumption
+is constant: $\vp(t) = \vp$. Then \eref{temperature-differential-original} is a
+system of linear ordinary differential equations that has the following
+analytical solution:
 \begin{equation} \elab{solution-original}
   \tvs(t) = e^{\tm{A} t} \tvs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
 \end{equation}
@@ -33,7 +36,11 @@ Similar to the observation is made in \cite{thiele2011}, our experiments show
 the approach to transient temperature analysis described above provides a
 significant performance improvement compared to iterative solutions to ordinary
 differential equations such as the Runge--Kutta fourth-order method
-\cite{press2007}. However, there is still room for improvement as follows.
+\cite{press2007}. However, there is still room for improvement as we discuss in
+what follows.
+
+\subsection{Our Solution}
+\slab{substitution}
 
 Even though the matrices $\tm{E}$ and $\tm{F}$ have to be computed only once,
 they necessitate two computationally problematic operations: the matrix
@@ -111,3 +118,15 @@ As before, the recurrence in \eref{recurrence} should be followed by
 \eref{temperature-algebraic} in order to obtain \mq. The performed auxiliary
 transformation is helpful not only for transient analysis but also in other
 contexts as we shall see later on.
+
+Let us note at this point that there have been attempts to simplify the
+temperature model by making additional assumptions in order to reduce the size
+of the circuit and, thereby, speed up the solution process. For instance, the
+techniques proposed in \cite{bao2010, rai2011} are targeting single-core
+platforms, and the approach described in \cite{rao2009} is aimed at homogeneous
+platforms and applications where the execution times of individual tasks are
+comparable with the thermal time constant of the thermal package, which in the
+order of 100 seconds. Such techniques can be straightforwardly combined with
+what we present here as long as they do not change the fundamental properties of
+$\m{C}$ and $\m{G}$.
+
