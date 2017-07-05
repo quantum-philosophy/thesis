@@ -14,5 +14,6 @@ clean:
 	rm -f {,**/}*.out
 	rm -f {,**/}*.run.xml
 	rm -f {,**/}*.toc
+	rm -f {,**/}*.xdv
 
 .PHONY: all clean
