@@ -27,101 +27,83 @@ temperature oscillations. Thus, efficient reliability optimization depends on
 the availability of the actual \up{DSSTP}.
 
 \subsection{Prior Work}
-\slab{hotspot-solution}
+\slab{dynamic-steady-state-prior}
 \slab{hotspot-iterative-solution}
 \slab{steady-state-approximation}
 
-Two approaches have been applied in the literature in order to obtain the SSDTP,
-as a prerequisite for reliability optimization. An approximate SSDTP can be
-produced by running a temperature simulator over one or more successive periods
-of the application until one can assume that a sufficient approximation of the
-thermal steady state has been reached \cite{srinivasan2004}. Such an approach is
-both time consuming and potentially inaccurate. A very rough but fast
-approximation of the SSDTP is proposed in \cite{huang2009}. It constructs a
-stepwise temperature curve where each step corresponds to the static
-steady-state temperature that would be reached if a certain constant power was
-applied for a sufficiently long time. In \sref{hotspot-solution} we will further
-elaborate on these two state of the art solutions. As our experiments show, they
-are too slow and/or too inaccurate in order to efficiently be used inside a
-temperature-aware system-level optimization loop for, e.g., reliability
-optimization.
+Let us elaborate on the techniques that have been applied in the literature in
+order to compute the \up{DSSTP} as a prerequisite for reliability optimization.
 
-In this paper we consider multiprocessor systems running applications exhibiting
-a power profile that can be considered periodic. Our contribution is twofold.
-First, we propose an approach that is both accurate and fast, for SSDTP
-calculation. Second, we show how our approach makes it possible to efficiently
-perform reliability optimization, based on the thermal cycling (TC) failure
-mechanism. More exactly, we propose a temperature-aware task mapping and
-scheduling technique that addresses the TC ageing effect. Experiments
-demonstrate the superiority of the proposed techniques, compared to the state of
-the art.
+A straightforward approximation of the \up{DSSTP} can be obtained by running a
+temperature simulator over one or more successive periods of the application
+until it is assumed that a sufficiently accurate approximation of the dynamic
+steady state has been attained \cite{srinivasan2004}. The typical simulator of
+choice is HotSpot \cite{skadron2003}, which is the state-of-the-art for
+system-level temperature analysis \cite{srinivasan2004, liao2005, coskun2006,
+liu2007, huang2009, xiang2010, thiele2011}. The simulator performs transient
+temperature analysis by solving \eref{temperature-model-original} numerically
+via the Runge--Kutta fourth-order method \cite{press2007}.
 
-The TTA using the analytical technique given in \eref{recurrence-original} can
-be employed to approximate the SSDTP by applying it over successive application
-periods, as shown in \sref{hotspot-iterative-solution}. Since each iteration,
-with this approach, is much faster than with HotSpot, it will significantly
-speed up the SSDTP calculation. However, the number of required iterations is
-similar to the case when HotSpot is used (see \fref{hotspot-error}), still
-keeping the computational process slow (\sref{results-ssdtp}).
+\inputfigure{dynamic-steady-state-prior}
+The number of iterations required to reach the \up{DSSTP} depends on the thermal
+characteristics of the platform. In order to illustrate this aspect, consider an
+application with a period of 0.5~s running on five hypothetical platforms with
+die areas of 1--25~mm\textsuperscript{2}. Let us simulate 50 successive periods
+of the application via HotSpot with its default settings and compare the
+resulting approximations in each period with the actual \up{DSSTP} using the
+normalized root-mean-square error (\up{NRMSE}). The comparison is shown in
+\fref{iterative-transient-error}. It can be observed that the number of
+successive periods over which transient analysis has to be performed in order to
+achieve a satisfactory level of accuracy is significant for the majority of the
+configurations, which entails large computation times. For instance, for a
+9-mm\textsuperscript{2} die, even after 15 iterations, the \up{NRMSE} is still
+close to 20\%. Using the analytical approach to transient analysis presented in
+\sref{transient-analysis}, the calculation can be sped up; however, the large
+number of iterations still keeps the computation cost unreasonably high as we
+shall illustrate in \sref{dynamic-steady-state-results}. Moreover, this
+approximation technique provides no guarantees on the resulting accuracy since
+there is no a reliable metric for measuring the proximity to the actual
+solution, that is, to the actual \up{DSSTP}.
 
-A rough approximation of the SSDTP can be obtained by running a temperature
-simulation over successive periods of the application until it can be assumed
-that the system has reached the thermal steady state. The simulator performs the
-transient temperature analysis where the common approach is to solve
-\eref{temperature-model-original} numerically, for instance, using the
-fourth-order Runge-Kutta method \cite{press2007}.
+Another crude but fast approximation of the \up{DSSTP} is proposed in
+\cite{huang2009}. It forgoes transient analysis all together and resides to
+static steady-state analysis instead. To elaborate, it is assumed that, in each
+time interval wherein the power consumption is constant, the system
+instantaneously reaches a static steady state. The result of this procedure is a
+stepwise temperature curve where each step corresponds to the steady-state
+temperature that would be reached if the corresponding power was applied for a
+sufficiently long time.
 
-The number of iterations required to reach the SSDTP depends on the thermal
-characteristics of the system. In order to illustrate this aspect, we have
-considered an application with the period of 0.5 $s$ running on five
-hypothetical platforms with core areas between 1 and 25 $mm^2$. The
-configuration of the die and thermal package can be found in the appendix
-(\tref{parameters}). We have run the temperature simulation with HotSpot
-\cite{skadron2003} for 50 successive periods. The temperature profile in each
-period has been compared with the actual SSDTP, obtained with our analytical
-approach (\sref{condensed-equation}), and the normalized root mean square error
-(NRMSE) has been calculated. The result is shown in \fref{hotspot-error}. It can
-be observed that the number of successive periods over which the temperature
-simulation has to be performed, in order to achieve a satisfactory level of
-accuracy, is significant for the majority of configurations. For a 9 $mm^2$ die,
-for example, after 15 iterations, the NRMSE is still close to 20\%. This leads
-to large computation times, making it difficult to apply the technique inside an
-intensive optimization loop.
+\inputfigure{static-steady-state-example}
+An example of such an approximation along with the corresponding \up{DSSTP} for
+an application with 10 tasks and a period of 0.1~s is given in
+\fref{static-steady-state-example}. The die area is 25~mm\textsuperscript{2} in
+this case. The reduced accuracy of this technique is due to the mismatch between
+the actual temperature within each interval and the static steady-state
+temperature. The inaccuracy depends on the thermal characteristics of the
+platform and on the application itself. In order to illustrate this concern, let
+us simulate five applications with periods of 0.01--1~s running on five
+platforms with die areas of 1--25~mm\textsuperscript{2} and assess the resulting
+profiles. The errors relative to the actual \up{DSSTP}s are shown in
+\fref{static-steady-state-error}. It can be seen that, for example, for a die
+area of 10~mm\textsuperscript{2} and an application period of 100~ms, the
+\up{NRMSE} of this approximation technique is close to 40\%.
 
-HotSpot \cite{skadron2003}, an architecture and system-level model and
-simulator, is the state of the art choice for system-level temperature analysis,
-as in \cite{srinivasan2004, liao2005, coskun2006, liu2007, huang2009, xiang2010,
-thiele2011}.
-
-An approximation of the SSDTP has been proposed in \cite{huang2009}. Instead of
-solving the system of equations in \eref{temperature-model-original}, it is
-assumed that during each time interval $\Delta t_i$, in which the power is
-constant, the system stays in its steady state. The result is a stepwise
-temperature curve where each step corresponds to the steady-state temperature
-$\v{T}_i$ that would be reached if the constant power $\v{P}_i$ was applied for
-a sufficiently long time.
-
-An example of such an approximation (SSA) along with the corresponding SSDTP for
-an application with 10 tasks and period of 0.1 $s$ is given in
-\fref{steady-state-approximation}. The die area is 25 $mm^2$, the configuration
-of the chip is the same as in \tref{parameters}. The reduced accuracy of the SSA
-is due to the mismatch between the actual temperature within each interval
-$\Delta t_i$ and the hypothetical steady-state temperature. The inaccuracy
-depends on the thermal characteristics of the respective platform and on the
-application itself. To illustrate this, we have generated five applications with
-periods between 0.01 and 1~$s$ and computed approximated SSDTPs using the SSA
-for die areas between 1 and 25 $mm^2$. The NRMSE relative to the correct SSDTP
-is shown in \fref{steady-state-error}. It can be seen that, e.g., for a die area
-of 10 $mm^2$ and a period of $100~ms$ the NRMSE with the SSA is close to 40\%.
+To conclude, the state-of-the-art techniques for dynamic steady-state
+temperature analysis are slow and inaccurate. This state of affairs makes them
+difficult and dangerous to be utilized for the purpose of design optimization.
 
 \subsection{Our Solution}
 \slab{condensed-equation}
 \slab{straight-forward}
 
-As shown in \sref{hotspot-solution}, the state of the art solutions either
-produce inaccurate and, in many cases, completely useless results, or they are
-unacceptably slow. In this section we eliminate the first problem by obtaining
-an analytical solution for the SSDTP and tackle the second one in
+First, we propose an approach that is both accurate and fast, for SSDTP
+calculation.
+
+As shown in \sref{dynamic-steady-state-prior}, the state of the art solutions
+either produce inaccurate and, in many cases, completely useless results, or
+they are unacceptably slow. In this section we eliminate the first problem by
+obtaining an analytical solution for the SSDTP and tackle the second one in
 \sref{condensed-equation} where a fast solution technique is proposed.
 
 For the SSDTA calculation the following system of linear equations can be
@@ -192,7 +174,7 @@ matrix. To be more specific, the matrix is a block-circulant matrix where each
 block row vector is rotated one block element to the right relative to the
 preceding block row vector. This leads to a wide range of possible techniques to
 solve the system, e.g., the fast Fourier transform (FFT) \cite{mazancourt1983}
-that we include in our experiments in \sref{results-ssdtp}.
+that we include in our experiments in \sref{dynamic-steady-state-results}.
 
 Another possible technique is iterative methods for solving systems of linear
 equations (e.g., Jacobi, Gauss--Seidel, Successive Overrelaxation)
