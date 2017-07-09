@@ -28,8 +28,6 @@ the availability of the actual \up{DSSTP}.
 
 \subsection{Prior Work}
 \slab{dynamic-steady-state-prior}
-\slab{hotspot-iterative-solution}
-\slab{steady-state-approximation}
 
 Let us elaborate on the techniques that have been applied in the literature in
 order to compute the \up{DSSTP} as a prerequisite for reliability optimization.
@@ -94,87 +92,89 @@ temperature analysis are slow and inaccurate. This state of affairs makes them
 difficult and dangerous to be utilized for the purpose of design optimization.
 
 \subsection{Our Solution}
-\slab{condensed-equation}
-\slab{straight-forward}
+\slab{dynamic-steady-state-present}
 
-First, we propose an approach that is both accurate and fast, for SSDTP
-calculation.
+In this subsection, we are to formalize the problem of dynamic steady-state
+temperature analysis and to develop an exact and, moreover, computationally
+efficient solution to this problem, eliminating the issues of the
+state-of-the-art solutions discussed in the previous subsection.
 
-As shown in \sref{dynamic-steady-state-prior}, the state of the art solutions
-either produce inaccurate and, in many cases, completely useless results, or
-they are unacceptably slow. In this section we eliminate the first problem by
-obtaining an analytical solution for the SSDTP and tackle the second one in
-\sref{condensed-equation} where a fast solution technique is proposed.
-
-For the SSDTA calculation the following system of linear equations can be
-derived from \eref{recurrence-original}:
+Consider the temperature model in \eref{temperature-model} and the corresponding
+recurrence in \eref{recurrence}. The key characteristic of a dynamic steady
+state is as follows:
+\begin{equation} \elab{boundary-condition}
+  \vs_0 = \vs_\ns.
+\end{equation}
+In words, the above condition means that, once the steady state has been
+reached, the system starts to arrive at its initial state at the end of each
+iteration, which is what makes it periodic. Then, using \eref{recurrence}, the
+\up{DSSTP} can be computed by solving the following system of linear equations:
 \[
   \begin{cases}
-    \m{K}_0 \: \v{T}_0 - \v{T}_1 & = -\m{B}_0 \: \v{P}_0 \\
-    ... \\
-    -\v{T}_0 + \m{K}_{N_s - 1} \: \v{T}_{N_s - 1} & = -\m{B}_{N_s - 1} \: \v{P}_{N_s - 1}
+    \vs_1 - \m{E} \vs_\ns & = \m{F}_1 \vp_1 \\
+    \dots \\
+    \vs_\ns - \m{E}_\ns \vs_{\ns - 1} & = \m{F}_\ns \vp_\ns
   \end{cases}
 \]
-where the last equation enforces the boundary condition, the equality of
-temperature values on both ends of the period:
-\begin{equation} \elab{boundary-condition}
-  \v{T}_0 = \v{T}_{N_s}
+where the first equation enforces the boundary condition in
+\eref{boundary-condition}. In order to get the big picture, the system can be
+rewritten as follows:
+\begin{equation} \elab{steady-state-system}
+  \resizebox{0.89\linewidth}{!}{
+    $\underbrace{\left[
+      \begin{array}{rrrrrrr}
+        \m{I}  &  0     & 0      & \cdots & 0      & 0      & -\m{E} \\
+        -\m{E} & \m{I}  & 0      & \cdots & 0      & 0      & 0      \\
+        0      & -\m{E} & \m{I}  & \cdots & 0      & 0      & 0      \\
+        \cdots & \cdots & \cdots & \cdots & \cdots & \cdots & \cdots \\
+        0      & 0      & 0      & \cdots & \m{I}  & 0      & 0      \\
+        0      & 0      & 0      & \cdots & -\m{E} & \m{I}  & 0      \\
+        0      & 0      & 0      & \cdots & 0      & -\m{E} & \m{I}
+      \end{array}
+    \right]}_{\displaystyle \mathbb{A}} \underbrace{\left[
+      \begin{array}{l}
+        \vs_1         \\
+        \vs_2         \\
+        \vs_3         \\
+        \cdots        \\
+        \vs_{\ns - 2} \\
+        \vs_{\ns - 1} \\
+        \vs_\ns
+      \end{array}
+    \right]}_{\displaystyle \mathbb{X}} = \underbrace{\left[
+      \begin{array}{l}
+        \m{F} \vp_1         \\
+        \m{F} \vp_2         \\
+        \m{F} \vp_3         \\
+        \cdots              \\
+        \m{F} \vp_{\ns - 2} \\
+        \m{F} \vp_{\ns - 1} \\
+        \m{F} \vp_\ns
+      \end{array}
+    \right]}_{\displaystyle \mathbb{B}}$
+  }
 \end{equation}
-To get the whole picture, the system can be written as:
-\begin{equation} \elab{system}
-\resizebox{0.9\linewidth}{!}{
-  $\underbrace{\left[
-    \begin{array}{ccccc}
-      \m{K}_0 & -\m{I} & 0 & \cdots & 0 \\
-      0 & \m{K}_1 & -\m{I} &  & \vdots \\
-      \vdots &  & \ddots & -\m{I} & 0 \\
-      0 &  &  & \m{K}_{N_s - 2} & -\m{I} \\
-      -\m{I} & 0 & \cdots & 0 & \m{K}_{N_s - 1}
-    \end{array}
-  \right]}_{\displaystyle \mathbb{A}} \underbrace{\left[
-    \begin{array}{c}
-      \v{T}_0 \\
-      \\
-      \vdots \\
-      \\
-      \v{T}_{N_s - 1}
-    \end{array}
-  \right]}_{\displaystyle \mathbb{X}} = \underbrace{\left[
-    \begin{array}{c}
-      -\m{B}_0 \: \v{P}_0 \\
-      \\
-      \vdots \\
-      \\
-      -\m{B}_{N_s - 1} \: \v{P}_{N_s - 1}
-    \end{array}
-  \right]}_{\displaystyle \mathbb{B}}$
-}
-\end{equation}
-where $\mathbb{A}$ is a $N_n N_s \times N_n N_s$ matrix, $\mathbb{X}$ and
-$\mathbb{B}$ are vectors with $N_n N_s$ elements. It can be seen that we have
-obtained a regular system of linear equations.
+where $\mathbb{A}$ is an $\nn \ns \times \nn \ns$ matrix, and $\mathbb{X}$ and
+$\mathbb{B}$ are $\nn \ns$-element vectors.
 
-Straight-forward techniques to solve it and their disadvantages are further
-discussed now.
+The most direct way to solve the system in \eref{steady-state-system} is to use
+a dense solver such as the \up{LU} decomposition \cite{press2007}. However,
+since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is to employ
+a sparse solver such as the unsymmetric multifrontal method \cite{davis2004}.
+The computational complexity of such solutions is proportional to $\ns^3 \nn^3$
+\cite{press2007} where $\nn$ is the number of nodes in the thermal \up{RC}
+circuit, and $\ns$ is the number of samples in the power profile. The problem is
+that the system to solve can be extremely large, in particular due to $\ns$. In
+such cases, direct solvers are prohibitively slow and require a large amount of
+memory, and, therefore, we do not discuss them any further.
 
-The first straight-forward way to solve the system in \eref{system} is to use
-dense solvers such as the LU decomposition \cite{press2007}. However, a more
-advanced approach is to employ sparse solvers since the matrix of the system is
-a sparse matrix. Therefore, algorithms specially designed for such cases are
-preferable, e.g., the unsymmetric multifrontal method \cite{davis2004}. The
-computational complexity of the solution is proportional to $N_s^3 N_n^3$
-\cite{press2007} where $N_n$ is the number of nodes and $N_s$ is the number of
-steps in the power profile. The problem here is that the systems to solve can be
-extremely large, in particular due to $N_s$. Our experiments have shown that
-direct solvers are extremely slow and consume a large amount of memory.
-Therefore, we do not consider them in the paper.
-
-The overall matrix of the system in \eref{system} is, in fact, a block Toeplitz
-matrix. To be more specific, the matrix is a block-circulant matrix where each
-block row vector is rotated one block element to the right relative to the
-preceding block row vector. This leads to a wide range of possible techniques to
-solve the system, e.g., the fast Fourier transform (FFT) \cite{mazancourt1983}
-that we include in our experiments in \sref{dynamic-steady-state-results}.
+The overall matrix of the system in \eref{steady-state-system} is, in fact, a
+block Toeplitz matrix. To be more specific, the matrix is a block-circulant
+matrix where each block row vector is rotated one block element to the right
+relative to the preceding block row vector. This leads to a wide range of
+possible techniques to solve the system, e.g., the fast Fourier transform (FFT)
+\cite{mazancourt1983} that we include in our experiments in
+\sref{dynamic-steady-state-results}.
 
 Another possible technique is iterative methods for solving systems of linear
 equations (e.g., Jacobi, Gauss--Seidel, Successive Overrelaxation)
@@ -185,9 +185,10 @@ experiments we did not observe any advantages of using these methods compared to
 the others considered in this paper. Therefore, they are excluded from the
 discussion.
 
-In this section we propose a fast approach to solve the system in \eref{system}.
-The approach consists of an auxiliary transformation (\sref{substitution}) and
-the actual solution (\sref{condensed-equation}).
+In this section we propose a fast approach to solve the system in
+\eref{steady-state-system}. The approach consists of an auxiliary transformation
+(\sref{substitution}) and the actual solution
+(\sref{dynamic-steady-state-present}).
 
 The major problem with straight-forward techniques is that (1) the sparseness of
 the matrix is not taken into account and/or (2) its specific structure is
@@ -199,13 +200,13 @@ operating only on a few $N_n \times N_n$ matrices. It is important that the
 dependency on $N_s$ (the number of steps in the power profile), which is by far
 dominating ($N_s \gg N_n$), is linear.
 
-Observing the structure of the matrix in \eref{system}, non-zero elements are
-located only on the block diagonal, on one subdiagonal just above the block
-diagonal, and on one subdiagonal in the left bottom corner. The block diagonal
-is composed of $N_n \times N_n$ matrices while all elements of the subdiagonals
-are equal to $-1$. Linear systems with the same structure arise in boundary
-value problems for ODEs where a technique to solve them is to form a so-called
-condensed equation (CE), or condensed system \cite{stoer2002}.
+Observing the structure of the matrix in \eref{steady-state-system}, non-zero
+elements are located only on the block diagonal, on one subdiagonal just above
+the block diagonal, and on one subdiagonal in the left bottom corner. The block
+diagonal is composed of $N_n \times N_n$ matrices while all elements of the
+subdiagonals are equal to $-1$. Linear systems with the same structure arise in
+boundary value problems for ODEs where a technique to solve them is to form a
+so-called condensed equation (CE), or condensed system \cite{stoer2002}.
 
 In the recurrence given by \eref{recurrence} we denote $\m{Q}_i = \tm{B}_i \:
 \v{P}_i$:
@@ -266,9 +267,9 @@ where $\tm{K} = e^{\tm{A} \: \Delta t}$ and $\tm{B} = \tm{A}^{-1} ( e^{\tm{A} \:
 \Delta t} - \m{I} ) \m{C}^{-\frac{1}{2}}$. Here $\tm{K}$ and $\tm{B}$ are
 constants, since they depend only on the matrices $\tm{A}$, $\m{C}$, and
 sampling interval $\Delta t$, which is fixed. In this case, the block diagonal
-of the matrix $\tilde{\mathbb{A}}$, similar to \eref{system}, is composed of the
-same repeating block $\tm{K}$ and the recurrent expressions take the following
-form:
+of the matrix $\tilde{\mathbb{A}}$, similar to \eref{steady-state-system}, is
+composed of the same repeating block $\tm{K}$ and the recurrent expressions take
+the following form:
 \begin{align}
   & \m{W}_i = \tm{K} \: \m{W}_{i - 1} + \m{Q}_i, \; i = \range{1}{N_s - 1} \elab{final-p-recurrence} \\
   & \tv{T}_{i + 1} = \tm{K} \: \tv{T}_i + \m{Q}_i, \; i = \range{0}{N_s - 1} \elab{final-y-recurrence}
@@ -285,10 +286,11 @@ backward substitution opposite to \eref{substitution}:
 As we see, the auxiliary substitution from \sref{substitution} allows us to
 perform the single-time eigenvalue decomposition with orthogonal eigenvectors
 that later eases the computational process at several stages. In
-\sref{condensed-equation} it can be observed that the solution of the system in
-\eref{system} has been reduced to two successive recurrences in
-\eref{final-p-recurrence} and \eref{final-y-recurrence} over $N_s$ steps in the
-power profile, which implies a linear complexity on $N_s$ mentioned earlier.
+\sref{dynamic-steady-state-present} it can be observed that the solution of the
+system in \eref{steady-state-system} has been reduced to two successive
+recurrences in \eref{final-p-recurrence} and \eref{final-y-recurrence} over
+$N_s$ steps in the power profile, which implies a linear complexity on $N_s$
+mentioned earlier.
 
 It should be noted that the eigenvalue decomposition along with matrices
 $\tm{K}$ and $\tm{B}$ are computed only once for a particular RC thermal circuit

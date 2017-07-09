@@ -35,7 +35,7 @@ as we shall describe in the following chapter, \cref{development-uncertainty}.
 
 In this subsection we investigate the scaling properties of the proposed
 solution for the SSDTP calculation and compare it with the approach based on the
-TTA with HotSpot (\sref{hotspot-iterative-solution})\footnote{All the
+TTA with HotSpot (\sref{dynamic-steady-state-prior})\footnote{All the
 experiments are performed on a Linux machine with Intel\textregistered\
 Core\texttrademark\ i7-2600 3.4GHz and 8Gb of RAM.}. We also include in the
 comparison two additional techniques described in the appendix, namely the TTA
@@ -121,23 +121,23 @@ due to the fast and accurate SSDTP calculation, which is at the heart of the
 optimization, and which, due to its speed, allows a huge portion of the design
 space to be explored. In order to prove this, we have replaced, inside our
 optimization framework, the proposed SSDTP calculation with the calculation
-based on HotSpot (\sref{hotspot-iterative-solution}) and based on the SSA
-(\sref{steady-state-approximation}), respectively. The goal is to compare
-our results with the results produced using HotSpot and the SSA, after the same
-optimization time as needed with the proposed SSDTP calculation technique. The
-experimental setup is the same as for the experiments in
-\tref{mttf-tasks}. The MTTF obtained with HotSpot and the SSA is evaluated
-and compared with the MTTF obtained by our proposed method. The results are
-summarized in \tref{mttf-comparison}. For example, the lifetime of the
-platform running 160 tasks can be extended by more than 18 times, compared to
-the initial solution, using our approach, whereas, the best solutions found with
-HotSpot and the SSA, using the same optimization time, are only 2.02 and 5.33
-times better, respectively. The reason for the poor results with HotSpot is the
-excessively long execution time of the SSDTP calculation. This allows for a much
-less thorough investigation of the solution space than with our proposed
-technique. In the case of the SSA, the reason is different. The SSA is fast but
-also very inaccurate (\sref{steady-state-approximation}). The inaccuracy
-drives the optimization towards solutions that turn out to be of low quality.
+based on HotSpot and based on the SSA, respectively
+(\sref{dynamic-steady-state-prior}). The goal is to compare our results with the
+results produced using HotSpot and the SSA, after the same optimization time as
+needed with the proposed SSDTP calculation technique. The experimental setup is
+the same as for the experiments in \tref{mttf-tasks}. The MTTF obtained with
+HotSpot and the SSA is evaluated and compared with the MTTF obtained by our
+proposed method. The results are summarized in \tref{mttf-comparison}. For
+example, the lifetime of the platform running 160 tasks can be extended by more
+than 18 times, compared to the initial solution, using our approach, whereas,
+the best solutions found with HotSpot and the SSA, using the same optimization
+time, are only 2.02 and 5.33 times better, respectively. The reason for the poor
+results with HotSpot is the excessively long execution time of the SSDTP
+calculation. This allows for a much less thorough investigation of the solution
+space than with our proposed technique. In the case of the SSA, the reason is
+different. The SSA is fast but also very inaccurate
+(\sref{dynamic-steady-state-prior}). The inaccuracy drives the optimization
+towards solutions that turn out to be of low quality.
 
 We have seen that our reliability-targeted optimizations have significantly
 increased the MTTF without affecting the energy consumption. This is not
