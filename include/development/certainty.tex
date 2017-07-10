@@ -30,41 +30,6 @@ as we shall describe in the following chapter, \cref{development-uncertainty}.
 
 \subsection{Experimental Results}
 
-\subsubsection{SSDTP Calculation}
-\slab{dynamic-steady-state-results}
-
-In this subsection we investigate the scaling properties of the proposed
-solution for the SSDTP calculation and compare it with the approach based on the
-TTA with HotSpot (\sref{dynamic-steady-state-prior})\footnote{All the
-experiments are performed on a Linux machine with Intel\textregistered\
-Core\texttrademark\ i7-2600 3.4GHz and 8Gb of RAM.}. We also include in the
-comparison two additional techniques described in the appendix, namely the TTA
-with the analytical solution (\sref{transient-analysis}) and the fast Fourier
-transform (FFT) (\sref{straight-forward}). In the cases of the TTA, the
-simulation over successive iterations is run until the NRMSE relative to the
-SSDTP obtained with the proposed method is less than 1\%.
-
-In the following experiments, the power sampling interval is set to 1 $ms$ and
-the thermal configuration of the die is the same as in \tref{parameters}. For
-the experiments in this subsection, the leakage power has not been considered.
-If considered according to the linearized model (\sref{linearized-leakage}),
-execution times remain unchanged; if considered according to the iterative model
-(\sref{iterative-leakage}), execution times increase proportionally for all the
-methods, which does not affect any of the conclusions.
-
-First, we vary the application period $\tau$ keeping the architecture fixed,
-which is a quad-core platform with the core area of 4 $mm^2$. The comparison is
-depicted in \fref{scaling-time} on a semilogarithmic scale. It can be seen that
-the proposed technique is roughly 5000 times faster than calculating the SSDTP
-by running the TTA with HotSpot and from 9 to 170 times faster than the TTA with
-the analytical solution.
-
-In the second experiment we evaluate the scaling of the proposed method with
-regard to the number of processing elements. The application period is fixed to
-0.5 $s$. The results are shown in \fref{scaling-cores}. It can be observed that
-the proposed technique provides a significant performance improvement relative
-to the alternative solutions.
-
 \subsubsection{Reliability Optimization}
 \slab{reliability-results}
 

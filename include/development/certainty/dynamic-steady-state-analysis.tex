@@ -163,140 +163,112 @@ since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is to employ
 a sparse solver such as the unsymmetric multifrontal method \cite{davis2004}.
 The computational complexity of such solutions is proportional to $\ns^3 \nn^3$
 \cite{press2007} where $\nn$ is the number of nodes in the thermal \up{RC}
-circuit, and $\ns$ is the number of samples in the power profile. The problem is
-that the system to solve can be extremely large, in particular due to $\ns$. In
-such cases, direct solvers are prohibitively slow and require a large amount of
-memory, and, therefore, we do not discuss them any further.
+circuit, and $\ns$ is the number of samples in the power profile. The problem
+here is that the system to solve can be extremely large, in particular due to
+$\ns$. In such cases, direct solvers are prohibitively slow and require an
+enormous amount of memory. Therefore, we do not discuss them any further.
 
-The overall matrix of the system in \eref{steady-state-system} is, in fact, a
-block Toeplitz matrix. To be more specific, the matrix is a block-circulant
-matrix where each block row vector is rotated one block element to the right
-relative to the preceding block row vector. This leads to a wide range of
-possible techniques to solve the system, e.g., the fast Fourier transform (FFT)
-\cite{mazancourt1983} that we include in our experiments in
-\sref{dynamic-steady-state-results}.
+Another potential approach is leveraging an iterative method for solving systems
+of linear equations such as the Jacobi or Gauss--Seidel method \cite{press2007}.
+Such methods are designed to overcome problems of direct solvers, and,
+consequently, they are applicable for very large systems. However, the most
+important issue with these methods is their convergence. In our experiments, we
+have not observed any advantages of using these methods compared to the other
+considered techniques. Thus, they are excluded from the discussion.
 
-Another possible technique is iterative methods for solving systems of linear
-equations (e.g., Jacobi, Gauss--Seidel, Successive Overrelaxation)
-\cite{press2007}. These methods are designed to overcome problems of direct
-solvers and, consequently, they are applicable for very large systems. However,
-the most important issue with these methods is their convergence. In our
-experiments we did not observe any advantages of using these methods compared to
-the others considered in this paper. Therefore, they are excluded from the
-discussion.
+Yet another solution can be obtain by observing that $\mathbb{A}$ in
+\eref{steady-state-system} is, in fact, a block Toeplitz matrix and, moreover, a
+block-circulant matrix, wherein each block row is rotated one block element to
+the right relative to the preceding block row. This observation leads to a wide
+range of possible techniques for solving the system in
+\eref{steady-state-system} such as the fast Fourier transform
+\cite{mazancourt1983}, which we shall discuss further in our experiments in
+given \sref{dynamic-steady-state-results}.
 
-In this section we propose a fast approach to solve the system in
-\eref{steady-state-system}. The approach consists of an auxiliary transformation
-(\sref{substitution}) and the actual solution
-(\sref{dynamic-steady-state-present}).
+To summarize, the major problem with the aforementioned techniques is that
+\one~the sparseness of $\mathbb{A}$ is not taken into account, or \two~its
+specific structure is ignored, resulting in inefficient and, in some cases,
+inaccurate computations. Let us now develop a solution that does not have these
+issues.
 
-The major problem with straight-forward techniques is that (1) the sparseness of
-the matrix is not taken into account and/or (2) its specific structure is
-totally ignored, resulting in inefficiency and inaccuracy of the computations.
-Using direct dense and sparse solvers, for example, requires a computation time
-proportional to $N_n^3 N_s^3$ \cite{press2007}. Our proposed technique considers
-both features and delivers solutions in time proportional to $N_s N_n^3$ while
-operating only on a few $N_n \times N_n$ matrices. It is important that the
-dependency on $N_s$ (the number of steps in the power profile), which is by far
-dominating ($N_s \gg N_n$), is linear.
+Have a careful look at the structure of $\mathbb{A}$ in
+\eref{steady-state-system}. The nonzero elements are located only on the block
+diagonal, on the subdiagonal attached to the block diagonal, and on the
+superdiagonal in the top right corner of the matrix. Linear systems with similar
+structures arise in boundary value problems for ordinary differential equations,
+and the typical technique to solve them is to form a so-called condensed
+equation or condensed system \cite{stoer2002} as follows.
 
-Observing the structure of the matrix in \eref{steady-state-system}, non-zero
-elements are located only on the block diagonal, on one subdiagonal just above
-the block diagonal, and on one subdiagonal in the left bottom corner. The block
-diagonal is composed of $N_n \times N_n$ matrices while all elements of the
-subdiagonals are equal to $-1$. Linear systems with the same structure arise in
-boundary value problems for ODEs where a technique to solve them is to form a
-so-called condensed equation (CE), or condensed system \cite{stoer2002}.
-
-In the recurrence given by \eref{recurrence} we denote $\m{Q}_i = \tm{B}_i \:
-\v{P}_i$:
-\begin{align}
-  & \tv{T}_{i + 1} = \tm{K}_i \: \tv{T}_i + \m{Q}_i, \; i = \range{0}{N_s - 1} \elab{ce-recurrent} \\
-  & \tv{T}_0 = \tv{T}_{N_s} \nonumber
-\end{align}
-Performing the iterative repetition of \eref{ce-recurrent} leads to:
-\begin{equation} \elab{y-recurrent}
-  \tv{T}_i = \prod_{j = 0}^{i - 1} \tm{K}_j \: \tv{T}_0 + \m{W}_{i - 1}, \; i = \range{1}{N_s}
-\end{equation}
-where $\m{W}_i$ are defined as follows:
-\begin{equation}
-  \m{W}_0 = \m{Q}_0 \hspace{15pt} \m{W}_i = \tm{K}_i \: \m{W}_{i - 1} + \m{Q}_i, \; i = \range{1}{N_s - 1} \elab{p-recurrent}
-\end{equation}
-We calculate the final vector $\tilde{\v{T}}_{N_s}$ using \eref{y-recurrent} and
-\eref{p-recurrent}:
+To begin with, let
 \[
-  \tilde{\v{T}}_{N_s} = \prod_{j = 0}^{N_s - 1} \tilde{\m{K}}_j \: \tilde{\v{T}}_0 + \m{W}_{N_s - 1}
+  \v{v}_i = \m{F} \vp_i
 \]
-Taking into account the boundary condition given by \eref{boundary-condition},
+for $i = \range{1}{\ns}$. Equation~\eref{recurrence} can then be rewritten as
+follows:
+\begin{equation} \elab{steady-state-recurrence}
+  \vs_i = \m{E} \vs_{i - 1} + \v{v}_i
+\end{equation}
+for $i = \range{1}{\ns}$. Apply this formula recursively starting from $\vs_0$
+leads to
+\[
+  \vs_i = \m{E}^i \vs_0 + \v{w}_i
+\]
+for $i = \range{1}{\ns}$. In the above, $\v{w}_i$ is an auxiliary recurrence
+defined as
+\begin{equation} \elab{steady-state-auxiliary-recurrence}
+  \v{w}_i = \m{E} \v{w}_{i - 1} + \v{v}_i
+\end{equation}
+for $i = \range{1}{\ns}$ where
+\[
+  \v{w}_0 = 0.
+\]
+After taking \ns steps, we arrive at the following state vector:
+\[
+  \vs_\ns = \m{E}^\ns \vs_0 + \v{w}_\ns.
+\]
+Taking into account the boundary condition given in \eref{boundary-condition},
 we obtain the following system of linear equations:
-\begin{equation} \elab{core-system}
-  (\m{I} - \prod_{j = 0}^{N_s - 1} \tm{K}_j) \: \tv{T}_0 = \m{W}_{N_s - 1}
-\end{equation}
-We recall that $\tm{K}_i$ is the matrix exponential given by
-\eref{matrix-exponential}; therefore, the following simplification holds:
 \[
-  \prod_{j = i}^l \tm{K}_j = \prod_{j = i}^l e^{\tm{A} \Delta t_j} = e^{\tm{A} \sum_{j = i}^l \Delta t_j} = \m{U} e^{\left( \sum_{j = i}^l \Delta t_j \: \m{\Lambda} \right)} \m{U}^T
+  (\m{I} - \m{E}^\ns) \vs_\ns = \v{w}_\ns
 \]
-Consequently:
+Since $\m{E}$ is the matrix exponential, which it can be seen in
+\eref{matrix-exponential}, the above system can be rewritten as follows:
 \[
-  \prod_{j = 0}^{N_s - 1} \tm{K}_j = \m{U} \: \diagonal{e^{\tau \lambda_0}}{e^{\tau \lambda_{N_n - 1}}} \: \m{U}^T
+  (\m{I} - \m{U} e^{\m{\Lambda} \tau} \m{U}^T) \vs_\ns = \v{w}_\ns
 \]
-where $\tau$ is the application period. Substituting this product into
-\eref{core-system}, we obtain the following system:
-\[
-  (\m{I} - \m{U} \: e^{\tau \m{\Lambda}} \: \m{U}^T) \: \tv{T}_0 = \m{W}_{N_s - 1}
-\]
-The identity matrix $\m{I}$ can be split into $\m{U} \m{U}^T$, hence:
-\begin{equation} \elab{t0}
-  \tv{T}_0 = \m{U} \: (\m{I} - e^{\tau \m{\Lambda}})^{-1} \: \m{U}^T \: \m{W}_{N_s - 1} = \m{Z} \: \m{W}_{N_s - 1}
-\end{equation}
-where:
-\[
-  \m{Z} = \m{U} \: \diagonal{\frac{1}{1 - e^{\tau \lambda_0}}}{\frac{1}{1 - e^{\tau \lambda_{N_n - 1}}}} \: \m{U}^T
-\]
-The equation gives the initial solution vector $\tv{T}_0$; the rest of vectors
-$\tv{T}_i$ for $i = \range{1}{N_s - 1}$ are successively found from
-\eref{ce-recurrent}.
-
-Since the power profile is evenly sampled with the sampling interval $\Delta t$,
-the recurrence in \eref{ce-recurrent} turns into:
-\[
-  \tv{T}_{i+1} = \tm{K} \: \tv{T}_i + \m{Q}_i = \tm{K} \: \tv{T}_i + \tm{B} \: \v{P}_i
-\]
-where $\tm{K} = e^{\tm{A} \: \Delta t}$ and $\tm{B} = \tm{A}^{-1} ( e^{\tm{A} \:
-\Delta t} - \m{I} ) \m{C}^{-\frac{1}{2}}$. Here $\tm{K}$ and $\tm{B}$ are
-constants, since they depend only on the matrices $\tm{A}$, $\m{C}$, and
-sampling interval $\Delta t$, which is fixed. In this case, the block diagonal
-of the matrix $\tilde{\mathbb{A}}$, similar to \eref{steady-state-system}, is
-composed of the same repeating block $\tm{K}$ and the recurrent expressions take
-the following form:
+where $\tau = \ns \dt$ is the period of the power profile \mp. By splitting the
+identity matrix $\m{I}$ into $\m{U} \m{U}^T$, we obtain the following solution
+to the system:
 \begin{align}
-  & \m{W}_i = \tm{K} \: \m{W}_{i - 1} + \m{Q}_i, \; i = \range{1}{N_s - 1} \elab{final-p-recurrence} \\
-  & \tv{T}_{i + 1} = \tm{K} \: \tv{T}_i + \m{Q}_i, \; i = \range{0}{N_s - 1} \elab{final-y-recurrence}
+  \vs_\ns
+  & = \m{U} (\m{I} - e^{\m{\Lambda} \tau})^{-1} \m{U}^T \v{w}_\ns \elab{t0} \\
+  & = \m{U} \, \diagonal{\frac{1}{1 - e^{\lambda_1 \tau}}}{\frac{1}{1 - e^{\lambda_\ns \tau}}} \m{U}^T \v{w}_\ns. \nonumber
 \end{align}
-where $\m{Q}_i = \tm{B} \: \v{P}_i$, $\m{W}_0 = \m{Q}_0$, and $\tv{T}_0$ is
-given by \eref{t0}.
+The above equation yields not only the final state vector $\vs_\ns$ but also the
+initial one $\vs_0$. Consequently, the rest of the state vectors $\{ \vs_i: i =
+\range{1}{\ns - 1} \}$ can be successively found by means of
+\eref{steady-state-recurrence} where each $\v{v}_i$ has already been calculated
+when computing $\v{w}_\ns$. The last step of the solution process is to compute
+the actual temperature profile \mq, the \up{DSSTP}, by applying
+\eref{temperature-algebraic}.
 
-The last step of the solution is to return to temperature by performing the
-backward substitution opposite to \eref{substitution}:
-\[
-  \v{T}_i = \m{C}^{-\frac{1}{2}} \: \tv{T}_i, \: i = \range{0}{N_s - 1}
-\]
+It can be seen that the solution to the $\nn \ns \times \nn \ns$ system given in
+\eref{steady-state-system} has been reduced to the two trivial recurrences given
+in \eref{steady-state-recurrence} and \eref{steady-state-auxiliary-recurrence}
+that traverse the \ns steps of the power profile \mp. Therefore, the
+computational complexity of this process is linear with respect to \ns, which is
+important since \ns is typically much large than \nn, that is, the number of
+thermal nodes.
 
-As we see, the auxiliary substitution from \sref{substitution} allows us to
-perform the single-time eigenvalue decomposition with orthogonal eigenvectors
-that later eases the computational process at several stages. In
-\sref{dynamic-steady-state-present} it can be observed that the solution of the
-system in \eref{steady-state-system} has been reduced to two successive
-recurrences in \eref{final-p-recurrence} and \eref{final-y-recurrence} over
-$N_s$ steps in the power profile, which implies a linear complexity on $N_s$
-mentioned earlier.
-
-It should be noted that the eigenvalue decomposition along with matrices
-$\tm{K}$ and $\tm{B}$ are computed only once for a particular RC thermal circuit
-and can be considered as given together with the RC circuit. It has not to be
-recalculated when a SSDTP is generated, which significantly decreases the
-computation time.
+It is worth noting that the auxiliary transformation presented in
+\sref{substitution} and the accompanying eigendecomposition in
+\eref{eigendecomposition} have substantially simplified the calculations
+associated with dynamic steady-state analysis. It should also be noted that the
+eigendecomposition along with $\m{E}$ and $\m{F}$ are computed only once for a
+particular thermal \up{RC} circuit and can be considered as given together with
+the circuit. In other words, these quantities stay when different power profiles
+are to be analyzed, which is particularly advantageous when an intensive
+design-space-exploration procedure is concerned.
 
 \subsection{Leakage Power}
 
@@ -343,3 +315,38 @@ For the linearization, the power curve fitting with the least squares regression
 \cite{press2007} has been employed, targeted at the range between 40 and
 $80^\circ C$. From the experiments we have observed that the NRMSE is bounded by
 1--2\%, indicating a good accuracy of the linear approximation.
+
+\subsection{Experimental Results}
+\slab{dynamic-steady-state-results}
+
+In this subsection we investigate the scaling properties of the proposed
+solution for the SSDTP calculation and compare it with the approach based on the
+TTA with HotSpot (\sref{dynamic-steady-state-prior})\footnote{All the
+experiments are performed on a Linux machine with Intel\textregistered\
+Core\texttrademark\ i7-2600 3.4GHz and 8Gb of RAM.}. We also include in the
+comparison two additional techniques described in the appendix, namely the TTA
+with the analytical solution (\sref{transient-analysis}) and the fast Fourier
+transform (FFT) (\sref{straight-forward}). In the cases of the TTA, the
+simulation over successive iterations is run until the NRMSE relative to the
+SSDTP obtained with the proposed method is less than 1\%.
+
+In the following experiments, the power sampling interval is set to 1 $ms$ and
+the thermal configuration of the die is the same as in \tref{parameters}. For
+the experiments in this subsection, the leakage power has not been considered.
+If considered according to the linearized model (\sref{linearized-leakage}),
+execution times remain unchanged; if considered according to the iterative model
+(\sref{iterative-leakage}), execution times increase proportionally for all the
+methods, which does not affect any of the conclusions.
+
+First, we vary the application period $\tau$ keeping the architecture fixed,
+which is a quad-core platform with the core area of 4 $mm^2$. The comparison is
+depicted in \fref{scaling-time} on a semilogarithmic scale. It can be seen that
+the proposed technique is roughly 5000 times faster than calculating the SSDTP
+by running the TTA with HotSpot and from 9 to 170 times faster than the TTA with
+the analytical solution.
+
+In the second experiment we evaluate the scaling of the proposed method with
+regard to the number of processing elements. The application period is fixed to
+0.5 $s$. The results are shown in \fref{scaling-cores}. It can be observed that
+the proposed technique provides a significant performance improvement relative
+to the alternative solutions.
