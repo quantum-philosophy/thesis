@@ -229,7 +229,7 @@ After taking \ns steps, we arrive at the following state vector:
 Taking into account the boundary condition given in \eref{boundary-condition},
 we obtain the following system of linear equations:
 \[
-  (\m{I} - \m{E}^\ns) \vs_\ns = \v{w}_\ns
+  (\m{I} - \m{E}^\ns) \vs_\ns = \v{w}_\ns.
 \]
 Since $\m{E}$ is the matrix exponential, which it can be seen in
 \eref{matrix-exponential}, the above system can be rewritten as follows:
@@ -242,7 +242,7 @@ to the system:
 \begin{align}
   \vs_\ns
   & = \m{U} (\m{I} - e^{\m{\Lambda} \tau})^{-1} \m{U}^T \v{w}_\ns \elab{t0} \\
-  & = \m{U} \, \diagonal{\frac{1}{1 - e^{\lambda_1 \tau}}}{\frac{1}{1 - e^{\lambda_\ns \tau}}} \m{U}^T \v{w}_\ns. \nonumber
+  & = \m{U} \: \diagonal{\frac{1}{1 - e^{\lambda_1 \tau}}}{\frac{1}{1 - e^{\lambda_\ns \tau}}} \m{U}^T \v{w}_\ns. \nonumber
 \end{align}
 The above equation yields not only the final state vector $\vs_\ns$ but also the
 initial one $\vs_0$. Consequently, the rest of the state vectors $\{ \vs_i: i =
