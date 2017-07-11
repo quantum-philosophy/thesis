@@ -1,12 +1,24 @@
-The power consumption of an electrical circuit consists of two main components:
-dynamic and static. The dynamic power is due to the actual useful work done by
+There is one important aspect about power and temperature that we have not
+discussed yet. The power consumption of an electrical circuit consists of two
+main components: dynamic and static. The dynamic power---which is the power that
+we have implicitly considered so far---is due to the actual useful work done by
 the circuit. The static power is due to various parasitic currents that cannot
 be entirely eliminated. The major component of the static power is the leakage
 power, which is especially prominent in modern \up{CMOS} transistors. The
-leakage power and, therefore, the total power are strong functions of the
-operating temperature, which cannot be neglected. In order to take this
-phenomenon into account in the computation of the \up{DSSTP} described in
+leakage power and, hence, the total power have a positive dependence on the
+operating temperature \cite{liu2007}: a higher heat dissipation leads to a
+higher power consumption, and this dependence is strong. On the other hand, the
+more power is consumed, the more heat is dissipated. Thus, power and temperature
+instigate each other, which cannot be neglected since it leads to a higher power
+(energy) consumption than the one expected, to a higher temperature than the one
+expected, and, in the worst case, to a thermal runaway.
+
+In order to take the aforementioned power-temperature interplay into account in
+the computation of the \up{DSSTP} described in
 \sref{dynamic-steady-state-present}, two techniques can be applied as follows.
+\[
+  \vp(t) = \vp_\dynamic(t) + \vp_\static(t).
+\]
 
 First of all, the power and temperature profiles can be calculated several times
 in turns until they stop changing. With each new temperature profile we update
