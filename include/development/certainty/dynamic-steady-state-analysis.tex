@@ -58,7 +58,7 @@ configurations, which entails large computation times. For instance, for a
 close to 20\%. Using the analytical approach to transient analysis presented in
 \sref{transient-analysis}, the calculation can be sped up; however, the large
 number of iterations still keeps the computation cost unreasonably high as we
-shall illustrate in \sref{dynamic-steady-state-results}. Moreover, this
+shall illustrate in \sref{dynamic-steady-state-result}. Moreover, this
 approximation technique provides no guarantees on the resulting accuracy since
 there is no a reliable metric for measuring the proximity to the actual
 solution, that is, to the actual \up{DSSTP}.
@@ -183,7 +183,7 @@ the right relative to the preceding block row. This observation leads to a wide
 range of possible techniques for solving the system in
 \eref{steady-state-system} such as the fast Fourier transform
 \cite{mazancourt1983}, which we shall discuss further in our experiments in
-given \sref{dynamic-steady-state-results}.
+given \sref{dynamic-steady-state-result}.
 
 To summarize, the major problem with the aforementioned techniques is that
 \one~the sparseness of $\mathbb{A}$ is not taken into account, or \two~its
@@ -270,19 +270,20 @@ the circuit. In other words, these quantities stay when different power profiles
 are to be analyzed, which is particularly advantageous when an intensive
 design-space-exploration procedure is concerned.
 
-\subsection{Experimental Results}
-\slab{dynamic-steady-state-results}
+\subsection{Experiments}
+\slab{dynamic-steady-state-result}
 
-In this subsection we investigate the scaling properties of the proposed
-solution for the SSDTP calculation and compare it with the approach based on the
-TTA with HotSpot (\sref{dynamic-steady-state-prior})\footnote{All the
-experiments are performed on a Linux machine with Intel\textregistered\
-Core\texttrademark\ i7-2600 3.4GHz and 8Gb of RAM.}. We also include in the
-comparison two additional techniques described in the appendix, namely the TTA
-with the analytical solution (\sref{transient-analysis}) and the fast Fourier
-transform (FFT) (\sref{straight-forward}). In the cases of the TTA, the
-simulation over successive iterations is run until the NRMSE relative to the
-SSDTP obtained with the proposed method is less than 1\%.
+In this subsection, we investigate the scaling properties of the solution to
+dynamic steady-state analysis presented in \sref{dynamic-steady-state-present}
+and compare it with the state-of-the-art approaches discussed in
+\sref{dynamic-steady-state-prior}. All the experiments are performed on a
+\up{GNU}/Linux machine equipped with Intel Core i7 3.4~\up{GH}z and 8~\up{GB} of
+\up{RAM}. We also include in the comparison two additional techniques described
+in the appendix, namely the TTA with the analytical solution
+(\sref{transient-analysis}) and the fast Fourier transform (FFT)
+(\sref{straight-forward}). In the cases of the TTA, the simulation over
+successive iterations is run until the NRMSE relative to the SSDTP obtained with
+the proposed method is less than 1\%.
 
 In the following experiments, the power sampling interval is set to 1 $ms$ and
 the thermal configuration of the die is the same as in \tref{parameters}. For
