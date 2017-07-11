@@ -46,22 +46,22 @@ via the Runge--Kutta fourth-order method \cite{press2007}.
 The number of iterations required to reach the \up{DSSTP} depends on the thermal
 characteristics of the platform. In order to illustrate this aspect, consider an
 application with a period of 0.5~s running on five hypothetical platforms with
-die areas of 1--25~mm\textsuperscript{2}. Let us simulate 50 successive periods
-of the application via HotSpot with its default settings and compare the
+processor areas of 1--25~mm\textsuperscript{2}. Let us simulate 50 successive
+periods of the application via HotSpot with its default settings and compare the
 resulting approximations in each period with the actual \up{DSSTP} using the
 normalized root-mean-square error (\up{NRMSE}). The comparison is shown in
 \fref{iterative-transient-error}. It can be observed that the number of
 successive periods over which transient analysis has to be performed in order to
 achieve a satisfactory level of accuracy is significant for the majority of the
 configurations, which entails large computation times. For instance, for a
-9-mm\textsuperscript{2} die, even after 15 iterations, the \up{NRMSE} is still
-close to 20\%. Using the analytical approach to transient analysis presented in
-\sref{transient-analysis}, the calculation can be sped up; however, the large
-number of iterations still keeps the computation cost unreasonably high as we
-shall illustrate in \sref{dynamic-steady-state-result}. Moreover, this
-approximation technique provides no guarantees on the resulting accuracy since
-there is no a reliable metric for measuring the proximity to the actual
-solution, that is, to the actual \up{DSSTP}.
+9-mm\textsuperscript{2} processor, even after 15 iterations, the \up{NRMSE} is
+still close to 20\%. Using the analytical approach to transient analysis
+presented in \sref{transient-analysis}, the calculation can be sped up; however,
+the large number of iterations still keeps the computation cost unreasonably
+high as we shall illustrate in \sref{dynamic-steady-state-result}. Moreover,
+this approximation technique provides no guarantees on the resulting accuracy
+since there is no a reliable metric for measuring the proximity to the actual
+solution, the actual \up{DSSTP}.
 
 Another crude but fast approximation of the \up{DSSTP} is proposed in
 \cite{huang2009}. It forgoes transient analysis all together and resides to
@@ -75,17 +75,17 @@ sufficiently long time.
 \inputfigure{static-steady-state-example}
 An example of such an approximation along with the corresponding \up{DSSTP} for
 an application with 10 tasks and a period of 0.1~s is given in
-\fref{static-steady-state-example}. The die area is 25~mm\textsuperscript{2} in
-this case. The reduced accuracy of this technique is due to the mismatch between
-the actual temperature within each interval and the static steady-state
-temperature. The inaccuracy depends on the thermal characteristics of the
-platform and on the application itself. In order to illustrate this concern, let
-us simulate five applications with periods of 0.01--1~s running on five
-platforms with die areas of 1--25~mm\textsuperscript{2} and assess the resulting
-profiles. The errors relative to the actual \up{DSSTP}s are shown in
-\fref{static-steady-state-error}. It can be seen that, for example, for a die
-area of 10~mm\textsuperscript{2} and an application period of 100~ms, the
-\up{NRMSE} of this approximation technique is close to 40\%.
+\fref{static-steady-state-example}. The processor area is
+25~mm\textsuperscript{2} in this case. The reduced accuracy of this technique is
+due to the mismatch between the actual temperature within each interval and the
+static steady-state temperature. The inaccuracy depends on the thermal
+characteristics of the platform and on the application itself. In order to
+illustrate this, let us simulate five applications with periods of 0.01--1~s
+running on five platforms with processor areas of 1--25~mm\textsuperscript{2}
+and assess the resulting profiles. The errors relative to the actual \up{DSSTP}s
+are shown in \fref{static-steady-state-error}. It can be seen that, for example,
+for a processor area of 10~mm\textsuperscript{2} and an application period of
+100~ms, the \up{NRMSE} of this approximation technique is close to 40\%.
 
 To conclude, the state-of-the-art techniques for dynamic steady-state
 temperature analysis are slow and inaccurate. This state of affairs makes them
@@ -261,7 +261,7 @@ important since \ns is typically much large than \nn, that is, the number of
 thermal nodes.
 
 It is worth noting that the auxiliary transformation presented in
-\sref{substitution} and the accompanying eigendecomposition in
+\sref{transient-analysis-present} and the accompanying eigendecomposition in
 \eref{eigendecomposition} have substantially simplified the calculations
 associated with dynamic steady-state analysis. It should also be noted that the
 eigendecomposition along with $\m{E}$ and $\m{F}$ are computed only once for a
@@ -273,33 +273,32 @@ design-space-exploration procedure is concerned.
 \subsection{Experiments}
 \slab{dynamic-steady-state-result}
 
-In this subsection, we investigate the scaling properties of the solution to
-dynamic steady-state analysis presented in \sref{dynamic-steady-state-present}
-and compare it with the state-of-the-art approaches discussed in
-\sref{dynamic-steady-state-prior}. All the experiments are performed on a
-\up{GNU}/Linux machine equipped with Intel Core i7 3.4~\up{GH}z and 8~\up{GB} of
-\up{RAM}. We also include in the comparison two additional techniques described
-in the appendix, namely the TTA with the analytical solution
-(\sref{transient-analysis}) and the fast Fourier transform (FFT)
-(\sref{straight-forward}). In the cases of the TTA, the simulation over
-successive iterations is run until the NRMSE relative to the SSDTP obtained with
-the proposed method is less than 1\%.
+Let us now investigate the scaling of the solution to dynamic steady-state
+analysis proposed in \sref{dynamic-steady-state-present}. All the experiments
+are conducted on a \up{GNU}/Linux machine equipped with Intel Core i7
+3.4~\up{GH}z and 8~\up{GB} of \up{RAM}.
 
-In the following experiments, the power sampling interval is set to 1 $ms$ and
-the thermal configuration of the die is the same as in \tref{parameters}. For
-the experiments in this subsection, the leakage power has not been considered.
-If considered according to the linearized model
-(\sref{power-temperature-interdependence}), execution times remain unchanged; if
-considered according to the iterative model
-(\sref{power-temperature-interdependence}), execution times increase
-proportionally for all the methods, which does not affect any of the
-conclusions.
+The thermal \up{RC} circuits are considered by means of HotSpot
+\cite{skadron2003} with its default configuration, and they follow the principle
+described in \sref{temperature-model}. The sampling interval $\dt$ of power and
+temperature profiles is set to 1~ms.
 
-First, we vary the application period $\tau$ keeping the architecture fixed,
-which is a quad-core platform with the core area of 4 $mm^2$. The comparison is
-depicted in \fref{scaling-time} on a semilogarithmic scale. It can be seen that
-the proposed technique is roughly 5000 times faster than calculating the SSDTP
-by running the TTA with HotSpot and from 9 to 170 times faster than the TTA with
+We consider two other techniques for comparison, namely, the one based on
+transient analysis, which is described in \sref{dynamic-steady-state-prior}, and
+the one based on the fast Fourier transform, which is mentioned in
+\sref{dynamic-steady-state-present}, since they are comparable with ours in
+terms of accuracy. In the case of transient analysis, we use the fast analytical
+solution described in \sref{transient-analysis-present}, and the corresponding
+iterative calculation is undertaken until the \up{NRMSE} relative to the
+\up{DSSTP} obtained with the proposed method (which is exact) is less than 1\%.
+
+\inputfigure{dynamic-steady-state-scaling}
+First, we vary the period $\tau$ of power and temperature fluctuations while
+keeping the architecture fixed, which is a quad-core platform with a processor
+area of 4~mm\textsuperscript{2}. The comparison is depicted in
+\fref{scaling-steps} on a semilogarithmic scale. It can be seen that the
+proposed technique is roughly 5000 times faster than calculating the SSDTP by
+running the TTA with HotSpot and from 9 to 170 times faster than the TTA with
 the analytical solution.
 
 In the second experiment we evaluate the scaling of the proposed method with
