@@ -293,13 +293,13 @@ iterative calculation is undertaken until the \up{NRMSE} relative to the
 \up{DSSTP} obtained with the proposed method (which is exact) is less than 1\%.
 
 \inputfigure{dynamic-steady-state-scaling}
-First, we vary the period $\tau$ of power and temperature fluctuations while
-keeping the architecture fixed, which is a quad-core platform with a processor
-area of 4~mm\textsuperscript{2}. The comparison is depicted in
-\fref{scaling-steps} on a semilogarithmic scale. It can be seen that the
-proposed technique is roughly 5000 times faster than calculating the SSDTP by
-running the TTA with HotSpot and from 9 to 170 times faster than the TTA with
-the analytical solution.
+First, we vary the period $\tau$ of power and temperature profiles---and,
+thereby, the number of samples \ns that they contain---while keeping the
+architecture fixed, which is a quad-core platform with a processor area of
+4~mm\textsuperscript{2}. The comparison is depicted in \fref{scaling-steps} on a
+semilogarithmic scale. It can be seen that the proposed technique is roughly
+5000 times faster than calculating the SSDTP by running the TTA with HotSpot and
+from 9 to 170 times faster than the TTA with the analytical solution.
 
 In the second experiment we evaluate the scaling of the proposed method with
 regard to the number of processing elements. The application period is fixed to
