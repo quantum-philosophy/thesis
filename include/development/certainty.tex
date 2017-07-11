@@ -26,49 +26,7 @@ as we shall describe in the following chapter, \cref{development-uncertainty}.
 
 \section{Power and Temperature Interdependence}
 \slab{power-temperature-interdependence}
-
-The power consumption of an electrical circuit consists of two main components:
-dynamic and static. The dynamic power is due to the actual useful work done by
-the circuit. The static power is due to various parasitic currents that cannot
-be entirely eliminated. The major component of the static power is the leakage
-power, which is especially prominent in modern \up{CMOS} transistors. The
-leakage power and, therefore, the total power are strong functions of the
-operating temperature, which cannot be neglected. In order to take this
-phenomenon into account in the computation of the \up{DSSTP} described in
-\sref{dynamic-steady-state-present}, two techniques can be applied as follows.
-
-First of all, the power and temperature profiles can be calculated several times
-in turns until they stop changing. With each new temperature profile we update
-the power profile by computing the leakage power and adding it to the dynamic
-power: $\mathbb{P}_i = \mathbb{P}_\text{dyn} +
-\mathbb{P}_\text{leak}(\mathbb{T}_i)$. The process continues until the
-temperature converges, i.e., the difference between two successive temperature
-profiles is below a predefined bound. In our experiments we used $0.5^\circ C$
-as the maximal acceptable difference and observed that the number of required
-iterations to converge is 4--7.
-
-A linear approximation of the leakage power has the following matrix form:
-$\v{P}_\text{leak}(\v{T}) = \m{A} \: \v{T}(t) + \v{B}$ where $\m{A}$ is a $N_n
-\times N_n$ diagonal matrix of the proportionality and $\v{B}$ is a vector with
-$N_n$ elements of the intercept. Both characterize the leakage power for each of
-the $N_n$ thermal nodes in the system. It can be seen that the approximation
-keeps \eref{temperature-model-original} untouched: $\m{C} \:
-\frac{d\v{T}(t)}{dt} + \bar{\m{G}} \: (\v{T}(t) - \v{T}_\ambient) = \bar{\v{P}}$
-where $\bar{\m{G}} = \m{G} - \m{A}$ and $\bar{\v{P}} = \v{P}_\text{dyn} + \m{A}
-\: \v{T}_\ambient + \v{B}$. Therefore, all solutions proposed in this paper are
-perfectly valid with the linearized model. Moreover, in spite of its simplicity,
-the model provides a good estimation, as shown in \cite{liu2007}.
-
-In order to evaluate the linearization, we have constructed a number of
-hypothetical platforms with 2--32 cores (other parameters are given in
-\tref{parameters}) and compared temperature profiles obtained with the
-linearization and the exponential model (\sref{power-model}), respectively. For
-the later, we use the iterative approach described in
-\sref{power-temperature-interdependence}. For the linearization, the power curve
-fitting with the least squares regression \cite{press2007} has been employed,
-targeted at the range between 40 and $80^\circ C$. From the experiments we have
-observed that the NRMSE is bounded by 1--2\%, indicating a good accuracy of the
-linear approximation.
+\input{include/development/certainty/power-temperature-interdependence}
 
 \section{Reliability Optimization}
 \slab{reliability-optimization}
