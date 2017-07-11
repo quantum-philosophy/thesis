@@ -270,52 +270,6 @@ the circuit. In other words, these quantities stay when different power profiles
 are to be analyzed, which is particularly advantageous when an intensive
 design-space-exploration procedure is concerned.
 
-\subsection{Leakage Power}
-
-So far, we have assumed that power is independent of temperature. However, due
-to the leakage component, the power dissipation is a strong function of
-temperature that cannot be neglected (\sref{power-model}). Two techniques can be
-applied to include in our proposed solution temperature-dependent leakage
-modeling.
-
-\subsubsection{Iterative Computation}
-\slab{iterative-leakage}
-
-In this case, we have an iterative process, depicted in \fref{leakage}, where
-the temperature and power profiles are calculated in turns. With each new
-temperature profile we update the power profile by computing the leakage power
-and adding it to the dynamic power: $\mathbb{P}_i = \mathbb{P}_\text{dyn} +
-\mathbb{P}_\text{leak}(\mathbb{T}_i)$. The process continues until the
-temperature converges, i.e., the difference between two successive temperature
-profiles is below a predefined bound. In our experiments we used $0.5^\circ C$
-as the maximal acceptable difference and observed that the number of required
-iterations to converge is 4--7.
-
-\subsubsection{Linear Approximation}
-\slab{linearized-leakage}
-
-A linear approximation of the leakage power has the following matrix form:
-$\v{P}_\text{leak}(\v{T}) = \m{A} \: \v{T}(t) + \v{B}$ where $\m{A}$ is a $N_n
-\times N_n$ diagonal matrix of the proportionality and $\v{B}$ is a vector with
-$N_n$ elements of the intercept. Both characterize the leakage power for each of
-the $N_n$ thermal nodes in the system. It can be seen that the approximation
-keeps \eref{temperature-model-original} untouched: $\m{C} \:
-\frac{d\v{T}(t)}{dt} + \bar{\m{G}} \: (\v{T}(t) - \v{T}_\ambient) = \bar{\v{P}}$
-where $\bar{\m{G}} = \m{G} - \m{A}$ and $\bar{\v{P}} = \v{P}_\text{dyn} + \m{A}
-\: \v{T}_\ambient + \v{B}$. Therefore, all solutions proposed in this paper are
-perfectly valid with the linearized model. Moreover, in spite of its simplicity,
-the model provides a good estimation, as shown in \cite{liu2007}.
-
-In order to evaluate the linearization, we have constructed a number of
-hypothetical platforms with 2--32 cores (other parameters are given in
-\tref{parameters}) and compared temperature profiles obtained with the
-linearization and the exponential model (\sref{power-model}), respectively. For
-the later, we use the iterative approach described in \sref{iterative-leakage}.
-For the linearization, the power curve fitting with the least squares regression
-\cite{press2007} has been employed, targeted at the range between 40 and
-$80^\circ C$. From the experiments we have observed that the NRMSE is bounded by
-1--2\%, indicating a good accuracy of the linear approximation.
-
 \subsection{Experimental Results}
 \slab{dynamic-steady-state-results}
 
@@ -333,10 +287,12 @@ SSDTP obtained with the proposed method is less than 1\%.
 In the following experiments, the power sampling interval is set to 1 $ms$ and
 the thermal configuration of the die is the same as in \tref{parameters}. For
 the experiments in this subsection, the leakage power has not been considered.
-If considered according to the linearized model (\sref{linearized-leakage}),
-execution times remain unchanged; if considered according to the iterative model
-(\sref{iterative-leakage}), execution times increase proportionally for all the
-methods, which does not affect any of the conclusions.
+If considered according to the linearized model
+(\sref{power-temperature-interdependence}), execution times remain unchanged; if
+considered according to the iterative model
+(\sref{power-temperature-interdependence}), execution times increase
+proportionally for all the methods, which does not affect any of the
+conclusions.
 
 First, we vary the application period $\tau$ keeping the architecture fixed,
 which is a quad-core platform with the core area of 4 $mm^2$. The comparison is

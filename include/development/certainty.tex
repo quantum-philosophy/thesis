@@ -24,6 +24,52 @@ as we shall describe in the following chapter, \cref{development-uncertainty}.
 \slab{dynamic-steady-state-analysis}
 \input{include/development/certainty/dynamic-steady-state-analysis}
 
+\section{Power and Temperature Interdependence}
+\slab{power-temperature-interdependence}
+
+The power consumption of an electrical circuit consists of two main components:
+dynamic and static. The dynamic power is due to the actual useful work done by
+the circuit. The static power is due to various parasitic currents that cannot
+be entirely eliminated. The major component of the static power is the leakage
+power, which is especially prominent in modern \up{CMOS} transistors. The
+leakage power and, therefore, the total power are strong functions of the
+operating temperature, which cannot be neglected. In order to take this
+phenomenon into account in the computation of the \up{DSSTP} described in
+\sref{dynamic-steady-state-present}, two techniques can be applied as follows.
+
+First of all, the power and temperature profiles can be calculated several times
+in turns until they stop changing. With each new temperature profile we update
+the power profile by computing the leakage power and adding it to the dynamic
+power: $\mathbb{P}_i = \mathbb{P}_\text{dyn} +
+\mathbb{P}_\text{leak}(\mathbb{T}_i)$. The process continues until the
+temperature converges, i.e., the difference between two successive temperature
+profiles is below a predefined bound. In our experiments we used $0.5^\circ C$
+as the maximal acceptable difference and observed that the number of required
+iterations to converge is 4--7.
+
+A linear approximation of the leakage power has the following matrix form:
+$\v{P}_\text{leak}(\v{T}) = \m{A} \: \v{T}(t) + \v{B}$ where $\m{A}$ is a $N_n
+\times N_n$ diagonal matrix of the proportionality and $\v{B}$ is a vector with
+$N_n$ elements of the intercept. Both characterize the leakage power for each of
+the $N_n$ thermal nodes in the system. It can be seen that the approximation
+keeps \eref{temperature-model-original} untouched: $\m{C} \:
+\frac{d\v{T}(t)}{dt} + \bar{\m{G}} \: (\v{T}(t) - \v{T}_\ambient) = \bar{\v{P}}$
+where $\bar{\m{G}} = \m{G} - \m{A}$ and $\bar{\v{P}} = \v{P}_\text{dyn} + \m{A}
+\: \v{T}_\ambient + \v{B}$. Therefore, all solutions proposed in this paper are
+perfectly valid with the linearized model. Moreover, in spite of its simplicity,
+the model provides a good estimation, as shown in \cite{liu2007}.
+
+In order to evaluate the linearization, we have constructed a number of
+hypothetical platforms with 2--32 cores (other parameters are given in
+\tref{parameters}) and compared temperature profiles obtained with the
+linearization and the exponential model (\sref{power-model}), respectively. For
+the later, we use the iterative approach described in
+\sref{power-temperature-interdependence}. For the linearization, the power curve
+fitting with the least squares regression \cite{press2007} has been employed,
+targeted at the range between 40 and $80^\circ C$. From the experiments we have
+observed that the NRMSE is bounded by 1--2\%, indicating a good accuracy of the
+linear approximation.
+
 \section{Reliability Optimization}
 \slab{reliability-optimization}
 \input{include/development/certainty/reliability-optimization}
@@ -44,14 +90,14 @@ leakage power accounts for 30--60\% of the total power dissipation\footnote{The
 parameters of the applications and platforms (task graphs, floorplans, HotSpot
 configurations, etc.) used in our experiments are available online at
 \cite{liu2011}.}. The linear leakage model is used in the experiments, since, as
-discussed in \sref{linearized-leakage}, it provides a good approximation. The
-area of one core is 4 $mm^2$, other parameters of the die and thermal package
-are given in \tref{parameters}. The temperature constraint $T_\text{max}$ (see
-\eref{t-max}) is set to $100^\circ C$. In \eref{cycles-to-failure} the
-Coffin-Manson exponent $b$ is set to 6, the activation energy $E_a$ to 0.5, and
-the elastic temperature region $\Delta T_0$ to zero \cite{jedec2010}. The
-coefficient of proportionality $A$ is not significant, since we are concerned
-about the relative improvement.
+discussed in \sref{power-temperature-interdependence}, it provides a good
+approximation. The area of one core is 4 $mm^2$, other parameters of the die and
+thermal package are given in \tref{parameters}. The temperature constraint
+$T_\text{max}$ (see \eref{t-max}) is set to $100^\circ C$. In
+\eref{cycles-to-failure} the Coffin-Manson exponent $b$ is set to 6, the
+activation energy $E_a$ to 0.5, and the elastic temperature region $\Delta T_0$
+to zero \cite{jedec2010}. The coefficient of proportionality $A$ is not
+significant, since we are concerned about the relative improvement.
 
 In each of the experiments, we compare the optimized solution with an initial
 temperature-aware solution proposed in \cite{xie2006}. This solution consists of
