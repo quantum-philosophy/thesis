@@ -283,26 +283,29 @@ The thermal \up{RC} circuits are considered by means of HotSpot
 described in \sref{temperature-model}. The sampling interval $\dt$ of power and
 temperature profiles is set to 1~ms.
 
-We consider two other techniques for comparison, namely, the one based on
-transient analysis, which is described in \sref{dynamic-steady-state-prior}, and
-the one based on the fast Fourier transform, which is mentioned in
-\sref{dynamic-steady-state-present}, since they are comparable with ours in
-terms of accuracy. In the case of transient analysis, we use the fast analytical
-solution described in \sref{transient-analysis-present}, and the corresponding
-iterative calculation is undertaken until the \up{NRMSE} relative to the
-\up{DSSTP} obtained with the proposed method (which is exact) is less than 1\%.
+We consider two alternative techniques for comparison purposes, namely, the one
+based on transient analysis, which is mentioned in
+\sref{dynamic-steady-state-prior}, and the one based on the fast Fourier
+transform, which is mentioned in \sref{dynamic-steady-state-present}, since they
+are comparable with ours in terms of accuracy. In the case of transient
+analysis, we evaluate both the fast analytical solution described in
+\sref{transient-analysis-present} and the one implemented in HotSpot
+\cite{skadron2003}, and the corresponding iterative calculation is undertaken
+until the \up{NRMSE} relative to the \up{DSSTP} obtained with the proposed
+method (which is exact) is less than 1\%.
 
 \inputfigure{dynamic-steady-state-scaling}
 First, we vary the period $\tau$ of power and temperature profiles---and,
 thereby, the number of samples \ns that they contain---while keeping the
 architecture fixed, which is a quad-core platform with a processor area of
-4~mm\textsuperscript{2}. The comparison is depicted in \fref{scaling-steps} on a
-semilogarithmic scale. It can be seen that the proposed technique is roughly
-5000 times faster than calculating the SSDTP by running the TTA with HotSpot and
-from 9 to 170 times faster than the TTA with the analytical solution.
+4~mm\textsuperscript{2}. The results of this experiment are depicted in
+\fref{scaling-steps} on a semi-logarithmic scale. It can be seen that the
+proposed technique for calculating the \up{DSSTP} is 9--170 times faster than
+transient analysis with the analytical solution and roughly 5000 times faster
+than transient analysis with HotSpot.
 
-In the second experiment we evaluate the scaling of the proposed method with
-regard to the number of processing elements. The application period is fixed to
-0.5 $s$. The results are shown in \fref{scaling-cores}. It can be observed that
-the proposed technique provides a significant performance improvement relative
-to the alternative solutions.
+In the second experiment, we evaluate the scaling of our method with respect to
+the number of processing elements \np. The period is fixed to 0.5~s, which
+results in 500 time steps. The obtained results are shown in
+\fref{scaling-cores}. It can be observed that the proposed technique provides a
+significant performance improvement relative to the alternative solutions.
