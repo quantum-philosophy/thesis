@@ -69,9 +69,11 @@
 \numberwithin{equation}{chapter}
 
 \renewcommand{\v}[1]{\mathbf{#1}}
+\newcommand{\hv}[1]{\hat{\v{#1}}}
 \newcommand{\tv}[1]{\tilde{\v{#1}}}
 
 \newcommand{\m}[1]{\mathbf{#1}}
+\newcommand{\hm}[1]{\hat{\m{#1}}}
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
 \newcommand{\diagonal}[2]{\mathrm{diag}\left(\range{#1}{#2}\right)}
@@ -98,8 +100,8 @@
 \newcommand{\vp}{\math{\v{p}}}
 \renewcommand{\mp}{\math{\m{P}}}
 
-\newcommand{\dynamic}{\mathrm{dyn}}
-\newcommand{\static}{\mathrm{stat}}
+\newcommand{\dynamic}{\mathrm{d}}
+\newcommand{\static}{\mathrm{s}}
 
 %
 % Temperature modeling
@@ -112,4 +114,4 @@
 \newcommand{\vs}{\v{s}}
 \newcommand{\tvs}{\tv{s}}
 
-\newcommand{\ambient}{\mathrm{amb}}
+\newcommand{\ambient}{\mathrm{a}}

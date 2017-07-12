@@ -1,60 +1,102 @@
 There is one important aspect about power and temperature that we have not
 discussed yet. The power consumption of an electrical circuit consists of two
 main components: dynamic and static. The dynamic power---which is the power that
-we have implicitly considered so far---is due to the actual useful work done by
-the circuit. The static power is due to various parasitic currents that cannot
-be entirely eliminated. The major component of the static power is the leakage
-power, which is especially prominent in modern \up{CMOS} transistors. The
-leakage power and, hence, the total power have a positive dependence on the
-operating temperature \cite{liu2007}: a higher heat dissipation leads to a
-higher power consumption, and this dependence is strong. On the other hand, the
-more power is consumed, the more heat is dissipated. Thus, power and temperature
-instigate each other, which cannot be neglected since it leads to a higher power
-(energy) consumption than the one expected, to a higher temperature than the one
-expected, and, in the worst case, to a thermal runaway.
-
-In order to take the aforementioned power-temperature interplay into account in
-the computation of the \up{DSSTP} described in
-\sref{dynamic-steady-state-present}, two techniques can be applied as follows.
+has been implicitly considered so far---is due to the actual useful work done by
+the circuit. It is modeled as follows:
 \[
-  \vp(t) = \vp_\dynamic(t) + \vp_\static(t).
+  p_\dynamic = C f V^2
 \]
+where $C$ is the effective switched capacitance, $f$ is the frequency, and $V$
+is the supply voltage of the circuit. In contrast, the static power is due to
+various parasitic currents that cannot be entirely eliminated. One such current
+is the leakage current, which is by far dominant, especially in modern \up{CMOS}
+transistors. The leakage and, by extension, static power are modeled as follows
+\cite{liao2005}:
+\begin{equation} \elab{static-power}
+  p_\static = \numberof{g} V I_0 \left( A q^2 e^{\frac{\alpha V + \beta}{q}} + B e^{\gamma V + \delta} \right)
+\end{equation}
+where $q$ is the current temperature, $V$ is the current supply voltage, $I_0$
+is the average leakage current at the reference temperature and reference supply
+voltage, and $\numberof{g}$ is the number of gates in the circuit. Quantities
+$A$, $B$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are technology-dependent
+constants, which can found in \cite{liao2005}.
 
-First of all, the power and temperature profiles can be calculated several times
-in turns until they stop changing. With each new temperature profile we update
-the power profile by computing the leakage power and adding it to the dynamic
-power: $\mathbb{P}_i = \mathbb{P}_\text{dyn} +
-\mathbb{P}_\text{leak}(\mathbb{T}_i)$. The process continues until the
-temperature converges, i.e., the difference between two successive temperature
-profiles is below a predefined bound. In our experiments we used $0.5^\circ C$
-as the maximal acceptable difference and observed that the number of required
-iterations to converge is 4--7.
+It can be seen in the above equations that the dynamic power does not depend on
+the operating temperature whereas the static power does. The dependence is
+positive and strong: a higher heat dissipation leads to a considerably higher
+power consumption. On the other hand, the more power is consumed, the more heat
+is dissipated. Therefore, power and temperature constantly instigate each other.
+This phenomenon cannot be neglected since it leads to a higher power (energy)
+than what is expected, to a higher temperature than what is expected, and, in
+the worst case, to a thermal runaway.
 
-A linear approximation of the leakage power has the following matrix form:
-$\v{P}_\text{leak}(\v{T}) = \m{A} \: \v{T}(t) + \v{B}$ where $\m{A}$ is a $N_n
-\times N_n$ diagonal matrix of the proportionality and $\v{B}$ is a vector with
-$N_n$ elements of the intercept. Both characterize the leakage power for each of
-the $N_n$ thermal nodes in the system. It can be seen that the approximation
-keeps \eref{temperature-model-original} untouched: $\m{C} \:
-\frac{d\v{T}(t)}{dt} + \bar{\m{G}} \: (\v{T}(t) - \v{T}_\ambient) = \bar{\v{P}}$
-where $\bar{\m{G}} = \m{G} - \m{A}$ and $\bar{\v{P}} = \v{P}_\text{dyn} + \m{A}
-\: \v{T}_\ambient + \v{B}$. Therefore, all solutions proposed in this paper are
-perfectly valid with the linearized model. Moreover, in spite of its simplicity,
-the model provides a good estimation, as shown in \cite{liu2007}.
+In order to take the aforementioned power-temperature interplay into account
+when performing temperature analysis, two approaches can be employed. To begin
+with, in \eref{temperature-model-original} and thereafter, let
+\[
+  \vp(t) = \vp_\dynamic(t) + \vp_\static(t)
+\]
+where $\vp_\dynamic \in \real^\np$ and $\vp_\static \in \real^\np$ are the
+dynamic and static components of the total dissipation of power, respectively.
+In addition, the power profile that is given as an input to temperature analysis
+contains samples of $\vp_\dynamic$ and, therefore, is better denoted by
+$\mp_\dynamic$. It should be noted that, in the above equation, $\vp$ and
+$\vp_\static$ are implicitly functions of $\vq$ due to the leakage power.
 
-In order to evaluate the linearization, we have constructed a number of
-hypothetical platforms with 2--32 cores (other parameters are given in
-\tref{parameters}) and compared temperature profiles obtained with the
-linearization and the exponential model (\sref{power-model}), respectively. For
-the later, we use the iterative approach described in
-\sref{power-temperature-interdependence}. For the linearization, the power curve
-fitting with the least squares regression \cite{press2007} has been employed,
-targeted at the range between 40 and $80^\circ C$. From the experiments we have
-observed that the NRMSE is bounded by 1--2\%, indicating a good accuracy of the
+The first approach is to calculate the power and temperature profiles several
+times in turns until the latter converges. In this case, we obtain a series of
+pairs of a power profile and a temperature profile
+\[
+  \{ (\mp_i, \mq_i): i = 1, 2, \dots \}.
+\]
+With each new temperature profile $\mq_i$---which is computed by performing
+transient, static steady-state, or dynamic steady-state analysis as usual---a
+new power profile $\mp_i$ is obtained by recalculating the leakage power and
+adding it to the dynamic power, which we write as follows:
+\[
+  \mp_i = \mp_\dynamic + \mp_\static(\mq_i).
+\]
+The process continues until the difference between two successive temperature
+profiles is below a predefined threshold. According to our experience, it
+usually takes 4--7 iterations until the uniform norm of the difference between
+two profiles (the maximal absolute difference) drops below 0.5${}^\circ$C.
+
+The second approach is to use a linear approximation of the leakage power, which
+can be formalized as follows:
+\[
+  \vp_\static(t) = \hm{A} \vq(t) + \hv{B}
+\]
+where $\hm{A} \in \real^{\nn \times \nn}$ and $\hv{B} \in \real^\nn$ are a
+diagonal matrix and a vector to be fitted. It can be shown that the linear
+approximation keeps the original system of differential equations in
+\eref{temperature-differential-original} almost intact. More precisely, it
+becomes
+\[
+  \m{C} \frac{d\tvs(t)}{dt} + \hm{G} \tvs(t) = \tm{B} \hv{p}(t)
+\]
+where
+\begin{align*}
+  & \hm{G} = \m{G} - \tm{B} \hm{A} \transpose{\tm{B}} \text{ and} \\
+  & \hv{p}(t) = \vp_\dynamic(t) + \hm{A} \vq_\ambient + \hv{B},
+\end{align*}
+and $\hm{G}$ has the same properties as $\m{G}$. Therefore, all the solutions
+that have been derived in this chapter remain perfectly valid. Moreover, as
+shown in \cite{liu2007}, despite of its simplicity, the approximation is
+relatively accurate, and, if it is needed, it can be improved by considering
+multiple linear segments.
+
+In order to evaluate the linearization, we consider a number of hypothetical
+platforms with 2--32 processing elements and undertake dynamic steady-state
+temperature analysis. The calculations are performed with both the linearization
+and the exponential model in \eref{static-power}. For the former, the model is
+fitted using least squares \cite{press2007} targeted at range 40--80${}^\circ$C.
+For the latter, we use the iterative approach described earlier. The experiment
+shows that the \up{NRMSE} is bounded by 2\%, indicating a good accuracy of the
 linear approximation.
 
-For the experiments in \sref{dynamic-steady-state-result}, the leakage power has
-not been considered. If considered according to the linearized model, execution
-times remain unchanged; if considered according to the iterative model,
-execution times increase proportionally for all the methods, which does not
-affect any of the conclusions.
+Lastly, let us note that the leakage power is not considered in the experiments
+given in \sref{dynamic-steady-state-result}. However, if it was taken into
+account using the linearization, the computation times would remain unchanged,
+and, if the iterative model was utilized, the computation times would increase
+proportionally for all the techniques, which would not affect any of the
+conclusions.
