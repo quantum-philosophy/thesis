@@ -45,7 +45,7 @@ via the Runge--Kutta fourth-order method \cite{press2007}.
 \inputfigure{dynamic-steady-state-prior}
 The number of iterations required to reach the \up{DSSTP} depends on the thermal
 characteristics of the platform. In order to illustrate this aspect, consider an
-application with a period of 0.5~s running on five hypothetical platforms with
+application with a period of 500~ms running on five hypothetical platforms with
 processor areas of 1--25~mm\textsuperscript{2}. Let us simulate 50 successive
 periods of the application via HotSpot with its default settings and compare the
 resulting approximations in each period with the actual \up{DSSTP} using the
@@ -74,18 +74,18 @@ sufficiently long time.
 
 \inputfigure{static-steady-state-example}
 An example of such an approximation along with the corresponding \up{DSSTP} for
-an application with 10 tasks and a period of 0.1~s is given in
+an application with 10 tasks and a period of 100~ms is given in
 \fref{static-steady-state-example}. The processor area is
 25~mm\textsuperscript{2} in this case. The reduced accuracy of this technique is
 due to the mismatch between the actual temperature within each interval and the
 static steady-state temperature. The inaccuracy depends on the thermal
 characteristics of the platform and on the application itself. In order to
-illustrate this, let us simulate five applications with periods of 0.01--1~s
+illustrate this, let us simulate five applications with periods of 10--1000~ms
 running on five platforms with processor areas of 1--25~mm\textsuperscript{2}
-and assess the resulting profiles. The errors relative to the actual \up{DSSTP}s
-are shown in \fref{static-steady-state-error}. It can be seen that, for example,
-for a processor area of 10~mm\textsuperscript{2} and an application period of
-100~ms, the \up{NRMSE} of this approximation technique is close to 40\%.
+and assess the resulting profiles. The errors are shown in
+\fref{static-steady-state-error}. It can be seen that, for example, for a
+processor area of 10~mm\textsuperscript{2} and an application period of 100~ms,
+the \up{NRMSE} of this approximation technique is close to 40\%.
 
 To conclude, the state-of-the-art techniques for dynamic steady-state
 temperature analysis are slow and inaccurate. This state of affairs makes them

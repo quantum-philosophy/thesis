@@ -1,13 +1,30 @@
-We show how our approach makes it possible to efficiently perform reliability
-optimization, based on the thermal cycling (TC) failure mechanism. More exactly,
-we propose a temperature-aware task mapping and scheduling technique that
-addresses the TC aging effect. Experiments demonstrate the superiority of the
-proposed techniques, compared to the state of the art.
+In this section, we illustrate the importance of temperature analysis in the
+context of reliability optimization. More specifically, we demonstrate the
+utility of our solution to dynamic steady-state analysis presented in
+\sref{dynamic-steady-state-analysis} for mitigating the fatigue due to thermal
+cycling, which is one of the most common failure mechanism \cite{jedec2010}. To
+this end, we develop a thermal-cyclic-aware technique for mapping and scheduling
+of periodic applications.
 
-The proposed calculation of the SSDTA can be used in a wide range of system
-optimizations. One of them is reliability optimization that we discuss in this
-section. We perform a temperature-aware task mapping and scheduling in order to
-address the thermal cycling fatigue.
+\subsection{Motivational Example}
+
+\inputfigure{reliability-task-graph}
+\inputfigure{reliability-thermal-cycling}
+Consider an application with six tasks denoted T1--T6 and a heterogeneous
+platform with two processors denoted P1 and P2. The task graph of the
+application is given in \fref{reliability-task-graph} along with the execution
+times for both processors. The period of the application is 60~ms. The first
+alternative mapping and schedule and the corresponding \up{DSSTP} are shown on
+the left-hand side of \fref{reliability-thermal-cycling} where the height of a
+task represents its power consumption. It can be seen that P1 is experiencing
+three thermal cycles. If we change the mapping and move T6 to P2, the number of
+cycles decreases to two, which can be seen in the middle of
+\fref{reliability-thermal-cycling}. Finally, if we alter the schedule as well
+and swap T2 and T4, the number of cycles of P1 drops to one, which is depicted
+on the right-hand side of \fref{reliability-thermal-cycling}. According to the
+reliability model that we describe in what follows, these two changes improve
+the lifetime of the system by around 45\% and 55\%, respectively, relative to
+the initial scheduling and mapping.
 
 \subsection{Platform Model}
 \slab{platform-model}
@@ -30,24 +47,6 @@ which we assume to be equal to the deadline. Each pair of a task $v_i \in V$ and
 processing element $\pi_j \in \Pi$ is characterized by a tuple $(N_{\text{clock}
 \: ij}, C_{\text{eff} \; ij})$, where $N_{\text{clock} \: ij}$ is the number of
 clock cycles and $C_{\text{eff} \; ij}$ is the effective switched capacitance.
-
-\subsection{Power Model}
-\slab{power-model}
-
-The total power dissipation of a processing element is defined as the sum of the
-dynamic and leakage power: $P = P_\text{dyn} + P_\text{leak}$. The dynamic part
-is modeled as $P_\text{dyn} = C_\text{eff} f V^2$ where $C_\text{eff}$ is the
-effective switched capacitance, $V$ and $f$ are the supply voltage and
-frequency, respectively. The leakage part of the power dissipation is defined as
-\cite{liao2005}:
-\begin{equation} \elab{total-power}
-  P_\text{leak}(T) = N_\text{gate} V I_0 \left[ A T^2 e^{\frac{\alpha V + \beta}{T}} + B e^{(\gamma V + \delta)} \right]
-\end{equation}
-where $T$ and $V$ are the current temperature and supply voltage, respectively,
-$N_\text{gate}$ is the number of gates in the circuit, $I_0$ is the average
-leakage current at the reference temperature and supply voltage. $A$, $B$,
-$\alpha$, $\beta$, $\gamma$, and $\delta$ are the technology-dependent constants
-found in \cite{liao2005}.
 
 \subsection{Reliability Model}
 \slab{reliability-model}
@@ -81,22 +80,6 @@ during the thermal cycle (more details in \sref{reliability-optimization}).
 It can be seen that the computation requires the identification of the thermal
 cycles with their amplitudes and maximal temperatures. All these are captured by
 the SSDTP, which is needed as an input to the reliability optimization.
-
-\subsection{Motivational Example}
-
-Consider an application with six tasks, denoted ``T0''--``T5'', and a
-heterogeneous architecture with two cores, labeled ``PE0'' and ``PE1''. The task
-graph of the application is given in \fref{task-graph} along with the execution
-times for both cores. The period of the application is 0.06 $s$. A first
-alternative mapping and schedule, and the resulting SSDTP are shown at the top
-of \fref{motivation} (where the height of a task represents its relative dynamic
-power consumption). It can be observed that initially PE0 is experiencing three
-thermal cycles. If we change the mapping of T5 and move it to PE1, we achieve
-two thermal cycles of PE0 instead of three. Finally, if we vary the schedule as
-well and change the order of T1 and T3, the number of cycles of PE0 becomes one.
-Using the reliability model from \sref{reliability-model}, we observe
-improvements in the lifetime of 44.69\% and 54.53\%, respectively, relative to
-the initial configuration.
 
 \subsection{Problem Formulation}
 
@@ -344,3 +327,7 @@ the system by 23.59 times with a 5\% energy saving, compared to the initial
 solution. The same optimization was solved using HotSpot and the SSA. The best
 found solutions are only 5.37 and 11.50 times better than the initial one,
 respectively.
+
+Experiments demonstrate the superiority of the proposed techniques, compared to
+the state of the art.
+
