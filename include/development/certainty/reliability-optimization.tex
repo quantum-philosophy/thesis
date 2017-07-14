@@ -3,30 +3,30 @@ context of reliability optimization. More specifically, we demonstrate the
 utility of our solution to dynamic steady-state analysis presented in
 \sref{dynamic-steady-state-analysis} for mitigating the fatigue due to thermal
 cycling \cite{jedec2010}, which is one of the most common failure mechanism. To
-this end, we develop a thermal-cyclic-aware technique for scheduling of periodic
-applications. (In this thesis, mapping is assumed to be a part of scheduling.
-Therefore, for each task of the application in question, a schedule prescribes
-not only the starting time but also the processor where the task is supposed to
-be executed.)
+this end, we develop a thermal-cycling-aware technique for scheduling of
+periodic applications. (In this thesis, mapping is assumed to be a part of
+scheduling. Therefore, for each task of the application in question, a schedule
+prescribes not only the starting time but also the processor where the task is
+supposed to be executed.)
 
 \subsection{Motivational Example}
 
-\inputfigure{thermal-cyclic-motivation-graph}
-\inputfigure{thermal-cyclic-motivation-cases}
+\inputfigure{thermal-cycling-task-graph}
+\inputfigure{thermal-cycling-motivation}
 Consider a periodic application with six tasks denoted T1--T6 and a
 heterogeneous platform with two processors denoted P1 and P2. The task graph of
-the application is given in \fref{thermal-cyclic-motivation-graph} along with
-the execution times for both processors. The period of the application is 60~ms.
-The first alternative schedule and the corresponding \up{DSSTP} are shown on the
-left-hand side of \fref{thermal-cyclic-motivation-cases} where the height of a
-task represents its power consumption. It can be seen that P1 is experiencing
-three thermal cycles. If we move T6 to P2, the number of cycles decreases to
-two, which can be seen in the middle of \fref{thermal-cyclic-motivation-cases}.
-If we also swap T2 and T4, the number of cycles of P1 drops to one, which is
-depicted on the right-hand side of \fref{thermal-cyclic-motivation-cases}.
-According to the reliability model that we shall describe shortly, these two
-changes improve the lifetime of the system by around 45\% and 55\%,
-respectively, relative to the initial schedule.
+the application is given in \fref{thermal-cycling-task-graph} along with the
+execution times for both processors. The period of the application is 60~ms. The
+first alternative schedule and the corresponding \up{DSSTP} are shown on the
+left-hand side of \fref{thermal-cycling-motivation} where the height of a task
+represents its power consumption. It can be seen that P1 is experiencing three
+thermal cycles. If we move T6 to P2, the number of cycles decreases to two,
+which can be seen in the middle of \fref{thermal-cycling-motivation}. If we also
+swap T2 and T4, the number of cycles of P1 drops to one, which is depicted on
+the right-hand side of \fref{thermal-cycling-motivation}. According to the
+reliability model that we shall describe shortly, these two changes improve the
+lifetime of the system by around 45\% and 55\%, respectively, relative to the
+initial schedule.
 
 The example shows that, when exploring the design space, it is important to
 take into account the number of temperature fluctuations and their
