@@ -9,7 +9,14 @@ scheduling. Therefore, for each task of the application in question, a schedule
 prescribes not only the starting time but also the processor where the task is
 supposed to be executed.)
 
+We proceed as follows. In \sref{thermal-cycling-motivation}, the impact of
+design decisions on the damage caused by thermal cycling is exemplified. The
+system and reliability models that we consider are presented in
+\sref{system-model} and \sref{reliability-model}, respectively. The experimental
+results are reported in \sref{thermal-cycling-result}.
+
 \subsection{Motivational Example}
+\slab{thermal-cycling-motivation}
 
 \inputfigure{thermal-cycling-task-graph}
 \inputfigure{thermal-cycling-motivation}
@@ -33,27 +40,25 @@ take into account the number of temperature fluctuations and their
 characteristics. In order to obtain this information, the \up{DSSTP} has to be
 computed.
 
-\subsection{Platform Model}
-\slab{platform-model}
+\subsection{System Model}
+\slab{system-model}
 
-We consider a heterogeneous multicore architecture with a set of processing
-elements $\Pi$ defined as the following:
-\[
-  \Pi = \{ \pi_i = (V_i, f_i, N_{\text{gate} \: i}): \; i = \range{0}{N_p - 1} \}
-\]
-where $V_i$, $f_i$, and $N_{\text{gate} \: i}$ are the supply voltage,
-frequency, and number of gates \cite{liao2005} of the $i$th core, respectively.
+Consider a heterogeneous multiprocessor platform with \np processors. Processor
+$i$ is characterized by a triple $(\numberof{g}_i, f_i, V_i)$ where
+$\numberof{g}_i$, $f_i$, and $V_i$ are the number of gates \cite{liao2005},
+frequency, and supply voltage of the processor. Consider also a periodic
+application with \nt tasks. The application is given as a directed acyclic graph
+$(V, E)$ where $V$ is a set of vertices corresponding to the tasks, and $E$ is a
+set of edges representing data dependencies between the tasks. Let $\tau$ be the
+period of the application, which is assumed to be equal to the deadline. Each
+pair of a task and a processor is characterized by a tuple $(\numberof{c}_{ij},
+C_{ij})$ where $\numberof{c}_{ij}$ is the number of clock cycles that task $i$
+requires when it is executed on processor $j$, and $C_{ij}$ is the corresponding
+effective switched capacitance.
 
-\subsection{Application Model}
-\slab{application-model}
-
-The periodic application is modeled as a task graph $G = (V, \: E, \: \tau)$
-where $V$ is a set of $N_t$ tasks (vertices of the graph), $E$ is a set of data
-dependencies between tasks (edges), and $\tau$ is the period of the application,
-which we assume to be equal to the deadline. Each pair of a task $v_i \in V$ and
-processing element $\pi_j \in \Pi$ is characterized by a tuple $(N_{\text{clock}
-\: ij}, C_{\text{eff} \; ij})$, where $N_{\text{clock} \: ij}$ is the number of
-clock cycles and $C_{\text{eff} \; ij}$ is the effective switched capacitance.
+The above information allows one to computer the power consumption of the tasks
+according to the power model presented in \sref{power-model}, which will then be
+used to evaluate the temperature model presented in \sref{temperature-model}.
 
 \subsection{Reliability Model}
 \slab{reliability-model}
@@ -87,51 +92,6 @@ during the thermal cycle (more details in \sref{reliability-optimization}).
 It can be seen that the computation requires the identification of the thermal
 cycles with their amplitudes and maximal temperatures. All these are captured by
 the SSDTP, which is needed as an input to the reliability optimization.
-
-\subsection{Problem Formulation}
-
-The problem formulation is the following:
-
-Given:
-\begin{itemize}
-
-\item A multiprocessor system $\Pi$ (\sref{platform-model}).
-
-\item A periodic application $G$ (\sref{application-model}).
-
-\item The floorplan of the chip at the desired level of details, configuration
-of the thermal package, and thermal parameters.
-
-\item The parameters of the reliability model (\sref{reliability-model}), i.e.,
-the constants $A$, $\Delta T_0$, $b$, $E_a$ (see \elab{cycles-to-failure}).
-
-\end{itemize}
-
-Maximize:
-\begin{equation} \elab{fitness-function}
-  \mathcal{F} = \min_{i = 0}^{N_p - 1} \theta_i
-\end{equation}
-such that
-\begin{align}
-  & t_{\text{end} \: i} \leq \tau, \: \forall i \elab{deadline} \\
-  & T_{ij} \leq T_\text{max}, \: \forall i, j \elab{t-max}
-\end{align}
-where $\theta_i$ is the MTTF of the $i$th processing element given by
-\eref{one-mttf}, $t_{\text{end} \: i}$ denotes the end time of the $i$th task,
-$\tau$ is the period of the application, and $T_{ij}$ are temperature values in
-the SSDTP. \eref{deadline} imposes the application deadline, which we assume to
-be equal to the period. \eref{t-max} enforces the constraint on the maximal
-temperature in the temperature profile $\mathbb{T} = \{ T_{ij} \}$.
-
-The optimization procedure is based on a genetic algorithm (GA)
-\cite{schmitz2004} with the fitness function $\mathcal{F}$ given by
-\eref{fitness-function}. The algorithm is outlined in \sref{genetic-algorithm}.
-
-This section contains the derivation of the reliability model discussed in
-\sref{reliability-optimization} and the description of the actual optimization
-procedure.
-
-\subsubsection{Temperature-Aware Reliability Model}
 
 In our analysis, we use the reliability model presented in \cite{huang2009,
 xiang2010}. The model is based on the assumption that the time to failure
@@ -206,7 +166,50 @@ In order to identify thermal cycles in the temperature curve, we follow the
 approach given in \cite{xiang2010} where the rainflow counting method is
 employed.
 
-\subsubsection{Optimization Procedure}
+\subsection{Problem Formulation}
+
+The problem formulation is the following:
+
+Given:
+\begin{itemize}
+
+\item A multiprocessor system $\Pi$ (\sref{system-model}).
+
+\item A periodic application $G$ (\sref{system-model}).
+
+\item The floorplan of the chip at the desired level of details, configuration
+of the thermal package, and thermal parameters.
+
+\item The parameters of the reliability model (\sref{reliability-model}), i.e.,
+the constants $A$, $\Delta T_0$, $b$, $E_a$ (see \elab{cycles-to-failure}).
+
+\end{itemize}
+
+Maximize:
+\begin{equation} \elab{fitness-function}
+  \mathcal{F} = \min_{i = 0}^{N_p - 1} \theta_i
+\end{equation}
+such that
+\begin{align}
+  & t_{\text{end} \: i} \leq \tau, \: \forall i \elab{deadline} \\
+  & T_{ij} \leq T_\text{max}, \: \forall i, j \elab{t-max}
+\end{align}
+where $\theta_i$ is the MTTF of the $i$th processing element given by
+\eref{one-mttf}, $t_{\text{end} \: i}$ denotes the end time of the $i$th task,
+$\tau$ is the period of the application, and $T_{ij}$ are temperature values in
+the SSDTP. \eref{deadline} imposes the application deadline, which we assume to
+be equal to the period. \eref{t-max} enforces the constraint on the maximal
+temperature in the temperature profile $\mathbb{T} = \{ T_{ij} \}$.
+
+The optimization procedure is based on a genetic algorithm (GA)
+\cite{schmitz2004} with the fitness function $\mathcal{F}$ given by
+\eref{fitness-function}. The algorithm is outlined in \sref{genetic-algorithm}.
+
+This section contains the derivation of the reliability model discussed in
+\sref{reliability-optimization} and the description of the actual optimization
+procedure.
+
+\subsection{Optimization Procedure}
 \slab{genetic-algorithm}
 
 The optimization procedure is based on a genetic algorithm \cite{schmitz2004}
@@ -236,7 +239,7 @@ core is estimated according to \eref{one-mttf} and the fitness function
 $\mathcal{F}$ is computed.
 
 \subsection{Experimental Results}
-\slab{reliability-results}
+\slab{thermal-cycling-result}
 
 In this section we evaluate the reliability optimization approach described in
 \sref{reliability-optimization}, first with a set of synthetic applications and,
