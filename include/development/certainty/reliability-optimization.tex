@@ -63,11 +63,90 @@ used to evaluate the temperature model presented in \sref{temperature-model}.
 \subsection{Reliability Model}
 \slab{reliability-model}
 
-We address temperature-driven failure mechanisms with the reliability model
-presented in \cite{huang2009, xiang2010}. In this paper, our particular focus is
-on the thermal cycling (TC) fatigue, which is directly connected to the
-temperature variations. The derivation of the model is given in the appendix
-(\sref{reliability-optimization}).
+The reliability model utilized is the one presented in \cite{huang2009,
+xiang2010}. Our focus is restricted to the part of the model that is concerned
+with the thermal-cycling fatigue, which is prominently connected to temperature
+oscillations.
+
+The model is based on the assumption that the probability distribution
+\cite{durrett2010} of the time to failure $T$ is a Weibull distribution, which
+is written as
+\[
+  T \sim \mathrm{Weibull}(\eta, \beta)
+\]
+where $\eta$ and $\beta$ are the scaling and shape parameters of the
+distribution, respectively. The corresponding expectation \cite{durrett2010} is
+as follows:
+\begin{equation} \elab{weibull-expectation}
+  \expectation{T} = \eta \: \Gamma\left(1 + \frac{1}{\beta}\right)
+\end{equation}
+where $\Gamma$ is the gamma function. The above expected value is the mean time
+to failure (\up{MTTF}), which we shall denote by $\theta$ in what follows.
+
+The shape parameter $\beta$ is independent of temperature \cite{chang2006},
+which, however, is not the case with the scaling parameter $\eta$. Therefore,
+the distribution varies with the operating temperature. In order to take this
+into account, we split the period of the application $\tau$ into \nc time
+intervals $\{ \dt_i: i = \range{1}{\nc} \}$ so that the thermal properties that
+are relevant to the reliability model do not change within each time interval.
+Then, we have
+\begin{equation} \elab{mean-lifetime-one}
+  \eta_i = \frac{\theta_i}{\Gamma\left(1 + \frac{1}{\beta}\right)}
+\end{equation}
+for $i = \range{1}{\nc}$ where $\theta_i$ is the \up{MTTF} of interval $i$ as if
+it was the only interval. The values of $\{ \theta_i: i = \range{1}{\nc} \}$
+depend on the particular failure mechanism considered, and we shall tailor them
+to thermal cycling shortly.
+
+As it is shown in \cite{xiang2010}, the reliability function, that is, the
+function that gives the probability of survival until an arbitrary time moment,
+can be approximated using the following formula:
+\[
+  R(t) = \exp\left\{-\left(\frac{t}{\tau} \sum_{i=1}^\nc \frac{\dt_i}{\eta_i}\right)^\beta\right\}
+\]
+The formula keeps the form of the Weibull distribution with the scaling
+parameter equal to:
+\begin{equation} \elab{mean-lifetime-all}
+  \eta = \frac{\tau}{\sum_{i=0}^{N_m - 1} \frac{\Delta t_i}{\eta_i}}
+\end{equation}
+The MTTF with respect to the whole application period can be obtained by
+combining \eref{weibull-expectation}, \eref{mean-lifetime-one}, and \eref{mean-lifetime-all}.
+
+As mentioned previously, in order to compute the MTTF, we need to consider the
+particular failure mechanism and determine the values $\theta_i$ needed in
+\eref{mean-lifetime-one}. We focus on the thermal cycling fatigue
+(\sref{reliability-model}). Assuming this concrete failure model, the duration
+$\Delta t_i$, during which the corresponding scaling parameter $\eta_i$ is
+constant \eref{mean-lifetime-one}, is exactly a thermal cycle.
+
+When the system is exposed to identical thermal cycles, the number of such
+cycles to failure can be estimated using a modified version of the well-known
+Coffin-Manson equation with the Arrhenius term \cite{xiang2010, jedec2010}:
+\[
+  N_c = A (\Delta T - \Delta T_0)^{-b} e^{\frac{E_a}{k T_\text{max}}}
+\]
+where $A$ is an empirically determined constant, $\Delta T$ is the thermal cycle
+excursion, $\Delta T_0$ is the portion of the temperature range in the elastic
+region which does not cause damage, $b$ is the Coffin-Manson exponent, which is
+also empirically determined, $E_{a}$ is the activation energy, $k$ is the
+Boltzmann constant, and $T_\text{max}$ is the maximal temperature during the
+thermal cycle. Over the application period, the system undergoes a number of
+different thermal cycles each with its own duration $\Delta t_i$ and each cycle
+causes its own damage. Therefore, having $N_m$ thermal cycles characterized by
+the number of cycles to failure $N_{c\:i}$ and duration $\Delta t_i$, we can
+compute $\theta_i$:
+\begin{equation} \elab{mttf-cycle}
+  \theta_i = N_{c \: i} \; \Delta t_i
+\end{equation}
+Taking equations \eref{weibull-expectation}, \eref{mean-lifetime-one},
+\eref{mean-lifetime-all}, and \eref{mttf-cycle} together, we obtain the following
+expression to estimate the MTTF of one component in the system:
+\begin{align}
+  \theta = \frac{\tau}{\sum_{i=0}^{N_m - 1} \frac{1}{N_{c \: i}}}
+\end{align}
+In order to identify thermal cycles in the temperature curve, we follow the
+approach given in \cite{xiang2010} where the rainflow counting method is
+employed.
 
 Assuming the TC fatigue, the parameters affecting reliability are the amplitude
 and number of thermal cycles as well as the maximal temperature. A thermal cycle
@@ -92,79 +171,6 @@ during the thermal cycle (more details in \sref{reliability-optimization}).
 It can be seen that the computation requires the identification of the thermal
 cycles with their amplitudes and maximal temperatures. All these are captured by
 the SSDTP, which is needed as an input to the reliability optimization.
-
-In our analysis, we use the reliability model presented in \cite{huang2009,
-xiang2010}. The model is based on the assumption that the time to failure
-$\mathcal{T}$ has a Weibull distribution, i.e., $\mathcal{T} \sim Weibull(\eta,
-\beta)$ where $\eta$ and $\beta$ are the scaling and shape parameters,
-respectively. The expectation of the distribution is the following:
-\begin{equation} \elab{general-mttf}
-  \mathbb{E}\left[\mathcal{T}\right] = \eta \; \Gamma(1 + \frac{1}{\beta})
-\end{equation}
-where $\Gamma$ is the gamma function. $\mathbb{E}\left[\mathcal{T}\right]$ is
-the mean time to failure (MTTF) that we denote by $\theta$.
-
-The shape parameter $\beta$ is independent of the temperature variation
-\cite{chang2006}, which, however, is not the case with the scaling parameter
-$\eta$. Therefore, the distribution varies with the temperature. We can split
-the overall period of the application $\tau$ into $N_m$ time intervals $\Delta
-t_i$, so that during each time interval $\Delta t_i$ the corresponding $\eta_i$
-is a constant:
-\begin{equation} \elab{eta-one}
-  \eta_i = \frac{\theta_i}{\Gamma(1 + \frac{1}{\beta})}
-\end{equation}
-where $\theta_i$ is the MTTF in the $i$th time interval as if we had the failure
-distribution of this interval all the time. For now the values $\theta_i$ are
-unknown and depend on the particular failure mechanism. As it is shown in
-\cite{xiang2010}, the reliability function $R(t)$, i.e., the probability of
-survival until an arbitrary time $t \geq 0$, can be approximated as the
-following:
-\[
-  R(t) = e^{-(\frac{t}{\tau} \sum_{i=0}^{N_m - 1} \frac{\Delta t_i}{\eta_i})^\beta}
-\]
-The formula keeps the form of the Weibull distribution with the scaling
-parameter equal to:
-\begin{equation} \elab{eta-many}
-  \eta = \frac{\tau}{\sum_{i=0}^{N_m - 1} \frac{\Delta t_i}{\eta_i}}
-\end{equation}
-The MTTF with respect to the whole application period can be obtained by
-combining \eref{general-mttf}, \eref{eta-one}, and \eref{eta-many}.
-
-As mentioned previously, in order to compute the MTTF, we need to consider the
-particular failure mechanism and determine the values $\theta_i$ needed in
-\eref{eta-one}. We focus on the thermal cycling fatigue
-(\sref{reliability-model}). Assuming this concrete failure model, the duration
-$\Delta t_i$, during which the corresponding scaling parameter $\eta_i$ is
-constant \eref{eta-one}, is exactly a thermal cycle.
-
-When the system is exposed to identical thermal cycles, the number of such
-cycles to failure can be estimated using a modified version of the well-known
-Coffin-Manson equation with the Arrhenius term \cite{xiang2010, jedec2010}:
-\[
-  N_c = A (\Delta T - \Delta T_0)^{-b} e^{\frac{E_a}{k T_\text{max}}}
-\]
-where $A$ is an empirically determined constant, $\Delta T$ is the thermal cycle
-excursion, $\Delta T_0$ is the portion of the temperature range in the elastic
-region which does not cause damage, $b$ is the Coffin-Manson exponent, which is
-also empirically determined, $E_{a}$ is the activation energy, $k$ is the
-Boltzmann constant, and $T_\text{max}$ is the maximal temperature during the
-thermal cycle. Over the application period, the system undergoes a number of
-different thermal cycles each with its own duration $\Delta t_i$ and each cycle
-causes its own damage. Therefore, having $N_m$ thermal cycles characterized by
-the number of cycles to failure $N_{c\:i}$ and duration $\Delta t_i$, we can
-compute $\theta_i$:
-\begin{equation} \elab{mttf-cycle}
-  \theta_i = N_{c \: i} \; \Delta t_i
-\end{equation}
-Taking equations \eref{general-mttf}, \eref{eta-one}, \eref{eta-many}, and
-\eref{mttf-cycle} together, we obtain the following expression to estimate the
-MTTF of one component in the system:
-\begin{align}
-  \theta = \frac{\tau}{\sum_{i=0}^{N_m - 1} \frac{1}{N_{c \: i}}}
-\end{align}
-In order to identify thermal cycles in the temperature curve, we follow the
-approach given in \cite{xiang2010} where the rainflow counting method is
-employed.
 
 \subsection{Problem Formulation}
 
