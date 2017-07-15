@@ -63,61 +63,79 @@ used to evaluate the temperature model presented in \sref{temperature-model}.
 \subsection{Reliability Model}
 \slab{reliability-model}
 
-The reliability model utilized is the one presented in \cite{huang2009,
-xiang2010}. Our focus is restricted to the part of the model that is concerned
-with the thermal-cycling fatigue, which is prominently connected to temperature
-oscillations.
+The reliability model that we utilize is the one presented in \cite{huang2009,
+xiang2010}. The model relies heavily on Weibull distributions, which we shall
+overview in brief now.
 
-The model is based on the assumption that the probability distribution
-\cite{durrett2010} of the time to failure $T$ is a Weibull distribution, which
-is written as
-\[
-  T \sim \mathrm{Weibull}(\eta, \beta)
-\]
-where $\eta$ and $\beta$ are the scaling and shape parameters of the
-distribution, respectively. The corresponding expectation \cite{durrett2010} is
-as follows:
+A Weibull distribution has two parameters: $\eta$ and $\beta$, which are called
+the scale and shape parameters, respectively. Let $T$ be a random variable
+that is distributed according to such a distribution, which is denoted by $T
+\sim \mathrm{Weibull}(\eta, \beta)$. Then the distribution function
+\cite{durrett2010} of $T$ is
+\begin{equation} \elab{weibull-distribution}
+  F_T(t) = 1 - \exp\left\{-\left(\frac{t}{\eta}\right)^\beta\right\};
+\end{equation}
+the complementary distribution function of $T$ is
+\begin{equation} \elab{weibull-survival}
+  R_T(t) := 1 - F_T(t) = \exp\left\{-\left(\frac{t}{\eta}\right)^\beta\right\};
+\end{equation}
+and the expectation of $T$ is
 \begin{equation} \elab{weibull-expectation}
   \expectation{T} = \eta \: \Gamma\left(1 + \frac{1}{\beta}\right)
 \end{equation}
-where $\Gamma$ is the gamma function. The above expected value is the mean time
-to failure (\up{MTTF}), which we shall denote by $\theta$ in what follows.
+where $\Gamma$ is the gamma function. In this context of reliability analysis,
+$T$ represents the time to failure of the system under consideration; $F_T$
+gives the probability of failure before a certain time moment; $R_T$ gives the
+probability of survival up to a certain time moment, and it is called the
+reliability function; and $\expectation{T}$ corresponds to the mean time to
+failure (\up{MTTF}).
 
-The shape parameter $\beta$ is independent of temperature \cite{chang2006},
-which, however, is not the case with the scaling parameter $\eta$. Therefore,
-the distribution varies with the operating temperature. In order to take this
-into account, we split the period of the application $\tau$ into \nc time
-intervals $\{ \dt_i: i = \range{1}{\nc} \}$ so that the thermal properties that
-are relevant to the reliability model do not change within each time interval.
-Then, we have
-\begin{equation} \elab{mean-lifetime-one}
-  \eta_i = \frac{\theta_i}{\Gamma\left(1 + \frac{1}{\beta}\right)}
+It is natural to expect that the distribution of $T$ changes over time since the
+thermal conditions change, which is not the case in \eref{weibull-distribution}
+yet. In order to take this into account, the period of the application $\tau$ is
+split into \nc time intervals $\{ \dt_i: i = \range{1}{\nc} \}$ so that the
+conditions that are captured by the model stay constant within each interval.
+Let $T_i \sim \mathrm{Weibull}(\eta_i, \beta_i)$ be the time to failure that the
+system would have if interval $i$ was the only one causing damage, and denote by
+$\theta_i = \expectation{T_i}$ the corresponding \up{MTTF}. Using
+\eref{weibull-expectation}, we have
+\begin{equation} \elab{weibull-eta-one}
+  \eta_i = \frac{\theta_i}{\Gamma\left(1 + \frac{1}{\beta_i}\right)}
 \end{equation}
-for $i = \range{1}{\nc}$ where $\theta_i$ is the \up{MTTF} of interval $i$ as if
-it was the only interval. The values of $\{ \theta_i: i = \range{1}{\nc} \}$
-depend on the particular failure mechanism considered, and we shall tailor them
-to thermal cycling shortly.
+for $i = \range{1}{\nc}$. The exact form of $\{ (\theta_i, \beta_i): i =
+\range{1}{\nc} \}$ depends on the particular failure mechanism modeled. In our
+case, since we focus on temperature-induced failures, $\beta_i = \beta$ for $i =
+\range{1}{\nc}$, that is, these parameters are all equal. The reason is that,
+unlike the scale parameter, the shape parameter is independent of the operating
+temperature \cite{chang2006}.
 
-As it is shown in \cite{xiang2010}, the reliability function, that is, the
-function that gives the probability of survival until an arbitrary time moment,
-can be approximated using the following formula:
+As it is shown in \cite{xiang2010}, in the above scenario, the reliability
+function can be approximated by means of the following formula:
 \[
-  R(t) = \exp\left\{-\left(\frac{t}{\tau} \sum_{i=1}^\nc \frac{\dt_i}{\eta_i}\right)^\beta\right\}
+  R_T(t) = \exp\left\{-\left( \frac{\sum_{i = 1}^\nc \frac{\dt_i}{\eta_i}}{\sum_{i = 1}^\nc \dt_i} t \right)^\beta\right\},
 \]
-The formula keeps the form of the Weibull distribution with the scaling
-parameter equal to:
-\begin{equation} \elab{mean-lifetime-all}
-  \eta = \frac{\tau}{\sum_{i=0}^{N_m - 1} \frac{\Delta t_i}{\eta_i}}
+which keeps the general form of the reliability function of Weibull
+distributions in \eref{weibull-survival} with the scale parameter equal to
+\begin{equation} \elab{weibull-eta-all}
+  \eta = \frac{\sum_{i = 1}^\nc \dt_i}{\sum_{i = 1}^\nc \frac{\Delta t_i}{\eta_i}}.
 \end{equation}
-The MTTF with respect to the whole application period can be obtained by
-combining \eref{weibull-expectation}, \eref{mean-lifetime-one}, and \eref{mean-lifetime-all}.
+The \up{MTTF} with respect to all the intervals, which we denote by $\theta$,
+can be obtained by combining \eref{weibull-expectation}, \eref{weibull-eta-one},
+and \eref{weibull-eta-all}, and it is as follows:
+\[
+  \theta = \frac{\sum_{i = 1}^\nc \dt_i}{\sum_{i = 1}^\nc \frac{\Delta t_i}{\theta_i}}.
+\]
+
+Since we focus on thermal cycling---which is of interest to us due to its
+prominent dependence on temperature oscillations---we shall tailor these
+parameters accordingly shortly.
 
 As mentioned previously, in order to compute the MTTF, we need to consider the
 particular failure mechanism and determine the values $\theta_i$ needed in
-\eref{mean-lifetime-one}. We focus on the thermal cycling fatigue
+\eref{weibull-eta-one}. We focus on the thermal cycling fatigue
 (\sref{reliability-model}). Assuming this concrete failure model, the duration
 $\Delta t_i$, during which the corresponding scaling parameter $\eta_i$ is
-constant \eref{mean-lifetime-one}, is exactly a thermal cycle.
+constant \eref{weibull-eta-one}, is exactly a thermal cycle.
 
 When the system is exposed to identical thermal cycles, the number of such
 cycles to failure can be estimated using a modified version of the well-known
@@ -138,8 +156,8 @@ compute $\theta_i$:
 \begin{equation} \elab{mttf-cycle}
   \theta_i = N_{c \: i} \; \Delta t_i
 \end{equation}
-Taking equations \eref{weibull-expectation}, \eref{mean-lifetime-one},
-\eref{mean-lifetime-all}, and \eref{mttf-cycle} together, we obtain the following
+Taking equations \eref{weibull-expectation}, \eref{weibull-eta-one},
+\eref{weibull-eta-all}, and \eref{mttf-cycle} together, we obtain the following
 expression to estimate the MTTF of one component in the system:
 \begin{align}
   \theta = \frac{\tau}{\sum_{i=0}^{N_m - 1} \frac{1}{N_{c \: i}}}
