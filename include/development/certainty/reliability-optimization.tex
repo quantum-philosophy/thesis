@@ -94,17 +94,17 @@ probability of survival up to a certain time moment, and it is called the
 reliability function; and $\mean$ corresponds to the mean time to failure
 (\up{MTTF}).
 
-It is natural to expect that the distribution of $T$ changes over time since the
-thermal conditions change, which is not prominent in \eref{weibull-distribution}
-yet. In order to take this into account, the application period $\tau$ is split
-into \ns time intervals $\{ \dt_i: i = \range{1}{\ns} \}$ so that the conditions
-that are relevant to the model stay constant within each interval. Let $T_i \sim
+It is natural to expect that the distribution of $T$ is different for different
+usage conditions, which is not prominent in \eref{weibull-distribution} yet. In
+order to take this into account, the application period $\tau$ is split into \ns
+time intervals $\{ \dt_i: i = \range{1}{\ns} \}$ so that the conditions that are
+relevant to the model stay unchanged within each interval. Let $T_i \sim
 \mathrm{Weibull}(\scale_i, \shape_i)$ be the time to failure that the component
-would have if interval $i$ was the only interval present and denote by $\mean_i
-= \expectation{T_i}$ the corresponding \up{MTTF}. In the case of
-temperature-induced failures, we have that $\shape_i = \shape$ for $i =
-\range{1}{\ns}$, which means that these parameters are all equal. The reason is
-that, unlike the scale parameter, the shape parameter is independent of the
+would have if interval $i$ was the only interval present and denote by $\mean_i$
+the corresponding \up{MTTF} according to \eref{weibull-expectation}. In the case
+of temperature-induced failures, we have that $\shape_i = \shape$ for $i =
+\range{1}{\ns}$, that is, all the shape parameters are equal. The reason is
+that, unlike the scale parameters, the shape parameters are independent of the
 operating temperature \cite{chang2006}.
 
 As it is shown in \cite{xiang2010}, in the above scenario, the reliability
@@ -120,23 +120,23 @@ parameter is rewritten as
 \]
 Note that the reliability model in \eref{weibull-reliability} becomes fully
 specified as soon as $\dt_i$ and $\mean_i$ are identified for $i =
-\range{1}{\ns}$. This part depends on the particular failure mechanism
-considered. In the rest of this subsection, we shall tailor the model to the
-thermal-cycling fatigue, which is of interest to us due to its prominent
+\range{1}{\ns}$. This part of the model depends on the particular failure
+mechanism considered. In the rest of this subsection, we shall tailor the model
+to the thermal-cycling fatigue, which is of interest to us due to its prominent
 dependence on temperature oscillations.
 
 In the case of thermal cycling, the time intervals with constant relevant
 conditions correspond to thermal cycles. In order to detect them in a given
-temperature curve, we utilize the so-called rainflow counting method described
-in \cite{xiang2010}. As a result, a set of \ns cycles is obtained. Each detected
-cycle is characterized by a number of properties including its duration, which
-is the desired $\dt_i$. Regarding the corresponding $\mean_i$, it can be
-expressed as follows:
+temperature curve, we utilize the rainflow counting method \cite{xiang2010}. As
+a result, a set of \ns thermal cycles is obtained. Each detected cycle is
+characterized by a number of properties including its duration, which is the
+desired $\dt_i$. Regarding the corresponding $\mean_i$, it can be expressed as
+follows:
 \[
   \mean_i = \nc_i \dt_i
 \]
 where $\nc_i$ stands for the mean number of such cycles to failure. This number
-is estimated by using a modified version of the Coffin--Manson equation with the
+is estimated using a modified version of the Coffin--Manson equation with the
 Arrhenius term as shown in the following equation \cite{xiang2010, jedec2010}:
 \begin{equation} \elab{reliability-mean-cycles}
   \nc = a (\Delta \q - \Delta \q_0)^{-b} \exp\left(\frac{c}{\q_\maximum}\right)
@@ -146,8 +146,8 @@ excursion of the cycle in question; $\Delta \q_0$ is the portion that is in the
 elastic region, which does not cause damage; and $\q_\maximum$ is the maximum
 temperature during the cycle.
 
-At this point, the reliability model of the component under consideration has
-been fully specified. The reliability function is the one in
+At this point, the reliability model of the component under consideration is
+fully specified. The reliability function is the one in
 \eref{weibull-reliability} with
 \begin{equation} \elab{reliability-scale}
   \scale = \frac{\sum_{i = 1}^\ns \dt_i}{\Gamma\left(1 + \frac{1}{\shape}\right) \sum_{i = 1}^\ns \frac{1}{\nc_i}}
