@@ -56,15 +56,17 @@ computations, these quantities should be discrete. To this end, we introduce the
 notions of a power and a temperature profile. A power profile of the system is
 defined to be an $\np \times \ns$ matrix
 \[
-  \mp = \left( \range{\vp_1}{\vp_\ns} \right)
-  := \left( \range{\vp(t_1)}{\vp(t_\ns)} \right) \in \real^{\np \times \ns}
+  \mp
+  = \left( \range{\vp_1}{\vp_\ns} \right)
+  = \left( \range{\vp(t_1)}{\vp(t_\ns)} \right) \in \real^{\np \times \ns}
 \]
 that contains \ns samples of the power consumption of the \np processors over
 \ns time steps with a certain sampling interval \dt. Similarly, a temperature
 profile is defined to be an $\np \times \ns$ matrix
 \[
-  \mq = \left( \range{\vq_1}{\vq_\ns} \right)
-  := \left( \range{\vq(t_1)}{\vq(t_\ns)} \right) \in \real^{\np \times \ns}
+  \mq
+  = \left( \range{\vq_1}{\vq_\ns} \right)
+  = \left( \range{\vq(t_1)}{\vq(t_\ns)} \right) \in \real^{\np \times \ns}
 \]
 that captures the heat dissipation of the processors over a number of
 equidistant time moments. Let us note that, even though the exact time frame and
