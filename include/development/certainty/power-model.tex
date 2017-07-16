@@ -4,7 +4,7 @@ two main components: dynamic and static. The dynamic power---which is the power
 that has been implicitly considered so far---is due to the actual useful work
 done by the circuit. It is modeled as follows:
 \[
-  p_\dynamic = C f V^2
+  \p_\dynamic = C f V^2
 \]
 where $C$ is the effective switched capacitance, $f$ is the frequency, and $V$
 is the supply voltage of the circuit. In contrast, the static power is due to
@@ -13,12 +13,12 @@ is the leakage current, which is by far dominant, especially in modern \up{CMOS}
 transistors. The leakage and, by extension, static power are modeled as follows
 \cite{liao2005}:
 \begin{equation} \elab{static-power}
-  p_\static = \numberof{g} V I_0 \left( A q^2 e^{\frac{\alpha V + \beta}{q}} + B e^{\gamma V + \delta} \right)
+  \p_\static = \numberof{g} V I_0 \left(a \q^2 e^{\frac{\alpha V + \beta}{\q}} + b e^{\gamma V + \delta}\right)
 \end{equation}
-where $q$ is the current temperature, $V$ is the current supply voltage, $I_0$
+where $\q$ is the current temperature, $V$ is the current supply voltage, $I_0$
 is the average leakage current at the reference temperature and reference supply
 voltage, and $\numberof{g}$ is the number of gates in the circuit. Quantities
-$A$, $B$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are technology-dependent
+$a$, $b$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are technology-dependent
 constants, which can found in \cite{liao2005}.
 
 It can be seen in the above equations that the dynamic power does not depend on
@@ -59,7 +59,7 @@ adding it to the dynamic power, which we write as follows:
 The process continues until the difference between two successive temperature
 profiles is below a predefined threshold. According to our experience, it
 usually takes 4--7 iterations until the uniform norm of the difference between
-two profiles (the maximal absolute difference) drops below 0.5${}^\circ$C.
+two profiles (the maximum absolute difference) drops below 0.5${}^\circ$C.
 
 The second approach is to use a linear approximation of the leakage power, which
 can be formalized as follows:
