@@ -1,19 +1,22 @@
-In this section, we illustrate the importance of temperature analysis in the
-context of reliability optimization. More specifically, we demonstrate the
-utility of our solution to dynamic steady-state analysis presented in
-\sref{dynamic-steady-state-analysis} for mitigating the fatigue due to thermal
-cycling \cite{jedec2010}, which is one of the most common failure mechanism. To
-this end, we develop a thermal-cycling-aware technique for scheduling of
-periodic applications. (In this thesis, mapping is assumed to be a part of
-scheduling. Therefore, for each task of the application in question, a schedule
-prescribes not only the starting time but also the processor where the task is
-supposed to be executed.)
+In this section, we illustrate the importance of temperature analysis for
+design-space exploration. More specifically, we consider reliability
+optimization and demonstrate the utility of our solution to dynamic steady-state
+analysis presented in \sref{dynamic-steady-state-analysis} for mitigating the
+fatigue due to thermal cycling \cite{jedec2010}, which is one of the most common
+failure mechanism. To this end, we develop a thermal-cycling-aware technique for
+scheduling of periodic applications. (In this thesis, mapping is assumed to be a
+part of scheduling. Therefore, for each task of the application in question, a
+schedule prescribes not only the starting time but also the processor where the
+task is supposed to be executed.)
 
 We proceed as follows. In \sref{thermal-cycling-motivation}, the impact of
-design decisions on the lifetime of an electronic system is exemplified. The
+design decisions on the lifetime of a multiprocessor system is exemplified. The
 system and reliability models that we consider are presented in
-\sref{system-model} and \sref{reliability-model}, respectively. The experimental
-results are reported in \sref{thermal-cycling-result}.
+\sref{system-model} and \sref{reliability-model}, respectively. In
+\sref{thermal-cycling-optimization}, we formulate our optimization objective and
+describe the optimization technique that we utilize in order to attain this
+objective. Lastly, the experimental results are reported in
+\sref{thermal-cycling-result}.
 
 \subsection{Motivational Example}
 \slab{thermal-cycling-motivation}
@@ -146,9 +149,9 @@ excursion of the cycle in question; $\Delta \q_0$ is the portion that is in the
 elastic region, which does not cause damage; and $\q_\maximum$ is the maximum
 temperature during the cycle.
 
-At this point, the reliability model of the component under consideration is
-fully specified. The reliability function is the one in
-\eref{weibull-reliability} with
+The reliability model of the abstract component under consideration is now fully
+specified. The reliability function is the one in \eref{weibull-reliability}
+with
 \begin{equation} \elab{reliability-scale}
   \scale = \frac{\sum_{i = 1}^\ns \dt_i}{\Gamma\left(1 + \frac{1}{\shape}\right) \sum_{i = 1}^\ns \frac{1}{\nc_i}}
 \end{equation}
@@ -163,79 +166,64 @@ In conclusion, it should be noted that the reliability model requires detailed
 information about the thermal cycles that the component is exposed to, which can
 be obtained by performing dynamic steady-state temperature analysis.
 
-\subsection{Problem Formulation}
+\subsection{Optimization Procedure}
+\slab{thermal-cycling-optimization}
 
-The problem formulation is the following:
-
-Given:
-\begin{itemize}
-
-\item A multiprocessor system $\Pi$ (\sref{system-model}).
-
-\item A periodic application $G$ (\sref{system-model}).
-
-\item The floorplan of the chip at the desired level of details, configuration
-of the thermal package, and thermal parameters.
-
-\item The parameters of the reliability model (\sref{reliability-model}), i.e.,
-the constants $A$, $\Delta T_0$, $b$, $E_a$ (see
-\eref{reliability-mean-cycles}).
-
-\end{itemize}
-
-Maximize:
-\begin{equation} \elab{fitness-function}
-  \mathcal{F} = \min_{i = 0}^{N_p - 1} \mean_i
+Recall first that we have a platform with \np processors and a periodic
+application with \nt tasks and a period $\tau$; see \sref{system-model}. The
+time to failure of each processor is modeled using the reliability model
+presented in \sref{reliability-model}. With a slight abuse of notation, let
+$\mean_i$ be the \up{MTTF} of processor $i$ computed according to
+\eref{reliability-mean-time}. Our optimization objective is to maximize
+\begin{equation} \elab{thermal-cycling-objective}
+  \min_{i = 1}^\np \mean_i
 \end{equation}
 such that
-\begin{align}
-  & t_{\text{end} \: i} \leq \tau, \: \forall i \elab{deadline} \\
-  & T_{ij} \leq T_\text{max}, \: \forall i, j \elab{t-max}
+\begin{align} \elab{thermal-cycling-constraints}
+  \begin{split}
+    & \max_{i = 1}^\nt t_{\ns_i} \leq \tau \text{ and} \\
+    & \norm{\mq} \leq \q_\maximum
+  \end{split}
 \end{align}
-where $\mean_i$ is the MTTF of the $i$th processing element given by
-\eref{reliability-mean-time}, $t_{\text{end} \: i}$ denotes the end time of
-the $i$th task, $\tau$ is the period of the application, and $T_{ij}$ are
-temperature values in the SSDTP. \eref{deadline} imposes the application
-deadline, which we assume to be equal to the period. \eref{t-max} enforces the
-constraint on the maximum temperature in the temperature profile $\mathbb{T} =
-\{ T_{ij} \}$.
+where $t_{\ns_i}$ is the completion time of task $i$, and $\norm{\cdot}$ denotes
+the uniform norm. The first constraint enforces a deadline, which is assumed to
+be equal to the period, and the second constraint enforces a maximum
+temperature $\q_\maximum$.
 
-The optimization procedure is based on a genetic algorithm (GA)
-\cite{schmitz2004} with the fitness function $\mathcal{F}$ given by
-\eref{fitness-function}. The algorithm is outlined in \sref{genetic-algorithm}.
+The optimization is undertaken using a genetic algorithm \cite{schmitz2004}. In
+this paradigm inspired by biology, a population of chromosomes, which represent
+candidate solutions, is carried through a number of generations in order to
+produce a chromosome with the best possible fitness, that is, a solution that
+maximizes the objective function. The fitness function in this case is
+\eref{thermal-cycling-objective}.
 
-This section contains the derivation of the reliability model discussed in
-\sref{reliability-optimization} and the description of the actual optimization
-procedure.
+Each chromosome contains $2 \times \nt$ genes. The first \nt genes encode
+priorities of the tasks, and the second \nt genes encode assignments of the
+tasks to the processors, which we shall discuss shortly. The population contains
+$4 \times \nt$ chromosomes that are initialized partially randomly and partially
+based on the temperature-aware heuristics proposed in \cite{xie2006}. In each
+generation, a number of chromosomes are chosen for breeding by the tournament
+selection with the number of competitors proportional to the population size.
+The chosen chromosomes undergo the two-point crossover with probability 0.8 and
+the uniform mutation with probability 0.01. The evolution mechanism follows the
+elitism model where the best chromosome always survives. The stopping condition
+is the absence of improvement within 200 successive generations.
 
-\subsection{Optimization Procedure}
-\slab{genetic-algorithm}
-
-The optimization procedure is based on a genetic algorithm \cite{schmitz2004}
-with the fitness function $\mathcal{F}$ given by \eref{fitness-function}. Each
-chromosome is a vector of $2 \times N_t$ elements, where the first half encodes
-priorities of the tasks and the second represents a mapping. The population
-contains $4 \times N_t$ individuals that are initialized partially randomly and
-partially based on the initial temperature-aware solution \cite{xie2006}. In
-each generation, a number of individuals, called parents, are chosen for
-breeding by the tournament selection with the number of competitors proportional
-to the population size. The parents undergo the 2-point crossover with $0.8$
-probability and uniform mutation with $0.01$ probability. The evolution
-mechanism follows the elitism model where the best individual always survives.
-The stopping condition is an absence of improvement within 200 successive
-generations.
-
-The fitness of a chromosome, \eref{fitness-function}, is evaluated in a number
-of steps. First, the decoded priorities and mapping are given to a list
-scheduler that produces schedules for each of the cores. If the application
-schedule does not satisfy the deadline, the solution is penalized proportionally
-to the delay and is not further evaluated; otherwise, based on the parameters of
-the architecture and tasks, a power profile is obtained and the corresponding
-SSDTP is computed by our proposed method. If the SSDTP violates the temperature
-constraint given by \eref{t-max}, the solution is penalized proportionally to
-the amount of violation and not further processed; otherwise, the MTTF of each
-core is estimated according to \eref{reliability-mean-time} and the fitness
-function $\mathcal{F}$ is computed.
+The fitness of a chromosome is evaluated in a number of steps. First, the
+chromosome is decoded, and the priorities of the tasks and their assignments to
+the processors are fed to the scheduler. The scheduler produces a schedule. If
+the schedule violates the deadline constraint given in
+\eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
+to the amount of the violation and is not further processed. Otherwise, based on
+the parameters of the processors and tasks discussed in \sref{system-model}, a
+power profile \mp is constructed, and the corresponding \up{DSSTP} \mq is
+computed using our technique presented in \sref{dynamic-steady-state-present}.
+If the \up{DSSTP} violates the temperature constraint given in
+\eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
+to the amount of the violation and is not further processed. Otherwise, the
+\up{MTTF} of each processor is estimated according to
+\eref{reliability-mean-time}, and the fitness function given in
+\eref{thermal-cycling-objective} is computed.
 
 \subsection{Experimental Results}
 \slab{thermal-cycling-result}
@@ -254,10 +242,10 @@ configurations, etc.) used in our experiments are available online at
 discussed in \sref{power-temperature-interdependence}, it provides a good
 approximation. The area of one core is 4 $mm^2$, other parameters of the die and
 thermal package are given in \tref{parameters}. The temperature constraint
-$T_\text{max}$ (see \eref{t-max}) is set to $100^\circ C$. In
-\eref{reliability-mean-cycles} the Coffin-Manson exponent $b$ is set to 6, the
-activation energy $E_a$ to 0.5, and the elastic temperature region $\Delta T_0$
-to zero \cite{jedec2010}. The coefficient of proportionality $A$ is not
+$T_\text{max}$ (see \eref{thermal-cycling-constraints}) is set to $100^\circ C$.
+In \eref{reliability-mean-cycles} the Coffin-Manson exponent $b$ is set to 6,
+the activation energy $E_a$ to 0.5, and the elastic temperature region $\Delta
+T_0$ to zero \cite{jedec2010}. The coefficient of proportionality $A$ is not
 significant, since we are concerned about the relative improvement.
 
 In each of the experiments, we compare the optimized solution with an initial
