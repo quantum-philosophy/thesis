@@ -1,4 +1,5 @@
 \chapter{Development with Certainty}
+\newcommand{\inputsection}[1]{\input{include/development/certainty/#1}}
 
 In this chapter, we elaborate on deterministic system-level analysis of computer
 systems. The techniques that we discuss here do not take uncertainty into
@@ -6,39 +7,32 @@ account. However, these techniques provide a solid foundation for those that do
 as we shall describe in the following chapter, \cref{development-uncertainty}.
 
 \section{Introduction}
-\input{include/development/certainty/introduction}
+\inputsection{introduction}
 
 \section{Temperature Model}
 \slab{temperature-model}
-\input{include/development/certainty/temperature-model}
+\inputsection{temperature-model}
 
 \section{Transient Temperature Analysis}
 \slab{transient-analysis}
-\input{include/development/certainty/transient-analysis}
+\inputsection{transient-analysis}
 
 \section{Static Steady-State Temperature Analysis}
 \slab{static-steady-state-analysis}
-\input{include/development/certainty/static-steady-state-analysis}
+\inputsection{static-steady-state-analysis}
 
 \section{Dynamic Steady-State Temperature Analysis}
 \slab{dynamic-steady-state-analysis}
-\input{include/development/certainty/dynamic-steady-state-analysis}
+\inputsection{dynamic-steady-state-analysis}
 
 \section{Power-Temperature Interplay}
 \slab{power-model}
 \slab{power-temperature-interplay}
-\input{include/development/certainty/power-temperature-interplay}
+\inputsection{power-temperature-interplay}
 
 \section{Reliability Optimization}
 \slab{thermal-cycling-optimization}
-\input{include/development/certainty/reliability-optimization}
+\inputsection{reliability-optimization}
 
 \section{Conclusion}
-
-In this paper we have proposed an efficient and accurate technique to calculate
-the SSDTP of an embedded multiprocessor system. Using the proposed approach, we
-conducted a temperature-aware reliability optimization based on the thermal
-cycling failure mechanism and have shown that taking into consideration the
-temperature variations within a multicore platform can significantly prolong its
-lifetime without affecting its energy efficiency. The improvement, compared
-using the state of the art, is significant.
+\inputsection{conclusion}
