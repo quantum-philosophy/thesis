@@ -47,18 +47,21 @@ computed.
 \subsection{System Model}
 \slab{system-model}
 
-Consider a heterogeneous multiprocessor platform with \np processors. Processor
-$i$ is characterized by a triple $(\numberof{g}_i, f_i, V_i)$ where
-$\numberof{g}_i$, $f_i$, and $V_i$ are the number of gates \cite{liao2005},
-frequency, and supply voltage of the processor. Consider also a periodic
-application with \nt tasks. The application is given as a directed acyclic graph
-$(V, E)$ where $V$ is a set of vertices corresponding to the tasks, and $E$ is a
-set of edges representing data dependencies between the tasks. Let $\tau$ be the
-period of the application, which is assumed to be equal to the deadline. Each
-pair of a task and a processor is characterized by a tuple $(\numberof{c}_{ij},
-C_{ij})$ where $\numberof{c}_{ij}$ is the number of clock cycles that task $i$
-requires when it is executed on processor $j$, and $C_{ij}$ is the corresponding
-effective switched capacitance.
+Consider a heterogeneous multiprocessor platform with \np processors that is to
+execute a periodic application with \nt tasks. Processor $i$ is characterized by
+a triple $(\numberof{g}_i, f_i, V_i)$ where $\numberof{g}_i$, $f_i$, and $V_i$
+are the number of gates \cite{liao2005}, frequency, and supply voltage of the
+processor. The application is given as a directed acyclic graph whose vertices
+and edges correspond to the tasks and to data dependencies between the tasks,
+respectively; see \fref{thermal-cycling-task-graph} for an example. Denote by
+$\tau$ the period of the application, which is assumed to be equal to the
+application's deadline. Furthermore, each pair of a task and a processor is
+characterized by a tuple $(\numberof{c}_{ij}, C_{ij})$ where $\numberof{c}_{ij}$
+is the number of clock cycles that task $i$ requires for its completion when it
+is executed on processor $j$, and $C_{ij}$ is the corresponding effective
+switched capacitance. Lastly, the application is assumed to be scheduled using a
+list scheduler whose inputs are a set of priorities of the tasks and a mapping
+of the tasks onto the processors.
 
 The above information allows one to computer the power consumption of the tasks
 according to the power model presented in \sref{power-model}, which will then be
@@ -169,12 +172,13 @@ be obtained by performing dynamic steady-state temperature analysis.
 \subsection{Optimization Procedure}
 \slab{thermal-cycling-optimization}
 
-Recall first that we have a platform with \np processors and a periodic
-application with \nt tasks and a period $\tau$; see \sref{system-model}. The
-time to failure of each processor is modeled using the reliability model
-presented in \sref{reliability-model}. With a slight abuse of notation, let
-$\mean_i$ be the \up{MTTF} of processor $i$ computed according to
-\eref{reliability-mean-time}. Our optimization objective is to maximize
+Recall that we have a platform with \np processors and a periodic application
+with \nt tasks and a period $\tau$ (see \sref{system-model}), and that, in this
+context, \mq stands for the \up{DSSTP} of the system. The time to failure of
+each processor is modeled using the reliability model presented in
+\sref{reliability-model}. With a slight abuse of notation, let $\mean_i$ be the
+\up{MTTF} of processor $i$ computed according to \eref{reliability-mean-time}.
+Our optimization objective is to find a schedule that maximizes
 \begin{equation} \elab{thermal-cycling-objective}
   \min_{i = 1}^\np \mean_i
 \end{equation}
@@ -186,9 +190,9 @@ such that
   \end{split}
 \end{align}
 where $t_{\ns_i}$ is the completion time of task $i$, and $\norm{\cdot}$ denotes
-the uniform norm. The first constraint enforces a deadline, which is assumed to
-be equal to the period, and the second constraint enforces a maximum
-temperature $\q_\maximum$.
+the uniform norm. The first constraint enforces a deadline on the schedule, and
+the second constraint enforces a maximum temperature $\q_\maximum$ on the
+resulting \mq.
 
 The optimization is undertaken using a genetic algorithm \cite{schmitz2004}. In
 this paradigm inspired by biology, a population of chromosomes, which represent
@@ -211,16 +215,16 @@ is the absence of improvement within 200 successive generations.
 
 The fitness of a chromosome is evaluated in a number of steps. First, the
 chromosome is decoded, and the priorities of the tasks and their assignments to
-the processors are fed to the scheduler. The scheduler produces a schedule. If
-the schedule violates the deadline constraint given in
+the processors are fed to the scheduler (see \sref{system-model}). The scheduler
+produces a schedule. If the schedule violates the deadline constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
-to the amount of the violation and is not further processed. Otherwise, based on
-the parameters of the processors and tasks discussed in \sref{system-model}, a
-power profile \mp is constructed, and the corresponding \up{DSSTP} \mq is
-computed using our technique presented in \sref{dynamic-steady-state-present}.
-If the \up{DSSTP} violates the temperature constraint given in
+to the amount of violation and is not further processed. Otherwise, based on the
+parameters of the processors and tasks discussed in \sref{system-model}, a power
+profile \mp is constructed, and the corresponding \up{DSSTP} \mq is computed
+using our technique presented in \sref{dynamic-steady-state-present}. If the
+\up{DSSTP} violates the temperature constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
-to the amount of the violation and is not further processed. Otherwise, the
+to the amount of violation and is not further processed. Otherwise, the
 \up{MTTF} of each processor is estimated according to
 \eref{reliability-mean-time}, and the fitness function given in
 \eref{thermal-cycling-objective} is computed.
