@@ -145,12 +145,14 @@ where $\nc_i$ stands for the mean number of such cycles to failure. This number
 is estimated using a modified version of the Coffin--Manson equation with the
 Arrhenius term as shown in the following equation \cite{xiang2010, jedec2010}:
 \begin{equation} \elab{reliability-mean-cycles}
-  \nc = a (\Delta \q - \Delta \q_0)^{-b} \exp\left(\frac{c}{\q_\maximum}\right)
+  \nc = a (\Delta \q - \Delta \q_0)^{-b} \exp\left(\frac{c}{k \q_\maximum}\right)
 \end{equation}
-where $a$, $b$, and $c$ are empirically determined constants; $\Delta \q$ is the
-excursion of the cycle in question; $\Delta \q_0$ is the portion that is in the
-elastic region, which does not cause damage; and $\q_\maximum$ is the maximum
-temperature during the cycle.
+where $a$, $b$ (called the Coffin--Manson exponent), and $c$ (called the
+activation energy) are empirically determined constants; $k$ is the Boltzmann
+constant; $\Delta \q$ is the excursion of the cycle in question; $\Delta \q_0$
+is the portion of the temperature excursion that resides in the elastic region,
+which does not cause damage; and $\q_\maximum$ is the maximum temperature during
+the cycle.
 
 The reliability model of the abstract component under consideration is now fully
 specified. The reliability function is the one in \eref{weibull-reliability}
@@ -239,27 +241,28 @@ general experimental setup is the same as the one described in
 experiments are available online at \cite{eslab2011}.
 
 Heterogeneous platforms and periodic applications are generated randomly using
-the \up{TGFF} tool \cite{dick1998} in such a way that the execution time of
-tasks is uniformly distributed between 1 and 10~ms, and the static power
+the \up{TGFF} tool \cite{dick1998} in such a way that the execution times of
+tasks are uniformly distributed between 1 and 10~ms, and that the static power
 accounts for 30--60\% of the total power consumption. The modeling of the
 leakage power is based on the linear approximation discussed in
-\sref{power-temperature-interplay}. The area of one processor is
-4~mm\textsuperscript{2}. The temperature constraint $\q_\maximum$ (see
-\eref{thermal-cycling-constraints}) is set to \celsius{100}. In
-\eref{reliability-mean-cycles} the Coffin-Manson exponent $b$ is set to 6, the
-activation energy $E_a$ to 0.5, and the elastic temperature region $\Delta T_0$
-to zero \cite{jedec2010}. The coefficient of proportionality $A$ is not
-significant, since we are concerned about the relative improvement.
+\sref{power-temperature-interplay}. The area of a single processor is set to
+4~mm\textsuperscript{2}. The maximum-temperature constraint $\q_\maximum$ in
+\eref{thermal-cycling-constraints} is set to \celsius{100}. In
+\eref{reliability-mean-cycles}, the Coffin--Manson exponent $b$ is set to 6, the
+activation energy $c$ to 0.5, and the elastic region $\Delta \q_0$ to 0
+\cite{jedec2010}; the coefficient of proportionality $a$ in
+\eref{reliability-mean-cycles} is not important for our discussion since we are
+concerned with relative improvements as follows.
 
-In each of the experiments, we compare the optimized solution with an initial
-temperature-aware solution proposed in \cite{xie2006}. This solution consists of
-a task mapping and schedule that captures the spatial temperature behavior and
-tries to minimize the peak temperature while satisfying the real-time
-constraints. The deadline is set to the duration of the initial schedule
-extended by 5\%.
+In each of the experiments, we compare the optimized solution with the initial
+one based on the temperature-aware heuristic proposed in \cite{xie2006}. This
+heuristic relies on spatial temperature distributions and tries to minimize the
+maximum temperature while satisfying real-time constraints. The deadline
+$\period$ is set to the duration of the initial schedule extended by 5\%.
 
-In the first set of experiments, we change the number of cores $N_p$ while
-keeping the number of tasks $N_t$ per core constant and equal to 20. For each
+\inputtable{thermal-cycling-processors}
+In the first set of experiments, we change the number of processors \np while
+keeping the number of tasks \nt per processor constant and equal to 20. For each
 problem we have generated 20 random task graphs and found the average
 improvement of the MTTF over the initial solution ($\scriptstyle
 \text{MTTF}_\times$). We also have measured the change in the consumed energy
@@ -271,6 +274,7 @@ a feasible mapping and schedule that significantly improve the lifetime of the
 system can be found in an affordable time. Moreover, our optimization does not
 impact the energy efficiency of the system.
 
+\inputtable{thermal-cycling-tasks}
 For the second set of experiments, we keep the quad-core architecture and vary
 the size (number of tasks $N_t$) of the application. The number of randomly
 generated task graphs per application size is 20. The average improvement of the
@@ -278,6 +282,7 @@ MTTF along with the change in the energy consumption are given in
 \tref{mttf-tasks}. The observations are similar to those for the previous set of
 experiments.
 
+\inputtable{thermal-cycling-methods}
 The above experiments have confirmed that our proposed approach is able to
 effectively increase the MTTF of the system. The efficiency of this approach is
 due to the fast and accurate SSDTP calculation, which is at the heart of the
