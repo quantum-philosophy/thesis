@@ -54,7 +54,7 @@ are the number of gates \cite{liao2005}, frequency, and supply voltage of the
 processor. The application is given as a directed acyclic graph whose vertices
 and edges correspond to the tasks and to data dependencies between the tasks,
 respectively; see \fref{thermal-cycling-task-graph} for an example. Denote by
-$\tau$ the period of the application, which is assumed to be equal to the
+$\period$ the period of the application, which is assumed to be equal to the
 application's deadline. Furthermore, each pair of a task and a processor is
 characterized by a tuple $(\numberof{c}_{ij}, C_{ij})$ where $\numberof{c}_{ij}$
 is the number of clock cycles that task $i$ requires for its completion when it
@@ -101,10 +101,10 @@ reliability function; and $\mean$ corresponds to the mean time to failure
 (\up{MTTF}).
 
 It is natural to expect that the distribution of $T$ is different for different
-usage conditions, which is not prominent in \eref{weibull-distribution} yet. In
-order to take this into account, the application period $\tau$ is split into \ns
-time intervals $\{ \dt_i: i = \range{1}{\ns} \}$ so that the conditions that are
-relevant to the model stay unchanged within each interval. Let $T_i \sim
+usage conditions, which is not prominent in \eref{weibull-distribution}. In
+order to take this into account, the application period $\period$ is split into
+\ns time intervals $\{ \dt_i: i = \range{1}{\ns} \}$ so that the conditions that
+are relevant to the model stay unchanged within each interval. Let $T_i \sim
 \mathrm{Weibull}(\scale_i, \shape_i)$ be the time to failure that the component
 would have if interval $i$ was the only interval present and denote by $\mean_i$
 the corresponding \up{MTTF} according to \eref{weibull-expectation}. In the case
@@ -173,9 +173,9 @@ be obtained by performing dynamic steady-state temperature analysis.
 \slab{thermal-cycling-optimization}
 
 Recall that we have a platform with \np processors and a periodic application
-with \nt tasks and a period $\tau$ (see \sref{system-model}), and that, in this
-context, \mq stands for the \up{DSSTP} of the system. The time to failure of
-each processor is modeled using the reliability model presented in
+with \nt tasks and a period $\period$ (see \sref{system-model}), and that, in
+this context, \mq stands for the \up{DSSTP} of the system. The time to failure
+of each processor is modeled using the reliability model presented in
 \sref{reliability-model}. With a slight abuse of notation, let $\mean_i$ be the
 \up{MTTF} of processor $i$ computed according to \eref{reliability-mean-time}.
 Our optimization objective is to find a schedule that maximizes
@@ -185,7 +185,7 @@ Our optimization objective is to find a schedule that maximizes
 such that
 \begin{align} \elab{thermal-cycling-constraints}
   \begin{split}
-    & \max_{i = 1}^\nt t_{\ns_i} \leq \tau \text{ and} \\
+    & \max_{i = 1}^\nt t_{\ns_i} \leq \period \text{ and} \\
     & \norm{\mq} \leq \q_\maximum
   \end{split}
 \end{align}
@@ -230,11 +230,10 @@ to the amount of violation and is not further processed. Otherwise, the
 \eref{thermal-cycling-objective} is computed.
 
 \subsection{Experimental Results}
-\slab{thermal-cycling-result}
+\slab{thermal-cycling-results}
 
-In this section we evaluate the reliability optimization approach described in
-\sref{reliability-optimization}, first with a set of synthetic applications and,
-finally, using a real-life example.
+We proceed to the optimization itself. We shall first consider a set of
+synthetic applications and then study a real-life application.
 
 The experimental setup is the following. Heterogeneous platforms and periodic
 applications are generated randomly \cite{dick1998} in such a way that the
