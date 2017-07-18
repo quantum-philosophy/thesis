@@ -60,8 +60,8 @@ characterized by a tuple $(\numberof{c}_{ij}, C_{ij})$ where $\numberof{c}_{ij}$
 is the number of clock cycles that task $i$ requires for its completion when it
 is executed on processor $j$, and $C_{ij}$ is the corresponding effective
 switched capacitance. Lastly, the application is assumed to be scheduled using a
-list scheduler whose inputs are a set of priorities of the tasks and a mapping
-of the tasks onto the processors.
+list scheduler whose inputs are priorities of the tasks and a mapping of the
+tasks onto the processors.
 
 The above information allows one to computer the power consumption of the tasks
 according to the power model presented in \sref{power-model}, which will then be
@@ -204,20 +204,19 @@ maximizes the objective function. The fitness function in this case is
 \eref{thermal-cycling-objective}.
 
 Each chromosome contains $2 \times \nt$ genes. The first \nt genes encode
-priorities of the tasks, and the second \nt genes encode assignments of the
-tasks to the processors, which we shall discuss shortly. The population contains
-$4 \times \nt$ chromosomes that are initialized partially randomly and partially
-based on the temperature-aware heuristics proposed in \cite{xie2006}. In each
-generation, a number of chromosomes are chosen for breeding by the tournament
-selection with the number of competitors proportional to the population size.
-The chosen chromosomes undergo the two-point crossover with probability 0.8 and
-the uniform mutation with probability 0.01. The evolution mechanism follows the
-elitism model where the best chromosome always survives. The stopping condition
-is the absence of improvement within 200 successive generations.
+priorities of the tasks, and the second \nt genes encode a mapping of the tasks
+onto the processors; the usage of this information is to be discussed shortly.
+The population contains $4 \times \nt$ chromosomes. In each generation, a number
+of chromosomes are chosen for breeding by the tournament selection with the
+number of competitors proportional to the population size. The chosen
+chromosomes undergo the two-point crossover with probability 0.8 and the uniform
+mutation with probability 0.01. The evolution mechanism follows the elitism
+model where the best chromosome always survives. The stopping condition is the
+absence of improvement within 200 successive generations.
 
 The fitness of a chromosome is evaluated in a number of steps. First, the
-chromosome is decoded, and the priorities of the tasks and their assignments to
-the processors are fed to the scheduler (see \sref{system-model}). The scheduler
+chromosome is decoded, and the priorities of the tasks and their mapping onto
+the processors are fed to the scheduler; see \sref{system-model}. The scheduler
 produces a schedule. If the schedule violates the deadline constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, based on the
@@ -251,36 +250,40 @@ leakage power is based on the linear approximation discussed in
 \eref{reliability-mean-cycles}, the Coffin--Manson exponent $b$ is set to 6, the
 activation energy $c$ to 0.5, and the elastic region $\Delta \q_0$ to 0
 \cite{jedec2010}; the coefficient of proportionality $a$ in
-\eref{reliability-mean-cycles} is not important for our discussion since we are
-concerned with relative improvements as follows.
+\eref{reliability-mean-cycles} is irrelevant since we are concerned with
+relative improvements, which will be explained shortly.
 
-In each of the experiments, we compare the optimized solution with the initial
-one based on the temperature-aware heuristic proposed in \cite{xie2006}. This
-heuristic relies on spatial temperature distributions and tries to minimize the
-maximum temperature while satisfying real-time constraints. The deadline
-$\period$ is set to the duration of the initial schedule extended by 5\%.
+The incipient population of chromosomes is initialized partially randomly and
+partially based on a temperature-aware heuristic proposed in \cite{xie2006},
+which we shall refer to as the initial solution. The heuristic relies on spatial
+temperature distributions and tries to minimize the maximum temperature while
+satisfying real-time constraints. This solution is also used to decide on the
+deadline constraint $\period$ in \eref{thermal-cycling-constraints}: it is set
+to the duration of the initial schedule extended by 5\%. Furthermore, the
+initial solution serves as a baseline for evaluating the performance of the
+solutions delivered by our optimization.
 
 \inputtable{thermal-cycling-processors}
 In the first set of experiments, we change the number of processors \np while
 keeping the number of tasks \nt per processor constant and equal to 20. For each
-problem we have generated 20 random task graphs and found the average
-improvement of the MTTF over the initial solution ($\scriptstyle
-\text{MTTF}_\times$). We also have measured the change in the consumed energy
-($\scriptstyle \text{E}_\times$). The results are given in \tref{mttf-cores}
-($t$ indicates the optimization time in seconds). It can be seen that the
-reliability-aware optimization dramatically increases the MTTF by 13 up to 40
-times. Even for large applications with, e.g., 320 tasks deployed onto 16 cores,
-a feasible mapping and schedule that significantly improve the lifetime of the
-system can be found in an affordable time. Moreover, our optimization does not
-impact the energy efficiency of the system.
+problem, we generate 20 random task graphs and compute the average change in the
+\up{MTTF} relative to the initial solution. In addition, we calculate the
+average change in the energy consumption. The obtained results are reported in
+\tref{thermal-cycling-processors}, which also shows the average time taken by
+the optimization procedure. It can be seen that our reliability-aware
+optimization increases the \up{MTTF} by 13--40 times. Even for large
+problems---such as those with 16 processors and 320 tasks---a feasible schedule
+that significantly improves the lifetime of the system can be found in an
+affordable time. Moreover, as shown in \tref{thermal-cycling-processors}, our
+optimization does not impact the energy efficiency of the system.
 
 \inputtable{thermal-cycling-tasks}
-For the second set of experiments, we keep the quad-core architecture and vary
-the size (number of tasks $N_t$) of the application. The number of randomly
-generated task graphs per application size is 20. The average improvement of the
-MTTF along with the change in the energy consumption are given in
-\tref{mttf-tasks}. The observations are similar to those for the previous set of
-experiments.
+In the second set of experiments, we keep the quad-core platform and vary the
+number of tasks \nt of the application. As before, for each problem, we generate
+20 random task graphs and monitor the changes in the \up{MTTF} and energy
+consumption relative to the initial solution. The results can be seen in
+\tref{thermal-cycling-tasks}. The observations are similar to those made with
+respect to \tref{thermal-cycling-processors}.
 
 \inputtable{thermal-cycling-methods}
 The above experiments have confirmed that our proposed approach is able to
