@@ -16,7 +16,7 @@ system and reliability models that we consider are presented in
 \sref{thermal-cycling-optimization}, we formulate our optimization objective and
 describe the optimization technique that we utilize in order to attain this
 objective. Lastly, the experimental results are reported in
-\sref{thermal-cycling-result}.
+\sref{thermal-cycling-results}.
 
 \subsection{Motivational Example}
 \slab{thermal-cycling-motivation}
@@ -232,23 +232,23 @@ to the amount of violation and is not further processed. Otherwise, the
 \subsection{Experimental Results}
 \slab{thermal-cycling-results}
 
-We proceed to the optimization itself. We shall first consider a set of
-synthetic applications and then study a real-life application.
+In this subsection, we proceed to the optimization itself. We shall first
+consider a set of synthetic applications and then study a real-life one. The
+general experimental setup is the same as the one described in
+\sref{dynamic-steady-state-results}. All the configuration files used in the
+experiments are available online at \cite{eslab2011}.
 
-The experimental setup is the following. Heterogeneous platforms and periodic
-applications are generated randomly \cite{dick1998} in such a way that the
-execution time of tasks is uniformly distributed between 1 and 10 $ms$ and the
-leakage power accounts for 30--60\% of the total power dissipation\footnote{The
-parameters of the applications and platforms (task graphs, floorplans, HotSpot
-configurations, etc.) used in our experiments are available online at
-\cite{liu2011}.}. The linear leakage model is used in the experiments, since, as
-discussed in \sref{power-temperature-interdependence}, it provides a good
-approximation. The area of one core is 4 $mm^2$, other parameters of the die and
-thermal package are given in \tref{parameters}. The temperature constraint
-$T_\text{max}$ (see \eref{thermal-cycling-constraints}) is set to $100^\circ C$.
-In \eref{reliability-mean-cycles} the Coffin-Manson exponent $b$ is set to 6,
-the activation energy $E_a$ to 0.5, and the elastic temperature region $\Delta
-T_0$ to zero \cite{jedec2010}. The coefficient of proportionality $A$ is not
+Heterogeneous platforms and periodic applications are generated randomly using
+the \up{TGFF} tool \cite{dick1998} in such a way that the execution time of
+tasks is uniformly distributed between 1 and 10~ms, and the static power
+accounts for 30--60\% of the total power consumption. The modeling of the
+leakage power is based on the linear approximation discussed in
+\sref{power-temperature-interplay}. The area of one processor is
+4~mm\textsuperscript{2}. The temperature constraint $\q_\maximum$ (see
+\eref{thermal-cycling-constraints}) is set to \celsius{100}. In
+\eref{reliability-mean-cycles} the Coffin-Manson exponent $b$ is set to 6, the
+activation energy $E_a$ to 0.5, and the elastic temperature region $\Delta T_0$
+to zero \cite{jedec2010}. The coefficient of proportionality $A$ is not
 significant, since we are concerned about the relative improvement.
 
 In each of the experiments, we compare the optimized solution with an initial

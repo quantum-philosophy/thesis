@@ -59,7 +59,7 @@ adding it to the dynamic power, which we write as follows:
 The process continues until the difference between two successive temperature
 profiles is below a predefined threshold. According to our experience, it
 usually takes 4--7 iterations until the uniform norm of the difference between
-two profiles (the maximum absolute difference) drops below 0.5${}^\circ$C.
+two profiles (the maximum absolute difference) drops below \celsius{0.5}.
 
 The second approach is to use a linear approximation of the leakage power, which
 can be formalized as follows:
@@ -89,10 +89,10 @@ In order to evaluate the linearization, we consider a number of hypothetical
 platforms with 2--32 processors and undertake dynamic steady-state temperature
 analysis. The calculations are performed with both the linearization and the
 exponential model in \eref{static-power}. For the former, the model is fitted
-using least squares \cite{press2007} targeted at range 40--80${}^\circ$C. For
-the latter, we use the iterative approach described earlier. The experiment
-shows that the \up{NRMSE} is bounded by 2\%, indicating a good accuracy of the
-linear approximation.
+using least squares \cite{press2007} targeted at range 40--\celsius{80}. For the
+latter, we use the iterative approach described earlier. The experiment shows
+that the \up{NRMSE} is bounded by 2\%, indicating a good accuracy of the linear
+approximation.
 
 Lastly, let us note that the leakage power is not considered in the experiments
 given in \sref{dynamic-steady-state-results}. However, if it was taken into
