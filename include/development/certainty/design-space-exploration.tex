@@ -253,7 +253,7 @@ activation energy $c$ to 0.5, and the elastic region $\Delta \q_0$ to 0
 \eref{reliability-mean-cycles} is irrelevant since we are concerned with
 relative improvements, which will be explained shortly.
 
-The incipient population of chromosomes is initialized partially randomly and
+The initial population of chromosomes is initialized partially randomly and
 partially based on a temperature-aware heuristic proposed in \cite{xie2006},
 which we shall refer to as the initial solution. The heuristic relies on spatial
 temperature distributions and tries to minimize the maximum temperature while
@@ -274,7 +274,7 @@ the optimization procedure. It can be seen that our reliability-aware
 optimization increases the \up{MTTF} by 13--40 times. Even for large
 problems---such as those with 16 processors and 320 tasks---a feasible schedule
 that significantly improves the lifetime of the system can be found in an
-affordable time. Moreover, as shown in \tref{thermal-cycling-processors}, our
+affordable time. Moreover, as shown in \tref{thermal-cycling-processors}, the
 optimization does not impact the energy efficiency of the system.
 
 \inputtable{thermal-cycling-tasks}
@@ -286,28 +286,31 @@ consumption relative to the initial solution. The results can be seen in
 respect to \tref{thermal-cycling-processors}.
 
 \inputtable{thermal-cycling-methods}
-The above experiments have confirmed that our proposed approach is able to
-effectively increase the MTTF of the system. The efficiency of this approach is
-due to the fast and accurate SSDTP calculation, which is at the heart of the
-optimization, and which, due to its speed, allows a huge portion of the design
-space to be explored. In order to prove this, we have replaced, inside our
-optimization framework, the proposed SSDTP calculation with the calculation
-based on HotSpot and based on the SSA, respectively
-(\sref{dynamic-steady-state-prior}). The goal is to compare our results with the
-results produced using HotSpot and the SSA, after the same optimization time as
-needed with the proposed SSDTP calculation technique. The experimental setup is
-the same as for the experiments in \tref{mttf-tasks}. The MTTF obtained with
-HotSpot and the SSA is evaluated and compared with the MTTF obtained by our
-proposed method. The results are summarized in \tref{mttf-comparison}. For
-example, the lifetime of the platform running 160 tasks can be extended by more
-than 18 times, compared to the initial solution, using our approach, whereas,
-the best solutions found with HotSpot and the SSA, using the same optimization
-time, are only 2.02 and 5.33 times better, respectively. The reason for the poor
-results with HotSpot is the excessively long execution time of the SSDTP
-calculation. This allows for a much less thorough investigation of the solution
-space than with our proposed technique. In the case of the SSA, the reason is
-different. The SSA is fast but also very inaccurate
-(\sref{dynamic-steady-state-prior}). The inaccuracy drives the optimization
+The above experiments show that our optimization is able to effectively increase
+the \up{MTTF} of the system at hand. The efficiency is due to the fast and
+accurate approach to dynamic steady-state temperature analysis presented in
+\sref{dynamic-steady-state-present}, which is at the heart of the optimization
+procedure. Due to its speed, the technique allows a large portion of the design
+space to be explored. In order to illustrate this, let us replace, inside the
+optimization framework, our method with \one~the one based on iterative
+transient analysis with HotSpot and \two~the one based on static steady-state
+analysis; see \sref{dynamic-steady-state-prior}. The goal is to compare the
+results in \tref{thermal-cycling-tasks} with the results produced by the two
+alternative methods when they are given the same amount of time as the one taken
+by our method. For each problem, the optimized \up{MTTF} produced by either of
+the two approximate methods is re-evaluated by our exact method. The results are
+summarized in \tref{thermal-cycling-methods} where \up{MTTF}\textsubscript{i}
+and \up{MTTF}\textsubscript{ii} stand for the two alternative methods,
+respectively. It can be seen that, for example, the lifetime of the platform
+running 160 tasks can be extended by more than 18 times using our technique
+whereas the best solutions found by the other two techniques within the same
+time frame are only around 2--5 times better than the initial solution. The
+reason for the poor performance of transient analysis with HotSpot is the
+excessively long execution time of the \up{DSSTP} calculation. This method
+allows for a very shallow investigation of the design space. In the case of
+static steady-state analysis, the reason is different: the method is fast but
+very inaccurate as discussed and illustrated in
+\sref{dynamic-steady-state-prior}. The inaccuracy drives the optimization
 towards solutions that turn out to be of low quality.
 
 We have seen that our reliability-targeted optimizations have significantly
