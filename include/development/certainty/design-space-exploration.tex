@@ -271,11 +271,11 @@ problem, we generate 20 random task graphs and compute the average change in the
 average change in the energy consumption. The obtained results are reported in
 \tref{thermal-cycling-processors}, which also shows the average time taken by
 the optimization procedure. It can be seen that our reliability-aware
-optimization increases the \up{MTTF} by 13--40 times. Even for large
+optimization increases the \up{MTTF} by a factor of 13--40. Even for large
 problems---such as those with 16 processors and 320 tasks---a feasible schedule
 that significantly improves the lifetime of the system can be found in an
 affordable time. Moreover, as shown in \tref{thermal-cycling-processors}, the
-optimization does not impact the energy efficiency of the system.
+optimization does not impact much the energy efficiency.
 
 \inputtable{thermal-cycling-tasks}
 In the second set of experiments, we keep the quad-core platform and vary the
@@ -286,9 +286,9 @@ consumption relative to the initial solution. The results can be seen in
 respect to \tref{thermal-cycling-processors}.
 
 \inputtable{thermal-cycling-methods}
-The above experiments show that our optimization is able to effectively increase
-the \up{MTTF} of the system at hand. The efficiency is due to the fast and
-accurate approach to dynamic steady-state temperature analysis presented in
+The experiments show that our optimization is able to effectively increase the
+\up{MTTF} of the system at hand. The efficiency is due to the fast and accurate
+approach to dynamic steady-state temperature analysis presented in
 \sref{dynamic-steady-state-present}, which is at the heart of the optimization
 procedure. Due to its speed, the technique allows a large portion of the design
 space to be explored. In order to illustrate this, let us replace, inside the
@@ -302,31 +302,30 @@ the two approximate methods is re-evaluated by our exact method. The results are
 summarized in \tref{thermal-cycling-methods} where \up{MTTF}\textsubscript{i}
 and \up{MTTF}\textsubscript{ii} stand for the two alternative methods,
 respectively. It can be seen that, for example, the lifetime of the platform
-running 160 tasks can be extended by more than 18 times using our technique
-whereas the best solutions found by the other two techniques within the same
-time frame are only around 2--5 times better than the initial solution. The
-reason for the poor performance of transient analysis with HotSpot is the
-excessively long execution time of the \up{DSSTP} calculation. This method
-allows for a very shallow investigation of the design space. In the case of
-static steady-state analysis, the reason is different: the method is fast but
-very inaccurate as discussed and illustrated in
-\sref{dynamic-steady-state-prior}. The inaccuracy drives the optimization
-towards solutions that turn out to be of low quality.
+running 160 tasks can be extended by a factor of 18 using our technique whereas
+the best solutions found by the other two techniques within the same time frame
+are only around 2--5 times better than the initial solution. The reason for the
+poor performance of transient analysis with HotSpot is the excessively long
+execution time of the \up{DSSTP} calculation. This method allows for a very
+shallow investigation of the design space. In the case of static steady-state
+analysis, the reason is different: the method is fast but very inaccurate as
+discussed and illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy
+drives the optimization towards solutions that turn out to be of low quality.
 
-We have seen that our reliability-targeted optimizations have significantly
-increased the MTTF without affecting the energy consumption. This is not
-surprising, since our optimization will search towards low temperature
-solutions, which implicitly means low leakage. In order to further explore this
-aspect, we have performed a multi-objective optimization\footnote{The
-multi-objective optimization is based on NSGA-II \cite{deb2002}.} along the
-dimensions of energy and reliability. An example of the Pareto front averaged
-over 20 applications with 80 tasks deployed onto a quad-core platform is given
-in \fref{average-pareto}. It can be observed that the variation of energy
-is less than 2\%. This means that solutions optimized for the MTTF have an
-energy consumption almost identical to those optimized for energy. At the same
-time, the difference along the MTTF is huge. This means that ignoring the
-reliability aspect one may end up with a significantly decreased MTTF, without
-any significant gain in energy.
+\inputfigure{thermal-cycling-pareto}
+The experiments show that the impact of our optimization on the energy
+consumption is insignificant. This is not surprising: the optimization searches
+toward low-temperature solutions, which are also implicitly the low-leakage
+ones. In order to explore this further, let us perform a multi-objective
+optimization along the dimensions of energy and reliability, and let us use
+\up{NSGA-II} \cite{deb2002}. The resulting Pareto front averaged over 20
+applications with 80 tasks deployed on a quad-core platform is displayed in
+\fref{thermal-cycling-pareto}. It can be observed that the variation of the
+energy change is less than 2\%. This means that the solutions optimized for the
+\up{MTTF} have an energy consumption almost identical to those optimized for
+energy. At the same time, the difference along the \up{MTTF} is huge. This means
+that ignoring the reliability aspect one may end up with a significantly
+decreased \up{MTTF} without any significant gain in energy.
 
 Finally, we have applied our optimization technique to a real-life example,
 namely the MPEG2 video decoder \cite{ffmpeg2011} that is deployed onto a
