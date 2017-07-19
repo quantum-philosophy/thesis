@@ -1,48 +1,41 @@
 In this section, we illustrate the importance of temperature analysis for
-design-space exploration. More specifically, we consider reliability
-optimization and demonstrate the utility of our solution to dynamic steady-state
-analysis presented in \sref{dynamic-steady-state-analysis} for mitigating the
-fatigue due to thermal cycling \cite{jedec2010}, which is one of the most common
-failure mechanism. To this end, we develop a thermal-cycling-aware technique for
-scheduling of periodic applications. (In this thesis, mapping is assumed to be a
-part of scheduling. Therefore, for each task of the application in question, a
-schedule prescribes not only the starting time but also the processor where the
-task is supposed to be executed.)
-
-We proceed as follows. In \sref{thermal-cycling-motivation}, the impact of
-design decisions on the lifetime of a multiprocessor system is exemplified. The
-system and reliability models that we consider are presented in
-\sref{system-model} and \sref{reliability-model}, respectively. In
-\sref{thermal-cycling-optimization}, we formulate our optimization objective and
-describe the optimization technique that we utilize in order to attain this
-objective. Lastly, the experimental results are reported in
-\sref{thermal-cycling-results}.
-
-\subsection{Motivational Example}
-\slab{thermal-cycling-motivation}
+design-space exploration. Specifically, we consider reliability optimization and
+demonstrate the utility of our solution to dynamic steady-state analysis
+presented in \sref{dynamic-steady-state-analysis} for mitigating the fatigue due
+to thermal cycling \cite{jedec2010}, which is one of the most common failure
+mechanism. To this end, we develop a thermal-cycling-aware technique for
+scheduling of periodic applications.
 
 \inputfigure{thermal-cycling-task-graph}
 \inputfigure{thermal-cycling-motivation}
-Consider a periodic application with six tasks denoted T1--T6 and a
-heterogeneous platform with two processors denoted P1 and P2. The task graph of
-the application is given in \fref{thermal-cycling-task-graph} along with the
-execution times for both processors. The period of the application is 60~ms. The
+We begin with a motivational example. Consider a periodic application with six
+tasks denoted by T1--T6 and a heterogeneous platform with two processors denoted
+by P1 and P2. The task graph of the application is given in
+\fref{thermal-cycling-task-graph} along with the execution times of the tasks
+with respect to both processors. The period of the application is 60~ms. The
 first alternative schedule and the corresponding \up{DSSTP} are shown on the
 left-hand side of \fref{thermal-cycling-motivation} where the height of a task
 represents its power consumption. It can be seen that P1 is experiencing three
-thermal cycles where a thermal cycle is roughly a time interval wherein
-temperature starts from a certain value, reaches an extremum, and comes back. If
-we move T6 to P2, the number of cycles decreases to two, which can be seen in
-the middle of \fref{thermal-cycling-motivation}. If we also swap T2 and T4, the
-number of cycles of P1 drops to one, which is depicted on the right-hand side of
-\fref{thermal-cycling-motivation}. According to the reliability model that we
-shall describe shortly, these two changes improve the lifetime of the system by
-around 45\% and 55\%, respectively, relative to the initial schedule.
+thermal cycles; a thermal cycle is roughly defined as a time interval wherein
+temperature starts from a certain value, reaches an extremum, and then comes
+back. If we move T6 to P2, the number of cycles decreases to two, which can be
+seen in the middle of \fref{thermal-cycling-motivation}. If we also swap T2 and
+T4, the number of cycles of P1 drops to one, which is depicted on the right-hand
+side of \fref{thermal-cycling-motivation}. According to the reliability model
+that we shall describe shortly, these two changes improve the lifetime of the
+system by around 45\% and 55\%, respectively, relative to the initial schedule.
 
 The example shows that, when exploring the design space, it is important to
 take into account the number of temperature fluctuations and their
 characteristics. In order to obtain this information, the \up{DSSTP} has to be
 computed.
+
+The remainder of the chapter is organized as follows. The system and reliability
+models that we consider are presented in \sref{system-model} and
+\sref{reliability-model}, respectively. In \sref{thermal-cycling-optimization},
+we formulate our optimization objective and describe the optimization technique
+that we utilize in order to attain this objective. The experimental results are
+reported in \sref{thermal-cycling-results}.
 
 \subsection{System Model}
 \slab{system-model}
