@@ -242,11 +242,11 @@ experiments are available online at \cite{eslab2011}.
 Heterogeneous platforms and periodic applications are generated randomly using
 the \up{TGFF} tool \cite{dick1998} in such a way that the execution times of
 tasks are uniformly distributed between 1 and 10~ms, and that the static power
-accounts for 30--60\% of the total power consumption. The modeling of the
-leakage power is based on the linear approximation discussed in
-\sref{power-temperature-interplay}. The area of a single processor is set to
-4~mm\textsuperscript{2}. The maximum-temperature constraint $\q_\maximum$ in
-\eref{thermal-cycling-constraints} is set to \celsius{100}. In
+accounts for 30--60\% of the total power consumption. The area of a single
+processor is set to 4~mm\textsuperscript{2}. The modeling of the leakage power
+is based on the linear approximation discussed in
+\sref{power-temperature-interplay}. The maximum-temperature constraint
+$\q_\maximum$ in \eref{thermal-cycling-constraints} is set to \celsius{100}. In
 \eref{reliability-mean-cycles}, the Coffin--Manson exponent $b$ is set to 6, the
 activation energy $c$ to 0.5, and the elastic region $\Delta \q_0$ to 0
 \cite{jedec2010}; the coefficient of proportionality $a$ in
@@ -256,12 +256,12 @@ relative improvements, which will be explained shortly.
 The initial population of chromosomes is initialized partially randomly and
 partially based on a temperature-aware heuristic proposed in \cite{xie2006},
 which we shall refer to as the initial solution. The heuristic relies on spatial
-temperature distributions and tries to minimize the maximum temperature while
+temperature variations and tries to minimize the maximum temperature while
 satisfying real-time constraints. This solution is also used to decide on the
 deadline constraint $\period$ in \eref{thermal-cycling-constraints}: it is set
 to the duration of the initial schedule extended by 5\%. Furthermore, the
 initial solution serves as a baseline for evaluating the performance of the
-solutions delivered by our optimization.
+solutions delivered by our optimization procedure.
 
 \inputtable{thermal-cycling-processors}
 In the first set of experiments, we change the number of processors \np while
@@ -270,7 +270,7 @@ problem, we generate 20 random task graphs and compute the average change in the
 \up{MTTF} relative to the initial solution. In addition, we calculate the
 average change in the energy consumption. The obtained results are reported in
 \tref{thermal-cycling-processors}, which also shows the average time taken by
-the optimization procedure. It can be seen that our reliability-aware
+the optimization procedure. It can be seen that the reliability-aware
 optimization increases the \up{MTTF} by a factor of 13--40. Even for large
 problems---such as those with 16 processors and 320 tasks---a feasible schedule
 that significantly improves the lifetime of the system can be found in an
@@ -307,13 +307,14 @@ the best solutions found by the other two techniques within the same time frame
 are only around 2--5 times better than the initial solution. The reason for the
 poor performance of transient analysis with HotSpot is the excessively long
 execution time of the \up{DSSTP} calculation. This method allows for a very
-shallow investigation of the design space. In the case of static steady-state
-analysis, the reason is different: the method is fast but very inaccurate as
-discussed and illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy
-drives the optimization towards solutions that turn out to be of low quality.
+shallow exploration of the design space. In the case of static steady-state
+analysis, the reason is different: the method is fast but also very inaccurate
+as discussed and illustrated in \sref{dynamic-steady-state-prior}. The
+inaccuracy drives the optimization towards solutions that turn out to be of low
+quality.
 
 \inputfigure{thermal-cycling-pareto}
-The experiments show that the impact of our optimization on the energy
+The experiments show that the impact of the optimization on the energy
 consumption is insignificant. This is not surprising: the optimization searches
 toward low-temperature solutions, which are also implicitly the low-leakage
 ones. In order to explore this further, let us perform a multi-objective
@@ -322,22 +323,22 @@ optimization along the dimensions of energy and reliability, and let us use
 applications with 80 tasks deployed on a quad-core platform is displayed in
 \fref{thermal-cycling-pareto}. It can be observed that the variation of the
 energy change is less than 2\%. This means that the solutions optimized for the
-\up{MTTF} have an energy consumption almost identical to those optimized for
-energy. At the same time, the difference along the \up{MTTF} is huge. This means
-that ignoring the reliability aspect one may end up with a significantly
-decreased \up{MTTF} without any significant gain in energy.
+\up{MTTF} have an energy consumption that is almost identical to the one of the
+solutions optimized for energy. At the same time, the difference along the
+\up{MTTF} dimension is huge. This means that ignoring the reliability aspect the
+designer may end up with a significantly decreased \up{MTTF} without any
+significant gain in the energy consumption.
 
-Finally, we have applied our optimization technique to a real-life example,
-namely the MPEG2 video decoder \cite{ffmpeg2011} that is deployed onto a
-dual-core platform. The decoder was analyzed and split into 34 tasks. The
-parameters of each task were obtained through a system-level simulation using
-MPARM \cite{benini2005}. The deadline is set to 40 $ms$ assuming 25 video frames
-per second. The solution found with the proposed method improves the lifetime of
-the system by 23.59 times with a 5\% energy saving, compared to the initial
-solution. The same optimization was solved using HotSpot and the SSA. The best
-found solutions are only 5.37 and 11.50 times better than the initial one,
-respectively.
+Finally, we consider a real-life application, namely, an \up{MPEG-2} decoder
+\cite{ffmpeg2011}, which is assumed to be deployed on a dual-core platform. The
+decoder is analyzed and split into 34 tasks. The parameters of each task are
+obtained through a system-level simulation using \up{MPARM} \cite{benini2005}.
+The deadline is set to 40~ms assuming 25 frames per second. The solution found
+by the proposed method improves the lifetime of the system by a factor of 23.59
+with a 5\% energy saving compared to the initial solution. The solutions found
+by undertaking the same optimization via the two alternative methods mentioned
+earlier are only 5.37 and 11.50 times better than the initial one, respectively.
 
-Experiments demonstrate the superiority of the proposed techniques, compared to
-the state of the art.
-
+To conclude, the experimental experiments demonstrate the superiority of the
+proposed approach to dynamic steady-state temperature analysis compared to the
+state-of-the-art techniques.
