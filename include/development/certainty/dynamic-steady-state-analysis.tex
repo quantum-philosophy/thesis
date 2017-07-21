@@ -4,18 +4,17 @@ the power consumption follows a periodic pattern. In this case, after a
 sufficiently long time, the system will not reach a static steady state but
 instead a dynamic steady state: temperature will starts to exhibit a periodic
 patter following the periodic patter of power. Then the goal of the analysis is
-to find the periodic temperature profile \mq, called the dynamic steady-state
-temperature profile (\up{DSSTP}), that corresponds to a given periodic power
-profile \mp.
+to find the periodic temperature profile \mq, called the \ac{DSSTP}, that
+corresponds to a given periodic power profile \mp.
 
 In the case of applications that exhibit periodic or close to periodic behavior,
-the \up{DSSP} is of particular importance. Any design optimization has to be
+the \ac{DSSTP} is of particular importance. Any design optimization has to be
 performed such that the efficiency and reliability of the system at hand are
 maximized considering not a relatively short transient time interval at the
 system's start but the context in which the system is to function over a long
 period of time, which is exactly the system's dynamic steady state.
 
-A typical design task, for which the \up{DSSTP} is of central importance, is
+A typical design task, for which the \ac{DSSTP} is of central importance, is
 temperature-aware reliability optimization. The impact of temperature on the
 lifetime of electronic systems is well known \cite{srinivasan2004, coskun2006,
 jedec2010, xiang2010}. The failure mechanisms commonly considered are
@@ -24,16 +23,16 @@ which are directly driven by temperature \cite{jedec2010}. What is important in
 this context is that not only the average and maximum temperature have a huge
 impact on the lifetime of the chip but also the amplitude and frequency of
 temperature oscillations. Thus, efficient reliability optimization depends on
-the availability of the actual \up{DSSTP}, which we shall illustrate and discuss
+the availability of the actual \ac{DSSTP}, which we shall illustrate and discuss
 further in \sref{thermal-cycling-exploration}.
 
 \subsection{Prior Work}
 \slab{dynamic-steady-state-prior}
 
 Let us elaborate on the techniques that have been applied in the literature in
-order to compute the \up{DSSTP} as a prerequisite for reliability optimization.
+order to compute the \ac{DSSTP} as a prerequisite for reliability optimization.
 
-A straightforward approximation of the \up{DSSTP} can be obtained by running a
+A straightforward approximation of the \ac{DSSTP} can be obtained by running a
 temperature simulator over one or more successive periods of the application
 until it is assumed that a sufficiently accurate approximation of the dynamic
 steady state has been attained \cite{srinivasan2004}. The typical simulator of
@@ -44,27 +43,27 @@ temperature analysis by solving \eref{temperature-model-original} numerically
 via the Runge--Kutta fourth-order method \cite{press2007}.
 
 \inputfigure{dynamic-steady-state-prior}
-The number of iterations required to reach the \up{DSSTP} depends on the thermal
+The number of iterations required to reach the \ac{DSSTP} depends on the thermal
 characteristics of the platform. In order to illustrate this aspect, consider an
 application with a period of 500~ms running on five hypothetical platforms with
 processor areas of 1--25~mm\textsuperscript{2}. Let us simulate 50 successive
 periods of the application via HotSpot with its default settings and compare the
-resulting approximations in each period with the actual \up{DSSTP} using the
-normalized root-mean-square error (\up{NRMSE}). The comparison is shown in
-\fref{iterative-transient-error}. It can be observed that the number of
-successive periods over which transient analysis has to be performed in order to
-achieve a satisfactory level of accuracy is significant for the majority of the
-configurations, which entails large computation times. For instance, for a
-9-mm\textsuperscript{2} processor, even after 15 iterations, the \up{NRMSE} is
-still close to 20\%. Using the analytical approach to transient analysis
-presented in \sref{transient-analysis}, the calculation can be sped up; however,
-the large number of iterations still keeps the computation cost unreasonably
-high as we shall illustrate in \sref{dynamic-steady-state-results}. Moreover,
-this approximation technique provides no guarantees on the resulting accuracy
-since there is no a reliable metric for measuring the proximity to the actual
-solution, the actual \up{DSSTP}.
+resulting approximations in each period with the actual \ac{DSSTP} using the
+\ac{NRMSE}. The comparison is shown in \fref{iterative-transient-error}. It can
+be observed that the number of successive periods over which transient analysis
+has to be performed in order to achieve a satisfactory level of accuracy is
+significant for the majority of the configurations, which entails large
+computation times. For instance, for a 9-mm\textsuperscript{2} processor, even
+after 15 iterations, the \ac{NRMSE} is still close to 20\%. Using the analytical
+approach to transient analysis presented in \sref{transient-analysis}, the
+calculation can be sped up; however, the large number of iterations still keeps
+the computation cost unreasonably high as we shall illustrate in
+\sref{dynamic-steady-state-results}. Moreover, this approximation technique
+provides no guarantees on the resulting accuracy since there is no a reliable
+metric for measuring the proximity to the actual solution, the actual
+\ac{DSSTP}.
 
-Another crude but fast approximation of the \up{DSSTP} is proposed in
+Another crude but fast approximation of the \ac{DSSTP} is proposed in
 \cite{huang2009}. It forgoes transient analysis all together and resides to
 static steady-state analysis instead. To elaborate, it is assumed that, in each
 time interval wherein the power consumption is constant, the system
@@ -74,7 +73,7 @@ temperature that would be reached if the corresponding power was applied for a
 sufficiently long time.
 
 \inputfigure{static-steady-state-example}
-An example of such an approximation along with the corresponding \up{DSSTP} for
+An example of such an approximation along with the corresponding \ac{DSSTP} for
 an application with 10 tasks and a period of 100~ms is given in
 \fref{static-steady-state-example}. The processor area is
 25~mm\textsuperscript{2} in this case. The reduced accuracy of this technique is
@@ -86,7 +85,7 @@ running on five platforms with processor areas of 1--25~mm\textsuperscript{2}
 and assess the resulting profiles. The errors are shown in
 \fref{static-steady-state-error}. It can be seen that, for example, for a
 processor area of 10~mm\textsuperscript{2} and an application period of 100~ms,
-the \up{NRMSE} of this approximation technique is close to 40\%.
+the \ac{NRMSE} of this approximation technique is close to 40\%.
 
 To conclude, the state-of-the-art techniques for dynamic steady-state
 temperature analysis are slow and inaccurate. This state of affairs makes them
@@ -109,7 +108,7 @@ state is as follows:
 In words, the above condition means that, once the steady state has been
 reached, the system starts to arrive at its initial state at the end of each
 iteration, which is what makes it periodic. Then, using \eref{recurrence}, the
-\up{DSSTP} can be computed by solving the following system of linear equations:
+\ac{DSSTP} can be computed by solving the following system of linear equations:
 \[
   \begin{cases}
     \vs_1 - \m{E} \vs_\ns & = \m{F}_1 \vp_1 \\
@@ -250,7 +249,7 @@ initial one $\vs_0$. Consequently, the rest of the state vectors $\{ \vs_i: i =
 \range{1}{\ns - 1} \}$ can be successively found by means of
 \eref{steady-state-recurrence} where each $\v{v}_i$ has already been calculated
 when computing $\v{w}_\ns$. The last step of the solution process is to compute
-the actual temperature profile \mq, the \up{DSSTP}, by applying
+the actual temperature profile \mq, the \ac{DSSTP}, by applying
 \eref{temperature-algebraic}.
 
 It can be seen that the solution to the $\nn \ns \times \nn \ns$ system given in
@@ -291,8 +290,8 @@ transform, which is mentioned in \sref{dynamic-steady-state-present}, since they
 are comparable with ours in terms of accuracy. In the case of transient
 analysis, we evaluate both the fast analytical solution described in
 \sref{transient-analysis-present} and the one implemented in HotSpot, and the
-corresponding iterative calculation is undertaken until the \up{NRMSE} relative
-to the \up{DSSTP} obtained with the proposed method (which is exact) is less
+corresponding iterative calculation is undertaken until the \ac{NRMSE} relative
+to the \ac{DSSTP} obtained with the proposed method (which is exact) is less
 than 1\%.
 
 \inputfigure{dynamic-steady-state-scaling}
@@ -301,7 +300,7 @@ thereby, the number of samples \ns that they contain---while keeping the
 architecture fixed, which is a quad-core platform with a processor area of
 4~mm\textsuperscript{2}. The results of this experiment are depicted in
 \fref{scaling-steps} on a semi-logarithmic scale. It can be seen that the
-proposed technique for calculating the \up{DSSTP} is 9--170 times faster than
+proposed technique for calculating the \ac{DSSTP} is 9--170 times faster than
 transient analysis with the analytical solution and roughly 5000 times faster
 than transient analysis with HotSpot.
 

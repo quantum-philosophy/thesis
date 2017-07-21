@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/07/01 Thesis]
+\ProvidesClass{thesis}[2017/07/21 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -32,6 +32,7 @@
 \gdef\@abstractenglish{\input{include/abstract-en}}
 \gdef\@abstractswedish{\input{include/abstract-sv}}
 \gdef\@acknowledgments{\input{include/acknowledgments}}
+\gdef\@abbreviations{\input{include/abbreviations}}
 \gdef\@dedication{\input{include/dedication}}
 \gdef\@logo{include/assets/figures/university-logo}
 
@@ -201,6 +202,9 @@
     \relax
     \clearpage
   }
+  \@abbreviations
+  \addcontentsline{toc}{chapter}{List of Abbreviations}
+  \clearpage
   \iftotalfigures{\pagestyle{plain}\listoffigures\relax\clearpage}\fi
   \iftotaltables{\pagestyle{plain}\listoftables\relax\clearpage}\fi
   \cleartorecto
