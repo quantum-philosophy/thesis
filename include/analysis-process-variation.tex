@@ -1,6 +1,6 @@
 \chapter{Analysis of Process Variation}
 
-\subsection{Abstract}
+\section{Abstract}
 
 We present a framework for the analysis of process variation across
 semiconductor wafers. The framework is capable of quantifying the primary
@@ -14,7 +14,7 @@ needed or only a small subset of the test equipments already deployed for other
 purposes might need to be activated. The experimental results present an
 assessment of our framework for a wide range of configurations.
 
-\subsection{Introduction}
+\section{Introduction and Prior Work}
 
 Process variation constitutes one of the major concerns of electronic system
 designs \cite{chandrakasan2000, srivastava2010}. A crucial implication of
@@ -65,7 +65,7 @@ the quantification of process variation based on indirect, incomplete, and noisy
 measurements. Moreover, we develop and implement a solid framework around the
 proposed idea and perform a thorough study of various aspects of our technique.
 
-\subsection{Motivational Example}
+\section{Motivational Example}
 
 \inputfigure{inference-example}
 Let us consider an important application of the proposed technique: the
@@ -170,7 +170,7 @@ the one that we wish to characterize, that is, on \g. For example, \h can be the
 leakage current, which can be readily measured if adequate test structures have
 already been deployed on the wafer for other purposes.
 
-\subsection{Problem Formulation}
+\section{Problem Formulation}
 
 Consider a generic electronic system, which is fabricated on a silicon wafer
 hosting \nd dies. The system depends on a process parameter \g, which we are
@@ -220,7 +220,7 @@ For convenience, we denote by $\spec$ all the information relevant to the
 production and measurement processes including: (a) the layout of the wafer and
 (b) the floorplan of a die on the wafer.
 
-\subsection{Preliminaries}
+\section{Preliminaries}
 
 In order to give a clear presentation of the proposed technique, we first
 overview the basics of Bayesian inference \cite{gelman2004}. Let \vt be a set of
@@ -254,7 +254,7 @@ via sampling from an auxiliary, computationally convenient distribution known as
 the proposal distribution. We shall further elaborate on this algorithm in
 \sref{statistical-model}--\sref{sampling}.
 
-\subsection{Proposed Framework}
+\section{Proposed Framework}
 
 In this section, we present our statistical framework for the characterization
 of process variation. The technique is divided into four major stages depicted
@@ -270,7 +270,7 @@ certain threshold as motivated in \sref{motivation}. As it can be seen in
 \fref{algorithm}, Stage~2 and Stage~3 actively communicate with the two models
 on the right, called the data and statistical models, which we discuss next.
 
-\subsubsection{Data Model}
+\subsection{Data Model}
 
 The data model is essentially a directed relation between the \ac{QOI}, \g, and
 the \ac{QOM}, \h, which we denote by the ``black-box'' transformation $\g =
@@ -306,7 +306,7 @@ power along with the temperature-related information contained in $\spec$
 simulator (see \sref{experimental-results}) in order to acquire the
 corresponding temperature \h.
 
-\subsubsection{Statistical Model}
+\subsection{Statistical Model}
 
 Once the wafer has been fabricated, the values of \g are fixed for all
 locations on the wafer; however, they remain unknown for us. In order to infer
@@ -467,7 +467,7 @@ good approximation of the target posterior distribution in \eref{posterior}. The
 preliminary computations needed for the proposal construction are discussed
 next, and the subsequent sampling procedure in \sref{sampling}.
 
-\subsubsection{Optimization of the Proposal Distribution}
+\subsection{Optimization of the Proposal Distribution}
 
 In this section, we describe the objective of Stage~2 in \fref{algorithm}.
 Although the requirements to the proposal distribution mentioned earlier are
@@ -491,7 +491,7 @@ $\m{J}$, we can now construct such a proposal, which will allow the \up{MH}
 algorithm (a) to start producing samples directly from the desired regions of
 high probability and (b) to explore those regions more rapidly.
 
-\subsubsection{Sampling via the Metropolis-Hastings Algorithm}
+\subsection{Sampling via the Metropolis-Hastings Algorithm}
 
 Let us turn to Stage~3 in \fref{algorithm}. We have at our disposal $\hat{\vt}$
 and $\m{J}$ from Stage~2 in order to construct an adequate proposal and utilize
@@ -523,7 +523,7 @@ and $\sigma^2_\g$, is then used in \eref{kl-approximation} to compute a sample
 of \g, $\vg_i \in \real^{\nd \np}$. Denote such a data set with $n$ samples of
 the \ac{QOI} by $G = \{ \vg_i \}_{i = 1}^n$.
 
-\subsubsection{Post-processing}
+\subsection{Post-processing}
 
 At Stage~4 in \fref{algorithm}, using the set of samples $G$, the user computes
 the desired statistics of the \ac{QOI} such as the most probable value of the
@@ -543,7 +543,7 @@ delivered posterior distribution contains all the needed information about the
 \ac{QOI}. This is especially helpful in decision making as exemplified in
 \sref{motivation}.
 
-\subsection{Experimental Results}
+\section{Experimental Results}
 
 In this section, we assess our framework using the inference of the effective
 channel length \g based on temperature \h. This choice for illustration is
@@ -640,6 +640,8 @@ the number of measured sites/dies $\nd'$; the number of processing
 elements/measured points $\np$ on a site; the amount of data per measurement
 point \ns; and the noise deviation $\sigma_\epsilon$.
 
+\subsection{Number of Measured Sites}
+
 Let us change the number of dies $\nd'$ that have been measured. The considered
 scenarios are 1, 10, 20, 40, 80, and 160 measured dies, respectively. The
 results are reported in \tref{spatial-measurements}. In this and the following
@@ -660,6 +662,8 @@ computational times increase less than two times. The error firmly decreases and
 drops below 4\% with around 20 sites measured, which is only 6.3\% of the total
 number of dies on the wafer.
 
+\subsection{Number of Measured Points Per Site}
+
 Here we consider five platforms with the number of processing
 elements/measurement points $\np$ on each die equal to 2, 4, 8, 16, and 32,
 respectively. The results are summarized in \tref{processing-elements}. All the
@@ -673,6 +677,8 @@ observation can be made from the NRMSE: the error tends to decrease as $\np$
 grows. The explanation is that, with each processing element, $H$ delivers
 more information to the inference to work with since the temperature profiles
 are collected for all the processing elements simultaneously.
+
+\subsection{Amount of Data Per Measured Point}
 
 In this subsection, we sweep the number of moments of time \ns captured by the
 measured temperature profiles. The scenarios are 1, 10, 20, 40, 80, and 160 time
@@ -695,6 +701,8 @@ representative samples can end up in $H$ helping or misleading the inference. We
 can also conclude that a larger number of spatial measurements is more
 advantageous than a larger number of temporal measurements.
 
+\subsection{Deviation of the Measurement Noise}
+
 Next we vary the standard deviation of the noise (in Kelvins), affecting the
 data $H$, within the set $\{ 0, 0.5, 1, 2 \}$ coherent with the literature
 \cite{mesa-martinez2007}. Note that the corresponding prior distribution in
@@ -710,6 +718,8 @@ of noise of two degrees---meaning that measurements are dispersed over a wide
 band of 8~K with a large probability of more than 0.95---the NRMSE is still only
 4\%.
 
+\subsection{Sequential vs. Parallel Sampling}
+
 Let us summarize the results of the sequential and parallel sampling strategies.
 In the sequential MH algorithm, the optimization time is typically smaller than
 the time needed for drawing posterior samples. The situation changes when
@@ -719,7 +729,7 @@ of the chosen sampling strategy. The overall speedup ranges from 1.49 to 2.75
 with the average value of 1.77 times, which can be pushed even further employing
 more parallel processors.
 
-\subsection{Conclusion}
+\section{Conclusion}
 
 We proposed a framework for the analysis of process variation across
 semiconductor wafers based on cost-efficient, indirect measurements. The
