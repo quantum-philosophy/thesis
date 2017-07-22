@@ -1,11 +1,745 @@
 \chapter{Development under Uncertainty}
 \clab{development-uncertainty}
 
+\section{Introduction}
+
 \section{Analysis of Process Variation via Indirect Measurements}
+
+\subsection{Abstract}
+
+We present a framework for the analysis of process variation across
+semiconductor wafers. The framework is capable of quantifying the primary
+parameters affected by process variation such as the effective channel length,
+which is in contrast with the former techniques wherein only secondary
+parameters were considered such as the leakage current. Instead of taking direct
+measurements of the quantity of interest, we employ Bayesian inference to draw
+conclusions based on indirect observations such as on temperature. The proposed
+approach has low costs since no deployment of expensive test structures might be
+needed or only a small subset of the test equipments already deployed for other
+purposes might need to be activated. The experimental results present an
+assessment of our framework for a wide range of configurations.
+
+\subsection{Introduction}
+
+Process variation constitutes one of the major concerns of electronic system
+designs \cite{chandrakasan2000, srivastava2010}. A crucial implication of
+process variation is that it renders the key parameters of a technological
+process, for instance, the effective channel length and gate oxide thickness, as
+uncertain quantities. Therefore, the same workload applied to two ``identical''
+dies can lead to two different power and, thus, temperature profiles since the
+dissipation of power and heat essentially depends on the aforementioned
+quantities. Consequently, process variation leads to performance degradation in
+the best case and to severe faults or burnt silicon in the worst scenario. Under
+these circumstances, uncertainty quantification has evolved into an
+indispensable asset of the fabrication workflows in order to provide guaranties
+on the efficiency and robustness of products.
+
+An important target of uncertainty quantification is the characterization of the
+on-wafer distribution of a quantity of interest, deteriorated by process
+variation, based on measurements. The problem belongs to the class of inverse
+problems since the analyzed parameter can be seen as an input to the system and
+the measured data as the corresponding output. Such an inverse problem is
+addressed in this work: our goal is to characterize arbitrary process parameters
+with high accuracy and at low costs. The goal is accomplished by tracking
+supplementary quantities, which are more convenient and less expensive to be
+measured, and employing Bayesian statistics \cite{gelman2004} to infer the
+needed parameters from the observed data.
+
+Bayesian inference is utilized in \cite{zhang2010} to identify the optimal set
+of locations on a wafer, in which the parameter under consideration should be
+measured in order to characterize it with the maximal accuracy. The
+expectation-maximization algorithm is considered in \cite{reda2009} in order to
+estimate missing test measurements. In \cite{paek2012}, the authors consider an
+inverse problem focused on the inference of the power dissipation based on
+transient temperature maps using Markov random fields. Another temperature-based
+characterization of power is developed in \cite{mesa-martinez2007} wherein a
+genetic algorithm is employed for the reconstruction of the power model. It
+should be noted that the procedures in \cite{zhang2010, reda2009} operate on
+direct measurements, meaning that the output is the same quantity as the one
+being measured. In particular, \cite{zhang2010, reda2009} rely heavily on the
+availability of adequate test structures on the dies and are practical only for
+the secondary quantities affected by process variation, such as delays and
+currents, but not for the primary ones, such as various geometrical properties.
+Hence, \cite{zhang2010, reda2009} often lead to excessive costs and have a
+limited range of application. The approaches \cite{paek2012, mesa-martinez2007},
+on the other hand, concentrating on the power dissipation of a single die, are
+not concerned with process variation.
+
+Our work makes the following main contribution. We propose a novel approach to
+the quantification of process variation based on indirect, incomplete, and noisy
+measurements. Moreover, we develop and implement a solid framework around the
+proposed idea and perform a thorough study of various aspects of our technique.
+
+\subsection{Motivational Example}
+
 \inputfigure{inference-example}
+Let us consider an important application of the proposed technique: the
+characterization of the distribution, across a silicon wafer, of the effective
+channel length, denoted by \g. The effective channel length has one of the
+strongest effects on the subthreshold leakage current and, consequently, on
+power and temperature \cite{juan2012}; at the same time, \g is well known to be
+severely deteriorated by process variation \cite{chandrakasan2000,
+srivastava2010}. Assume the technological process imposes a lower bound $\g_*$
+on $\g$.\footnote{For simplicity, a possible upper bound on the effective
+channel length is ignored in the motivational example.} This bound separates
+defective dies ($\g < \g_*$) from those that are acceptable ($\g \geq \g_*$). In
+order to reduce costs, the manufacturer is interested in detecting the faulty
+dies and taking them out of the production process at early stages. Then the
+possible actions that they might take with respect to a single die on the wafer
+are: (a) keep the die if it conforms to the specification; (b) recycle the die
+otherwise. Let the distribution of \g across the wafer be the one depicted on
+the left side of \fref{wafer-qoi}. The gradient from navy to dark red represents
+the transition of \g from low to high values; hence, the navy regions have a
+high level of the power and heat dissipation.\footnote{The experimental setup
+will be described in detail in \sref{experimental-results}.}
+
+In order to quantify the uncertainty due to the variability of the effective
+channel length \g, one can find the above-mentioned distribution by removing the
+top layer of (thus, destroying) the dies and measuring \g directly.
+Alternatively, despite the fact that the knowledge of \g is more preferable, one
+can step back and decide to characterize process variation using some other
+parameter that can be measured without the need of damaging the dies such as the
+leakage current. It should be noted that, in this second case, the chosen
+surrogate is the final product, and \g is left unknown. In either way, adequate
+test structures have to be present on the dies in order to take the
+corresponding measurements in sufficiently many points and at the desired level
+of granularity. Such a sophisticated test structure might not always be readily
+available, and its deployment might significantly increase production costs.
+Moreover, the first approach implies that the measured dies have to be recycled
+afterwards, and the second implies that the further design decisions will be
+based on a surrogate quantity instead of the primary source of uncertainty,
+which can compromise the reliability of the decisions. The latter concern is
+particularly urgent in the situations wherein the production process is not yet
+completely stable and, hence, the design decisions based on the primary subjects
+of process variation are desirable.
+
+Our technique works differently. In order to characterize the effective channel
+length \g, we monitor an auxiliary quantity \h that depends on \g and is more
+advantageous from the measurement perspective. The distribution of \g across the
+whole wafer is then obtained via Bayesian inference \cite{gelman2004} applied to
+the collected measurements of \h. These measurements are taken only for a small
+number of locations on the wafer and can potentially be corrupted by the noise
+due to the imperfection of the measurement equipments.
+
+Let us consider one particular helper \h, which can be used to study the
+effective channel length \g; specifically, let \h be temperature (we elaborate
+further on this choice in \sref{experimental-results}). We can then apply a
+fixed workload (for instance, run the same application under the same
+conditions) to a few dies on the wafer and measure the corresponding temperature
+profiles. Since temperature does not require extra equipments to be deployed on
+the wafer and can be tracked using infrared cameras \cite{mesa-martinez2007} or
+built-in facilities of the dies, our approach can reduce the costs associated
+with the analysis of process variation. The results of our framework applied to
+a set of noisy temperature profiles measured for only 7\% of the dies on the
+wafer are shown on the right side of \fref{wafer-qoi}, and the locations of the
+selected dies are depicted in \fref{wafer-measured}. It can be seen that the two
+maps in \fref{wafer-qoi} closely match each other implying that our approach is
+able to reconstruct the distribution of the effective channel length with a high
+level of accuracy.
+
+Another feature of the proposed framework is that probabilities of various
+events, for instance, $\probability{\g \geq \g_*}$, can readily be estimated.
+This is important since, in reality, the true values are unknown for us
+(otherwise, we would not need to quantify them), and, therefore, we can rely on
+our decisions only up to a certain probability. We can then reformulate the
+decision rule defined earlier as follows: (a) keep the die if $\probability{\g
+\geq \g_*}$ is larger than a certain threshold; (b) recycle the die otherwise.
+An illustration of this rule is given in \fref{wafer-defective} where the lower
+bound $\g_*$ is set to two standard deviations below the mean value of the
+effective channel length; the probability threshold of the action (a) is set to
+0.9; the crosses mark both the true and inferred defective dies (they coincide);
+and the gradient from light gray to red corresponds to the inferred probability
+of a die to be defective. It can be seen that the inference accurately detects
+faulty regions.
+
+In addition, we can introduce a trade-off action: (c) expose the die to a
+thorough inspection (for instance, via a test structure) if $\probability{\g
+\geq \g_*}$ is smaller than the threshold of (a) and is larger than some other
+threshold, for instance, $0.1 < \probability{\g \geq \g_*} < 0.9$. In this case,
+we can reduce costs by examining only those dies for which there is neither
+sufficiently strong evidence of their satisfactory nor unsatisfactory condition.
+Furthermore, one can take into consideration a so-called utility function,
+which, for each combination of an outcome of \g and a taken action, returns the
+gain that the decision maker obtains. For example, such a function can favor a
+rare omission of malfunctioning dies to a frequent inspection of correct dies as
+the latter might involve much more costs. The optimal decision is given by the
+action that maximizes the expected utility with respect to both the observed
+data and prior knowledge on \g. Thus, all possible \g weighted by their
+probabilities will be taken into account in the final decision, incorporating
+also the preferences of the user via the utility function.
+
+Finally, we would like to emphasize that temperature is just one option. In
+certain situations, it might be preferable to perform the above inference based
+on measurements of some other auxiliary quantity \h provided that it depends on
+the one that we wish to characterize, that is, on \g. For example, \h can be the
+leakage current, which can be readily measured if adequate test structures have
+already been deployed on the wafer for other purposes.
+
+\subsection{Problem Formulation}
+
+Consider a generic electronic system, which is fabricated on a silicon wafer
+hosting \nd dies. The system depends on a process parameter \g, which we are
+interested in studying and shall refer to as the \ac{QOI}. Due to the presence
+of process variation, the value of \g deviates from the nominal one, and this
+deviation can be different at different locations on the wafer. The \ac{QOI} is
+assumed to be expensive/impractical for direct measurements.
+
+The goal of this work is to develop a statistical framework targeted at the
+identification of the on-wafer distribution of \g with the following properties:
+(a) low measurement costs; (b) high computational speed; (c) robustness to the
+measurement noise; (d) ability to accommodate prior knowledge on \g; and (e)
+ability to assess the trustworthiness of the collected data and corresponding
+predictions.
+
+In order to achieve the established goal, we propose the use of indirect
+measurements. Specifically, instead of \g, we measure an auxiliary parameter \h,
+which we shall refer to as the \ac{QOM}. The observations of \h are then
+processed via Bayesian inference in order to derive the distribution of the
+\ac{QOI}, \g. The \ac{QOM} is chosen such that: (a) \h is convenient and cheap
+to be tracked; (b) \h depends on \g, which is signified by $\h = f(\g)$; and (c)
+there is a way to compute \h for a given \g. The last means that $f$ should be
+known; however, it does not have to be explicitly given: our framework treats
+$f$ as a ``black box.'' For example, $f$ can be a piece of code or an output of
+an adequate simulator.
+
+As the first step, the user of the proposed framework is supposed to harvest a
+set of observations of \h at several locations on the wafer (recall
+\sref{motivation}). Without loss of generality, we shall adhere to the following
+convention. One die corresponds to one potential measurement site, and $\nd' \ll
+\nd$ denotes the number of those sites that have been selected for measurements.
+Each site comprises \np measurement points, and each point contains \ns data
+instances. For example, in \sref{motivation}, each observation was an $\np
+\times \ns$ matrix capturing temperature of \np processing elements for \ns
+moments of time. Denote by $H = \{ \h_i^\measured \}_{i = 1}^{\nd'}$ the
+collected data set where $\h_i^\measured \in \real^{\np \times \ns}$ stands for
+one observation (one site) of the \ac{QOM}. It is implied that the placement of
+each selected site is recorded along with $H$.
+
+Note that, if $f$ is the identity function, that is, $\h \equiv \g$, the
+proposed technique will primarily focus on the reconstruction of any missing
+observations (defined in \sref{model-order-reduction}) in $H$. From this
+standpoint, our approach is a generalization of those developed in
+\cite{zhang2010, reda2009}.
+
+For convenience, we denote by $\spec$ all the information relevant to the
+production and measurement processes including: (a) the layout of the wafer and
+(b) the floorplan of a die on the wafer.
+
+\subsection{Preliminaries}
+
+In order to give a clear presentation of the proposed technique, we first
+overview the basics of Bayesian inference \cite{gelman2004}. Let \vt be a set of
+unknown parameters (in our case, related to, for instance, the effective channel
+length), which we would like to characterize. Our arsenal to solve the problem
+includes: (a) a set of observations $H$ (in our case, for instance, temperature
+or current); (b) a data model connecting \vt with $H$; and (c) prior beliefs on
+\vt. A natural solution is Bayes' rule:
+\begin{equation} \elab{bayes-theorem}
+  p(\vt | H) \propto p(H | \vt) p(\vt)
+\end{equation}
+where $p$ denotes a probability density function. $p(H | \vt)$ is known as the
+likelihood function, which accommodates the data model and yields the
+probability of observing the data $H$ given the parameters \vt. $p(\vt)$ is
+called the prior of \vt, which represents our knowledge on \vt prior to any
+observations. $p(\vt | H)$ reads as the posterior of \vt given $H$. Such a
+posterior is an exhaustive solution to our problem: having constructed $p(\vt |
+H)$, all the needed characteristics of \vt can be trivially estimated by drawing
+samples from this posterior.
+
+Unfortunately, the posterior distribution often does not belong to any of the
+common families of probability distributions, which is primarily due to the data
+model involved in the likelihood function, and, therefore, the sampling
+procedure is not straightforward. To tackle the difficulty, one usually relies
+on such techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an
+ergodic Markov chain with the stationary distribution equal to the target
+posterior distribution is constructed and then utilized for the probability
+space exploration. A popular instantiation of \ac{MCMC} sampling is the
+Metropolis-Hastings (\up{MH}) algorithm wherein such a Markov chain is attained
+via sampling from an auxiliary, computationally convenient distribution known as
+the proposal distribution. We shall further elaborate on this algorithm in
+\sref{statistical-model}--\sref{sampling}.
+
+\subsection{Proposed Framework}
+
+In this section, we present our statistical framework for the characterization
+of process variation. The technique is divided into four major stages depicted
+in \fref{algorithm}. Stage~1 is the data-harvesting stage wherein the user
+collects a set of observations of the \ac{QOM}, \h, forming the input set $H$.
+At Stage~2, we undertake an optimization procedure, which assists \up{MCMC}
+sampling at Stage~3 in the construction of an efficient proposal distribution.
+Stage~3 produces a collection of samples of the \ac{QOI}, \g, such as the
+effective channel length, which is then processed at Stage~4 in order to
+estimate all the needed characteristics with respect to this \ac{QOI}, for
+instance, the probability of the effective channel length to be smaller than a
+certain threshold as motivated in \sref{motivation}. As it can be seen in
+\fref{algorithm}, Stage~2 and Stage~3 actively communicate with the two models
+on the right, called the data and statistical models, which we discuss next.
+
+\subsubsection{Data Model}
+
+The data model is essentially a directed relation between the \ac{QOI}, \g, and
+the \ac{QOM}, \h, which we denote by the ``black-box'' transformation $\g =
+f(\h)$. $f$ depends on the choice of \h and is specified by the user according
+to the guidelines in \sref{problem-formulation}.
+
+The data model is utilized to predict the values of the \ac{QOM} at the same
+sites, at the same inner points, and with the same amount as the ones in $H$.
+The resulting data are then stacked into one vector with $\nd \np \ns$ elements
+(see \sref{problem-formulation}), which is denoted by \vh. We also let
+$\vh^\measured \in \real^{\nd \np \ns}$ be a stacked version of the data in $H$
+such that the respective elements of \vh and $\vh^\measured$ correspond to the
+same locations.
+
+In order to acquire a better understanding of the data model, let us return to
+the setup considered in \sref{motivation}. In this case, \g stands for the
+effective channel length, and \h stands for the temperature profile
+corresponding to a fixed workload. The data model $\g = f(\h)$ can be roughly
+divided into two transitions: (a) the effective channel length \g to the leakage
+power $\p_\static$ and (b) the leakage power $\p_\static$ to the corresponding
+temperature profile \h. The first transition is accomplished using one of the
+leakage models broadly available in the contemporary literature; see, for
+instance, \cite{chandrakasan2000, srivastava2010, juan2012}. In particular, a
+leakage model can be constructed via a fitting procedure applied to a data set
+of \up{SPICE} simulations of reference electrical circuits. The only requirement
+to such a model is that it should be parametrized by \g. In addition, it can
+also be parametrized by temperature in order to account for the well-known
+interdependency between leakage and temperature. The second transition is
+undertaken by combining the leakage power $\p_\static$ with the dynamic power
+$\p_\dynamic$ that corresponds to the considered workload. The obtained total
+power along with the temperature-related information contained in $\spec$
+(mainly, the floorplan and thermal parameters of the die) are fed to a thermal
+simulator (see \sref{experimental-results}) in order to acquire the
+corresponding temperature \h.
+
+\subsubsection{Statistical Model}
+
+Once the wafer has been fabricated, the values of \g are fixed for all
+locations on the wafer; however, they remain unknown for us. In order to infer
+them, we employ the procedure, called the statistical model, developed in the
+current subsection and displayed in \fref{inference}. The development consists
+of the five components described below.
+
+The first step is to assign an adequate model to the unknown \g. We model \g as
+a Gaussian process \cite{rasmussen2006} since: (a) it is flexible in capturing
+the correlation patterns induced by the manufacturing process; (b) it is
+computationally efficient; and (c) Gaussian distributions are often natural and
+accurate models for uncertainties due to process variation \cite{srivastava2010,
+reda2009, juan2012}. Thus, we have
+\begin{equation} \elab{u-prior}
+  \g | \vt_\g \sim \mathcal{GP}(\mu, k)
+\end{equation}
+where $\mu(r)$ and $k(r, r')$ are the mean and covariance functions of \g,
+respectively, and $r, r' \in \real^2$ denote coordinates on the wafer.
+Hereafter, the vertical bar, pronounced as ``given,'' is used to mark the
+parameters that the probability distribution on the right-hand side depends on.
+In this case, such parameters are $\vt_\g$, which we shall identify later on.
+Prior to taking any measurements, \g is assumed to be spatially unbiased;
+therefore, we let $\mu$ be a single location-independent parameter $\mu_\g$,
+that is, $\mu(r) = \mu_\g$, $\forall r \in \real^2$. The covariance function $k$
+is chosen to be the following composition:
+\begin{equation} \elab{covariance-function}
+  k(r, r') = \sigma_\g^2 \left(\eta k_\text{SE}(r, r') + (1 - \eta) k_\text{OU}(r, r')\right)
+\end{equation}
+where
+\begin{align*}
+  & k_\text{SE}(r, r') = \exp\left(-\frac{\norm[2]{r - r'}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
+  & k_\text{OU}(r, r') = \exp\left(-\frac{\absolute{\,\norm[2]{r} - \norm[2]{r'}\,}}{\ell_\text{OU}}\right)
+\end{align*}
+are the squared exponential and Ornstein--Uhlenbeck correlation functions
+\cite{rasmussen2006}, respectively; $\sigma_\g^2$ represents the variance of \g;
+$\eta \in [0, 1]$ is a weighting coefficient; $\ell_\text{SE}$ and
+$\ell_\text{OU} > 0$ are so-called length-scale parameters; and
+$\norm[2]{\cdot}$ stands for the Euclidean distance. The choice of the
+covariance function $k$ is guided by the observations of the correlation
+structures induced by the fabrication process \cite{chandrakasan2001,
+cheng2011}: $k_\text{SE}$ imposes similarities between the points on the wafer
+that are close to each other, and $k_\text{OU}$ imposes similarities between the
+points that are at the same distance from the center of the wafer.
+$\ell_\text{SE}$ and $\ell_\text{OU}$ control the extend of these similarities,
+that is, the range wherein the influence of one point on another is significant.
+Although all the above parameters of the model of \g can be inferred from the
+data, for simplicity, we shall focus on $\mu_\g$ and $\sigma_\g^2$. The rest of
+the parameters, namely, $\eta$, $\ell_\text{SE}$, and $\ell_\text{OU}$, are
+assumed to be determined prior to our analysis based on the knowledge of the
+correlation patterns typical for the production process utilized (see
+\cite{marzouk2009} and references therein).
+
+We have established a model for \g given as a stochastic process. Now the
+model requires one additional treatment in order to make it computationally
+tractable, which we shall discuss next.
+
+The model of the \ac{QOI} is an infinite-dimensional object as it characterizes
+a continuum of locations. For practical computations, however, it should be
+reduced to a finite-dimensional one. First, \g is discretized with respect to
+the union of two sets of points: the first one is composed of the $\nd' \np$
+points where the observations in $H$ were made ($\nd'$ selected sites with $\np$
+inner locations each), and the other of the points where the user wishes to
+characterize \g. For simplicity, we assume that the user is interested in all
+the sites, which is $\nd \np$ points in total. Thus, we obtain an $\nd
+\np$-dimensional representation of \g denoted by $\vg \in \real^{\nd \np}$.
+Second, the dimensionality is reduced even further by applying the well-known
+principal component analysis to the covariance matrix of $\vg$ computed via
+\eref{covariance-function}. More precisely, we factorize this matrix using the
+eigenvalue decomposition \cite{press2007} and discard those eigenvalues (and
+their eigenvectors) whose contribution to the total sum of the eigenvalues is
+below a certain threshold. The result is
+\begin{equation} \elab{kl-approximation}
+  \vg = \mu_\g \v{e} + \sigma_\g \m{L} \vz
+\end{equation}
+where $\v{e} = (e_i = 1) \in \real^{\nd \np}$, $\m{L} \in \real^{\nd \np \times
+\nz}$, and $\vz = (\z_i) \in \real^\nz$ obey the standard Gaussian distribution.
+$\nz$ is the final dimensionality of the model of \g; typically, $\nz \ll \nd
+\np$. Consequently, the \ac{QOI} is now ready for practical computations. In
+what follows, the parameters of \eref{u-prior} are defined by $\vt_\g = \{ \vz,
+\mu_\g, \sigma^2_\g \}$ (see \fref{inference}).
+
+In a Bayesian context, the observed information is taken into account via a
+likelihood function (see \sref{preliminaries}). In our case, the observed
+information is the measurements $H$ stacked into $\vh^\measured$ as described
+in \sref{data-model}. Since the measurement process is not perfect, we should
+also take into consideration the measurement noise. To this end, for a given
+\g, the observed $\vh^\measured$ is assumed to deviate from the data model
+prediction \vh as follows:
+\begin{equation} \elab{noisy-measurements}
+  \vh^\measured = \vh + \v{\epsilon}
+\end{equation}
+where $\v{\epsilon}$ is an $\nd' \np \ns$-dimensional vector of noise, which is
+typically assumed to be a white Gaussian noise \cite{rasmussen2006,
+marzouk2009}. Without loss of generality, the noise is assumed to be independent
+of \g and to have the same magnitude for all measurements (characterized by the
+utilized instruments). Hence, the model of the noise is
+\begin{equation} \elab{noise-model}
+  \v{\epsilon} | \sigma^2_\epsilon \sim \text{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
+\end{equation}
+where $\sigma^2_\epsilon$ is the variance of the noise, $\v{0}$ is a vector of
+zeros, and $\m{I}$ is the identity matrix. Let us denote the parameters of the
+inference by $\vt = \vt_\g \cup \{ \sigma_\epsilon^2 \} = \{ \vz, \mu_\g,
+\sigma_\g^2, \sigma_\epsilon^2 \}$ (observe this union in \fref{inference}).
+Finally, combining \eref{noisy-measurements} and \eref{noise-model}, we obtain
+\begin{equation} \elab{likelihood}
+  \vh^\measured | \vt \sim \text{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
+\end{equation}
+The probability density function of this distribution is the likelihood function
+$p(H | \vt)$ of our statistical model, which is the first of the two components
+needed for the posterior given in \eref{bayes}.
+
+The second component of the posterior in \eref{bayes} is the prior $p(\vt)$,
+which we now need to decide on. In this paper, we put the following priors on
+$\vt$:
+\begin{align}
+  & \vz \sim \text{Gaussian}(\v{0}, \m{I}), \elab{z-prior} \\
+  & \mu_\g \sim \text{Gaussian}(\mu_0, \sigma^2_0), \elab{mu-u-prior} \\
+  & \sigma^2_\g \sim \text{Scale-inv-$\chi^2$}(\nu_\g, \tau^2_\g), \text{ and} \elab{sigma2-u-prior} \\
+  & \sigma^2_\epsilon \sim \text{Scale-inv-$\chi^2$}(\nu_\epsilon, \tau^2_\epsilon). \elab{sigma2-noise-prior}
+\end{align}
+The prior for $\vz$ is due to the properties of the decomposition in
+\eref{kl-approximation}. The next three priors, that is, a Gaussian and two
+scaled inverse chi-squared distributions, are a common choice for a Gaussian
+model with the mean and variance being unknown. The parameters $\mu_0$,
+$\tau^2_\g$, and $\tau^2_\epsilon$ represent the presumable values of $\mu_u$,
+$\sigma^2_\g$, and $\sigma^2_\epsilon$, respectively, and are set by the user
+based on the prior knowledge of the technological process and measurement
+instruments employed. The parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$
+reflect the precision of this prior information. When the prior knowledge is
+weak, non-informative priors can be utilized \cite{gelman2004}. Taking the
+product of the densities in \eref{z-prior}--\eref{sigma2-noise-prior}, we obtain
+the prior $p(\vt)$ completing \eref{bayes}.
+
+At this point, we have obtained the two pieces of the posterior shown in
+\eref{bayes}: the likelihood function, which is the density in
+\eref{likelihood}, and the prior, which is the product of the four densities in
+\eref{z-prior}--\eref{sigma2-noise-prior}. Thus, the posterior is
+\begin{equation} \elab{posterior}
+  p(\vt | H) \propto p(\vh^\measured | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
+\end{equation}
+Provided that we have a way of drawing samples from \eref{posterior}, the
+\ac{QOI} can be readily analyzed as we shall see in \sref{post-processing}. The
+problem, however, is that the direct sampling of the posterior is not possible
+due to the data model involved in the likelihood function via \vh (see
+\eref{likelihood} and \sref{data-model}). In order to circumvent this problem,
+we utilize the Metropolis-Hastings (\up{MH}) algorithm \cite{gelman2004}
+mentioned in \sref{preliminaries}. The algorithm operates on an auxiliary
+distribution called the proposal distribution, which is chosen to be convenient
+for sampling. Each sample, drawn from this proposal, is then used in
+\eref{posterior} to evaluate the posterior probability of this sample and decide
+whether it should be accepted or rejected.\footnote{A reject means that the
+sequence of samples advances using the last accepted sample; therefore, the
+chain of samples is never interrupted.} The acceptance/rejection strategy of the
+\up{MH} algorithm pushes the produced chain of samples towards regions of high
+posterior probability, which, after a sufficient number of steps, depending on
+the starting point of the chain and the efficiency of the moves, results in a
+good approximation of the target posterior distribution in \eref{posterior}. The
+preliminary computations needed for the proposal construction are discussed
+next, and the subsequent sampling procedure in \sref{sampling}.
+
+\subsubsection{Optimization of the Proposal Distribution}
+
+In this section, we describe the objective of Stage~2 in \fref{algorithm}.
+Although the requirements to the proposal distribution mentioned earlier are
+rather weak, it is often difficult to pick an efficient proposal, which would
+yield a good approximation with as few evaluations of the posterior in
+\eref{posterior} and, thus, of the data model in \sref{data-model} as possible.
+This choice is especially severe for high-dimensional problems, and our problem,
+involving around 30 parameters as we shall see in \sref{experimental-results},
+is one them. Therefore, a careful construction of the proposal distribution is
+an essential component of our framework.\footnote{This has been also confirmed
+by our experiments. Without optimization, even for small examples, no adequate
+results were obtained in an affordable time. Therefore, all the experiments in
+\sref{experimental-results} include the optimization step.} A common technique
+to construct a high-quality proposal is to perform an optimization of the
+posterior given by \eref{posterior}. More specifically, we seek for such a value
+$\hat{\vt}$ of $\vt$ that maximizes \eref{posterior} and, hence, has the maximal
+posterior probability. We also compute the negative of the Hessian matrix at
+$\hat{\vt}$, which is called the observed information matrix and denoted by
+$\m{J}$ (see the output of Stage~2 in \fref{algorithm}). Using $\hat{\vt}$ and
+$\m{J}$, we can now construct such a proposal, which will allow the \up{MH}
+algorithm (a) to start producing samples directly from the desired regions of
+high probability and (b) to explore those regions more rapidly.
+
+\subsubsection{Sampling via the Metropolis-Hastings Algorithm}
+
+Let us turn to Stage~3 in \fref{algorithm}. We have at our disposal $\hat{\vt}$
+and $\m{J}$ from Stage~2 in order to construct an adequate proposal and utilize
+it for sampling. A commonly used proposal is a multivariate Gaussian
+distribution wherein the mean is the current location of the chain of samples
+started at $\hat{\vt}$, and the covariance matrix is the inverse of $\m{J}$
+\cite{gelman2004}. In order to speed up the sampling process, we would like to
+make use of the potential of multicore parallelization. The above proposal,
+however, is purely sequential as the mean for the next sample draw is dependent
+on the previous sample. Therefore, we appeal to a variation of the \up{MH}
+algorithm known as the independence sampler \cite{gelman2004}. In this case, a
+typical choice of the proposal is a multivariate t-distribution, independent of
+the current position of the chain:
+\begin{equation} \elab{proposal}
+  \vt \sim t_\nu(\hat{\vt}, \alpha^2 \m{J}^{-1})
+\end{equation}
+where $\hat{\vt}$ and $\m{J}$ are as in \sref{optimization}, $\nu$ is the number
+of degrees of freedom, and $\alpha$ is a tuning constant controlling the
+standard deviation of the proposal. Now the proposal samples and the
+time-consuming evaluation of their posterior in \eref{posterior} can be computed
+for all samples in parallel. Then the precomputed samples can subsequently be
+accepted or rejected as in the usual \up{MH} algorithm.
+
+Having completed the sampling procedure, we obtain a collection of samples of
+\vt. The first portion of the drawn samples is typically discarded before the
+final computations as being unrepresentative; this portion is also known as the
+burn-in period. Each of the preserved samples of \vt, comprising \vz, $\mu_\g$,
+and $\sigma^2_\g$, is then used in \eref{kl-approximation} to compute a sample
+of \g, $\vg_i \in \real^{\nd \np}$. Denote such a data set with $n$ samples of
+the \ac{QOI} by $G = \{ \vg_i \}_{i = 1}^n$.
+
+\subsubsection{Post-processing}
+
+At Stage~4 in \fref{algorithm}, using the set of samples $G$, the user computes
+the desired statistics of the \ac{QOI} such as the most probable value of the
+effective channel length at some location of interest, the probability of a
+certain area on the wafer to be defective, and so on. The computations boil down
+to the estimation of expected values with respect to the posterior distribution
+of \vt, $p(\vt | H)$. This estimation is done in the standard sample-based
+fashion, that is, in order to compute some arbitrary quantity dependent on \g,
+one needs to evaluate this quantity for each $\vg_i$ in $G$ and then take the
+average.
+
+The strength of the Bayesian approach to inference really starts to shine when
+we are also interested in assessing the trustworthiness of the measured data
+and, therefore, the reliability of the estimates/decisions based on these data.
+Such an assessment can readily be undertaken using our framework since the
+delivered posterior distribution contains all the needed information about the
+\ac{QOI}. This is especially helpful in decision making as exemplified in
+\sref{motivation}.
+
+\subsection{Experimental Results}
+
+In this section, we assess our framework using the inference of the effective
+channel length \g based on temperature \h. This choice for illustration is
+dictated by the fact that such a high-level parameter as temperature constitutes
+a challenging task for the inference of such a low-level parameter as the
+effective channel length, which implies a strong assessment of the proposed
+technique. On the other hand, the effective channel length is an important
+target \emph{per se} as it is strongly affected by process variation and
+considerably impacts the power/heat dissipation \cite{chandrakasan2000,
+srivastava2010, juan2012}; in particular, it also influences other
+process-related characteristics such as the threshold voltage. The performance
+of our approach is expected to only increase when the auxiliary parameter \h
+resides ``closer'' to the target parameter \g with respect to the transformation
+$\h = f(\g)$. For instance, such a ``closer'' quantity \h can be the leakage
+current, which, however, might not always be the most preferable parameter to
+measure.
+
+Now we shall describe the default configuration of our setup, which will be
+later adjusted according to the purpose of each particular experiment. We
+consider a 45-nanometer technological process. The diameter of the wafer is 20
+dies, and the total number of dies \nd is 316. The number of measured dies
+$\nd'$ is 20, and these dies are chosen by an algorithm, which pursues an even
+coverage of the wafer. The number of processing elements in each die is four,
+and they are the points of taking measurements, that is, $\np = 4$. The
+floorplans of the multiprocessor platforms are constructed in such a way that
+the processing elements form regular grids. The dynamic power profiles involved
+in the experiments are based on simulations of randomly generated task graphs
+via TGFF v3.5 \cite{dick1998}. The sampling interval of these profiles is
+1$\,$ms. The leakage model, parametrized by temperature and the effective
+channel length, is constructed by fitting to SPICE simulations of reference
+electrical circuits composed of BSIM4 v4.7 devices \cite{bsim} configured
+according to the 45-nm PTM HP model \cite{ptm}. The temperature calculations are
+undertaken using the approach described in \cite{ukhov2012}, based on HotSpot
+v5.02 \cite{skadron2004}.\footnote{The floorplans of the platforms, task graphs
+of the applications, thermal configuration of HotSpot, and so on are available
+online at \cite{eslab2013}.} The input data set $H$ is obtained as follows: (a)
+draw a sample of \g from a Gaussian distribution with the mean value equal to
+17.5~nm, according to the considered technological process \cite{ptm}, and the
+covariance function given by \eref{covariance-function} wherein the standard
+deviation is 2.25~nm; (b) perform one fine-grained temperature simulation per
+each of the $\nd'$ selected dies under the corresponding dynamic power profile;
+(c) shrink the temperature profiles to keep only \ns, which is equal to 20 by
+default, evenly spaced moments of time; and (d) perturb the obtained data set
+using a white Gaussian noise with the standard deviation of 1$\,$K (Kelvin).
+
+Let us turn to the statistical model in \sref{statistical-model} and summarize
+the intuition and our assignment for each parameter of this model. In the
+covariance function given by \eref{covariance-function}, the weight parameter
+$\eta$ and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$
+should be set according to the correlation patterns typical for the production
+process at hand \cite{chandrakasan2001, cheng2011}; we set $\eta$ to 0.7 and
+$\ell_\text{SE}$ and $\ell_\text{OU}$ to half the radius of the wafer. The
+threshold parameter of the model order reduction procedure described in
+\sref{model-order-reduction} and utilized in \eref{kl-approximation} should be
+set high enough to preserve a sufficiently large portion of the variance of the
+data and, thus, to keep the corresponding results accurate; we set it to 0.99
+preserving 99\% of this variance. The resulting dimensionality \nz of \vz in
+\eref{kl-approximation} was found to be 27--28. The parameters $\mu_0$ and
+$\tau_\g$ of the priors in \eref{mu-u-prior} and \eref{sigma2-u-prior},
+respectively, are specific to the considered technological process; we set
+$\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The parameters $\sigma_0$ and
+$\nu_\g$ in \eref{mu-u-prior} and \eref{sigma2-u-prior}, respectively, determine
+the precision of the information on $\mu_0$ and $\tau_\g$ and are set according
+to the beliefs of the user; we set $\sigma_0$ to 0.45~nm and $\nu_\g$ to 10. The
+latter can be thought of as the number of imaginary observations that the choice
+of $\tau_\g$ is based on. The parameter $\tau_\epsilon$ in
+\eref{sigma2-noise-prior} represents the precision (deviation) of the equipments
+utilized to collect the data set $H$ and can be found in the technical
+specification of these equipments; we set $\tau_\epsilon$ to 1~K. The parameter
+$\nu_\epsilon$ in \eref{sigma2-noise-prior} has the same interpretation as
+$\nu_\g$ in \eref{sigma2-u-prior}; we set it to 10 as well. In \eref{proposal},
+$\nu$ and $\alpha$ are tuning parameters, which can be configured based on
+experiments; we set $\nu$ to eight and $\alpha$ to 0.5. The number of sample
+draws is another tuning parameter, which we set to $10^4$; the first half of
+these samples is ascribed to the burn-in period leaving $5 \cdot 10^3$ effective
+samples $n$. For the optimization in \sref{optimization}, we use the
+Quasi-Newton algorithm \cite{press2007}. For parallel computations, we utilize
+four processors. All the experiments are conducted on a GNU/Linux machine with
+Intel Core i7 2.66~GHz and 8~GB of RAM.
+
+To ensure that the experimental setup is adequate, we first perform a detailed
+inspection of the results obtained for one particular example with the default
+configuration. The true and inferred distributions of the \ac{QOI} are shown in
+\fref{wafer-qoi} where the normalized root-mean-square error (NRMSE) is below
+2.8\%, and the absolute error is bounded by 1.4$\,$nm, which suggests that the
+framework produces a close match to the true value of the \ac{QOI} We have also
+looked at the behavior of the constructed Markov chains and the quality of the
+proposal distribution; however, due to the shortage of space, these results are
+not presented here. All the observations suggest that the optimization and
+sampling procedures are properly configured.
+
+Next we use the assessed configuration and alter only one parameter at a time:
+the number of measured sites/dies $\nd'$; the number of processing
+elements/measured points $\np$ on a site; the amount of data per measurement
+point \ns; and the noise deviation $\sigma_\epsilon$.
+
+Let us change the number of dies $\nd'$ that have been measured. The considered
+scenarios are 1, 10, 20, 40, 80, and 160 measured dies, respectively. The
+results are reported in \tref{spatial-measurements}. In this and the following
+tables, we report the optimization (Stage~2 in \fref{algorithm}) and sampling
+(Stage~3 in \fref{algorithm}) times separately (given in minutes). In addition,
+the sampling time is given for two cases: sequential and parallel computing,
+which is followed by the total time and error (NRMSE). The computational time of
+the post-processing phase (Stage~4 in \fref{algorithm}) is not given as it is
+negligibly small. The sequential sampling time is the most representative
+indicator of the computational complexity scaling as the number of samples is
+always fixed, and there is no parallelization; thus, we shall watch this value
+in most of the discussions below (highlighted in bold).
+
+We see in \tref{spatial-measurements} that the more data the proposed framework
+needs to process, the longer the execution times, which is reasonable. The
+trend, however, is rather modest: with the doubling of $\nd'$, all the
+computational times increase less than two times. The error firmly decreases and
+drops below 4\% with around 20 sites measured, which is only 6.3\% of the total
+number of dies on the wafer.
+
+Here we consider five platforms with the number of processing
+elements/measurement points $\np$ on each die equal to 2, 4, 8, 16, and 32,
+respectively. The results are summarized in \tref{processing-elements}. All the
+computational times grow with $\np$. This behavior is expected as the
+granularity of the utilized thermal model (see \sref{data-model} and
+\cite{ukhov2012}) is bound to the number of processing elements; therefore, the
+temperature simulations become more intensive. Nevertheless, even for large
+examples, the timing is readily acceptable, taking into account the complexity
+of the inference procedure behind and the yielded accuracy. An interesting
+observation can be made from the NRMSE: the error tends to decrease as $\np$
+grows. The explanation is that, with each processing element, $H$ delivers
+more information to the inference to work with since the temperature profiles
+are collected for all the processing elements simultaneously.
+
+In this subsection, we sweep the number of moments of time \ns captured by the
+measured temperature profiles. The scenarios are 1, 10, 20, 40, 80, and 160 time
+moments, respectively. The results are aggregated in
+\tref{temporal-measurements}. As we see, the growth of the computational time is
+relatively small. One might have expected this growth due to \ns to be the same
+as the one due to $\np$ since, formally, the influence of $\np$ and \ns on the
+dimensionality of $H$ is identical (recall $\vh^\measured \in \real^{\nd' \np
+\ns}$). However, the meaning of the two numbers, \np and \ns, is completely
+different, and, therefore, the way they manifest themselves in the algorithm is
+also different. Therefore, the corresponding amounts of extra data are being
+treated differently leading to the discordant timing shown in
+\tref{processing-elements} and \tref{temporal-measurements}. The NRMSE in
+\tref{temporal-measurements} has a decreasing trend; however, this trend is less
+steady than the ones discovered before. The finding can be explained as follows.
+The distribution of the time moments in $H$ changes since these moments are kept
+evenly spaced across the corresponding time spans of the input power profiles.
+Some moments of time can be more informative than the other. Hence, more or less
+representative samples can end up in $H$ helping or misleading the inference. We
+can also conclude that a larger number of spatial measurements is more
+advantageous than a larger number of temporal measurements.
+
+Next we vary the standard deviation of the noise (in Kelvins), affecting the
+data $H$, within the set $\{ 0, 0.5, 1, 2 \}$ coherent with the literature
+\cite{mesa-martinez2007}. Note that the corresponding prior distribution in
+\eref{sigma2-noise-prior} is kept unchanged. The results are given in
+\tref{noise-deviation}. The sampling time is approximately constant. However, we
+observe an increase of the optimization time with the decrease of the noise
+level, which can be ascribed to wider possibilities of perfection for the
+optimization procedure. A more important observation, revealed by this
+experiment, is that, in spite of the fact that the inference operates on
+indirect and drastically incomplete data, a thoroughly calibrated equipment can
+considerably improve the quality of predictions. However, even with a high level
+of noise of two degrees---meaning that measurements are dispersed over a wide
+band of 8~K with a large probability of more than 0.95---the NRMSE is still only
+4\%.
+
+Let us summarize the results of the sequential and parallel sampling strategies.
+In the sequential MH algorithm, the optimization time is typically smaller than
+the time needed for drawing posterior samples. The situation changes when
+parallel computing is utilized. With four parallel processors, the sampling time
+decreases 3.81 times on average, which indicates good parallelization properties
+of the chosen sampling strategy. The overall speedup ranges from 1.49 to 2.75
+with the average value of 1.77 times, which can be pushed even further employing
+more parallel processors.
+
+\subsection{Conclusion}
+
+We proposed a framework for the analysis of process variation across
+semiconductor wafers based on cost-efficient, indirect measurements. The
+technique was exposed to an extensive study of various aspects concerning its
+implementation. The obtained results support the computational efficiency and
+accuracy of our approach.
+
+We would like to note that, although the framework was demonstrated on the
+effective channel length and temperature, it can be readily utilized to analyze
+any other \acp{QOI} based on any other \acp{QOM}.
 
 \section{Analysis under Process Variation}
 
 \section{Analysis under Variable Workload}
 
 \section{Exploration of the Design Space}
+
+\section{Conclusion}

@@ -60,6 +60,9 @@
 
 \newcommand{\one}{(i)}
 \newcommand{\two}{(ii)}
+\newcommand{\three}{(iii)}
+\newcommand{\four}{(iv)}
+\newcommand{\five}{(v)}
 
 %
 % Mathematics
@@ -72,7 +75,9 @@
 
 \numberwithin{equation}{chapter}
 
-\renewcommand{\v}[1]{\mathbf{#1}}
+\renewcommand{\math}[1]{\ensuremath{#1}\xspace}
+
+\renewcommand{\v}[1]{\boldsymbol{#1}}
 \newcommand{\hv}[1]{\hat{\v{#1}}}
 \newcommand{\tv}[1]{\tilde{\v{#1}}}
 
@@ -80,39 +85,70 @@
 \newcommand{\hm}[1]{\hat{\m{#1}}}
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
-\newcommand{\norm}[2][\infty]{\|#2\|_#1}
+\newcommand{\absolute}[1]{|#1|}
 \newcommand{\diagonal}[2]{\mathrm{diag}\left(\range{#1}{#2}\right)}
+\newcommand{\maximum}{\mathrm{max}}
+\newcommand{\norm}[2][\infty]{\|#2\|_#1}
 \newcommand{\range}[2]{#1, \dots, #2}
 \newcommand{\real}{\mathbb{R}}
 \newcommand{\transpose}[1]{{#1}^\mathrm{T}}
 
-\renewcommand{\math}[1]{\ensuremath{#1}\xspace}
+%
+% Numbers
+%
+
 \newcommand{\numberof}[1]{\math{{n_\mathrm{#1}}}}
+
+\newcommand{\nc}{\numberof{c}} % thermal cycles
+\newcommand{\nd}{\numberof{d}} % silicon dies
+\newcommand{\nn}{\numberof{n}} % thermal nodes
+\newcommand{\np}{\numberof{p}} % processors
+\newcommand{\ns}{\numberof{s}} % time steps
+\newcommand{\nt}{\numberof{t}} % tasks
+\newcommand{\nz}{\numberof{z}} % independent variables
 
 %
 % Probability theory
 %
 
 \newcommand{\expectation}[1]{E #1}
+\newcommand{\probability}[1]{P\left(#1\right)}
 
 %
-% Platform modeling
+% Uncertainty
 %
 
-\newcommand{\np}{\numberof{p}}
-\newcommand{\ns}{\numberof{s}}
+% Quantity of interest
+\newcommand{\g}{\math{g}}
+\newcommand{\vg}{\math{\v{g}}}
+
+% Auxiliary quantity
+\newcommand{\h}{\math{h}}
+\newcommand{\vh}{\math{\v{h}}}
+
+% Parameters
+\renewcommand{\t}{\math{\theta}}
+\newcommand{\vt}{\math{\v{\theta}}}
+
+% Independent variables
+\newcommand{\z}{\math{z}}
+\newcommand{\vz}{\math{\v{z}}}
+
+%
+% Platform
+%
 
 \newcommand{\dt}{\math{\Delta t}}
+\newcommand{\spec}{\mathcal{S}}
 
 %
-% Application modeling
+% Application
 %
 
-\newcommand{\nt}{\numberof{t}}
 \newcommand{\period}{t_\mathrm{end}}
 
 %
-% Power modeling
+% Power
 %
 
 \newcommand{\p}{p}
@@ -123,11 +159,8 @@
 \newcommand{\static}{\mathrm{stat}}
 
 %
-% Temperature modeling
+% Temperature
 %
-
-\newcommand{\nn}{\numberof{n}}
-\newcommand{\nc}{\numberof{c}}
 
 \newcommand{\q}{q}
 \newcommand{\vq}{\math{\v{q}}}
@@ -138,4 +171,9 @@
 
 \newcommand{\ambient}{\mathrm{amb}}
 \newcommand{\celsius}[1]{#1${}^\circ$C}
-\newcommand{\maximum}{\mathrm{max}}
+
+%
+% Fabrication process
+%
+
+\newcommand{\measured}{\mathrm{meas}}
