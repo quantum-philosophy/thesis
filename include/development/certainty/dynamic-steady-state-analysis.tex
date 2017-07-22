@@ -123,13 +123,13 @@ rewritten as follows:
   \resizebox{0.89\linewidth}{!}{
     $\underbrace{\left[
       \begin{array}{rrrrrrr}
-        \m{I}  &  0     & 0      & \cdots & 0      & 0      & -\m{E} \\
-        -\m{E} & \m{I}  & 0      & \cdots & 0      & 0      & 0      \\
-        0      & -\m{E} & \m{I}  & \cdots & 0      & 0      & 0      \\
+        \m{I}  & \v{0}  & \v{0}  & \cdots & \v{0}  & \v{0}  & -\m{E} \\
+        -\m{E} & \m{I}  & \v{0}  & \cdots & \v{0}  & \v{0}  & \v{0}  \\
+        \v{0}  & -\m{E} & \m{I}  & \cdots & \v{0}  & \v{0}  & \v{0}  \\
         \cdots & \cdots & \cdots & \cdots & \cdots & \cdots & \cdots \\
-        0      & 0      & 0      & \cdots & \m{I}  & 0      & 0      \\
-        0      & 0      & 0      & \cdots & -\m{E} & \m{I}  & 0      \\
-        0      & 0      & 0      & \cdots & 0      & -\m{E} & \m{I}
+        \v{0}  & \v{0}  & \v{0}  & \cdots & \m{I}  & \v{0}  & \v{0}  \\
+        \v{0}  & \v{0}  & \v{0}  & \cdots & -\m{E} & \m{I}  & \v{0}  \\
+        \v{0}  & \v{0}  & \v{0}  & \cdots & \v{0}  & -\m{E} & \m{I}
       \end{array}
     \right]}_{\displaystyle \mathbb{A}} \underbrace{\left[
       \begin{array}{l}
@@ -220,7 +220,7 @@ defined as
 \end{equation}
 for $i = \range{1}{\ns}$ where
 \[
-  \v{w}_0 = 0.
+  \v{w}_0 = \v{0}.
 \]
 After taking \ns steps, we arrive at the following state vector:
 \[
