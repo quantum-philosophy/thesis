@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/07/21 Thesis]
+\ProvidesClass{thesis}[2017/07/22 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -198,6 +198,7 @@
   \clearpage
   {
     \pagestyle{plain}
+    \renewcommand{\contentsname}{Table of Contents}
     \tableofcontents
     \relax
     \clearpage
