@@ -19,13 +19,37 @@
 
 \begin{document}
 \nocite{ukhov2012, ukhov2014a, ukhov2014b, ukhov2015, ukhov2017}
-\include{include/introduction}
-\include{include/design-certainty}
-\include{include/analysis-process-variation}
-\include{include/design-process-variation}
-\include{include/design-workload-variation}
-\include{include/operation-workload-variation}
-\include{include/research-workload-variation}
-\include{include/conclusion}
+
+\chapter{Introduction}
+\newcommand{\inputsection}{}
+\input{include/introduction}
+
+\chapter{Design with Certainty}
+\renewcommand{\inputsection}[1]{\input{include/design-certainty/#1}}
+\input{include/design-certainty}
+
+\chapter{Analysis of Process Variation}
+\renewcommand{\inputsection}[1]{\input{include/analysis-process-variation/#1}}
+\input{include/analysis-process-variation}
+
+\chapter{Design with Process Variation}
+\renewcommand{\inputsection}[1]{\input{include/design-process-variation/#1}}
+\input{include/design-process-variation}
+
+\chapter{Design with Workload Variation}
+\renewcommand{\inputsection}[1]{\input{include/design-workload-variation/#1}}
+\input{include/design-workload-variation}
+
+\chapter{Operation with Workload Variation}
+\renewcommand{\inputsection}[1]{\input{include/operation-workload-variation/#1}}
+\input{include/operation-workload-variation}
+
+\chapter{Research in Workload Variation}
+\renewcommand{\inputsection}[1]{\input{include/research-workload-variation/#1}}
+\input{include/research-workload-variation}
+
+\chapter{Conclusion}
+\input{include/conclusion}
+
 \printbibliography
 \end{document}
