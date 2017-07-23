@@ -1,40 +1,37 @@
-We present a framework for the analysis of process variation across
-semiconductor wafers. The framework is capable of quantifying the primary
-parameters affected by process variation such as the effective channel length,
-which is in contrast with the former techniques wherein only secondary
-parameters were considered such as the leakage current. Instead of taking direct
-measurements of the quantity of interest, we employ Bayesian inference to draw
-conclusions based on indirect observations such as on temperature. The proposed
-approach has low costs since no deployment of expensive test structures might be
-needed or only a small subset of the test equipments already deployed for other
-purposes might need to be activated. The experimental results present an
-assessment of our framework for a wide range of configurations.
+Starting from this chapter and relying on the machinery presented in
+\cref{design-certainty}, we turn our attention to techniques that address
+the uncertainty present in computer systems. In this particular chapter, we
+develop a framework for the analysis of process variation across semiconductor
+wafers.
 
-\section{Introduction and Prior Work}
+\section{Introduction}
 
-Process variation constitutes one of the major concerns of electronic system
-designs \cite{chandrakasan2000, srivastava2010}. A crucial implication of
-process variation is that it renders the key parameters of a technological
-process, for instance, the effective channel length and gate oxide thickness, as
-uncertain quantities. Therefore, the same workload applied to two ``identical''
-dies can lead to two different power and, thus, temperature profiles since the
-dissipation of power and heat essentially depends on the aforementioned
-quantities. Consequently, process variation leads to performance degradation in
-the best case and to severe faults or burnt silicon in the worst scenario. Under
-these circumstances, uncertainty quantification has evolved into an
-indispensable asset of the fabrication workflows in order to provide guaranties
-on the efficiency and robustness of products.
+Process variation is an acute concern of electronic-system designs
+\cite{chandrakasan2000, srivastava2010}. A crucial implication of process
+variation is that it renders the key parameters of a technological
+process---such as the effective channel length and gate oxide thickness---as
+uncertain quantities. Therefore, the same workload applied to two seemingly
+identical dies can lead to two different power profiles and, consequently, to
+two different temperature profiles since the power consumption and heat
+dissipation depend on the aforementioned quantities, which is primarily due to
+the static component of power discussed in \sref{power-temperature-interplay}.
+As it is the case with any other type of uncertainty in computer systems, the
+uncertainty due to process variation leads to performance degradation and faults
+of various magnitudes, and, therefore, process variation should be adequately
+analyzed as the foremost step toward efficient and robust products.
 
-An important target of uncertainty quantification is the characterization of the
-on-wafer distribution of a quantity of interest, deteriorated by process
+An important problem in this regard is the characterization of the on-wafer
+distribution of a quantity of interest that is deteriorated by process
 variation, based on measurements. The problem belongs to the class of inverse
-problems since the analyzed parameter can be seen as an input to the system and
-the measured data as the corresponding output. Such an inverse problem is
-addressed in this work: our goal is to characterize arbitrary process parameters
-with high accuracy and at low costs. The goal is accomplished by tracking
-supplementary quantities, which are more convenient and less expensive to be
-measured, and employing Bayesian statistics \cite{gelman2004} to infer the
-needed parameters from the observed data.
+problems since the measured data can be seen as an output of the system at hand,
+and the desired quantity as an input. Such an inverse problem is addressed here.
+Our goal is to characterize arbitrary process parameters with high accuracy and
+at low costs. The goal is accomplished by measuring auxiliary quantities, which
+are more convenient and less expensive to work with, and employing Bayesian
+statistics \cite{gelman2004} in order to infer the desired parameters from the
+measurements.
+
+\section{Prior Work}
 
 Bayesian inference is utilized in \cite{zhang2010} to identify the optimal set
 of locations on a wafer, in which the parameter under consideration should be
@@ -342,7 +339,7 @@ $\eta \in [0, 1]$ is a weighting coefficient; $\ell_\text{SE}$ and
 $\ell_\text{OU} > 0$ are so-called length-scale parameters; and
 $\norm[2]{\cdot}$ stands for the Euclidean distance. The choice of the
 covariance function $k$ is guided by the observations of the correlation
-structures induced by the fabrication process \cite{chandrakasan2001,
+structures induced by the fabrication process \cite{chandrakasan2000,
 cheng2011}: $k_\text{SE}$ imposes similarities between the points on the wafer
 that are close to each other, and $k_\text{OU}$ imposes similarities between the
 points that are at the same distance from the center of the wafer.
@@ -573,7 +570,7 @@ channel length, is constructed by fitting to SPICE simulations of reference
 electrical circuits composed of BSIM4 v4.7 devices \cite{bsim} configured
 according to the 45-nm PTM HP model \cite{ptm}. The temperature calculations are
 undertaken using the approach described in \cite{ukhov2012}, based on HotSpot
-v5.02 \cite{skadron2004}.\footnote{The floorplans of the platforms, task graphs
+v5.02 \cite{skadron2003}.\footnote{The floorplans of the platforms, task graphs
 of the applications, thermal configuration of HotSpot, and so on are available
 online at \cite{eslab2013}.} The input data set $H$ is obtained as follows: (a)
 draw a sample of \g from a Gaussian distribution with the mean value equal to
@@ -590,7 +587,7 @@ the intuition and our assignment for each parameter of this model. In the
 covariance function given by \eref{covariance-function}, the weight parameter
 $\eta$ and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$
 should be set according to the correlation patterns typical for the production
-process at hand \cite{chandrakasan2001, cheng2011}; we set $\eta$ to 0.7 and
+process at hand \cite{chandrakasan2000, cheng2011}; we set $\eta$ to 0.7 and
 $\ell_\text{SE}$ and $\ell_\text{OU}$ to half the radius of the wafer. The
 threshold parameter of the model order reduction procedure described in
 \sref{model-order-reduction} and utilized in \eref{kl-approximation} should be
@@ -736,3 +733,14 @@ accuracy of our approach.
 We would like to note that, although the framework was demonstrated on the
 effective channel length and temperature, it can be readily utilized to analyze
 any other \acp{QOI} based on any other \acp{QOM}.
+
+The framework is capable of quantifying the primary parameters affected by
+process variation such as the effective channel length, which is in contrast
+with the former techniques wherein only secondary parameters were considered
+such as the leakage current. Instead of taking direct measurements of the
+quantity of interest, we employ Bayesian inference to draw conclusions based on
+indirect observations such as on temperature. The proposed approach has low
+costs since no deployment of expensive test structures might be needed or only a
+small subset of the test equipments already deployed for other purposes might
+need to be activated. The experimental results present an assessment of our
+framework for a wide range of configurations.
