@@ -6,6 +6,17 @@ thermal cycling \cite{jedec2010}, which is one of the most common failure
 mechanism. To this end, we develop a thermal-cycling-aware technique for
 scheduling of periodic applications.
 
+The remainder of the section is organized as follows. First, we consider a
+motivational example in \sref{thermal-cycling-motivation}. The utilized system
+and reliability models are then presented in \sref{system-model} and
+\sref{reliability-model}, respectively. In \sref{thermal-cycling-optimization},
+we formulate our optimization objective and describe the optimization technique
+that we utilize in order to attain this objective. Lastly, the obtained
+experimental results are reported in \sref{thermal-cycling-results}.
+
+\subsection{Motivational Example}
+\slab{thermal-cycling-motivation}
+
 \inputfigure{thermal-cycling-task-graph}
 \inputfigure{thermal-cycling-motivation}
 We begin by giving a motivational example. Consider a periodic application with
@@ -29,13 +40,6 @@ The example shows that, when exploring the design space, it is important to
 take into account the number of temperature fluctuations and their
 characteristics. In order to obtain this information, the \ac{DSSTP} has to be
 computed.
-
-The remainder of the section is organized as follows. The system and reliability
-models that we consider are presented in \sref{system-model} and
-\sref{reliability-model}, respectively. In \sref{thermal-cycling-optimization},
-we formulate our optimization objective and describe the optimization technique
-that we utilize in order to attain this objective. The experimental results are
-reported in \sref{thermal-cycling-results}.
 
 \subsection{System Model}
 \slab{system-model}
