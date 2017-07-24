@@ -7,34 +7,34 @@ mechanism. To this end, we develop a thermal-cycling-aware technique for
 scheduling of periodic applications.
 
 The remainder of the section is organized as follows. First, we consider a
-motivational example in \sref{thermal-cycling-motivation}. The utilized system
-and reliability models are then presented in \sref{system-model} and
+motivational example in \sref{thermal-cycling-example}. The utilized system and
+reliability models are then presented in \sref{system-model} and
 \sref{reliability-model}, respectively. In \sref{thermal-cycling-optimization},
 we formulate our optimization objective and describe the optimization technique
 that we utilize in order to attain this objective. Lastly, the obtained
 experimental results are reported in \sref{thermal-cycling-results}.
 
 \subsection{Motivational Example}
-\slab{thermal-cycling-motivation}
+\slab{thermal-cycling-example}
 
 \inputfigure{thermal-cycling-task-graph}
-\inputfigure{thermal-cycling-motivation}
+\inputfigure{thermal-cycling-example}
 We begin by giving a motivational example. Consider a periodic application with
 six tasks denoted by T1--T6 and a heterogeneous platform with two processors
 denoted by P1 and P2. The task graph of the application is given in
 \fref{thermal-cycling-task-graph} along with the execution times of the tasks
 for both processors. The period of the application is 60~ms. The first
 alternative schedule and the resulting \acf{DSSTP} are shown on the left-hand
-side of \fref{thermal-cycling-motivation} where the height of a task represents
-its power consumption. It can be seen that P1 is experiencing three thermal
-cycles, that is, there are three intervals wherein temperature starts from a
-certain value, reaches an extremum, and then comes back. If we move T6 to P2,
-the number of cycles decreases to two, which can be seen in the middle of
-\fref{thermal-cycling-motivation}. If we also swap T2 and T4, the number of
-cycles of P1 drops to one, which is depicted on the right-hand side of
-\fref{thermal-cycling-motivation}. According to the reliability model that we
-shall describe shortly, these two changes improve the lifetime of the system by
-around 45\% and 55\%, respectively, relative to the initial schedule.
+side of \fref{thermal-cycling-example} where the height of a task represents its
+power consumption. It can be seen that P1 is experiencing three thermal cycles,
+that is, there are three intervals wherein temperature starts from a certain
+value, reaches an extremum, and then comes back. If we move T6 to P2, the number
+of cycles decreases to two, which can be seen in the middle of
+\fref{thermal-cycling-example}. If we also swap T2 and T4, the number of cycles
+of P1 drops to one, which is depicted on the right-hand side of
+\fref{thermal-cycling-example}. According to the reliability model that we shall
+describe shortly, these two changes improve the lifetime of the system by around
+45\% and 55\%, respectively, relative to the initial schedule.
 
 The example shows that, when exploring the design space, it is important to
 take into account the number of temperature fluctuations and their
