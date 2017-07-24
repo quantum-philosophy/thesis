@@ -1,6 +1,6 @@
-Starting from this chapter and relying on the machinery presented in
-\cref{design-certainty}, we turn our attention to techniques that address
-the uncertainty present in computer systems. In this particular chapter, we
+Starting from this chapter and relying on the exposition given in
+\cref{design-certainty}, we turn our attention to techniques that address the
+uncertainty that is present in computer systems. In this particular chapter, we
 develop a framework for the analysis of process variation across semiconductor
 wafers.
 
@@ -14,147 +14,148 @@ uncertain quantities. Therefore, the same workload applied to two seemingly
 identical dies can lead to two different power profiles and, consequently, to
 two different temperature profiles since the power consumption and heat
 dissipation depend on the aforementioned quantities, which is primarily due to
-the static component of power discussed in \sref{power-temperature-interplay}.
-As it is the case with any other type of uncertainty in computer systems, the
-uncertainty due to process variation leads to performance degradation and faults
-of various magnitudes, and, therefore, process variation should be adequately
-analyzed as the foremost step toward efficient and robust products.
+the static component of power discussed in \sref{interdependence}. As it is the
+case with any other type of uncertainty in computer systems, the uncertainty due
+to process variation leads to performance degradation and faults of various
+magnitudes, and, therefore, process variation should be adequately analyzed as
+the foremost step toward efficient and robust products.
 
 An important problem in this regard is the characterization of the on-wafer
 distribution of a quantity of interest that is deteriorated by process
 variation, based on measurements. The problem belongs to the class of inverse
 problems since the measured data can be seen as an output of the system at hand,
 and the desired quantity as an input. Such an inverse problem is addressed here.
+
 Our goal is to characterize arbitrary process parameters with high accuracy and
-at low costs. The goal is accomplished by measuring auxiliary quantities, which
-are more convenient and less expensive to work with, and employing Bayesian
-statistics \cite{gelman2004} in order to infer the desired parameters from the
-measurements.
+at low costs. The goal is accomplished by measuring auxiliary quantities that
+are more convenient and less expensive to work with and employing statistics in
+order to infer the desired parameters from the measurements. More specifically,
+we propose a novel approach to the quantification of process variation based on
+indirect, incomplete, and noisy measurements. Moreover, we develop and implement
+a solid framework around the proposed idea and perform a thorough study of
+various aspects of our technique.
 
-\section{Prior Work}
-
-Bayesian inference is utilized in \cite{zhang2010} to identify the optimal set
-of locations on a wafer, in which the parameter under consideration should be
+There are a number of related studies that we would like to highlight. Bayesian
+inference is utilized in \cite{zhang2010} for identifying the optimal set of
+locations on the wafer where the parameter under consideration should be
 measured in order to characterize it with the maximal accuracy. The
 expectation-maximization algorithm is considered in \cite{reda2009} in order to
 estimate missing test measurements. In \cite{paek2012}, the authors consider an
 inverse problem focused on the inference of the power dissipation based on
 transient temperature maps using Markov random fields. Another temperature-based
-characterization of power is developed in \cite{mesa-martinez2007} wherein a
+characterization of power is developed in \cite{mesa-martinez2007} where a
 genetic algorithm is employed for the reconstruction of the power model. It
 should be noted that the procedures in \cite{zhang2010, reda2009} operate on
 direct measurements, meaning that the output is the same quantity as the one
-being measured. In particular, \cite{zhang2010, reda2009} rely heavily on the
-availability of adequate test structures on the dies and are practical only for
-the secondary quantities affected by process variation, such as delays and
-currents, but not for the primary ones, such as various geometrical properties.
-Hence, \cite{zhang2010, reda2009} often lead to excessive costs and have a
-limited range of application. The approaches \cite{paek2012, mesa-martinez2007},
-on the other hand, concentrating on the power dissipation of a single die, are
-not concerned with process variation.
+being measured. In particular, these procedures rely heavily on the availability
+of adequate test structures on the dies and are practical only for secondary
+quantities affected by process variation such as delays and currents, but not
+for the primary ones such as various geometrical properties. Hence, they often
+lead to excessive costs and have a limited range of applications. The approaches
+in \cite{paek2012, mesa-martinez2007}, on the other hand, concentrating on the
+power dissipation of a single die, are not concerned with process variation.
 
-Our work makes the following main contribution. We propose a novel approach to
-the quantification of process variation based on indirect, incomplete, and noisy
-measurements. Moreover, we develop and implement a solid framework around the
-proposed idea and perform a thorough study of various aspects of our technique.
+The remainder of the chapter is structured as follows. A motivational example is
+given in \sref{inference-example}.
 
 \section{Motivational Example}
+\slab{inference-example}
+
+Consider the distribution of the effective channel length across a silicon
+wafer. The effective channel length, which we shall denote by \g, has one of the
+strongest effects on the leakage current and, consequently, on power and
+temperature \cite{juan2012}; see also \sref{interdependence}. At the same time,
+\g is well known to be severely deteriorated by process variation
+\cite{chandrakasan2000, srivastava2010}. Therefore, the distribution of \g is
+not uniform across the wafer. For concreteness, let this distribution be the one
+depicted on the left-hand side of \fref{inference-example}. The gradient from
+blue to yellow represents the transition of \g from low to high values, and the
+scale is given in terms of the number of standard deviations away from the mean
+value (the exact experimental setup will be described in detail in
+\sref{inference-results}). Hence, the blue regions have a high level of the
+power consumption and heat dissipation. Assume that the technological process
+imposes a lower bound $\g_\minimum$ on \g. This bound separates defective dies
+($\g < \g_\minimum$) from those that are acceptable ($\g \geq \g_\minimum$). In
+order to reduce costs, the manufacturer is interested in detecting the faulty
+dies and taking them out of the production process at early stages. The possible
+actions with respect to a single die on the wafer are \one~to keep the die if it
+conforms to the specification and \two~to recycle it otherwise.
 
 \inputfigure{inference-example}
-Let us consider an important application of the proposed technique: the
-characterization of the distribution, across a silicon wafer, of the effective
-channel length, denoted by \g. The effective channel length has one of the
-strongest effects on the subthreshold leakage current and, consequently, on
-power and temperature \cite{juan2012}; at the same time, \g is well known to be
-severely deteriorated by process variation \cite{chandrakasan2000,
-srivastava2010}. Assume the technological process imposes a lower bound $\g_*$
-on $\g$.\footnote{For simplicity, a possible upper bound on the effective
-channel length is ignored in the motivational example.} This bound separates
-defective dies ($\g < \g_*$) from those that are acceptable ($\g \geq \g_*$). In
-order to reduce costs, the manufacturer is interested in detecting the faulty
-dies and taking them out of the production process at early stages. Then the
-possible actions that they might take with respect to a single die on the wafer
-are: (a) keep the die if it conforms to the specification; (b) recycle the die
-otherwise. Let the distribution of \g across the wafer be the one depicted on
-the left side of \fref{wafer-qoi}. The gradient from navy to dark red represents
-the transition of \g from low to high values; hence, the navy regions have a
-high level of the power and heat dissipation.\footnote{The experimental setup
-will be described in detail in \sref{experimental-results}.}
+In order to analyze the variability of the effective channel length \g across
+the wafer, one can remove the top layer of (and, thus, destroy) the dies and
+measure \g directly. Alternatively, despite the fact that the knowledge of \g is
+more preferable, one can step back and decide to quantify process variation
+using some other parameter \h that can be measured without the need for damaging
+the dies; an example is the leakage current. It should be noted that, in this
+second case, the chosen surrogate is the final product of the analysis, and \g
+is left unknown. In either way, adequate test structures have to be present on
+the dies in order to take measurements at sufficiently many locations with the
+desired level of granularity. Such a sophisticated test structure might not
+always be readily available, and its deployment might significantly increase
+production costs. Moreover, the first approach implies that the measured dies
+have to be recycled afterwards, and the second implies that the further design
+decisions will be based on a surrogate quantity \h instead of the primary source
+of uncertainty \g, which can compromise these decisions. The latter concern is
+particularly prominent in the situations where the production process is not yet
+completely stable, and, consequently, design decisions based on the primary
+subjects of process variation are preferable.
 
-In order to quantify the uncertainty due to the variability of the effective
-channel length \g, one can find the above-mentioned distribution by removing the
-top layer of (thus, destroying) the dies and measuring \g directly.
-Alternatively, despite the fact that the knowledge of \g is more preferable, one
-can step back and decide to characterize process variation using some other
-parameter that can be measured without the need of damaging the dies such as the
-leakage current. It should be noted that, in this second case, the chosen
-surrogate is the final product, and \g is left unknown. In either way, adequate
-test structures have to be present on the dies in order to take the
-corresponding measurements in sufficiently many points and at the desired level
-of granularity. Such a sophisticated test structure might not always be readily
-available, and its deployment might significantly increase production costs.
-Moreover, the first approach implies that the measured dies have to be recycled
-afterwards, and the second implies that the further design decisions will be
-based on a surrogate quantity instead of the primary source of uncertainty,
-which can compromise the reliability of the decisions. The latter concern is
-particularly urgent in the situations wherein the production process is not yet
-completely stable and, hence, the design decisions based on the primary subjects
-of process variation are desirable.
+Our technique operates differently. In this example, in order to characterize
+the effective channel length \g, we begin by measuring an auxiliary quantity \h
+as well. The quantity is required to depend on \g, and it can be chosen to be
+straightforward from the measurement perspective. The distribution of \g across
+the whole wafer is then obtained by inferring it from the collected measurements
+of \h. Our technique permits these measurements to be taken only at a small
+number of locations on the wafer and to be corrupted by noise, which can be due
+to the imperfection of the measurement equipment utilized.
 
-Our technique works differently. In order to characterize the effective channel
-length \g, we monitor an auxiliary quantity \h that depends on \g and is more
-advantageous from the measurement perspective. The distribution of \g across the
-whole wafer is then obtained via Bayesian inference \cite{gelman2004} applied to
-the collected measurements of \h. These measurements are taken only for a small
-number of locations on the wafer and can potentially be corrupted by the noise
-due to the imperfection of the measurement equipments.
+\inputfigure{inference-measured-defective}
+Let us consider one particular \h that can be used to study the effective
+channel length \g; specifically, let \h be temperature (we elaborate further on
+this choice in \sref{inference-results}). We can then apply a fixed workload
+---for instance, we can run the same application under the same conditions---to
+a few dies on the wafer and measure the corresponding temperature profiles.
+Since temperature does not require extra equipment to be deployed on the wafer
+and can be tracked using infrared cameras \cite{mesa-martinez2007} or built-in
+facilities of the dies, our approach can reduce the costs associated with the
+analysis of process variation. The results of our framework applied to a set of
+noisy temperature profiles measured for only 7\% of the dies are shown on the
+right-hand side of \fref{inference-example}, and the locations of the measured
+dies are depicted in \fref{inference-measured}. It can be seen that the two maps
+in \fref{inference-example} closely match each other, implying that the
+distribution of \g is reconstructed with a high level of accuracy.
 
-Let us consider one particular helper \h, which can be used to study the
-effective channel length \g; specifically, let \h be temperature (we elaborate
-further on this choice in \sref{experimental-results}). We can then apply a
-fixed workload (for instance, run the same application under the same
-conditions) to a few dies on the wafer and measure the corresponding temperature
-profiles. Since temperature does not require extra equipments to be deployed on
-the wafer and can be tracked using infrared cameras \cite{mesa-martinez2007} or
-built-in facilities of the dies, our approach can reduce the costs associated
-with the analysis of process variation. The results of our framework applied to
-a set of noisy temperature profiles measured for only 7\% of the dies on the
-wafer are shown on the right side of \fref{wafer-qoi}, and the locations of the
-selected dies are depicted in \fref{wafer-measured}. It can be seen that the two
-maps in \fref{wafer-qoi} closely match each other implying that our approach is
-able to reconstruct the distribution of the effective channel length with a high
-level of accuracy.
+Another characteristic of the proposed framework is that probabilities of
+various events, for instance, $\probability{\g \geq \g_\minimum}$, can readily
+be estimated. This is important since, in reality, the true values are
+unknown---otherwise, we would not need to infer them---and, therefore, we can
+rely on our decisions only up to a certain probability. We can then reformulate
+the decision rule given earlier as follows: \one~keep the die if
+$\probability{\g \geq \g_\minimum}$ is larger than a certain threshold and
+\two~recycle it otherwise. An illustration of following this rule is given in
+\fref{inference-defective} where $\g_\minimum$ is set to two standard deviations
+below the mean value of \g; the probability threshold of the first action is set
+to 0.9; the crosses mark both the true and inferred defective dies (they
+coincide); and the gradient from white to orange corresponds to the inferred
+probability of a die to be defective. It can be seen that the inference
+accurately detects faulty dies.
 
-Another feature of the proposed framework is that probabilities of various
-events, for instance, $\probability{\g \geq \g_*}$, can readily be estimated.
-This is important since, in reality, the true values are unknown for us
-(otherwise, we would not need to quantify them), and, therefore, we can rely on
-our decisions only up to a certain probability. We can then reformulate the
-decision rule defined earlier as follows: (a) keep the die if $\probability{\g
-\geq \g_*}$ is larger than a certain threshold; (b) recycle the die otherwise.
-An illustration of this rule is given in \fref{wafer-defective} where the lower
-bound $\g_*$ is set to two standard deviations below the mean value of the
-effective channel length; the probability threshold of the action (a) is set to
-0.9; the crosses mark both the true and inferred defective dies (they coincide);
-and the gradient from light gray to red corresponds to the inferred probability
-of a die to be defective. It can be seen that the inference accurately detects
-faulty regions.
-
-In addition, we can introduce a trade-off action: (c) expose the die to a
+In addition, we can introduce a trade-off action: \three~expose the die to a
 thorough inspection (for instance, via a test structure) if $\probability{\g
-\geq \g_*}$ is smaller than the threshold of (a) and is larger than some other
-threshold, for instance, $0.1 < \probability{\g \geq \g_*} < 0.9$. In this case,
-we can reduce costs by examining only those dies for which there is neither
-sufficiently strong evidence of their satisfactory nor unsatisfactory condition.
-Furthermore, one can take into consideration a so-called utility function,
-which, for each combination of an outcome of \g and a taken action, returns the
-gain that the decision maker obtains. For example, such a function can favor a
-rare omission of malfunctioning dies to a frequent inspection of correct dies as
-the latter might involve much more costs. The optimal decision is given by the
-action that maximizes the expected utility with respect to both the observed
-data and prior knowledge on \g. Thus, all possible \g weighted by their
-probabilities will be taken into account in the final decision, incorporating
-also the preferences of the user via the utility function.
+\geq \g_\minimum}$ is smaller than the threshold of \one and is larger than some
+other threshold, for instance, $0.1 < \probability{\g \geq \g_\minimum} < 0.9$.
+In this case, we can reduce costs by examining only those dies for which there
+is neither sufficiently strong evidence of their satisfactory nor unsatisfactory
+condition. Furthermore, one can take into consideration a so-called utility
+function, which, for each combination of an outcome of \g and a taken action,
+returns the gain that the decision maker obtains. For example, such a function
+can favor a rare omission of malfunctioning dies to a frequent inspection of
+correct dies as the latter might involve much more costs. The optimal decision
+is given by the action that maximizes the expected utility with respect to both
+the observed data and prior knowledge on \g. Thus, all possible \g weighted by
+their probabilities will be taken into account in the final decision,
+incorporating also the preferences of the user via the utility function.
 
 Finally, we would like to emphasize that temperature is just one option. In
 certain situations, it might be preferable to perform the above inference based
@@ -537,6 +538,7 @@ delivered posterior distribution contains all the needed information about the
 \sref{motivation}.
 
 \section{Experimental Results}
+\slab{inference-results}
 
 In this section, we assess our framework using the inference of the effective
 channel length \g based on temperature \h. This choice for illustration is
