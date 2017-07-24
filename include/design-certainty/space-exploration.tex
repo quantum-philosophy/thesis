@@ -1,8 +1,8 @@
 In this section, we illustrate the importance of temperature analysis for
 design-space exploration. Specifically, we consider reliability optimization and
 demonstrate the utility of our solution to dynamic steady-state analysis
-presented in \sref{dynamic-steady-state-analysis} for mitigating the fatigue due
-to thermal cycling \cite{jedec2010}, which is one of the most common failure
+presented in \sref{dynamic-steady-state} for mitigating the fatigue due to
+thermal cycling \cite{jedec2010}, which is one of the most common failure
 mechanism. To this end, we develop a thermal-cycling-aware technique for
 scheduling of periodic applications.
 
@@ -30,7 +30,7 @@ take into account the number of temperature fluctuations and their
 characteristics. In order to obtain this information, the \ac{DSSTP} has to be
 computed.
 
-The remainder of the chapter is organized as follows. The system and reliability
+The remainder of the section is organized as follows. The system and reliability
 models that we consider are presented in \sref{system-model} and
 \sref{reliability-model}, respectively. In \sref{thermal-cycling-optimization},
 we formulate our optimization objective and describe the optimization technique
@@ -236,9 +236,9 @@ the \up{TGFF} tool \cite{dick1998} in such a way that the execution times of
 tasks are uniformly distributed between 1 and 10~ms, and that the static power
 accounts for 30--60\% of the total power consumption. The area of a single
 processor is set to 4~mm\textsuperscript{2}. The modeling of the leakage power
-is based on the linear approximation discussed in
-\sref{power-temperature-interplay}. The maximum-temperature constraint
-$\q_\maximum$ in \eref{thermal-cycling-constraints} is set to \celsius{100}. In
+is based on the linear approximation discussed in \sref{interdependence}. The
+maximum-temperature constraint $\q_\maximum$ in
+\eref{thermal-cycling-constraints} is set to \celsius{100}. In
 \eref{reliability-mean-cycles}, the Coffin--Manson exponent $b$ is set to 6, the
 activation energy $c$ to 0.5, and the elastic region $\Delta \q_0$ to 0
 \cite{jedec2010}; the coefficient of proportionality $a$ in

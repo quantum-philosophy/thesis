@@ -55,7 +55,7 @@ has to be performed in order to achieve a satisfactory level of accuracy is
 significant for the majority of the configurations, which entails large
 computation times. For instance, for a 9-mm\textsuperscript{2} processor, even
 after 15 iterations, the \ac{NRMSE} is still close to 20\%. Using the analytical
-approach to transient analysis presented in \sref{transient-analysis}, the
+approach to transient analysis presented in \sref{transient-state}, the
 calculation can be sped up; however, the large number of iterations still keeps
 the computation cost unreasonably high as we shall illustrate in
 \sref{dynamic-steady-state-results}. Moreover, this approximation technique
@@ -261,7 +261,7 @@ important since \ns is typically much large than \nn, that is, the number of
 thermal nodes.
 
 It is worth noting that the auxiliary transformation presented in
-\sref{transient-analysis-present} and the accompanying eigendecomposition in
+\sref{transient-state-present} and the accompanying eigendecomposition in
 \eref{eigendecomposition} have substantially simplified the calculations
 associated with dynamic steady-state analysis. It should also be noted that the
 eigendecomposition along with $\m{E}$ and $\m{F}$ are computed only once for a
@@ -289,7 +289,7 @@ based on transient analysis, which is mentioned in
 transform, which is mentioned in \sref{dynamic-steady-state-present}, since they
 are comparable with ours in terms of accuracy. In the case of transient
 analysis, we evaluate both the fast analytical solution described in
-\sref{transient-analysis-present} and the one implemented in HotSpot, and the
+\sref{transient-state-present} and the one implemented in HotSpot, and the
 corresponding iterative calculation is undertaken until the \ac{NRMSE} relative
 to the \ac{DSSTP} obtained with the proposed method (which is exact) is less
 than 1\%.
