@@ -131,9 +131,9 @@ various events, for instance, $\probability{\g \geq \g_\minimum}$, can readily
 be estimated. This is important since, in reality, the true values are
 unknown---otherwise, we would not need to infer them---and, therefore, we can
 rely on our decisions only up to a certain probability. We can then reformulate
-the decision rule given earlier as follows: \one~keep the die if
+the decision rule given earlier as follows: \one~to keep the die if
 $\probability{\g \geq \g_\minimum}$ is larger than a certain threshold and
-\two~recycle it otherwise. An illustration of following this rule is given in
+\two~to recycle it otherwise. An illustration of following this rule is given in
 \fref{inference-defective} where $\g_\minimum$ is set to two standard deviations
 below the mean value of \g; the probability threshold of the first action is set
 to 0.9; the crosses mark both the true and inferred defective dies (they
@@ -141,28 +141,23 @@ coincide); and the gradient from white to orange corresponds to the inferred
 probability of a die to be defective. It can be seen that the inference
 accurately detects faulty dies.
 
-In addition, we can introduce a trade-off action: \three~expose the die to a
-thorough inspection (for instance, via a test structure) if $\probability{\g
-\geq \g_\minimum}$ is smaller than the threshold of \one and is larger than some
-other threshold, for instance, $0.1 < \probability{\g \geq \g_\minimum} < 0.9$.
-In this case, we can reduce costs by examining only those dies for which there
-is neither sufficiently strong evidence of their satisfactory nor unsatisfactory
-condition. Furthermore, one can take into consideration a so-called utility
-function, which, for each combination of an outcome of \g and a taken action,
-returns the gain that the decision maker obtains. For example, such a function
-can favor a rare omission of malfunctioning dies to a frequent inspection of
-correct dies as the latter might involve much more costs. The optimal decision
-is given by the action that maximizes the expected utility with respect to both
-the observed data and prior knowledge on \g. Thus, all possible \g weighted by
-their probabilities will be taken into account in the final decision,
-incorporating also the preferences of the user via the utility function.
-
-Finally, we would like to emphasize that temperature is just one option. In
-certain situations, it might be preferable to perform the above inference based
-on measurements of some other auxiliary quantity \h provided that it depends on
-the one that we wish to characterize, that is, on \g. For example, \h can be the
-leakage current, which can be readily measured if adequate test structures have
-already been deployed on the wafer for other purposes.
+In addition, we can introduce a trade-off action between action \one and action
+\two as follows: \three~to expose the die to a thorough inspection (for
+instance, via a test structure) if $\probability{\g \geq \g_\minimum}$ is
+smaller than the threshold of action \one but larger than another threshold. For
+instance, action \three can be taken if $0.1 < \probability{\g \geq \g_\minimum}
+< 0.9$. In this case, we can reduce costs by examining only those dies for which
+there is no sufficiently strong evidence of their satisfactory and
+unsatisfactory conditions. Furthermore, one can take into consideration a
+so-called utility function, which, for each combination of an outcome of \g and
+a taken action, returns the gain that the decision maker obtains. For example,
+such a function can favor a rare omission of malfunctioning dies to a frequent
+inspection of correct dies as the latter might involve much higher costs. The
+optimal decision is given by the action that maximizes the expected utility with
+respect to both the observed data and prior knowledge on \g. Thus, all possible
+\g weighted by their probabilities will be taken into account in the final
+decision, incorporating also the preferences of the user via the utility
+function.
 
 \section{Problem Formulation}
 
@@ -746,3 +741,10 @@ costs since no deployment of expensive test structures might be needed or only a
 small subset of the test equipments already deployed for other purposes might
 need to be activated. The experimental results present an assessment of our
 framework for a wide range of configurations.
+
+Finally, we would like to emphasize that temperature is just one option. In
+certain situations, it might be preferable to perform the above inference based
+on measurements of some other auxiliary quantity \h provided that it depends on
+the one that we wish to characterize, that is, on \g. For example, \h can be the
+leakage current, which can be readily measured if adequate test structures have
+already been deployed on the wafer for other purposes.
