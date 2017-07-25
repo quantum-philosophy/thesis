@@ -9,10 +9,11 @@ scheduling of periodic applications.
 The remainder of the section is organized as follows. First, we consider a
 motivational example in \sref{thermal-cycling-example}. The utilized system and
 reliability models are then presented in \sref{system-model} and
-\sref{reliability-model}, respectively. In \sref{thermal-cycling-optimization},
-we formulate our optimization objective and describe the optimization technique
-that we utilize in order to attain this objective. Lastly, the obtained
-experimental results are reported in \sref{thermal-cycling-results}.
+\sref{reliability-model}, respectively. In \sref{thermal-cycling-problem}, we
+formulate our optimization objective and, in \sref{thermal-cycling-solution},
+describe the optimization technique that we utilize in order to attain it.
+Lastly, the obtained experimental results are reported in
+\sref{thermal-cycling-results}.
 
 \subsection{Motivational Example}
 \slab{thermal-cycling-example}
@@ -167,8 +168,8 @@ In conclusion, it should be noted that the reliability model requires detailed
 information about the thermal cycles that the component is exposed to, which can
 be obtained by performing dynamic steady-state temperature analysis.
 
-\subsection{Optimization Procedure}
-\slab{thermal-cycling-optimization}
+\subsection{Problem Formulation}
+\slab{thermal-cycling-problem}
 
 Recall that we have a platform with \np processors and a periodic application
 with \nt tasks and a period $\period$ (see \sref{system-model}), and that, in
@@ -191,6 +192,9 @@ where $t_{\ns_i}$ is the completion time of task $i$, and $\norm{\cdot}$ denotes
 the uniform norm. The first constraint enforces a deadline on the schedule, and
 the second constraint enforces a maximum temperature $\q_\maximum$ on the
 resulting \mq.
+
+\subsection{Our Solution}
+\slab{thermal-cycling-solution}
 
 The optimization is undertaken using a genetic algorithm \cite{schmitz2004}. In
 this paradigm inspired by biology, a population of chromosomes, which represent
@@ -218,7 +222,7 @@ produces a schedule. If the schedule violates the deadline constraint given in
 to the amount of violation and is not further processed. Otherwise, based on the
 parameters of the processors and tasks discussed in \sref{system-model}, a power
 profile \mp is constructed, and the corresponding \ac{DSSTP} \mq is computed
-using our technique presented in \sref{dynamic-steady-state-present}. If the
+using our technique presented in \sref{dynamic-steady-state-solution}. If the
 \ac{DSSTP} violates the temperature constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, the
@@ -285,7 +289,7 @@ respect to \tref{thermal-cycling-processors}.
 The experiments show that our optimization is able to effectively increase the
 \ac{MTTF} of the system at hand. The efficiency is due to the fast and accurate
 approach to dynamic steady-state temperature analysis presented in
-\sref{dynamic-steady-state-present}, which is at the heart of the optimization
+\sref{dynamic-steady-state-solution}, which is at the heart of the optimization
 procedure. Due to its speed, the technique allows a large portion of the design
 space to be explored. In order to illustrate this, let us replace, inside the
 optimization framework, our method with \one~the one based on iterative

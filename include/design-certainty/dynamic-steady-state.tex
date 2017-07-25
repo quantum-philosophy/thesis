@@ -92,7 +92,7 @@ temperature analysis are slow and inaccurate. This state of affairs makes them
 difficult and dangerous to be utilized for the purpose of design optimization.
 
 \subsection{Our Solution}
-\slab{dynamic-steady-state-present}
+\slab{dynamic-steady-state-solution}
 
 In this subsection, we are to formalize the problem of dynamic steady-state
 temperature analysis and to develop an exact and, moreover, computationally
@@ -261,7 +261,7 @@ important since \ns is typically much large than \nn, that is, the number of
 thermal nodes.
 
 It is worth noting that the auxiliary transformation presented in
-\sref{transient-state-present} and the accompanying eigendecomposition in
+\sref{transient-state-solution} and the accompanying eigendecomposition in
 \eref{eigendecomposition} have substantially simplified the calculations
 associated with dynamic steady-state analysis. It should also be noted that the
 eigendecomposition along with $\m{E}$ and $\m{F}$ are computed only once for a
@@ -274,7 +274,7 @@ design-space-exploration procedure is concerned.
 \slab{dynamic-steady-state-results}
 
 Let us now investigate the scaling of the solution to dynamic steady-state
-analysis proposed in \sref{dynamic-steady-state-present}. All the experiments
+analysis proposed in \sref{dynamic-steady-state-solution}. All the experiments
 are conducted on a \up{GNU}/Linux machine equipped with Intel Core i7
 3.4~\up{GH}z and 8~\up{GB} of \up{RAM}.
 
@@ -286,10 +286,10 @@ temperature profiles is set to 1~ms.
 We consider two alternative techniques for comparison purposes, namely, the one
 based on transient analysis, which is mentioned in
 \sref{dynamic-steady-state-prior}, and the one based on the fast Fourier
-transform, which is mentioned in \sref{dynamic-steady-state-present}, since they
-are comparable with ours in terms of accuracy. In the case of transient
+transform, which is mentioned in \sref{dynamic-steady-state-solution}, since
+they are comparable with ours in terms of accuracy. In the case of transient
 analysis, we evaluate both the fast analytical solution described in
-\sref{transient-state-present} and the one implemented in HotSpot, and the
+\sref{transient-state-solution} and the one implemented in HotSpot, and the
 corresponding iterative calculation is undertaken until the \ac{NRMSE} relative
 to the \ac{DSSTP} obtained with the proposed method (which is exact) is less
 than 1\%.
