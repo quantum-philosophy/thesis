@@ -162,90 +162,56 @@ function.
 \section{Problem Formulation}
 
 Consider a generic electronic system, which is fabricated on a silicon wafer
-hosting \nd dies. The system depends on a process parameter \g, which we are
-interested in studying and shall refer to as the \ac{QOI}. Due to the presence
-of process variation, the value of \g deviates from the nominal one, and this
-deviation can be different at different locations on the wafer. The \ac{QOI} is
-assumed to be expensive/impractical for direct measurements.
+that accommodates \nd dies. Let \spec refer collectively to the specification of
+the fabrication process and of the system itself including the layout of the
+wafer and the floorplan of the dies. The system depends on a process parameter
+\g, which we are interested in studying and shall refer to as the \ac{QOI}. Due
+to the presence of process variation, the value of \g deviates from the nominal
+one, and this deviation can be different at different locations on the wafer.
+The \ac{QOI} is assumed to be impractical to be measured directly.
 
-The goal of this work is to develop a statistical framework targeted at the
-identification of the on-wafer distribution of \g with the following properties:
-(a) low measurement costs; (b) high computational speed; (c) robustness to the
-measurement noise; (d) ability to accommodate prior knowledge on \g; and (e)
-ability to assess the trustworthiness of the collected data and corresponding
-predictions.
+Given \spec, the goal is to develop a framework targeted at the identification
+of the on-wafer distribution of \g with the following properties: \one~low
+measurement costs, \two~high computational speed, \three~robustness to the
+measurement noise, \four~ability to accommodate prior knowledge on \g, and
+\five~ability to assess the trustworthiness of the collected data and
+corresponding predictions.
 
-In order to achieve the established goal, we propose the use of indirect
-measurements. Specifically, instead of \g, we measure an auxiliary parameter \h,
-which we shall refer to as the \ac{QOM}. The observations of \h are then
-processed via Bayesian inference in order to derive the distribution of the
-\ac{QOI}, \g. The \ac{QOM} is chosen such that: (a) \h is convenient and cheap
-to be tracked; (b) \h depends on \g, which is signified by $\h = f(\g)$; and (c)
-there is a way to compute \h for a given \g. The last means that $f$ should be
-known; however, it does not have to be explicitly given: our framework treats
-$f$ as a ``black box.'' For example, $f$ can be a piece of code or an output of
-an adequate simulator.
+\section{Our Solution}
 
-As the first step, the user of the proposed framework is supposed to harvest a
-set of observations of \h at several locations on the wafer (recall
-\sref{motivation}). Without loss of generality, we shall adhere to the following
-convention. One die corresponds to one potential measurement site, and $\nd' \ll
-\nd$ denotes the number of those sites that have been selected for measurements.
+In order to achieve the established goal, we make use of indirect measurements.
+Specifically, instead of \g, we measure an auxiliary parameter \h, which we
+shall refer to as the \ac{QOM}. The observations of \h are then processed via
+Bayesian inference \cite{gelman2004} in order to derive the distribution of \g.
+The \ac{QOM} is chosen such that \one~\h is convenient and cheap to be measured;
+\two~\h depends on \g, which is signified by $\h = f(\g)$; and \three~there is a
+way to compute \h for a given \g. The last means that $f$ should be known;
+however, it does not have to be explicitly given: our framework treats $f$ as a
+``black box.'' For example, $f$ can be a piece of code or an output of an
+adequate simulator.
+
+As the first step, the user of the framework is supposed to harvest a set of
+observations of \h at several locations on the wafer; recall
+\sref{inference-example}. Without loss of generality, we adhere to the following
+convention. One die corresponds to one potential measurement site, and $\ndm <
+\nd$ denotes the number of those sites that have been selected for measurement.
 Each site comprises \np measurement points, and each point contains \ns data
-instances. For example, in \sref{motivation}, each observation was an $\np
-\times \ns$ matrix capturing temperature of \np processing elements for \ns
-moments of time. Denote by $H = \{ \h_i^\measured \}_{i = 1}^{\nd'}$ the
-collected data set where $\h_i^\measured \in \real^{\np \times \ns}$ stands for
-one observation (one site) of the \ac{QOM}. It is implied that the placement of
-each selected site is recorded along with $H$.
+instances. For instance, in the example given in \sref{inference-example}, each
+observation is a temperature profile $\mq \in \real^{\np \times \ns}$, which is
+an matrix capturing temperature of \np processors at \ns time moments as defined
+in \eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i = 1}^{\ndm}$ the
+collected data set where $\hh_i \in \real^{\np \times \ns}$ stands for one
+observation (one site) of \h. Lastly, it is assumed that the corresponding
+locations are recorded along with $H$.
 
-Note that, if $f$ is the identity function, that is, $\h \equiv \g$, the
-proposed technique will primarily focus on the reconstruction of any missing
-observations (defined in \sref{model-order-reduction}) in $H$. From this
-standpoint, our approach is a generalization of those developed in
+It is worth noting that, if $f$ is the identity function, that is, $\h = f(\g) =
+\g$, the proposed technique will primarily focus on the reconstruction of any
+missing observations in $H$, that is, on the unobserved sites on the wafer. From
+this standpoint, our approach is a generalization of those developed in
 \cite{zhang2010, reda2009}.
 
-For convenience, we denote by $\spec$ all the information relevant to the
-production and measurement processes including: (a) the layout of the wafer and
-(b) the floorplan of a die on the wafer.
-
-\section{Preliminaries}
-
-In order to give a clear presentation of the proposed technique, we first
-overview the basics of Bayesian inference \cite{gelman2004}. Let \vt be a set of
-unknown parameters (in our case, related to, for instance, the effective channel
-length), which we would like to characterize. Our arsenal to solve the problem
-includes: (a) a set of observations $H$ (in our case, for instance, temperature
-or current); (b) a data model connecting \vt with $H$; and (c) prior beliefs on
-\vt. A natural solution is Bayes' rule:
-\begin{equation} \elab{bayes-theorem}
-  p(\vt | H) \propto p(H | \vt) p(\vt)
-\end{equation}
-where $p$ denotes a probability density function. $p(H | \vt)$ is known as the
-likelihood function, which accommodates the data model and yields the
-probability of observing the data $H$ given the parameters \vt. $p(\vt)$ is
-called the prior of \vt, which represents our knowledge on \vt prior to any
-observations. $p(\vt | H)$ reads as the posterior of \vt given $H$. Such a
-posterior is an exhaustive solution to our problem: having constructed $p(\vt |
-H)$, all the needed characteristics of \vt can be trivially estimated by drawing
-samples from this posterior.
-
-Unfortunately, the posterior distribution often does not belong to any of the
-common families of probability distributions, which is primarily due to the data
-model involved in the likelihood function, and, therefore, the sampling
-procedure is not straightforward. To tackle the difficulty, one usually relies
-on such techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an
-ergodic Markov chain with the stationary distribution equal to the target
-posterior distribution is constructed and then utilized for the probability
-space exploration. A popular instantiation of \ac{MCMC} sampling is the
-Metropolis-Hastings (\up{MH}) algorithm wherein such a Markov chain is attained
-via sampling from an auxiliary, computationally convenient distribution known as
-the proposal distribution. We shall further elaborate on this algorithm in
-\sref{statistical-model}--\sref{sampling}.
-
-\section{Proposed Framework}
-
-In this section, we present our statistical framework for the characterization
+\inputfigure{inference-overview}
+In the rest of this section, we present our framework for the characterization
 of process variation. The technique is divided into four major stages depicted
 in \fref{algorithm}. Stage~1 is the data-harvesting stage wherein the user
 collects a set of observations of the \ac{QOM}, \h, forming the input set $H$.
@@ -355,14 +321,14 @@ tractable, which we shall discuss next.
 The model of the \ac{QOI} is an infinite-dimensional object as it characterizes
 a continuum of locations. For practical computations, however, it should be
 reduced to a finite-dimensional one. First, \g is discretized with respect to
-the union of two sets of points: the first one is composed of the $\nd' \np$
-points where the observations in $H$ were made ($\nd'$ selected sites with $\np$
+the union of two sets of points: the first one is composed of the $\ndm \np$
+points where the observations in $H$ were made ($\ndm$ selected sites with $\np$
 inner locations each), and the other of the points where the user wishes to
 characterize \g. For simplicity, we assume that the user is interested in all
 the sites, which is $\nd \np$ points in total. Thus, we obtain an $\nd
 \np$-dimensional representation of \g denoted by $\vg \in \real^{\nd \np}$.
 Second, the dimensionality is reduced even further by applying the well-known
-principal component analysis to the covariance matrix of $\vg$ computed via
+principal component analysis to the covariance matrix of \vg computed via
 \eref{covariance-function}. More precisely, we factorize this matrix using the
 eigenvalue decomposition \cite{press2007} and discard those eigenvalues (and
 their eigenvectors) whose contribution to the total sum of the eigenvalues is
@@ -387,7 +353,7 @@ prediction \vh as follows:
 \begin{equation} \elab{noisy-measurements}
   \vh^\measured = \vh + \v{\epsilon}
 \end{equation}
-where $\v{\epsilon}$ is an $\nd' \np \ns$-dimensional vector of noise, which is
+where $\v{\epsilon}$ is an $\ndm \np \ns$-dimensional vector of noise, which is
 typically assumed to be a white Gaussian noise \cite{rasmussen2006,
 marzouk2009}. Without loss of generality, the noise is assumed to be independent
 of \g and to have the same magnitude for all measurements (characterized by the
@@ -532,6 +498,40 @@ delivered posterior distribution contains all the needed information about the
 \ac{QOI}. This is especially helpful in decision making as exemplified in
 \sref{motivation}.
 
+\section{Preliminaries}
+
+In order to give a clear presentation of the proposed technique, we first
+overview the basics of Bayesian inference \cite{gelman2004}. Let \vt be a set of
+unknown parameters (in our case, related to, for instance, the effective channel
+length), which we would like to characterize. Our arsenal to solve the problem
+includes: (a) a set of observations $H$ (in our case, for instance, temperature
+or current); (b) a data model connecting \vt with $H$; and (c) prior beliefs on
+\vt. A natural solution is Bayes' rule:
+\begin{equation} \elab{bayes-theorem}
+  p(\vt | H) \propto p(H | \vt) p(\vt)
+\end{equation}
+where $p$ denotes a probability density function. $p(H | \vt)$ is known as the
+likelihood function, which accommodates the data model and yields the
+probability of observing the data $H$ given the parameters \vt. $p(\vt)$ is
+called the prior of \vt, which represents our knowledge on \vt prior to any
+observations. $p(\vt | H)$ reads as the posterior of \vt given $H$. Such a
+posterior is an exhaustive solution to our problem: having constructed $p(\vt |
+H)$, all the needed characteristics of \vt can be trivially estimated by drawing
+samples from this posterior.
+
+Unfortunately, the posterior distribution often does not belong to any of the
+common families of probability distributions, which is primarily due to the data
+model involved in the likelihood function, and, therefore, the sampling
+procedure is not straightforward. To tackle the difficulty, one usually relies
+on such techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an
+ergodic Markov chain with the stationary distribution equal to the target
+posterior distribution is constructed and then utilized for the probability
+space exploration. A popular instantiation of \ac{MCMC} sampling is the
+Metropolis-Hastings (\up{MH}) algorithm wherein such a Markov chain is attained
+via sampling from an auxiliary, computationally convenient distribution known as
+the proposal distribution. We shall further elaborate on this algorithm in
+\sref{statistical-model}--\sref{sampling}.
+
 \section{Experimental Results}
 \slab{inference-results}
 
@@ -555,7 +555,7 @@ Now we shall describe the default configuration of our setup, which will be
 later adjusted according to the purpose of each particular experiment. We
 consider a 45-nanometer technological process. The diameter of the wafer is 20
 dies, and the total number of dies \nd is 316. The number of measured dies
-$\nd'$ is 20, and these dies are chosen by an algorithm, which pursues an even
+$\ndm$ is 20, and these dies are chosen by an algorithm, which pursues an even
 coverage of the wafer. The number of processing elements in each die is four,
 and they are the points of taking measurements, that is, $\np = 4$. The
 floorplans of the multiprocessor platforms are constructed in such a way that
@@ -574,7 +574,7 @@ draw a sample of \g from a Gaussian distribution with the mean value equal to
 17.5~nm, according to the considered technological process \cite{ptm}, and the
 covariance function given by \eref{covariance-function} wherein the standard
 deviation is 2.25~nm; (b) perform one fine-grained temperature simulation per
-each of the $\nd'$ selected dies under the corresponding dynamic power profile;
+each of the $\ndm$ selected dies under the corresponding dynamic power profile;
 (c) shrink the temperature profiles to keep only \ns, which is equal to 20 by
 default, evenly spaced moments of time; and (d) perturb the obtained data set
 using a white Gaussian noise with the standard deviation of 1$\,$K (Kelvin).
@@ -626,13 +626,13 @@ not presented here. All the observations suggest that the optimization and
 sampling procedures are properly configured.
 
 Next we use the assessed configuration and alter only one parameter at a time:
-the number of measured sites/dies $\nd'$; the number of processing
+the number of measured sites/dies $\ndm$; the number of processing
 elements/measured points $\np$ on a site; the amount of data per measurement
 point \ns; and the noise deviation $\sigma_\epsilon$.
 
 \subsection{Number of Measured Sites}
 
-Let us change the number of dies $\nd'$ that have been measured. The considered
+Let us change the number of dies $\ndm$ that have been measured. The considered
 scenarios are 1, 10, 20, 40, 80, and 160 measured dies, respectively. The
 results are reported in \tref{spatial-measurements}. In this and the following
 tables, we report the optimization (Stage~2 in \fref{algorithm}) and sampling
@@ -647,7 +647,7 @@ in most of the discussions below (highlighted in bold).
 
 We see in \tref{spatial-measurements} that the more data the proposed framework
 needs to process, the longer the execution times, which is reasonable. The
-trend, however, is rather modest: with the doubling of $\nd'$, all the
+trend, however, is rather modest: with the doubling of $\ndm$, all the
 computational times increase less than two times. The error firmly decreases and
 drops below 4\% with around 20 sites measured, which is only 6.3\% of the total
 number of dies on the wafer.
@@ -676,7 +676,7 @@ moments, respectively. The results are aggregated in
 \tref{temporal-measurements}. As we see, the growth of the computational time is
 relatively small. One might have expected this growth due to \ns to be the same
 as the one due to $\np$ since, formally, the influence of $\np$ and \ns on the
-dimensionality of $H$ is identical (recall $\vh^\measured \in \real^{\nd' \np
+dimensionality of $H$ is identical (recall $\vh^\measured \in \real^{\ndm \np
 \ns}$). However, the meaning of the two numbers, \np and \ns, is completely
 different, and, therefore, the way they manifest themselves in the algorithm is
 also different. Therefore, the corresponding amounts of extra data are being

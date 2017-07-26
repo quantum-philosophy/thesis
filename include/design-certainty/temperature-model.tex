@@ -34,7 +34,7 @@ that is used throughout this thesis unless we state otherwise.
 Suppose now that an adequate thermal \up{RC} circuit has been constructed for
 the considered electronic system. Regardless of the structure of the circuit,
 the thermal dynamics of the circuit (and the electronic system) are governed by
-the following system of $\nn$ differential and $\np$ algebraic equations:
+the following system of \nn differential and \np algebraic equations:
 \begin{subnumcases}{\elab{temperature-model-original}}
   \m{C} \frac{d\tvs(t)}{dt} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
   \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
@@ -57,17 +57,17 @@ notions of a power and a temperature profile. A power profile of the system is
 defined to be an $\np \times \ns$ matrix
 \[
   \mp
-  = \left( \range{\vp_1}{\vp_\ns} \right)
-  = \left( \range{\vp(t_1)}{\vp(t_\ns)} \right) \in \real^{\np \times \ns}
+  = \left(\range{\vp_1}{\vp_\ns}\right)
+  = \left(\range{\vp(t_1)}{\vp(t_\ns)}\right) \in \real^{\np \times \ns}
 \]
 that contains \ns samples of the power consumption of the \np processors over
 \ns time steps with a certain sampling interval \dt. Similarly, a temperature
 profile is defined to be an $\np \times \ns$ matrix
-\[
+\begin{equation} \elab{temperature-profile}
   \mq
-  = \left( \range{\vq_1}{\vq_\ns} \right)
-  = \left( \range{\vq(t_1)}{\vq(t_\ns)} \right) \in \real^{\np \times \ns}
-\]
+  = \left(\range{\vq_1}{\vq_\ns}\right)
+  = \left(\range{\vq(t_1)}{\vq(t_\ns)}\right) \in \real^{\np \times \ns}
+\end{equation}
 that captures the heat dissipation of the processors over a number of
 equidistant time moments. Let us note that, even though the exact time frame and
 sampling interval of a power or a temperature profile are not included in the
