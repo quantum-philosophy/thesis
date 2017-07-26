@@ -302,11 +302,12 @@ order to acquire the corresponding temperature \h, which is the topic of
 
 \subsection{Statistical Model}
 
-Once the wafer has been fabricated, the values of \g are fixed for all
-locations on the wafer; however, they remain unknown for us. In order to infer
-them, we employ the procedure, called the statistical model, developed in the
-current subsection and displayed in \fref{inference}. The development consists
-of the five components described below.
+\inputfigure{inference-statistical-model}
+Once the wafer has been fabricated, the values of \g across the wafer are fixed;
+however, they remain unknown to us. In order to infer them, we employ the
+procedure developed in the current subsection, which can also be seen in
+\fref{inference-statistical-model}. The model consists of the five components
+described below.
 
 The first step is to assign an adequate model to the unknown \g. We model \g as
 a Gaussian process \cite{rasmussen2006} since: (a) it is flexible in capturing
