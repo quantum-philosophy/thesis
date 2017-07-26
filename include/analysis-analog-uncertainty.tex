@@ -163,7 +163,7 @@ function.
 
 Consider a generic electronic system, which is fabricated on a silicon wafer
 that accommodates \nd dies. Let \spec refer collectively to the specification of
-the fabrication process and of the system itself including the layout of the
+the manufacturing process and of the system itself including the layout of the
 wafer and the floorplan of the dies. The system depends on a process parameter
 \g, which we are interested in studying and shall refer to as the \ac{QOI}. Due
 to the presence of process variation, the value of \g deviates from the nominal
@@ -181,24 +181,24 @@ corresponding predictions.
 
 In order to give a clear presentation of the proposed technique, let us first
 give a brief introduction to Bayesian inference \cite{gelman2004}, which is our
-main tool in this chapter. Denote by \vt a set of unknown parameters that we
+main tool in this chapter. Denote by \t a set of unknown parameters that we
 would like to know. In our case, these parameters can be related to, for
 instance, the effective channel length. At our disposal, we have the following
-information: \one~a set of observations $H$, \two~a data model connecting \vt
-with $H$, and \three~prior beliefs on \vt. In our case, $H$ can contain, for
+information: \one~a set of observations $H$, \two~a data model connecting \t
+with $H$, and \three~prior beliefs on \t. In our case, $H$ can contain, for
 instance, temperature or current measurements. A natural solution is Bayes'
 theorem, which is as follows:
 \begin{equation} \elab{bayes-theorem}
-  p(\vt | H) \propto p(H | \vt) p(\vt)
+  p(\t | H) \propto p(H | \t) p(\t)
 \end{equation}
 where $p$ denotes a probability density function. In \eref{bayes-theorem}, $p(H
-| \vt)$ is known as the likelihood function, which accommodates the data model
+| \t)$ is known as the likelihood function, which accommodates the data model
 and yields the probability of observing the data set $H$ given the parameters
-\vt; $p(\vt)$ is called the prior of \vt, which represents our knowledge on \vt
-prior to any observations; and $p(\vt | H)$ is called the posterior of \vt given
-$H$. The last is an exhaustive solution to our problem: having constructed
-$p(\vt | H)$, all the needed characteristics of \vt can be trivially estimated
-by drawing samples from this posterior.
+\t; $p(\t)$ is called the prior of \t, which represents our knowledge on \t
+prior to any observations; and $p(\t | H)$ is called the posterior of \t given
+$H$. The last is an exhaustive solution to our problem: having constructed $p(\t
+| H)$, all the needed characteristics of \t can be trivially estimated by
+drawing samples from this posterior.
 
 The posterior distribution does not typically belong to any of the common
 families of probability distributions, which is primarily due to the data model
@@ -309,50 +309,48 @@ procedure developed in the current subsection, which can also be seen in
 \fref{inference-statistical-model}. The model consists of the five components
 described below.
 
-The first step is to assign an adequate model to the unknown \g. We model \g as
-a Gaussian process \cite{rasmussen2006} since: (a) it is flexible in capturing
-the correlation patterns induced by the manufacturing process; (b) it is
-computationally efficient; and (c) Gaussian distributions are often natural and
-accurate models for uncertainties due to process variation \cite{srivastava2010,
-reda2009, juan2012}. Thus, we have
+Component~1 is to assign an adequate model to the unknown \g. We model \g as a
+Gaussian process \cite{rasmussen2006} since \one~it is flexible in capturing the
+correlation patterns induced by the manufacturing process; \two~it is
+computationally efficient; and \three~Gaussian distributions are often natural
+and accurate models for uncertainties due to process variation
+\cite{srivastava2010, reda2009, juan2012}. We denote this as
 \begin{equation} \elab{u-prior}
-  \g | \vt_\g \sim \mathcal{GP}(\mu, k)
+  \g | \t_\g \sim \text{Gaussian Process}(\mu, k)
 \end{equation}
-where $\mu(r)$ and $k(r, r')$ are the mean and covariance functions of \g,
-respectively, and $r, r' \in \real^2$ denote coordinates on the wafer.
-Hereafter, the vertical bar, pronounced as ``given,'' is used to mark the
-parameters that the probability distribution on the right-hand side depends on.
-In this case, such parameters are $\vt_\g$, which we shall identify later on.
-Prior to taking any measurements, \g is assumed to be spatially unbiased;
-therefore, we let $\mu$ be a single location-independent parameter $\mu_\g$,
-that is, $\mu(r) = \mu_\g$, $\forall r \in \real^2$. The covariance function $k$
-is chosen to be the following composition:
+where $\mu(\cdot)$ and $k(\cdot, \cdot)$ are the mean and covariance functions
+of \g, respectively, which take locations on the wafer as arguments. The
+notation also indicates that \g depends on a set of parameters $\t_\g$, which we
+shall identify later on. Prior to taking any measurements, \g is assumed to be
+spatially unbiased; therefore, we let $\mu$ be a single location-independent
+parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
+covariance function $k$ is chosen to be as follows:
 \begin{equation} \elab{covariance-function}
   k(r, r') = \sigma_\g^2 \left(\eta k_\text{SE}(r, r') + (1 - \eta) k_\text{OU}(r, r')\right)
 \end{equation}
-where
+for $r \in \real^2$ and $r' \in \real^2$ where
 \begin{align*}
   & k_\text{SE}(r, r') = \exp\left(-\frac{\norm[2]{r - r'}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
   & k_\text{OU}(r, r') = \exp\left(-\frac{\absolute{\,\norm[2]{r} - \norm[2]{r'}\,}}{\ell_\text{OU}}\right)
 \end{align*}
 are the squared exponential and Ornstein--Uhlenbeck correlation functions
 \cite{rasmussen2006}, respectively; $\sigma_\g^2$ represents the variance of \g;
-$\eta \in [0, 1]$ is a weighting coefficient; $\ell_\text{SE}$ and
+$\eta \in [0, 1]$ is a weighting coefficient; $\ell_\text{SE} > 0$ and
 $\ell_\text{OU} > 0$ are so-called length-scale parameters; and
 $\norm[2]{\cdot}$ stands for the Euclidean distance. The choice of the
-covariance function $k$ is guided by the observations of the correlation
-structures induced by the fabrication process \cite{chandrakasan2000,
-cheng2011}: $k_\text{SE}$ imposes similarities between the points on the wafer
-that are close to each other, and $k_\text{OU}$ imposes similarities between the
-points that are at the same distance from the center of the wafer.
-$\ell_\text{SE}$ and $\ell_\text{OU}$ control the extend of these similarities,
-that is, the range wherein the influence of one point on another is significant.
-Although all the above parameters of the model of \g can be inferred from the
-data, for simplicity, we shall focus on $\mu_\g$ and $\sigma_\g^2$. The rest of
-the parameters, namely, $\eta$, $\ell_\text{SE}$, and $\ell_\text{OU}$, are
-assumed to be determined prior to our analysis based on the knowledge of the
-correlation patterns typical for the production process utilized (see
-\cite{marzouk2009} and references therein).
+covariance function $k$ is based on the observations of the correlation
+structures induced by the manufacturing process \cite{chandrakasan2000,
+cheng2011}. More specifically, $k_\text{SE}$ imposes similarities between the
+points on the wafer that are close to each other, and $k_\text{OU}$ imposes
+similarities between the points that are at the same distance from the center of
+the wafer. Parameters $\ell_\text{SE}$ and $\ell_\text{OU}$ control the extend
+of these similarities, that is, the range where the influence of one point on
+another is significant. Although all the above parameters of the model of \g can
+be inferred from the data, for simplicity, we shall focus on $\mu_\g$ and
+$\sigma_\g^2$. The rest of the parameters---namely, $\eta$, $\ell_\text{SE}$,
+and $\ell_\text{OU}$---are assumed to be determined prior to our analysis, which
+can be done based on the knowledge of the correlation patterns typical for the
+production process utilized; see \cite{marzouk2009} and the references therein.
 
 We have established a model for \g given as a stochastic process. Now the
 model requires one additional treatment in order to make it computationally
