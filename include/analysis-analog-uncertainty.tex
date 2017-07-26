@@ -177,6 +177,42 @@ measurement noise, \four~ability to accommodate prior knowledge on \g, and
 \five~ability to assess the trustworthiness of the collected data and
 corresponding predictions.
 
+\section{Preliminaries}
+
+In order to give a clear presentation of the proposed technique, let us first
+give a brief introduction to Bayesian inference \cite{gelman2004}, which is our
+main tool in this chapter. Denote by \vt a set of unknown parameters that we
+would like to know. In our case, these parameters can be related to, for
+instance, the effective channel length. At our disposal, we have the following
+information: \one~a set of observations $H$, \two~a data model connecting \vt
+with $H$, and \three~prior beliefs on \vt. In our case, $H$ can contain, for
+instance, temperature or current measurements. A natural solution is Bayes'
+theorem, which is as follows:
+\begin{equation} \elab{bayes-theorem}
+  p(\vt | H) \propto p(H | \vt) p(\vt)
+\end{equation}
+where $p$ denotes a probability density function. In \eref{bayes-theorem}, $p(H
+| \vt)$ is known as the likelihood function, which accommodates the data model
+and yields the probability of observing the data set $H$ given the parameters
+\vt; $p(\vt)$ is called the prior of \vt, which represents our knowledge on \vt
+prior to any observations; and $p(\vt | H)$ is called the posterior of \vt given
+$H$. The last is an exhaustive solution to our problem: having constructed
+$p(\vt | H)$, all the needed characteristics of \vt can be trivially estimated
+by drawing samples from this posterior.
+
+The posterior distribution does not typically belong to any of the common
+families of probability distributions, which is primarily due to the data model
+involved in the likelihood function, and, therefore, the sampling procedure is
+not straightforward. To tackle the difficulty, one usually relies on such
+techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an ergodic
+Markov chain with the stationary distribution equal to the target posterior
+distribution is constructed and then utilized for exploring the probability
+space. A popular technique for undertaking \ac{MCMC} sampling is the
+Metropolis--Hastings algorithm where the chain is constructed via sampling from
+an auxiliary, computationally convenient distribution known as the proposal
+distribution. We shall further elaborate on this algorithm in the following
+section.
+
 \section{Our Solution}
 
 In order to achieve the established goal, we make use of indirect measurements.
@@ -213,17 +249,17 @@ this standpoint, our approach is a generalization of those developed in
 \inputfigure{inference-overview}
 In the rest of this section, we present our framework for the characterization
 of process variation. The technique is divided into four major stages depicted
-in \fref{algorithm}. Stage~1 is the data-harvesting stage wherein the user
-collects a set of observations of the \ac{QOM}, \h, forming the input set $H$.
-At Stage~2, we undertake an optimization procedure, which assists \up{MCMC}
-sampling at Stage~3 in the construction of an efficient proposal distribution.
-Stage~3 produces a collection of samples of the \ac{QOI}, \g, such as the
-effective channel length, which is then processed at Stage~4 in order to
-estimate all the needed characteristics with respect to this \ac{QOI}, for
-instance, the probability of the effective channel length to be smaller than a
-certain threshold as motivated in \sref{motivation}. As it can be seen in
-\fref{algorithm}, Stage~2 and Stage~3 actively communicate with the two models
-on the right, called the data and statistical models, which we discuss next.
+in \fref{inference-overview}. Stage~1 is the data-harvesting stage where the
+user collects a set of observations of the \ac{QOM}, forming the input data set
+$H$. At Stage~2, we undertake an optimization procedure, which is to assist the
+sampling procedure at Stage~3. The latter produces a collection of samples of
+the \ac{QOI}---such as the effective channel length---denoted by $G$, which is
+then processed at Stage~4 in order to estimate the desired characteristics of
+this \ac{QOI}---such as the probability of the effective channel length to be
+smaller than a certain threshold as motivated in \sref{inference-example}. As it
+can be seen in \fref{inference-overview}, Stage~2 and Stage~3 actively
+communicate with the two models on the right-hand side called the data and
+statistical models, which we elaborate on now.
 
 \subsection{Data Model}
 
@@ -497,40 +533,6 @@ Such an assessment can readily be undertaken using our framework since the
 delivered posterior distribution contains all the needed information about the
 \ac{QOI}. This is especially helpful in decision making as exemplified in
 \sref{motivation}.
-
-\section{Preliminaries}
-
-In order to give a clear presentation of the proposed technique, we first
-overview the basics of Bayesian inference \cite{gelman2004}. Let \vt be a set of
-unknown parameters (in our case, related to, for instance, the effective channel
-length), which we would like to characterize. Our arsenal to solve the problem
-includes: (a) a set of observations $H$ (in our case, for instance, temperature
-or current); (b) a data model connecting \vt with $H$; and (c) prior beliefs on
-\vt. A natural solution is Bayes' rule:
-\begin{equation} \elab{bayes-theorem}
-  p(\vt | H) \propto p(H | \vt) p(\vt)
-\end{equation}
-where $p$ denotes a probability density function. $p(H | \vt)$ is known as the
-likelihood function, which accommodates the data model and yields the
-probability of observing the data $H$ given the parameters \vt. $p(\vt)$ is
-called the prior of \vt, which represents our knowledge on \vt prior to any
-observations. $p(\vt | H)$ reads as the posterior of \vt given $H$. Such a
-posterior is an exhaustive solution to our problem: having constructed $p(\vt |
-H)$, all the needed characteristics of \vt can be trivially estimated by drawing
-samples from this posterior.
-
-Unfortunately, the posterior distribution often does not belong to any of the
-common families of probability distributions, which is primarily due to the data
-model involved in the likelihood function, and, therefore, the sampling
-procedure is not straightforward. To tackle the difficulty, one usually relies
-on such techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an
-ergodic Markov chain with the stationary distribution equal to the target
-posterior distribution is constructed and then utilized for the probability
-space exploration. A popular instantiation of \ac{MCMC} sampling is the
-Metropolis-Hastings (\up{MH}) algorithm wherein such a Markov chain is attained
-via sampling from an auxiliary, computationally convenient distribution known as
-the proposal distribution. We shall further elaborate on this algorithm in
-\sref{statistical-model}--\sref{sampling}.
 
 \section{Experimental Results}
 \slab{inference-results}
