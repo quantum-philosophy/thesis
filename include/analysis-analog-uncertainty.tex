@@ -263,39 +263,42 @@ statistical models, which we elaborate on now.
 
 \subsection{Data Model}
 
-The data model is essentially a directed relation between the \ac{QOI}, \g, and
-the \ac{QOM}, \h, which we denote by the ``black-box'' transformation $\g =
-f(\h)$. $f$ depends on the choice of \h and is specified by the user according
-to the guidelines in \sref{problem-formulation}.
-
-The data model is utilized to predict the values of the \ac{QOM} at the same
+The data model relates the \ac{QOI} \g with the \ac{QOM} \h as follows:
+\[
+  \h = f(\g).
+\]
+The function $f$ depends on the choice of \h and is specified by the user. The
+model is utilized in order to predict the values of the \ac{QOM} at the same
 sites, at the same inner points, and with the same amount as the ones in $H$.
-The resulting data are then stacked into one vector with $\nd \np \ns$ elements
-(see \sref{problem-formulation}), which is denoted by \vh. We also let
-$\vh^\measured \in \real^{\nd \np \ns}$ be a stacked version of the data in $H$
-such that the respective elements of \vh and $\vh^\measured$ correspond to the
-same locations.
+The resulting data are then stacked into a single vector denoted by $\vh \in
+\real^{\nd \np \ns}$. Also, let $\hvh \in \real^{\nd \np \ns}$ be a stacked
+version of the data in $H$ such that the respective elements of \vh and \hvh
+correspond to the same locations on the wafer.
 
 In order to acquire a better understanding of the data model, let us return to
-the setup considered in \sref{motivation}. In this case, \g stands for the
+the example given in \sref{inference-example}. In this case, \g stands for the
 effective channel length, and \h stands for the temperature profile
-corresponding to a fixed workload. The data model $\g = f(\h)$ can be roughly
-divided into two transitions: (a) the effective channel length \g to the leakage
-power $\p_\static$ and (b) the leakage power $\p_\static$ to the corresponding
-temperature profile \h. The first transition is accomplished using one of the
-leakage models broadly available in the contemporary literature; see, for
-instance, \cite{chandrakasan2000, srivastava2010, juan2012}. In particular, a
-leakage model can be constructed via a fitting procedure applied to a data set
-of \up{SPICE} simulations of reference electrical circuits. The only requirement
-to such a model is that it should be parametrized by \g. In addition, it can
-also be parametrized by temperature in order to account for the well-known
-interdependency between leakage and temperature. The second transition is
-undertaken by combining the leakage power $\p_\static$ with the dynamic power
-$\p_\dynamic$ that corresponds to the considered workload. The obtained total
-power along with the temperature-related information contained in $\spec$
-(mainly, the floorplan and thermal parameters of the die) are fed to a thermal
-simulator (see \sref{experimental-results}) in order to acquire the
-corresponding temperature \h.
+corresponding to a fixed workload. The data model can be roughly divided into
+two transitions: \one~from the effective channel length \g to the static power
+$\p_\static$ and \two~from the static power $\p_\static$ to the corresponding
+temperature profile \h. At this point, it is worth recalling the power model
+presented in \sref{power-model}. The first transition is due to the dependence
+of the leakage current on the effective channel length, which is implicitly
+present in \eref{static-power}. Then the transition can be realized using the
+model in \eref{static-power} or any of its variations; see, for instance,
+\cite{chandrakasan2000, srivastava2010, juan2012}. In particular, an adequate
+model of the static power can be constructed via a fitting procedure applied to
+a data set of \up{SPICE} simulations of reference electrical circuits. The only
+requirement to such a model is that it should be parameterized by \g. In
+addition, it can also be parameterized by temperature in order to account for
+the interdependence between power and temperature described in
+\sref{interdependence}. The second transition is undertaken by combining the
+static power $\p_\static$ with the dynamic power $\p_\dynamic$ that corresponds
+to the considered workload. The obtained total power along with the
+temperature-related information contained in $\spec$---such as the floorplan and
+thermal parameters of the platform at hand---are fed to a thermal simulator in
+order to acquire the corresponding temperature \h, which is the topic of
+\cref{design-certainty}.
 
 \subsection{Statistical Model}
 
