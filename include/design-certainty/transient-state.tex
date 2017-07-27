@@ -28,7 +28,7 @@ approximated by a constant equal to $\vp_i = \vp(t_i)$. Then the corresponding
 \end{equation}
 for $i = \range{1}{\ns}$ where
 \begin{align*}
-  & \tvs_0 = \v{0}, \\
+  & \tvs_0 = \v{0} = (\range{0}{0}), \\
   & \tm{E} = e^{\tm{A} \dt}, \text{ and} \\
   & \tm{F} = \tm{A}^{-1}(e^{\tm{A} \dt} - \m{I})\m{C}^{-1} \tm{B}.
 \end{align*}
@@ -51,15 +51,9 @@ they necessitate two computationally problematic operations: the matrix
 exponential and matrix inverse involving $\tm{A} \in \real^{\nn \times \nn}$,
 which is a generic matrix. It is preferable to have a symmetric matrix $\m{A}
 \in \real^{\nn \times \nn}$ when these operations are concerned since such a
-matrix admits the eigendecomposition \cite{press2007}
-\begin{equation} \elab{eigendecomposition}
-  \m{A} = \m{U} \m{\Lambda} \transpose{\m{U}}
-\end{equation}
-where $\m{U}$ is a square matrix of the eigenvectors of $\m{A}$ that are
-orthogonal, and $\m{\Lambda} = \diagonal{\lambda_1}{\lambda_\nn}$ is a diagonal
-matrix of the eigenvalues of $\m{A}$ that are real. Having computer such a
-decomposition, the calculation of the matrix exponential and matrix inverse
-becomes trivial as follows:
+matrix admits the eigendecomposition given in \eref{eigendecomposition}. Having
+computer such a decomposition, the calculation of the matrix exponential and
+matrix inverse becomes trivial as follows:
 \begin{align}
   & e^{\m{A} \dt}
   = \m{U} e^{\m{\Lambda} \dt} \transpose{\m{U}}

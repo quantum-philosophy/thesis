@@ -1,0 +1,82 @@
+Before we proceed any further, let us first cover a few concepts and notations
+that are extensively utilized throughout this thesis.
+
+\subsection{Linear Algebra}
+\slab{linear-algebra}
+
+Vectors are denoted by bold lowercase. An $n$-dimensional vector $\v{a}$ in a
+vector space such as $\real^n$ can be defined in a number of equivalent ways,
+depending on what is important to emphasize in a particular context, as follows:
+\begin{align*}
+  & \v{a} = (a_i), \\
+  & \v{a} = (a_i)_{i = 1}^n, \text{ and} \\
+  & \v{a} = (\range{a_1}{a_n}).
+\end{align*}
+Matrices are denoted by bold uppercase letters. An $n_1 \times n_2$ matrix in a
+vector space such as $\real^{n_1 \times n_2}$ can also be defined in several
+ways as follows:
+\begin{align*}
+  & \m{A} = (a_{ij}), \\
+  & \m{A} = (a_{ij})_{i = 1, j = 1}^{n_1, n_2}, \text{ and} \\
+  & \m{A} = \left(
+    \begin{array}{lll}
+      a_{1 1}   & \cdots & a_{1 n_2}   \\
+      \cdots    & \cdots & \cdots      \\
+      a_{n_1 1} & \cdots & a_{n_1 n_2}
+    \end{array}
+  \right).
+\end{align*}
+
+Any symmetric matrix $\m{A} \in \real^{n \times n}$ admits the
+eigendecomposition \cite{press2007}, which, in this particular case, takes the
+following form:
+\begin{equation} \elab{eigendecomposition}
+  \m{A} = \m{U} \m{\Lambda} \transpose{\m{U}}
+\end{equation}
+where $\m{U} \in \real^{n \times n}$ is an orthogonal matrix of the eigenvectors
+of $\m{A}$, and
+\[
+  \m{\Lambda} = \diagonal{\lambda_1}{\lambda_n} = \left(
+    \begin{array}{lll}
+      \lambda_1 & \cdots & 0         \\
+      \cdots    & \cdots & \cdots    \\
+      0         & \cdots & \lambda_n
+    \end{array}
+  \right) \in \real^{n \times n}
+\]
+is a diagonal matrix of the eigenvalues of $\m{A}$.
+
+The above decomposition provides a means of model-order reduction, which is
+closely related to principal component analysis \cite{hastie2013}. In this
+setting, $\m{A}$ is a covariance matrix of $n$ potentially correlated variables.
+The eigendecomposition transforms these correlated variables into $n$ linearly
+uncorrelated variables whose variances are given by the corresponding
+eigenvalues, which are non-negative since a covariance matrix is positive
+semi-definite by definition. The goal of the reduction is to select the smallest
+subset of the uncorrelated variables whose cumulative contribution to the total
+variance is above a certain threshold. Formally, assuming that $\{ \lambda_i: i
+= \range{1}{n} \}$ are sorted in the descending order and given a threshold
+$\eta \in (0, 1]$, which is the fraction of the total variance to be preserved,
+we identify the smallest $\nz \leq n$ such that
+\[
+  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^n \lambda_i} \geq \eta.
+\]
+Then, given a vector \vz in the reduced space $\real^\nz$, the corresponding
+vector $\v{x}$ in the original space $\real^n$ can be lossy reconstructed as
+follows:
+\begin{equation} \elab{model-order-reduction}
+  \v{x} = \m{L} \vz
+\end{equation}
+where
+\[
+  \m{L} = \m{U} \tm{\Lambda}^\frac{1}{2}.
+\]
+In the above formula, $\tm{\Lambda} \in \real^{n \times \nz}$ is a truncated
+version of $\m{\Lambda} \in \real^{n \times n}$ given in
+\eref{eigendecomposition}: the matrix contains only the first \nz columns of
+$\m{\Lambda}$.
+
+\subsection{Probability Theory}
+\slab{probability-theory}
+
+She sells seashells on the seashore.
