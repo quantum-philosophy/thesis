@@ -226,12 +226,12 @@ however, it does not have to be explicitly given: our framework treats $f$ as a
 ``black box.'' For example, $f$ can be a piece of code or an output of an
 adequate simulator.
 
-As the first step, the user of the framework is supposed to harvest a set of
-observations of \h at several locations on the wafer; recall
+As the first step, the user of the proposed framework is supposed to harvest a
+set of observations of \h at several locations on the wafer; recall
 \sref{inference-example}. Without loss of generality, we adhere to the following
 convention. One die corresponds to one potential measurement site, and $\ndm <
 \nd$ denotes the number of those sites that have been selected for measurement.
-Each site comprises \np measurement points, and each point contains \ns data
+Each site comprises \np inner points, and each point contains \ns data
 instances. For instance, in the example given in \sref{inference-example}, each
 observation is a temperature profile $\mq \in \real^{\np \times \ns}$, which is
 an matrix capturing temperature of \np processors at \ns time moments as defined
@@ -315,7 +315,7 @@ correlation patterns induced by the manufacturing process; \two~it is
 computationally efficient; and \three~Gaussian distributions are often natural
 and accurate models for uncertainties due to process variation
 \cite{srivastava2010, reda2009, juan2012}. We denote this as
-\begin{equation} \elab{u-prior}
+\begin{equation} \elab{inference-prior}
   \g | \t_\g \sim \text{Gaussian Process}(\mu, k)
 \end{equation}
 where $\mu(\cdot)$ and $k(\cdot, \cdot)$ are the mean and covariance functions
@@ -325,61 +325,55 @@ shall identify later on. Prior to taking any measurements, \g is assumed to be
 spatially unbiased; therefore, we let $\mu$ be a single location-independent
 parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
 covariance function $k$ is chosen to be as follows:
-\begin{equation} \elab{covariance-function}
-  k(r, r') = \sigma_\g^2 \left(\eta k_\text{SE}(r, r') + (1 - \eta) k_\text{OU}(r, r')\right)
+\begin{equation} \elab{inference-covariance}
+  k(r_1, r_2) = \sigma_\g^2 \left(\eta k_\text{SE}(r_1, r_2) + (1 - \eta) k_\text{OU}(r_1, r_2)\right)
 \end{equation}
-for $r \in \real^2$ and $r' \in \real^2$ where
+for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
 \begin{align*}
-  & k_\text{SE}(r, r') = \exp\left(-\frac{\norm[2]{r - r'}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
-  & k_\text{OU}(r, r') = \exp\left(-\frac{\absolute{\,\norm[2]{r} - \norm[2]{r'}\,}}{\ell_\text{OU}}\right)
+  & k_\text{SE}(r_1, r_2) = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
+  & k_\text{OU}(r_1, r_2) = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\text{OU}}\right)
 \end{align*}
 are the squared exponential and Ornstein--Uhlenbeck correlation functions
-\cite{rasmussen2006}, respectively; $\sigma_\g^2$ represents the variance of \g;
-$\eta \in [0, 1]$ is a weighting coefficient; $\ell_\text{SE} > 0$ and
-$\ell_\text{OU} > 0$ are so-called length-scale parameters; and
-$\norm[2]{\cdot}$ stands for the Euclidean distance. The choice of the
-covariance function $k$ is based on the observations of the correlation
-structures induced by the manufacturing process \cite{chandrakasan2000,
-cheng2011}. More specifically, $k_\text{SE}$ imposes similarities between the
-points on the wafer that are close to each other, and $k_\text{OU}$ imposes
-similarities between the points that are at the same distance from the center of
-the wafer. Parameters $\ell_\text{SE}$ and $\ell_\text{OU}$ control the extend
-of these similarities, that is, the range where the influence of one point on
-another is significant. Although all the above parameters of the model of \g can
-be inferred from the data, for simplicity, we shall focus on $\mu_\g$ and
-$\sigma_\g^2$. The rest of the parameters---namely, $\eta$, $\ell_\text{SE}$,
-and $\ell_\text{OU}$---are assumed to be determined prior to our analysis, which
-can be done based on the knowledge of the correlation patterns typical for the
+\cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $\eta
+\in [0, 1]$ is a weighting coefficient; $\ell_\text{SE} > 0$ and $\ell_\text{OU}
+> 0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
+Euclidean distance. The choice of $k$ is based on the observations of the
+correlation structures induced by the manufacturing process
+\cite{chandrakasan2000, cheng2011}. More specifically, $k_\text{SE}$ imposes
+similarities between locations on the wafer that are close to each other, and
+$k_\text{OU}$ imposes similarities between locations that are at the same
+distance from the center of the wafer. The parameters $\ell_\text{SE}$ and
+$\ell_\text{OU}$ control the extend of these similarities, that is, the range
+where the correlation between two locations is significant. Although all the
+above parameters of \g can be inferred from data, for simplicity, we shall focus
+on $\mu_\g$ and $\sigma_\g^2$. The rest of the parameters---namely, $\eta$,
+$\ell_\text{SE}$, and $\ell_\text{OU}$---are assumed to be determined prior to
+our analysis based on the knowledge of the correlation patterns typical for the
 production process utilized; see \cite{marzouk2009} and the references therein.
 
-We have established a model for \g given as a stochastic process. Now the
-model requires one additional treatment in order to make it computationally
-tractable, which we shall discuss next.
-
-The model of the \ac{QOI} is an infinite-dimensional object as it characterizes
-a continuum of locations. For practical computations, however, it should be
-reduced to a finite-dimensional one. First, \g is discretized with respect to
-the union of two sets of points: the first one is composed of the $\ndm \np$
-points where the observations in $H$ were made ($\ndm$ selected sites with $\np$
-inner locations each), and the other of the points where the user wishes to
-characterize \g. For simplicity, we assume that the user is interested in all
-the sites, which is $\nd \np$ points in total. Thus, we obtain an $\nd
-\np$-dimensional representation of \g denoted by $\vg \in \real^{\nd \np}$.
-Second, the dimensionality is reduced even further by applying the well-known
-principal component analysis to the covariance matrix of \vg computed via
-\eref{covariance-function}. More precisely, we factorize this matrix using the
-eigenvalue decomposition \cite{press2007} and discard those eigenvalues (and
-their eigenvectors) whose contribution to the total sum of the eigenvalues is
-below a certain threshold. The result is
-\begin{equation} \elab{kl-approximation}
-  \vg = \mu_\g \v{e} + \sigma_\g \m{L} \vz
+Component~2 is to make the above model of \g computationally tractable. The
+model is an infinite-dimensional object as it characterizes a continuum of
+locations. For practical computations, it should be reduced to a
+finite-dimensional one. First, \g is discretized with respect to the union of
+two sets of locations. The first one is composed of the $\ndm \np$ points where
+the observations in $H$ are made ($\ndm$ selected sites with $\np$ inner points
+each), and the other of the locations where the user wishes to characterize \g.
+For simplicity, we assume that the user is interested in all the sites, which is
+$\nd \np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of
+\g at these locations. Second, the dimensionality is reduced even further by
+performing the transformation in \eref{model-order-reduction} with respect to
+the correlation matrix of \vg computed via \eref{inference-covariance}. The
+result is
+\begin{equation} \elab{inference-reduction}
+  \vg = \mu_\g \v{1} + \sigma_\g \m{L} \vz
 \end{equation}
-where $\v{e} = (e_i = 1) \in \real^{\nd \np}$, $\m{L} \in \real^{\nd \np \times
-\nz}$, and $\vz = (\z_i) \in \real^\nz$ obey the standard Gaussian distribution.
-$\nz$ is the final dimensionality of the model of \g; typically, $\nz \ll \nd
-\np$. Consequently, the \ac{QOI} is now ready for practical computations. In
-what follows, the parameters of \eref{u-prior} are defined by $\vt_\g = \{ \vz,
-\mu_\g, \sigma^2_\g \}$ (see \fref{inference}).
+where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
+\real^\nz$ independent random variables that obey the standard Gaussian
+distribution. The number \nz is the final dimensionality of the model of \g.
+Typically, $\nz \ll \nd \np$. The model is now ready for practical computations.
+In addition, the parameters $\t_\g$ in \eref{inference-prior} are now known, and
+they are $\t_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
+\fref{inference-statistical-model}.
 
 In a Bayesian context, the observed information is taken into account via a
 likelihood function (see \sref{preliminaries}). In our case, the observed
@@ -421,7 +415,7 @@ $\vt$:
   & \sigma^2_\epsilon \sim \text{Scale-inv-$\chi^2$}(\nu_\epsilon, \tau^2_\epsilon). \elab{sigma2-noise-prior}
 \end{align}
 The prior for $\vz$ is due to the properties of the decomposition in
-\eref{kl-approximation}. The next three priors, that is, a Gaussian and two
+\eref{inference-reduction}. The next three priors, that is, a Gaussian and two
 scaled inverse chi-squared distributions, are a common choice for a Gaussian
 model with the mean and variance being unknown. The parameters $\mu_0$,
 $\tau^2_\g$, and $\tau^2_\epsilon$ represent the presumable values of $\mu_u$,
@@ -512,9 +506,9 @@ Having completed the sampling procedure, we obtain a collection of samples of
 \vt. The first portion of the drawn samples is typically discarded before the
 final computations as being unrepresentative; this portion is also known as the
 burn-in period. Each of the preserved samples of \vt, comprising \vz, $\mu_\g$,
-and $\sigma^2_\g$, is then used in \eref{kl-approximation} to compute a sample
-of \g, $\vg_i \in \real^{\nd \np}$. Denote such a data set with $n$ samples of
-the \ac{QOI} by $G = \{ \vg_i \}_{i = 1}^n$.
+and $\sigma^2_\g$, is then used in \eref{inference-reduction} to compute a
+sample of \g, $\vg_i \in \real^{\nd \np}$. Denote such a data set with $n$
+samples of the \ac{QOI} by $G = \{ \vg_i \}_{i = 1}^n$.
 
 \subsection{Post-processing}
 
@@ -576,7 +570,7 @@ of the applications, thermal configuration of HotSpot, and so on are available
 online at \cite{eslab2013}.} The input data set $H$ is obtained as follows: (a)
 draw a sample of \g from a Gaussian distribution with the mean value equal to
 17.5~nm, according to the considered technological process \cite{ptm}, and the
-covariance function given by \eref{covariance-function} wherein the standard
+covariance function given by \eref{inference-covariance} wherein the standard
 deviation is 2.25~nm; (b) perform one fine-grained temperature simulation per
 each of the $\ndm$ selected dies under the corresponding dynamic power profile;
 (c) shrink the temperature profiles to keep only \ns, which is equal to 20 by
@@ -585,17 +579,17 @@ using a white Gaussian noise with the standard deviation of 1$\,$K (Kelvin).
 
 Let us turn to the statistical model in \sref{statistical-model} and summarize
 the intuition and our assignment for each parameter of this model. In the
-covariance function given by \eref{covariance-function}, the weight parameter
+covariance function given by \eref{inference-covariance}, the weight parameter
 $\eta$ and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$
 should be set according to the correlation patterns typical for the production
 process at hand \cite{chandrakasan2000, cheng2011}; we set $\eta$ to 0.7 and
 $\ell_\text{SE}$ and $\ell_\text{OU}$ to half the radius of the wafer. The
 threshold parameter of the model order reduction procedure described in
-\sref{model-order-reduction} and utilized in \eref{kl-approximation} should be
-set high enough to preserve a sufficiently large portion of the variance of the
-data and, thus, to keep the corresponding results accurate; we set it to 0.99
-preserving 99\% of this variance. The resulting dimensionality \nz of \vz in
-\eref{kl-approximation} was found to be 27--28. The parameters $\mu_0$ and
+\sref{model-order-reduction} and utilized in \eref{inference-reduction} should
+be set high enough to preserve a sufficiently large portion of the variance of
+the data and, thus, to keep the corresponding results accurate; we set it to
+0.99 preserving 99\% of this variance. The resulting dimensionality \nz of \vz
+in \eref{inference-reduction} was found to be 27--28. The parameters $\mu_0$ and
 $\tau_\g$ of the priors in \eref{mu-u-prior} and \eref{sigma2-u-prior},
 respectively, are specific to the considered technological process; we set
 $\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The parameters $\sigma_0$ and
