@@ -226,6 +226,7 @@ Stage~2 and Stage~3 actively communicate with the two models on the right-hand
 side called the data and statistical models, which we discuss now.
 
 \subsection{Data Model}
+\slab{inference-data-model}
 
 The data model relates the \ac{QOI} \g with the \ac{QOM} \h as follows:
 \[
@@ -270,10 +271,10 @@ order to acquire the corresponding temperature \h, which is the topic of
 Once the wafer has been fabricated, the values of \g across the wafer are fixed;
 however, they remain unknown to us. In order to infer them, we employ the
 procedure developed in the current subsection, which can also be seen in
-\fref{inference-statistical-model}. The model consists of the five components
+\fref{inference-statistical-model}. The model consists of the five steps
 described below.
 
-Component~1 is to assign an adequate model to the unknown \g. We model \g as a
+Step~1 is to assign an adequate model to the unknown \g. We model \g as a
 Gaussian process \cite{rasmussen2006} since \one~it is flexible in capturing the
 correlation patterns induced by the manufacturing process; \two~it is
 computationally efficient; and \three~Gaussian distributions are often natural
@@ -294,8 +295,8 @@ covariance function $k$ is chosen to be as follows:
 \end{equation}
 for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
 \begin{align*}
-  & k_\text{SE}(r_1, r_2) = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
-  & k_\text{OU}(r_1, r_2) = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\text{OU}}\right)
+  k_\text{SE}(r_1, r_2) & = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
+  k_\text{OU}(r_1, r_2) & = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\text{OU}}\right)
 \end{align*}
 are the squared exponential and Ornstein--Uhlenbeck correlation functions
 \cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $\eta
@@ -315,19 +316,18 @@ $\ell_\text{SE}$, and $\ell_\text{OU}$---are assumed to be determined prior to
 our analysis based on the knowledge of the correlation patterns typical for the
 production process utilized; see \cite{marzouk2009} and the references therein.
 
-Component~2 is to make the above model of \g computationally tractable. The
-model is an infinite-dimensional object as it characterizes a continuum of
-locations. For practical computations, it should be reduced to a
-finite-dimensional one. First, \g is discretized with respect to the union of
-two sets of locations. The first one is composed of the $\ndm \np$ points where
-the observations in $H$ are made ($\ndm$ selected sites with $\np$ inner points
-each), and the other of the locations where the user wishes to characterize \g.
-For simplicity, we assume that the user is interested in all the sites, which is
-$\nd \np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of
-\g at these locations. Second, the dimensionality is reduced even further by
-performing the transformation in \eref{model-order-reduction} with respect to
-the correlation matrix of \vg computed via \eref{inference-covariance}. The
-result is
+Step~2 is to make the above model of \g computationally tractable. The model is
+an infinite-dimensional object as it characterizes a continuum of locations. For
+practical computations, it should be reduced to a finite-dimensional one. First,
+\g is discretized with respect to the union of two sets of locations. The first
+one is composed of the $\ndm \np$ points where the observations in $H$ are made
+($\ndm$ selected sites with $\np$ inner points each), and the other of the
+locations where the user wishes to characterize \g. For simplicity, we assume
+that the user is interested in all the sites, which is $\nd \np$ locations in
+total. Let $\vg \in \real^{\nd \np}$ store the values of \g at these locations.
+Second, the dimensionality is reduced even further by performing the
+transformation in \eref{model-order-reduction} with respect to the correlation
+matrix of \vg computed via \eref{inference-covariance}. The result is
 \begin{equation} \elab{inference-reduction}
   \vg = \mu_\g \v{1} + \sigma_\g \m{L} \vz
 \end{equation}
@@ -339,84 +339,74 @@ In addition, the parameters $\t_\g$ in \eref{inference-prior} are now known, and
 they are $\t_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
 \fref{inference-statistical-model}.
 
-Component~3 is to define a likelihood function, which is where the observed
-information is taken into account; see \sref{inference-preliminaries}. In our
-case, the observed information is the measurements $H$ stacked into
-$\vh^\measured$ as described in \sref{data-model}. Since the measurement process
-is not perfect, we should also take into consideration the measurement noise. To
-this end, for a given \g, the observed $\vh^\measured$ is assumed to deviate
-from the data model prediction \vh as follows:
-\begin{equation} \elab{noisy-measurements}
-  \vh^\measured = \vh + \v{\epsilon}
-\end{equation}
+Step~3 is to define a likelihood function, which is where the observed
+information is taken into account; see \sref{bayesian-statistics}. In our case,
+the observed information is the measurements $H$ stacked into \hvh as described
+in \sref{inference-data-model}. Since the measurement process is not perfect, we
+also take into consideration the measurement noise. To this end, the observed
+\hvh is assumed to deviate from the data model prediction \vh as follows:
+\[
+  \hvh = \vh + \v{\epsilon}
+\]
 where $\v{\epsilon}$ is an $\ndm \np \ns$-dimensional vector of noise, which is
 typically assumed to be a white Gaussian noise \cite{rasmussen2006,
 marzouk2009}. Without loss of generality, the noise is assumed to be independent
-of \g and to have the same magnitude for all measurements (characterized by the
-utilized instruments). Hence, the model of the noise is
-\begin{equation} \elab{noise-model}
+of \g and to have the same magnitude for all measurements. Hence, the model of
+the noise is
+\[
   \v{\epsilon} | \sigma^2_\epsilon \sim \text{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
+\]
+where $\sigma^2_\epsilon$ is the variance of the noise. At this point, all the
+parameters of the inference are identified, and they are $\t = \t_\g \cup \{
+\sigma_\epsilon^2 \} = \{ \vz, \mu_\g, \sigma_\g^2, \sigma_\epsilon^2 \}$; see
+\fref{inference-statistical-model}. Taking the above into account, we obtain
+\begin{equation} \elab{inference-likelihood}
+  \hvh | \t \sim \text{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
 \end{equation}
-where $\sigma^2_\epsilon$ is the variance of the noise, $\v{0}$ is a vector of
-zeros, and $\m{I}$ is the identity matrix. Let us denote the parameters of the
-inference by $\vt = \vt_\g \cup \{ \sigma_\epsilon^2 \} = \{ \vz, \mu_\g,
-\sigma_\g^2, \sigma_\epsilon^2 \}$ (observe this union in \fref{inference}).
-Finally, combining \eref{noisy-measurements} and \eref{noise-model}, we obtain
-\begin{equation} \elab{likelihood}
-  \vh^\measured | \vt \sim \text{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
-\end{equation}
-The probability density function of this distribution is the likelihood function
-$p(H | \vt)$ of our statistical model, which is the first of the two components
-needed for the posterior given in \eref{bayes}.
+The density function of this distribution is the likelihood $p(H | \t)$ of our
+statistical model, which is the first element of the posterior in
+\eref{bayes-theorem}.
 
-The second component of the posterior in \eref{bayes} is the prior $p(\vt)$,
-which we now need to decide on. In this paper, we put the following priors on
-$\vt$:
-\begin{align}
-  & \vz \sim \text{Gaussian}(\v{0}, \m{I}), \elab{z-prior} \\
-  & \mu_\g \sim \text{Gaussian}(\mu_0, \sigma^2_0), \elab{mu-u-prior} \\
-  & \sigma^2_\g \sim \text{Scale-inv-$\chi^2$}(\nu_\g, \tau^2_\g), \text{ and} \elab{sigma2-u-prior} \\
-  & \sigma^2_\epsilon \sim \text{Scale-inv-$\chi^2$}(\nu_\epsilon, \tau^2_\epsilon). \elab{sigma2-noise-prior}
+Step~4 is to decide on the second element of the posterior in
+\eref{bayes-theorem}, that is, on the prior $p(\t)$. We put the following priors
+on \t:
+\begin{align} \elab{inference-prior}
+  \begin{split}
+    \vz               & \sim \text{Gaussian}(\v{0}, \m{I}), \\
+    \mu_\g            & \sim \text{Gaussian}(\mu_0, \sigma^2_0), \\
+    \sigma^2_\g       & \sim \text{Scale-inv-$\chi^2$}(\nu_\g, \tau^2_\g), \text{ and} \\
+    \sigma^2_\epsilon & \sim \text{Scale-inv-$\chi^2$}(\nu_\epsilon, \tau^2_\epsilon).
+  \end{split}
 \end{align}
-The prior for $\vz$ is due to the properties of the decomposition in
-\eref{inference-reduction}. The next three priors, that is, a Gaussian and two
-scaled inverse chi-squared distributions, are a common choice for a Gaussian
-model with the mean and variance being unknown. The parameters $\mu_0$,
-$\tau^2_\g$, and $\tau^2_\epsilon$ represent the presumable values of $\mu_u$,
-$\sigma^2_\g$, and $\sigma^2_\epsilon$, respectively, and are set by the user
-based on the prior knowledge of the technological process and measurement
-instruments employed. The parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$
-reflect the precision of this prior information. When the prior knowledge is
-weak, non-informative priors can be utilized \cite{gelman2004}. Taking the
-product of the densities in \eref{z-prior}--\eref{sigma2-noise-prior}, we obtain
-the prior $p(\vt)$ completing \eref{bayes}.
+The prior of \vz is due to the decomposition in \eref{inference-reduction}. The
+other three priors, that is, a Gaussian and two scaled inverse chi-squared
+distributions, are a common choice for a Gaussian model whose mean and variance
+are unknown. The parameters $\mu_0$, $\tau^2_\g$, and $\tau^2_\epsilon$
+represent the presumable values of $\mu_u$, $\sigma^2_\g$, and
+$\sigma^2_\epsilon$, respectively, and are set by the user based on the prior
+knowledge of the technological process and measurement equipment employed. The
+parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
+this prior information. When the prior knowledge is weak, less specific priors
+can be considered \cite{gelman2004}. Taking the product of the densities of the
+priors in \eref{inference-prior}, we obtain $p(\t)$ in \eref{bayes-theorem}.
 
-At this point, we have obtained the two pieces of the posterior shown in
-\eref{bayes}: the likelihood function, which is the density in
-\eref{likelihood}, and the prior, which is the product of the four densities in
-\eref{z-prior}--\eref{sigma2-noise-prior}. Thus, the posterior is
-\begin{equation} \elab{posterior}
-  p(\vt | H) \propto p(\vh^\measured | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
+Step~5 is to compile the posterior in \eref{bayes-theorem}. To this end, the
+likelihood function $p(H | \t)$, which is the density of the distribution in
+\eref{inference-likelihood}, and the prior $p(\t)$, which is the product of the
+densities of the distributions in \eref{inference-prior}, are put together. The
+density of the resulting posterior distribution is as follows:
+\begin{equation} \elab{inference-posterior}
+  p(\t | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
 \end{equation}
-Provided that we have a way of drawing samples from \eref{posterior}, the
-\ac{QOI} can be readily analyzed as we shall see in \sref{post-processing}. The
-problem, however, is that the direct sampling of the posterior is not possible
-due to the data model involved in the likelihood function via \vh (see
-\eref{likelihood} and \sref{data-model}). In order to circumvent this problem,
-we utilize the Metropolis-Hastings (\up{MH}) algorithm \cite{gelman2004}
-mentioned in \sref{preliminaries}. The algorithm operates on an auxiliary
-distribution called the proposal distribution, which is chosen to be convenient
-for sampling. Each sample, drawn from this proposal, is then used in
-\eref{posterior} to evaluate the posterior probability of this sample and decide
-whether it should be accepted or rejected.\footnote{A reject means that the
-sequence of samples advances using the last accepted sample; therefore, the
-chain of samples is never interrupted.} The acceptance/rejection strategy of the
-\up{MH} algorithm pushes the produced chain of samples towards regions of high
-posterior probability, which, after a sufficient number of steps, depending on
-the starting point of the chain and the efficiency of the moves, results in a
-good approximation of the target posterior distribution in \eref{posterior}. The
-preliminary computations needed for the proposal construction are discussed
-next, and the subsequent sampling procedure in \sref{sampling}.
+Provided that there is a way to draw samples from \eref{inference-posterior},
+the \ac{QOI} can be readily analyzed as we shall see in
+\sref{inference-post-processing}. The problem, however, is that direct sampling
+of the posterior is difficult due to the data model involved in the likelihood
+function via \vh; see \eref{inference-likelihood}. In order to circumvent this
+problem, we utilize the Metropolis--Hastings algorithm \cite{gelman2004}
+outlined in \sref{bayesian-statistics}, which operates on an auxiliary
+distribution called the proposal distribution. The construction of an adequate
+proposal is discussed next.
 
 \subsection{Optimization of the Proposal Distribution}
 
@@ -475,6 +465,7 @@ sample of \g, $\vg_i \in \real^{\nd \np}$. Denote such a data set with $n$
 samples of the \ac{QOI} by $G = \{ \vg_i \}_{i = 1}^n$.
 
 \subsection{Post-processing}
+\slab{inference-post-processing}
 
 At Stage~4 in \fref{algorithm}, using the set of samples $G$, the user computes
 the desired statistics of the \ac{QOI} such as the most probable value of the

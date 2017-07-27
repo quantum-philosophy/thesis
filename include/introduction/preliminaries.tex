@@ -109,6 +109,14 @@ not straightforward. To tackle the difficulty, one usually relies on such
 techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an ergodic
 Markov chain with the stationary distribution equal to the target posterior
 distribution is constructed and then utilized for exploring the probability
-space. A popular technique for undertaking \ac{MCMC} sampling is the
-Metropolis--Hastings algorithm where the chain is constructed via sampling from
-a computationally convenient distribution known as the proposal distribution.
+space. A popular \ac{MCMC} technique is the Metropolis--Hastings algorithm where
+the chain is constructed via sampling from a computationally convenient
+distribution known as the proposal distribution. Each sample drawn from the
+proposal is passed through the posterior in order to calculates its posterior
+probability, which is then used to decide whether the sample should be accepted
+or rejected. A rejection means that the sequence of samples advances using the
+last accepted sample as if it was drawn once again. The acceptance strategy of
+the algorithm pushes the produced chain of samples toward regions of high
+posterior probability, which, after a sufficient number of steps, depending on
+the starting point of the chain and the efficiency of the moves, results in an
+adequate approximation of the target posterior distribution.
