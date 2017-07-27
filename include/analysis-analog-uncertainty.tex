@@ -177,54 +177,18 @@ measurement noise, \four~ability to accommodate prior knowledge on \g, and
 \five~ability to assess the trustworthiness of the collected data and
 corresponding predictions.
 
-\section{Preliminaries}
-
-In order to give a clear presentation of the proposed technique, let us first
-give a brief introduction to Bayesian inference \cite{gelman2004}, which is our
-main tool in this chapter. Denote by \t a set of unknown parameters that we
-would like to know. In our case, these parameters can be related to, for
-instance, the effective channel length. At our disposal, we have the following
-information: \one~a set of observations $H$, \two~a data model connecting \t
-with $H$, and \three~prior beliefs on \t. In our case, $H$ can contain, for
-instance, temperature or current measurements. A natural solution is Bayes'
-theorem, which is as follows:
-\begin{equation} \elab{bayes-theorem}
-  p(\t | H) \propto p(H | \t) p(\t)
-\end{equation}
-where $p$ denotes a probability density function. In \eref{bayes-theorem}, $p(H
-| \t)$ is known as the likelihood function, which accommodates the data model
-and yields the probability of observing the data set $H$ given the parameters
-\t; $p(\t)$ is called the prior of \t, which represents our knowledge on \t
-prior to any observations; and $p(\t | H)$ is called the posterior of \t given
-$H$. The last is an exhaustive solution to our problem: having constructed $p(\t
-| H)$, all the needed characteristics of \t can be trivially estimated by
-drawing samples from this posterior.
-
-The posterior distribution does not typically belong to any of the common
-families of probability distributions, which is primarily due to the data model
-involved in the likelihood function, and, therefore, the sampling procedure is
-not straightforward. To tackle the difficulty, one usually relies on such
-techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an ergodic
-Markov chain with the stationary distribution equal to the target posterior
-distribution is constructed and then utilized for exploring the probability
-space. A popular technique for undertaking \ac{MCMC} sampling is the
-Metropolis--Hastings algorithm where the chain is constructed via sampling from
-an auxiliary, computationally convenient distribution known as the proposal
-distribution. We shall further elaborate on this algorithm in the following
-section.
-
 \section{Our Solution}
 
 In order to achieve the established goal, we make use of indirect measurements.
 Specifically, instead of \g, we measure an auxiliary parameter \h, which we
 shall refer to as the \ac{QOM}. The observations of \h are then processed via
-Bayesian inference \cite{gelman2004} in order to derive the distribution of \g.
-The \ac{QOM} is chosen such that \one~\h is convenient and cheap to be measured;
-\two~\h depends on \g, which is signified by $\h = f(\g)$; and \three~there is a
-way to compute \h for a given \g. The last means that $f$ should be known;
-however, it does not have to be explicitly given: our framework treats $f$ as a
-``black box.'' For example, $f$ can be a piece of code or an output of an
-adequate simulator.
+Bayesian inference, which is introduced in \sref{bayesian-statistics}, in order
+to derive the distribution of \g. The \ac{QOM} is chosen such that \one~\h is
+convenient and cheap to be measured; \two~\h depends on \g, which is signified
+by $\h = f(\g)$; and \three~there is a way to compute \h for a given \g. The
+last means that $f$ should be known; however, it does not have to be explicitly
+given: our framework treats $f$ as a ``black box.'' For example, $f$ can be a
+piece of code.
 
 As the first step, the user of the proposed framework is supposed to harvest a
 set of observations of \h at several locations on the wafer; recall
@@ -248,18 +212,18 @@ this standpoint, our approach is a generalization of those developed in
 
 \inputfigure{inference-overview}
 In the rest of this section, we present our framework for the characterization
-of process variation. The technique is divided into four major stages depicted
-in \fref{inference-overview}. Stage~1 is the data-harvesting stage where the
-user collects a set of observations of the \ac{QOM}, forming the input data set
-$H$. At Stage~2, we undertake an optimization procedure, which is to assist the
-sampling procedure at Stage~3. The latter produces a collection of samples of
-the \ac{QOI}---such as the effective channel length---denoted by $G$, which is
-then processed at Stage~4 in order to estimate the desired characteristics of
-this \ac{QOI}---such as the probability of the effective channel length to be
-smaller than a certain threshold as motivated in \sref{inference-example}. As it
-can be seen in \fref{inference-overview}, Stage~2 and Stage~3 actively
-communicate with the two models on the right-hand side called the data and
-statistical models, which we elaborate on now.
+of process variation. The technique revolves around \eref{bayes-theorem} and is
+divided into four major stages depicted in \fref{inference-overview}. Stage~1 is
+the data-harvesting stage where the user collects a set of observations of the
+\ac{QOM}, forming the data set $H$. At Stage~2, we undertake an optimization
+procedure, which is to assist the sampling procedure at Stage~3. The latter
+produces a collection of samples of the \ac{QOI}---such as the effective channel
+length---denoted by $G$, which is then processed at Stage~4 in order to estimate
+the desired characteristics of this \ac{QOI}---such as the probability of the
+effective channel length to be smaller than a certain threshold as motivated in
+\sref{inference-example}. As it can be seen in \fref{inference-overview},
+Stage~2 and Stage~3 actively communicate with the two models on the right-hand
+side called the data and statistical models, which we discuss now.
 
 \subsection{Data Model}
 
@@ -375,13 +339,13 @@ In addition, the parameters $\t_\g$ in \eref{inference-prior} are now known, and
 they are $\t_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
 \fref{inference-statistical-model}.
 
-In a Bayesian context, the observed information is taken into account via a
-likelihood function (see \sref{preliminaries}). In our case, the observed
-information is the measurements $H$ stacked into $\vh^\measured$ as described
-in \sref{data-model}. Since the measurement process is not perfect, we should
-also take into consideration the measurement noise. To this end, for a given
-\g, the observed $\vh^\measured$ is assumed to deviate from the data model
-prediction \vh as follows:
+Component~3 is to define a likelihood function, which is where the observed
+information is taken into account; see \sref{inference-preliminaries}. In our
+case, the observed information is the measurements $H$ stacked into
+$\vh^\measured$ as described in \sref{data-model}. Since the measurement process
+is not perfect, we should also take into consideration the measurement noise. To
+this end, for a given \g, the observed $\vh^\measured$ is assumed to deviate
+from the data model prediction \vh as follows:
 \begin{equation} \elab{noisy-measurements}
   \vh^\measured = \vh + \v{\epsilon}
 \end{equation}

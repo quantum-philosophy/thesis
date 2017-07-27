@@ -80,3 +80,35 @@ $\m{\Lambda}$.
 \slab{probability-theory}
 
 She sells seashells on the seashore.
+
+\subsection{Bayesian Statistics}
+\slab{bayesian-statistics}
+
+Let \t be a set of unknown parameters that we would like to know. In order to
+find them, the following information is at our disposal: \one~a set of
+observations $H$ of a quantity \h that is related to \t; \two~a data model that
+describes the relation between \t and \h; and \three~prior beliefs about what \t
+should be. A natural solution is Bayes' theorem \cite{gelman2004}, which is as
+follows:
+\begin{equation} \elab{bayes-theorem}
+  p(\t | H) \propto p(H | \t) p(\t)
+\end{equation}
+where $p$ denotes a probability density function. In \eref{bayes-theorem}, $p(H
+| \t)$ is known as the likelihood function, which accommodates the data model
+and yields the probability of observing the data set $H$ given the parameters
+\t; $p(\t)$ is called the prior of \t, which represents our knowledge on \t
+prior to any observations; and $p(\t | H)$ is known as the posterior of \t given
+$H$. The last is an exhaustive solution to our problem: having constructed $p(\t
+| H)$, all the needed information about \t can be trivially estimated by drawing
+samples from this posterior.
+
+The posterior distribution does not typically belong to any of the common
+families of probability distributions, which is primarily due to the data model
+involved in the likelihood function, and, therefore, the sampling procedure is
+not straightforward. To tackle the difficulty, one usually relies on such
+techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an ergodic
+Markov chain with the stationary distribution equal to the target posterior
+distribution is constructed and then utilized for exploring the probability
+space. A popular technique for undertaking \ac{MCMC} sampling is the
+Metropolis--Hastings algorithm where the chain is constructed via sampling from
+a computationally convenient distribution known as the proposal distribution.
