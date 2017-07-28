@@ -88,7 +88,8 @@
           \ifNoChapterNumber
             \strut
           \else
-            \headingfont\Huge
+            \headingfont
+            \Huge
             \color{white}
             \vspace{0.4em}
             \centering
@@ -97,7 +98,8 @@
         \end{minipage}%
       } & \colorbox{white}{%
         \begin{minipage}[c][10em][c]{\textwidth-5em}
-          \headingfont\Huge
+          \headingfont
+          \Huge
           \raggedright
           ##1
         \end{minipage}
@@ -131,7 +133,6 @@
     Typeset in Korolev LiU, Miller Text, Computer Modern, and Input Mono\\
     Printed by LiU-Tryck, Linköping \@publicationyear
   \end{flushleft}
-  \clearpage
 }
 
 \renewcommand{\maketitle}{
@@ -182,19 +183,32 @@
     \maketitle
     \newpage
   }
-  \pagestyle{plain}
-  \makepermission
-  \makededication
-  \cleartorecto
-  \phantomsection
-  \addcontentsline{toc}{chapter}{Abstract}
-  \clearpage
-  \makeabstract
-  \clearpage
-  \newpage
-  \@acknowledgments
-  \addcontentsline{toc}{chapter}{Acknowledgments}
-  \clearpage
+  {
+    \makepermission
+    \clearpage
+  }
+  {
+    \makededication
+    \cleartorecto
+  }
+  {
+    \pagestyle{plain}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Abstract}
+    \clearpage
+  }
+  {
+    \pagestyle{plain}
+    \makeabstract
+    \clearpage
+    \newpage
+  }
+  {
+    \pagestyle{plain}
+    \@acknowledgments
+    \addcontentsline{toc}{chapter}{Acknowledgments}
+    \clearpage
+  }
   {
     \pagestyle{plain}
     \renewcommand{\contentsname}{Table of Contents}
@@ -202,18 +216,22 @@
     \relax
     \clearpage
   }
-  \@abbreviations
-  \addcontentsline{toc}{chapter}{List of Abbreviations}
-  \clearpage
+  {
+    \@abbreviations
+    \addcontentsline{toc}{chapter}{List of Abbreviations}
+    \clearpage
+  }
   {
     \pagestyle{plain}
     \listoffigures
-    \relax\clearpage
+    \relax
+    \clearpage
   }
   {
     \pagestyle{plain}
     \listoftables
-    \relax\clearpage
+    \relax
+    \clearpage
   }
   \cleartorecto
   \pagenumbering{arabic}
