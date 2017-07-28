@@ -465,26 +465,25 @@ samples of $\t = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
 \eref{inference-reduction} in order to compute samples of \g, which we denote by
 $G = \{ \vg_i \}$ where $\vg_i \in \real^{\nd \np}$.
 
-\subsection{Post-processing}
+\subsection{Post-Processing}
 \slab{inference-post-processing}
 
-At Stage~4 in \fref{algorithm}, using the set of samples $G$, the user computes
-the desired statistics of the \ac{QOI} such as the most probable value of the
-effective channel length at some location of interest, the probability of a
-certain area on the wafer to be defective, and so on. The computations boil down
-to the estimation of expected values with respect to the posterior distribution
-of \vt, $p(\vt | H)$. This estimation is done in the standard sample-based
-fashion, that is, in order to compute some arbitrary quantity dependent on \g,
-one needs to evaluate this quantity for each $\vg_i$ in $G$ and then take the
-average.
+At Stage~4 in \fref{inference-overview}, using the set of samples $G$, the user
+computes the desired statistics about the \ac{QOI} such as the most probable
+value of the effective channel length at some location of interest and the
+probability of a certain area on the wafer to be defective. These computations
+reduce to the estimation of expected values with respect to the posterior
+distribution of \t in \eref{inference-posterior}. Specifically, in order to
+compute an arbitrary quantity dependent on \g, one evaluates this quantity for
+each $\vg_i$ in $G$ and then takes the average value.
 
-The strength of the Bayesian approach to inference really starts to shine when
-we are also interested in assessing the trustworthiness of the measured data
-and, therefore, the reliability of the estimates/decisions based on these data.
-Such an assessment can readily be undertaken using our framework since the
-delivered posterior distribution contains all the needed information about the
-\ac{QOI}. This is especially helpful in decision making as exemplified in
-\sref{motivation}.
+The strength of the Bayesian approach to inference starts to shine when one is
+also interested in assessing the trustworthiness of the measured data and,
+therefore, the reliability of estimates and decisions based on these data. Such
+an assessment can readily be undertaken using our framework since the delivered
+posterior distribution contains all the needed information about the \ac{QOI}.
+This is especially helpful in decision-making as exemplified in
+\sref{inference-example}.
 
 \section{Experimental Results}
 \slab{inference-results}
