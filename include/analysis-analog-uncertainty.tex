@@ -233,12 +233,12 @@ The data model relates the \ac{QOI} \g with the \ac{QOM} \h as follows:
   \h = f(\g).
 \]
 The function $f$ depends on the choice of \h and is specified by the user. The
-model is utilized in order to predict the values of the \ac{QOM} at the same
-sites, at the same inner points, and with the same amount as the ones in $H$.
-The resulting data are then stacked into a single vector denoted by $\vh \in
-\real^{\nd \np \ns}$. Also, let $\hvh \in \real^{\nd \np \ns}$ be a stacked
-version of the data in $H$ such that the respective elements of \vh and \hvh
-correspond to the same locations on the wafer.
+model is utilized in order to predict the values of \h at the same sites, at the
+same inner points, and with the same amount as the ones in $H$ from Stage~1. The
+resulting data are stacked into a single vector denoted by $\vh \in \real^{\ndm
+\np \ns}$. Also, let $\hvh \in \real^{\ndm \np \ns}$ be a stacked version of the
+data in $H$ such that the respective elements of \vh and \hvh correspond to the
+same locations on the wafer.
 
 In order to acquire a better understanding of the data model, let us return to
 the example given in \sref{inference-example}. In this case, \g stands for the
