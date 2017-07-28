@@ -56,7 +56,11 @@ in \cite{paek2012, mesa-martinez2007}, on the other hand, concentrating on the
 power dissipation of a single die, are not concerned with process variation.
 
 The remainder of the chapter is structured as follows. A motivational example is
-given in \sref{inference-example}.
+given in \sref{inference-example}. In \sref{inference-problem}, we formulate the
+problem and the requirements to a potential solution. The solution that we
+propose is presented in \sref{inference-solution}, and the corresponding
+experimental results are reported and discussed in \sref{inference-results}.
+\sref{inference-conclusion} concludes this chapter.
 
 \section{Motivational Example}
 \slab{inference-example}
@@ -160,6 +164,7 @@ decision, incorporating also the preferences of the user via the utility
 function.
 
 \section{Problem Formulation}
+\slab{inference-problem}
 
 Consider a generic electronic system, which is fabricated on a silicon wafer
 that accommodates \nd dies. Let \spec refer collectively to the specification of
@@ -178,6 +183,7 @@ measurement noise, \four~ability to accommodate prior knowledge on \g, and
 corresponding predictions.
 
 \section{Our Solution}
+\slab{inference-solution}
 
 In order to achieve the established goal, we make use of indirect measurements.
 Specifically, instead of \g, we measure an auxiliary parameter \h, which we
@@ -673,6 +679,7 @@ with the average value of 1.77 times, which can be pushed even further employing
 more parallel processors.
 
 \section{Conclusion}
+\slab{inference-conclusion}
 
 We proposed a framework for the analysis of process variation across
 semiconductor wafers based on cost-efficient, indirect measurements. The
