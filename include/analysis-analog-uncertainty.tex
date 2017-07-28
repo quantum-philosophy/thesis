@@ -409,6 +409,7 @@ distribution called the proposal distribution. The construction of an adequate
 proposal is discussed next.
 
 \subsection{Optimization Procedure}
+\slab{inference-optimization}
 
 In this subsection, we describe the objective of Stage~2 in
 \fref{inference-overview}. Although the requirements to the proposal
@@ -434,35 +435,35 @@ explained.
 
 \subsection{Sampling Procedure}
 
-Let us turn to Stage~3 in \fref{algorithm}. We have at our disposal $\hat{\vt}$
-and $\m{J}$ from Stage~2 in order to construct an adequate proposal and utilize
-it for sampling. A commonly used proposal is a multivariate Gaussian
-distribution wherein the mean is the current location of the chain of samples
-started at $\hat{\vt}$, and the covariance matrix is the inverse of $\m{J}$
+Let us turn to Stage~3 in \fref{inference-overview}. We have at our disposal
+$\t^*$ and $\m{J}$ from Stage~2 in order to construct an adequate proposal and
+utilize it for sampling. A commonly used proposal is a multivariate Gaussian
+distribution where the mean is the current location of the chain of samples
+started at $\t^*$, and the covariance matrix is the inverse of $\m{J}$
 \cite{gelman2004}. In order to speed up the sampling process, we would like to
-make use of the potential of multicore parallelization. The above proposal,
-however, is purely sequential as the mean for the next sample draw is dependent
-on the previous sample. Therefore, we appeal to a variation of the \up{MH}
+make use of parallelization. The aforementioned proposal, however, is purely
+sequential as the mean for the next sample draw is dependent on the previous
+sample. Therefore, we appeal to a variation of the Metropolis--Hastings
 algorithm known as the independence sampler \cite{gelman2004}. In this case, a
-typical choice of the proposal is a multivariate t-distribution, independent of
-the current position of the chain:
-\begin{equation} \elab{proposal}
-  \vt \sim t_\nu(\hat{\vt}, \alpha^2 \m{J}^{-1})
+typical choice of the proposal is a multivariate t-distribution independent of
+the current position of the chain as follows:
+\begin{equation} \elab{inference-proposal}
+  \t \sim t_\nu(\t^*, \alpha^2 \m{J}^{-1})
 \end{equation}
-where $\hat{\vt}$ and $\m{J}$ are as in \sref{optimization}, $\nu$ is the number
-of degrees of freedom, and $\alpha$ is a tuning constant controlling the
-standard deviation of the proposal. Now the proposal samples and the
-time-consuming evaluation of their posterior in \eref{posterior} can be computed
-for all samples in parallel. Then the precomputed samples can subsequently be
-accepted or rejected as in the usual \up{MH} algorithm.
+where $\t^*$ and $\m{J}$ are as in \sref{inference-optimization}, $\nu$ is the
+number of degrees of freedom, and $\alpha$ is a tuning constant controlling the
+standard deviation of the proposal. Now sampling the proposal in
+\eref{inference-proposal} and evaluating the posterior in
+\eref{inference-posterior} can be done in parallel. The obtained samples can
+then be accepted or rejected subsequently as in the usual Metropolis--Hastings
+algorithm.
 
 Having completed the sampling procedure, we obtain a collection of samples of
-\vt. The first portion of the drawn samples is typically discarded before the
-final computations as being unrepresentative; this portion is also known as the
-burn-in period. Each of the preserved samples of \vt, comprising \vz, $\mu_\g$,
-and $\sigma^2_\g$, is then used in \eref{inference-reduction} to compute a
-sample of \g, $\vg_i \in \real^{\nd \np}$. Denote such a data set with $n$
-samples of the \ac{QOI} by $G = \{ \vg_i \}_{i = 1}^n$.
+\t. The first portion of the drawn samples is typically discarded as being
+unrepresentative; this portion is known as the burn-in period. The preserved
+samples of $\t = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
+\eref{inference-reduction} in order to compute samples of \g, which we denote by
+$G = \{ \vg_i \}$ where $\vg_i \in \real^{\nd \np}$.
 
 \subsection{Post-processing}
 \slab{inference-post-processing}
