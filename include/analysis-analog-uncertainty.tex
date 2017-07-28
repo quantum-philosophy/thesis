@@ -408,31 +408,31 @@ outlined in \sref{bayesian-statistics}, which operates on an auxiliary
 distribution called the proposal distribution. The construction of an adequate
 proposal is discussed next.
 
-\subsection{Optimization of the Proposal Distribution}
+\subsection{Optimization Procedure}
 
-In this section, we describe the objective of Stage~2 in \fref{algorithm}.
-Although the requirements to the proposal distribution mentioned earlier are
-rather weak, it is often difficult to pick an efficient proposal, which would
-yield a good approximation with as few evaluations of the posterior in
-\eref{posterior} and, thus, of the data model in \sref{data-model} as possible.
-This choice is especially severe for high-dimensional problems, and our problem,
-involving around 30 parameters as we shall see in \sref{experimental-results},
-is one them. Therefore, a careful construction of the proposal distribution is
-an essential component of our framework.\footnote{This has been also confirmed
-by our experiments. Without optimization, even for small examples, no adequate
-results were obtained in an affordable time. Therefore, all the experiments in
-\sref{experimental-results} include the optimization step.} A common technique
-to construct a high-quality proposal is to perform an optimization of the
-posterior given by \eref{posterior}. More specifically, we seek for such a value
-$\hat{\vt}$ of $\vt$ that maximizes \eref{posterior} and, hence, has the maximal
-posterior probability. We also compute the negative of the Hessian matrix at
-$\hat{\vt}$, which is called the observed information matrix and denoted by
-$\m{J}$ (see the output of Stage~2 in \fref{algorithm}). Using $\hat{\vt}$ and
-$\m{J}$, we can now construct such a proposal, which will allow the \up{MH}
-algorithm (a) to start producing samples directly from the desired regions of
-high probability and (b) to explore those regions more rapidly.
+In this subsection, we describe the objective of Stage~2 in
+\fref{inference-overview}. Although the requirements to the proposal
+distribution are mild, it is often difficult to pick an efficient proposal, that
+is, such a proposal that would yield a good approximation with as few
+evaluations of the posterior and, thus, of the data model in
+\sref{inference-data-model} as possible. This choice is especially difficult for
+high-dimensional problems, and our problem---which involves around 30 parameters
+as we shall see in \sref{inference-results}---is one them. Therefore, a careful
+construction of the proposal is an essential component of our framework.
 
-\subsection{Sampling via the Metropolis-Hastings Algorithm}
+A common technique to construct a high-quality proposal is to optimize the
+posterior given in \eref{inference-posterior}. More specifically, we seek such a
+value $\t^*$ of \t that maximizes \eref{inference-posterior} and, hence, has the
+maximal posterior probability. In addition, we calculate the negative of the
+Hessian matrix at $\t^*$, which is called the observed information matrix and
+denoted by $\m{J}$; see the output of Stage~2 in \fref{inference-overview}.
+Using $\t^*$ and $\m{J}$, we can construct a proposal that would allow the
+Metropolis--Hastings algorithm \one~to start producing samples directly from the
+desired regions of high probability and \two~to explore those regions more
+rapidly. In the next subsection, the exact usage of $\t^*$ and $\m{J}$ is
+explained.
+
+\subsection{Sampling Procedure}
 
 Let us turn to Stage~3 in \fref{algorithm}. We have at our disposal $\hat{\vt}$
 and $\m{J}$ from Stage~2 in order to construct an adequate proposal and utilize
