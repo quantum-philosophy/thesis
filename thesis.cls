@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/07/22 Thesis]
+\ProvidesClass{thesis}[2017/07/28 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -13,7 +13,6 @@
 \usepackage{ifthen}
 \usepackage{microtype}
 \usepackage{polyglossia}
-\usepackage[figure,table]{totalcount}
 
 \def\createvariable#1{
   \expandafter\def\csname #1\endcsname{\expandafter\gdef\csname @#1\endcsname}
@@ -206,8 +205,16 @@
   \@abbreviations
   \addcontentsline{toc}{chapter}{List of Abbreviations}
   \clearpage
-  \iftotalfigures{\pagestyle{plain}\listoffigures\relax\clearpage}\fi
-  \iftotaltables{\pagestyle{plain}\listoftables\relax\clearpage}\fi
+  {
+    \pagestyle{plain}
+    \listoffigures
+    \relax\clearpage
+  }
+  {
+    \pagestyle{plain}
+    \listoftables
+    \relax\clearpage
+  }
   \cleartorecto
   \pagenumbering{arabic}
   \pagestyle{ruled}
