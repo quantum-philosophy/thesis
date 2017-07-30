@@ -272,6 +272,7 @@ order to acquire the corresponding temperature \h, which is the topic of
 \cref{design-certainty}.
 
 \subsection{Statistical Model}
+\slab{inference-statistical-model}
 
 \inputfigure{inference-statistical-model}
 Once the wafer has been fabricated, the values of \g across the wafer are fixed;
@@ -297,7 +298,7 @@ spatially unbiased; therefore, we let $\mu$ be a single location-independent
 parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
 covariance function $k$ is chosen to be as follows:
 \begin{equation} \elab{inference-covariance}
-  k(r_1, r_2) = \sigma_\g^2 \left(\eta k_\text{SE}(r_1, r_2) + (1 - \eta) k_\text{OU}(r_1, r_2)\right)
+  k(r_1, r_2) = \sigma_\g^2 \left(w \, k_\text{SE}(r_1, r_2) + (1 - w) k_\text{OU}(r_1, r_2)\right)
 \end{equation}
 for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
 \begin{align*}
@@ -305,9 +306,9 @@ for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
   k_\text{OU}(r_1, r_2) & = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\text{OU}}\right)
 \end{align*}
 are the squared exponential and Ornstein--Uhlenbeck correlation functions
-\cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $\eta
-\in [0, 1]$ is a weighting coefficient; $\ell_\text{SE} > 0$ and $\ell_\text{OU}
-> 0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
+\cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $w \in
+[0, 1]$ is a weighting coefficient; $\ell_\text{SE} > 0$ and $\ell_\text{OU} >
+0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
 Euclidean distance. The choice of $k$ is based on the observations of the
 correlation structures induced by the manufacturing process
 \cite{chandrakasan2000, cheng2011}. More specifically, $k_\text{SE}$ imposes
@@ -317,7 +318,7 @@ distance from the center of the wafer. The parameters $\ell_\text{SE}$ and
 $\ell_\text{OU}$ control the extend of these similarities, that is, the range
 where the correlation between two locations is significant. Although all the
 above parameters of \g can be inferred from data, for simplicity, we shall focus
-on $\mu_\g$ and $\sigma_\g^2$. The rest of the parameters---namely, $\eta$,
+on $\mu_\g$ and $\sigma_\g^2$. The rest of the parameters---namely, $w$,
 $\ell_\text{SE}$, and $\ell_\text{OU}$---are assumed to be determined prior to
 our analysis based on the knowledge of the correlation patterns typical for the
 production process utilized; see \cite{marzouk2009} and the references therein.
@@ -494,19 +495,24 @@ This is especially helpful in decision-making as exemplified in
 \section{Experimental Results}
 \slab{inference-results}
 
-In this section, we assess our framework by inferring the effective channel
-length \g from temperature \h. Such a high-level parameter as temperature
-constitutes a challenging task for the inference of such a low-level parameter
-as the effective channel length, which implies a strong assessment of the
-proposed technique. The effective channel length is an important target as it is
-strongly affected by process variation and considerably impacts the power
-consumption and heat dissipation \cite{chandrakasan2000, srivastava2010,
-juan2012}. It also influences other process-related parameters such as the
-threshold voltage. The performance of our approach is expected to only increase
-when the auxiliary parameter \h resides closer to the target parameter \g with
-respect to the data model $\h = f(\g)$. For instance, such a closer quantity \h
-can be the leakage current, which, however, might not always be the most
-preferable parameter to measure.
+In this section, we assess our framework. All the experiments are conducted on a
+\up{GNU}/Linux machine with Intel Core i7 2.66~\up{GH}z and 8~\up{GB} of
+\up{RAM}. All the configuration files used in the experiments are available
+online at \cite{eslab2013}.
+
+Our goal here is to infer the effective channel length \g from temperature \h.
+Such a high-level parameter as temperature constitutes a challenging task for
+the inference of such a low-level parameter as the effective channel length,
+which implies a strong assessment of the proposed technique. The performance of
+our approach is expected to only increase when the auxiliary parameter \h
+resides closer to the target parameter \g with respect to the data model $\h =
+f(\g)$. For instance, such a closer quantity \h can be the leakage current,
+which, however, might not always be the most preferable parameter to measure.
+Lastly, let us note that the chosen effective channel length is an important
+target as it is strongly affected by process variation and considerably impacts
+the power consumption and heat dissipation \cite{chandrakasan2000,
+srivastava2010, juan2012}. It also influences other process-related parameters
+such as the threshold voltage.
 
 We describe now the default configuration of our setup, which will be later
 adjusted according to the purpose of each particular experiment. We consider a
@@ -525,69 +531,63 @@ circuits composed of \up{BSIM4} devices \cite{bsim} configured according to the
 undertaken using the approach described in \sref{transient-state-solution}; the
 construction of thermal \up{RC} circuits is delegated to HotSpot
 \cite{skadron2003}. The sampling interval of power and temperature profiles is
-1~ms. All the configuration files of the experiments are available online at
-\cite{eslab2013}.
+1~ms.
 
-The input data set $H$ is obtained as follows: (a) draw a sample of \g from a
-Gaussian distribution with the mean value equal to 17.5~nm, according to the
-considered technological process \cite{ptm}, and the covariance function given
-by \eref{inference-covariance} wherein the standard deviation is 2.25~nm; (b)
-perform one fine-grained temperature simulation per each of the $\ndm$ selected
-dies under the corresponding dynamic power profile; (c) shrink the temperature
-profiles to keep only \ns, which is equal to 20 by default, evenly spaced
-moments of time; and (d) perturb the obtained data set using a white Gaussian
-noise with the standard deviation of 1$\,$K (Kelvin).
+The input data set $H$ is obtained as follows: \one~draw a sample of \g from a
+Gaussian distribution with a mean of 17.5~nm, in accordance with the considered
+technological process \cite{ptm}, and a covariance function equal to
+\eref{inference-covariance} with a standard deviation of 2.25~nm; \two~perform
+one fine-grained temperature simulation per each of the \ndm dies selected for
+measurement; \three~shrink the obtained temperature profiles to keep only
+\ns---which is equal to 20 by default---evenly spaced moments of time; and
+\four~perturb the resulting data set using a white Gaussian noise with a
+standard deviation of \celsius{1}.
 
-Let us turn to the statistical model in \sref{statistical-model} and summarize
-the intuition and our assignment for each parameter of this model. In the
-covariance function given by \eref{inference-covariance}, the weight parameter
-$\eta$ and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$
-should be set according to the correlation patterns typical for the production
-process at hand \cite{chandrakasan2000, cheng2011}; we set $\eta$ to 0.7 and
+Let us turn to the statistical model in \sref{inference-statistical-model} and
+summarize the intuition behind and our assignment of each parameter. In the
+covariance function in \eref{inference-covariance}, the weighting parameter $w$
+and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$ should
+be set according to the correlation patterns typical for the manufacturing
+process at hand \cite{chandrakasan2000, cheng2011}; we set $w$ to 0.7 and
 $\ell_\text{SE}$ and $\ell_\text{OU}$ to half the radius of the wafer. The
-threshold parameter of the model order reduction procedure described in
-\sref{model-order-reduction} and utilized in \eref{inference-reduction} should
-be set high enough to preserve a sufficiently large portion of the variance of
-the data and, thus, to keep the corresponding results accurate; we set it to
-0.99 preserving 99\% of this variance. The resulting dimensionality \nz of \vz
-in \eref{inference-reduction} was found to be 27--28. The parameters $\mu_0$ and
-$\tau_\g$ of the priors in \eref{mu-u-prior} and \eref{sigma2-u-prior},
-respectively, are specific to the considered technological process; we set
-$\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The parameters $\sigma_0$ and
-$\nu_\g$ in \eref{mu-u-prior} and \eref{sigma2-u-prior}, respectively, determine
-the precision of the information on $\mu_0$ and $\tau_\g$ and are set according
-to the beliefs of the user; we set $\sigma_0$ to 0.45~nm and $\nu_\g$ to 10. The
-latter can be thought of as the number of imaginary observations that the choice
-of $\tau_\g$ is based on. The parameter $\tau_\epsilon$ in
-\eref{sigma2-noise-prior} represents the precision (deviation) of the equipments
-utilized to collect the data set $H$ and can be found in the technical
-specification of these equipments; we set $\tau_\epsilon$ to 1~K. The parameter
-$\nu_\epsilon$ in \eref{sigma2-noise-prior} has the same interpretation as
-$\nu_\g$ in \eref{sigma2-u-prior}; we set it to 10 as well. In \eref{proposal},
-$\nu$ and $\alpha$ are tuning parameters, which can be configured based on
-experiments; we set $\nu$ to eight and $\alpha$ to 0.5. The number of sample
-draws is another tuning parameter, which we set to $10^4$; the first half of
-these samples is ascribed to the burn-in period leaving $5 \cdot 10^3$ effective
-samples $n$. For the optimization in \sref{optimization}, we use the
-Quasi-Newton algorithm \cite{press2007}. For parallel computations, we utilize
-four processors. All the experiments are conducted on a GNU/Linux machine with
-Intel Core i7 2.66~GHz and 8~GB of RAM.
+threshold parameter $\eta$ of the model-order reduction procedure described in
+\sref{linear-algebra} and utilized in \eref{inference-reduction} should be set
+high enough to preserve a sufficiently large portion of the variance of the data
+and, thus, to keep the modeling sufficiently accurate; we set it to 0.99. The
+resulting dimensionality \nz of \vz in \eref{inference-reduction} is found to be
+27--28. The parameters $\mu_0$ and $\tau_\g$ of the prior in
+\eref{inference-prior} are specific to the considered technological process; we
+set $\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The parameters $\sigma_0$ and
+$\nu_\g$ in \eref{inference-prior} determine the precision of the information
+about $\mu_0$ and $\tau_\g$ and are set according to the beliefs of the user; we
+set $\sigma_0$ to 0.45~nm and $\nu_\g$ to 10. The latter can be thought of as
+the number of imaginary observations that the choice of $\tau_\g$ is based on.
+The parameter $\tau_\epsilon$ in \eref{inference-prior} represents the precision
+of the equipment utilized for collecting $H$ and can be found in the technical
+specification of that equipment; we set $\tau_\epsilon$ to \celsius{1}. The
+parameter $\nu_\epsilon$ in \eref{inference-prior} has the same interpretation
+as $\nu_\g$; we set it to 10 as well. In \eref{inference-proposal}, $\nu$ and
+$\alpha$ are tuning parameters, which can be configured based on experiments; we
+set $\nu$ to 8 and $\alpha$ to 0.5. The number of sample draws is another tuning
+parameter, which we set to $10^4$; the first half of these samples is ascribed
+to the burn-in period leaving $5 \times 10^3$ effective samples. For the
+optimization in \sref{inference-optimization}, we use the quasi-Newton algorithm
+\cite{press2007}. For parallel computations, we utilize four processors.
 
-To ensure that the experimental setup is adequate, we first perform a detailed
-inspection of the results obtained for one particular example with the default
-configuration. The true and inferred distributions of the \ac{QOI} are shown in
-\fref{wafer-qoi} where the normalized root-mean-square error (NRMSE) is below
-2.8\%, and the absolute error is bounded by 1.4$\,$nm, which suggests that the
-framework produces a close match to the true value of the \ac{QOI} We have also
-looked at the behavior of the constructed Markov chains and the quality of the
-proposal distribution; however, due to the shortage of space, these results are
-not presented here. All the observations suggest that the optimization and
-sampling procedures are properly configured.
+In order to ensure that the experimental setup is adequate, we first perform a
+detailed inspection of the results obtained for one particular example with the
+default configuration. The true and inferred distributions of the \ac{QOI} are
+shown in \fref{inference-example} where the \acf{NRMSE} is below 2.8\%, and the
+absolute error is bounded by 1.4~nm, which suggests that the proposed framework
+produces a close match to the true value of the \ac{QOI}. We also investigate
+the behavior of the constructed Markov chains and the quality of the proposal
+distribution. All the observations suggest that the optimization and sampling
+procedures are properly configured.
 
-Next we use the assessed configuration and alter only one parameter at a time:
-the number of measured sites/dies $\ndm$; the number of processing
-elements/measured points $\np$ on a site; the amount of data per measurement
-point \ns; and the noise deviation $\sigma_\epsilon$.
+In the following, we consider the above default configuration and alter only one
+parameter at a time, namely, the number of measured sites $\ndm$; the number of
+measured points $\np$ on a site; the amount of data per measurement point \ns;
+and the standard deviation of the measurement noise $\sigma_\epsilon$.
 
 \subsection{Number of Measured Sites}
 
