@@ -1,0 +1,22 @@
+\begin{table*}
+  \centering
+  \caption{Inference results for different numbers of measurement sites.}
+  \tlab{inference-sites}
+  \texttt{
+    \begin{tabular}{lrrrrrr}
+      \toprule
+      \textnormal{Number of sites}  &     1 &   10 &   20 &    40 &    80 &   160 \\
+      \midrule
+      \textnormal{Optimization (m)} &  0.41 & 2.49 & 3.34 &  4.59 &  7.33 & 10.29 \\
+      \midrule
+      \textnormal{Sequential (m)}   &  2.40 & 3.99 & 4.60 &  5.79 &  8.49 & 12.96 \\
+      \textnormal{Total (m)}        &  2.81 & 6.47 & 7.94 & 10.38 & 15.81 & 23.25 \\
+      \midrule
+      \textnormal{Parallel (m)}     &  0.61 & 1.02 & 1.18 &  1.51 &  2.16 &  3.62 \\
+      \textnormal{Total (m)}        &  1.02 & 3.50 & 4.52 &  6.10 &  9.49 & 13.91 \\
+      \midrule
+      \textnormal{\ac{NRMSE} (\%)}  & 30.49 & 4.40 & 3.42 &  1.09 &  0.85 &  0.67 \\
+      \bottomrule
+    \end{tabular}
+  }
+\end{table*}

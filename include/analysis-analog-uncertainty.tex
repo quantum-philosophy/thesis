@@ -593,7 +593,8 @@ the standard deviation of the measurement noise $\sigma_\epsilon$.
 
 \hiddensubsection{Number of Measurement Sites}
 
-Let us change the number of dies $\ndm$ that have been measured. The considered
+\inputtable{inference-sites}
+Let us change the number of dies \ndm that have been measured. The considered
 scenarios are 1, 10, 20, 40, 80, and 160 measured dies, respectively. The
 results are reported in \tref{spatial-measurements}. In this and the following
 tables, we report the optimization (Stage~2 in \fref{algorithm}) and sampling
@@ -615,6 +616,7 @@ number of dies on the wafer.
 
 \hiddensubsection{Number of Measurement Points}
 
+\inputtable{inference-points}
 Here we consider five platforms with the number of processing
 elements/measurement points $\np$ on each die equal to 2, 4, 8, 16, and 32,
 respectively. The results are summarized in \tref{processing-elements}. All the
@@ -631,6 +633,7 @@ are collected for all the processing elements simultaneously.
 
 \hiddensubsection{Number of Data Instances}
 
+\inputtable{inference-instances}
 In this subsection, we sweep the number of moments of time \ns captured by the
 measured temperature profiles. The scenarios are 1, 10, 20, 40, 80, and 160 time
 moments, respectively. The results are aggregated in
@@ -654,6 +657,7 @@ advantageous than a larger number of temporal measurements.
 
 \hiddensubsection{Deviation of the Measurement Noise}
 
+\inputtable{inference-noise}
 Next we vary the standard deviation of the noise (in Kelvins), affecting the
 data $H$, within the set $\{ 0, 0.5, 1, 2 \}$ coherent with the literature
 \cite{mesa-martinez2007}. Note that the corresponding prior distribution in
