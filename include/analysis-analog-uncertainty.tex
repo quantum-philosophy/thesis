@@ -199,15 +199,15 @@ piece of code.
 As the first step, the user of the proposed framework is supposed to harvest a
 set of observations of \h at several locations on the wafer; recall
 \sref{inference-example}. Without loss of generality, we adhere to the following
-convention. One die corresponds to one potential measurement site, and $\ndm <
-\nd$ denotes the number of those sites that have been selected for measurement.
-Each site comprises \np inner points, and each point contains \ns data
-instances. For instance, in the example given in \sref{inference-example}, each
-observation is a temperature profile $\mq \in \real^{\np \times \ns}$, which is
-an matrix capturing temperature of \np processors at \ns time moments as defined
-in \eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i = 1}^{\ndm}$ the
-collected data set where $\hh_i \in \real^{\np \times \ns}$ stands for one
-observation (one site) of \h. Lastly, it is assumed that the corresponding
+convention. Each die is one potential measurement site, and $\ndm < \nd$ denotes
+the number of those sites that are actually measured. Each site comprises \np
+measurement points, and there are \ns data instances taken at each point. For
+instance, in the example given in \sref{inference-example}, an observation at a
+site is a temperature profile $\mq \in \real^{\np \times \ns}$, which is an
+matrix capturing temperature of \np processors at \ns time moments as defined in
+\eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i = 1}^{\ndm}$ the
+collected data set where $\hh_i \in \real^{\np \times \ns}$ stands for an
+observation at a certain site. Lastly, it is assumed that the corresponding
 locations are recorded along with $H$.
 
 It is worth noting that, if $f$ is the identity function, that is, $\h = f(\g) =
@@ -239,12 +239,13 @@ The data model relates the \ac{QOI} \g with the \ac{QOM} \h as follows:
   \h = f(\g).
 \]
 The function $f$ depends on the choice of \h and is specified by the user. The
-model is utilized in order to predict the values of \h at the same sites, at the
-same inner points, and with the same amount as the ones in $H$ from Stage~1. The
-resulting data are stacked into a single vector denoted by $\vh \in \real^{\ndm
-\np \ns}$. Also, let $\hvh \in \real^{\ndm \np \ns}$ be a stacked version of the
-data in $H$ such that the respective elements of \vh and \hvh correspond to the
-same locations on the wafer.
+model is utilized in order to predict the values of \h at the same measurement
+sites, at the same measurement points, and with the same number and meaning of
+data instances as the ones in $H$ from Stage~1. The resulting data are stacked
+into a single vector denoted by $\vh \in \real^{\ndm \np \ns}$. Let also $\hvh
+\in \real^{\ndm \np \ns}$ be a stacked version of the data in $H$ such that the
+respective elements of \vh and \hvh correspond to the same locations on the
+wafer.
 
 In order to acquire a better understanding of the data model, let us return to
 the example given in \sref{inference-example}. In this case, \g stands for the
@@ -328,13 +329,14 @@ an infinite-dimensional object as it characterizes a continuum of locations. For
 practical computations, it should be reduced to a finite-dimensional one. First,
 \g is discretized with respect to the union of two sets of locations. The first
 one is composed of the $\ndm \np$ points where the observations in $H$ are made
-($\ndm$ selected sites with $\np$ inner points each), and the other of the
-locations where the user wishes to characterize \g. For simplicity, we assume
-that the user is interested in all the sites, which is $\nd \np$ locations in
-total. Let $\vg \in \real^{\nd \np}$ store the values of \g at these locations.
-Second, the dimensionality is reduced even further by performing the
-transformation in \eref{model-order-reduction} with respect to the correlation
-matrix of \vg computed via \eref{inference-covariance}. The result is
+($\ndm$ measurement sites with $\np$ measurement points each), and the other one
+of the locations where the user wishes to characterize \g. For simplicity, we
+assume that the user is interested in all the sites, which is $\nd \np$
+locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
+these locations. Second, the dimensionality is reduced even further by
+performing the transformation in \eref{model-order-reduction} with respect to
+the correlation matrix of \vg computed via \eref{inference-covariance}. The
+result is
 \begin{equation} \elab{inference-reduction}
   \vg = \mu_\g \v{1} + \sigma_\g \m{L} \vz
 \end{equation}
@@ -585,11 +587,11 @@ distribution. All the observations suggest that the optimization and sampling
 procedures are properly configured.
 
 In the following, we consider the above default configuration and alter only one
-parameter at a time, namely, the number of measured sites $\ndm$; the number of
-measured points $\np$ on a site; the amount of data per measurement point \ns;
-and the standard deviation of the measurement noise $\sigma_\epsilon$.
+parameter at a time, namely, the number of measured sites \ndm; the number of
+measured points \np on a site; the amount of data per measurement point \ns; and
+the standard deviation of the measurement noise $\sigma_\epsilon$.
 
-\subsection{Number of Measured Sites}
+\hiddensubsection{Number of Measurement Sites}
 
 Let us change the number of dies $\ndm$ that have been measured. The considered
 scenarios are 1, 10, 20, 40, 80, and 160 measured dies, respectively. The
@@ -611,7 +613,7 @@ computational times increase less than two times. The error firmly decreases and
 drops below 4\% with around 20 sites measured, which is only 6.3\% of the total
 number of dies on the wafer.
 
-\subsection{Number of Measured Points Per Site}
+\hiddensubsection{Number of Measurement Points}
 
 Here we consider five platforms with the number of processing
 elements/measurement points $\np$ on each die equal to 2, 4, 8, 16, and 32,
@@ -627,7 +629,7 @@ grows. The explanation is that, with each processing element, $H$ delivers
 more information to the inference to work with since the temperature profiles
 are collected for all the processing elements simultaneously.
 
-\subsection{Amount of Data Per Measured Point}
+\hiddensubsection{Number of Data Instances}
 
 In this subsection, we sweep the number of moments of time \ns captured by the
 measured temperature profiles. The scenarios are 1, 10, 20, 40, 80, and 160 time
@@ -650,7 +652,7 @@ representative samples can end up in $H$ helping or misleading the inference. We
 can also conclude that a larger number of spatial measurements is more
 advantageous than a larger number of temporal measurements.
 
-\subsection{Deviation of the Measurement Noise}
+\hiddensubsection{Deviation of the Measurement Noise}
 
 Next we vary the standard deviation of the noise (in Kelvins), affecting the
 data $H$, within the set $\{ 0, 0.5, 1, 2 \}$ coherent with the literature
@@ -667,7 +669,7 @@ of noise of two degrees---meaning that measurements are dispersed over a wide
 band of 8~K with a large probability of more than 0.95---the NRMSE is still only
 4\%.
 
-\subsection{Sequential vs. Parallel Sampling}
+\hiddensubsection{Sequential vs. Parallel Sampling}
 
 Let us summarize the results of the sequential and parallel sampling strategies.
 In the sequential MH algorithm, the optimization time is typically smaller than
