@@ -1,0 +1,310 @@
+In order to achieve the established goal, we make use of indirect measurements.
+Specifically, instead of \g, we measure an auxiliary parameter \h, which we
+shall refer to as the quantity of measurement. The observations of \h are then
+processed via Bayesian inference, which is introduced in
+\sref{bayesian-statistics}, in order to derive the distribution of \g. The
+quantity \h is chosen such that \one~\h is convenient and cheap to be measured;
+\two~\h depends on \g, which is signified by $\h = f(\g)$; and \three~there is a
+way to compute \h for a given \g. The last means that $f$ should be known;
+however, it does not have to be explicitly given: our framework treats $f$ as a
+``black box.'' For example, $f$ can be a piece of code.
+
+As the first step, the user of the proposed framework is supposed to harvest a
+set of observations of \h at several locations on the wafer; recall
+\sref{inference-example}. Without loss of generality, we adhere to the following
+convention. Each die is one potential measurement site, and $\ndm < \nd$ denotes
+the number of those sites that are actually measured. Each site comprises \np
+measurement points, and there are \ns data instances taken at each point. For
+instance, in the example given in \sref{inference-example}, an observation at a
+site is a temperature profile $\mq \in \real^{\np \times \ns}$, which is an
+matrix capturing temperature of \np processors at \ns time moments as defined in
+\eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i = 1}^{\ndm}$ the
+collected data set where $\hh_i \in \real^{\np \times \ns}$ stands for an
+observation at a certain site. Lastly, it is assumed that the corresponding
+locations are recorded along with $H$.
+
+It is worth noting that, if $f$ is the identity function, that is, $\h = f(\g) =
+\g$, the proposed technique will primarily focus on the reconstruction of any
+missing observations in $H$, that is, on the unobserved sites on the wafer. From
+this standpoint, our approach is a generalization of those developed in
+\cite{zhang2010, reda2009}.
+
+\inputfigure{inference-overview}
+In the rest of this section, we present our framework for the characterization
+of process variation. The technique revolves around \eref{bayes-theorem} and is
+divided into four major stages depicted in \fref{inference-overview}. Stage~1 is
+the data-harvesting stage where the user collects a set of observations of the
+quantity of measurement, forming the data set $H$. At Stage~2, we undertake an
+optimization procedure, which is to assist the sampling procedure at Stage~3.
+The latter produces a collection of samples of the quantity of interest---such
+as the effective channel length---denoted by $G$, which is then processed at
+Stage~4 in order to estimate the desired characteristics of this quantity---such
+as the probability of the effective channel length to be smaller than a certain
+threshold; recall \sref{inference-example}. It can be seen in
+\fref{inference-overview} that Stage~2 and Stage~3 actively communicate with the
+two models on the right-hand side called the data and statistical models, which
+is what we elaborate on in the following two subsections.
+
+\subsection{Data Model}
+\slab{inference-data-model}
+
+The data model relates the quantity of interest \g with the quantity of
+measurement \h as follows:
+\[
+  \h = f(\g).
+\]
+The function $f$ depends on the choice of \h and is specified by the user. The
+model is utilized in order to predict the values of \h at the same measurement
+sites, at the same measurement points, and with the same number and meaning of
+data instances as the ones in $H$ from Stage~1. The resulting data are stacked
+into a single vector denoted by $\vh \in \real^{\ndm \np \ns}$. Let also $\hvh
+\in \real^{\ndm \np \ns}$ be a stacked version of the data in $H$ such that the
+respective elements of \vh and \hvh correspond to the same locations on the
+wafer.
+
+In order to acquire a better understanding of the data model, let us return to
+the example given in \sref{inference-example}. In this case, \g stands for the
+effective channel length, and \h stands for the temperature profile
+corresponding to a fixed workload. The data model can be roughly divided into
+two transitions: \one~from the effective channel length \g to the static power
+$\p_\static$ and \two~from the static power $\p_\static$ to the corresponding
+temperature profile \h. At this point, it is worth recalling the power model
+presented in \sref{power-model}. The first transition is due to the dependence
+of the leakage current on the effective channel length, which is implicitly
+present in \eref{static-power}. Then the transition can be realized using the
+model in \eref{static-power} or any of its variations; see, for instance,
+\cite{chandrakasan2000, srivastava2010, juan2012}. In particular, an adequate
+model of the static power can be constructed via a fitting procedure applied to
+a data set of \up{SPICE} simulations of reference electrical circuits. The only
+requirement to such a model is that it should be parameterized by \g. In
+addition, it can also be parameterized by temperature in order to account for
+the interdependence between power and temperature described in
+\sref{interdependence}. The second transition is undertaken by combining the
+static power $\p_\static$ with the dynamic power $\p_\dynamic$ that corresponds
+to the considered workload. The obtained total power along with the
+temperature-related information contained in $\spec$---such as the floorplan and
+thermal parameters of the platform at hand---are fed to a thermal simulator in
+order to acquire the corresponding temperature \h, which is the topic of
+\cref{design-certainty}.
+
+\subsection{Statistical Model}
+\slab{inference-statistical-model}
+
+\inputfigure{inference-statistical-model}
+Once the wafer has been fabricated, the values of \g across the wafer are fixed;
+however, they remain unknown to us. In order to infer them, we employ the
+procedure developed in the current subsection, which can also be seen in
+\fref{inference-statistical-model}. The model consists of the five steps
+described below.
+
+Step~1 is to assign an adequate model to the unknown \g. We model \g as a
+Gaussian process \cite{rasmussen2006} since \one~it is flexible in capturing the
+correlation patterns induced by the manufacturing process; \two~it is
+computationally efficient; and \three~Gaussian distributions are often natural
+and accurate models for uncertainties due to process variation
+\cite{srivastava2010, reda2009, juan2012}. We denote this as
+\begin{equation} \elab{inference-prior}
+  \g | \t_\g \sim \text{Gaussian Process}(\mu, k)
+\end{equation}
+where $\mu(\cdot)$ and $k(\cdot, \cdot)$ are the mean and covariance functions
+of \g, respectively, which take locations on the wafer as arguments. The
+notation also indicates that \g depends on a set of parameters $\t_\g$, which we
+shall identify later on. Prior to taking any measurements, \g is assumed to be
+spatially unbiased; therefore, we let $\mu$ be a single location-independent
+parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
+covariance function $k$ is chosen to be as follows:
+\begin{equation} \elab{inference-covariance}
+  k(r_1, r_2) = \sigma_\g^2 \left(w \, k_\text{SE}(r_1, r_2) + (1 - w) k_\text{OU}(r_1, r_2)\right)
+\end{equation}
+for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
+\begin{align*}
+  k_\text{SE}(r_1, r_2) & = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
+  k_\text{OU}(r_1, r_2) & = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\text{OU}}\right)
+\end{align*}
+are the squared exponential and Ornstein--Uhlenbeck correlation functions
+\cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $w \in
+[0, 1]$ is a weighting coefficient; $\ell_\text{SE} > 0$ and $\ell_\text{OU} >
+0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
+Euclidean distance. The choice of $k$ is based on the observations of the
+correlation structures induced by the manufacturing process
+\cite{chandrakasan2000, cheng2011}. More specifically, $k_\text{SE}$ imposes
+similarities between locations on the wafer that are close to each other, and
+$k_\text{OU}$ imposes similarities between locations that are at the same
+distance from the center of the wafer. The parameters $\ell_\text{SE}$ and
+$\ell_\text{OU}$ control the extend of these similarities, that is, the range
+where the correlation between two locations is significant. Although all the
+above parameters of \g can be inferred from data, for simplicity, we shall focus
+on $\mu_\g$ and $\sigma_\g^2$. The rest of the parameters---namely, $w$,
+$\ell_\text{SE}$, and $\ell_\text{OU}$---are assumed to be determined prior to
+our analysis based on the knowledge of the correlation patterns typical for the
+production process utilized; see \cite{marzouk2009} and the references therein.
+
+Step~2 is to make the above model of \g computationally tractable. The model is
+an infinite-dimensional object as it characterizes a continuum of locations. For
+practical computations, it should be reduced to a finite-dimensional one. First,
+\g is discretized with respect to the union of two sets of locations. The first
+one is composed of the $\ndm \np$ points where the observations in $H$ are made
+($\ndm$ measurement sites with $\np$ measurement points each), and the other one
+of the locations where the user wishes to characterize \g. For simplicity, we
+assume that the user is interested in all the sites, which is $\nd \np$
+locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
+these locations. Second, the dimensionality is reduced even further by
+performing the transformation in \eref{model-order-reduction} with respect to
+the correlation matrix of \vg computed via \eref{inference-covariance}. The
+result is
+\begin{equation} \elab{inference-reduction}
+  \vg = \mu_\g \v{1} + \sigma_\g \m{L} \vz
+\end{equation}
+where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
+\real^\nz$ independent random variables that obey the standard Gaussian
+distribution. The number \nz is the final dimensionality of the model of \g.
+Typically, $\nz \ll \nd \np$. The model is now ready for practical computations.
+In addition, the parameters $\t_\g$ in \eref{inference-prior} are now known, and
+they are $\t_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
+\fref{inference-statistical-model}.
+
+Step~3 is to define a likelihood function, which is where the observed
+information is taken into account; see \sref{bayesian-statistics}. In our case,
+the observed information is the measurements $H$ stacked into \hvh as described
+in \sref{inference-data-model}. Since the measurement process is not perfect, we
+also take into consideration the measurement noise. To this end, the observed
+\hvh is assumed to deviate from the data model prediction \vh as follows:
+\[
+  \hvh = \vh + \v{\epsilon}
+\]
+where $\v{\epsilon}$ is an $\ndm \np \ns$-dimensional vector of noise, which is
+typically assumed to be a white Gaussian noise \cite{rasmussen2006,
+marzouk2009}. Without loss of generality, the noise is assumed to be independent
+of \g and to have the same magnitude for all measurements. Hence, the model of
+the noise is
+\[
+  \v{\epsilon} | \sigma^2_\epsilon \sim \text{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
+\]
+where $\sigma^2_\epsilon$ is the variance of the noise. At this point, all the
+parameters of the inference are identified, and they are $\t = \t_\g \cup \{
+\sigma_\epsilon^2 \} = \{ \vz, \mu_\g, \sigma_\g^2, \sigma_\epsilon^2 \}$; see
+\fref{inference-statistical-model}. Taking the above into account, we obtain
+\begin{equation} \elab{inference-likelihood}
+  \hvh | \t \sim \text{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
+\end{equation}
+The density function of this distribution is the likelihood $p(H | \t)$ of our
+statistical model, which is the first element of the posterior in
+\eref{bayes-theorem}.
+
+Step~4 is to decide on the second element of the posterior in
+\eref{bayes-theorem}, that is, on the prior $p(\t)$. We put the following priors
+on \t:
+\begin{align} \elab{inference-prior}
+  \begin{split}
+    \vz               & \sim \text{Gaussian}(\v{0}, \m{I}), \\
+    \mu_\g            & \sim \text{Gaussian}(\mu_0, \sigma^2_0), \\
+    \sigma^2_\g       & \sim \text{Scale-inv-$\chi^2$}(\nu_\g, \tau^2_\g), \text{ and} \\
+    \sigma^2_\epsilon & \sim \text{Scale-inv-$\chi^2$}(\nu_\epsilon, \tau^2_\epsilon).
+  \end{split}
+\end{align}
+The prior of \vz is due to the decomposition in \eref{inference-reduction}. The
+other three priors, that is, a Gaussian and two scaled inverse chi-squared
+distributions, are a common choice for a Gaussian model whose mean and variance
+are unknown. The parameters $\mu_0$, $\tau^2_\g$, and $\tau^2_\epsilon$
+represent the presumable values of $\mu_u$, $\sigma^2_\g$, and
+$\sigma^2_\epsilon$, respectively, and are set by the user based on the prior
+knowledge of the technological process and measurement equipment employed. The
+parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
+this prior information. When the prior knowledge is weak, less specific priors
+can be considered \cite{gelman2004}. Taking the product of the densities of the
+priors in \eref{inference-prior}, we obtain $p(\t)$ in \eref{bayes-theorem}.
+
+Step~5 is to compile the posterior in \eref{bayes-theorem}. To this end, the
+likelihood function $p(H | \t)$, which is the density of the distribution in
+\eref{inference-likelihood}, and the prior $p(\t)$, which is the product of the
+densities of the distributions in \eref{inference-prior}, are put together. The
+density of the resulting posterior distribution is as follows:
+\begin{equation} \elab{inference-posterior}
+  p(\t | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
+\end{equation}
+Provided that there is a way to draw samples from \eref{inference-posterior},
+the quantity of interest can be readily analyzed as we shall see in
+\sref{inference-post-processing}. The problem, however, is that direct sampling
+of the posterior is difficult due to the data model involved in the likelihood
+function via \vh; see \eref{inference-likelihood}. In order to circumvent this
+problem, we utilize the Metropolis--Hastings algorithm \cite{gelman2004}
+outlined in \sref{bayesian-statistics}, which operates on an auxiliary
+distribution called the proposal distribution. The construction of an adequate
+proposal is discussed next.
+
+\subsection{Optimization Procedure}
+\slab{inference-optimization}
+
+In this subsection, we describe the objective of Stage~2 in
+\fref{inference-overview}. Although the requirements to the proposal
+distribution are mild, it is often difficult to pick an efficient proposal, that
+is, such a proposal that would yield a good approximation with as few
+evaluations of the posterior and, thus, of the data model in
+\sref{inference-data-model} as possible. This choice is especially difficult for
+high-dimensional problems, and our problem---which involves around 30 parameters
+as we shall see in \sref{inference-results}---is one them. Therefore, a careful
+construction of the proposal is an essential component of our framework.
+
+A common technique to construct a high-quality proposal is to optimize the
+posterior given in \eref{inference-posterior}. More specifically, we seek such a
+value $\t^*$ of \t that maximizes \eref{inference-posterior} and, hence, has the
+maximal posterior probability. In addition, we calculate the negative of the
+Hessian matrix at $\t^*$, which is called the observed information matrix and
+denoted by $\m{J}$; see the output of Stage~2 in \fref{inference-overview}.
+Using $\t^*$ and $\m{J}$, we can construct a proposal that would allow the
+Metropolis--Hastings algorithm \one~to start producing samples directly from the
+desired regions of high probability and \two~to explore those regions more
+rapidly. In the next subsection, the exact usage of $\t^*$ and $\m{J}$ is
+explained.
+
+\subsection{Sampling Procedure}
+
+Let us turn to Stage~3 in \fref{inference-overview}. We have at our disposal
+$\t^*$ and $\m{J}$ from Stage~2 in order to construct an adequate proposal and
+utilize it for sampling. A commonly used proposal is a multivariate Gaussian
+distribution where the mean is the current location of the chain of samples
+started at $\t^*$, and the covariance matrix is the inverse of $\m{J}$
+\cite{gelman2004}. In order to speed up the sampling process, we would like to
+make use of parallelization. The aforementioned proposal, however, is purely
+sequential as the mean for the next sample draw is dependent on the previous
+sample. Therefore, we appeal to a variation of the Metropolis--Hastings
+algorithm known as the independence sampler \cite{gelman2004}. In this case, a
+typical choice of the proposal is a multivariate t-distribution independent of
+the current position of the chain as follows:
+\begin{equation} \elab{inference-proposal}
+  \t \sim t_\nu(\t^*, \alpha^2 \m{J}^{-1})
+\end{equation}
+where $\t^*$ and $\m{J}$ are as in \sref{inference-optimization}, $\nu$ is the
+number of degrees of freedom, and $\alpha$ is a tuning constant controlling the
+standard deviation of the proposal. Now sampling the proposal in
+\eref{inference-proposal} and evaluating the posterior in
+\eref{inference-posterior} can be done in parallel. The obtained samples can
+then be accepted or rejected subsequently as in the usual Metropolis--Hastings
+algorithm.
+
+Having completed the sampling procedure, we obtain a collection of samples of
+\t. The first portion of the drawn samples is typically discarded as being
+unrepresentative; this portion is known as the burn-in period. The preserved
+samples of $\t = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
+\eref{inference-reduction} in order to compute samples of \g, which we denote by
+$G = \{ \vg_i \}$ where $\vg_i \in \real^{\nd \np}$.
+
+\subsection{Post-Processing}
+\slab{inference-post-processing}
+
+At Stage~4 in \fref{inference-overview}, using the set of samples $G$, the user
+computes the desired statistics about the quantity of interest such as the most
+probable value of the effective channel length at some location of interest and
+the probability of a certain area on the wafer to be defective. These
+computations reduce to the estimation of expected values with respect to the
+posterior distribution of \t in \eref{inference-posterior}. Specifically, in
+order to compute an arbitrary quantity dependent on \g, one evaluates it for
+each $\vg_i$ in $G$ and then takes the average value.
+
+The strength of the Bayesian approach to inference starts to shine when one is
+also interested in assessing the trustworthiness of the measured data and,
+therefore, the reliability of estimates and decisions based on these data. Such
+an assessment can readily be undertaken using our framework since the delivered
+posterior contains all the needed information about the quantity of interest.
+This is especially helpful in decision-making as noted in
+\sref{inference-example}.

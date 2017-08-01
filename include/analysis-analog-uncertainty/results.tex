@@ -1,0 +1,186 @@
+In this section, we assess our framework. All the experiments are conducted on a
+\up{GNU}/Linux machine with Intel Core i7 2.66~\up{GH}z and 8~\up{GB} of
+\up{RAM}. All the configuration files used in the experiments are available
+online at \cite{eslab2013}.
+
+Our goal here is to infer the effective channel length \g from temperature \h.
+Such a high-level parameter as temperature constitutes a challenging task for
+the inference of such a low-level parameter as the effective channel length,
+which implies a strong assessment of the proposed technique. The performance of
+our approach is expected to only increase when the auxiliary parameter \h
+resides closer to the target parameter \g with respect to the data model $\h =
+f(\g)$. For instance, such a closer quantity \h can be the leakage current,
+which, however, might not always be the most preferable parameter to measure.
+Lastly, let us note that the chosen effective channel length is an important
+target as it is strongly affected by process variation and considerably impacts
+the power consumption and heat dissipation \cite{chandrakasan2000,
+srivastava2010, juan2012}. It also influences other process-related parameters
+such as the threshold voltage.
+
+We describe now the default configuration of our setup, which will be later
+adjusted according to the purpose of each particular experiment. We consider a
+45-nanometer technological process. The diameter of the wafer is 20 dies, and
+the total number of dies \nd is 316. The number of measured dies \ndm is 20, and
+these dies are chosen by an algorithm that strives for an even coverage of the
+wafer. The fabricated platform has four processors, and they are the points of
+taking measurements, that is, $\np = 4$. The floorplan of the platform is
+constructed in such a way that the processors form a regular grid. The dynamic
+power profiles involved in the experiments are based on simulations of
+applications generated randomly by \up{TGFF} \cite{dick1998}. The model of the
+static power parameterized by temperature and the effective channel length is
+constructed by fitting to \up{SPICE} simulations of reference electrical
+circuits composed of \up{BSIM4} devices \cite{bsim} configured according to the
+45-nm \up{PTM} \up{HP} model \cite{ptm}. The temperature calculations are
+undertaken using the approach described in \sref{transient-state-solution}; the
+construction of thermal \up{RC} circuits is delegated to HotSpot
+\cite{skadron2003}. The sampling interval of power and temperature profiles is
+1~ms.
+
+The input data set $H$ is obtained as follows: \one~draw a sample of \g from a
+Gaussian distribution with a mean of 17.5~nm, in accordance with the considered
+technological process \cite{ptm}, and a covariance function equal to
+\eref{inference-covariance} with a standard deviation of 2.25~nm; \two~perform
+one fine-grained temperature simulation per each of the \ndm dies selected for
+measurement; \three~shrink the obtained temperature profiles to keep only
+\ns---which is equal to 20 by default---evenly spaced moments of time; and
+\four~perturb the resulting data set using a white Gaussian noise with a
+standard deviation of \celsius{1}.
+
+Let us turn to the statistical model in \sref{inference-statistical-model} and
+summarize the intuition behind and our assignment of each parameter. In the
+covariance function in \eref{inference-covariance}, the weighting parameter $w$
+and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$ should
+be set according to the correlation patterns typical for the manufacturing
+process at hand \cite{chandrakasan2000, cheng2011}; we set $w$ to 0.7 and
+$\ell_\text{SE}$ and $\ell_\text{OU}$ to half the radius of the wafer. The
+threshold parameter $\eta$ of the model-order reduction procedure described in
+\sref{linear-algebra} and utilized in \eref{inference-reduction} should be set
+high enough to preserve a sufficiently large portion of the variance of the data
+and, thus, to keep the modeling sufficiently accurate; we set it to 0.99. The
+resulting dimensionality \nz of \vz in \eref{inference-reduction} is found to be
+27--28. The parameters $\mu_0$ and $\tau_\g$ of the prior in
+\eref{inference-prior} are specific to the considered technological process; we
+set $\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The parameters $\sigma_0$ and
+$\nu_\g$ in \eref{inference-prior} determine the precision of the information
+about $\mu_0$ and $\tau_\g$ and are set according to the beliefs of the user; we
+set $\sigma_0$ to 0.45~nm and $\nu_\g$ to 10. The latter can be thought of as
+the number of imaginary observations that the choice of $\tau_\g$ is based on.
+The parameter $\tau_\epsilon$ in \eref{inference-prior} represents the precision
+of the equipment utilized for collecting $H$ and can be found in the technical
+specification of that equipment; we set $\tau_\epsilon$ to \celsius{1}. The
+parameter $\nu_\epsilon$ in \eref{inference-prior} has the same interpretation
+as $\nu_\g$; we set it to 10 as well. In \eref{inference-proposal}, $\nu$ and
+$\alpha$ are tuning parameters, which can be configured based on experiments; we
+set $\nu$ to 8 and $\alpha$ to 0.5. The number of sample draws is another tuning
+parameter, which we set to $10^4$; the first half of these samples is ascribed
+to the burn-in period leaving $5 \times 10^3$ effective samples. For the
+optimization in \sref{inference-optimization}, we use the quasi-Newton algorithm
+\cite{press2007}. For parallel computations, we utilize four processors.
+
+In order to ensure that the experimental setup is adequate, we first perform a
+detailed inspection of the results obtained for one particular example with the
+default configuration. The true and inferred distributions of the quantity of
+interest are shown in \fref{inference-example} where the \acf{NRMSE} is below
+2.8\%, and the absolute error is bounded by 1.4~nm, which suggests that the
+proposed framework produces a close match to the true value of the quantity. We
+also investigate the behavior of the constructed Markov chains and the quality
+of the proposal distribution. All the observations suggest that the optimization
+and sampling procedures are properly configured.
+
+In the following, we consider the above default configuration and alter only one
+parameter at a time, namely, the number of measurement sites \ndm, the number of
+measurement points per site \np, the number of data instances per point \ns, and
+the standard deviation of the measurement noise $\sigma_\epsilon$.
+
+\hiddensubsection{Number of Measurement Sites}
+
+\inputtable{inference-sites}
+Let us vary the number of measured dies \ndm. The considered scenarios are 1,
+10, 20, 40, 80, and 160 dies. The obtained results can be seen in
+\tref{inference-sites}. In this and the following tables, we report the
+optimization time and sampling time separately, which correspond to Stage~2 and
+Stage~3 in \fref{inference-overview}, respectively. In addition, the sampling
+time is given for two cases: sequential and parallel computing, which is
+followed by the total time and resulting error. The computation time of the
+post-processing stage, Stage~4 in \fref{inference-overview}, is not given as it
+is negligibly small. The sequential sampling time is the most representative
+indicator of the computational complexity of the proposed framework since the
+number of samples is always fixed, and there is no parallelization. Therefore,
+we shall refer to this value in most of the discussions below.
+
+In can be seen in \tref{inference-sites} that the more data the proposed
+framework needs to process, the longer the execution time becomes, which is
+reasonable. The trend, however, is modest: when \ndm is doubled, the computation
+time increase by less than a factor of two. Regarding accuracy, the error firmly
+decreases and drops below 4\% when around 20 sites are measured, which is only
+6--7\% of the total number of dies on the wafer under consideration.
+
+\hiddensubsection{Number of Measurement Points}
+
+\inputtable{inference-points}
+In this subsection, we consider five platforms with different numbers of
+processors or, equivalently, measurement points \np. The considered scenarios
+are 2, 4, 8, 16, and 32 processors. The results are summarized in
+\tref{inference-points}. The computation time grows along with \np. This
+behavior is expected since the granularity of the temperature model under the
+hood is bound to the number of processors. Specifically, each processor
+contributes four thermal nodes to the thermal \up{RC} circuit that temperature
+analysis is based on; recall \sref{temperature-model}. Therefore, temperature
+analysis becomes more intensive. Nevertheless, even for large examples, taking
+into account the complexity of the inference procedure and the yielded accuracy,
+the timing is readily acceptable. An interesting observation can be made with
+respect to the \ac{NRMSE}: the error tends to decrease as \np grows. The
+explanation is that, with each measurement point, $H$ delivers more information
+to the inference to work with.
+
+\hiddensubsection{Number of Data Instances}
+
+\inputtable{inference-instances}
+Now we change the number of data instances \ns, which, in this case, is the
+number of time moments captured by temperature profiles. The considered
+scenarios are 1, 10, 20, 40, 80, and 160 time moments. The results are
+aggregated in \tref{inference-instances}. It can be seen that the growth of the
+computation time is relatively small. One might expect this growth due to \ns to
+be the same as the one due to \np since, technically, the influence of \np and
+\ns on the dimensionality of $H$ is identical; recall that $\hvh \in \real^{\ndm
+\np \ns}$. However, the meanings of \np and \ns are completely different, and,
+therefore, the ways they manifest themselves in the inference algorithm are also
+different, which explains the discordant timing shown in \tref{inference-points}
+and \tref{inference-instances}. The \ac{NRMSE} in \tref{inference-instances} has
+a decreasing trend; however, this trend is less steady than the ones noted
+before. The finding can be explained as follows. The distribution of the time
+moments in $H$ changes since these moments are kept evenly spaced across the
+time spans of the corresponding applications. Some time moments can be more
+informative than other time moments. Consequently, more or less representative
+samples can be accumulated in $H$, helping or misleading the inference. We can
+also conclude that a larger number of spatial measurements is more advantageous
+than a larger number of temporal measurements.
+
+\hiddensubsection{Deviation of the Measurement Noise}
+
+\inputtable{inference-noise}
+In this subsection, we vary the standard deviation of the measurement noise,
+which corrupts $H$. The considered cases are 0, 0.5, 1, and \celsius{2}
+\cite{mesa-martinez2007}. Note that the corresponding prior distribution in
+\eref{inference-prior} is kept unchanged. The results are given in
+\tref{inference-noise}. It can be observed that the sampling time is
+approximately constant. However, we observe an increase in the optimization time
+when the noise level decreases, which can be ascribed to greater opportunities
+of perfection for the optimization procedure. A more important observation
+revealed by this experiment is that, in spite of the fact that the inference
+operates on indirect and incomplete data, a thoroughly calibrated piece of
+equipment can considerably improve the quality of prediction. However, even with
+a noise of \celsius{2}---meaning that measurements are dispersed over a wide
+band of \celsius{8} with a probability of more than 0.95---the \ac{NRMSE} is
+still only 4\%.
+
+\hiddensubsection{Sequential and Parallel Sampling}
+
+Lastly, we elaborate on the sequential and parallel sampling strategies. In the
+sequential Metropolis--Hastings algorithm, the optimization time is typically
+smaller than the time needed for drawing posterior samples. The situation
+changes when parallel computing is utilized. When four cores are working in
+parallel, the sampling time decreases by a factor of 3.81 on average, which
+indicates good parallelization properties of the chosen sampling strategy. The
+overall speedup ranges from 1.49 to 2.75 with the average value of 1.77, which
+can be pushed even further employing more computational cores.

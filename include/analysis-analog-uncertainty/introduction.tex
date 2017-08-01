@@ -1,0 +1,55 @@
+Process variation is an acute concern of electronic-system designs
+\cite{chandrakasan2000, srivastava2010}. A crucial implication of process
+variation is that it renders the key parameters of a technological
+process---such as the effective channel length and gate oxide thickness---as
+uncertain quantities. Therefore, the same workload applied to two seemingly
+identical dies can lead to two different power profiles and, consequently, to
+two different temperature profiles since the power consumption and heat
+dissipation depend on the aforementioned quantities, which is primarily due to
+the static component of power discussed in \sref{interdependence}. As it is the
+case with any other type of uncertainty in computer systems, the uncertainty due
+to process variation leads to performance degradation and faults of various
+magnitudes, and, therefore, process variation should be adequately analyzed as
+the foremost step toward efficient and robust products.
+
+An important problem in this regard is the characterization of the on-wafer
+distribution of a quantity of interest that is deteriorated by process
+variation, based on measurements. The problem belongs to the class of inverse
+problems since the measured data can be seen as an output of the system at hand,
+and the desired quantity as an input. Such an inverse problem is addressed here.
+
+Our goal is to characterize arbitrary process parameters with high accuracy and
+at low costs. The goal is accomplished by measuring auxiliary quantities that
+are more convenient and less expensive to work with and employing statistics in
+order to infer the desired parameters from the measurements. More specifically,
+we propose a novel approach to the quantification of process variation based on
+indirect, incomplete, and noisy measurements. Moreover, we develop and implement
+a solid framework around the proposed idea and perform a thorough study of
+various aspects of our technique.
+
+There are a number of related studies that we would like to highlight. Bayesian
+inference is utilized in \cite{zhang2010} for identifying the optimal set of
+locations on the wafer where the parameter under consideration should be
+measured in order to characterize it with the maximal accuracy. The
+expectation-maximization algorithm is considered in \cite{reda2009} in order to
+estimate missing test measurements. In \cite{paek2012}, the authors consider an
+inverse problem focused on the inference of the power dissipation based on
+transient temperature maps using Markov random fields. Another temperature-based
+characterization of power is developed in \cite{mesa-martinez2007} where a
+genetic algorithm is employed for the reconstruction of the power model. It
+should be noted that the procedures in \cite{zhang2010, reda2009} operate on
+direct measurements, meaning that the output is the same quantity as the one
+being measured. In particular, these procedures rely heavily on the availability
+of adequate test structures on the dies and are practical only for secondary
+quantities affected by process variation such as delays and currents, but not
+for the primary ones such as various geometrical properties. Hence, they often
+lead to excessive costs and have a limited range of applications. The approaches
+in \cite{paek2012, mesa-martinez2007}, on the other hand, concentrating on the
+power dissipation of a single die, are not concerned with process variation.
+
+The remainder of the chapter is structured as follows. A motivational example is
+given in \sref{inference-example}. In \sref{inference-problem}, we formulate the
+problem and the requirements to a potential solution. The solution that we
+propose is presented in \sref{inference-solution}, and the corresponding
+experimental results are reported and discussed in \sref{inference-results}.
+\sref{inference-conclusion} concludes this chapter.
