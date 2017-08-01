@@ -105,12 +105,12 @@ samples from this posterior.
 The posterior distribution does not typically belong to any of the common
 families of probability distributions, which is primarily due to the data model
 involved in the likelihood function, and, therefore, the sampling procedure is
-not straightforward. To tackle the difficulty, one usually relies on such
-techniques as \ac{MCMC} sampling \cite{gelman2004}. In this case, an ergodic
+not straightforward. In order to tackle the difficulty, one usually relies on
+Markov chain Monte Carlo sampling \cite{gelman2004}. In this case, an ergodic
 Markov chain with the stationary distribution equal to the target posterior
 distribution is constructed and then utilized for exploring the probability
-space. A popular \ac{MCMC} technique is the Metropolis--Hastings algorithm where
-the chain is constructed via sampling from a computationally convenient
+space. A popular technique in this regard is the Metropolis--Hastings algorithm
+where the chain is constructed via sampling from a computationally convenient
 distribution known as the proposal distribution. Each sample drawn from the
 proposal is passed through the posterior in order to calculates its posterior
 probability, which is then used to decide whether the sample should be accepted
