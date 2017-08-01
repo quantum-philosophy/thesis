@@ -687,30 +687,24 @@ can be pushed even further employing more computational cores.
 \section{Conclusion}
 \slab{inference-conclusion}
 
-We proposed a framework for the analysis of process variation across
-semiconductor wafers based on cost-efficient, indirect measurements. The
-technique was exposed to an extensive study of various aspects concerning its
-implementation. The obtained results support the computational efficiency and
-accuracy of our approach.
-
-We would like to note that, although the framework was demonstrated on the
-effective channel length and temperature, it can be readily utilized to analyze
-any other \acp{QOI} based on any other \acp{QOM}.
+In this chapter, we have presented a framework for the analysis of process
+variation across semiconductor wafers based on indirect measurements. The
+technique has been exposed to an extensive study, and the obtained results have
+shown the computational efficiency and accuracy of our approach.
 
 The framework is capable of quantifying the primary parameters affected by
 process variation such as the effective channel length, which is in contrast
-with the former techniques wherein only secondary parameters were considered
-such as the leakage current. Instead of taking direct measurements of the
-quantity of interest, we employ Bayesian inference to draw conclusions based on
+with the former techniques where only secondary parameters are considered such
+as the leakage current. Instead of taking direct measurements of the quantity of
+interest, we employ Bayesian inference in order to draw conclusions based on
 indirect observations such as on temperature. The proposed approach has low
 costs since no deployment of expensive test structures might be needed or only a
-small subset of the test equipments already deployed for other purposes might
+small subset of the test equipment already deployed for other purposes might
 need to be activated. The experimental results present an assessment of our
 framework for a wide range of configurations.
 
-Finally, we would like to emphasize that temperature is just one option. In
-certain situations, it might be preferable to perform the above inference based
-on measurements of some other auxiliary quantity \h provided that it depends on
-the one that we wish to characterize, that is, on \g. For example, \h can be the
-leakage current, which can be readily measured if adequate test structures have
-already been deployed on the wafer for other purposes.
+Finally, we would like to emphasize that, although the proposed framework has
+been demonstrated by considering the effective channel length and temperature,
+it can be readily utilized for analyzing any other quantity of interest based on
+any other quantity of measurement, provided that the latter depends on the
+former, and that there is a model of this dependence.
