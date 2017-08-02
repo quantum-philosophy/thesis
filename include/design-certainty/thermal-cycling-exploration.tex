@@ -185,13 +185,13 @@ such that
 \begin{align} \elab{thermal-cycling-constraints}
   \begin{split}
     & \max_{i = 1}^\nt t_{\ns_i} \leq \period \text{ and} \\
-    & \norm{\mq} \leq \q_\maximum
+    & \norm[\infty]{\mq} \leq \q_\maximum
   \end{split}
 \end{align}
-where $t_{\ns_i}$ is the completion time of task $i$, and $\norm{\cdot}$ denotes
-the uniform norm. The first constraint enforces a deadline on the schedule, and
-the second constraint enforces a maximum temperature $\q_\maximum$ on the
-resulting \mq.
+where $t_{\ns_i}$ is the completion time of task $i$, and $\norm[\infty]{\cdot}$
+denotes the uniform norm. The first constraint enforces a deadline on the
+schedule, and the second constraint enforces a maximum temperature $\q_\maximum$
+on the resulting \mq.
 
 \subsection{Our Solution}
 \slab{thermal-cycling-solution}
