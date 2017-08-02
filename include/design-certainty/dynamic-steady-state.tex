@@ -38,7 +38,7 @@ until it is assumed that a sufficiently accurate approximation of the dynamic
 steady state has been attained \cite{srinivasan2004}. The typical simulator of
 choice is HotSpot \cite{skadron2003}, which is the state-of-the-art for
 system-level temperature analysis \cite{srinivasan2004, liao2005, coskun2006,
-liu2007, huang2009, xiang2010, thiele2011}. The simulator performs transient
+liu2007, huang2009b, xiang2010, thiele2011}. The simulator performs transient
 temperature analysis by solving \eref{temperature-model-original} numerically
 via the Runge--Kutta fourth-order method \cite{press2007}.
 
@@ -64,7 +64,7 @@ metric for measuring the proximity to the actual solution, the actual
 \ac{DSSTP}.
 
 Another crude but fast approximation of the \ac{DSSTP} is proposed in
-\cite{huang2009}. It forgoes transient analysis all together and resides to
+\cite{huang2009b}. It forgoes transient analysis all together and resides to
 static steady-state analysis instead. To elaborate, it is assumed that, in each
 time interval wherein the power consumption is constant, the system
 instantaneously reaches a static steady state. The result of this procedure is a
