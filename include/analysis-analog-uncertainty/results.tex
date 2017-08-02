@@ -20,7 +20,7 @@ such as the threshold voltage.
 We describe now the default configuration of our setup, which will be later
 adjusted according to the purpose of each particular experiment. We consider a
 45-nanometer technological process. The diameter of the wafer is 20 dies, and
-the total number of dies \nd is 316. The number of measured dies \ndm is 20, and
+the total number of dies \nd is 316. The number of measured dies \hnd is 20, and
 these dies are chosen by an algorithm that strives for an even coverage of the
 wafer. The fabricated platform has four processors, and they are the points of
 taking measurements, that is, $\np = 4$. The floorplan of the platform is
@@ -40,7 +40,7 @@ The input data set $H$ is obtained as follows: \one~draw a sample of \g from a
 Gaussian distribution with a mean of 17.5~nm, in accordance with the considered
 technological process \cite{ptm}, and a covariance function equal to
 \eref{inference-covariance} with a standard deviation of 2.25~nm; \two~perform
-one fine-grained temperature simulation per each of the \ndm dies selected for
+one fine-grained temperature simulation per each of the \hnd dies selected for
 measurement; \three~shrink the obtained temperature profiles to keep only
 \ns---which is equal to 20 by default---evenly spaced moments of time; and
 \four~perturb the resulting data set using a white Gaussian noise with a
@@ -53,7 +53,7 @@ and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$ should
 be set according to the correlation patterns typical for the manufacturing
 process at hand \cite{chandrakasan2000, cheng2011}; we set $w$ to 0.7 and
 $\ell_\text{SE}$ and $\ell_\text{OU}$ to half the radius of the wafer. The
-threshold parameter $\eta$ of the model-order reduction procedure described in
+threshold parameter $\eta$ of the model-order-reduction procedure described in
 \sref{linear-algebra} and utilized in \eref{inference-reduction} should be set
 high enough to preserve a sufficiently large portion of the variance of the data
 and, thus, to keep the modeling sufficiently accurate; we set it to 0.99. The
@@ -88,14 +88,14 @@ of the proposal distribution. All the observations suggest that the optimization
 and sampling procedures are properly configured.
 
 In the following, we consider the above default configuration and alter only one
-parameter at a time, namely, the number of measurement sites \ndm, the number of
+parameter at a time, namely, the number of measurement sites \hnd, the number of
 measurement points per site \np, the number of data instances per point \ns, and
 the standard deviation of the measurement noise $\sigma_\epsilon$.
 
 \hiddensubsection{Number of Measurement Sites}
 
 \inputtable{inference-sites}
-Let us vary the number of measured dies \ndm. The considered scenarios are 1,
+Let us vary the number of measured dies \hnd. The considered scenarios are 1,
 10, 20, 40, 80, and 160 dies. The obtained results can be seen in
 \tref{inference-sites}. In this and the following tables, we report the
 optimization time and sampling time separately, which correspond to Stage~2 and
@@ -110,7 +110,7 @@ we shall refer to this value in most of the discussions below.
 
 In can be seen in \tref{inference-sites} that the more data the proposed
 framework needs to process, the longer the execution time becomes, which is
-reasonable. The trend, however, is modest: when \ndm is doubled, the computation
+reasonable. The trend, however, is modest: when \hnd is doubled, the computation
 time increase by less than a factor of two. Regarding accuracy, the error firmly
 decreases and drops below 4\% when around 20 sites are measured, which is only
 6--7\% of the total number of dies on the wafer under consideration.
@@ -142,7 +142,7 @@ scenarios are 1, 10, 20, 40, 80, and 160 time moments. The results are
 aggregated in \tref{inference-instances}. It can be seen that the growth of the
 computation time is relatively small. One might expect this growth due to \ns to
 be the same as the one due to \np since, technically, the influence of \np and
-\ns on the dimensionality of $H$ is identical; recall that $\hvh \in \real^{\ndm
+\ns on the dimensionality of $H$ is identical; recall that $\hvh \in \real^{\hnd
 \np \ns}$. However, the meanings of \np and \ns are completely different, and,
 therefore, the ways they manifest themselves in the inference algorithm are also
 different, which explains the discordant timing shown in \tref{inference-points}

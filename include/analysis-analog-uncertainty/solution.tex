@@ -12,13 +12,13 @@ however, it does not have to be explicitly given: our framework treats $f$ as a
 As the first step, the user of the proposed framework is supposed to harvest a
 set of observations of \h at several locations on the wafer; recall
 \sref{inference-example}. Without loss of generality, we adhere to the following
-convention. Each die is one potential measurement site, and $\ndm < \nd$ denotes
+convention. Each die is one potential measurement site, and $\hnd < \nd$ denotes
 the number of those sites that are actually measured. Each site comprises \np
 measurement points, and there are \ns data instances taken at each point. For
 instance, in the example given in \sref{inference-example}, an observation at a
 site is a temperature profile $\mq \in \real^{\np \times \ns}$, which is an
 matrix capturing temperature of \np processors at \ns time moments as defined in
-\eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i = 1}^{\ndm}$ the
+\eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i = 1}^{\hnd}$ the
 collected data set where $\hh_i \in \real^{\np \times \ns}$ stands for an
 observation at a certain site. Lastly, it is assumed that the corresponding
 locations are recorded along with $H$.
@@ -57,8 +57,8 @@ The function $f$ depends on the choice of \h and is specified by the user. The
 model is utilized in order to predict the values of \h at the same measurement
 sites, at the same measurement points, and with the same number and meaning of
 data instances as the ones in $H$ from Stage~1. The resulting data are stacked
-into a single vector denoted by $\vh \in \real^{\ndm \np \ns}$. Let also $\hvh
-\in \real^{\ndm \np \ns}$ be a stacked version of the data in $H$ such that the
+into a single vector denoted by $\vh \in \real^{\hnd \np \ns}$. Let also $\hvh
+\in \real^{\hnd \np \ns}$ be a stacked version of the data in $H$ such that the
 respective elements of \vh and \hvh correspond to the same locations on the
 wafer.
 
@@ -143,8 +143,8 @@ Step~2 is to make the above model of \g computationally tractable. The model is
 an infinite-dimensional object as it characterizes a continuum of locations. For
 practical computations, it should be reduced to a finite-dimensional one. First,
 \g is discretized with respect to the union of two sets of locations. The first
-one is composed of the $\ndm \np$ points where the observations in $H$ are made
-($\ndm$ measurement sites with $\np$ measurement points each), and the other one
+one is composed of the $\hnd \np$ points where the observations in $H$ are made
+($\hnd$ measurement sites with $\np$ measurement points each), and the other one
 of the locations where the user wishes to characterize \g. For simplicity, we
 assume that the user is interested in all the sites, which is $\nd \np$
 locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
@@ -172,7 +172,7 @@ also take into consideration the measurement noise. To this end, the observed
 \[
   \hvh = \vh + \v{\epsilon}
 \]
-where $\v{\epsilon}$ is an $\ndm \np \ns$-dimensional vector of noise, which is
+where $\v{\epsilon}$ is an $\hnd \np \ns$-dimensional vector of noise, which is
 typically assumed to be a white Gaussian noise \cite{rasmussen2006,
 marzouk2009}. Without loss of generality, the noise is assumed to be independent
 of \g and to have the same magnitude for all measurements. Hence, the model of
