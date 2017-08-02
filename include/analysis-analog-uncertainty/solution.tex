@@ -104,11 +104,11 @@ computationally efficient; and \three~Gaussian distributions are often natural
 and accurate models for uncertainties due to process variation
 \cite{srivastava2010, reda2009, juan2012}. We denote this as
 \begin{equation} \elab{inference-prior}
-  \g | \t_\g \sim \text{Gaussian Process}(\mu, k)
+  \g | \u_\g \sim \text{Gaussian Process}(\mu, k)
 \end{equation}
 where $\mu(\cdot)$ and $k(\cdot, \cdot)$ are the mean and covariance functions
 of \g, respectively, which take locations on the wafer as arguments. The
-notation also indicates that \g depends on a set of parameters $\t_\g$, which we
+notation also indicates that \g depends on a set of parameters $\u_\g$, which we
 shall identify later on. Prior to taking any measurements, \g is assumed to be
 spatially unbiased; therefore, we let $\mu$ be a single location-independent
 parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
@@ -159,8 +159,8 @@ where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
 \real^\nz$ independent random variables that obey the standard Gaussian
 distribution. The number \nz is the final dimensionality of the model of \g.
 Typically, $\nz \ll \nd \np$. The model is now ready for practical computations.
-In addition, the parameters $\t_\g$ in \eref{inference-prior} are now known, and
-they are $\t_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
+In addition, the parameters $\u_\g$ in \eref{inference-prior} are now known, and
+they are $\u_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
 \fref{inference-statistical-model}.
 
 Step~3 is to define a likelihood function, which is where the observed
@@ -181,19 +181,19 @@ the noise is
   \v{\epsilon} | \sigma^2_\epsilon \sim \text{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
 \]
 where $\sigma^2_\epsilon$ is the variance of the noise. At this point, all the
-parameters of the inference are identified, and they are $\t = \t_\g \cup \{
+parameters of the inference are identified, and they are $\u = \u_\g \cup \{
 \sigma_\epsilon^2 \} = \{ \vz, \mu_\g, \sigma_\g^2, \sigma_\epsilon^2 \}$; see
 \fref{inference-statistical-model}. Taking the above into account, we obtain
 \begin{equation} \elab{inference-likelihood}
-  \hvh | \t \sim \text{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
+  \hvh | \u \sim \text{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
 \end{equation}
-The density function of this distribution is the likelihood $p(H | \t)$ of our
+The density function of this distribution is the likelihood $p(H | \u)$ of our
 statistical model, which is the first element of the posterior in
 \eref{bayes-theorem}.
 
 Step~4 is to decide on the second element of the posterior in
-\eref{bayes-theorem}, that is, on the prior $p(\t)$. We put the following priors
-on \t:
+\eref{bayes-theorem}, that is, on the prior $p(\u)$. We put the following priors
+on \u:
 \begin{align} \elab{inference-prior}
   \begin{split}
     \vz               & \sim \text{Gaussian}(\v{0}, \m{I}), \\
@@ -212,15 +212,15 @@ knowledge of the technological process and measurement equipment employed. The
 parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
 this prior information. When the prior knowledge is weak, less specific priors
 can be considered \cite{gelman2004}. Taking the product of the densities of the
-priors in \eref{inference-prior}, we obtain $p(\t)$ in \eref{bayes-theorem}.
+priors in \eref{inference-prior}, we obtain $p(\u)$ in \eref{bayes-theorem}.
 
 Step~5 is to compile the posterior in \eref{bayes-theorem}. To this end, the
-likelihood function $p(H | \t)$, which is the density of the distribution in
-\eref{inference-likelihood}, and the prior $p(\t)$, which is the product of the
+likelihood function $p(H | \u)$, which is the density of the distribution in
+\eref{inference-likelihood}, and the prior $p(\u)$, which is the product of the
 densities of the distributions in \eref{inference-prior}, are put together. The
 density of the resulting posterior distribution is as follows:
 \begin{equation} \elab{inference-posterior}
-  p(\t | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
+  p(\u | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
 \end{equation}
 Provided that there is a way to draw samples from \eref{inference-posterior},
 the quantity of interest can be readily analyzed as we shall see in
@@ -247,23 +247,23 @@ construction of the proposal is an essential component of our framework.
 
 A common technique to construct a high-quality proposal is to optimize the
 posterior given in \eref{inference-posterior}. More specifically, we seek such a
-value $\t^*$ of \t that maximizes \eref{inference-posterior} and, hence, has the
+value $\u^*$ of \u that maximizes \eref{inference-posterior} and, hence, has the
 maximal posterior probability. In addition, we calculate the negative of the
-Hessian matrix at $\t^*$, which is called the observed information matrix and
+Hessian matrix at $\u^*$, which is called the observed information matrix and
 denoted by $\m{J}$; see the output of Stage~2 in \fref{inference-overview}.
-Using $\t^*$ and $\m{J}$, we can construct a proposal that would allow the
+Using $\u^*$ and $\m{J}$, we can construct a proposal that would allow the
 Metropolis--Hastings algorithm \one~to start producing samples directly from the
 desired regions of high probability and \two~to explore those regions more
-rapidly. In the next subsection, the exact usage of $\t^*$ and $\m{J}$ is
+rapidly. In the next subsection, the exact usage of $\u^*$ and $\m{J}$ is
 explained.
 
 \subsection{Sampling Procedure}
 
 Let us turn to Stage~3 in \fref{inference-overview}. We have at our disposal
-$\t^*$ and $\m{J}$ from Stage~2 in order to construct an adequate proposal and
+$\u^*$ and $\m{J}$ from Stage~2 in order to construct an adequate proposal and
 utilize it for sampling. A commonly used proposal is a multivariate Gaussian
 distribution where the mean is the current location of the chain of samples
-started at $\t^*$, and the covariance matrix is the inverse of $\m{J}$
+started at $\u^*$, and the covariance matrix is the inverse of $\m{J}$
 \cite{gelman2004}. In order to speed up the sampling process, we would like to
 make use of parallelization. The aforementioned proposal, however, is purely
 sequential as the mean for the next sample draw is dependent on the previous
@@ -272,9 +272,9 @@ algorithm known as the independence sampler \cite{gelman2004}. In this case, a
 typical choice of the proposal is a multivariate t-distribution independent of
 the current position of the chain as follows:
 \begin{equation} \elab{inference-proposal}
-  \t \sim t_\nu(\t^*, \alpha^2 \m{J}^{-1})
+  \u \sim t_\nu(\u^*, \alpha^2 \m{J}^{-1})
 \end{equation}
-where $\t^*$ and $\m{J}$ are as in \sref{inference-optimization}, $\nu$ is the
+where $\u^*$ and $\m{J}$ are as in \sref{inference-optimization}, $\nu$ is the
 number of degrees of freedom, and $\alpha$ is a tuning constant controlling the
 standard deviation of the proposal. Now sampling the proposal in
 \eref{inference-proposal} and evaluating the posterior in
@@ -283,9 +283,9 @@ then be accepted or rejected subsequently as in the usual Metropolis--Hastings
 algorithm.
 
 Having completed the sampling procedure, we obtain a collection of samples of
-\t. The first portion of the drawn samples is typically discarded as being
+\u. The first portion of the drawn samples is typically discarded as being
 unrepresentative; this portion is known as the burn-in period. The preserved
-samples of $\t = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
+samples of $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
 \eref{inference-reduction} in order to compute samples of \g, which we denote by
 $G = \{ \vg_i \}$ where $\vg_i \in \real^{\nd \np}$.
 
@@ -297,7 +297,7 @@ computes the desired statistics about the quantity of interest such as the most
 probable value of the effective channel length at some location of interest and
 the probability of a certain area on the wafer to be defective. These
 computations reduce to the estimation of expected values with respect to the
-posterior distribution of \t in \eref{inference-posterior}. Specifically, in
+posterior distribution of \u in \eref{inference-posterior}. Specifically, in
 order to compute an arbitrary quantity dependent on \g, one evaluates it for
 each $\vg_i$ in $G$ and then takes the average value.
 
