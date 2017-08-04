@@ -1,77 +1,48 @@
-\section{Abstract}
-
-Electronic system design based on deterministic techniques for power-temperature
-analysis is, in the context of current and future technologies, both unreliable
-and inefficient since the presence of uncertainty, in particular, due to process
-variation, is disregarded. In this work, we propose a flexible probabilistic
-framework targeted at the quantification of the transient power and temperature
-variations of an electronic system. The framework is capable of modeling diverse
-probability laws of the underlying uncertain parameters and arbitrary
-dependencies of the system on such parameters. For the considered system, under
-a given workload, our technique delivers analytical representations of the
-corresponding stochastic power and temperature profiles. These representations
-allow for a computationally efficient estimation of the probability
-distributions and accompanying quantities of the power and temperature
-characteristics of the system. The approximation accuracy and computational time
-of our approach are assessed by a range of comparisons with Monte Carlo
-simulations, which confirm the efficiency of the proposed technique.
+In this chapter, we shift our attention from analyzing to designing with process
+variation. In this context, we develop a framework that allows the designer to
+propagate the uncertainty due to process variation through the system under
+development and investigate its impact on the system's behavior.
 
 \section{Introduction}
 
-Process variation constitutes one of the major concerns of electronic system
-designs \cite{chandrakasan2000, srivastava2010}. A crucial implication of
-process variation is that it renders the key parameters of a technological
-process, for instance, the effective channel length, gate oxide thickness, and
-threshold voltage, as random quantities. Therefore, the same workload applied to
-two ``identical'' dies can lead to two different power and, thus, temperature
-profiles since the dissipation of power and heat essentially depends on the
-aforementioned stochastic parameters. This concern is especially urgent due to
-the interdependence between the leakage power and temperature
-\cite{srivastava2010, liu2007}. Consequently, process variation leads to
-performance degradation in the best case and to severe faults or burnt silicon
-in the worst scenario. Under these circumstances, uncertainty quantification
-\cite{xiu2010} has evolved into an indispensable asset of electronic system
-design workflows in order to provide them with guaranties on the efficiency and
-robustness of products.
-
 \inputfigure{analog-example}
-To illustrate the above concern, consider a quad-core architecture exposed to
-the uncertainty of the parameters that affect the leakage current. Assume first
-that these parameters have all nominal values. We can then simulate the system
-under a certain workload and observe the corresponding temperature
-profile.\footnote{The experimental setup will be detailed in
-\sref{illustrative-example} and \sref{experimental-results}.} The result,
-labeled as ``Nominal,'' is depicted in \fref{motivation-temperature} where, for
-clarity, only one curve, corresponding to one processor, is presented. It can be
-seen that the temperature is always below \celsius{90}. Now let us assume a mild
-deviation of the parameters from the nominal values and run the simulation once
-again. The result is the ``Mild'' curve in \fref{motivation-temperature}; the
-maximal temperature is approaching \celsius{100}. Finally, we repeat the
-experiment considering a severe deviation of the parameters and observe the
-curve labeled as ``Severe'' in \fref{motivation-temperature}; the maximal
-temperature is almost \celsius{110}. Imagine that the designer, when tuning the
-solution constrained by a maximal temperature of \celsius{90}, was guided
+As it is emphasized in \sref{inference-introduction}, process variation is a
+major concern of the designer. In order to explore it further, consider a
+quad-core architecture exposed to the uncertainty due to parameters that affect
+the leakage current. Assume first that these parameters have nominal values. We
+can then simulate the system under a certain workload and observe the
+corresponding temperature profile; the experimental setup is to be detailed in
+\sref{analog-example} and \sref{analog-results}. The result is depicted in
+\fref{analog-example} by a blue line, which corresponds to the temperature of
+one of the processors. It can be seen that the temperature is always below
+\celsius{90}. Let us now assume a mild deviation of the parameters from the
+nominal values and simulate once again. The result is the orange line in
+\fref{analog-example}; the maximum temperature is approaching \celsius{100}.
+Finally, we repeat the experiment considering a severe deviation of the
+parameters and observe the yellow line in \fref{analog-example}; the maximum
+temperature is almost \celsius{110}. Suppose that the designer is tuning a
+solution constrained by a maximum temperature of \celsius{90} and is guided
 exclusively by the nominal parameters. In this case, even with mild deviations,
-the circuits might be burnt. Another path that the designer could take is to
-design the system for severe conditions. However, in this scenario, the system
-might easily end up being too conservative and over-designed. Consequently, such
-uncertainties have to be addressed in order to pursue efficiency and
-fail-safeness. Nevertheless, the majority of the literature related to
-power-temperature analysis of multiprocessor systems ignores this important
-aspect, for instance, \cite{rao2009, rai2011, thiele2011, ukhov2012}.
+the circuits might be burnt. Another path that the designer can take is to
+design the system for severe conditions. In this scenario, however, the system
+might easily become too conservative, overdesigned. Consequently, such
+uncertainty has to be addressed in order to pursue efficiency and robustness.
+Nevertheless, the majority of the literature related to power and temperature
+analysis of electronic systems ignores this important aspect; see, for instance,
+\cite{rao2009, rai2011, thiele2011}. This negligence is also present in the
+analysis and optimization described in \cref{design-certainty}, and the goal of
+this chapter is to eliminate it in the case of the uncertainty due to process
+variation.
 
-The remainder of the paper is organized as follows. A summary of the main
-notations is given in \tref{notation}. \sref{prior-work} provides an overview of
-the prior work. In \sref{present-work}, we summarize the contribution of the
-present paper. The objective of our study is formulated in
-\sref{problem-formulation}. The proposed framework is presented in
-\sref{proposed-framework}. A particular application of our approach is discussed
-in \sref{illustrative-example}, and the corresponding results are compared with
-MC simulations in \sref{experimental-results}. \sref{conclusion} concludes the
-paper. The work contains a set of supplementary materials with discussions on
-certain aspects of our framework.
+We proceed as follows. \sref{analog-prior} provides an overview of the prior
+work. The objective of our study is formulated in \sref{analog-problem}. The
+proposed framework is presented in \sref{analog-solution}. A particular
+application of our approach is discussed in \sref{analog-example}, and the
+corresponding results are compared with \ac{MC} simulations in
+\sref{analog-results}. \sref{analog-conclusion} concludes the paper.
 
 \section{Prior Work}
+\slab{analog-prior}
 
 Since the appearance of the first digital computers in 1940s, Monte Carlo (MC)
 sampling remains one of the most well-known and widely used methods for the
@@ -101,7 +72,7 @@ discussed below primarily focus on the variability of leakage.
 A solely power-targeted but temperature-aware solution is proposed in
 \cite{chandra2010} wherein the driving force of the analysis is MC sampling with
 partially precomputed data. A learning-based approach is presented in
-\cite{juan2011} to estimate the maximal temperature under the steady-state
+\cite{juan2011} to estimate the maximum temperature under the steady-state
 condition. Temperature-related issues originating from process variation are
 also considered in \cite{juan2012} where a statistical model of the steady-state
 temperature based on Gaussian distributions is derived. A statistical
@@ -154,7 +125,7 @@ simulations (potentially slow) \cite{chandra2010}, limited to power analysis
 ghanta2006}, ignoring the leakage-temperature interplay \cite{huang2009a,
 shen2009, bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, limited to the
 assumption of the constant steady-state temperature \cite{juan2011, juan2012,
-huang2009a, lee2013}, exclusive focus on the maximal temperature
+huang2009a, lee2013}, exclusive focus on the maximum temperature
 \cite{juan2011}, and a priori chosen distributions of power and temperature
 \cite{srivastava2010, juan2012, bhardwaj2006}. Consequently, there is a lack of
 flexible stochastic PTA techniques, which we aim to eliminate.
@@ -184,6 +155,7 @@ of variability and, apart from the effective channel length, can be applied to
 other process-related parameters, for instance, the gate oxide thickness.
 
 \section{Problem Formulation}
+\slab{analog-problem}
 
 Consider a heterogeneous electronic system that consists of \np processing
 elements and is equipped with a thermal package. The processing elements are the
@@ -219,6 +191,7 @@ corresponding stochastic power \mp and temperature \mq profiles with a desired
 level of accuracy and at low costs.
 
 \section{Proposed Framework}
+\slab{analog-solution}
 
 The main idea of our framework is to construct a surrogate model for the joint
 power and thermal models of the considered system using PC expansions. Having
@@ -424,7 +397,7 @@ basis with \nc polynomials in \nz variables, and $\hat{\vp}_{ki} \in \real^\np$
 are the coefficients of the expansion, which are deterministic. The latter can
 be computed using spectral projections as it is described in
 \sref{pc-coefficients}. \lc denotes the order of the expansion, which determines
-the maximal degree of the \nz-variate polynomials involved in the expansion;
+the maximum degree of the \nz-variate polynomials involved in the expansion;
 hence, \lc also determines the resulting accuracy. The total number of the PC
 coefficients \nc is given by the following expression, which corresponds to the
 total-order polynomial space \cite{eldred2008, beck2011}:
@@ -584,6 +557,7 @@ global and local sensitivity analyses of deterministic and non-deterministic
 quantities can be readily conducted on \eref{pc-k}.
 
 \section{Illustrative Example}
+\slab{analog-example}
 
 So far we have not made any assumptions regarding the cause of the variability
 of the power term in the thermal system given by \eref{fourier-system}. In this
@@ -749,6 +723,7 @@ obtained via MC simulations with $10^4$ samples; however, our method takes less
 than a second whilst MC sampling takes more than a day as we shall see next.
 
 \section{Experimental Results}
+\slab{analog-results}
 
 In this section, we report the results of the proposed framework for different
 configurations of the illustrative example in \sref{illustrative-example}. All
@@ -762,24 +737,24 @@ The effective channel length is assumed to have a nominal value of
 $17.5\,\text{nm}$ \cite{ptm} and a standard deviation of $2.25\,\text{nm}$ where
 the global and local variations are equally weighted. Correlation matrices are
 computed according to \eref{correlation-function} where the length-scale
-parameters $\ell_\mathrm{SE}$ and $\ell_\mathrm{OU}$ are set to half the size of
-the square die. In the model order reduction technique (see
-\sref{ie-uncertain-parameters}), the threshold parameter is set to 0.99
-preserving 99\% of the variance of the data. Dynamic power profiles involved in
-the experiments are based on simulations of randomly generated applications
-defined as directed acyclic task graphs.\footnote{In practice, dynamic power
-profiles are typically obtained via an adequate simulator of the architecture of
-interest.} The floorplans of the platforms are constructed in such a way that
-the processing elements form regular grids.\footnote{The task graphs of the
-applications, floorplans of the platforms, configuration of HotSpot, which was
-used to construct thermal RC circuits for our experiments, are available online
-at \cite{sources}.} The time step of power and temperature traces is set to
-$1\,\text{ms}$ (see \sref{problem-formulation}), which is also the time step of
-the recurrence in \eref{pc-recurrence}. As a comparison to our polynomial chaos
-(PC) expansions, we employ Monte Carlo (MC) sampling. The MC approach is set up
-to preserve the whole variance of the problem, that is, no model order
-reduction, and to solve \eref{fourier-system} directly using the Runge-Kutta
-formulae (the Dormand-Prince method) available in MATLAB \cite{matlab}.
+parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the square die.
+In the model order reduction technique (see \sref{ie-uncertain-parameters}), the
+threshold parameter is set to 0.99 preserving 99\% of the variance of the data.
+Dynamic power profiles involved in the experiments are based on simulations of
+randomly generated applications defined as directed acyclic task
+graphs.\footnote{In practice, dynamic power profiles are typically obtained via
+an adequate simulator of the architecture of interest.} The floorplans of the
+platforms are constructed in such a way that the processing elements form
+regular grids.\footnote{The task graphs of the applications, floorplans of the
+platforms, configuration of HotSpot, which was used to construct thermal RC
+circuits for our experiments, are available online at \cite{eslab2014}.} The
+time step of power and temperature traces is set to $1\,\text{ms}$ (see
+\sref{problem-formulation}), which is also the time step of the recurrence in
+\eref{pc-recurrence}. As a comparison to our polynomial chaos (PC) expansions,
+we employ Monte Carlo (MC) sampling. The MC approach is set up to preserve the
+whole variance of the problem, that is, no model order reduction, and to solve
+\eref{fourier-system} directly using the Runge-Kutta formulae (the
+Dormand-Prince method) available in MATLAB \cite{matlab}.
 
 Since the temperature part of PTA is the main contribution of this work, we
 shall focus on the assessment of temperature profiles. Note, however, that the
@@ -788,7 +763,7 @@ regarding power since power is an intermediate step towards temperature, and any
 accuracy problems with respect to power are expected to propagate to
 temperature. Also, since the temperature-driven studies \cite{juan2011,
 juan2012, huang2009a, lee2013} work under the steady-state assumption
-(\cite{juan2011} is also limited to the maximal temperature, and
+(\cite{juan2011} is also limited to the maximum temperature, and
 \cite{huang2009a} does not model the leakage-temperature interplay), a
 one-to-one comparison with our framework is not possible.
 
@@ -808,9 +783,9 @@ In order to make the comparison even more comprehensive, let us also inspect the
 effect of the correlation patterns between the local random variables $\{ L_i
 \}$ (recall \sref{illustrative-example}). Specifically, apart from \lc and \ns,
 we shall change the balance between the two correlation kernels shown in
-\eref{correlation-function}, that is, the squared-exponential $k_\mathrm{SE}$
-and Ornstein-Uhlenbeck $k_\mathrm{OU}$ kernels, which is controlled by the
-weight parameter $\eta \in [0, 1]$.
+\eref{correlation-function}, that is, the squared-exponential $k_\SE$ and
+Ornstein-Uhlenbeck $k_\OU$ kernels, which is controlled by the weight parameter
+$\eta \in [0, 1]$.
 
 The PC and MC methods are compared by means of three error metrics. The first
 two are the \acf{NRMSE} of the expectation and variance of the computed
@@ -828,14 +803,13 @@ approach, this sampling has a negligible overhead as we discussed in
 
 The considered values for \lc, \ns, and $\eta$ are the sets $\{ n \}_{n = 1}^7$,
 $\{ 10^n \}_{n = 2}^5$, and $\{ 0, 0.5, 1 \}$, respectively. The three cases of
-$\eta$ correspond to the total dominance of $k_\mathrm{OU}$ ($\eta = 0$),
-perfect balance between $k_\mathrm{SE}$ and $k_\mathrm{OU}$ ($\eta = 0.5$), and
-total dominance of $k_\mathrm{SE}$ ($\eta = 1$). A comparison for a quad-core
-architecture with a dynamic power profile of $\ns = 10^2$ steps is given in
-\tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, which
-correspond to $\eta = 0$, $\eta = 0.5$, and $\eta = 1$, respectively. Each table
-contains three subtables: one for $\epsilon_E$ (the left most), one for
-$\epsilon_\mathrm{Var}$
+$\eta$ correspond to the total dominance of $k_\OU$ ($\eta = 0$), perfect
+balance between $k_\SE$ and $k_\OU$ ($\eta = 0.5$), and total dominance of
+$k_\SE$ ($\eta = 1$). A comparison for a quad-core architecture with a dynamic
+power profile of $\ns = 10^2$ steps is given in \tref{accuracy-eta-0},
+\tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, which correspond to $\eta =
+0$, $\eta = 0.5$, and $\eta = 1$, respectively. Each table contains three
+subtables: one for $\epsilon_E$ (the left most), one for $\epsilon_\mathrm{Var}$
 (in the middle), and one for $\epsilon_f$ (the right most), which gives nine
 subtables in total. The columns of the tables that correspond to high values of
 \ns can be used to assess the accuracy of the constructed PC expansions;
@@ -845,8 +819,8 @@ that, in all the subtables, all the error metrics tend to decrease from the top
 left corners (low values of \lc and \ns) to the bottom right corners (high
 values of \lc and \ns), which suggests that the PC and MC methods converge.
 There are a few outliers, associated with low PC orders and/or the random nature
-of sampling, for instance, $\epsilon_\mathrm{Var}$ increases from 66.13 to 66.70 and
-$\epsilon_f$ from 1.59 to 1.62 when \ns increases from $10^4$ and $10^5$ in
+of sampling, for instance, $\epsilon_\mathrm{Var}$ increases from 66.13 to 66.70
+and $\epsilon_f$ from 1.59 to 1.62 when \ns increases from $10^4$ and $10^5$ in
 \tref{accuracy-eta-0-5}; however, the aforementioned main trend is still clear.
 
 For clarity of the discussions below, we shall primarily focus on one of the
@@ -901,7 +875,7 @@ are directly applicable to \tref{accuracy-eta-0} ($\eta = 0$) and
 \tref{accuracy-eta-1} ($\eta = 1$). The only difference is that the average
 error rates are lower when either of the two correlation kernels dominates. In
 particular, according to $\epsilon_\mathrm{Var}$, the case with $\eta = 1$,
-which corresponds to $k_\mathrm{SE}$, stands out to be the least error prone.
+which corresponds to $k_\SE$, stands out to be the least error prone.
 
 Guided by the observations in this subsection, we conclude that our framework
 delivers accurate results starting from $\lc = 4$. The MC estimates, on the
@@ -932,7 +906,7 @@ given in \tref{speed-processing-elements} where the considered values for \np
 are $\{ 2^n \}_{n = 1}^5$, and the number of time steps \ns is set to $10^3$. It
 can be seen that the correlation patters inherent to the fabrication process
 \cite{cheng2011} open a great possibility for model order reduction: \nz is
-observed to be at most 12 while the maximal number without reduction is 33 (one
+observed to be at most 12 while the maximum number without reduction is 33 (one
 global variable and 32 local ones corresponding to the case with 32 processing
 elements). This reduction also depends on the floorplans, which is illustrated
 by the decrease of \nz when \np increases from 16 to 32 for $\eta = 1$. To
@@ -940,14 +914,14 @@ elaborate, one floorplan is a four-by-four grid, a perfect square, while the
 other an eight-by-four grid, a rectangle. Since both are fitted into square
 dies, the former is spread across the whole die whereas the latter is
 concentrated along the middle line; the rest is ascribed to the particularities
-of $k_\mathrm{SE}$. On average, the $k_\mathrm{OU}$ kernel ($\eta = 0$) requires
-the fewest number of variables while the mixture of $k_\mathrm{SE}$ and
-$k_\mathrm{OU}$ ($\eta = 0.5$) requires the most.\footnote{The results in
-\sref{er-accuracy} correspond to the case with $\np = 4$; therefore, \nz is two,
-five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and
-\tref{accuracy-eta-1}, respectively.} It means that, in the latter case, more
-variables should be preserved in order to retain 99\% of the variance. Hence,
-the case with $\eta = 0.5$ is the most demanding in terms of complexity; see
+of $k_\SE$. On average, the $k_\OU$ kernel ($\eta = 0$) requires the fewest
+number of variables while the mixture of $k_\SE$ and $k_\OU$ ($\eta = 0.5$)
+requires the most.\footnote{The results in \sref{er-accuracy} correspond to the
+case with $\np = 4$; therefore, \nz is two, five, and five for
+\tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1},
+respectively.} It means that, in the latter case, more variables should be
+preserved in order to retain 99\% of the variance. Hence, the case with $\eta =
+0.5$ is the most demanding in terms of complexity; see
 \sref{computational-challenges}.
 
 It is important to note the following. First, since the curse of dimensionality
@@ -995,6 +969,7 @@ process used in this work to solve the thermal model and construct PC expansions
 in a stepwise manner; see \sref{pc-recurrence}.
 
 \section{Conclusion}
+\slab{analog-conclusion}
 
 We presented a framework for transient power-temperature analysis (PTA) of
 electronic systems under process variation. Our general technique was then
@@ -1007,6 +982,22 @@ speed. The reduced execution times, by up to five orders of magnitude, implied
 by the proposed framework allow for PTA to be efficiently performed inside
 design space exploration loops aimed at, for instance, energy and reliability
 optimization with temperature-related constraints under process variation.
+
+Electronic system design based on deterministic techniques for power-temperature
+analysis is, in the context of current and future technologies, both unreliable
+and inefficient since the presence of uncertainty, in particular, due to process
+variation, is disregarded. In this work, we propose a flexible probabilistic
+framework targeted at the quantification of the transient power and temperature
+variations of an electronic system. The framework is capable of modeling diverse
+probability laws of the underlying uncertain parameters and arbitrary
+dependencies of the system on such parameters. For the considered system, under
+a given workload, our technique delivers analytical representations of the
+corresponding stochastic power and temperature profiles. These representations
+allow for a computationally efficient estimation of the probability
+distributions and accompanying quantities of the power and temperature
+characteristics of the system. The approximation accuracy and computational time
+of our approach are assessed by a range of comparisons with Monte Carlo
+simulations, which confirm the efficiency of the proposed technique.
 
 \section{Temperature Model}
 
@@ -1143,7 +1134,7 @@ integral of a function is approximated by a summation over the function values
 computed at a set of prescribed points, or nodes, which are multiplied by the
 corresponding prescribed weights. Such pairs of nodes and weights are called
 quadrature rules. A one-dimensional quadrature rule is characterized by its
-precision, which is defined as the maximal order of polynomials that the rule
+precision, which is defined as the maximum order of polynomials that the rule
 integrates exactly \cite{heiss2008}. In multiple dimensions, an \nu-variate
 quadrature rule is formed by tensoring one-dimensional counterparts. Such a
 multidimensional rule is characterized by its accuracy level \lq, which is
