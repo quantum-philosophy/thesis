@@ -114,31 +114,30 @@ spatially unbiased; therefore, we let $\mu$ be a single location-independent
 parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
 covariance function $k$ is chosen to be as follows:
 \begin{equation} \elab{inference-covariance}
-  k(r_1, r_2) = \sigma_\g^2 \left(w \, k_\mathrm{SE}(r_1, r_2) + (1 - w) k_\mathrm{OU}(r_1, r_2)\right)
+  k(r_1, r_2) = \sigma_\g^2 \left(w \, k_\SE(r_1, r_2) + (1 - w) k_\OU(r_1, r_2)\right)
 \end{equation}
 for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
 \begin{align*}
-  k_\mathrm{SE}(r_1, r_2) & = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\mathrm{SE}^2}\right) \text{ and} \\
-  k_\mathrm{OU}(r_1, r_2) & = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\mathrm{OU}}\right)
+  k_\SE(r_1, r_2) & = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\SE^2}\right) \text{ and} \\
+  k_\OU(r_1, r_2) & = \exp\left(-\frac{\absolute{\norm[2]{r_1} - \norm[2]{r_2}}}{\ell_OU}\right)
 \end{align*}
 are the squared exponential and Ornstein--Uhlenbeck correlation functions
 \cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $w \in
-[0, 1]$ is a weighting coefficient; $\ell_\mathrm{SE} > 0$ and $\ell_\mathrm{OU}
-> 0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
+[0, 1]$ is a weighting coefficient; $\ell_\SE > 0$ and $\ell_\OU > 0$ are
+so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
 Euclidean distance. The choice of $k$ is based on the observations of the
 correlation structures induced by the manufacturing process
-\cite{chandrakasan2000, cheng2011}. More specifically, $k_\mathrm{SE}$ imposes
+\cite{chandrakasan2000, cheng2011}. More specifically, $k_\SE$ imposes
 similarities between locations on the wafer that are close to each other, and
-$k_\mathrm{OU}$ imposes similarities between locations that are at the same
-distance from the center of the wafer. The parameters $\ell_\mathrm{SE}$ and
-$\ell_\mathrm{OU}$ control the extend of these similarities, that is, the range
-where the correlation between two locations is significant. Although all the
-above parameters of \g can be inferred from data, for simplicity, we shall focus
-on $\mu_\g$ and $\sigma_\g^2$. The rest of the parameters---namely, $w$,
-$\ell_\mathrm{SE}$, and $\ell_\mathrm{OU}$---are assumed to be determined prior
-to our analysis based on the knowledge of the correlation patterns typical for
-the production process utilized; see \cite{marzouk2009} and the references
-therein.
+$k_\OU$ imposes similarities between locations that are at the same distance
+from the center of the wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control
+the extend of these similarities, that is, the range where the correlation
+between two locations is significant. Although all the above parameters of \g
+can be inferred from data, for simplicity, we shall focus on $\mu_\g$ and
+$\sigma_\g^2$. The rest of the parameters---namely, $w$, $\ell_\SE$, and
+$\ell_\OU$---are assumed to be determined prior to our analysis based on the
+knowledge of the correlation patterns typical for the production process
+utilized; see \cite{marzouk2009} and the references therein.
 
 Step~2 is to make the above model of \g computationally tractable. The model is
 an infinite-dimensional object as it characterizes a continuum of locations. For
@@ -288,7 +287,7 @@ Having completed the sampling procedure, we obtain a collection of samples of
 unrepresentative; this portion is known as the burn-in period. The preserved
 samples of $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
 \eref{inference-reduction} in order to compute samples of \g, which we denote by
-$G = \{ \vg_i \}$ where $\vg_i \in \real^{\nd \np}$.
+$G = \{ \vg_i \}_{i = 1}^\nm$ where $\vg_i \in \real^{\nd \np}$.
 
 \subsection{Post-Processing}
 \slab{inference-post-processing}
@@ -297,10 +296,11 @@ At Stage~4 in \fref{inference-overview}, using the set of samples $G$, the user
 computes the desired statistics about the quantity of interest such as the most
 probable value of the effective channel length at some location of interest and
 the probability of a certain area on the wafer to be defective. These
-computations reduce to the estimation of expected values with respect to the
-posterior distribution of \u in \eref{inference-posterior}. Specifically, in
-order to compute an arbitrary quantity dependent on \g, one evaluates it for
-each $\vg_i$ in $G$ and then takes the average value.
+computations are undertaken in the same way as it is done with \ac{MC} sampling.
+Specifically, they reduce to the estimation of expected values with respect to
+the posterior distribution of \u in \eref{inference-posterior}: in order to
+compute an arbitrary quantity dependent on \g, one evaluates it for each $\vg_i$
+in $G$ and then takes the average value.
 
 The strength of the Bayesian approach to inference starts to shine when one is
 also interested in assessing the trustworthiness of the measured data and,
