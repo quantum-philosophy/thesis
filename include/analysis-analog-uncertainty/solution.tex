@@ -104,7 +104,7 @@ computationally efficient; and \three~Gaussian distributions are often natural
 and accurate models for uncertainties due to process variation
 \cite{srivastava2010, reda2009, juan2012}. We denote this as
 \begin{equation} \elab{inference-prior}
-  \g | \u_\g \sim \text{Gaussian Process}(\mu, k)
+  \g | \u_\g \sim \mathrm{Gaussian\ Process}(\mu, k)
 \end{equation}
 where $\mu(\cdot)$ and $k(\cdot, \cdot)$ are the mean and covariance functions
 of \g, respectively, which take locations on the wafer as arguments. The
@@ -114,30 +114,31 @@ spatially unbiased; therefore, we let $\mu$ be a single location-independent
 parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
 covariance function $k$ is chosen to be as follows:
 \begin{equation} \elab{inference-covariance}
-  k(r_1, r_2) = \sigma_\g^2 \left(w \, k_\text{SE}(r_1, r_2) + (1 - w) k_\text{OU}(r_1, r_2)\right)
+  k(r_1, r_2) = \sigma_\g^2 \left(w \, k_\mathrm{SE}(r_1, r_2) + (1 - w) k_\mathrm{OU}(r_1, r_2)\right)
 \end{equation}
 for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
 \begin{align*}
-  k_\text{SE}(r_1, r_2) & = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\text{SE}^2}\right) \text{ and} \\
-  k_\text{OU}(r_1, r_2) & = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\text{OU}}\right)
+  k_\mathrm{SE}(r_1, r_2) & = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\mathrm{SE}^2}\right) \text{ and} \\
+  k_\mathrm{OU}(r_1, r_2) & = \exp\left(-\frac{\absolute{\,\norm[2]{r_1} - \norm[2]{r_2}\,}}{\ell_\mathrm{OU}}\right)
 \end{align*}
 are the squared exponential and Ornstein--Uhlenbeck correlation functions
 \cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $w \in
-[0, 1]$ is a weighting coefficient; $\ell_\text{SE} > 0$ and $\ell_\text{OU} >
-0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
+[0, 1]$ is a weighting coefficient; $\ell_\mathrm{SE} > 0$ and $\ell_\mathrm{OU}
+> 0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$ stands for the
 Euclidean distance. The choice of $k$ is based on the observations of the
 correlation structures induced by the manufacturing process
-\cite{chandrakasan2000, cheng2011}. More specifically, $k_\text{SE}$ imposes
+\cite{chandrakasan2000, cheng2011}. More specifically, $k_\mathrm{SE}$ imposes
 similarities between locations on the wafer that are close to each other, and
-$k_\text{OU}$ imposes similarities between locations that are at the same
-distance from the center of the wafer. The parameters $\ell_\text{SE}$ and
-$\ell_\text{OU}$ control the extend of these similarities, that is, the range
+$k_\mathrm{OU}$ imposes similarities between locations that are at the same
+distance from the center of the wafer. The parameters $\ell_\mathrm{SE}$ and
+$\ell_\mathrm{OU}$ control the extend of these similarities, that is, the range
 where the correlation between two locations is significant. Although all the
 above parameters of \g can be inferred from data, for simplicity, we shall focus
 on $\mu_\g$ and $\sigma_\g^2$. The rest of the parameters---namely, $w$,
-$\ell_\text{SE}$, and $\ell_\text{OU}$---are assumed to be determined prior to
-our analysis based on the knowledge of the correlation patterns typical for the
-production process utilized; see \cite{marzouk2009} and the references therein.
+$\ell_\mathrm{SE}$, and $\ell_\mathrm{OU}$---are assumed to be determined prior
+to our analysis based on the knowledge of the correlation patterns typical for
+the production process utilized; see \cite{marzouk2009} and the references
+therein.
 
 Step~2 is to make the above model of \g computationally tractable. The model is
 an infinite-dimensional object as it characterizes a continuum of locations. For
@@ -178,14 +179,14 @@ marzouk2009}. Without loss of generality, the noise is assumed to be independent
 of \g and to have the same magnitude for all measurements. Hence, the model of
 the noise is
 \[
-  \v{\epsilon} | \sigma^2_\epsilon \sim \text{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
+  \v{\epsilon} | \sigma^2_\epsilon \sim \mathrm{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
 \]
 where $\sigma^2_\epsilon$ is the variance of the noise. At this point, all the
 parameters of the inference are identified, and they are $\u = \u_\g \cup \{
 \sigma_\epsilon^2 \} = \{ \vz, \mu_\g, \sigma_\g^2, \sigma_\epsilon^2 \}$; see
 \fref{inference-statistical-model}. Taking the above into account, we obtain
 \begin{equation} \elab{inference-likelihood}
-  \hvh | \u \sim \text{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
+  \hvh | \u \sim \mathrm{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
 \end{equation}
 The density function of this distribution is the likelihood $p(H | \u)$ of our
 statistical model, which is the first element of the posterior in
@@ -196,10 +197,10 @@ Step~4 is to decide on the second element of the posterior in
 on \u:
 \begin{align} \elab{inference-prior}
   \begin{split}
-    \vz               & \sim \text{Gaussian}(\v{0}, \m{I}), \\
-    \mu_\g            & \sim \text{Gaussian}(\mu_0, \sigma^2_0), \\
-    \sigma^2_\g       & \sim \text{Scale-inv-$\chi^2$}(\nu_\g, \tau^2_\g), \text{ and} \\
-    \sigma^2_\epsilon & \sim \text{Scale-inv-$\chi^2$}(\nu_\epsilon, \tau^2_\epsilon).
+    \vz               & \sim \mathrm{Gaussian}(\v{0}, \m{I}), \\
+    \mu_\g            & \sim \mathrm{Gaussian}(\mu_0, \sigma^2_0), \\
+    \sigma^2_\g       & \sim \mathrm{Scaled\ Inverse\ } \chi^2(\nu_\g, \tau^2_\g), \text{ and} \\
+    \sigma^2_\epsilon & \sim \mathrm{Scaled\ Inverse\ } \chi^2(\nu_\epsilon, \tau^2_\epsilon).
   \end{split}
 \end{align}
 The prior of \vz is due to the decomposition in \eref{inference-reduction}. The

@@ -49,32 +49,33 @@ standard deviation of \celsius{1}.
 Let us turn to the statistical model in \sref{inference-statistical-model} and
 summarize the intuition behind and our assignment of each parameter. In the
 covariance function in \eref{inference-covariance}, the weighting parameter $w$
-and the two length-scale parameters $\ell_\text{SE}$ and $\ell_\text{OU}$ should
-be set according to the correlation patterns typical for the manufacturing
-process at hand \cite{chandrakasan2000, cheng2011}; we set $w$ to 0.7 and
-$\ell_\text{SE}$ and $\ell_\text{OU}$ to half the radius of the wafer. The
-threshold parameter $\eta$ of the model-order-reduction procedure described in
-\sref{linear-algebra} and utilized in \eref{inference-reduction} should be set
-high enough to preserve a sufficiently large portion of the variance of the data
-and, thus, to keep the modeling sufficiently accurate; we set it to 0.99. The
-resulting dimensionality \nz of \vz in \eref{inference-reduction} is found to be
-27--28. The parameters $\mu_0$ and $\tau_\g$ of the prior in
-\eref{inference-prior} are specific to the considered technological process; we
-set $\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The parameters $\sigma_0$ and
-$\nu_\g$ in \eref{inference-prior} determine the precision of the information
-about $\mu_0$ and $\tau_\g$ and are set according to the beliefs of the user; we
-set $\sigma_0$ to 0.45~nm and $\nu_\g$ to 10. The latter can be thought of as
-the number of imaginary observations that the choice of $\tau_\g$ is based on.
-The parameter $\tau_\epsilon$ in \eref{inference-prior} represents the precision
-of the equipment utilized for collecting $H$ and can be found in the technical
-specification of that equipment; we set $\tau_\epsilon$ to \celsius{1}. The
-parameter $\nu_\epsilon$ in \eref{inference-prior} has the same interpretation
-as $\nu_\g$; we set it to 10 as well. In \eref{inference-proposal}, $\nu$ and
-$\alpha$ are tuning parameters, which can be configured based on experiments; we
-set $\nu$ to 8 and $\alpha$ to 0.5. The number of samples is another tuning
-parameter, which we set to $10^4$; the first half of these samples is ascribed
-to the burn-in period, leaving $5 \times 10^3$ effective samples. For the
-optimization in \sref{inference-optimization}, we use the quasi-Newton algorithm
+and the two length-scale parameters $\ell_\mathrm{SE}$ and $\ell_\mathrm{OU}$
+should be set according to the correlation patterns typical for the
+manufacturing process at hand \cite{chandrakasan2000, cheng2011}; we set $w$ to
+0.7 and $\ell_\mathrm{SE}$ and $\ell_\mathrm{OU}$ to half the radius of the
+wafer. The threshold parameter $\eta$ of the model-order-reduction procedure
+described in \sref{linear-algebra} and utilized in \eref{inference-reduction}
+should be set high enough to preserve a sufficiently large portion of the
+variance of the data and, thus, to keep the modeling sufficiently accurate; we
+set it to 0.99. The resulting dimensionality \nz of \vz in
+\eref{inference-reduction} is found to be 27--28. The parameters $\mu_0$ and
+$\tau_\g$ of the prior in \eref{inference-prior} are specific to the considered
+technological process; we set $\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The
+parameters $\sigma_0$ and $\nu_\g$ in \eref{inference-prior} determine the
+precision of the information about $\mu_0$ and $\tau_\g$ and are set according
+to the beliefs of the user; we set $\sigma_0$ to 0.45~nm and $\nu_\g$ to 10. The
+latter can be thought of as the number of imaginary observations that the choice
+of $\tau_\g$ is based on. The parameter $\tau_\epsilon$ in
+\eref{inference-prior} represents the precision of the equipment utilized for
+collecting $H$ and can be found in the technical specification of that
+equipment; we set $\tau_\epsilon$ to \celsius{1}. The parameter $\nu_\epsilon$
+in \eref{inference-prior} has the same interpretation as $\nu_\g$; we set it to
+10 as well. In \eref{inference-proposal}, $\nu$ and $\alpha$ are tuning
+parameters, which can be configured based on experiments; we set $\nu$ to 8 and
+$\alpha$ to 0.5. The number of samples is another tuning parameter, which we set
+to $10^4$; the first half of these samples is ascribed to the burn-in period,
+leaving $5 \times 10^3$ effective samples. For the optimization in
+\sref{inference-optimization}, we use the quasi-Newton algorithm
 \cite{press2007}. For parallel computations, we utilize four cores.
 
 In order to ensure that the experimental setup is adequate, we first perform a
