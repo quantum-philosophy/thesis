@@ -92,16 +92,22 @@
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
 \newcommand{\absolute}[1]{|#1|}
+\newcommand{\bigo}[1]{\mathcal{O}\left(#1\right)}
 \newcommand{\diagonal}[2]{\mathrm{diag}\left(\range{#1}{#2}\right)}
-\newcommand{\innerproduct}[1]{\langle #1 \rangle}
+\newcommand{\innerproduct}[2]{\left\langle #1, #2 \right\rangle}
 \newcommand{\maximum}{\mathrm{max}}
 \newcommand{\minimum}{\mathrm{min}}
 \newcommand{\norm}[2][]{\|#2\|_{#1}}
 \newcommand{\range}[2]{#1, \dots, #2}
 \newcommand{\real}{\mathbb{R}}
+\newcommand{\transform}[1]{\mathbb{T}\left(#1\right)}
 \newcommand{\transpose}[1]{{#1}^\mathrm{T}}
-
 \renewcommand{\L}[1]{{L^{#1}}}
+
+\newcommand{\levelof}[1]{\math{{l_\mathrm{#1}}}}
+
+\newcommand{\numberof}[1]{\math{{n_\mathrm{#1}}}}
+\newcommand{\hnumberof}[1]{\math{{\hat{n}_\mathrm{#1}}}}
 
 %
 % Probability theory
@@ -109,51 +115,61 @@
 
 \newcommand{\expectation}[1]{E #1}
 \newcommand{\probability}[1]{P\left(#1\right)}
-\newcommand{\variance}[1]{\text{Var}\left(#1\right)}
+\newcommand{\variance}[1]{\mathrm{Var}\left(#1\right)}
+
+%
+% Polynomial chaos
+%
+
+\newcommand{\lc}{\levelof{c}}
+\newcommand{\nc}{\numberof{c}}
+
+\newcommand{\chaos}[3]{\mathcal{C}^{#1}_{#2}\left(#3\right)}
+
+%
+% Integration
+%
+
+\renewcommand{\lq}{\levelof{q}}
+\newcommand{\nq}{\numberof{q}}
+
+\newcommand{\quadrature}[3]{\mathcal{Q}^{#1}_{#2}\left(#3\right)}
 
 %
 % Uncertainty
 %
 
-% Quantity of interest
+\newcommand{\nz}{\numberof{z}}
+\renewcommand{\nu}{\numberof{u}}
+
 \newcommand{\g}{\math{g}}
 \newcommand{\vg}{\math{\v{g}}}
 
-% Auxiliary quantity
 \newcommand{\h}{\math{h}}
 \newcommand{\vh}{\math{\v{h}}}
+
 \newcommand{\hh}{\math{\hat{h}}}
 \newcommand{\hvh}{\math{\hat{\v{h}}}}
 
-% Parameters
 \renewcommand{\u}{\math{u}}
 \newcommand{\vu}{\math{\v{u}}}
 
-% Independent variables
 \newcommand{\z}{\math{z}}
 \newcommand{\vz}{\math{\v{z}}}
 
 %
-% Numbers
+% Wafer
 %
 
-\newcommand{\numberof}[1]{\math{{n_\mathrm{#1}}}}
-\newcommand{\hnumberof}[1]{\math{{\hat{n}_\mathrm{#1}}}}
-
-\newcommand  {\nc}{\numberof{c}} % thermal cycles
-\newcommand  {\nd}{\numberof{d}} % silicon dies
-\newcommand  {\nn}{\numberof{n}} % thermal nodes
-\newcommand  {\np}{\numberof{p}} % processors
-\newcommand  {\ns}{\numberof{s}} % time steps
-\newcommand  {\nt}{\numberof{t}} % tasks
-\newcommand  {\nz}{\numberof{z}} % independent variables
-\renewcommand{\nu}{\numberof{u}} % parameters
-
-\newcommand{\hnd}{\hnumberof{d}} % silicon dies measured
+\newcommand{\nd}{\numberof{d}}
+\newcommand{\hnd}{\hnumberof{d}}
 
 %
 % Platform
 %
+
+\newcommand{\np}{\numberof{p}}
+\newcommand{\ns}{\numberof{s}}
 
 \newcommand{\dt}{\math{\Delta t}}
 \newcommand{\spec}{\math{\mathcal{S}}}
@@ -161,6 +177,8 @@
 %
 % Application
 %
+
+\newcommand{\nt}{\numberof{t}}
 
 \newcommand{\period}{t_\mathrm{end}}
 
@@ -178,6 +196,8 @@
 %
 % Temperature
 %
+
+\newcommand{\nn}{\numberof{n}}
 
 \newcommand{\q}{q}
 \newcommand{\vq}{\math{\v{q}}}

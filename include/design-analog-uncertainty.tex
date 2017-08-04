@@ -1,5 +1,1208 @@
+\section{Abstract}
+
+Electronic system design based on deterministic techniques for power-temperature
+analysis is, in the context of current and future technologies, both unreliable
+and inefficient since the presence of uncertainty, in particular, due to process
+variation, is disregarded. In this work, we propose a flexible probabilistic
+framework targeted at the quantification of the transient power and temperature
+variations of an electronic system. The framework is capable of modeling diverse
+probability laws of the underlying uncertain parameters and arbitrary
+dependencies of the system on such parameters. For the considered system, under
+a given workload, our technique delivers analytical representations of the
+corresponding stochastic power and temperature profiles. These representations
+allow for a computationally efficient estimation of the probability
+distributions and accompanying quantities of the power and temperature
+characteristics of the system. The approximation accuracy and computational time
+of our approach are assessed by a range of comparisons with Monte Carlo
+simulations, which confirm the efficiency of the proposed technique.
+
 \section{Introduction}
 
+Process variation constitutes one of the major concerns of electronic system
+designs \cite{chandrakasan2000, srivastava2010}. A crucial implication of
+process variation is that it renders the key parameters of a technological
+process, for instance, the effective channel length, gate oxide thickness, and
+threshold voltage, as random quantities. Therefore, the same workload applied to
+two ``identical'' dies can lead to two different power and, thus, temperature
+profiles since the dissipation of power and heat essentially depends on the
+aforementioned stochastic parameters. This concern is especially urgent due to
+the interdependence between the leakage power and temperature
+\cite{srivastava2010, liu2007}. Consequently, process variation leads to
+performance degradation in the best case and to severe faults or burnt silicon
+in the worst scenario. Under these circumstances, uncertainty quantification
+\cite{xiu2010} has evolved into an indispensable asset of electronic system
+design workflows in order to provide them with guaranties on the efficiency and
+robustness of products.
+
 \inputfigure{analog-example}
+To illustrate the above concern, consider a quad-core architecture exposed to
+the uncertainty of the parameters that affect the leakage current. Assume first
+that these parameters have all nominal values. We can then simulate the system
+under a certain workload and observe the corresponding temperature
+profile.\footnote{The experimental setup will be detailed in
+\sref{illustrative-example} and \sref{experimental-results}.} The result,
+labeled as ``Nominal,'' is depicted in \fref{motivation-temperature} where, for
+clarity, only one curve, corresponding to one processor, is presented. It can be
+seen that the temperature is always below \celsius{90}. Now let us assume a mild
+deviation of the parameters from the nominal values and run the simulation once
+again. The result is the ``Mild'' curve in \fref{motivation-temperature}; the
+maximal temperature is approaching \celsius{100}. Finally, we repeat the
+experiment considering a severe deviation of the parameters and observe the
+curve labeled as ``Severe'' in \fref{motivation-temperature}; the maximal
+temperature is almost \celsius{110}. Imagine that the designer, when tuning the
+solution constrained by a maximal temperature of \celsius{90}, was guided
+exclusively by the nominal parameters. In this case, even with mild deviations,
+the circuits might be burnt. Another path that the designer could take is to
+design the system for severe conditions. However, in this scenario, the system
+might easily end up being too conservative and over-designed. Consequently, such
+uncertainties have to be addressed in order to pursue efficiency and
+fail-safeness. Nevertheless, the majority of the literature related to
+power-temperature analysis of multiprocessor systems ignores this important
+aspect, for instance, \cite{rao2009, rai2011, thiele2011, ukhov2012}.
+
+The remainder of the paper is organized as follows. A summary of the main
+notations is given in \tref{notation}. \sref{prior-work} provides an overview of
+the prior work. In \sref{present-work}, we summarize the contribution of the
+present paper. The objective of our study is formulated in
+\sref{problem-formulation}. The proposed framework is presented in
+\sref{proposed-framework}. A particular application of our approach is discussed
+in \sref{illustrative-example}, and the corresponding results are compared with
+MC simulations in \sref{experimental-results}. \sref{conclusion} concludes the
+paper. The work contains a set of supplementary materials with discussions on
+certain aspects of our framework.
+
+\section{Prior Work}
+
+Since the appearance of the first digital computers in 1940s, Monte Carlo (MC)
+sampling remains one of the most well-known and widely used methods for the
+analysis of stochastic systems. The reason for this popularity lies in the ease
+of implementation, in the independence of the stochastic dimensionality of the
+considered problems, and in the fact that the quantities estimated using MC
+simulations asymptotically approach the true values (the law of large numbers).
+The crucial problem with MC sampling, however, is the low rate of convergence:
+the error decreases at the order of $n^{-1/2}$ where $n$ is the number of
+samples.\footnote{There are other sampling techniques that have better
+convergence rates than the one of the classical MC sampling, for instance,
+quasi-MC sampling; however, due to additional restrictions, their applicability
+is often limited \cite{xiu2010}.} This means that, in order to get an additional
+decimal point of accuracy, one has to obtain hundred times more samples. Each
+such sample implies a complete realization of the whole system, which renders
+MC-based methods slow and often infeasible since the needed number of
+simulations can be extremely large \cite{diaz-emparanza2002}.
+
+In order to overcome the limitations of deterministic power-temperature analysis
+(PTA) and, at the same time, to completely eliminate or, at least, mitigate the
+costs associated with MC sampling, a number of alternative stochastic PTA
+techniques have been recently introduced. Due to the fact that the leakage
+component of the power dissipation is influenced by process variation the most
+\cite{chandrakasan2001, srivastava2010, juan2011, juan2012}, the techniques
+discussed below primarily focus on the variability of leakage.
+
+A solely power-targeted but temperature-aware solution is proposed in
+\cite{chandra2010} wherein the driving force of the analysis is MC sampling with
+partially precomputed data. A learning-based approach is presented in
+\cite{juan2011} to estimate the maximal temperature under the steady-state
+condition. Temperature-related issues originating from process variation are
+also considered in \cite{juan2012} where a statistical model of the steady-state
+temperature based on Gaussian distributions is derived. A statistical
+steady-state temperature simulator is developed in \cite{huang2009a} using
+polynomial chaos (PC) expansions and the Karhunen--Lo\`{e}ve (KL) decomposition
+\cite{xiu2010, ghanem1991}. A KL-aided stochastic collocation \cite{xiu2010}
+approach to steady-state temperature analysis is presented in \cite{lee2013}. In
+\cite{shen2009}, PC expansions are employed to estimate the full-chip leakage
+power. The KL decomposition is utilized in \cite{bhardwaj2006} for leakage
+calculations. In \cite{bhardwaj2008}, the total leakage is quantified using the
+PC and KL methods. The same combination of tools is employed in
+\cite{vrudhula2006} and \cite{ghanta2006} to analyze the response of
+interconnect networks and power grids, respectively, under process variation.
+
+The last five of the aforementioned techniques, that is, \cite{shen2009,
+bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, perform only stochastic
+power analysis and ignore the interdependence between leakage and temperature.
+The others are temperature-related approaches, but none of them attempts to
+tackle stochastic transient PTA and to compute the evolving-in-time probability
+distributions of temperature. However, such transient curves are of practical
+importance. First of all, certain procedures cannot be undertaken without the
+knowledge of the time-dependent temperature variations, for instance,
+reliability optimization based on the thermal-cycling fatigue \cite{ukhov2012}.
+Secondly, the constant steady-state temperature assumption, considered, for
+instance, in \cite{juan2011, juan2012, huang2009a, lee2013}, can rarely be
+justified since power profiles are not invariant in reality. In addition, one
+can frequently encounter the assumption that power and/or temperature follow a
+priori known probability distributions, for instance, Gaussian and log-normal
+distributions are popular choices as in \cite{srivastava2010, juan2012,
+bhardwaj2006}. However, this assumption often fails in practice (also noted in
+\cite{juan2012} regarding the normality of the leakage power) due to: (a) the
+strict nonlinearities between the process-related parameters, power, and
+temperature; (b) the nonlinear interdependency of temperature and the leakage
+power \cite{liu2007}. To illustrate this, we simulated the example given in
+\sref{introduction} $10^4$ times assuming the widespread Gaussian model for the
+variability of the effective channel length; the rest of the experimental setup
+was configured as it will be described in \sref{illustrative-example} and
+\sref{experimental-results}. Then we applied the Jarque--Bera test of normality
+to the collected data (temperature) directly as well as after processing them
+with the log transformation. The null hypothesis that the data are from an
+unspecified Gaussian distribution was firmly rejected in both cases at the
+significance level of 5\%. Therefore, the two distributions are neither Gaussian
+nor log-normal, which can also be seen in \fref{experimental-results-pdf}
+described in the experimental results, \sref{experimental-results}.
+
+To conclude, the prior stochastic PTA techniques for electronic system design
+are restricted in use due to one or several of the following traits: based on MC
+simulations (potentially slow) \cite{chandra2010}, limited to power analysis
+\cite{chandra2010, shen2009, bhardwaj2006, bhardwaj2008, vrudhula2006,
+ghanta2006}, ignoring the leakage-temperature interplay \cite{huang2009a,
+shen2009, bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, limited to the
+assumption of the constant steady-state temperature \cite{juan2011, juan2012,
+huang2009a, lee2013}, exclusive focus on the maximal temperature
+\cite{juan2011}, and a priori chosen distributions of power and temperature
+\cite{srivastava2010, juan2012, bhardwaj2006}. Consequently, there is a lack of
+flexible stochastic PTA techniques, which we aim to eliminate.
+
+\section{Our Contribution}
+
+Our work makes the following main contribution. We develop a probabilistic
+framework for the analysis of the transient power and temperature profiles of
+electronic systems subject to the uncertainty due to process variation. The
+proposed technique is flexible in modeling diverse probability distributions,
+specified by the user, of the uncertain parameters, such as the effective
+channel length and gate oxide thickness. Moreover, there are no assumptions on
+the distributions of the resulting power and temperature traces as these
+distributions are unlikely to be known a priori. The proposed technique is
+capable of capturing arbitrary joint effects of the uncertain parameters on the
+system since the impact of these parameters is introduced into the framework as
+a ``black box,'' which is also defined by the user. In particular, it allows for
+the leakage-temperature interdependence to be taken into account with no effort.
+Our approach is founded on the basis of polynomial chaos (PC) expansions, which
+constitute an attractive alternative to Monte Carlo (MC) sampling. This is due
+to the fact that PC expansions possess much faster convergence properties and
+provide succinct and intuitive representations of system responses to stochastic
+inputs. In addition, we illustrate the framework considering one of the most
+important parameters affected by process variation: the effective channel
+length. Note, however, that our approach is not bounded by any particular source
+of variability and, apart from the effective channel length, can be applied to
+other process-related parameters, for instance, the gate oxide thickness.
+
+\section{Problem Formulation}
+
+Consider a heterogeneous electronic system that consists of \np processing
+elements and is equipped with a thermal package. The processing elements are the
+active components of the system identified at the system level (ALUs, FPUs,
+caches, and so on). Let \spec be a thermal specification of the system defined
+as a collection of temperature-related information: (a) the floorplans of the
+active layers of the chip; (b) the geometry of the thermal package; and (c) the
+thermal parameters of the materials that the chip and package are made of (for
+instance, the silicon thermal conductivity and specific heat).
+
+Let $(\Omega, \mathcal{F}, P)$ be a probability space as in
+\sref{probability-theory}. The system depends on a set of process parameters
+that are uncertain at the design stage. These parameters are denoted by a random
+vector $\vu: \Omega \to \real^\nu$. Once the fabrication process yields a
+particular outcome, \vu takes (potentially) different values across each
+fabricated chip individually and stays unchanged thereafter. This variability
+leads to deviations of the actual power dissipation from the nominal values and,
+therefore, to deviations of temperature from the one corresponding to the
+nominal power consumption.
+
+The goal of this work is to develop a system-level probabilistic framework for
+transient power-temperature analysis (PTA) of electronic systems where the
+actual power dissipation and temperature are stochastic due to their dependency
+on the uncertain parameters \vu.\footnote{Although the focal point of this paper
+is process variation, there can be other uncertainties such as those related to
+the system load and environment.} The user is required to: (a) provide a thermal
+specification of the platform \spec; (b) have prior knowledge (or belief) about
+the probability distribution of the uncertain parameters; and (c) specify a
+power model, in which \vu is an input. The framework should provide the user
+with the tools to analyze the system under a given workload, without imposing
+any constraints on the nature/origins of this workload, and obtain the
+corresponding stochastic power \mp and temperature \mq profiles with a desired
+level of accuracy and at low costs.
+
+\section{Proposed Framework}
+
+The main idea of our framework is to construct a surrogate model for the joint
+power and thermal models of the considered system using PC expansions. Having
+constructed this surrogate, such quantities as cumulative distribution functions
+(CDFs) and probability density functions (PDFs) can be easily estimated.
+Moreover, the representations, which we compute, provide analytical formulae for
+probabilistic moments, that is, the expected value and variance are readily
+available.
+
+The major stages of our technique are depicted in \fref{algorithm}.
+
+Stage~1. Parameter Preprocessing (\sref{uncertain-parameters}). The PC approach
+operates on mutually independent random variables. The uncertain parameters \vu
+might not satisfy this requirement and, thus, should be preprocessed; we denote
+the corresponding independent random variables by \vz.
+
+Stage~2. Power Modeling (\sref{power-model}). The user specifies the power model
+of the system via a ``black-box'' functional $f$, which computes the total power
+$\vp(t, \vu)$ for a particular temperature $\vq(t, \vu)$ and an outcome of the
+parameters \vu.
+
+Stage~3. Thermal Modeling (\sref{thermal-model}). With respect to the thermal
+specification \spec (defined in \sref{problem-formulation}), a mathematical
+formulation of the thermal system is attained. The thermal model closely
+interacts with the power model from Stage~2 and produces the corresponding
+temperature profile.
+
+Stage~4. Surrogate Modeling (\sref{polynomial-chaos}). The surrogate model is
+obtained by traversing the desired time span and gradually constructing
+polynomial expansions (in terms of the processed uncertain parameters \vz from
+Stage~1) of the stochastic power and temperature profiles. The output is
+essentially a substitute for the model produced at Stage~3 with respect to the
+power model determined at Stage~2.
+
+Stage~5. Post-processing (\sref{post-processing}). The computed PC expansions
+are analyzed in order to obtain the needed characteristics of the system, for
+instance, CDFs, PDFs, and moments.
+
+In the forthcoming subsections,
+\sref{uncertain-parameters}--\sref{post-processing}, the proposed framework is
+presented. We shall pursue generality such that the user can easily adjust the
+technique to a particular application, characterized by specific uncertain
+parameters.
+
+\subsection{Parameter Preprocessing}
+
+Independence of the parameters is a prerequisite for PC expansions. In general,
+however, \vu can be correlated and, therefore, should be preprocessed in order
+to fulfill the requirement. To this end, an adequate probability transformation
+should be undertaken \cite{eldred2008}. Denote such a transformation by $\vu =
+\transform{\vz}$, which relates the \nu dependent uncertain parameters \vu with
+\nz independent random variables \vz.
+
+Correlated random variables can be transformed into uncorrelated ones via a
+linear mapping based on a factorization procedure of the covariance matrix or
+covariance function of \vu; the procedure is known as the Karhunen--Lo\`{e}ve
+(KL) decomposition \cite{ghanem1991}. If, in addition, the correlated variables
+form a Gaussian vector then the uncorrelated ones are also mutually independent.
+In the general case (non-Gaussian), the most prominent solutions to attain
+independence are the Rosenblatt \cite{rosenblatt1952} and Nataf transformations
+\cite{li2008}.\footnote{Only a few alternatives are listed here, and such
+techniques as independent component analysis (ICA) are left outside the scope of
+the paper.} Rosenblatt's approach is suitable when the joint probability
+distribution function of the uncertain parameters \vu is known; however, such
+information is rarely available. The marginal probability distributions and
+correlation matrix of \vu are more likely to be given, which are already
+sufficient for perform the Nataf transformation.\footnote{The transformation is
+an approximation, which operates under the assumption that the copula of the
+distribution is elliptical.} The Nataf transformation produces correlated
+Gaussian variables, which are then turned into independent ones by virtue of the
+KL decomposition mentioned earlier.
+
+Apart from the extraction of the independent parameters \vz, an essential
+operation at this stage is model order reduction since the number of stochastic
+dimensions of the problem directly impacts the complexity of the rest of the
+computations. The intuition is that, due to the correlations possessed by the
+random variables in \vu, some of them can be harmlessly replaced by combinations
+of the rest, leading to a smaller number of the random variables in \vz. This
+operation is often treated as a part of the KL decomposition.
+
+In \sref{ie-uncertain-parameters}, we shall demonstrate the Nataf transformation
+together with the discrete KL decomposition. A description of the latter can
+also be found in \sref{karhunen-loeve}.
+
+\subsection{Power Modeling}
+
+As stated in \sref{problem-formulation}, the user of the framework is supposed
+to decide on the power model for the system under consideration. Such a model
+can be generally expressed as the following \np-dimensional functional $f$:
+\begin{equation} \elab{power-model}
+  \vp(t, \vu) = f(t, \vq(t, \vu), \vu)
+\end{equation}
+where \np is the number of processing elements in the system, and $\vp(t, \vu)
+\in \real^\np$ and $\vq(t, \vu) \in \real^\np$ are random vectors of power and
+temperature, respectively, at time $t$.
+
+The user can choose any $f$. It can be, for instance, a closed-form formula, a
+piece of code, or an output of a system/power simulator that takes in, for some
+fixed $\vu \equiv \vu(\omega)$, $\omega \in \Omega$, the temperature vector
+$\vq(t, \vu)$ and uncertain parameters \vu and computes the corresponding total
+power $\vp(t, \vu)$. The only assumption we make about $f$ is that the function
+is smooth in \vz and has a finite variance, which is generally applicable to
+most physical systems \cite{xiu2010}. Note also that the operation performed by
+this ``black box'' is purely deterministic. It can be seen that the definition
+of $f$ is flexible enough to account for such effects as the interdependence
+between leakage and temperature \cite{srivastava2010, liu2007}, which is
+discussed in \sref{ie-power-model}.
+
+\subsection{Thermal Modeling}
+
+Given the thermal specification \spec of the system at hand (see the second
+paragraph of \sref{problem-formulation}), an equivalent thermal RC circuit with
+\nn thermal nodes is constructed \cite{skadron2004}. The structure of the
+circuit depends on the intended level of granularity and, therefore, impacts the
+resulting accuracy. Without loss of generality, we assume that each processing
+element is mapped onto one corresponding node, and the thermal package is
+represented as a set of additional nodes.
+
+The thermal behavior of the constructed circuit is modeled with the following
+system of differential-algebraic equations (see \sref{thermal-model} for a
+derivation):
+\begin{subnumcases}{\elab{fourier-system}}
+  \frac{d\vs(t, \vu)}{dt} = \m{A} \vs(t, \vu) + \m{B} \vp(t, \vu) \elab{fourier-de} \\
+  \vq(t, \vu) = \m{B}^T \vs(t, \vu) + \vq_\ambient \elab{fourier-output}
+\end{subnumcases}
+where $\vp(t, \vu)$ and $\vq(t, \vu)$ are the input power and output temperature
+vectors of the processing elements, respectively, and $\vs(t, \vu) \in
+\real^\nn$ is the vector of the internal state of the system. Note that, as
+shown in \eref{power-model}, $\vp(t, \vu)$ is an arbitrary function of $\vq(t,
+\vu)$. Therefore, in general, the system in \eref{fourier-de} is nonlinear and
+does not have a closed-form solution.
+
+Recall that the power and temperature profiles we work with are discrete-time
+representations of the power consumption and heat dissipation, respectively,
+which contain \ns samples, or steps, covering a certain time span (see
+\sref{problem-formulation}). As detailed in \sref{thermal-model}, we let the
+total power be constant between neighboring power steps and reduce the solution
+process of \eref{fourier-system} to the following recurrence, for $k =
+\range{1}{\ns}$,
+\[
+  \vs_k = \m{E}_k \vs_{k - 1} + \m{F}_k \vp_k
+\]
+where $\vs_0 = \v{0}$. In the deterministic case, \eref{recurrence} can be
+readily employed to perform deterministic transient PTA \cite{thiele2011,
+ukhov2012}. In the stochastic case, however, the analysis of \eref{recurrence}
+is substantially different since $\vp_k$ and, consequently, $\vs_k$ and $\vq_k$
+are probabilistic quantities. The situation is complicated by the fact that, at
+each step of the iterative process in \eref{recurrence}, (a) $\vp_k$ is an
+arbitrary transformation of the uncertain parameters \vu and stochastic
+temperature $\vq_k$ (see \sref{power-model}), which results in a multivariate
+random variable with a generally unknown probability distribution, and (b) \vu,
+$\vp_k$, $\vs_k$, and $\vq_k$ are dependent random vectors as the last three are
+functions of the first. Hence, the operations involved in \eref{recurrence} are
+to be performed on dependent random vectors with arbitrary probability
+distributions, which, in general, have no closed-form solutions. To tackle this
+difficulty, we utilize PC expansions as follows.
+
+\subsection{Surrogate Modeling}
+
+The goal now is to transform the ``problematic'' term in \eref{recurrence}, that
+is, the power term defined by \eref{power-model}, in such a way that the
+recurrence in \eref{recurrence} becomes computationally tractable. Our solution
+is the construction of a surrogate model for the power model in
+\eref{power-model}, which we further propagate through \eref{recurrence} to
+obtain an approximation for temperature. To this end, we employ polynomial chaos
+(PC) \cite{xiu2010}, which decomposes stochastic quantities into infinite series
+of orthogonal polynomials of random variables. Such series are especially
+attractive from the post-processing perspective as they are nothing more than
+polynomials; hence, PC expansions are easy to interpret and easy to evaluate. An
+introduction to orthogonal polynomials, which we rely on in what follows, is
+given in \sref{polynomial-chaos}.
+
+\subsubsection{Polynomial basis}
+\slab{pc-basis}
+
+The first step towards a polynomial expansion is the choice of a suitable
+polynomial basis, which is typically made based on the Askey scheme of
+orthogonal polynomials \cite{xiu2010}. The step is crucial as the rate of
+convergence of PC expansions closely depends on it. Although there are no strict
+rules that guarantee the optimal choice \cite{knio2006}, there are best
+practices saying that one should be guided by the probability distributions of
+the random variables that drive the stochastic system at hand. For instance,
+when a random variable follows a beta distribution, the Jacobi basis is worth
+being tried first; on the other hand, the Hermite basis is preferable for
+Gaussian distributions. In multiple dimensions, which is the case with the
+\nz-dimensional random variable \vz, several (possibly different)
+univariate bases are to be combined together to produce a single
+\nz-variate polynomial basis, which we denote by $\{ \psi_i: \real^\nz
+\to \real \}_{i = 1}^\infty$; see \cite{xiu2010}.
+
+\subsubsection{Recurrence of polynomial expansions}
+\slab{pc-recurrence}
+
+Having chosen an appropriate basis, we apply the PC expansion formalism to the
+power term in \eref{recurrence} and truncate the resulting infinite series in
+order to make it feasible for practical implementations. Such an expansion is
+defined as follows:
+\begin{equation} \elab{pc-expansion}
+  \chaos{\nz}{\lc}{\vp_k} = \sum_{i = 1}^{\nc} \hat{\vp}_{ki} \psi_i(\vz)
+\end{equation}
+where $\{ \psi_i: \real^\nz \to \real \}_{i = 1}^{\nc}$ is the truncated
+basis with \nc polynomials in \nz variables, and $\hat{\vp}_{ki} \in \real^\np$
+are the coefficients of the expansion, which are deterministic. The latter can
+be computed using spectral projections as it is described in
+\sref{pc-coefficients}. \lc denotes the order of the expansion, which determines
+the maximal degree of the \nz-variate polynomials involved in the expansion;
+hence, \lc also determines the resulting accuracy. The total number of the PC
+coefficients \nc is given by the following expression, which corresponds to the
+total-order polynomial space \cite{eldred2008, beck2011}:
+\begin{equation} \elab{pc-terms}
+  \nc = { \lc + \nz \choose \nz } = \frac{(\lc + \nz)!}{\lc! \nz!}.
+\end{equation}
+
+It can be seen in \eref{recurrence} that, due to the linearity of the operations
+involved in the recurrence, $\vs_k$ retains the same polynomial structure as
+$\vp_k$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as
+follows, for $k = \range{1}{\ns}$:
+\begin{equation} \elab{expanded-recurrence}
+  \chaos{\nz}{\lc}{\vs_k} = \m{E}_k \chaos{\nz}{\lc}{\vs_{k - 1}} + \m{F}_k
+  \chaos{\nz}{\lc}{\vp_k}.
+\end{equation}
+Thus, there are two PC expansions for two concurrent stochastic processes with
+the same basis but different coefficients.
+
+Using \eref{pc-expansion}, \eref{expanded-recurrence} can be explicitly written
+as follows:
+\[
+  \sum_{i = 1}^{\nc} \hat{\vs}_{ki} \psi_i(\vz) = \sum_{i = 1}^{\nc} \left( \m{E}_k \hat{\vs}_{(k - 1)i} + \m{F}_k \hat{\vp}_{ki} \right) \psi_i(\vz).
+\]
+Multiplying the above equation by each polynomial from the basis and making use
+of the orthogonality property (given in \eref{orthogonality} in
+\sref{polynomial-chaos}), we obtain the following recurrence:
+\begin{equation} \elab{pc-recurrence}
+  \hat{\vs}_{ki} = \m{E}_k \hat{\vs}_{(k - 1)i} + \m{F}_k \hat{\vp}_{ki}
+\end{equation}
+where $k = \range{1}{\ns}$ and $i = \range{1}{\nc}$. Finally,
+\eref{fourier-output} and \eref{pc-recurrence} are combined together to compute
+the coefficients of the PC expansion of the temperature vector $\vq_k$.
+
+\subsubsection{Expansion coefficients}
+\slab{pc-coefficients}
+
+The general formula of a truncated PC expansion applied to the power term in
+\eref{recurrence} is given in \eref{pc-expansion}. Let us now find the
+coefficients $\{ \hat{\vp}_{ki} \}$ of this expansion, which will be propagated
+to temperature (using \eref{pc-recurrence} and \eref{fourier-output}). To this
+end, a spectral projection of the stochastic quantity being expanded---that is,
+of $\vp_k$ as a function of \vz via $\vu = \transform{\vz}$ discussed in
+\sref{uncertain-parameters}---is to be performed onto the space spanned by the
+\nz-variate polynomials $\{ \psi_i \}_{i = 1}^{\nc}$, where \nc is the number of
+polynomials in the truncated basis. This means that we need to compute the inner
+product of \eref{power-model} with each polynomial from the basis as follows:
+\[
+  \innerproduct{\vp_k}{\psi_i} = \innerproduct{\sum_{j = 1}^{\nc} \hat{\vp}_{kj} \psi_j}{\psi_i}
+\]
+where $i = \range{1}{\nc}$, $k = \range{1}{\ns}$, and
+$\innerproduct{\cdot}{\cdot}$ stands for the inner product (see
+\sref{polynomial-chaos} for a definition), which should be understood
+elementwise. Making use of the orthogonality property of the basis, we obtain
+\begin{equation} \elab{pc-coefficients}
+  \hat{\vp}_{ki} = \frac{\innerproduct{\vp_k}{\psi_i}}{\innerproduct{\psi_i}{\psi_i}}.
+\end{equation}
+
+In general, the inner product in \eref{pc-coefficients}, given in
+\eref{inner-product} in \sref{polynomial-chaos}, should be evaluated
+numerically. This task is accomplished by virtue of a quadrature rule, which is
+a weighted summation over the integrand values computed at a set of prescribed
+points. These points along with the corresponding weights are generally
+precomputed and tabulated since they do not depend the quantity being
+integrated. Denote such a quadrature-based approximation of
+\eref{pc-coefficients} by
+\begin{equation} \elab{pc-coefficients-quadrature}
+  \hat{\vp}_{ki} = \frac{\quadrature{\nz}{\lq}{\vp_k \psi_i}}{\innerproduct{\psi_i}{\psi_i}}
+\end{equation}
+where \lq is the level of the quadrature utilized. The procedure is
+detailed in \sref{gauss-quadrature}; for the development in this section, we
+only need to note that \nz and \lq dictate the number of quadrature points,
+which we shall denote by \nq. Also, it is worth emphasizing that, since power
+depends on temperature as shown in \eref{power-model}, at each step of the
+recurrence in \eref{pc-recurrence}, the computation of $\hat{\vp}_{ki}$ should
+be done with respect to the PC expansion of the temperature vector $\vq_{k -
+1}$.
+
+\subsubsection{Computational challenges}
+\slab{computational-challenges}
+
+The construction process of the stochastic power and temperature profiles,
+implemented inside our prototype of the proposed framework, has been estimated
+to have the following time complexity:
+\[
+  \bigo{\ns \nn^2 \nc + \ns \np \nq \nc + \ns \nq f(\np)}
+\]
+where $\bigo{f(\np)}$ denotes the complexity of the computations associated with
+the power model in \eref{power-model}. The expression can be detailed further by
+expanding \nc and \nq. The exact formula for \nc is given in \eref{pc-terms},
+and the limiting behavior of \nc with respect to \nz is $\bigo{\nz^\nc / \nc!}$.
+For brute-force quadrature rules, $\log(\nq)$ is $\bigo{\nz}$, meaning that the
+dependency of \nq on \nz is exponential. It can be seen that the theory of PC
+expansions suffers from the so-called curse of dimensionality \cite{xiu2010,
+eldred2008}. More precisely, when \nz increases, the number of polynomial terms
+as well as the complexity of the corresponding coefficients exhibit a growth,
+which is exponential without special treatments. The problem does not have a
+general solution and is one of the central topics of many ongoing studies. In
+this paper, we mitigate this issue by: (a) keeping the number of stochastic
+dimensions low using the KL decomposition as we shall see in
+\sref{ie-uncertain-parameters} and (b) utilizing efficient integration
+techniques as discussed in \sref{gauss-quadrature}. In particular, for sparse
+integration grids based on Gaussian quadratures, $\log(\nq)$ is
+$\bigo{\log(\nz)}$, meaning that the dependency of \nq on \nz is only polynomial
+\cite{heiss2008}.
+
+To summarize, let us recall the stochastic recurrence in \eref{recurrence}
+where, in the presence of correlations, an arbitrary functional $\vp_k$ of the
+uncertain parameters \vu and random temperature $\vq_k$ (see \sref{power-model})
+needs to be evaluated and combined with another random vector $\vs_k$. Now the
+recurrence in \eref{recurrence} has been replaced with a purely deterministic
+recurrence in \eref{pc-recurrence}. More importantly, the heavy thermal system
+in \eref{fourier-system} has been substituted with a light polynomial surrogate
+defined by a set of basis functions $\{ \psi_i \}_{i = 1}^\nc$ and the
+corresponding sets of coefficients, namely, $\{ \hat{\vp}_{ki} \}_{i = 1}^\nc$
+for power and $\{ \hat{\vq}_{ki} \}_{i = 1}^\nc$ for temperature, where $k$
+traverses the \ns intervals of the considered time span. Consequently, the
+output of the proposed PTA framework constitutes two stochastic profiles: the
+power and temperature profiles denoted by \mp and \mq, respectively, which are
+ready to be analyzed.
+
+Finally, note the ease and generality of taking the uncertainty into
+consideration using the proposed approach: the above derivation is delivered
+from any explicit formula for any particular uncertain parameter. In contrast, a
+typical solution from the literature related to process variation is based on ad
+hoc expressions and should be tailored by the user for each new parameter
+individually; see, for instance, \cite{huang2009a, bhardwaj2008, ghanta2006}.
+Our framework provides a great flexibility in this regard.
+
+\subsection{Post-processing}
+
+Due to the properties of PC expansions---in particular, due to the pairwise
+orthogonality of the basis polynomials as discussed in
+\sref{polynomial-chaos}---the obtained polynomial traces allow for various
+prospective analyses to be performed with no effort. For instance, consider the
+PC expansion of temperature at the $k$th moment of time given by
+\begin{equation} \elab{pc-k}
+  \chaos{\nz}{\lc}{\vq_k} = \sum_{i = 1}^{\nc} \hat{\vq}_{ki} \psi_i(\vz)
+\end{equation}
+where $\hat{\vq}_{ki}$ are computed using \eref{fourier-output} and
+\eref{pc-recurrence}. Let us, for example, find the expectation and variance of
+the expansion. Due to the fact that, by definition \cite{xiu2010}, the first
+polynomial $\psi_1$ in a polynomial basis is unity, $\expectation{\psi_1(\vz)} =
+1$. Therefore, using the orthogonality property in \eref{orthogonality}, we
+conclude that $\expectation{\psi_i(\vz)} = 0$ for $i = \range{2}{\nc}$.
+Consequently, the expected value and variance have the following simple
+expressions solely based on the coefficients:
+\begin{equation} \elab{pc-moments}
+  \begin{split}
+    & \expectation{\vq_k} = \hat{\vq}_{k1} \text{ and} \\
+    & \variance{\vq_k} = \sum_{i = 2}^{\nc} \innerproduct{\psi_i}{\psi_i} \hat{\vq}_{ki}^2
+  \end{split}
+\end{equation}
+where the squaring should be understood elementwise. Such quantities as CDFs,
+PDFs, probabilities of certain events, and so on can be estimated by sampling
+\eref{pc-k}; each sample is a trivial evaluation of a polynomial. Furthermore,
+global and local sensitivity analyses of deterministic and non-deterministic
+quantities can be readily conducted on \eref{pc-k}.
+
+\section{Illustrative Example}
+
+So far we have not made any assumptions regarding the cause of the variability
+of the power term in the thermal system given by \eref{fourier-system}. In this
+section, we shall consider a particular application of the proposed framework.
+To this end, we begin with the problem formulation of this application.
+
+\subsection{Parameter Preprocessing}
+
+At Stage~1, \vu should be preprocessed in order to extract a vector of mutually
+independent random variables denoted by \vz. Following the guidance given in
+\sref{uncertain-parameters}, the most suitable transformation for the ongoing
+scenario is the Nataf transformation. Here we describe the algorithm in brief
+and refer the interested reader to \cite{li2008} for additional details. The
+transformation is typically presented in two steps. First, $\vu \in \real^\nu$,
+$\nu = \np + 1$, is morphed into correlated Gaussian variables, denoted by $\vz'
+\in \real^\nu$, using the knowledge of the marginal distributions and covariance
+matrix of \vu. Second, the obtained correlated Gaussian variables are mapped
+into independent standard Gaussian variables, denoted by $\vz'' \in \real^\nu$,
+using one of several available techniques; see \cite{li2008}.
+
+The number of stochastic dimensions, which so far is $\np+ 1$, directly impacts
+the computational cost of PC expansions as it is discussed in
+\sref{computational-challenges}. Therefore, one should consider a possibility
+for model order reduction before constructing PC expansions. To this end, we
+perform the second step of the Nataf transformation by virtue of the discrete
+Karhunen--Lo\`{e}ve (KL) decomposition \cite{ghanem1991} as the reduction comes
+naturally in this way. A description of this procedure can be found in
+\sref{karhunen-loeve}. Let us denote the trimmed independent variables by
+$\vz'''$ and their number by \nz. We also denote the whole operation, that is,
+the reduction-aware Nataf transformation, by
+\[
+  \vu = \mathrm{Nataf}^{-1}(\vz''')
+\]
+where the superscript ``$-1$'' signifies the fact that we are interested in
+expressing \vu via $\vz'''$ and, hence, need to perform all the operations in
+the reversed order.
+
+At this point, we have \nz independent Gaussian random variables stored in
+$\vz'''$, which already suffice the independence prerequisite for PC expansions
+(see \sref{uncertain-parameters}). However, we prefer to construct PC expansions
+in terms of bounded variables since such expansions will also be bounded. To
+this end, we undertake one additional transformation that yields a vector of
+(independent) random variables $\vz \in \real^\nz$ whose distributions have
+bounded supports. This transformation is a standard technique based on the
+composition of the inverse CDF of $\vz'''$ and the CDF of \vz denoted by
+$F^{-1}_{\vz'''}$ and $F_{\vz}$, respectively. The overall probability
+transformation $\transform{}$ (see \sref{uncertain-parameters}) from \vu to \vz
+is then given as follows:
+\[
+  \vu = \transform{\vz} = \mathrm{Nataf}^{-1}(F^{-1}_{\vz'''}(F_{\vz}(\vz))).
+\]
+The distributions of \vz can be chosen arbitrary as long as one can construct a
+suitable polynomial basis as described in \sref{pc-basis}. We let \vz have beta
+distributions, staying in the same family of distributions with the parameters
+\vu.
+
+\subsection{Power Modeling}
+
+At Stage~2 in \fref{algorithm}, we need to decide on the power model with the
+identified uncertain parameters as an input. To this end, \eref{power-model} is
+decomposed into the sum of the dynamic and static components denoted by
+$f_\dynamic(t, \vu)$ and $f_\static(\vq(t, \vu), \vu)$, respectively. As
+motivated earlier, we let $f_\dynamic(t, \vu) = \vp_\dynamic(t)$ (does not
+depend on \vu). We assume that the desired workload of the system is given as a
+dynamic power profile denoted by $\mp_\dynamic$. Without loss of generality, the
+development of the static part is based on SPICE simulations of a reference
+electrical circuit composed of BSIM4 devices (v4.7.0) \cite{bsim} configured
+according to the 45-nm PTM (high-performance) \cite{ptm}. Specifically, we use a
+series of CMOS invertors for this purpose. The simulations are performed for a
+fine-grained two-dimensional grid, the effective channel length vs. temperature,
+and the results are tabulated. The interpolation facilities of MATLAB (vR2013a)
+\cite{matlab} are then utilized whenever we need to evaluate the leakage power
+for a particular point within the range of the grid, which is chosen to be
+sufficiently wide.
+
+\subsection{Thermal Modeling}
+
+We move on to Stage~3 where the thermal model of the multiprocessor system is to
+be established. Given the thermal specification \spec of the considered platform
+(the floorplan of the die, the configuration of the thermal package, and so on),
+we employ HotSpot (v5.02) \cite{skadron2004} in order to construct an equivalent
+thermal RC circuits of the system. Specifically, we are interested in the
+coefficient matrices $\m{E}(t)$ and $\m{F}(t)$ in \eref{recurrence} (see also
+\fref{algorithm}), which HotSpot helps us to compute by providing the
+corresponding capacitance and conductance matrices of the system as described in
+\sref{thermal-model}. In this case, thermal packages are modeled with three
+layers, and the relation between the number of processing elements and the
+number of thermal nodes is given by $\nn = 4 \np + 12$.
+
+To conclude, the power and thermal models of the platform are now acquired, and
+we are ready to construct the corresponding surrogate model via PC expansions,
+which is the topic for the discussion in the following subsection.
+
+\subsection{Surrogate Modeling}
+
+At Stage~4, the uncertain parameters, power model, and thermal model developed
+in the previous sections are to be fused together under the desired workload
+$\mp_\dynamic$ to produce the corresponding stochastic power $\mp$ and
+temperature $\mq$ profiles. The construction of PC expansions, in the current
+scenario, is based on the Jacobi polynomial basis as it is preferable in
+situations involving beta-distributed parameters \cite{xiu2010}. To give an
+example, for a dual-core platform (that is, $\np = 2$) with two stochastic
+dimensions (that is, $\nz = 2$), the second-order PC expansion (that is, $\nc =
+2$) of temperature at the $k$th time moment is as follows:\footnote{The Jacobi
+polynomials have two parameters \cite{xiu2010}, and the shown $\{ \psi_i \}_{i =
+1}^6$ correspond to the case where both parameters are equal to two.}
+\begin{align}
+  \chaos{2}{2}{\vq_k}
+  & = \hat{\vq}_{k1} \, \psi_1(\vz) + \hat{\vq}_{k2} \, \psi_2(\vz) + \hat{\vq}_{k3} \, \psi_3(\vz) \nonumber \\
+  & {} + \hat{\vq}_{k4} \, \psi_4(\vz) + \hat{\vq}_{k5} \, \psi_5(\vz) + \hat{\vq}_{k6} \, \psi_6(\vz) \elab{pc-example}
+\end{align}
+where the coefficients $\hat{\vq}_{ki}$ are vectors with two elements
+corresponding to the two processing elements,
+\begin{align*}
+  & \psi_1(\v{x}) = 1, \\
+  & \psi_2(\v{x}) = 2 x_1, \\
+  & \psi_3(\v{x}) = 2 x_2, \\
+  & \psi_4(\v{x}) = 4 x_1 x_2 \\
+  & \psi_5(\v{x}) = \frac{15}{4} x_1^2 - \frac{3}{4}, \text{ and} \\
+  & \psi_6(\v{x}) = \frac{15}{4} x_2^2 - \frac{3}{4}.
+\end{align*}
+The expansion for power has the same structure but different coefficients. Such
+a series might be shorter or longer depending on the accuracy requirements
+defined by \lc.
+
+Once the basis has been chosen, we need to compute the corresponding
+coefficients, specifically, $\{ \hat{\vp}_{ki} \}_{i = 1}^\nc$ in
+\eref{pc-expansion}, which yield $\{ \hat{\vq}_{ki} \}_{i = 1}^\nc$. As shown in
+\sref{polynomial-chaos}, these computations involve multidimensional integration
+with respect to the PDF of \vz, which should be done numerically using a
+quadrature rule; recall \sref{pc-coefficients}. When beta distributions are
+concerned, a natural choice of such a rule is the Gauss-Jacobi quadrature.
+Additional details are given in \sref{gauss-quadrature}.
+
+To summarize, we have completed four out of five stages of the proposed
+framework depicted in \fref{algorithm}. The result is a light surrogate for the
+model in \eref{fourier-system}. At each moment of time, the surrogate is
+composed of two \np-valued polynomials, one for power and one for temperature,
+which are defined in terms of \nz mutually independent random variables; an
+example of such a polynomial is given in \eref{pc-example}.
+
+\subsection{Post-processing}
+
+We turn to Stage~5 in \fref{algorithm}. It can be seen in, for example,
+\eref{pc-example} that the surrogate model has a negligibly small computational
+cost at this stage: for any outcome of the parameters $\vz \equiv \vz(\omega)$,
+we can easily compute the corresponding temperature by plugging in \vz into
+\eref{pc-example}; the same applies to power. Hence, the constructed
+representation can be trivially analyzed to retrieve various statistics about
+the system in \eref{fourier-system}. Let us illustrate a few of them still
+retaining the example in \eref{pc-example}. Assume that the dynamic power
+profile $\mp_\dynamic$ corresponding to the considered workload is the one shown
+in \fref{application-power}. Having constructed the surrogate with respect to
+this profile, we can then rigorously estimate, say, the PDF of temperature at
+some $k$th moment of time by sampling the surrogate and obtain curves similar to
+those shown \fref{experimental-results-pdf} (discussed in
+\sref{experimental-results}). Furthermore, the expectation and variance of
+temperature are trivially calculated using the formulae in \eref{pc-moments}
+where $\nc = 6$. For the whole time span of the power profile $\mp_\dynamic$
+depicted in \fref{application-power}, these quantities are plotted in
+\fref{application-temperature}. The displayed curves closely match those
+obtained via MC simulations with $10^4$ samples; however, our method takes less
+than a second whilst MC sampling takes more than a day as we shall see next.
+
+\section{Experimental Results}
+
+In this section, we report the results of the proposed framework for different
+configurations of the illustrative example in \sref{illustrative-example}. All
+the experiments are conducted on a GNU/Linux machine with Intel Core i7 2.66~GHz
+and 8~GB of RAM.
+
+Now we shall elaborate on the default configuration of our experimental setup,
+which, in the following subsections, will be adjusted according to the purpose
+of each particular experiment. We consider a 45-nanometer technological process.
+The effective channel length is assumed to have a nominal value of
+$17.5\,\text{nm}$ \cite{ptm} and a standard deviation of $2.25\,\text{nm}$ where
+the global and local variations are equally weighted. Correlation matrices are
+computed according to \eref{correlation-function} where the length-scale
+parameters $\ell_\mathrm{SE}$ and $\ell_\mathrm{OU}$ are set to half the size of
+the square die. In the model order reduction technique (see
+\sref{ie-uncertain-parameters}), the threshold parameter is set to 0.99
+preserving 99\% of the variance of the data. Dynamic power profiles involved in
+the experiments are based on simulations of randomly generated applications
+defined as directed acyclic task graphs.\footnote{In practice, dynamic power
+profiles are typically obtained via an adequate simulator of the architecture of
+interest.} The floorplans of the platforms are constructed in such a way that
+the processing elements form regular grids.\footnote{The task graphs of the
+applications, floorplans of the platforms, configuration of HotSpot, which was
+used to construct thermal RC circuits for our experiments, are available online
+at \cite{sources}.} The time step of power and temperature traces is set to
+$1\,\text{ms}$ (see \sref{problem-formulation}), which is also the time step of
+the recurrence in \eref{pc-recurrence}. As a comparison to our polynomial chaos
+(PC) expansions, we employ Monte Carlo (MC) sampling. The MC approach is set up
+to preserve the whole variance of the problem, that is, no model order
+reduction, and to solve \eref{fourier-system} directly using the Runge-Kutta
+formulae (the Dormand-Prince method) available in MATLAB \cite{matlab}.
+
+Since the temperature part of PTA is the main contribution of this work, we
+shall focus on the assessment of temperature profiles. Note, however, that the
+results for temperature allow one to implicitly draw reasonable conclusions
+regarding power since power is an intermediate step towards temperature, and any
+accuracy problems with respect to power are expected to propagate to
+temperature. Also, since the temperature-driven studies \cite{juan2011,
+juan2012, huang2009a, lee2013} work under the steady-state assumption
+(\cite{juan2011} is also limited to the maximal temperature, and
+\cite{huang2009a} does not model the leakage-temperature interplay), a
+one-to-one comparison with our framework is not possible.
+
+\subsection{Approximation Accuracy}
+
+The first set of experiments is aimed to identify the accuracy of our framework
+with respect to MC simulations. At this point, it is important to note that the
+true distributions of temperature are unknown, and both the PC and MC approaches
+introduce errors. These errors decrease as the order of PC expansions \lc and
+the number of MC samples \ns, respectively, increase. Therefore, instead of
+postulating that the MC technique with a certain number of samples is the
+``universal truth'' that we should achieve, we shall vary both \lc and \ns and
+monitor the corresponding difference between the results produced by the two
+alternatives.
+
+In order to make the comparison even more comprehensive, let us also inspect the
+effect of the correlation patterns between the local random variables $\{ L_i
+\}$ (recall \sref{illustrative-example}). Specifically, apart from \lc and \ns,
+we shall change the balance between the two correlation kernels shown in
+\eref{correlation-function}, that is, the squared-exponential $k_\mathrm{SE}$
+and Ornstein-Uhlenbeck $k_\mathrm{OU}$ kernels, which is controlled by the
+weight parameter $\eta \in [0, 1]$.
+
+The PC and MC methods are compared by means of three error metrics. The first
+two are the \acf{NRMSE} of the expectation and variance of the computed
+temperature profiles.\footnote{In the context of \acp{NRMSE}, we treat the MC
+results as the observed data and the PC results as the corresponding model
+predictions.} The third metric is the mean of the \acp{NRMSE} of the empirical
+PDFs of temperature constructed at each time step for each processing element.
+The error metrics are denoted by $\epsilon_E$, $\epsilon_\mathrm{Var}$, and $\epsilon_f$,
+respectively. $\epsilon_E$ and $\epsilon_\mathrm{Var}$ are easy to interpret, and they are based
+on the analytical formulae in \eref{pc-moments}. $\epsilon_f$ is a strong
+indicator of the quality of the distributions estimated by our framework, and it
+is computed by sampling the constructed PC expansions. In contrast to the MC
+approach, this sampling has a negligible overhead as we discussed in
+\sref{post-processing}.
+
+The considered values for \lc, \ns, and $\eta$ are the sets $\{ n \}_{n = 1}^7$,
+$\{ 10^n \}_{n = 2}^5$, and $\{ 0, 0.5, 1 \}$, respectively. The three cases of
+$\eta$ correspond to the total dominance of $k_\mathrm{OU}$ ($\eta = 0$),
+perfect balance between $k_\mathrm{SE}$ and $k_\mathrm{OU}$ ($\eta = 0.5$), and
+total dominance of $k_\mathrm{SE}$ ($\eta = 1$). A comparison for a quad-core
+architecture with a dynamic power profile of $\ns = 10^2$ steps is given in
+\tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, which
+correspond to $\eta = 0$, $\eta = 0.5$, and $\eta = 1$, respectively. Each table
+contains three subtables: one for $\epsilon_E$ (the left most), one for
+$\epsilon_\mathrm{Var}$
+(in the middle), and one for $\epsilon_f$ (the right most), which gives nine
+subtables in total. The columns of the tables that correspond to high values of
+\ns can be used to assess the accuracy of the constructed PC expansions;
+likewise, the rows that correspond to high values of \lc can be used to judge
+about the sufficiency of the number of MC samples. One can immediately note
+that, in all the subtables, all the error metrics tend to decrease from the top
+left corners (low values of \lc and \ns) to the bottom right corners (high
+values of \lc and \ns), which suggests that the PC and MC methods converge.
+There are a few outliers, associated with low PC orders and/or the random nature
+of sampling, for instance, $\epsilon_\mathrm{Var}$ increases from 66.13 to 66.70 and
+$\epsilon_f$ from 1.59 to 1.62 when \ns increases from $10^4$ and $10^5$ in
+\tref{accuracy-eta-0-5}; however, the aforementioned main trend is still clear.
+
+For clarity of the discussions below, we shall primarily focus on one of the
+tables, namely, on the middle table, \tref{accuracy-eta-0-5}, as the case with
+$\eta = 0.5$ turned out to be the most challenging (explained in
+\sref{er-speed}). The drawn conclusions will be generalized to the other two
+tables later on.
+
+First, we concentrate on the accuracy of our technique and, thus, pay particular
+attention the columns of \tref{accuracy-eta-0-5} corresponding to high values of
+\ns. It can be seen that the error $\epsilon_E$ of the expected value is small
+even for $\lc = 1$: it is bounded by 0.6\% (see $\epsilon_E$ for $\lc \geq 1$
+and $\ns \geq 10^4$).
+
+The error $\epsilon_\mathrm{Var}$ of the second central moment starts from
+66.7\% for the first-order PC expansions and drops significantly to 5.71\% and
+below for the fourth order and higher (see $\epsilon_\mathrm{Var}$ for $\lc \geq
+4$ and $\ns = 10^5$). It should be noted, however, that, for a fixed $\lc \geq
+4$, $\epsilon_\mathrm{Var}$ exhibits a considerable decrease even when \ns
+transitions from $10^4$ to $10^5$. The rate of this decrease suggests that $\ns
+= 10^4$ is not sufficient to reach the same accuracy as the one delivered by the
+proposed framework, and $\ns = 10^5$ might not be either.
+
+The results of the third metric $\epsilon_f$ allow us to conclude that the PDFs
+computed by the third-order (and higher) PC expansions closely follow those
+estimated by the MC technique with large numbers of samples, namely, the
+observed difference in \tref{accuracy-eta-0-5} is bounded by 1.83\% (see
+$\epsilon_f$ for $\lc \geq 3$ and $\ns \geq 10^4$). To give a better
+appreciation of the proximity of the two methods,
+\fref{experimental-results-pdf} displays the PDFs computed using our framework
+for time moment 50~ms with $\lc = 4$ (the dashed lines) along with those
+calculated by the MC approach with $\ns = 10^4$ (the solid lines). It can be
+seen that the PDFs tightly match each other. Note that this example captures one
+particular time moment, and such curves are readily available for all the other
+steps of the considered time span.
+
+Now we take a closer look at the convergence of the MC-based technique. With
+this in mind, we focus on the rows of \tref{accuracy-eta-0-5} that correspond to
+PC expansions of high orders. Similar to the previous observations, even for low
+values of \ns, the error of the expected values estimated by MC sampling is
+relatively small, namely, bounded by 1.19\% (see $\epsilon_E$ for $\lc \geq 4$
+and $\ns = 10^2$). Meanwhile, the case with $\ns = 10^2$ has a high error rate
+in terms of $\epsilon_\mathrm{Var}$ and $\epsilon_f$: it is above 38\% for
+variance and almost 3.5\% for PDFs (see $\epsilon_\mathrm{Var}$ and $\epsilon_f$
+for $\lc = 7$ and $\ns = 10^2$). The results with $\ns = 10^3$ are reasonably
+more accurate; however, this trend is compromised by \tref{accuracy-eta-1}:
+$10^3$ samples leave an error of more than 7\% for variance (see
+$\epsilon_\mathrm{Var}$ for $\lc \geq 4$ and $\ns = 10^3$).
+
+The aforementioned conclusions, based on \tref{accuracy-eta-0-5} ($\eta = 0.5$),
+are directly applicable to \tref{accuracy-eta-0} ($\eta = 0$) and
+\tref{accuracy-eta-1} ($\eta = 1$). The only difference is that the average
+error rates are lower when either of the two correlation kernels dominates. In
+particular, according to $\epsilon_\mathrm{Var}$, the case with $\eta = 1$,
+which corresponds to $k_\mathrm{SE}$, stands out to be the least error prone.
+
+Guided by the observations in this subsection, we conclude that our framework
+delivers accurate results starting from $\lc = 4$. The MC estimates, on the
+other hand, can be considered as sufficiently reliable starting from $\ns =
+10^4$. The last conclusion, however, is biased in favor of the MC technique
+since, as we noted earlier, there is evidence that $10^4$ samples might still
+not be enough.
+
+\subsection{Computational Speed}
+
+In this section, we focus on the speed of our framework. In order to increase
+the clarity of the comparisons given below, we use the same order of PC
+expansions and the same number of MC samples in each case. Namely, based on the
+conclusions from the previous subsection, \lc is set to four, and \ns is set to
+$10^4$; the latter also conforms to the experience from the literature
+\cite{huang2009, lee2013, shen2009, bhardwaj2008, ghanta2006} and to the
+theoretical results on the accuracy of MC sampling given in
+\cite{diaz-emparanza2002}.
+
+First, we vary the number of processing elements \np, which directly affects the
+dimensionality of the uncertain parameters $\vu \in \real^\nu$ (recall
+\sref{illustrative-example}). As before, we shall report the results obtained
+for various correlation weights $\eta$, which impacts the number of the
+independent variables $\vz \in \real^\nz$, preserved after the model order
+reduction procedure described in \sref{ie-uncertain-parameters} and
+\sref{karhunen-loeve}. The results, including the dimensionality \nz of \vz, are
+given in \tref{speed-processing-elements} where the considered values for \np
+are $\{ 2^n \}_{n = 1}^5$, and the number of time steps \ns is set to $10^3$. It
+can be seen that the correlation patters inherent to the fabrication process
+\cite{cheng2011} open a great possibility for model order reduction: \nz is
+observed to be at most 12 while the maximal number without reduction is 33 (one
+global variable and 32 local ones corresponding to the case with 32 processing
+elements). This reduction also depends on the floorplans, which is illustrated
+by the decrease of \nz when \np increases from 16 to 32 for $\eta = 1$. To
+elaborate, one floorplan is a four-by-four grid, a perfect square, while the
+other an eight-by-four grid, a rectangle. Since both are fitted into square
+dies, the former is spread across the whole die whereas the latter is
+concentrated along the middle line; the rest is ascribed to the particularities
+of $k_\mathrm{SE}$. On average, the $k_\mathrm{OU}$ kernel ($\eta = 0$) requires
+the fewest number of variables while the mixture of $k_\mathrm{SE}$ and
+$k_\mathrm{OU}$ ($\eta = 0.5$) requires the most.\footnote{The results in
+\sref{er-accuracy} correspond to the case with $\np = 4$; therefore, \nz is two,
+five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and
+\tref{accuracy-eta-1}, respectively.} It means that, in the latter case, more
+variables should be preserved in order to retain 99\% of the variance. Hence,
+the case with $\eta = 0.5$ is the most demanding in terms of complexity; see
+\sref{computational-challenges}.
+
+It is important to note the following. First, since the curse of dimensionality
+constitutes arguably the major concern of the theory of PC expansions, the
+applicability of our framework primarily depends on how this curse manifests
+itself in the problem at hand, that is, on the dimensionality \nz of \vz.
+Second, since \vz is a result of the preprocessing stage depending on many
+factors, the relation between $\vu$ and $\vz$ is not straightforward, which is
+illustrated in the previous paragraph. Consequently, the dimensionality of \vu
+can be misleading when reasoning about the applicability of our technique, and
+\nz shown \tref{speed-processing-elements} is well suited for this purpose.
+
+Another observation from \tref{speed-processing-elements} is the low slope of
+the execution time of the MC technique, which illustrates the well-known fact
+that the workload per MC sample is independent of the number of stochastic
+dimensions. On the other hand, the rows with $\nz > 10$ hint at the curse of
+dimensionality characteristic to PC expansions (see
+\sref{computational-challenges}). However, even with high dimensions, our
+framework significantly outperforms MC sampling. For instance, in order to
+analyze a power profile with $10^3$ steps of a system with 32 cores, the MC
+approach requires more than 40 hours whereas the proposed framework takes less
+than two minutes (the case with $\eta = 0.5$).
+
+Finally, we investigate the scaling properties of the proposed framework with
+respect to the duration of the considered time spans, which is directly
+proportional to the number of steps \ns in the power and temperature profiles.
+The results for a quad-core architecture are given in \tref{speed-time-spans}.
+Due to the long execution times demonstrated by the MC approach, its statistics
+for high values of \ns are extrapolated based on a smaller number of samples,
+that is, $\ns \ll 10^4$. As it was noted before regarding the results in
+\tref{speed-processing-elements}, we observe the dependency of the PC expansions
+on the dimensionality \nz of \vz, which is two for $\eta = 0$ and five for the
+other two values of $\eta$ (see \tref{speed-processing-elements} for $\np = 4$).
+It can be seen in \tref{speed-time-spans} that the computational times of both
+methods grow linearly with $\ns$, which is expected. However, the proposed
+framework shows a vastly superior performance being up to five orders of
+magnitude faster than MC sampling.
+
+It is worth noting that the observed speedups are due to two major reasons.
+First of all, PC expansions are generally superior to MC sampling when the curse
+of dimensionality is suppressed \cite{xiu2010, eldred2008}, which we accomplish
+by model order reduction and efficient integration schemes; see
+\sref{computational-challenges}. The second reason is the particular solution
+process used in this work to solve the thermal model and construct PC expansions
+in a stepwise manner; see \sref{pc-recurrence}.
 
 \section{Conclusion}
+
+We presented a framework for transient power-temperature analysis (PTA) of
+electronic systems under process variation. Our general technique was then
+applied in a context of particular importance wherein the variability of the
+effective channel length was addressed. Note, however, that the framework can be
+readily utilized to analyze any other quantities affected by process variation
+and to study their combinations. Finally, we drew a comparison with MC sampling,
+which confirmed the efficiency of our approach in terms of both accuracy and
+speed. The reduced execution times, by up to five orders of magnitude, implied
+by the proposed framework allow for PTA to be efficiently performed inside
+design space exploration loops aimed at, for instance, energy and reliability
+optimization with temperature-related constraints under process variation.
+
+\section{Temperature Model}
+
+In this section, we provide additional details on the thermal model utilized by
+the proposed framework at Stage~3 described in \sref{thermal-model}. We use the
+widespread model based on Fourier's heat equation \cite{skadron2004}, which,
+after a proper spacial discretization, leads to the following system:
+\begin{subnumcases}{\elab{fourier-system-original}}
+  \m{C} \frac{d \vs(t)}{dt} + \m{G} \vs(t) = \m{M} \vp(t) \elab{fourier-original} \\
+  \vq(t) = \m{M}^T \vs(t) + \vq_\ambient
+\end{subnumcases}
+where the number of differential equations is equal to the number of thermal
+nodes denoted by \nn; $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in
+\real^{\nn \times \nn}$ are a diagonal matrix of the thermal capacitance and a
+symmetric, positive-definite matrix of the thermal conductance, respectively;
+$\vs \in \real^\nn$ is a vector of the difference between the temperature of the
+thermal nodes and the ambient temperature; $\vp \in \real^\np$ and $\m{M} \in
+\real^{\nn \times \np}$ are a vector of the power dissipation of the processing
+elements and its mapping to the thermal nodes, respectively; $\vq \in \real^\np$
+is a vector of the temperature of the processing elements; and $\vq_\ambient \in
+\real^\np$ is a vector of the ambient temperature. $\m{M}$ distributes power
+across the thermal nodes. Assuming that one processing element is mapped onto
+one thermal node, $\m{M}$ is filled in with zeros except for \np elements equal
+to unity that are located on the main diagonal. For convenience, we perform an
+auxiliary transformation of the system in \eref{fourier-system-original} using
+\cite{ukhov2012}
+\begin{align*}
+  & \vs = \m{C}^\frac{1}{2} \vs, \\
+  & \m{A} = -\m{C}^{-\frac{1}{2}} \m{G} \m{C}^{-\frac{1}{2}}, \text{ and} \\
+  & \m{B} = \m{C}^{-\frac{1}{2}} \m{M}
+\end{align*}
+and obtain the system in \eref{fourier-system} where the coefficient matrix
+$\m{A}$ preserves the symmetry and positive-definiteness of $\m{G}$. In general,
+the differential part in \eref{fourier-system-original} (and in
+\eref{fourier-system}) is nonlinear due to the source term $\vp(t)$ since we do
+not make any assumptions about its structure (see the discussion in
+\sref{power-model}). Therefore, there is no closed-form solution to the system.
+
+The time intervals of the power and temperature profiles are assumed to be short
+enough such that the total power of a processing element can be approximated by
+a constant within one interval. In this case, \eref{fourier-original} (and
+\eref{fourier-de}) is a system of linear differential equations that can be
+solved analytically. The solution is as follows \cite{ukhov2012}:
+\begin{equation} \elab{ode-solution}
+  \vs(t) = \m{E}(t) \vs(0) + \m{F}(t) \vp(0)
+\end{equation}
+where $t$ is restricted to one time interval, $\vp(0)$ is the power dissipation
+at the beginning of the time interval with respect to the corresponding
+temperature,
+\begin{align*}
+  & \m{E}(t) = e^{\m{A} t} \in \real^{\nn \times \nn}, \text{ and} \\
+  & \m{F}(t) = \m{A}^{-1} (e^{\m{A} t} - \m{I}) \m{B} \in \real^{\nn \times \np}.
+\end{align*}
+The procedure is to be repeated for all \ns time intervals starting from the
+initial temperature, which, without loss of generality, is assumed to be equal
+to the ambient temperature. Note that, when the power profile is evenly sampled,
+the coefficient matrices $\m{E}(t)$ and $\m{F}(t)$ are constant and can be
+efficiently computed using the technique in \cite{ukhov2012}. It is also worth
+noting that the described solution method belongs to the family of so-called
+exponential integrators, which have good stability properties; refer to
+\cite{hochbruck2010} for an overview. Finally, taking into account \vu, we
+obtain \eref{recurrence}, operating on stochastic quantities.
+
+\section{Model Order Reduction}
+
+This section contains a description of the discrete Karhunen-Lo\`{e}ve
+decomposition \cite{ghanem1991}, which is utilized at Stage~1. We shall use the
+notation introduced in \sref{ie-uncertain-parameters}. Let $\m{\Sigma}_{\vz'}$
+be the covariance matrix of the centered random vector $\vz'$ (which is the
+result of the first step of the Nataf transformation discussed in
+\sref{ie-uncertain-parameters}). Since any covariance matrix is real and
+symmetric, $\m{\Sigma}_{\vz'}$ admits the eigenvalue decomposition as
+$\m{\Sigma}_{\vz'} = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$
+are an orthogonal matrix of the eigenvectors and a diagonal matrix of the
+eigenvalues of $\m{\Sigma}_{\vz'}$, respectively. $\vz'$ can then be represented
+as $\vz' = \m{V} \m{\Lambda}^\frac{1}{2} \vz''$ where the vector $\vz''$ is
+centered, normalized, and uncorrelated, which is also independent as $\vz'$ is
+Gaussian.
+
+The aforementioned decomposition provides means for model order reduction. The
+intuition is that, due to the correlations possessed by $\vz' \in \real^\nu$,
+this vector can be recovered from a small subset $\vz''' \in \real^\nz$ of
+$\vz'' \in \real^\nu$, $\nz \ll \nu$. Such redundancies can be revealed by
+analyzing the eigenvalues $\lambda_i$ stored in $\m{\Lambda}$. Assume
+$\lambda_i$, $\forall i$, are arranged in a non-increasing order and let
+$\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$. Gradually summing up the
+arranged and normalized eigenvalues $\tilde{\lambda}_i$, we can identify a
+subset of them that has the cumulative sum greater than a certain threshold.
+When this threshold is sufficiently high (close to one), the rest of the
+eigenvalues and the corresponding eigenvectors can be dropped as being
+insignificant, reducing the stochastic dimensionality of the problem.
+
+\section{Polynomial Chaos Expansion}
+
+Here we elaborate on the orthogonality property \cite{xiu2010} of PC expansions,
+which is extensively utilized at Stage~4 in \sref{polynomial-chaos}. Due to the
+inherent complexity, uncertainty quantification problems are typically viewed as
+approximation problems. More precisely, one usually constructs computationally
+efficient surrogates of the initial models and then studies these light
+representations instead. PC expansions \cite{xiu2010} are one way to perform
+such approximations, in which the approximating functions are orthogonal
+polynomials. A set of multivariate polynomials $\{ \psi_i: \real^\nu \to
+\real \}$ is orthogonal if
+\begin{equation} \elab{orthogonality}
+  \innerproduct{\psi_i}{\psi_j} = \innerproduct{\psi_i}{\psi_i} \delta_{ij}, \qquad \forall i, j,
+\end{equation}
+where $\innerproduct{\cdot}{\cdot}$ denotes the inner product in the Hilbert
+space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function.
+The inner product with a weight function $f: \real^\nu \to \real$ is defined as
+the following multidimensional integral:
+\begin{equation} \elab{inner-product}
+  \innerproduct{h}{g} = \int h(\v{x}) g(\v{x}) f(\v{x}) d\v{x}.
+\end{equation}
+In our context, the weight function corresponds to the PDF of \vz (see
+\sref{uncertain-parameters}). For $h = \psi_i$ and $g = \psi_j$, the inner
+product yields the covariance of $\psi_i$ and $\psi_j$, and the presence of
+orthogonality is equivalent to the absence of correlations.
+
+Many of the most popular probability distributions directly correspond to
+certain families of the orthogonal polynomials given in the Askey scheme
+\cite{xiu2010}. A probability distribution that does not have such a
+correspondence can be transformed into one of those that do have using the
+technique shown in \sref{ie-uncertain-parameters}. Another solutions is to
+construct a custom polynomial basis using the Gram-Schmidt process. In addition,
+apart from continuous, PC expansions can be applied to discrete distributions.
+Refer to \cite{xiu2010} for further discussions.
+
+\section{Numerical Integration}
+
+As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and
+\sref{polynomial-chaos}, the coefficients of PC expansions are integrals, which
+should be calculated numerically at Stage~4. In numerical integration, an
+integral of a function is approximated by a summation over the function values
+computed at a set of prescribed points, or nodes, which are multiplied by the
+corresponding prescribed weights. Such pairs of nodes and weights are called
+quadrature rules. A one-dimensional quadrature rule is characterized by its
+precision, which is defined as the maximal order of polynomials that the rule
+integrates exactly \cite{heiss2008}. In multiple dimensions, an \nu-variate
+quadrature rule is formed by tensoring one-dimensional counterparts. Such a
+multidimensional rule is characterized by its accuracy level \lq, which is
+defined as the index of the rule in the corresponding family of multidimensional
+rules with increasing precision.
+
+It can be seen in \eref{inner-product} that the integrand can be decomposed into
+two parts: the weight function $f$ and everything else. The former always stays
+the same; therefore, a rule is typically chosen in such a way that this
+``constant'' part is automatically taken into consideration by the corresponding
+weights since there is no point of recomputing $f$ each time when the other
+part, that is, the functions that the inner product operates on, changes. In
+this regard, there exist different families of quadrature rules tailored for
+different weight functions. Define such a quadrature-based approximation of
+\eref{inner-product} by
+\begin{equation} \elab{quadrature}
+  \innerproduct{h}{g} \approx \quadrature{\nu}{\lq}{h g}
+  = \sum_{i = 1}^\nq h(\hat{\v{x}}_i) g(\hat{\v{x}}_i) w_i
+\end{equation}
+where $\hat{\v{x}}_i \in \real^\nu$ and $w_i \in \real$ are the prescribed
+points and weights, respectively; \nq is their number; and \lq is the accuracy
+level of the quadrature rule, which is said to be \nu-variate. It is important
+to note that $\hat{\v{x}}_i$ and $w_i$ do not change when the quantity being
+integrated changes. Thus, once the rule to use has been identified, it can be
+utilized to compute the inner product of arbitrary $h$ and $f$ with no
+additional computational effort. In our experiments in
+\sref{experimental-results}, we use the library of quadrature rules available at
+\cite{burkardt2013}.
+
+Since in the example in \sref{illustrative-example} we need to compute the inner
+product with respect to beta measures, the Gauss-Jacobi quadrature rule is of
+particular interest. The rule belongs to a broad class of rules known as
+Gaussian quadratures. The precision of a one-dimensional Gaussian quadrature
+with $\hat{\nq}$ points is $2 \hat{\nq} - 1$; this feature makes such
+quadratures especially efficient \cite{heiss2008}. Using \eref{quadrature}, we
+rewrite \eref{pc-coefficients} as shown in \eref{pc-coefficients-quadrature}
+where $\{ \innerproduct{\psi_i}{\psi_i} \}_{i = 1}^\nc$ are computed exactly,
+either by applying the same quadrature rule or by taking products of the
+one-dimensional counterparts with known analytical expressions \cite{xiu2010};
+the result is further tabulated. It is important to note that \lq should be
+chosen in such a way that the rule is exact for polynomials of the total order
+at least $2 \lc$, that is, twice the order of PC expansions, which can be seen
+in \eref{pc-coefficients} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as
+the quadrature is Gaussian.
+
+There is one more and arguably the most crucial aspect of numerical integration
+that we ought to discuss: the algorithm used to construct multidimensional
+quadratures. In low dimensions, the construction can be easily based on the
+direct tensor product of one-dimensional rules. However, in high dimensions, the
+situation changes dramatically as the number of points produced by this approach
+can easily explode. For instance \cite{heiss2008}, if a one-dimensional rule has
+only four nodes, that is, $\hat{\nq} = 4$, then in 10 stochastic dimensions,
+that is, $\nu = 10$, the number of multivariate nodes becomes $\nq =
+\hat{\nq}^\nu = 4^{10} = 1\;048\;576$, which is not affordable. Moreover, it can
+be shown that most of the points obtained in such a way do not contribute to the
+asymptotic accuracy and, therefore, are a waste of time. In order to effectively
+alleviate this problem, we construct so-called sparse grids using the Smolyak
+algorithm \cite{eldred2008, heiss2008, burkardt2013}. The algorithm preserves
+the accuracy of the underlying one-dimensional rules for complete polynomials
+while significantly reducing the number of integration nodes. For instance, in
+the example given earlier, the number of points computed by the algorithm would
+be only $1\;581$, which implies drastic savings of the computational time.
