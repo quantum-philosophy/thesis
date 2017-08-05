@@ -144,8 +144,8 @@ an infinite-dimensional object as it characterizes a continuum of locations. For
 practical computations, it should be reduced to a finite-dimensional one. First,
 \g is discretized with respect to the union of two sets of locations. The first
 one is composed of the $\hnd \np$ points where the observations in $H$ are made
-($\hnd$ measurement sites with $\np$ measurement points each), and the other one
-of the locations where the user wishes to characterize \g. For simplicity, we
+(\hnd measurement sites with \np measurement points each), and the other one of
+the locations where the user wishes to characterize \g. For simplicity, we
 assume that the user is interested in all the sites, which is $\nd \np$
 locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
 these locations. Second, the dimensionality is reduced even further by
@@ -274,7 +274,7 @@ the current position of the chain as follows:
 \begin{equation} \elab{inference-proposal}
   \u \sim t_\nu(\u^*, \alpha^2 \m{J}^{-1})
 \end{equation}
-where $\u^*$ and $\m{J}$ are as in \sref{inference-optimization}, $\nu$ is the
+where $\u^*$ and $\m{J}$ are as in \sref{inference-optimization}, \nu is the
 number of degrees of freedom, and $\alpha$ is a tuning constant controlling the
 standard deviation of the proposal. Now sampling the proposal in
 \eref{inference-proposal} and evaluating the posterior in
@@ -287,7 +287,7 @@ Having completed the sampling procedure, we obtain a collection of samples of
 unrepresentative; this portion is known as the burn-in period. The preserved
 samples of $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
 \eref{inference-reduction} in order to compute samples of \g, which we denote by
-$G = \{ \vg_i \}_{i = 1}^\nm$ where $\vg_i \in \real^{\nd \np}$.
+$G = \{ \vg_i \}_{i = 1}^\no$ where $\vg_i \in \real^{\nd \np}$.
 
 \subsection{Post-Processing}
 \slab{inference-post-processing}
