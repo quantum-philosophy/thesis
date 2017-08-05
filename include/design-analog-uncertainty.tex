@@ -44,22 +44,22 @@ corresponding results are compared with \ac{MC} simulations in
 \section{Prior Work}
 \slab{analog-prior}
 
-Since the appearance of the first digital computers in 1940s, Monte Carlo (MC)
-sampling remains one of the most well-known and widely used methods for the
-analysis of stochastic systems. The reason for this popularity lies in the ease
-of implementation, in the independence of the stochastic dimensionality of the
-considered problems, and in the fact that the quantities estimated using MC
-simulations asymptotically approach the true values (the law of large numbers).
-The crucial problem with MC sampling, however, is the low rate of convergence:
-the error decreases at the order of $n^{-1/2}$ where $n$ is the number of
-samples.\footnote{There are other sampling techniques that have better
-convergence rates than the one of the classical MC sampling, for instance,
-quasi-MC sampling; however, due to additional restrictions, their applicability
-is often limited \cite{xiu2010}.} This means that, in order to get an additional
-decimal point of accuracy, one has to obtain hundred times more samples. Each
-such sample implies a complete realization of the whole system, which renders
-MC-based methods slow and often infeasible since the needed number of
-simulations can be extremely large \cite{diaz-emparanza2002}.
+Since the appearance of the first digital computers in 1940s, \acf{MC} sampling
+remains one of the most well-known and widely used methods for the analysis of
+stochastic systems. The reason for this popularity lies in the ease of
+implementation, in the independence of the stochastic dimensionality of the
+problem at hand, and in the fact that, by the law of large numbers
+\cite{durrett2010}, the quantities estimated using \ac{MC} sampling
+asymptotically approach the true values. The main problem with \ac{MC} sampling,
+however, is the low rate of convergence: the error decreases as $\no^{-1/2}$
+where \no is the number of samples. This means that an additional decimal point
+of accuracy requires hundred times more samples. Each such sample implies a
+complete realization of the whole system, which renders \ac{MC}-based methods
+slow and often unfeasible since the needed number of simulations can be
+extremely large \cite{diaz-emparanza2002}. There are other sampling techniques
+that have better convergence rates than the one of the classical \ac{MC}
+sampling such as quasi-\ac{MC} sampling; however, due to additional
+restrictions, their applicability is often limited \cite{xiu2010}.
 
 In order to overcome the limitations of deterministic power-temperature analysis
 (PTA) and, at the same time, to completely eliminate or, at least, mitigate the
