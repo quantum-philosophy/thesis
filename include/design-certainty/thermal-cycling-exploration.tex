@@ -25,22 +25,22 @@ six tasks denoted by T1--T6 and a heterogeneous platform with two processors
 denoted by P1 and P2. The task graph of the application is given in
 \fref{thermal-cycling-task-graph} along with the execution times of the tasks
 for both processors. The period of the application is 60~ms. The first
-alternative schedule and the resulting \acf{DSSTP} are shown on the left-hand
-side of \fref{thermal-cycling-example} where the height of a task represents its
-power consumption. It can be seen that P1 is experiencing three thermal cycles,
-that is, there are three intervals wherein temperature starts from a certain
-value, reaches an extremum, and then comes back. If we move T6 to P2, the number
-of cycles decreases to two, which can be seen in the middle of
-\fref{thermal-cycling-example}. If we also swap T2 and T4, the number of cycles
-of P1 drops to one, which is depicted on the right-hand side of
-\fref{thermal-cycling-example}. According to the reliability model that we shall
-describe shortly, these two changes improve the lifetime of the system by around
-45\% and 55\%, respectively, relative to the initial schedule.
+alternative schedule and the resulting dynamic steady-state temperature profile
+are shown on the left-hand side of \fref{thermal-cycling-example} where the
+height of a task represents its power consumption. It can be seen that P1 is
+experiencing three thermal cycles, that is, there are three intervals wherein
+temperature starts from a certain value, reaches an extremum, and then comes
+back. If we move T6 to P2, the number of cycles decreases to two, which can be
+seen in the middle of \fref{thermal-cycling-example}. If we also swap T2 and T4,
+the number of cycles of P1 drops to one, which is depicted on the right-hand
+side of \fref{thermal-cycling-example}. According to the reliability model that
+we shall describe shortly, these two changes improve the lifetime of the system
+by around 45\% and 55\%, respectively, relative to the initial schedule.
 
-The example shows that, when exploring the design space, it is important to
-take into account the number of temperature fluctuations and their
-characteristics. In order to obtain this information, the \ac{DSSTP} has to be
-computed.
+The above example shows that, when exploring the design space, it is important
+to take into consideration the number of temperature fluctuations and their
+characteristics. In order to obtain this information, dynamic steady-state
+temperature analysis has to be undertaken.
 
 \subsection{System Model}
 \slab{system-model}
@@ -173,11 +173,12 @@ be obtained by performing dynamic steady-state temperature analysis.
 
 Recall that we have a platform with \np processors and a periodic application
 with \nt tasks and a period $\period$ (see \sref{system-model}), and that, in
-this context, \mq stands for the \ac{DSSTP} of the system. The time to failure
-of each processor is modeled using the reliability model presented in
-\sref{reliability-model}. With a slight abuse of notation, let $\mean_i$ be the
-\ac{MTTF} of processor $i$ computed according to \eref{reliability-mean-time}.
-Our optimization objective is to find a schedule that maximizes
+this context, \mq stands for the dynamic steady-state temperature profile of the
+system under consideration. The time to failure of each processor is modeled
+using the reliability model presented in \sref{reliability-model}. With a slight
+abuse of notation, let $\mean_i$ be the \ac{MTTF} of processor $i$ computed
+according to \eref{reliability-mean-time}. Our optimization objective is to find
+a schedule that maximizes
 \begin{equation} \elab{thermal-cycling-objective}
   \min_{i = 1}^\np \mean_i
 \end{equation}
@@ -221,13 +222,13 @@ produces a schedule. If the schedule violates the deadline constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, based on the
 parameters of the processors and tasks discussed in \sref{system-model}, a power
-profile \mp is constructed, and the corresponding \ac{DSSTP} \mq is computed
-using our technique presented in \sref{dynamic-steady-state-solution}. If the
-\ac{DSSTP} violates the temperature constraint given in
+profile \mp is constructed, and the corresponding temperature profile \mq is
+computed using our technique presented in \sref{dynamic-steady-state-solution}.
+If the profile violates the temperature constraint in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, the
 \ac{MTTF} of each processor is estimated according to
-\eref{reliability-mean-time}, and the fitness function given in
+\eref{reliability-mean-time}, and the fitness function in
 \eref{thermal-cycling-objective} is computed.
 
 \subsection{Experimental Results}
@@ -305,13 +306,13 @@ respectively. It can be seen that, for example, the lifetime of the platform
 running 160 tasks can be extended by a factor of 18 using our technique whereas
 the best solutions found by the other two techniques within the same time frame
 are only around 2--5 times better than the initial solution. The reason for the
-poor performance of transient analysis with HotSpot is the excessively long
-execution time of the \ac{DSSTP} calculation. This method allows for a very
-shallow exploration of the design space. In the case of static steady-state
-analysis, the reason is different: the method is fast but also very inaccurate
-as discussed and illustrated in \sref{dynamic-steady-state-prior}. The
-inaccuracy drives the optimization towards solutions that turn out to be of low
-quality.
+poor performance of iterative transient analysis with HotSpot is the excessively
+long execution time of the calculation of dynamic steady-state temperature
+profiles, which means that this method allows for a very shallow exploration of
+the design space. In the case of static steady-state analysis, the reason is
+different: the method is fast but also very inaccurate as it is discussed and
+illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy drives the
+optimization towards solutions that turn out to be of low quality.
 
 \inputfigure{thermal-cycling-pareto}
 The experiments show that the impact of the optimization on the energy
