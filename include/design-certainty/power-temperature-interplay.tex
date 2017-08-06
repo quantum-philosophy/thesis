@@ -1,34 +1,12 @@
-There is one important aspect about the power consumption that we have not
-discussed yet. The total power consumption of an electrical circuit consists of
-two main components: dynamic and static. The dynamic power---which is the power
-that has been implicitly considered so far---is due to the actual useful work
-done by the circuit. It is modeled as follows:
-\[
-  \p_\dynamic = C f V^2
-\]
-where $C$ is the effective switched capacitance, $f$ is the frequency, and $V$
-is the supply voltage of the circuit. In contrast, the static power is due to
-various parasitic currents that cannot be entirely eliminated. One such current
-is the leakage current, which is by far dominant, especially in modern \up{CMOS}
-transistors. The leakage and, by extension, static power are modeled as follows
-\cite{liao2005}:
-\begin{equation} \elab{static-power}
-  \p_\static = \numberof{g} V I_0 \left(a \q^2 e^{\frac{\alpha V + \beta}{\q}} + b e^{\gamma V + \delta}\right)
-\end{equation}
-where $\q$ is the current temperature, $V$ is the current supply voltage, $I_0$
-is the average leakage current at the reference temperature and reference supply
-voltage, and $\numberof{g}$ is the number of gates in the circuit. Quantities
-$a$, $b$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are technology-dependent
-constants, which can found in \cite{liao2005}.
-
-It can be seen in the above equations that the dynamic power does not depend on
-the operating temperature whereas the static power does. The dependence is
-positive and strong: a higher heat dissipation leads to a considerably higher
+So far, the dependence of power on temperature, which can be seen in
+\eref{static-power}, has been ignored. The dependence is positive and strong: a
+higher level of the heat dissipation leads to a considerably higher level of the
 power consumption. On the other hand, the more power is consumed, the more heat
-is dissipated. Therefore, power and temperature constantly instigate each other.
-This phenomenon cannot be neglected since it leads to a higher power (energy)
-consumption and higher a heat dissipation than what is expected and, in the
-worst case, to a thermal runaway.
+is dissipated, which can be seen in \eref{temperature-model-original}.
+Consequently, power and temperature constantly instigate each other. This
+phenomenon cannot be neglected since it leads to a higher power (and, hence,
+energy) consumption and higher a heat dissipation than what is expected and, in
+the worst case, to a thermal runaway.
 
 In order to take the aforementioned power-temperature interplay into account
 when performing temperature analysis, two approaches can be employed. To begin
@@ -94,9 +72,14 @@ latter, we use the iterative approach described earlier. The experiment shows
 that the \ac{NRMSE} is bounded by 2\%, indicating a good accuracy of the linear
 approximation.
 
-Lastly, let us note that the leakage power is not considered in the experiments
-given in \sref{dynamic-steady-state-results}. However, if it was taken into
-account using the linearization, the computation times would remain unchanged,
-and, if the iterative model was utilized, the computation times would increase
-proportionally for all the techniques, which would not affect any of the
-conclusions.
+It is important to note that, by utilizing any of the above approaches, both
+power and temperature are analyzed simultaneously. To elaborate, one obtains not
+only a temperature profile but also the corresponding static and total power
+profiles wherein the power-temperature interplay is accounted for.
+
+Lastly, let us mention that the static power is not considered in the
+experiments given in \sref{dynamic-steady-state-results}. However, if it was
+taken into account using the linearization, the computation times would remain
+unchanged, and, if the iterative model was utilized, the computation times would
+increase proportionally for all the techniques, which would not affect any of
+the conclusions.
