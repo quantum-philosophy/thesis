@@ -79,13 +79,14 @@ $\m{\Lambda}$.
 \subsection{Probability Theory}
 \slab{probability-theory}
 
-Let $(\Omega, \mathcal{F}, P)$ be a probability space where $\Omega$ is a set of
-outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a $\sigma$-algebra on $\Omega$,
-which represents a set of events, and $P: \mathcal{F} \to [0, 1]$ is a
-probability measure, which assigns probabilities to the events
-\cite{durrett2010}. A random variable defined on $(\Omega, \mathcal{F}, P)$ is
-an $\mathcal{F}$-measurable function $x: \Omega \to \real$. Such a variable is
-uniquely characterized by its distribution function defined by
+Let $(\Omega, \mathcal{F}, \probability)$ be a probability space where $\Omega$
+is a set of outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a $\sigma$-algebra on
+$\Omega$, which represents a set of events, and $\probability: \mathcal{F} \to
+[0, 1]$ is a probability measure, which assigns probabilities to the events
+\cite{durrett2010}. A random variable defined on $(\Omega, \mathcal{F},
+\probability)$ is an $\mathcal{F}$-measurable function $x: \Omega \to \real$.
+Such a variable is uniquely characterized by its distribution function defined
+by
 \begin{equation*}
   F_x(x^*) = \probability{x \leq x^*} = \probability{\{ \omega \in \Omega: x(\omega) \leq x^* \}}.
 \end{equation*}
@@ -98,9 +99,10 @@ and the variance of $x$ is given by
   \variance{x} = \expectation{(x - \expectation{x})^2}.
 \]
 A random vector and a random matrix are a vector and matrix, respectively, whose
-elements are random variables. Lastly, denote by $\L{2}(\Omega, \mathcal{F}, P)$
-the Hilbert space of square-integrable random variables \cite{janson1997}
-defined on $(\Omega, \mathcal{F}, P)$ with the inner product given by
+elements are random variables. Lastly, denote by $\L{2}(\Omega, \mathcal{F},
+\probability)$ the Hilbert space of square-integrable random variables
+\cite{janson1997} defined on $(\Omega, \mathcal{F}, \probability)$ with the
+inner product given by
 \[
   \innerproduct{x}{y}_\L{2} = \expectation{x y}
 \]
@@ -108,7 +110,7 @@ and the norm given by
 \[
   \norm[\L{2}]{x} = \innerproduct{x}{x}^\frac{1}{2}
 \]
-for any $x$ and $y$ in $\L{2}(\Omega, \mathcal{F}, P)$.
+for any $x$ and $y$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
 
 \subsection{Bayesian Statistics}
 \slab{bayesian-statistics}

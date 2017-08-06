@@ -113,9 +113,23 @@
 % Probability theory
 %
 
-\newcommand{\expectation}[1]{E #1}
-\newcommand{\probability}[1]{P\left(#1\right)}
-\newcommand{\variance}[1]{\mathrm{Var}\left(#1\right)}
+\makeatletter
+\def\probability{\@ifnextchar\bgroup{\probabilityone}{\probabilityzero}}
+\def\probabilityone#1{P\left(#1\right)}
+\def\probabilityzero{P}
+\makeatother
+
+\makeatletter
+\def\expectation{\@ifnextchar\bgroup{\expectationone}{\expectationzero}}
+\def\expectationone#1{E #1}
+\def\expectationzero{E}
+\makeatother
+
+\makeatletter
+\def\variance{\@ifnextchar\bgroup{\varianceone}{\variancezero}}
+\def\varianceone#1{\mathrm{Var}\left(#1\right)}
+\def\variancezero{\mathrm{Var}}
+\makeatother
 
 %
 % Polynomial chaos
