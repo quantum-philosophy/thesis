@@ -8,7 +8,7 @@ scheduling of periodic applications.
 
 The remainder of the section is organized as follows. First, we consider a
 motivational example in \sref{thermal-cycling-example}. The utilized system and
-reliability models are then presented in \sref{system-model} and
+reliability models are then presented in \sref{thermal-cycling-system-model} and
 \sref{reliability-model}, respectively. In \sref{thermal-cycling-problem}, we
 formulate our optimization objective and, in \sref{thermal-cycling-solution},
 describe the optimization technique that we utilize in order to attain it.
@@ -38,32 +38,23 @@ we shall describe shortly, these two changes improve the lifetime of the system
 by around 45\% and 55\%, respectively, relative to the initial schedule.
 
 The above example shows that, when exploring the design space, it is important
-to take into consideration the number of temperature fluctuations and their
-characteristics. In order to obtain this information, dynamic steady-state
+to take into consideration the number of temperature fluctuations as well as
+their characteristics. In order to obtain this information, dynamic steady-state
 temperature analysis has to be undertaken.
 
 \subsection{System Model}
-\slab{system-model}
+\slab{thermal-cycling-system-model}
 
-Consider a heterogeneous multiprocessor platform with \np processors that is to
-execute a periodic application with \nt tasks. Processor $i$ is characterized by
-a triple $(\numberof{g}_i, f_i, V_i)$ where $\numberof{g}_i$, $f_i$, and $V_i$
-are the number of gates \cite{liao2005}, frequency, and supply voltage of the
-processor. The application is given as a directed acyclic graph whose vertices
-and edges correspond to the tasks and to data dependencies between the tasks,
-respectively; see \fref{thermal-cycling-task-graph} for an example. Denote by
-$\period$ the period of the application, which is assumed to be equal to the
-application's deadline. Furthermore, each pair of a task and a processor is
-characterized by a tuple $(\numberof{c}_{ij}, C_{ij})$ where $\numberof{c}_{ij}$
-is the number of clock cycles that task $i$ requires for its completion when it
-is executed on processor $j$, and $C_{ij}$ is the corresponding effective
-switched capacitance. Lastly, the application is assumed to be scheduled using a
-list scheduler whose inputs are priorities of the tasks and a mapping of the
-tasks onto the processors.
-
-The above information allows one to computer the power consumption of the tasks
-according to the power model presented in \sref{power-model}, which will then be
-used to evaluate the temperature model presented in \sref{temperature-model}.
+The system model is based on the one in \sref{system-model}. In this case, the
+\np processors represent \np \up{CPU}s that are to execute a periodic
+application with \nt tasks. The application is given as a directed acyclic graph
+whose vertices and edges correspond to the tasks and to data dependencies
+between the tasks, respectively; see \fref{thermal-cycling-task-graph} for an
+example. The period of the application is denoted by $\period$ and assumed to be
+equal to the deadline. Each pair of a task and a processor is characterized by
+an execution time and a power consumption. Lastly, the application is assumed to
+be scheduled using a list scheduler whose inputs are priorities of the tasks and
+a mapping of the tasks onto the processors.
 
 \subsection{Reliability Model}
 \slab{reliability-model}
@@ -172,13 +163,13 @@ be obtained by performing dynamic steady-state temperature analysis.
 \slab{thermal-cycling-problem}
 
 Recall that we have a platform with \np processors and a periodic application
-with \nt tasks and a period $\period$ (see \sref{system-model}), and that, in
-this context, \mq stands for the dynamic steady-state temperature profile of the
-system under consideration. The time to failure of each processor is modeled
-using the reliability model presented in \sref{reliability-model}. With a slight
-abuse of notation, let $\mean_i$ be the \ac{MTTF} of processor $i$ computed
-according to \eref{reliability-mean-time}. Our optimization objective is to find
-a schedule that maximizes
+with \nt tasks and a period $\period$ (see \sref{thermal-cycling-system-model}),
+and that, in this context, \mq stands for the dynamic steady-state temperature
+profile of the system under consideration. The time to failure of each processor
+is modeled using the reliability model presented in \sref{reliability-model}.
+With a slight abuse of notation, let $\mean_i$ be the \ac{MTTF} of processor $i$
+computed according to \eref{reliability-mean-time}. Our optimization objective
+is to find a schedule that maximizes
 \begin{equation} \elab{thermal-cycling-objective}
   \min_{i = 1}^\np \mean_i
 \end{equation}
@@ -217,17 +208,18 @@ absence of improvement within 200 successive generations.
 
 The fitness of a chromosome is evaluated in a number of steps. First, the
 chromosome is decoded, and the priorities of the tasks and their mapping onto
-the processors are fed to the scheduler; see \sref{system-model}. The scheduler
-produces a schedule. If the schedule violates the deadline constraint given in
+the processors are fed to the scheduler; see
+\sref{thermal-cycling-system-model}. The scheduler produces a schedule. If the
+schedule violates the deadline constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, based on the
-parameters of the processors and tasks discussed in \sref{system-model}, a power
-profile \mp is constructed, and the corresponding temperature profile \mq is
-computed using our technique presented in \sref{dynamic-steady-state-solution}.
-If the profile violates the temperature constraint in
-\eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
-to the amount of violation and is not further processed. Otherwise, the
-\ac{MTTF} of each processor is estimated according to
+parameters of the processors and tasks discussed in
+\sref{thermal-cycling-system-model}, a power profile \mp is constructed, and the
+corresponding temperature profile \mq is computed using our technique presented
+in \sref{dynamic-steady-state-solution}. If the profile violates the temperature
+constraint in \eref{thermal-cycling-constraints}, the chromosome is penalized
+proportionally to the amount of violation and is not further processed.
+Otherwise, the \ac{MTTF} of each processor is estimated according to
 \eref{reliability-mean-time}, and the fitness function in
 \eref{thermal-cycling-objective} is computed.
 

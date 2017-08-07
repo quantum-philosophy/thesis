@@ -1,15 +1,23 @@
 The total power consumption of an electrical circuit consists of two main
 components: dynamic and static. The dynamic power is due to the actual useful
-work done by the circuit. It is modeled as follows:
+work done by the circuit. The static power, on the other hand, is due to various
+parasitic currents that cannot be entirely eliminated. The total power consumed
+by \np processors at time $t$ is then written as follows:
+\[
+  \vp(t) = \vp_\dynamic(t) + \vp_\static(t)
+\]
+where $\vp_\dynamic \in \real^\np$ and $\vp_\static \in \real^\np$ are the
+aforementioned dynamic and static components of the total dissipation of power,
+respectively.
+
+The dynamic power is modeled as follows:
 \[
   \p_\dynamic = C f V^2
 \]
 where $C$ is the effective switched capacitance, $f$ is the frequency, and $V$
-is the supply voltage of the circuit. In contrast, the static power is due to
-various parasitic currents that cannot be entirely eliminated. One such current
-is the leakage current, which by far dominates, especially in modern \up{CMOS}
-transistors; see, for instance, \cite{chandrakasan2000, srivastava2010,
-juan2011, juan2012} and the references therein. The leakage and, by extension,
+is the supply voltage of the circuit. The static power is chiefly due to the
+leakage current \cite{chandrakasan2000, srivastava2010, juan2011, juan2012},
+especially in modern \up{CMOS} transistors. The leakage and, by extension,
 static power are modeled as follows \cite{liao2005}:
 \begin{equation} \elab{static-power}
   \p_\static = \numberof{g} V I_0 \left(a \q^2 e^{\frac{\alpha V + \beta}{\q}} + b e^{\gamma V + \delta}\right)
@@ -22,5 +30,5 @@ constants, which can found in \cite{liao2005}.
 
 It can be seen in the above equations that the dynamic power does not depend on
 the operating temperature whereas the static power does. The dependence is
-important; however, we shall ignore it for the moment and return to it in
-\sref{power-temperature-interplay} in order to take it adequately into account.
+highly important; however, we shall ignore it for the moment and return to it in
+\sref{power-temperature-interplay} in order to adequately take it into account.
