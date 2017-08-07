@@ -153,7 +153,7 @@ performing the transformation in \eref{model-order-reduction} with respect to
 the correlation matrix of \vg computed via \eref{inference-covariance}. The
 result is
 \begin{equation} \elab{inference-reduction}
-  \vg = \mu_\g \v{1} + \sigma_\g \m{L} \vz
+  \vg = \mu_\g \v{1} + \sigma_\g \m{U} \tm{\Lambda}^\frac{1}{2} \vz
 \end{equation}
 where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
 \real^\nz$ independent random variables that obey the standard Gaussian

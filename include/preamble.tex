@@ -131,6 +131,14 @@
 \def\variancezero{\mathrm{Var}}
 \makeatother
 
+\makeatletter
+\def\covariance{\@ifnextchar\bgroup{\covarianceplus}{\covariancezero}}
+\def\covarianceplus#1{\@ifnextchar\bgroup{\covariancetwo{#1}}{\covarianceone{#1}}}
+\def\covariancetwo#1#2{\mathrm{Cov}\left(#1, #2\right)}
+\def\covarianceone#1{\mathrm{Cov}\left(#1\right)}
+\def\covariancezero{\mathrm{Cov}}
+\makeatother
+
 %
 % Polynomial chaos
 %

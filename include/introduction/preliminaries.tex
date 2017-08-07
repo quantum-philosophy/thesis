@@ -46,47 +46,18 @@ of $\m{A}$, and
 \]
 is a diagonal matrix of the eigenvalues of $\m{A}$.
 
-The above decomposition provides a means of model order reduction, which is
-closely related to principal component analysis \cite{hastie2013}. In this
-setting, $\m{A}$ is a covariance matrix of $n$ potentially correlated variables.
-The eigendecomposition transforms these correlated variables into $n$ linearly
-uncorrelated variables whose variances are given by the corresponding
-eigenvalues, which are non-negative since a covariance matrix is positive
-semi-definite by definition. The goal of the reduction is to select the smallest
-subset of the uncorrelated variables whose cumulative contribution to the total
-variance is above a certain threshold. Formally, assuming that $\{ \lambda_i: i
-= \range{1}{n} \}$ are sorted in the descending order and given a threshold
-$\eta \in (0, 1]$, which is the fraction of the total variance to be preserved,
-we identify the smallest $\nz \leq n$ such that
-\[
-  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^n \lambda_i} \geq \eta.
-\]
-Then, given a vector \vz in the reduced space $\real^\nz$, the corresponding
-vector $\v{x}$ in the original space $\real^n$ can be lossy reconstructed as
-follows:
-\begin{equation} \elab{model-order-reduction}
-  \v{x} = \m{L} \vz
-\end{equation}
-where
-\[
-  \m{L} = \m{U} \tm{\Lambda}^\frac{1}{2}.
-\]
-In the above formula, $\tm{\Lambda} \in \real^{n \times \nz}$ is a truncated
-version of $\m{\Lambda} \in \real^{n \times n}$ given in
-\eref{eigendecomposition}: the matrix contains only the first \nz columns of
-$\m{\Lambda}$.
-
 \subsection{Probability Theory}
 \slab{probability-theory}
 
 Let $(\Omega, \mathcal{F}, \probability)$ be a probability space where $\Omega$
 is a set of outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a $\sigma$-algebra on
-$\Omega$, which represents a set of events, and $\probability: \mathcal{F} \to
-[0, 1]$ is a probability measure, which assigns probabilities to the events
-\cite{durrett2010}. A random variable defined on $(\Omega, \mathcal{F},
-\probability)$ is an $\mathcal{F}$-measurable function $x: \Omega \to \real$.
-Such a variable is uniquely characterized by its distribution function defined
-by
+$\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a probability measure
+\cite{durrett2010}. The $\sigma$-algebra represents a set of events, and the
+probability measure assigns probabilities to these events. A (real-valued)
+random variable defined on $(\Omega, \mathcal{F}, \probability)$ is an
+$\mathcal{F}$-measurable function $x: \Omega \to \real$. A random variable $x$
+is uniquely characterized by its distribution function, also known as the
+\ac{CDF}, defined by
 \begin{equation*}
   F_x(x^*) = \probability{x \leq x^*} = \probability{\{ \omega \in \Omega: x(\omega) \leq x^* \}}.
 \end{equation*}
@@ -94,23 +65,73 @@ The expectation of $x$ is given by
 \[
   \expectation{x} = \int_\real x^* dF_z(x^*) = \int_\Omega x(\omega) dP(\omega),
 \]
-and the variance of $x$ is given by
+The covariance of $x$ and a random variable $y$ is given by
 \[
-  \variance{x} = \expectation{(x - \expectation{x})^2}.
+  \covariance{x}{y} = \expectation{((x - \expectation{x})(y - \expectation{y}))}.
 \]
-A random vector and a random matrix are a vector and matrix, respectively, whose
-elements are random variables. Lastly, denote by $\L{2}(\Omega, \mathcal{F},
-\probability)$ the Hilbert space of square-integrable random variables
-\cite{janson1997} defined on $(\Omega, \mathcal{F}, \probability)$ with the
-inner product given by
+The variance of $x$ is given by
 \[
-  \innerproduct{x}{y}_\L{2} = \expectation{x y}
+  \variance{x} = \covariance{x}{x} = \expectation{(x - \expectation{x})^2}.
 \]
-and the norm given by
+The above quantities are well defined only when the corresponding integrals are
+finite. An example of a space of random variables defined on $(\Omega,
+\mathcal{F}, \probability)$ whose expectations and variances are finite is
+$\L{2}(\Omega, \mathcal{F}, \probability)$, the Hilbert space of
+square-integrable random variables \cite{janson1997} with the inner product
+defined by
+\[
+  \innerproduct{x}{y}_\L{2} = \expectation{(x y)}
+\]
+and the norm defined by
 \[
   \norm[\L{2}]{x} = \innerproduct{x}{x}^\frac{1}{2}
 \]
-for any $x$ and $y$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
+for any random variables $x$ and $y$ in $\L{2}(\Omega, \mathcal{F},
+\probability)$.
+
+An $n$-dimensional random variable or random vector $\v{x} = (x_i)_{i = 1}^n$ is
+a collection of $n$ random variables or, equivalently, a single random variable
+that happens to take values in $\real^n$, which is written as $\v{x}: \Omega \to
+\real^n$. Analogous to the one-dimensional case, $\v{x}$ obeys a certain (joint)
+distribution function and has an expectation and a variance (if they are
+finite), which are $n$-dimensional in this case. In addition, the covariance
+matrix of $\v{x}$ is defined as follows:
+\begin{equation} \elab{covariance-matrix}
+  \covariance{\v{x}} = \left(\covariance{x_i}{x_j}\right)_{i = 1, j = 1}^{n, n},
+\end{equation}
+which is positive semi-definite by definition.
+
+The eigendecomposition in \eref{eigendecomposition} applied to
+\eref{covariance-matrix} provides a useful transformation, which is known as the
+discrete \ac{KL} decomposition \cite{ghanem1991, xiu2010} and is closely related
+to principal component analysis \cite{hastie2013}. The decomposition transforms
+$n$ potentially correlated variables $\v{x}$ into $n$ linearly uncorrelated
+variables $\v{z}$ whose variances are given by the corresponding eigenvalues
+(they are non-negative since the matrix is positive semi-definite). More
+concretely, the relationship between the two vectors is as follows:
+\[
+  \v{x} = \m{U} \m{\Lambda}^\frac{1}{2} \vz.
+\]
+In addition, the decomposition provides a means of model order reduction. In
+this case, we are to select the smallest subset of the uncorrelated variables
+such that its cumulative contribution to the total variance is above a certain
+threshold. Formally, assuming that $\{ \lambda_i: i = \range{1}{n} \}$ are
+sorted in the descending order and given a threshold $\eta \in (0, 1]$, which is
+the fraction of the total variance to be preserved, we identify the smallest
+$\nz \leq n$ such that
+\[
+  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^n \lambda_i} \geq \eta.
+\]
+Then, given a vector \vz in the reduced space $\real^\nz$, the corresponding
+vector $\v{x}$ in the original space $\real^n$ can be lossy reconstructed as
+follows:
+\begin{equation} \elab{model-order-reduction}
+  \v{x} = \m{U} \tm{\Lambda}^\frac{1}{2} \vz.
+\end{equation}
+In the above formula, $\tm{\Lambda} \in \real^{n \times \nz}$ is a truncated
+version of $\m{\Lambda} \in \real^{n \times n}$ given in
+\eref{eigendecomposition}, that is, the matrix contains only the first \nz
+columns of $\m{\Lambda}$.
 
 \subsection{Bayesian Statistics}
 \slab{bayesian-statistics}
