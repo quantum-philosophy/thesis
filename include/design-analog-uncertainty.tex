@@ -4,6 +4,7 @@ propagate the uncertainty due to process variation through the system under
 development and investigate its impact on the system's behavior.
 
 \section{Introduction}
+\slab{analog-introduction}
 
 \inputfigure{analog-example}
 As it is emphasized in \sref{inference-introduction}, process variation is a
@@ -52,71 +53,72 @@ problem at hand, and in the fact that, by the law of large numbers
 \cite{durrett2010}, the quantities estimated using \ac{MC} sampling
 asymptotically approach the true values. The main problem with \ac{MC} sampling,
 however, is the low rate of convergence: the error decreases as $\no^{-1/2}$
-where \no is the number of samples. This means that an additional decimal point
-of accuracy requires hundred times more samples. Each such sample implies a
-complete realization of the whole system, which renders \ac{MC}-based methods
+where \no is the number of drawn samples. This means that an additional decimal
+point of accuracy requires hundred times more samples. Each such sample implies
+a complete realization of the whole system, which renders \ac{MC}-based methods
 slow and often unfeasible since the needed number of simulations can be
 extremely large \cite{diaz-emparanza2002}. There are other sampling techniques
 that have better convergence rates than the one of the classical \ac{MC}
 sampling such as quasi-\ac{MC} sampling; however, due to additional
 restrictions, their applicability is often limited \cite{xiu2010}.
 
-In order to overcome the limitations of deterministic power-temperature analysis
-(PTA) and, at the same time, to completely eliminate or, at least, mitigate the
-costs associated with MC sampling, a number of alternative stochastic PTA
-techniques have been recently introduced. Due to the fact that the leakage
-component of the power dissipation is influenced by process variation the most
-\cite{chandrakasan2001, srivastava2010, juan2011, juan2012}, the techniques
-discussed below primarily focus on the variability of leakage.
+In order to overcome the limitations of deterministic techniques and, at the
+same time, to eliminate or, at least, mitigate the computation costs associated
+with \ac{MC} sampling, a number of stochastic techniques have been introduced,
+which we elaborate on in what follows. We are particularly interested in power
+and temperature and, hence, shape the exposition accordingly. Since the static
+component of the total power dissipation is influenced by process variation the
+most, which is due to the leakage power, the techniques discussed below
+primarily focus on the variability of this component.
 
 A solely power-targeted but temperature-aware solution is proposed in
-\cite{chandra2010} wherein the driving force of the analysis is MC sampling with
-partially precomputed data. A learning-based approach is presented in
-\cite{juan2011} to estimate the maximum temperature under the steady-state
-condition. Temperature-related issues originating from process variation are
-also considered in \cite{juan2012} where a statistical model of the steady-state
-temperature based on Gaussian distributions is derived. A statistical
-steady-state temperature simulator is developed in \cite{huang2009a} using
-polynomial chaos (PC) expansions and the Karhunen--Lo\`{e}ve (KL) decomposition
-\cite{xiu2010, ghanem1991}. A KL-aided stochastic collocation \cite{xiu2010}
-approach to steady-state temperature analysis is presented in \cite{lee2013}. In
-\cite{shen2009}, PC expansions are employed to estimate the full-chip leakage
-power. The KL decomposition is utilized in \cite{bhardwaj2006} for leakage
-calculations. In \cite{bhardwaj2008}, the total leakage is quantified using the
-PC and KL methods. The same combination of tools is employed in
-\cite{vrudhula2006} and \cite{ghanta2006} to analyze the response of
+\cite{chandra2010} where the driving force of the analysis is \ac{MC} sampling
+with partially precomputed data. A learning-based approach is presented in
+\cite{juan2011} in order to estimate the maximum temperature under the static
+steady-state condition; recall \sref{static-steady-state}. Temperature-related
+issues originating from process variation are also considered in \cite{juan2012}
+where a statistical model of the static steady-state temperature based on
+Gaussian distributions is derived. A statistical simulator of the static
+steady-state temperature is developed in \cite{huang2009a} using \ac{PC}
+expansions and the \acf{KL} decomposition; see
+\sref{probability-transformation}. A \ac{KL}-aided stochastic collocation
+\cite{xiu2010} approach to static steady-state temperature analysis is presented
+in \cite{lee2013}. In \cite{shen2009}, \ac{PC} expansions are employed in order
+to estimate the leakage power of the entire chip. The \ac{KL} decomposition is
+utilized in \cite{bhardwaj2006} for leakage calculations. In
+\cite{bhardwaj2008}, the total leakage is quantified using the \ac{PC} and
+\ac{KL} methods. The same combination of tools is employed in
+\cite{vrudhula2006} and \cite{ghanta2006} in order to analyze the response of
 interconnect networks and power grids, respectively, under process variation.
 
-The last five of the aforementioned techniques, that is, \cite{shen2009,
-bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, perform only stochastic
-power analysis and ignore the interdependence between leakage and temperature.
-The others are temperature-related approaches, but none of them attempts to
-tackle stochastic transient PTA and to compute the evolving-in-time probability
-distributions of temperature. However, such transient curves are of practical
-importance. First of all, certain procedures cannot be undertaken without the
-knowledge of the time-dependent temperature variations, for instance,
-reliability optimization based on the thermal-cycling fatigue \cite{ukhov2012}.
-Secondly, the constant steady-state temperature assumption, considered, for
-instance, in \cite{juan2011, juan2012, huang2009a, lee2013}, can rarely be
-justified since power profiles are not invariant in reality. In addition, one
-can frequently encounter the assumption that power and/or temperature follow a
-priori known probability distributions, for instance, Gaussian and log-normal
-distributions are popular choices as in \cite{srivastava2010, juan2012,
-bhardwaj2006}. However, this assumption often fails in practice (also noted in
-\cite{juan2012} regarding the normality of the leakage power) due to: (a) the
-strict nonlinearities between the process-related parameters, power, and
-temperature; (b) the nonlinear interdependency of temperature and the leakage
-power \cite{liu2007}. To illustrate this, we simulated the example given in
-\sref{introduction} $10^4$ times assuming the widespread Gaussian model for the
-variability of the effective channel length; the rest of the experimental setup
-was configured as it will be described in \sref{illustrative-example} and
-\sref{experimental-results}. Then we applied the Jarque--Bera test of normality
-to the collected data (temperature) directly as well as after processing them
-with the log transformation. The null hypothesis that the data are from an
-unspecified Gaussian distribution was firmly rejected in both cases at the
-significance level of 5\%. Therefore, the two distributions are neither Gaussian
-nor log-normal, which can also be seen in \fref{experimental-results-pdf}
-described in the experimental results, \sref{experimental-results}.
+The last five of the aforementioned techniques, that is, \cite{bhardwaj2006,
+vrudhula2006, ghanta2006, bhardwaj2008, shen2009}, perform only stochastic power
+analysis and ignore the interdependence between power and temperature described
+in \sref{power-temperature-interplay}. The others are temperature-related
+approaches, but none of them attempts to tackle stochastic transient temperature
+analysis and to compute the probability distribution of temperature that evolves
+over time. However, such transient curves are of practical importance. First,
+certain procedures cannot be undertaken without the knowledge of time-dependent
+temperature variations; an example is reliability optimization based on the
+thermal-cycling fatigue, which is discussed in
+\sref{thermal-cycling-exploration}. Second, the static steady-state assumption
+considered, for instance, in \cite{huang2009a, juan2011, juan2012, lee2013} can
+rarely be justified since power profiles are not invariant in reality. In
+addition, one frequently encounters the assumption that power and temperature
+follow \emph{a priori} known probability distributions; Gaussian and log-normal
+distributions are popular choices as in \cite{bhardwaj2006, srivastava2010,
+juan2012}. However, this assumption often fails in practice---which is also
+noted in \cite{juan2012} regarding the normality of the leakage current---due to
+\one~the nonlinear dependence of power on process parameters and \two~the
+nonlinear interdependence between power and temperature. In order to illustrate
+this, we simulate $10^4$ times the example given in \sref{analog-introduction}
+assuming the widespread Gaussian model of the effective channel length and apply
+the Jarque--Bera test of normality to the collected temperature directly as well
+as after processing them with the log transformation. The null hypothesis that
+the data are from an unspecified Gaussian distribution is firmly rejected in
+both cases at the significance level of 5\%. Therefore, the two distributions
+are neither Gaussian nor log-normal, which can also be seen in
+\fref{analog-example-density} described in \sref{analog-results}.
 
 To conclude, the prior stochastic PTA techniques for electronic system design
 are restricted in use due to one or several of the following traits: based on MC
@@ -126,9 +128,9 @@ ghanta2006}, ignoring the leakage-temperature interplay \cite{huang2009a,
 shen2009, bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, limited to the
 assumption of the constant steady-state temperature \cite{juan2011, juan2012,
 huang2009a, lee2013}, exclusive focus on the maximum temperature
-\cite{juan2011}, and a priori chosen distributions of power and temperature
-\cite{srivastava2010, juan2012, bhardwaj2006}. Consequently, there is a lack of
-flexible stochastic PTA techniques, which we aim to eliminate.
+\cite{juan2011}, and \emph{a priori} chosen distributions of power and
+temperature \cite{srivastava2010, juan2012, bhardwaj2006}. Consequently, there
+is a lack of flexible stochastic PTA techniques, which we aim to eliminate.
 
 \section{Our Contribution}
 
@@ -139,20 +141,21 @@ proposed technique is flexible in modeling diverse probability distributions,
 specified by the user, of the uncertain parameters, such as the effective
 channel length and gate oxide thickness. Moreover, there are no assumptions on
 the distributions of the resulting power and temperature traces as these
-distributions are unlikely to be known a priori. The proposed technique is
-capable of capturing arbitrary joint effects of the uncertain parameters on the
-system since the impact of these parameters is introduced into the framework as
-a ``black box,'' which is also defined by the user. In particular, it allows for
-the leakage-temperature interdependence to be taken into account with no effort.
-Our approach is founded on the basis of polynomial chaos (PC) expansions, which
-constitute an attractive alternative to Monte Carlo (MC) sampling. This is due
-to the fact that PC expansions possess much faster convergence properties and
-provide succinct and intuitive representations of system responses to stochastic
-inputs. In addition, we illustrate the framework considering one of the most
-important parameters affected by process variation: the effective channel
-length. Note, however, that our approach is not bounded by any particular source
-of variability and, apart from the effective channel length, can be applied to
-other process-related parameters, for instance, the gate oxide thickness.
+distributions are unlikely to be known \emph{a priori}. The proposed technique
+is capable of capturing arbitrary joint effects of the uncertain parameters on
+the system since the impact of these parameters is introduced into the framework
+as a ``black box,'' which is also defined by the user. In particular, it allows
+for the leakage-temperature interdependence to be taken into account with no
+effort. Our approach is founded on the basis of polynomial chaos (PC)
+expansions, which constitute an attractive alternative to Monte Carlo (MC)
+sampling. This is due to the fact that PC expansions possess much faster
+convergence properties and provide succinct and intuitive representations of
+system responses to stochastic inputs. In addition, we illustrate the framework
+considering one of the most important parameters affected by process variation:
+the effective channel length. Note, however, that our approach is not bounded by
+any particular source of variability and, apart from the effective channel
+length, can be applied to other process-related parameters, for instance, the
+gate oxide thickness.
 
 \section{Problem Formulation}
 \slab{analog-problem}
@@ -701,6 +704,7 @@ example of such a polynomial is given in \eref{pc-example}.
 
 \subsection{Post-processing}
 
+\inputfigure{analog-example-density}
 We turn to Stage~5 in \fref{algorithm}. It can be seen in, for example,
 \eref{pc-example} that the surrogate model has a negligibly small computational
 cost at this stage: for any outcome of the parameters $\vz \equiv \vz(\omega)$,
