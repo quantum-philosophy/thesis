@@ -158,38 +158,37 @@ for stochastic power and temperature analysis.
 \section{Our Solution}
 \slab{analog-solution}
 
-Our work makes the following main contribution. We develop a probabilistic
-framework for the analysis of the transient power and temperature profiles of
-electronic systems subject to the uncertainty due to process variation. The
-proposed technique is flexible in modeling diverse probability distributions,
-specified by the user, of the uncertain parameters, such as the effective
-channel length and gate oxide thickness. Moreover, there are no assumptions on
-the distributions of the resulting power and temperature traces as these
-distributions are unlikely to be known \emph{a priori}. The proposed technique
-is capable of capturing arbitrary joint effects of the uncertain parameters on
-the system since the impact of these parameters is introduced into the framework
-as a ``black box,'' which is also defined by the user. In particular, it allows
-for the leakage-temperature interdependence to be taken into account with no
-effort. Our approach is founded on the basis of polynomial chaos (PC)
-expansions, which constitute an attractive alternative to Monte Carlo (MC)
-sampling. This is due to the fact that PC expansions possess much faster
-convergence properties and provide succinct and intuitive representations of
-system responses to stochastic inputs. In addition, we illustrate the framework
-considering one of the most important parameters affected by process variation:
-the effective channel length. Note, however, that our approach is not bounded by
-any particular source of variability and, apart from the effective channel
-length, can be applied to other process-related parameters, for instance, the
-gate oxide thickness.
+We develop a framework for the analysis of the transient power and temperature
+profiles of electronic systems subject to the uncertainty due to process
+variation. The proposed technique is flexible in modeling diverse probability
+distributions, specified by the user, of the uncertain parameters, such as the
+effective channel length and gate oxide thickness. Moreover, there are no
+assumptions on the distributions of the resulting power and temperature traces
+as these distributions are unlikely to be known \emph{a priori}. The proposed
+technique is capable of capturing arbitrary joint effects of the uncertain
+parameters on the system since the impact of these parameters is introduced into
+the framework as a ``black box,'' which is also defined by the user. In
+particular, it allows for the power-temperature interplay to be taken into
+account with no effort. Our approach is founded on the basis of \acf{PC}
+expansions, which constitute an attractive alternative to \ac{MC} sampling. This
+is due to the fact that \ac{PC} expansions possess much faster convergence
+properties and provide succinct and intuitive representations of system
+responses to stochastic inputs. In addition, we illustrate the framework
+considering one of the most important parameters affected by process variation,
+namely, the effective channel length. Note, however, that our approach is not
+bound to any particular source of variability and, apart from the effective
+channel length, can be applied to other process parameters such as the gate
+oxide thickness.
 
-The main idea of our framework is to construct a surrogate model for the joint
-power and thermal models of the considered system using PC expansions. Having
-constructed this surrogate, such quantities as cumulative distribution functions
-(CDFs) and probability density functions (PDFs) can be easily estimated.
-Moreover, the representations, which we compute, provide analytical formulae for
-probabilistic moments, that is, the expected value and variance are readily
-available.
+The main idea is to construct a surrogate model for the joint power and
+temperature model of the system using \ac{PC} expansions. Having constructed
+this surrogate, such quantities as the \acf{CDF} and \acf{PDF} can be easily
+estimated. Moreover, the representation that we compute provides analytical
+formulae for probabilistic moments, which means that the expectation and
+variance are readily available.
 
-The major stages of our technique are depicted in \fref{algorithm}.
+\inputfigure{analog-overview}
+The major stages of our technique are depicted in \fref{analog-overview}.
 
 Stage~1. Parameter Preprocessing (\sref{uncertain-parameters}). The PC approach
 operates on mutually independent random variables. The uncertain parameters \vu
