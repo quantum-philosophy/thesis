@@ -35,12 +35,35 @@ analysis and optimization described in \cref{design-certainty}, and the goal of
 this chapter is to eliminate it in the case of the uncertainty due to process
 variation.
 
-We proceed as follows. \sref{analog-prior} provides an overview of the prior
-work. The objective of our study is formulated in \sref{analog-problem}. The
-proposed framework is presented in \sref{analog-solution}. A particular
-application of our approach is discussed in \sref{analog-example}, and the
-corresponding results are compared with \ac{MC} simulations in
+We proceed as follows. The objective of our study is formulated in
+\sref{analog-problem}. \sref{analog-prior} provides an overview of the prior
+work. The proposed framework is presented in \sref{analog-solution}. An
+exemplary application of our approach is discussed in \sref{analog-example}, and
+the corresponding results are compared with \ac{MC} simulations in
 \sref{analog-results}. \sref{analog-conclusion} concludes the paper.
+
+\section{Problem Formulation}
+\slab{analog-problem}
+
+Let $(\Omega, \mathcal{F}, \probability)$ be a probability space as it defined
+in \sref{probability-theory} and assume the same system model as the one
+described in \sref{system-model}. The system depends on \nu process parameters
+that are uncertain at the design stage. These parameters are denoted by a random
+vector $\vu: \Omega \to \real^\nu$. Once the fabrication process yields a
+particular outcome, \vu takes potentially different values across each
+fabricated chip and stays unchanged thereafter. This variability leads to
+deviations of power from the nominal values and, therefore, to deviations of
+temperature from the one corresponding to the nominal power consumption.
+
+The goal is to develop a system-level framework for transient temperature and,
+hence, power analysis of electronic systems where the power consumption and heat
+dissipation are stochastic due to their dependency on the uncertain parameters
+\vu. The user is required \one~to have prior knowledge or belief about the
+probability distribution of \vu and \two~to specify a power model having \vu as
+an input. The framework should provide the user with the tools to analyze the
+system under a given workload, without imposing any constraints on the nature of
+this workload, and obtain the corresponding stochastic power \mp and temperature
+\mq profiles with a desired level of accuracy and at low costs.
 
 \section{Prior Work}
 \slab{analog-prior}
@@ -132,43 +155,8 @@ chosen distributions of power and temperature \cite{bhardwaj2006,
 srivastava2010, juan2012}. Consequently, there is a lack of flexible techniques
 for stochastic power and temperature analysis.
 
-\section{Problem Formulation}
-\slab{analog-problem}
-
-Consider a heterogeneous electronic system that consists of \np processing
-elements and is equipped with a thermal package. The processing elements are the
-active components of the system identified at the system level (ALUs, FPUs,
-caches, and so on). Let \spec be a thermal specification of the system defined
-as a collection of temperature-related information: (a) the floorplans of the
-active layers of the chip; (b) the geometry of the thermal package; and (c) the
-thermal parameters of the materials that the chip and package are made of (for
-instance, the silicon thermal conductivity and specific heat).
-
-Let $(\Omega, \mathcal{F}, P)$ be a probability space as in
-\sref{probability-theory}. The system depends on a set of process parameters
-that are uncertain at the design stage. These parameters are denoted by a random
-vector $\vu: \Omega \to \real^\nu$. Once the fabrication process yields a
-particular outcome, \vu takes (potentially) different values across each
-fabricated chip individually and stays unchanged thereafter. This variability
-leads to deviations of the actual power dissipation from the nominal values and,
-therefore, to deviations of temperature from the one corresponding to the
-nominal power consumption.
-
-The goal of this work is to develop a system-level probabilistic framework for
-transient power-temperature analysis (PTA) of electronic systems where the
-actual power dissipation and temperature are stochastic due to their dependency
-on the uncertain parameters \vu.\footnote{Although the focal point of this paper
-is process variation, there can be other uncertainties such as those related to
-the system load and environment.} The user is required to: (a) provide a thermal
-specification of the platform \spec; (b) have prior knowledge (or belief) about
-the probability distribution of the uncertain parameters; and (c) specify a
-power model, in which \vu is an input. The framework should provide the user
-with the tools to analyze the system under a given workload, without imposing
-any constraints on the nature/origins of this workload, and obtain the
-corresponding stochastic power \mp and temperature \mq profiles with a desired
-level of accuracy and at low costs.
-
-\section{Our Contribution}
+\section{Our Solution}
+\slab{analog-solution}
 
 Our work makes the following main contribution. We develop a probabilistic
 framework for the analysis of the transient power and temperature profiles of
@@ -192,9 +180,6 @@ the effective channel length. Note, however, that our approach is not bounded by
 any particular source of variability and, apart from the effective channel
 length, can be applied to other process-related parameters, for instance, the
 gate oxide thickness.
-
-\section{Proposed Framework}
-\slab{analog-solution}
 
 The main idea of our framework is to construct a surrogate model for the joint
 power and thermal models of the considered system using PC expansions. Having
