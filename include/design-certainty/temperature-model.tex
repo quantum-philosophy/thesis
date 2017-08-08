@@ -16,13 +16,13 @@ profound impact on the accuracy of the subsequent temperature analysis.
 In order to give a better intuition about thermal \up{RC} circuits,
 \fref{thermal-circuit} depicts a simplified example of such a circuit
 constructed for a dual-core chip equipped with a thermal package composed of a
-thermal interface material, heat spreader, and heat sink. Each of the $\np$
-processors is represented by one thermal node, and the thermal interface
-material, heat spreader, and heat sink are captured by \np, $\np + 4$, and $\np
-+ 8$ nodes, respectively. Therefore, $\nn = 4 \times \np + 12$. In this
+thermal interface material, heat spreader, and heat sink. Each of the \np
+processing elements is represented by one thermal node, and the thermal
+interface material, heat spreader, and heat sink are captured by \np, $\np + 4$,
+and $\np + 8$ nodes, respectively. Therefore, $\nn = 4 \times \np + 12$. In this
 particular example, $\np = 2$ and $\nn = 20$. The construction principle
 described above is the one presented in \cite{huang2008}, and it is also the one
-that is used throughout this thesis unless we state otherwise.
+that is used throughout this thesis unless stated otherwise.
 
 Suppose now that an adequate thermal \up{RC} circuit has been constructed for
 the considered electronic system. Regardless of the structure of the circuit,
@@ -34,14 +34,14 @@ the following system of \nn differential and \np algebraic equations:
 \end{subnumcases}
 In \eref{temperature-model-original}, $\vq \in \real^\np$, $\vq_\ambient \in
 \real^\np$, and $\vp \in \real^\np$ are vectors of the operating temperature,
-ambient temperature, and power dissipation of the processors, respectively.
-Further, $\tvs \in \real^\nn$ represents the state of the thermal nodes, and
-$\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in \real^{\nn \times \nn}$ are a
-diagonal matrix of the thermal capacitance and a symmetric and positive-definite
-matrix of the thermal conductance, respectively. Lastly, $\tm{B} \in \real^{\nn
-\times \np}$ is a mapping between the processors and the thermal nodes, which,
-without loss of generality, is assumed to be a rectangular diagonal matrix whose
-diagonal elements are equal to unity.
+ambient temperature, and power dissipation of the processing elements,
+respectively. Further, $\tvs \in \real^\nn$ represents the state of the thermal
+nodes, and $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in \real^{\nn \times
+\nn}$ are a diagonal matrix of the thermal capacitance and a symmetric and
+positive-definite matrix of the thermal conductance, respectively. Lastly,
+$\tm{B} \in \real^{\nn \times \np}$ is a mapping between the processing elements
+and the thermal nodes, which, without loss of generality, is assumed to be a
+rectangular diagonal matrix whose diagonal elements are equal to unity.
 
 It can be seen in \eref{temperature-model-original} that the input to
 temperature analysis is power, and the output is temperature. For practical
@@ -53,15 +53,15 @@ defined to be an $\np \times \ns$ matrix
   = \left(\range{\vp_1}{\vp_\ns}\right)
   = \left(\range{\vp(t_1)}{\vp(t_\ns)}\right) \in \real^{\np \times \ns}
 \]
-that contains \ns samples of the power consumption of the \np processors over
-\ns time steps with a certain sampling interval \dt. Similarly, a temperature
-profile is defined to be an $\np \times \ns$ matrix
+that contains \ns samples of the power consumption of the \np processing
+elements over \ns time steps with a certain sampling interval \dt. Similarly, a
+temperature profile is defined to be an $\np \times \ns$ matrix
 \begin{equation} \elab{temperature-profile}
   \mq
   = \left(\range{\vq_1}{\vq_\ns}\right)
   = \left(\range{\vq(t_1)}{\vq(t_\ns)}\right) \in \real^{\np \times \ns}
 \end{equation}
-that captures the heat dissipation of the processors over a number of
+that captures the heat dissipation of the processing elements over a number of
 equidistant time moments. Let us note that, even though the exact time frame and
 sampling interval of a power or a temperature profile are not included in the
 above notation, they are typically understood from the context.

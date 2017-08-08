@@ -46,21 +46,21 @@ via the Runge--Kutta fourth-order method \cite{press2007}.
 The number of iterations required to reach the dynamic steady state depends on
 the thermal characteristics of the platform. In order to illustrate this aspect,
 consider an application with a period of 500~ms running on five hypothetical
-platforms with processor areas of 1--25~mm\textsuperscript{2}. Let us simulate
-50 successive periods of the application via HotSpot with its default settings
-and compare the resulting approximations in each period with the actual
+platforms with processing-element areas of 1--25~mm\textsuperscript{2}. Let us
+simulate 50 successive periods of the application via HotSpot with its default
+settings and compare the resulting approximations in each period with the actual
 temperature profile using the \ac{NRMSE}. The comparison is shown in
 \fref{transient-state-error}. It can be observed that the number of successive
 periods over which transient analysis has to be performed in order to achieve a
 satisfactory level of accuracy is significant for the majority of the
-configurations, which entails large computation times. For instance, for a
-9-mm\textsuperscript{2} processor, even after 15 iterations, the \ac{NRMSE} is
-still close to 20\%. Using the analytical approach to transient analysis
-presented in \sref{transient-state}, the calculation can be sped up; however,
-the large number of iterations still keeps the computation cost unreasonably
-high as we shall illustrate in \sref{dynamic-steady-state-results}. Moreover,
-this approximation technique provides no guarantees on the resulting accuracy
-since there is no a reliable metric for measuring the proximity to the actual
+configurations, which entails large computation times. For instance, for an area
+of 9~mm\textsuperscript{2}, even after 15 iterations, the \ac{NRMSE} is still
+close to 20\%. Using the analytical approach to transient analysis presented in
+\sref{transient-state}, the calculation can be sped up; however, the large
+number of iterations still keeps the computation cost unreasonably high as we
+shall discuss further in \sref{dynamic-steady-state-results}. Moreover, this
+approximation technique provides no guarantees on the resulting accuracy since
+there is no a reliable metric for measuring the proximity to the actual
 solution, the actual dynamic steady-state temperature profile.
 
 Another crude but fast approximation of the profile is proposed in
@@ -75,17 +75,17 @@ sufficiently long time.
 \inputfigure{static-steady-state-example}
 An example of such an approximation along with the corresponding dynamic
 steady-state temperature profile of an application with 10 tasks and a period of
-100~ms is given in \fref{static-steady-state-example}. The processor area is
-25~mm\textsuperscript{2} in this case. The reduced accuracy of this technique is
-due to the mismatch between the actual temperature within each interval and the
-static steady-state temperature. The inaccuracy depends on the thermal
-characteristics of the platform and on the application itself. In order to
-illustrate this, let us simulate five applications with periods of 10--1000~ms
-running on five platforms with processor areas of 1--25~mm\textsuperscript{2}.
-The errors are shown in \fref{static-steady-state-error}. It can be seen that,
-for example, for a processor area of 10~mm\textsuperscript{2} and an application
-period of 100~ms, the \ac{NRMSE} of this approximation technique is close to
-40\%.
+100~ms is given in \fref{static-steady-state-example}. The processing-element
+area is 25~mm\textsuperscript{2} in this case. The reduced accuracy of this
+technique is due to the mismatch between the actual temperature within each
+interval and the static steady-state temperature. The inaccuracy depends on the
+thermal characteristics of the platform and on the application itself. In order
+to illustrate this, let us simulate five applications with periods of
+10--1000~ms running on five platforms with an area per processing element of
+1--25~mm\textsuperscript{2}. The errors are shown in
+\fref{static-steady-state-error}. It can be seen that, for example, for an area
+of 10~mm\textsuperscript{2} and a period of 100~ms, the \ac{NRMSE} of this
+approximation technique is close to 40\%.
 
 To conclude, the state-of-the-art techniques for dynamic steady-state
 temperature analysis are slow and inaccurate. This state of affairs makes them
@@ -298,15 +298,15 @@ proposed method (which is exact) is less than 1\%.
 \inputfigure{dynamic-steady-state-scaling}
 First, we vary the period \period of power and temperature profiles---and,
 thereby, the number of samples \ns that they contain---while keeping the
-architecture fixed, which is a quad-core platform with a processor area of
-4~mm\textsuperscript{2}. The results of this experiment are depicted in
+architecture fixed, which is a quad-core platform with a processing-element area
+of 4~mm\textsuperscript{2}. The results of this experiment are depicted in
 \fref{scaling-steps} on a semi-logarithmic scale. It can be seen that the
 proposed technique is 9--170 times faster than iterative transient analysis with
-the analytical solution and roughly 5000 times faster than transient analysis
-with HotSpot.
+the analytical solution and roughly 5000 times faster than iterative transient
+analysis with HotSpot.
 
 In the second experiment, we evaluate the scaling of our method with respect to
-the number of processors \np. The period is fixed to 500~ms, which results in
-500 time steps. The obtained results are shown in \fref{scaling-processors}. It
-can be observed that the proposed technique provides a significant performance
-improvement relative to the alternative solutions.
+the number of processing elements \np. The period is fixed to 500~ms, which
+results in 500 time steps. The obtained results are shown in
+\fref{scaling-elements}. It can be observed that the proposed technique provides
+a significant performance improvement relative to the alternative solutions.

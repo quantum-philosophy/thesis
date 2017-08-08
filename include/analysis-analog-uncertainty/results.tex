@@ -17,21 +17,21 @@ the power consumption and heat dissipation \cite{chandrakasan2000,
 srivastava2010, juan2012}. It also influences other process-related parameters
 such as the threshold voltage.
 
-We describe now the default configuration of our setup, which will be later
-adjusted according to the purpose of each particular experiment. We consider a
-45-nanometer technological process. The diameter of the wafer is 20 dies, and
-the total number of dies \nd is 316. The number of measured dies \hnd is 20, and
-these dies are chosen by an algorithm that strives for an even coverage of the
-wafer. The fabricated platform has four processors, and they are the points of
-taking measurements, that is, $\np = 4$. The floorplan of the platform is
-constructed in such a way that the processors form a regular grid. The dynamic
+We describe now the default setup, which will be later adjusted according to the
+purpose of each particular experiment. We consider a 45-nanometer technological
+process. The diameter of the wafer is 20 dies, and the total number of dies \nd
+is 316. The number of measured dies \hnd is 20, and these dies are chosen by an
+algorithm that strives for an even coverage of the wafer. The fabricated
+platform has four processing elements, and they are the points of taking
+measurements, that is, $\np = 4$. The floorplan of the platform is constructed
+in such a way that the processing elements form a regular grid. The dynamic
 power profiles involved in the experiments are based on simulations of
 applications generated randomly by \up{TGFF} \cite{dick1998}. The model of the
 static power parameterized by temperature and the effective channel length is
 constructed by fitting to \up{SPICE} simulations of reference electrical
 circuits composed of \up{BSIM4} devices \cite{bsim} configured according to the
-45-nm \up{PTM} \up{HP} model \cite{ptm}. The temperature calculations are
-undertaken using the approach described in \sref{transient-state-solution}; the
+45-nm \up{PTM} \up{HP} model \cite{ptm}. The temperature calculations are done
+using the approach described in \sref{transient-state-solution}; the
 construction of thermal \up{RC} circuits is delegated to HotSpot
 \cite{skadron2003}. The sampling interval of power and temperature profiles is
 1~ms.
@@ -121,19 +121,19 @@ decreases and drops below 4\% when around 20 sites are measured, which is only
 
 \inputtable{inference-points}
 In this subsection, we consider five platforms with different numbers of
-processors or, equivalently, measurement points \np. The considered scenarios
-are 2, 4, 8, 16, and 32 processors. The results are summarized in
-\tref{inference-points}. The computation time grows along with \np. This
-behavior is expected since the granularity of the temperature model under the
-hood is bound to the number of processors. Specifically, each processor
-contributes four thermal nodes to the thermal \up{RC} circuit that temperature
-analysis is based on; recall \sref{temperature-model}. Therefore, temperature
-analysis becomes more intensive. Nevertheless, even for large examples, taking
-into account the complexity of the inference procedure and the yielded accuracy,
-the timing is readily acceptable. An interesting observation can be made with
-respect to the \ac{NRMSE}: the error tends to decrease as \np grows. The
-explanation is that, with each measurement point, $H$ delivers more information
-to the inference to work with.
+processing elements or, equivalently, measurement points \np. The considered
+scenarios are 2, 4, 8, 16, and 32 processing elements. The results are
+summarized in \tref{inference-points}. The computation time grows along with
+\np. This behavior is expected since the granularity of the temperature model
+under the hood is bound to the number of processing elements: each processing
+element contributes four thermal nodes to the thermal \up{RC} circuit that
+temperature analysis is based on; recall \sref{temperature-model}. Hence,
+temperature analysis becomes more intensive. Nevertheless, even for large
+examples, taking into account the complexity of the inference procedure and the
+yielded accuracy, the timing is readily acceptable. An interesting observation
+can be made with respect to the \ac{NRMSE}: the error tends to decrease as \np
+grows. The explanation is that, with each measurement point, $H$ delivers more
+information to the inference to work with.
 
 \hiddensubsection{Number of Data Instances}
 
