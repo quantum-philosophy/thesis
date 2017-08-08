@@ -6,17 +6,6 @@ thermal cycling \cite{jedec2010}, which is one of the most common failure
 mechanism. To this end, we develop a thermal-cycling-aware technique for
 scheduling of periodic applications.
 
-In this context, a heterogeneous platform with \np processing elements is to
-execute a periodic application with \nt tasks. The application is given as a
-directed acyclic graph whose vertices and edges correspond to the tasks and to
-data dependencies between the tasks, respectively; see
-\fref{thermal-cycling-task-graph} for an example. The period of the application
-is denoted by \period and assumed to be equal to the application's deadline.
-Each pair of a task and a processing element is characterized by an execution
-time and a power consumption. Lastly, the application is assumed to be scheduled
-using a list scheduler whose inputs are priorities of the tasks and a mapping of
-the tasks onto the processing elements.
-
 The remainder of the section is organized as follows. First, we consider a
 motivational example in \sref{thermal-cycling-example}. The reliability model is
 presented in \sref{reliability-model}. In \sref{thermal-cycling-problem}, we
@@ -48,8 +37,8 @@ respectively, relative to the initial schedule.
 
 The above example shows that, when exploring the design space, it is important
 to take into consideration the number of temperature fluctuations as well as
-their characteristics. In order to obtain this information, dynamic steady-state
-temperature analysis has to be undertaken.
+their characteristics. In order to acquire this information, dynamic
+steady-state temperature analysis has to be undertaken.
 
 \subsection{Reliability Model}
 \slab{reliability-model}
@@ -157,14 +146,22 @@ be obtained by performing dynamic steady-state temperature analysis.
 \subsection{Problem Formulation}
 \slab{thermal-cycling-problem}
 
-Recall that we have a heterogeneous platform with \np processing elements and a
-periodic application with \nt tasks and a period \period, and that, in this
-context, \mq stands for the dynamic steady-state temperature profile of the
-system under consideration. The time to failure of each processing element is
-modeled using the reliability model presented in \sref{reliability-model}. With
-a slight abuse of notation, let $\mean_i$ be the \ac{MTTF} of processing element
-$i$ computed according to \eref{reliability-mean-time}. Our optimization
-objective is to find a schedule that maximizes
+A heterogeneous platform with \np processing elements is to execute a periodic
+application with \nt tasks. The application is given as a directed acyclic graph
+whose vertices and edges correspond to the tasks and to data dependencies
+between the tasks, respectively; see \fref{thermal-cycling-task-graph} for an
+example. The period of the application is denoted by \period and assumed to be
+equal to the application's deadline. Each pair of a task and a processing
+element is characterized by an execution time and a power consumption. Lastly,
+the application is assumed to be scheduled using a list scheduler whose inputs
+are a set of priorities of the tasks and a mapping of the tasks onto the
+processing elements.
+
+The time to failure of each processing element is modeled using the reliability
+model presented in \sref{reliability-model}. With a slight abuse of notation,
+let $\mean_i$ be the \ac{MTTF} of processing element $i$ computed according to
+\eref{reliability-mean-time}. Our optimization objective is to find a schedule
+that maximizes
 \begin{equation} \elab{thermal-cycling-objective}
   \min_{i = 1}^\np \mean_i
 \end{equation}
@@ -175,7 +172,8 @@ such that
     & \norm[\infty]{\mq} \leq \q_\maximum
   \end{split}
 \end{align}
-where $t_{\ns_i}$ is the completion time of task $i$, and $\norm[\infty]{\cdot}$
+where $t_{\ns_i}$ is the completion time of task $i$, \mq is the dynamic
+steady-state temperature profile of the system, and $\norm[\infty]{\cdot}$
 denotes the uniform norm. The first constraint enforces a deadline on the
 schedule, and the second constraint enforces a maximum temperature $\q_\maximum$
 on the resulting \mq.
