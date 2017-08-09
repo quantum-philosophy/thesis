@@ -100,16 +100,16 @@ efficient solution to this problem, eliminating the issues of the
 state-of-the-art solutions discussed in the previous subsection.
 
 Consider the temperature model in \eref{temperature-model} and the corresponding
-recurrence in \eref{recurrence}. The key characteristic of a dynamic steady
-state is as follows:
+recurrence in \eref{transient-state-recurrence}. The key characteristic of a
+dynamic steady state is as follows:
 \begin{equation} \elab{boundary-condition}
   \vs_0 = \vs_\ns.
 \end{equation}
 In words, the above condition means that, once the dynamic steady state has been
 reached, the system starts to arrive at its initial state at the end of each
-iteration, which is what makes it periodic. Then, using \eref{recurrence}, the
-dynamic steady-state temperature profile can be computed by solving the
-following system of linear equations:
+iteration, which is what makes it periodic. Then, using
+\eref{transient-state-recurrence}, the dynamic steady-state temperature profile
+can be computed by solving the following system of linear equations:
 \[
   \begin{cases}
     \vs_1 - \m{E} \vs_\ns & = \m{F} \vp_1 \\
@@ -204,8 +204,8 @@ To begin with, let
 \[
   \v{v}_i = \m{F} \vp_i
 \]
-for $i = \range{1}{\ns}$. Equation~\eref{recurrence} can then be rewritten as
-follows:
+for $i = \range{1}{\ns}$. Equation~\eref{transient-state-recurrence} can then be
+rewritten as follows:
 \begin{equation} \elab{steady-state-recurrence}
   \vs_i = \m{E} \vs_{i - 1} + \v{v}_i
 \end{equation}

@@ -11,7 +11,7 @@ Suppose for now that the power consumption of the processing elements does not
 change over time: $\vp(t) = \vp$. Then \eref{temperature-differential-original}
 is a system of linear ordinary differential equations that has the following
 analytical solution:
-\begin{equation} \elab{solution-original}
+\begin{equation} \elab{transient-state-solution-original}
   \tvs(t) = e^{\tm{A} t} \tvs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
 \end{equation}
 where $\tvs_0$ is the initial condition, $\m{I}$ is the identity matrix, and
@@ -22,8 +22,8 @@ Assume now that the sampling interval \dt of \mp is sufficiently small so that
 the power consumption in the interval $[t_i, t_{i + 1})$ can reasonably be
 approximated by a constant equal to $\vp_i = \vp(t_i)$. Then the corresponding
 \mq can be found by applying the following recurrence derived from
-\eref{solution-original}:
-\begin{equation} \elab{recurrence-original}
+\eref{transient-state-solution-original}:
+\begin{equation} \elab{transient-state-recurrence-original}
   \tvs_{i} = \tm{E} \tvs_{i - 1} + \tm{F} \vp_i
 \end{equation}
 for $i = \range{1}{\ns}$ where
@@ -93,12 +93,12 @@ where
 \[
   \m{B} = \m{C}^{-\frac{1}{2}} \tm{B}.
 \]
-Similarly, the solution in \eref{solution-original} becomes
+Similarly, the solution in \eref{transient-state-solution-original} becomes
 \[
   \vs(t) = e^{\m{A} t} \vs_0 + \m{A}^{-1} (e^{\m{A} t} - \m{I}) \m{B} \v{p},
 \]
-and the recurrence in \eref{recurrence-original} becomes
-\begin{equation} \elab{recurrence}
+and the recurrence in \eref{transient-state-recurrence-original} becomes
+\begin{equation} \elab{transient-state-recurrence}
   \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
 \end{equation}
 for $i = \range{1}{\ns}$ where
@@ -112,10 +112,10 @@ be efficiently computed in the following way:
 \[
   \m{F} = \m{U} \: \diagonal{\frac{e^{\lambda_1 \dt} - 1}{\lambda_1}}{\frac{e^{\lambda_\nn \dt} - 1}{\lambda_\nn}} \transpose{\m{U}} \m{B}.
 \]
-As before, the recurrence in \eref{recurrence} should be followed by
-\eref{temperature-algebraic} in order to obtain \mq. The performed auxiliary
-transformation is helpful not only for transient analysis but also in other
-contexts as we shall see later on.
+As before, the recurrence in \eref{transient-state-recurrence} should be
+followed by \eref{temperature-algebraic} in order to obtain \mq. The performed
+auxiliary transformation is helpful not only for transient analysis but also in
+other contexts as we shall see later on.
 
 Let us note at this point that there have been attempts to simplify the
 temperature model by making additional assumptions in order to reduce the size
