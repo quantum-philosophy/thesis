@@ -1,6 +1,6 @@
 So far, the interdependence between power on temperature, which is drawn
-attention to in \sref{power-model}, has been ignored. In order to take it into
-account when performing temperature analysis, two approaches can be employed.
+attention to in \sref{power-model}, has been ignored. In order to properly take
+it into account, several approaches can be employed as follows.
 
 The first approach is to calculate the power and temperature profiles several
 times in turns until the latter converges. In this case, we obtain a series of
@@ -10,22 +10,36 @@ pairs of a power profile and a temperature profile
 \]
 With each new temperature profile $\mq_i$---which is computed by performing
 transient, static steady-state, or dynamic steady-state analysis as usual---a
-new power profile $\mp_i$ is obtained by recalculating the leakage power and
+new power profile $\mp_i$ is obtained by recalculating the static power and
 adding it to the dynamic power, which we write as follows:
 \[
-  \mp_i = \mp_\dynamic + \mp_\static(\mq_i).
+  \mp_i = \mp_\dynamic + \mp_{\static, i}
 \]
-The process continues until the difference between two successive temperature
-profiles is below a predefined threshold. According to our experience, it
-usually takes 4--7 iterations until the uniform norm of the difference between
-two profiles (the maximum absolute difference) drops below \celsius{0.5}.
+where $\mp_{\static, i}$ is computed using $\mq_{i - 1}$. The process continues
+until the difference between two successive temperature profiles is below a
+predefined threshold. According to our experience, in the case of dynamic
+steady-state temperature analysis, it usually takes 4--7 iterations until the
+uniform norm of the difference between two successive temperature profiles drops
+below \celsius{0.5}.
+
+In the case of transient analysis, the above procedure can be also done on a
+step-by-step basis and even with only one iteration. Specifically, at each step
+of the iterative process in \eref{transient-state-recurrence}, one can simply
+calculate the static power at the current temperature, add it to the dynamic
+power, and use the result for evaluating the next temperature. Hence, the
+recurrence in \eref{transient-state-recurrence} becomes
+\[
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} (\vp_{\dynamic, i} + \vp_{\static, i}).
+\]
+for $i = \range{1}{\ns}$ where $\vp_{\static, i}$ is computed using $\vq_{i -
+1}$.
 
 The second approach is to use a linear approximation of the leakage power, which
 can be formalized as follows:
 \[
-  \vp_\static(t) = \hm{A} \vq(t) + \hv{B}
+  \vp_\static(t) = \hm{A} \vq(t) + \hv{b}
 \]
-where $\hm{A} \in \real^{\nn \times \nn}$ and $\hv{B} \in \real^\nn$ are a
+where $\hm{A} \in \real^{\nn \times \nn}$ and $\hv{b} \in \real^\nn$ are a
 diagonal matrix and a vector to be fitted. It can be shown that the linear
 approximation keeps the original system of differential equations in
 \eref{temperature-differential-original} almost intact. More precisely, it
@@ -36,7 +50,7 @@ becomes
 where
 \begin{align*}
   & \hm{G} = \m{G} - \tm{B} \hm{A} \transpose{\tm{B}} \text{ and} \\
-  & \hv{p}(t) = \vp_\dynamic(t) + \hm{A} \vq_\ambient + \hv{B},
+  & \hv{p}(t) = \vp_\dynamic(t) + \hm{A} \vq_\ambient + \hv{b},
 \end{align*}
 and $\hm{G}$ has the same properties as $\m{G}$. Therefore, all the solutions
 that have been derived in this chapter remain perfectly valid. Moreover, as
