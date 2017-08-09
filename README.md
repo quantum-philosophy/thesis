@@ -12,7 +12,7 @@ the typefaces provided by MacTeX, the following typefaces have to be installed:
 * [Miller Text][miller] (Roman, Roman Small Caps, and Italic).
 
 In case any of the aforementioned typefaces are not available, they can be
-changed in `thesis.cls`, which, however, is likely to ruin they layout of the
+changed in `thesis.cls`, which, however, is likely to ruin the layout of the
 thesis.
 
 ## Compilation
