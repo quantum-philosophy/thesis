@@ -4,8 +4,8 @@ The repository contains a PhD thesis in computer science.
 
 ## Requirements
 
-The thesis can be compiled using [MacTeX][mactex]. Apart from the typefaces
-provided by MacTeX, the following typefaces have to be installed:
+The thesis can be compiled using the [MacTeX][mactex] distribution. Apart from
+the typefaces provided by MacTeX, the following typefaces have to be installed:
 
 * [Input Mono][input] (Narrow),
 * [Korolev LiU][korolev] (Medium), and
