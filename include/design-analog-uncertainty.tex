@@ -190,62 +190,58 @@ variance are readily available.
 \inputfigure{analog-overview}
 The major stages of our technique are depicted in \fref{analog-overview}. At
 Stage~1 (\sref{analog-parameter-transformation}), the uncertain parameters \vu
-are transformed into independent random variables \vz since mutually
-independence is a prerequisite of the \ac{PC} approach. At Stage~2
-(\sref{analog-power-model}), the user specifies the power model of the system
-via a ``black-box'' functional $f$ that computes the total power \vp for a
-particular temperature \vq and a particular outcome of the parameters \vu. At
-Stage~3 (\sref{analog-temperature-model}), based on
-\sref{transient-state-solution}, a mathematical description of the thermal
-behavior of the system is obtained. At Stage~4 (\sref{analog-surrogate-model}),
-the surrogate model is computed by traversing the desired time span and
-gradually constructing \ac{PC} expansions of the stochastic power and
-temperature profiles. At Stage~5 (\sref{analog-post-processing}), the computed
-\ac{PC} expansions are analyzed in order to obtain the needed characteristics of
-the system such as \acp{PDF} and moments.
+are transformed into independent random variables \vz since independence is a
+prerequisite of the \ac{PC} approach. At Stage~2 (\sref{analog-power-model}),
+the user specifies the power model of the system via a ``black-box'' functional
+$f$ that computes the total power \vp for a particular temperature \vq and a
+particular outcome of the parameters \vu. At Stage~3
+(\sref{analog-temperature-model}), based on \sref{transient-state-solution}, a
+mathematical description of the thermal behavior of the system is obtained. At
+Stage~4 (\sref{analog-surrogate-model}), the surrogate model is computed by
+traversing the desired time span and gradually constructing \ac{PC} expansions
+of the stochastic power and temperature profiles. At Stage~5
+(\sref{analog-post-processing}), the computed \ac{PC} expansions are analyzed in
+order to obtain the needed characteristics of the system such as \acp{PDF} and
+moments.
 
 Let us now detail each of the five stages of the proposed framework.
 
 \subsection{Parameter Transformation}
 \slab{analog-parameter-transformation}
 
-Independence of the parameters is a prerequisite for PC expansions. In general,
-however, \vu can be correlated and, therefore, should be preprocessed in order
+Independence is required by \ac{PC} expansions. In general, the \nu individual
+variables in \vu are dependent and, therefore, should be preprocessed in order
 to fulfill the requirement. To this end, an adequate probability transformation
 should be undertaken \cite{eldred2008}. Denote such a transformation by $\vu =
-\transform{\vz}$, which relates the \nu dependent uncertain parameters \vu with
-\nz independent random variables \vz.
+\transform{\vz}$ where $\vz: \Omega \to \real^\nz$ is a random vector with \nz
+mutually independent components.
 
-Correlated random variables can be transformed into uncorrelated ones via a
-linear mapping based on a factorization procedure of the covariance matrix or
-covariance function of \vu; the procedure is known as the Karhunen--Lo\`{e}ve
-(KL) decomposition \cite{ghanem1991}. If, in addition, the correlated variables
-form a Gaussian vector then the uncorrelated ones are also mutually independent.
-In the general case (non-Gaussian), the most prominent solutions to attain
-independence are the Rosenblatt \cite{rosenblatt1952} and Nataf transformations
-\cite{li2008}.\footnote{Only a few alternatives are listed here, and such
-techniques as independent component analysis (ICA) are left outside the scope of
-the paper.} Rosenblatt's approach is suitable when the joint probability
-distribution function of the uncertain parameters \vu is known; however, such
-information is rarely available. The marginal probability distributions and
-correlation matrix of \vu are more likely to be given, which are already
-sufficient for perform the Nataf transformation.\footnote{The transformation is
-an approximation, which operates under the assumption that the copula of the
-distribution is elliptical.} The Nataf transformation produces correlated
-Gaussian variables, which are then turned into independent ones by virtue of the
-KL decomposition mentioned earlier.
+Correlated random variables can be transformed into linearly uncorrelated ones
+via the \ac{KL} decomposition presented in \sref{probability-transformation}.
+If, in addition, the correlated variables form a Gaussian vector, the
+uncorrelated ones are also mutually independent. In the general case
+(non-Gaussian), the most prominent solutions to attain independence are the
+Rosenblatt \cite{rosenblatt1952} and Nataf transformations \cite{li2008}.
+Rosenblatt's approach is suitable when the joint probability distribution
+function of \vu is known; however, such information is rarely available. A set
+of marginal probability distributions and a correlation matrix are more likely
+to be given, which are already sufficient for perform the Nataf transformation.
+The Nataf transformation is an approximation that operates under the assumption
+that the copula of the distribution is elliptical, and it produces correlated
+Gaussian variables, which are then turned into mutually independent ones by
+virtue of the aforementioned \ac{KL} decomposition.
 
-Apart from the extraction of the independent parameters \vz, an essential
+Apart from the extraction of the independent variables \vz, an essential
 operation at this stage is model order reduction since the number of stochastic
-dimensions of the problem directly impacts the complexity of the rest of the
-computations. The intuition is that, due to the correlations possessed by the
-random variables in \vu, some of them can be harmlessly replaced by combinations
-of the rest, leading to a smaller number of the random variables in \vz. This
-operation is often treated as a part of the KL decomposition.
+dimensions directly impacts the complexity of the rest of the computations. The
+intuition is that, due to the correlations between the random variables in \vu,
+some of them can be harmlessly replaced by combinations of the rest, leading to
+a random vector \vz with fewer dimensions. This operation is often treated as a
+part of the \ac{KL} decomposition and is explained in
+\sref{probability-transformation}.
 
-In \sref{ie-uncertain-parameters}, we shall demonstrate the Nataf transformation
-together with the discrete KL decomposition. A description of the latter can
-also be found in \sref{karhunen-loeve}.
+In \sref{analog-example}, we shall demonstrate the Nataf transformation together
+with the discrete \ac{KL} decomposition using a concrete example.
 
 \subsection{Power Model}
 \slab{analog-power-model}
