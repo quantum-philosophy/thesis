@@ -3,9 +3,9 @@ components: dynamic and static. The dynamic power is due to the actual useful
 work done by the circuit. The static power, on the other hand, is due to various
 parasitic currents that cannot be entirely eliminated. The total power consumed
 by \np processing elements at time $t$ is then written as follows:
-\[
+\begin{equation} \elab{total-power}
   \vp(t) = \vp_\dynamic(t) + \vp_\static(t)
-\]
+\end{equation}
 where $\vp_\dynamic \in \real^\np$ and $\vp_\static \in \real^\np$ are the
 aforementioned dynamic and static components of the total dissipation of power,
 respectively.
@@ -30,5 +30,10 @@ constants, which can found in \cite{liao2005}.
 
 It can be seen in the above equations that the dynamic power does not depend on
 the operating temperature whereas the static power does. The dependence is
-highly important; however, we shall ignore it for the moment and return to it in
-\sref{power-temperature-interplay} in order to adequately take it into account.
+positive and strong: a higher level of the heat dissipation leads to a
+considerably higher level of the power consumption. On the other hand, the more
+power is consumed, the more heat is dissipated. Consequently, power and
+temperature constantly instigate each other; they are interdependent. This
+phenomenon cannot be neglected since it leads to a higher power (and, hence,
+energy) consumption than the one expected, to a higher heat dissipation than the
+one expected, and to a thermal runaway in the worst case.

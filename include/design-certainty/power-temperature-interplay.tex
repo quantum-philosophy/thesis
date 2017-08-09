@@ -1,25 +1,6 @@
-So far, the dependence of power on temperature, which can be seen in
-\eref{static-power}, has been ignored. The dependence is positive and strong: a
-higher level of the heat dissipation leads to a considerably higher level of the
-power consumption. On the other hand, the more power is consumed, the more heat
-is dissipated, which can be seen in \eref{temperature-model-original}.
-Consequently, power and temperature constantly instigate each other. This
-phenomenon cannot be neglected since it leads to a higher power (and, hence,
-energy) consumption and higher a heat dissipation than what is expected and, in
-the worst case, to a thermal runaway.
-
-In order to take the aforementioned power-temperature interplay into account
-when performing temperature analysis, two approaches can be employed. To begin
-with, in \eref{temperature-model-original} and thereafter, let
-\[
-  \vp(t) = \vp_\dynamic(t) + \vp_\static(t)
-\]
-where $\vp_\dynamic \in \real^\np$ and $\vp_\static \in \real^\np$ are the
-dynamic and static components of the total dissipation of power, respectively.
-In addition, the power profile that is given as an input to temperature analysis
-contains samples of $\vp_\dynamic$ and, therefore, is better denoted by
-$\mp_\dynamic$. It should be noted that, in the above equation, $\vp$ and
-$\vp_\static$ are implicitly functions of $\vq$ due to the leakage power.
+So far, the interdependence between power on temperature, which is drawn
+attention to in \sref{power-model}, has been ignored. In order to take it into
+account when performing temperature analysis, two approaches can be employed.
 
 The first approach is to calculate the power and temperature profiles several
 times in turns until the latter converges. In this case, we obtain a series of

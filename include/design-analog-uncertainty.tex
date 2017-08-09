@@ -117,11 +117,11 @@ interconnect networks and power grids, respectively, under process variation.
 The last five of the aforementioned techniques, that is, \cite{bhardwaj2006,
 vrudhula2006, ghanta2006, bhardwaj2008, shen2009}, perform only stochastic power
 analysis and ignore the interdependence between power and temperature described
-in \sref{power-temperature-interplay}. The others are temperature-related
-approaches, but none of them attempts to tackle stochastic transient temperature
-analysis and to compute the probability distribution of temperature that evolves
-over time. However, such transient curves are of practical importance. First,
-certain procedures cannot be undertaken without the knowledge of time-dependent
+in \sref{power-model}. The others are temperature-related approaches, but none
+of them attempts to tackle stochastic transient temperature analysis and to
+compute the probability distribution of temperature that evolves over time.
+However, such transient curves are of practical importance. First, certain
+procedures cannot be undertaken without the knowledge of time-dependent
 temperature variations; an example is reliability optimization based on the
 thermal-cycling fatigue, which is discussed in
 \sref{thermal-cycling-exploration}. Second, the static steady-state assumption
@@ -192,7 +192,7 @@ The major stages of our technique are depicted in \fref{analog-overview}. At
 Stage~1 (\sref{analog-parameter-transformation}), the uncertain parameters \vu
 are transformed into independent random variables \vz since independence is a
 prerequisite of the \ac{PC} approach. At Stage~2 (\sref{analog-power-model}),
-the user specifies the power model of the system via a ``black-box'' functional
+the user specifies the power model of the system via a ``black-box'' function
 $f$ that computes the total power \vp for a particular temperature \vq and a
 particular outcome of the parameters \vu. At Stage~3
 (\sref{analog-temperature-model}), based on \sref{transient-state-solution}, a
