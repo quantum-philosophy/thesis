@@ -58,12 +58,12 @@ temperature from the one corresponding to the nominal power consumption.
 The goal is to develop a system-level framework for transient temperature and,
 hence, power analysis of electronic systems where the power consumption and heat
 dissipation are stochastic due to their dependency on the uncertain parameters
-\vu. The user is required \one~to have prior knowledge or belief about the
-probability distribution of \vu and \two~to specify a power model having \vu as
-an input. The framework should provide the user with the tools to analyze the
-system under a given workload, without imposing any constraints on the nature of
-this workload, and obtain the corresponding stochastic power \mp and temperature
-\mq profiles with a desired level of accuracy and at low costs.
+\vu. The user is required to specify \one~the probability distribution of \vu
+and \two~the dependency of the power consumption on \vu, which can be given as a
+``black box.'' The framework is to provide the user with the tools for analyzing
+the system under a given workload, without imposing constraints on the nature of
+this workload, and obtaining the corresponding stochastic power \mp and
+temperature \mq profiles with a desired level of accuracy and at low costs.
 
 \section{Prior Work}
 \slab{analog-prior}
@@ -89,10 +89,10 @@ In order to overcome the limitations of deterministic techniques and, at the
 same time, to eliminate or, at least, mitigate the computation costs associated
 with \ac{MC} sampling, a number of stochastic techniques have been introduced,
 which we elaborate on in what follows. We are particularly interested in power
-and temperature and, hence, shape the exposition accordingly. Since the static
-component of the total power dissipation is influenced by process variation the
-most, which is due to the leakage power, the techniques discussed below
-primarily focus on the variability of this component.
+and temperature and, therefore, shape the exposition accordingly. Since the
+static component of the total power dissipation is influenced by process
+variation the most, which is due to the leakage current, the techniques
+discussed below primarily focus on the variability of this component.
 
 A solely power-targeted but temperature-aware solution is proposed in
 \cite{chandra2010} where the driving force of the analysis is \ac{MC} sampling
@@ -188,42 +188,26 @@ formulae for probabilistic moments, which means that the expectation and
 variance are readily available.
 
 \inputfigure{analog-overview}
-The major stages of our technique are depicted in \fref{analog-overview}.
+The major stages of our technique are depicted in \fref{analog-overview}. At
+Stage~1 (\sref{analog-parameter-transformation}), the uncertain parameters \vu
+are transformed into independent random variables \vz since mutually
+independence is a prerequisite of the \ac{PC} approach. At Stage~2
+(\sref{analog-power-model}), the user specifies the power model of the system
+via a ``black-box'' functional $f$ that computes the total power \vp for a
+particular temperature \vq and a particular outcome of the parameters \vu. At
+Stage~3 (\sref{analog-temperature-model}), based on
+\sref{transient-state-solution}, a mathematical description of the thermal
+behavior of the system is obtained. At Stage~4 (\sref{analog-surrogate-model}),
+the surrogate model is computed by traversing the desired time span and
+gradually constructing \ac{PC} expansions of the stochastic power and
+temperature profiles. At Stage~5 (\sref{analog-post-processing}), the computed
+\ac{PC} expansions are analyzed in order to obtain the needed characteristics of
+the system such as \acp{PDF} and moments.
 
-Stage~1. Parameter Preprocessing (\sref{uncertain-parameters}). The PC approach
-operates on mutually independent random variables. The uncertain parameters \vu
-might not satisfy this requirement and, thus, should be preprocessed; we denote
-the corresponding independent random variables by \vz.
+Let us now detail each of the five stages of the proposed framework.
 
-Stage~2. Power Modeling (\sref{power-model}). The user specifies the power model
-of the system via a ``black-box'' functional $f$, which computes the total power
-$\vp(t, \vu)$ for a particular temperature $\vq(t, \vu)$ and an outcome of the
-parameters \vu.
-
-Stage~3. Thermal Modeling (\sref{thermal-model}). With respect to the thermal
-specification \spec (defined in \sref{problem-formulation}), a mathematical
-formulation of the thermal system is attained. The thermal model closely
-interacts with the power model from Stage~2 and produces the corresponding
-temperature profile.
-
-Stage~4. Surrogate Modeling (\sref{polynomial-chaos}). The surrogate model is
-obtained by traversing the desired time span and gradually constructing
-polynomial expansions (in terms of the processed uncertain parameters \vz from
-Stage~1) of the stochastic power and temperature profiles. The output is
-essentially a substitute for the model produced at Stage~3 with respect to the
-power model determined at Stage~2.
-
-Stage~5. Post-processing (\sref{post-processing}). The computed PC expansions
-are analyzed in order to obtain the needed characteristics of the system, for
-instance, CDFs, PDFs, and moments.
-
-In the forthcoming subsections,
-\sref{uncertain-parameters}--\sref{post-processing}, the proposed framework is
-presented. We shall pursue generality such that the user can easily adjust the
-technique to a particular application, characterized by specific uncertain
-parameters.
-
-\subsection{Parameter Preprocessing}
+\subsection{Parameter Transformation}
+\slab{analog-parameter-transformation}
 
 Independence of the parameters is a prerequisite for PC expansions. In general,
 however, \vu can be correlated and, therefore, should be preprocessed in order
@@ -263,7 +247,8 @@ In \sref{ie-uncertain-parameters}, we shall demonstrate the Nataf transformation
 together with the discrete KL decomposition. A description of the latter can
 also be found in \sref{karhunen-loeve}.
 
-\subsection{Power Modeling}
+\subsection{Power Model}
+\slab{analog-power-model}
 
 As stated in \sref{problem-formulation}, the user of the framework is supposed
 to decide on the power model for the system under consideration. Such a model
@@ -287,7 +272,8 @@ of $f$ is flexible enough to account for such effects as the interdependence
 between leakage and temperature \cite{srivastava2010, liu2007}, which is
 discussed in \sref{ie-power-model}.
 
-\subsection{Thermal Modeling}
+\subsection{Temperature Model}
+\slab{analog-temperature-model}
 
 Given the thermal specification \spec of the system at hand (see the second
 paragraph of \sref{problem-formulation}), an equivalent thermal RC circuit with
@@ -336,7 +322,8 @@ to be performed on dependent random vectors with arbitrary probability
 distributions, which, in general, have no closed-form solutions. To tackle this
 difficulty, we utilize PC expansions as follows.
 
-\subsection{Surrogate Modeling}
+\subsection{Surrogate Model}
+\slab{analog-surrogate-model}
 
 The goal now is to transform the ``problematic'' term in \eref{recurrence}, that
 is, the power term defined by \eref{power-model}, in such a way that the
@@ -513,7 +500,8 @@ hoc expressions and should be tailored by the user for each new parameter
 individually; see, for instance, \cite{huang2009a, bhardwaj2008, ghanta2006}.
 Our framework provides a great flexibility in this regard.
 
-\subsection{Post-processing}
+\subsection{Post-Processing}
+\slab{analog-post-processing}
 
 Due to the properties of PC expansions---in particular, due to the pairwise
 orthogonality of the basis polynomials as discussed in
