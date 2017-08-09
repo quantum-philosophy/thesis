@@ -246,77 +246,52 @@ with the discrete \ac{KL} decomposition using a concrete example.
 \subsection{Power Model}
 \slab{analog-power-model}
 
-As stated in \sref{problem-formulation}, the user of the framework is supposed
-to decide on the power model for the system under consideration. Such a model
-can be generally expressed as the following \np-dimensional functional $f$:
-\begin{equation} \elab{power-model}
-  \vp(t, \vu) = f(t, \vq(t, \vu), \vu)
-\end{equation}
-where \np is the number of processing elements in the system, and $\vp(t, \vu)
-\in \real^\np$ and $\vq(t, \vu) \in \real^\np$ are random vectors of power and
-temperature, respectively, at time $t$.
+As stated in \sref{analog-problem}, the user is supposed to decide on the power
+model for the system, which we denote as follows:
+\[
+  \vp(t) = f(t, \vq(t), \vu)
+\]
+where $f$ is a function that evaluates the power $\vp \in \real^\np$ of the
+processing elements given their temperature $\vq \in \real^\np$ and parameters
+$\vu \in \real^\nu$. It should be understood that \vp, \vq, and \vu are random
+vectors in general, and that $f$ consumes $\vq(t, \omega)$ and $\vu(\omega)$ and
+yields $\vp(t, \omega)$ for some particular outcome $\omega \in \Omega$.
 
-The user can choose any $f$. It can be, for instance, a closed-form formula, a
-piece of code, or an output of a system/power simulator that takes in, for some
-fixed $\vu \equiv \vu(\omega)$, $\omega \in \Omega$, the temperature vector
-$\vq(t, \vu)$ and uncertain parameters \vu and computes the corresponding total
-power $\vp(t, \vu)$. The only assumption we make about $f$ is that the function
-is smooth in \vz and has a finite variance, which is generally applicable to
-most physical systems \cite{xiu2010}. Note also that the operation performed by
-this ``black box'' is purely deterministic. It can be seen that the definition
-of $f$ is flexible enough to account for such effects as the interdependence
-between leakage and temperature \cite{srivastava2010, liu2007}, which is
-discussed in \sref{ie-power-model}.
+The user can choose any $f$. It can be, for instance, a closed-form formula or a
+piece of code. The only assumption we make about $f$ is that it is smooth in \vz
+and belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$ when it is viewed as a
+random variable (see \sref{probability-theory}), which is generally applicable
+to most physical systems \cite{xiu2010}. Note also that the operation performed
+by this ``black box'' is purely deterministic. The definition of $f$ is flexible
+enough to account for such effects as the interdependence between power and
+temperature discussed in \sref{power-model}.
 
 \subsection{Temperature Model}
 \slab{analog-temperature-model}
 
-Given the thermal specification \spec of the system at hand (see the second
-paragraph of \sref{problem-formulation}), an equivalent thermal RC circuit with
-\nn thermal nodes is constructed \cite{skadron2004}. The structure of the
-circuit depends on the intended level of granularity and, therefore, impacts the
-resulting accuracy. Without loss of generality, we assume that each processing
-element is mapped onto one corresponding node, and the thermal package is
-represented as a set of additional nodes.
-
-The thermal behavior of the constructed circuit is modeled with the following
-system of differential-algebraic equations (see \sref{thermal-model} for a
-derivation):
-\begin{subnumcases}{\elab{fourier-system}}
-  \frac{d\vs(t, \vu)}{dt} = \m{A} \vs(t, \vu) + \m{B} \vp(t, \vu) \elab{fourier-de} \\
-  \vq(t, \vu) = \m{B}^T \vs(t, \vu) + \vq_\ambient \elab{fourier-output}
-\end{subnumcases}
-where $\vp(t, \vu)$ and $\vq(t, \vu)$ are the input power and output temperature
-vectors of the processing elements, respectively, and $\vs(t, \vu) \in
-\real^\nn$ is the vector of the internal state of the system. Note that, as
-shown in \eref{power-model}, $\vp(t, \vu)$ is an arbitrary function of $\vq(t,
-\vu)$. Therefore, in general, the system in \eref{fourier-de} is nonlinear and
-does not have a closed-form solution.
-
-Recall that the power and temperature profiles we work with are discrete-time
-representations of the power consumption and heat dissipation, respectively,
-which contain \ns samples, or steps, covering a certain time span (see
-\sref{problem-formulation}). As detailed in \sref{thermal-model}, we let the
-total power be constant between neighboring power steps and reduce the solution
-process of \eref{fourier-system} to the following recurrence, for $k =
-\range{1}{\ns}$,
+The temperature model is based on the one described in \sref{temperature-model},
+and transient temperature analysis is based on the one presented in
+\sref{transient-state-solution}. The major difference is that
+\eref{temperature-model} implicitly operates on stochastic quantities.
+Consequently, the recurrent solution in \eref{transient-state-recurrence}, that
+is,
 \[
-  \vs_k = \m{E}_k \vs_{k - 1} + \m{F}_k \vp_k
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
 \]
-where $\vs_0 = \v{0}$. In the deterministic case, \eref{recurrence} can be
-readily employed to perform deterministic transient PTA \cite{thiele2011,
-ukhov2012}. In the stochastic case, however, the analysis of \eref{recurrence}
-is substantially different since $\vp_k$ and, consequently, $\vs_k$ and $\vq_k$
-are probabilistic quantities. The situation is complicated by the fact that, at
-each step of the iterative process in \eref{recurrence}, (a) $\vp_k$ is an
+for $i = \range{1}{\ns}$ where $\vs_0 = \v{0}$, is such as well. In the
+deterministic case, it can be readily employed to perform deterministic
+transient power and temperature analysis via the techniques in
+\sref{power-temperature-interplay}. In the stochastic case, however, the
+situation is substantially different since $\vp_i$ and, consequently, $\vs_i$
+and $\vq_i$ are probabilistic quantities. Moreover, at each step, $\vp_i$ is an
 arbitrary transformation of the uncertain parameters \vu and stochastic
-temperature $\vq_k$ (see \sref{power-model}), which results in a multivariate
-random variable with a generally unknown probability distribution, and (b) \vu,
-$\vp_k$, $\vs_k$, and $\vq_k$ are dependent random vectors as the last three are
-functions of the first. Hence, the operations involved in \eref{recurrence} are
-to be performed on dependent random vectors with arbitrary probability
-distributions, which, in general, have no closed-form solutions. To tackle this
-difficulty, we utilize PC expansions as follows.
+temperature $\vq_i$, which results in a multivariate random variable with a
+generally unknown probability distribution. Furthermore, $\vp_i$, $\vq_i$,
+$\vs_i$, and \vu are dependent random vectors since the first three are
+functions of the last. Hence, the operations involved in the recurrence are to
+be performed on dependent random vectors with arbitrary probability
+distributions, which, in general, have no closed-form solutions. In order to
+tackle this difficulty, we reside to \ac{PC} expansions as follows.
 
 \subsection{Surrogate Model}
 \slab{analog-surrogate-model}
