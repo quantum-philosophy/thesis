@@ -1,17 +1,32 @@
-In this chapter, we shift our attention from analyzing to designing with process
-variation. In this context, we develop a framework that allows the designer to
-propagate the uncertainty due to process variation through the system under
-development and investigate its impact on the system's behavior.
+In this chapter, we shift our attention from analyzing process variation to
+designing with process variation. In other words, instead of analyzing the
+original variability, we now study its impact on higher-level characteristics so
+that this deteriorating impact can be taken into account in the final design.
 
 \section{Introduction}
-\slab{analog-introduction}
+
+As it is emphasized in \sref{inference-introduction}, process variation is a
+major concern of the designer. In order to assist the designer, we develop a
+framework that allows the designer to propagate the corresponding uncertainty
+through the system under development and investigate its impact on the system's
+behavior.
+
+We proceed as follows. A motivational example is considered in
+\sref{analog-example}. The objective of our study is formulated in
+\sref{analog-problem}. \sref{analog-prior} provides an overview of the prior
+work. The proposed framework is presented in \sref{analog-solution}. An
+exemplary application of our approach is discussed in \sref{analog-example}, and
+the corresponding experimental results are given and compared with \ac{MC}
+simulations in \sref{analog-results}. \sref{analog-conclusion} concludes the
+chapter.
+
+\section{Motivational Example}
+\slab{analog-example}
 
 \inputfigure{analog-example}
-As it is emphasized in \sref{inference-introduction}, process variation is a
-major concern of the designer. In order to explore it further, consider a
-quad-core architecture exposed to the uncertainty due to parameters that affect
-the leakage current. Assume first that these parameters have nominal values. We
-can then simulate the system under a certain workload and observe the
+Consider a quad-core architecture exposed to the uncertainty due to parameters
+that affect the leakage current. Assume first that these parameters have nominal
+values. We can then simulate the system under a certain workload and observe the
 corresponding temperature profile; the experimental setup is to be detailed in
 \sref{analog-example} and \sref{analog-results}. The result is depicted in
 \fref{analog-example} by a blue line, which corresponds to the temperature of
@@ -34,13 +49,6 @@ analysis of electronic systems ignores this important aspect; see, for instance,
 analysis and optimization described in \cref{design-certainty}, and the goal of
 this chapter is to eliminate it in the case of the uncertainty due to process
 variation.
-
-We proceed as follows. The objective of our study is formulated in
-\sref{analog-problem}. \sref{analog-prior} provides an overview of the prior
-work. The proposed framework is presented in \sref{analog-solution}. An
-exemplary application of our approach is discussed in \sref{analog-example}, and
-the corresponding results are compared with \ac{MC} simulations in
-\sref{analog-results}. \sref{analog-conclusion} concludes the paper.
 
 \section{Problem Formulation}
 \slab{analog-problem}
@@ -134,7 +142,7 @@ juan2012}. However, this assumption often fails in practice---which is also
 noted in \cite{juan2012} regarding the normality of the leakage current---due to
 \one~the nonlinear dependence of power on process parameters and \two~the
 nonlinear interdependence between power and temperature. In order to illustrate
-this, we simulate $10^4$ times the example given in \sref{analog-introduction}
+this, we simulate $10^4$ times the example given in \sref{analog-example}
 assuming the widespread Gaussian model of the effective channel length and apply
 the Jarque--Bera test of normality to the collected temperature directly as well
 as after processing them with the log transformation. The null hypothesis that
