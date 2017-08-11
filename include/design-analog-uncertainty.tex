@@ -1047,41 +1047,6 @@ When this threshold is sufficiently high (close to one), the rest of the
 eigenvalues and the corresponding eigenvectors can be dropped as being
 insignificant, reducing the stochastic dimensionality of the problem.
 
-\section{Polynomial Chaos Expansion}
-
-Here we elaborate on the orthogonality property \cite{xiu2010} of PC expansions,
-which is extensively utilized at Stage~4 in \sref{polynomial-chaos}. Due to the
-inherent complexity, uncertainty quantification problems are typically viewed as
-approximation problems. More precisely, one usually constructs computationally
-efficient surrogates of the initial models and then studies these light
-representations instead. PC expansions \cite{xiu2010} are one way to perform
-such approximations, in which the approximating functions are orthogonal
-polynomials. A set of multivariate polynomials $\{ \psi_i: \real^\nu \to
-\real \}$ is orthogonal if
-\begin{equation} \elab{orthogonality}
-  \innerproduct{\psi_i}{\psi_j} = \innerproduct{\psi_i}{\psi_i} \delta_{ij}, \qquad \forall i, j,
-\end{equation}
-where $\innerproduct{\cdot}{\cdot}$ denotes the inner product in the Hilbert
-space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function.
-The inner product with a weight function $f: \real^\nu \to \real$ is defined as
-the following multidimensional integral:
-\begin{equation} \elab{inner-product}
-  \innerproduct{h}{g} = \int h(\v{x}) g(\v{x}) f(\v{x}) d\v{x}.
-\end{equation}
-In our context, the weight function corresponds to the PDF of \vz (see
-\sref{uncertain-parameters}). For $h = \psi_i$ and $g = \psi_j$, the inner
-product yields the covariance of $\psi_i$ and $\psi_j$, and the presence of
-orthogonality is equivalent to the absence of correlations.
-
-Many of the most popular probability distributions directly correspond to
-certain families of the orthogonal polynomials given in the Askey scheme
-\cite{xiu2010}. A probability distribution that does not have such a
-correspondence can be transformed into one of those that do have using the
-technique shown in \sref{ie-uncertain-parameters}. Another solutions is to
-construct a custom polynomial basis using the Gram-Schmidt process. In addition,
-apart from continuous, PC expansions can be applied to discrete distributions.
-Refer to \cite{xiu2010} for further discussions.
-
 \section{Numerical Integration}
 
 As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and

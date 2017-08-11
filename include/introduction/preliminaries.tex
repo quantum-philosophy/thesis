@@ -84,7 +84,7 @@ defined by
 \]
 and the norm defined by
 \[
-  \norm[\L{2}]{x} = \innerproduct{x}{x}^\frac{1}{2}
+  \norm[\L{2}]{x} = \sqrt{\innerproduct{x}{x}_\L{2}}
 \]
 for any two random variables $x$ and $y$ in $\L{2}(\Omega, \mathcal{F},
 \probability)$.
@@ -138,6 +138,47 @@ In the above formula, $\tm{\Lambda} \in \real^{n \times \nz}$ is a truncated
 version of $\m{\Lambda} \in \real^{n \times n}$ given in
 \eref{eigendecomposition}, that is, the matrix contains only the first \nz
 columns of $\m{\Lambda}$.
+
+\subsection{Polynomial Chaos}
+\slab{polynomial-chaos}
+
+Due to the inherent complexity, uncertainty-quantification problems are
+typically viewed as approximation problems: one usually constructs a
+computationally efficient surrogate for the system under consideration and then
+studies this light representation instead of the original system. One way to
+construct such a surrogate is \ac{PC} \cite{xiu2010}. The technique decomposes
+stochastic quantities into infinite series of orthogonal polynomials of random
+variables. Such series are especially attractive from the post-processing
+perspective as they are nothing more than polynomials; therefore, \ac{PC}
+expansions are easy to interpret and easy to evaluate.
+
+Let $\{ \psi_i: \real^n \to \real \}$ be a basis composed of $n$-variate
+polynomials. The inner product in the Hilbert space spanned by the polynomials
+is defined as the following $n$-dimensional integral:
+\begin{equation} \elab{inner-product}
+  \innerproduct{\psi_i}{\psi_j} = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) f(\v{x}) d\v{x}.
+\end{equation}
+where $f: \real^n \to \real$ is a weight function, which we shall discuss
+shortly. Two polynomials $\psi_i$ and $\psi_j$ are orthogonal if
+\begin{equation} \elab{orthogonality}
+  \innerproduct{\psi_i}{\psi_j} = \innerproduct{\psi_i}{\psi_i} \delta_{ij}
+\end{equation}
+where $\delta_{ij}$ is the Kronecker delta function. A polynomial basis is
+called orthogonal if any two polynomials from the basis are orthogonal.
+
+In the case of \ac{PC}, the weight function is a \ac{PDF}. Assuming that the
+corresponding distribution is centered, that is, it has a zero mean, the inner
+product corresponds to the covariance operator; and orthogonality corresponds to
+the absence of correlations.
+
+Many of the most popular probability distributions directly correspond to
+certain families of the orthogonal polynomials given in the Askey scheme
+\cite{xiu2010}. A probability distribution that does not have such a
+correspondence can be transformed into one of those that do have using the
+technique shown in \sref{ie-uncertain-parameters}. Another solutions is to
+construct a custom polynomial basis using the Gram-Schmidt process. In addition,
+apart from continuous, PC expansions can be applied to discrete distributions.
+Refer to \cite{xiu2010} for further discussions.
 
 \subsection{Bayesian Statistics}
 \slab{bayesian-statistics}
