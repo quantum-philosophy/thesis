@@ -65,9 +65,9 @@ The expectation of $x$ is given by
 \[
   \expectation{x} = \int_\real x^* dF_z(x^*) = \int_\Omega x(\omega) dP(\omega),
 \]
-The covariance of $x$ and a random variable $y$ is given by
+The covariance of two random variable $x_1$ and $x_2$ is given by
 \[
-  \covariance{x}{y} = \expectation{((x - \expectation{x})(y - \expectation{y}))}.
+  \covariance{x_1}{x_2} = \expectation{((x_1 - \expectation{x_1})(x_2 - \expectation{x_2}))}.
 \]
 The variance of $x$ is given by
 \[
@@ -80,14 +80,13 @@ $\L{2}(\Omega, \mathcal{F}, \probability)$, the Hilbert space of
 square-integrable random variables \cite{janson1997} with the inner product
 defined by
 \[
-  \innerproduct{x}{y}_\L{2} = \expectation{(x y)}
+  \innerproduct{x_1}{x_2}_\L{2} = \expectation{(x_1 x_2)}
 \]
 and the norm defined by
 \[
   \norm[\L{2}]{x} = \sqrt{\innerproduct{x}{x}_\L{2}}
 \]
-for any two random variables $x$ and $y$ in $\L{2}(\Omega, \mathcal{F},
-\probability)$.
+for any $x$, $x_1$, and $x_2$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
 
 An $n$-dimensional random variable or random vector $\v{x} = (x_i)_{i = 1}^n$ is
 a collection of $n$ random variables or, equivalently, a single random variable
