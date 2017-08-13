@@ -138,6 +138,76 @@ version of $\m{\Lambda} \in \real^{n \times n}$ given in
 \eref{eigendecomposition}, that is, the matrix contains only the first \nz
 columns of $\m{\Lambda}$.
 
+\subsection{Numerical Integration}
+\slab{numerical-integration}
+
+In numerical analysis, the integral of a function $g$ over a domain $D \subseteq
+\real$
+\[
+  \int_D g(x) dx
+\]
+is approximated by a summation of the function's values computed at prescribed
+points $\{ \hat{x}_i \in D \}$ and multiplied by prescribed weights $\{ w_i \in
+\real \}$
+\[
+  \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i
+\]
+where \nq is the number of pairs of a point and a weight. Such a set of points
+and a set of weights are called a quadrature rule, which we denote by
+$\quadrature{1}{\lq}$. The superscript indicates that it is a one-dimensional
+problem, and the subscript indicates the accuracy level of the rule used, which,
+in the one-dimensional case, corresponds to the maximum order of polynomials
+that the rule integrates exactly \cite{heiss2008}. Similarly, the integral of a
+function $g$ over a domain $D \subseteq \real^n$
+\[
+  \int_D g(\v{x}) d\v{x}
+\]
+is approximated by
+\[
+  \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\v{x}}_i) w_i.
+\]
+In this multidimensional case, an appropriate $n$-dimensional quadrature rule
+$\quadrature{n}{\lq}$ is formed by computing the tensor product of $n$
+potentially distinct one-dimensional quadrature rules, and the accuracy level
+\lq refers to the index of the rule in the corresponding family of
+multidimensional rules with increasing accuracy. The number of terms in the
+summation \nq is dictated by both $n$ and \lq. Lastly, let us note that
+quadrature rules are generally precomputed and tabulated since they do not
+depend the integrand; see, for instance, \cite{burkardt}.
+
+Consider now the following more general integral:
+\[
+  \int_D g(\v{x}) dF(\v{x}).
+\]
+Here $g$ is integrated with respect to a measure \cite{durrett2010}, denoted by
+$F$, that does not necessarily corresponds to the usual Lebesgue measure used in
+the earlier examples. The integrand can often be rewritten as follows:
+\[
+  \int_D g(\v{x}) f(\v{x}) d\v{x}
+\]
+where $g$ is weighted by a function $f$ and integrated with respect to the
+Lebesgue measure as before. Since integrating in such a way is a very frequent
+operation as we shall see, there are families of quadrature rules that are
+designed to automatically taken into account the most common scenarios.
+
+There is one more and arguably the most crucial aspect of numerical integration
+that we ought to discuss: the algorithm used to construct multidimensional
+quadrature rules. In low dimensions, the construction can be based on the direct
+tensor product of one-dimensional rules. However, in high dimensions, the
+situation changes dramatically as the number of points produced by this approach
+can easily explode. For instance \cite{heiss2008}, if a one-dimensional rule has
+only 4 points, that is, $\nq = 4$, then in 10 stochastic dimensions, that is, $n
+= 10$, the number of multivariate points becomes $\nq = 4^{10} > 10^6$, which is
+not affordable. Moreover, it can be shown that most of the points obtained in
+this way do not contribute to the asymptotic accuracy and, hence, are a waste of
+time. In order to tackle this problem, one resides to sparse integration grids
+constructed via the Smolyak algorithm \cite{burkardt, eldred2008, heiss2008}.
+The algorithm preserves the accuracy of the underlying one-dimensional rules for
+complete polynomials while significantly reducing the number of points. For
+instance, in the example given earlier, the number of points computed by the
+algorithm would be only around 1600, which implies a drastic saving of the
+computation time.
+
 \subsection{Polynomial Chaos}
 \slab{polynomial-chaos}
 
@@ -155,11 +225,11 @@ Let $\{ \psi_i: \real^n \to \real \}$ be a basis composed of $n$-variate
 polynomials. The inner product in the Hilbert space spanned by the polynomials
 is defined as the following $n$-dimensional integral:
 \begin{equation} \elab{inner-product}
-  \innerproduct{\psi_i}{\psi_j} = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) f(\v{x}) d\v{x}.
+  \innerproduct{\psi_i}{\psi_j} = \int_{\real^n} \psi_i(\vz) \psi_j(\vz) f(\vz) d\vz.
 \end{equation}
 where $f: \real^n \to \real$ is a weight function, which we shall discuss
 shortly. Two polynomials $\psi_i$ and $\psi_j$ are orthogonal if
-\begin{equation} \elab{orthogonality}
+\begin{equation} \elab{polynomial-orthogonality}
   \innerproduct{\psi_i}{\psi_j} = \innerproduct{\psi_i}{\psi_i} \delta_{ij}
 \end{equation}
 where $\delta_{ij}$ is the Kronecker delta function. A polynomial basis is
@@ -178,6 +248,11 @@ technique shown in \sref{ie-uncertain-parameters}. Another solutions is to
 construct a custom polynomial basis using the Gram-Schmidt process. In addition,
 apart from continuous, PC expansions can be applied to discrete distributions.
 Refer to \cite{xiu2010} for further discussions.
+
+In multiple dimensions, which is the case with the \nz-dimensional random vector
+\vz, several (possibly different) univariate bases are combined together in
+order to produce a single \nz-variate basis, which we denote by $\{ \psi_j:
+\real^\nz \to \real \}_{j = 1}^\infty$; see \cite{xiu2010}.
 
 \subsection{Bayesian Statistics}
 \slab{bayesian-statistics}

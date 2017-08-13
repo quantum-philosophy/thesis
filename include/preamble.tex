@@ -83,6 +83,10 @@
 
 \renewcommand{\math}[1]{\ensuremath{#1}\xspace}
 
+\newcommand{\levelof}[1]{\math{{l_{#1}}}}
+\newcommand{\numberof}[1]{\math{{n_{#1}}}}
+\newcommand{\hnumberof}[1]{\math{{\hat{n}_{#1}}}}
+
 \renewcommand{\v}[1]{\boldsymbol{#1}}
 \newcommand{\hv}[1]{\hat{\v{#1}}}
 \newcommand{\tv}[1]{\tilde{\v{#1}}}
@@ -100,18 +104,14 @@
 \newcommand{\norm}[2][]{\|#2\|_{#1}}
 \newcommand{\range}[2]{#1, \dots, #2}
 \newcommand{\real}{\mathbb{R}}
-\newcommand{\transform}[1]{\mathbb{T}\left(#1\right)}
 \newcommand{\transpose}[1]{{#1}^\mathrm{T}}
 \renewcommand{\L}[1]{{L^{#1}}}
-
-\newcommand{\levelof}[1]{\math{{l_\mathrm{#1}}}}
-
-\newcommand{\numberof}[1]{\math{{n_\mathrm{#1}}}}
-\newcommand{\hnumberof}[1]{\math{{\hat{n}_\mathrm{#1}}}}
 
 %
 % Probability theory
 %
+
+\newcommand{\transform}[1]{\mathbb{T}\left(#1\right)}
 
 \makeatletter
 \def\probability{\@ifnextchar\bgroup{\probabilityone}{\probabilityzero}}
@@ -155,7 +155,11 @@
 \renewcommand{\lq}{\levelof{q}}
 \newcommand{\nq}{\numberof{q}}
 
-\newcommand{\quadrature}[3]{\mathcal{Q}^{#1}_{#2}\left(#3\right)}
+\makeatletter
+\def\quadrature#1#2{\@ifnextchar\bgroup{\quadraturethree{#1}{#2}}{\quadraturetwo{#1}{#2}}}
+\def\quadraturethree#1#2#3{\mathcal{Q}^{#1}_{#2}\left(#3\right)}
+\def\quadraturetwo#1#2{\mathcal{Q}^{#1}_{#2}}
+\makeatother
 
 %
 % Uncertainty
