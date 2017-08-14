@@ -155,13 +155,13 @@ columns of $\m{\Lambda}$.
 
 The integral of a function $g: D \to \real$ over its domain $D \subseteq \real$
 \[
-  \int_D g(x) dx
+  I = \int_D g(x) dx
 \]
 is approximated by a summation of the function's values computed at prescribed
 points $\{ \hat{x}_i \in D \}_{i = 1}^\nq$ and multiplied by prescribed weights
 $\{ w_i \in \real \}_{i = 1}^\nq$, which we denote as follows:
 \[
-  \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i.
+  I \approx \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i.
 \]
 Such a pair of a set of points and a set of weights is called a quadrature rule.
 In the notation $\quadrature{1}{\lq}$, the superscript $1$ indicates that it is
@@ -172,11 +172,11 @@ the maximum order of polynomials that the rule integrates exactly
 \cite{heiss2008}. Similarly, in multiple dimensions, the integral of a function
 $g: D \to \real$ over its domain $D \subseteq \real^n$
 \[
-  \int_D g(\v{x}) d\v{x}
+  I = \int_D g(\v{x}) d\v{x}
 \]
 is approximated by
 \[
-  \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\v{x}}_i) w_i.
+  I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\v{x}}_i) w_i.
 \]
 An appropriate $n$-dimensional quadrature rule $\quadrature{n}{\lq}$ is
 typically formed by computing the tensor product of $n$ potentially distinct
@@ -187,14 +187,14 @@ see, for instance, \cite{burkardt}.
 
 Consider now the following more general integral:
 \[
-  \int_D g(\v{x}) dF(\v{x}).
+  I = \int_D g(\v{x}) dF(\v{x}).
 \]
 Here $g$ is integrated with respect to a measure $F: D \to \real$
 \cite{durrett2010} that does not necessarily correspond to the usual Lebesgue
 measure used in the earlier examples. If $F$ is absolutely continuous, the
 integrand can be rewritten as follows:
 \[
-  \int_D g(\v{x}) f(\v{x}) d\v{x}
+  I = \int_D g(\v{x}) f(\v{x}) d\v{x}
 \]
 where $g$ is weighted by the derivative $f: D \to \real$ of $F$ and integrated
 with respect to the Lebesgue measure. Since integrating in such a way is a very
@@ -227,43 +227,66 @@ typically viewed as approximation problems: one usually constructs a
 computationally efficient surrogate for the system under consideration and then
 studies this light representation instead of the original system. One way to
 construct such a surrogate is \ac{PC} \cite{xiu2010}. The technique decomposes
-stochastic quantities into infinite series of orthogonal polynomials of random
-variables. Such series are especially attractive from the post-processing
-perspective as they are nothing more than polynomials; therefore, \ac{PC}
-expansions are easy to interpret and easy to evaluate.
+stochastic quantities into infinite series of mutually orthogonal polynomials of
+random variables. Such series are especially attractive from the post-processing
+perspective as they are nothing more than the familiar polynomials; therefore,
+\ac{PC} expansions are easy to interpret and easy to evaluate.
 
-Let $\{ \psi_i: \real^n \to \real \}$ be a basis composed of $n$-variate
-polynomials. The inner product in the Hilbert space spanned by the polynomials
-is defined as the following $n$-dimensional integral:
-\begin{equation} \elab{inner-product}
-  \innerproduct{\psi_i}{\psi_j} = \int_{\real^n} \psi_i(\vz) \psi_j(\vz) f(\vz) d\vz.
+Let now $\{ \psi_i: D \to \real \}_{i = 1}^\infty$ be a set of $n$-variate
+polynomials defined on $D \subseteq \real^n$. The polynomials span a weighted
+Hilbert space with the inner product
+\begin{equation} \elab{polynomial-inner-product}
+  \innerproduct{\psi_i}{\psi_j}
+  = \int_D \psi_i(\v{x}) \psi_j(\v{x}) dF(\v{x})
+  = \int_D \psi_i(\v{x}) \psi_j(\v{x}) f(\v{x}) d\v{x}
 \end{equation}
-where $f: \real^n \to \real$ is a weight function, which we shall discuss
-shortly. Two polynomials $\psi_i$ and $\psi_j$ are orthogonal if
+where $F$ and $f$ are a measure and a weight function, respectively, similarly
+to \sref{numerical-integration}. Two polynomials $\psi_i$ and $\psi_j$ are
+called orthogonal if
 \begin{equation} \elab{polynomial-orthogonality}
   \innerproduct{\psi_i}{\psi_j} = \innerproduct{\psi_i}{\psi_i} \delta_{ij}
 \end{equation}
-where $\delta_{ij}$ is the Kronecker delta function. A polynomial basis is
-called orthogonal if any two polynomials from the basis are orthogonal.
+where $\delta_{ij}$ is the Kronecker delta function. The set of polynomials
+constitutes a basis of the weighted space if all the polynomials are mutually
+orthogonal.
 
-In the case of \ac{PC}, the weight function is a \ac{PDF}. Assuming that the
-corresponding distribution is centered, that is, it has a zero mean, the inner
-product corresponds to the covariance operator; and orthogonality corresponds to
-the absence of correlations.
+Consider now a probability space $(\Omega, \mathcal{F}, \probability)$, which is
+defined in \sref{probability-theory}, and let a function $g: D \to \real$ depend
+on a random vector $\v{x}: \Omega \to \real^n$ with mutually independent
+components where $D \subseteq \real^n$ and $\probability{\real^n \setminus D} =
+0$. Let also $\{ \psi_i: D \to \real \}_{i = 1}^\infty$ be a basis whose
+polynomials are mutually orthogonal with respect to the probability distribution
+of $\v{x}$, which means that $F$ and $f$ in \eref{polynomial-inner-product} are
+the \ac{CDF} and \ac{PDF} of $\v{x}$, respectively. Then a truncated \ac{PC}
+expansion of $g$ as a function of $\v{x}$ is defined as follows:
+\[
+  g(\v{x}) \approx \chaos{\nz}{\lc}{g}(\v{x}) = \sum_{i = 1}^\nc \hat{g}_i \psi_i(\v{x}).
+\]
+The coefficients $\{ \hat{g}_i \}_{i = 1}^\nc$ of the expansion are found by
+multiplying both side of the equation by $\psi_i$ and making use of
+\eref{polynomial-orthogonality}, which results in
+\[
+  \hat{g}_i = \frac{\innerproduct{g}{\psi_i}}{\innerproduct{\psi_i}{\psi_i}}.
+\]
+
+Assuming that the polynomials are centered, which means that each $\psi_i$ as a
+function of $\v{x}$ has an expectation of zero, the inner product in
+\eref{polynomial-inner-product} corresponds to the covariance operator, and
+orthogonality corresponds to the absence of correlation. In addition, the
+polynomials are often normalized. This means that the variance of each $\psi_i$,
+which happens to be $\innerproduct{\psi_i}{\psi_i}$, is equal to unity;
+therefore, the denominator in the above formula vanishes. Centering and
+normalization applied together are referred to as standardization.
 
 Many of the most popular probability distributions directly correspond to
-certain families of the orthogonal polynomials given in the Askey scheme
-\cite{xiu2010}. A probability distribution that does not have such a
-correspondence can be transformed into one of those that do have using the
-technique shown in \sref{ie-uncertain-parameters}. Another solutions is to
-construct a custom polynomial basis using the Gram-Schmidt process. In addition,
-apart from continuous, PC expansions can be applied to discrete distributions.
-Refer to \cite{xiu2010} for further discussions.
-
-In multiple dimensions, which is the case with the \nz-dimensional random vector
-\vz, several (possibly different) univariate bases are combined together in
-order to produce a single \nz-variate basis, which we denote by $\{ \psi_j:
-\real^\nz \to \real \}_{j = 1}^\infty$; see \cite{xiu2010}.
+certain families of orthogonal polynomials, which can be found in the Askey
+scheme \cite{xiu2010}. A distribution that does not have such a correspondence
+can be transformed into one of those that do using such techniques as the one
+shown in \sref{probability-transformation}. Another solutions is to construct a
+custom polynomial basis using the Gram--Schmidt process. Lastly, let us note
+that the machinery of \ac{PC} expansions is applicable to discrete distributions
+as well. The interested reader is referred to \cite{xiu2010} for further
+discussions.
 
 \subsection{Bayesian Statistics}
 \slab{bayesian-statistics}
