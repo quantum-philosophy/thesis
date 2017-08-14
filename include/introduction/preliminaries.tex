@@ -56,14 +56,14 @@ $\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a probability measure
 probability measure assigns probabilities to these events. A (real-valued)
 random variable defined on $(\Omega, \mathcal{F}, \probability)$ is an
 $\mathcal{F}$-measurable function $x: \Omega \to \real$. A random variable $x$
-is uniquely characterized by its distribution function, also known as the
+is uniquely characterized by its distribution function $F$, also known as the
 \ac{CDF}, defined by
 \begin{equation*}
-  F_x(x^*) = \probability{x \leq x^*} = \probability{\{ \omega \in \Omega: x(\omega) \leq x^* \}}.
+  F(x^*) = \probability{x \leq x^*} = \probability{\{ \omega \in \Omega: x(\omega) \leq x^* \}}.
 \end{equation*}
 The expectation of $x$ is given by
 \[
-  \expectation{x} = \int_\real x^* dF_z(x^*) = \int_\Omega x(\omega) dP(\omega),
+  \expectation{x} = \int_\real x^* dF(x^*) = \int_\Omega x(\omega) dP(\omega),
 \]
 The covariance of two random variable $x_1$ and $x_2$ is given by
 \[
@@ -73,6 +73,7 @@ The variance of $x$ is given by
 \[
   \variance{x} = \covariance{x}{x} = \expectation{(x - \expectation{x})^2}.
 \]
+
 The above quantities are well defined only when the corresponding integrals are
 finite. An example of a space of random variables defined on $(\Omega,
 \mathcal{F}, \probability)$ whose expectations and variances are finite is
@@ -88,13 +89,24 @@ and the norm defined by
 \]
 for any $x$, $x_1$, and $x_2$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
 
+If the distribution function $F$ of a random variable $x$ is continuous, $x$ is
+said to be a continuous random variable. If, moreover, $F$ is absolutely
+continuous, $x$ has a \ac{PDF} $f$ defined by
+\[
+  f(x) = \frac{dF(x)}{dx}.
+\]
+Other types of random variables such as discrete random variables are of little
+interest to this thesis, and, therefore, they are not covered here.
+
 An $n$-dimensional random variable or random vector $\v{x} = (x_i)_{i = 1}^n$ is
 a collection of $n$ random variables or, equivalently, a single random variable
 that happens to take values in $\real^n$, which is written as $\v{x}: \Omega \to
-\real^n$. Analogous to the one-dimensional case, $\v{x}$ is governed by a
-certain (joint) distribution function and has an expectation and a variance (if
-they are finite), which are $n$-dimensional in this case. In addition, the
-covariance matrix of $\v{x}$ is
+\real^n$. Analogously to the one-dimensional case, $\v{x}$ is governed by a
+distribution function, which is $n$-variate, has an expectation and a variance
+(if the corresponding integrals are finite), which are $n$-dimensional, and has
+a \ac{PDF} (if the distribution function is absolutely continuous in each
+variable), which is $n$-variate. In addition, the covariance matrix of $\v{x}$
+is given by
 \begin{equation} \elab{covariance-matrix}
   \covariance{\v{x}} = \left(\covariance{x_i}{x_j}\right)_{i = 1, j = 1}^{n, n},
 \end{equation}
