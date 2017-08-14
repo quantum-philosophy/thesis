@@ -53,11 +53,11 @@ Let $(\Omega, \mathcal{F}, \probability)$ be a probability space where $\Omega$
 is a set of outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a $\sigma$-algebra on
 $\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a probability measure
 \cite{durrett2010}. The $\sigma$-algebra represents a set of events, and the
-probability measure assigns probabilities to these events. A (real-valued)
-random variable defined on $(\Omega, \mathcal{F}, \probability)$ is an
+probability measure assigns probabilities to these events. A real-valued random
+variable defined on $(\Omega, \mathcal{F}, \probability)$ is an
 $\mathcal{F}$-measurable function $x: \Omega \to \real$. A random variable $x$
-is uniquely characterized by its distribution function $F$, also known as the
-\ac{CDF}, defined by
+is uniquely characterized by its distribution function---which is also known as
+the \ac{CDF}---defined by
 \begin{equation*}
   F(x^*) = \probability{x \leq x^*} = \probability{\{ \omega \in \Omega: x(\omega) \leq x^* \}}.
 \end{equation*}
@@ -81,17 +81,17 @@ $\L{2}(\Omega, \mathcal{F}, \probability)$, the Hilbert space of
 square-integrable random variables \cite{janson1997} with the inner product
 defined by
 \[
-  \innerproduct{x_1}{x_2}_\L{2} = \expectation{(x_1 x_2)}
+  \innerproduct{x_1}{x_2} = \expectation{(x_1 x_2)}
 \]
 and the norm defined by
 \[
-  \norm[\L{2}]{x} = \sqrt{\innerproduct{x}{x}_\L{2}}
+  \norm{x} = \innerproduct{x}{x}^\frac{1}{2}
 \]
 for any $x$, $x_1$, and $x_2$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
 
 If the distribution function $F$ of a random variable $x$ is continuous, $x$ is
 said to be a continuous random variable. If, moreover, $F$ is absolutely
-continuous, $x$ has a \ac{PDF} $f$ defined by
+continuous, $x$ admits a \ac{PDF} defined by
 \[
   f(x) = \frac{dF(x)}{dx}.
 \]
@@ -153,24 +153,24 @@ columns of $\m{\Lambda}$.
 \subsection{Numerical Integration}
 \slab{numerical-integration}
 
-In numerical analysis, the integral of a function $g$ over a domain $D \subseteq
-\real$
+The integral of a function $g: D \to \real$ over its domain $D \subseteq \real$
 \[
   \int_D g(x) dx
 \]
 is approximated by a summation of the function's values computed at prescribed
-points $\{ \hat{x}_i \in D \}$ and multiplied by prescribed weights $\{ w_i \in
-\real \}$
+points $\{ \hat{x}_i \in D \}_{i = 1}^\nq$ and multiplied by prescribed weights
+$\{ w_i \in \real \}_{i = 1}^\nq$, which we denote as follows:
 \[
-  \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i
+  \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i.
 \]
-where \nq is the number of pairs of a point and a weight. Such a set of points
-and a set of weights are called a quadrature rule, which we denote by
-$\quadrature{1}{\lq}$. The superscript indicates that it is a one-dimensional
-problem, and the subscript indicates the accuracy level of the rule used, which,
-in the one-dimensional case, corresponds to the maximum order of polynomials
-that the rule integrates exactly \cite{heiss2008}. Similarly, the integral of a
-function $g$ over a domain $D \subseteq \real^n$
+Such a pair of a set of points and a set of weights is called a quadrature rule.
+In the notation $\quadrature{1}{\lq}$, the superscript $1$ indicates that it is
+a one-dimensional rule, and the subscript \lq gives the accuracy level of the
+rule, which is the index of the rule in the corresponding family of quadrature
+rules with increasing accuracy. In the one-dimensional case, \lq corresponds to
+the maximum order of polynomials that the rule integrates exactly
+\cite{heiss2008}. Similarly, in multiple dimensions, the integral of a function
+$g: D \to \real$ over its domain $D \subseteq \real^n$
 \[
   \int_D g(\v{x}) d\v{x}
 \]
@@ -178,29 +178,28 @@ is approximated by
 \[
   \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\v{x}}_i) w_i.
 \]
-In this multidimensional case, an appropriate $n$-dimensional quadrature rule
-$\quadrature{n}{\lq}$ is formed by computing the tensor product of $n$
-potentially distinct one-dimensional quadrature rules, and the accuracy level
-\lq refers to the index of the rule in the corresponding family of
-multidimensional rules with increasing accuracy. The number of terms in the
-summation \nq is dictated by both $n$ and \lq. Lastly, let us note that
-quadrature rules are generally precomputed and tabulated since they do not
-depend the integrand; see, for instance, \cite{burkardt}.
+An appropriate $n$-dimensional quadrature rule $\quadrature{n}{\lq}$ is
+typically formed by computing the tensor product of $n$ potentially distinct
+one-dimensional quadrature rules. The number of terms \nq in summations is
+dictated by both $n$ and \lq. Lastly, it is worth noting that quadrature rules
+are generally precomputed and tabulated since they do not depend the integrand;
+see, for instance, \cite{burkardt}.
 
 Consider now the following more general integral:
 \[
   \int_D g(\v{x}) dF(\v{x}).
 \]
-Here $g$ is integrated with respect to a measure \cite{durrett2010}, denoted by
-$F$, that does not necessarily corresponds to the usual Lebesgue measure used in
-the earlier examples. The integrand can often be rewritten as follows:
+Here $g$ is integrated with respect to a measure $F: D \to \real$
+\cite{durrett2010} that does not necessarily correspond to the usual Lebesgue
+measure used in the earlier examples. If $F$ is absolutely continuous, the
+integrand can be rewritten as follows:
 \[
   \int_D g(\v{x}) f(\v{x}) d\v{x}
 \]
-where $g$ is weighted by a function $f$ and integrated with respect to the
-Lebesgue measure as before. Since integrating in such a way is a very frequent
-operation as we shall see, there are families of quadrature rules that are
-designed to automatically taken into account the most common scenarios.
+where $g$ is weighted by the derivative $f: D \to \real$ of $F$ and integrated
+with respect to the Lebesgue measure. Since integrating in such a way is a very
+frequent operation, there are families of quadrature rules that are designed to
+automatically take this aspect into account for the most common scenarios.
 
 There is one more and arguably the most crucial aspect of numerical integration
 that we ought to discuss: the algorithm used to construct multidimensional
@@ -209,15 +208,15 @@ tensor product of one-dimensional rules. However, in high dimensions, the
 situation changes dramatically as the number of points produced by this approach
 can easily explode. For instance \cite{heiss2008}, if a one-dimensional rule has
 only 4 points, that is, $\nq = 4$, then in 10 stochastic dimensions, that is, $n
-= 10$, the number of multivariate points becomes $\nq = 4^{10} > 10^6$, which is
-not affordable. Moreover, it can be shown that most of the points obtained in
+= 10$, the number of multivariate points becomes $\nq = 4^{10} = 1048576$, which
+is not affordable. Moreover, it can be shown that most of the points obtained in
 this way do not contribute to the asymptotic accuracy and, hence, are a waste of
 time. In order to tackle this problem, one resides to sparse integration grids
 constructed via the Smolyak algorithm \cite{burkardt, eldred2008, heiss2008}.
 The algorithm preserves the accuracy of the underlying one-dimensional rules for
 complete polynomials while significantly reducing the number of points. For
 instance, in the example given earlier, the number of points computed by the
-algorithm would be only around 1600, which implies a drastic saving of the
+algorithm is only $\nq = 1581$, which implies a drastic saving of the
 computation time.
 
 \subsection{Polynomial Chaos}
