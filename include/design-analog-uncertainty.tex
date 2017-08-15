@@ -197,7 +197,7 @@ variance are readily available.
 
 \inputfigure{analog-overview}
 The major stages of our technique are depicted in \fref{analog-overview}. At
-Stage~1 (\sref{analog-parameter-transformation}), the uncertain parameters \vu
+Stage~1 (\sref{analog-probability-transformation}), the uncertain parameters \vu
 are transformed into independent random variables \vz since independence is a
 prerequisite of the \ac{PC} approach. At Stage~2 (\sref{analog-power-model}),
 the user specifies the power model of the system via a ``black-box'' function
@@ -214,8 +214,8 @@ moments.
 
 Let us now detail each of the five stages of the proposed framework.
 
-\subsection{Parameter Transformation}
-\slab{analog-parameter-transformation}
+\subsection{Probability Transformation}
+\slab{analog-probability-transformation}
 
 Independence is required by \ac{PC} expansions. In general, the \nu individual
 variables in \vu are dependent and, therefore, should be preprocessed in order
@@ -256,9 +256,9 @@ with the discrete \ac{KL} decomposition using a concrete example.
 
 As stated in \sref{analog-problem}, the user is supposed to decide on the power
 model for the system, which we denote as follows:
-\[
+\begin{equation} \elab{analog-power-model}
   \vp(t) = f(t, \vq(t), \vu)
-\]
+\end{equation}
 where $f$ is a function that evaluates the power $\vp \in \real^\np$ of the
 processing elements given their temperature $\vq \in \real^\np$ and parameters
 $\vu \in \real^\nu$. It should be understood that \vp, \vq, and \vu are random
@@ -296,137 +296,85 @@ arbitrary transformation of the uncertain parameters \vu and stochastic
 temperature $\vq_i$, which results in a multivariate random variable with a
 generally unknown probability distribution. Furthermore, $\vp_i$, $\vq_i$,
 $\vs_i$, and \vu are dependent random vectors since the first three are
-functions of the last. Hence, the operations involved in the recurrence are to
-be performed on dependent random vectors with arbitrary probability
-distributions, which, in general, have no closed-form solutions. In order to
-tackle this difficulty, we reside to \ac{PC} expansions as follows.
+functions of the last. Consequently, the operations involved in the recurrence
+are to be performed on dependent random vectors with arbitrary probability
+distributions, which, in general, have no closed-form solutions, which we
+address in the following subsection.
 
 \subsection{Surrogate Model}
 \slab{analog-surrogate-model}
 
-The goal now is to transform the ``problematic'' term in \eref{recurrence}, that
-is, the power term defined by \eref{power-model}, in such a way that the
-recurrence in \eref{recurrence} becomes computationally tractable. Our solution
-is the construction of a surrogate model for the power model in
-\eref{power-model}, which we further propagate through \eref{recurrence} to
-obtain an approximation for temperature. To this end, we employ polynomial chaos
-(PC) \cite{xiu2010}, which decomposes stochastic quantities into infinite series
-of orthogonal polynomials of random variables. Such series are especially
-attractive from the post-processing perspective as they are nothing more than
-polynomials; hence, PC expansions are easy to interpret and easy to evaluate. An
-introduction to orthogonal polynomials, which we rely on in what follows, is
-given in \sref{polynomial-chaos}.
+The goal now is to transform the recurrence in \eref{transient-state-recurrence}
+in such a way that it becomes possible to estimate the probability distributions
+of power and temperature. Our solution is the construction of a surrogate model
+for the power function $f$, which we then propagate through the recurrence in
+order to obtain an approximation for power and an approximation for temperature.
+To this end, we employ \ac{PC}, which is introduce in \sref{polynomial-chaos}.
 
-\subsubsection{Polynomial basis}
-\slab{pc-basis}
-
-The first step towards a polynomial expansion is the choice of a suitable
+The first step toward a polynomial expansion is the choice of a suitable
 polynomial basis, which is typically made based on the Askey scheme of
 orthogonal polynomials \cite{xiu2010}. The step is crucial as the rate of
-convergence of PC expansions closely depends on it. Although there are no strict
-rules that guarantee the optimal choice \cite{knio2006}, there are best
+convergence of \ac{PC} expansions closely depends on it. Although there are no
+strict rules that guarantee the optimal choice \cite{knio2006}, there are best
 practices saying that one should be guided by the probability distributions of
 the random variables that drive the stochastic system at hand. For instance,
 when a random variable follows a beta distribution, the Jacobi basis is worth
 being tried first; on the other hand, the Hermite basis is preferable for
-Gaussian distributions. In multiple dimensions, which is the case with the
-\nz-dimensional random variable \vz, several (possibly different)
-univariate bases are to be combined together to produce a single
-\nz-variate polynomial basis, which we denote by $\{ \psi_i: \real^\nz
-\to \real \}_{i = 1}^\infty$; see \cite{xiu2010}.
+Gaussian distributions.
 
-\subsubsection{Recurrence of polynomial expansions}
-\slab{pc-recurrence}
-
-Having chosen an appropriate basis, we apply the PC expansion formalism to the
-power term in \eref{recurrence} and truncate the resulting infinite series in
-order to make it feasible for practical implementations. Such an expansion is
-defined as follows:
-\begin{equation} \elab{pc-expansion}
-  \chaos{\nz}{\lc}{\vp_k} = \sum_{i = 1}^{\nc} \hat{\vp}_{ki} \psi_i(\vz)
-\end{equation}
-where $\{ \psi_i: \real^\nz \to \real \}_{i = 1}^{\nc}$ is the truncated
-basis with \nc polynomials in \nz variables, and $\hat{\vp}_{ki} \in \real^\np$
-are the coefficients of the expansion, which are deterministic. The latter can
-be computed using spectral projections as it is described in
-\sref{pc-coefficients}. \lc denotes the order of the expansion, which determines
-the maximum degree of the \nz-variate polynomials involved in the expansion;
-hence, \lc also determines the resulting accuracy. The total number of the PC
-coefficients \nc is given by the following expression, which corresponds to the
-total-order polynomial space \cite{eldred2008, beck2011}:
-\begin{equation} \elab{pc-terms}
-  \nc = { \lc + \nz \choose \nz } = \frac{(\lc + \nz)!}{\lc! \nz!}.
-\end{equation}
-
-It can be seen in \eref{recurrence} that, due to the linearity of the operations
-involved in the recurrence, $\vs_k$ retains the same polynomial structure as
-$\vp_k$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as
-follows, for $k = \range{1}{\ns}$:
-\begin{equation} \elab{expanded-recurrence}
-  \chaos{\nz}{\lc}{\vs_k} = \m{E}_k \chaos{\nz}{\lc}{\vs_{k - 1}} + \m{F}_k
-  \chaos{\nz}{\lc}{\vp_k}.
-\end{equation}
-Thus, there are two PC expansions for two concurrent stochastic processes with
-the same basis but different coefficients.
-
-Using \eref{pc-expansion}, \eref{expanded-recurrence} can be explicitly written
-as follows:
+Having chosen an appropriate basis, we apply the \ac{PC} formalism to the power
+term $\vp_i$ in \eref{transient-state-recurrence} as described in
+\eref{chaos-expansion}. The result is
 \[
-  \sum_{i = 1}^{\nc} \hat{\vs}_{ki} \psi_i(\vz) = \sum_{i = 1}^{\nc} \left( \m{E}_k \hat{\vs}_{(k - 1)i} + \m{F}_k \hat{\vp}_{ki} \right) \psi_i(\vz).
+  \chaos{\nz}{\lc}{\vp_i} = \sum_{j = 1}^\nc \hat{\vp}_{ij} \psi_j(\vz)
+\]
+where $\{ \psi_j: \real^\nz \to \real \}_{j = 1}^\nc$ are the first \nc
+polynomials of the basis; $\{ \hat{\vp}_{ij} \in \real^\np \}_{j = 1}^\nc$ are
+the coefficients of the expansion; and \nc is given by
+\eref{chaos-length-total-order}.
+
+It can be seen in \eref{transient-state-recurrence} that, due to the linearity
+of the operations involved in the recurrence, $\vs_i$ attains an expansion that
+has the same structure as the one of $\vp_i$, and the recurrence can be
+rewritten as follows:
+\[
+  \chaos{\nz}{\lc}{\vs_i} = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}} + \m{F} \, \chaos{\nz}{\lc}{\vp_i}
+\]
+for $i = \range{1}{\ns}$. Consequently, there are two concurrent \ac{PC}
+expansions: one is for power, and one is for temperature; the two expansions
+have the same basis but different coefficients. In order to understand the
+structure of the above formula better, let us spell it out as
+\[
+  \sum_{j = 1}^\nc \hat{\vs}_{ij} \psi_j(\vz) =
+  \sum_{j = 1}^\nc \left( \m{E} \, \hat{\vs}_{i - 1, j} + \m{F} \, \hat{\vp}_{ij} \right) \psi_j(\vz).
 \]
 Multiplying the above equation by each polynomial from the basis and making use
-of the orthogonality property (given in \eref{orthogonality} in
-\sref{polynomial-chaos}), we obtain the following recurrence:
-\begin{equation} \elab{pc-recurrence}
-  \hat{\vs}_{ki} = \m{E}_k \hat{\vs}_{(k - 1)i} + \m{F}_k \hat{\vp}_{ki}
+of the orthogonality property in \eref{polynomial-orthogonality}, we obtain the
+following recurrence:
+\begin{equation} \elab{analog-chaos-recurrence}
+  \hat{\vs}_{ij} = \m{E} \hat{\vs}_{i - 1, j} + \m{F} \hat{\vp}_{ij}
 \end{equation}
-where $k = \range{1}{\ns}$ and $i = \range{1}{\nc}$. Finally,
-\eref{fourier-output} and \eref{pc-recurrence} are combined together to compute
-the coefficients of the PC expansion of the temperature vector $\vq_k$.
+for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$. Combining the recurrence with
+\eref{temperature-algebraic}, we obtain the coefficients of the \ac{PC}
+expansion of the temperature vector $\vq_k$.
 
-\subsubsection{Expansion coefficients}
-\slab{pc-coefficients}
-
-The general formula of a truncated PC expansion applied to the power term in
-\eref{recurrence} is given in \eref{pc-expansion}. Let us now find the
-coefficients $\{ \hat{\vp}_{ki} \}$ of this expansion, which will be propagated
-to temperature (using \eref{pc-recurrence} and \eref{fourier-output}). To this
-end, a spectral projection of the stochastic quantity being expanded---that is,
-of $\vp_k$ as a function of \vz via $\vu = \transform{\vz}$ discussed in
-\sref{uncertain-parameters}---is to be performed onto the space spanned by the
-\nz-variate polynomials $\{ \psi_i \}_{i = 1}^{\nc}$, where \nc is the number of
-polynomials in the truncated basis. This means that we need to compute the inner
-product of \eref{power-model} with each polynomial from the basis as follows:
+Let us now find the coefficients $\{ \hat{\vp}_{ij} \}_{i = 1, j = 1}^{\ns,
+\nc}$ of the \ac{PC} expansion of power, which will subsequently be propagated
+to temperature. The coefficients are computed using spectral projections as
+shown in \eref{chaos-projection}. The inner product in the denominator of
+\eref{chaos-projection} does not pose any computation problem: it is a
+normalization constant that can be considered given along with the basis. The
+inner product in the enumerator, however, should generally be evaluated
+numerically, which is described in \sref{numerical-integration}. To this end, an
+adequate quadrature $\quadrature{\nz}{\lq}$ should be used. The result is
 \[
-  \innerproduct{\vp_k}{\psi_i} = \innerproduct{\sum_{j = 1}^{\nc} \hat{\vp}_{kj} \psi_j}{\psi_i}
+  \hat{\vp}_{ij} = \frac{\quadrature{\nz}{\lq}{\vp_i \psi_j}}{\innerproduct{\psi_j}{\psi_j}}
 \]
-where $i = \range{1}{\nc}$, $k = \range{1}{\ns}$, and
-$\innerproduct{\cdot}{\cdot}$ stands for the inner product (see
-\sref{polynomial-chaos} for a definition), which should be understood
-elementwise. Making use of the orthogonality property of the basis, we obtain
-\begin{equation} \elab{pc-coefficients}
-  \hat{\vp}_{ki} = \frac{\innerproduct{\vp_k}{\psi_i}}{\innerproduct{\psi_i}{\psi_i}}.
-\end{equation}
-
-In general, the inner product in \eref{pc-coefficients}, given in
-\eref{inner-product} in \sref{polynomial-chaos}, should be evaluated
-numerically. This task is accomplished by virtue of a quadrature rule, which is
-a weighted summation over the integrand values computed at a set of prescribed
-points. These points along with the corresponding weights are generally
-precomputed and tabulated since they do not depend the quantity being
-integrated. Denote such a quadrature-based approximation of
-\eref{pc-coefficients} by
-\begin{equation} \elab{pc-coefficients-quadrature}
-  \hat{\vp}_{ki} = \frac{\quadrature{\nz}{\lq}{\vp_k \psi_i}}{\innerproduct{\psi_i}{\psi_i}}
-\end{equation}
-where \lq is the level of the quadrature utilized. The procedure is
-detailed in \sref{gauss-quadrature}; for the development in this section, we
-only need to note that \nz and \lq dictate the number of quadrature points,
-which we shall denote by \nq. Also, it is worth emphasizing that, since power
-depends on temperature as shown in \eref{power-model}, at each step of the
-recurrence in \eref{pc-recurrence}, the computation of $\hat{\vp}_{ki}$ should
-be done with respect to the PC expansion of the temperature vector $\vq_{k -
-1}$.
+for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$ where the integration should
+be understood element-wise. It is worth emphasizing that, since power depends on
+temperature as shown in \sref{power-model}, at each step of the recurrence in
+\eref{analog-chaos-recurrence}, the computation of $\hat{\vp}_{ij}$ should be
+done with respect to the \ac{PC} expansion of $\vq_{i - 1}$.
 
 \subsubsection{Computational challenges}
 \slab{computational-challenges}
@@ -1049,43 +997,6 @@ insignificant, reducing the stochastic dimensionality of the problem.
 
 \section{Numerical Integration}
 
-As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and
-\sref{polynomial-chaos}, the coefficients of PC expansions are integrals, which
-should be calculated numerically at Stage~4. In numerical integration, an
-integral of a function is approximated by a summation over the function values
-computed at a set of prescribed points, or nodes, which are multiplied by the
-corresponding prescribed weights. Such pairs of nodes and weights are called
-quadrature rules. A one-dimensional quadrature rule is characterized by its
-precision, which is defined as the maximum order of polynomials that the rule
-integrates exactly \cite{heiss2008}. In multiple dimensions, an \nu-variate
-quadrature rule is formed by tensoring one-dimensional counterparts. Such a
-multidimensional rule is characterized by its accuracy level \lq, which is
-defined as the index of the rule in the corresponding family of multidimensional
-rules with increasing precision.
-
-It can be seen in \eref{inner-product} that the integrand can be decomposed into
-two parts: the weight function $f$ and everything else. The former always stays
-the same; therefore, a rule is typically chosen in such a way that this
-``constant'' part is automatically taken into consideration by the corresponding
-weights since there is no point of recomputing $f$ each time when the other
-part, that is, the functions that the inner product operates on, changes. In
-this regard, there exist different families of quadrature rules tailored for
-different weight functions. Define such a quadrature-based approximation of
-\eref{inner-product} by
-\begin{equation} \elab{quadrature}
-  \innerproduct{h}{g} \approx \quadrature{\nu}{\lq}{h g}
-  = \sum_{i = 1}^\nq h(\hat{\v{x}}_i) g(\hat{\v{x}}_i) w_i
-\end{equation}
-where $\hat{\v{x}}_i \in \real^\nu$ and $w_i \in \real$ are the prescribed
-points and weights, respectively; \nq is their number; and \lq is the accuracy
-level of the quadrature rule, which is said to be \nu-variate. It is important
-to note that $\hat{\v{x}}_i$ and $w_i$ do not change when the quantity being
-integrated changes. Thus, once the rule to use has been identified, it can be
-utilized to compute the inner product of arbitrary $h$ and $f$ with no
-additional computational effort. In our experiments in
-\sref{experimental-results}, we use the library of quadrature rules available at
-\cite{burkardt2013}.
-
 Since in the example in \sref{illustrative-example} we need to compute the inner
 product with respect to beta measures, the Gauss-Jacobi quadrature rule is of
 particular interest. The rule belongs to a broad class of rules known as
@@ -1101,21 +1012,3 @@ chosen in such a way that the rule is exact for polynomials of the total order
 at least $2 \lc$, that is, twice the order of PC expansions, which can be seen
 in \eref{pc-coefficients} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as
 the quadrature is Gaussian.
-
-There is one more and arguably the most crucial aspect of numerical integration
-that we ought to discuss: the algorithm used to construct multidimensional
-quadratures. In low dimensions, the construction can be easily based on the
-direct tensor product of one-dimensional rules. However, in high dimensions, the
-situation changes dramatically as the number of points produced by this approach
-can easily explode. For instance \cite{heiss2008}, if a one-dimensional rule has
-only four nodes, that is, $\hat{\nq} = 4$, then in 10 stochastic dimensions,
-that is, $\nu = 10$, the number of multivariate nodes becomes $\nq =
-\hat{\nq}^\nu = 4^{10} = 1\;048\;576$, which is not affordable. Moreover, it can
-be shown that most of the points obtained in such a way do not contribute to the
-asymptotic accuracy and, therefore, are a waste of time. In order to effectively
-alleviate this problem, we construct so-called sparse grids using the Smolyak
-algorithm \cite{eldred2008, heiss2008, burkardt2013}. The algorithm preserves
-the accuracy of the underlying one-dimensional rules for complete polynomials
-while significantly reducing the number of integration nodes. For instance, in
-the example given earlier, the number of points computed by the algorithm would
-be only $1\;581$, which implies drastic savings of the computational time.
