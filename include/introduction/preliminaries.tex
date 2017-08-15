@@ -219,16 +219,16 @@ tensor product of one-dimensional rules. However, in high dimensions, the
 situation changes dramatically as the number of points produced by this approach
 can easily explode. For instance \cite{heiss2008}, if a one-dimensional rule has
 only 4 points, that is, $\nq = 4$, then in 10 stochastic dimensions, that is, $n
-= 10$, the number of multivariate points becomes $\nq = 4^{10} = 1048576$, which
-is not affordable. Moreover, it can be shown that most of the points obtained in
-this way do not contribute to the asymptotic accuracy and, hence, are a waste of
-time. In order to tackle this problem, one resides to sparse integration grids
-constructed via the Smolyak algorithm \cite{burkardt, eldred2008, heiss2008}.
-The algorithm preserves the accuracy of the underlying one-dimensional rules for
-complete polynomials while significantly reducing the number of points. For
-instance, in the example given earlier, the number of points computed by the
-algorithm is only $\nq = 1581$, which implies a drastic saving of the
-computation time.
+= 10$, the number of multivariate points becomes $\nq = 4^{10} = 1~048~576$,
+which is not affordable. Moreover, it can be shown that most of the points
+obtained in this way do not contribute to the asymptotic accuracy and, hence,
+are a waste of time. In order to tackle this problem, one resides to sparse
+integration grids constructed via the Smolyak algorithm \cite{burkardt,
+eldred2008, heiss2008}. The algorithm preserves the accuracy of the underlying
+one-dimensional rules for complete polynomials while significantly reducing the
+number of points. For instance, in the example given earlier, the number of
+points computed by the algorithm is only $\nq = 1~581$, which implies a drastic
+saving of the computation time.
 
 \subsection{Polynomial Chaos}
 \slab{polynomial-chaos}
@@ -291,13 +291,13 @@ normalization applied together are referred to as standardization.
 
 Many of the most popular probability distributions directly correspond to
 certain families of orthogonal polynomials, which can be found in the Askey
-scheme \cite{xiu2010}. A distribution that does not have such a correspondence
-can be transformed into one of those that do using such techniques as the one
-shown in \sref{probability-transformation}. Another solutions is to construct a
-custom polynomial basis using the Gram--Schmidt process. Lastly, let us note
-that the machinery of \ac{PC} expansions is applicable to discrete distributions
-as well. The interested reader is referred to \cite{xiu2010} for further
-discussions.
+scheme of orthogonal polynomials \cite{xiu2010}. A distribution that does not
+have such a correspondence can be transformed into one of those that do using
+such techniques as the one shown in \sref{probability-transformation}. Another
+solutions is to construct a custom polynomial basis using the Gram--Schmidt
+process. Lastly, let us note that the machinery of \ac{PC} expansions is
+applicable to discrete distributions as well. The interested reader is referred
+to \cite{xiu2010} for further discussions.
 
 \subsection{Bayesian Statistics}
 \slab{bayesian-statistics}
