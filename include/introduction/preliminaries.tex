@@ -213,6 +213,12 @@ is a very frequent operation, there are families of quadrature rules that are
 designed to automatically take this aspect into account for the most common
 scenarios.
 
+Let us highlight one broad class of rules known as Gaussian quadratures. The
+accuracy level \lq of a one-dimensional Gaussian quadrature with \nq points is
+$2 \nq - 1$, that is, the rule integrates exactly polynomials of an order up to
+$2 \nq - 1$. This feature makes such quadratures especially efficient
+\cite{heiss2008}.
+
 There is one more and arguably the most crucial aspect of numerical integration
 that we ought to discuss: the algorithm used to construct multidimensional
 quadrature rules. In low dimensions, the construction can be based on the direct
