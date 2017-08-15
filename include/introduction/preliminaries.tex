@@ -268,26 +268,34 @@ components where $D \subseteq \real^n$ and $\probability{\real^n \setminus D} =
 0$. Let also $\{ \psi_i: D \to \real \}_{i = 1}^\infty$ be a basis whose
 polynomials are mutually orthogonal with respect to the probability distribution
 of $\v{x}$, which means that $F$ and $f$ in \eref{polynomial-inner-product} are
-the \ac{CDF} and \ac{PDF} of $\v{x}$, respectively. Then a truncated \ac{PC}
-expansion of $g$ as a function of $\v{x}$ is defined as follows:
+the \ac{CDF} and \ac{PDF} of $\v{x}$, respectively. Then a \ac{PC} expansion of
+$g$ as a function of $\v{x}$ is defined as follows:
 \[
-  g(\v{x}) \approx \chaos{\nz}{\lc}{g}(\v{x}) = \sum_{i = 1}^\nc \hat{g}_i \psi_i(\v{x}).
+  g(\v{x}) = \sum_{i = 1}^\infty \hat{g}_i \psi_i(\v{x}).
 \]
-The coefficients $\{ \hat{g}_i \}_{i = 1}^\nc$ of the expansion are found by
+The coefficients $\{ \hat{g}_i \}_{i = 1}^\infty$ of the expansion are found by
 multiplying both side of the equation by $\psi_i$ and making use of
 \eref{polynomial-orthogonality}, which results in
-\[
-  \hat{g}_i = \frac{\innerproduct{g}{\psi_i}}{\innerproduct{\psi_i}{\psi_i}}.
-\]
+\begin{equation} \elab{chaos-projection}
+  \hat{g}_i = \frac{\innerproduct{g}{\psi_i}}{\innerproduct{\psi_i}{\psi_i}}
+\end{equation}
+for $i = \range{1}{\infty}$. This operation is referred to as a spectral
+projection. For practical calculations, the expansion has be truncated, which we
+denote as
+\begin{equation} \elab{chaos-expansion}
+  g(\v{x}) \approx \chaos{\nz}{\lc}{g}(\v{x}) = \sum_{i = 1}^\nc \hat{g}_i \psi_i(\v{x}).
+\end{equation}
+In the notation $\chaos{\nz}{\lc}$, the superscript \nz indicates the
+dimensionality of the problem, and the subscript \lc indicates the accuracy
+level of the expansion. The two parameters dictate the number of terms \nc that
+are preserved.
 
-Assuming that the polynomials are centered, which means that each $\psi_i$ as a
-function of $\v{x}$ has an expectation of zero, the inner product in
-\eref{polynomial-inner-product} corresponds to the covariance operator, and
-orthogonality corresponds to the absence of correlation. In addition, the
-polynomials are often normalized. This means that the variance of each $\psi_i$,
-which happens to be $\innerproduct{\psi_i}{\psi_i}$, is equal to unity;
-therefore, the denominator in the above formula vanishes. Centering and
-normalization applied together are referred to as standardization.
+It is worth noting that, assuming that the polynomials are centered, the inner
+product in \eref{polynomial-inner-product} corresponds to the covariance of two
+polynomials, and orthogonality corresponds to the absence of correlation. In
+addition, the inner product $\innerproduct{\psi_i}{\psi_i}$ in
+\eref{polynomial-orthogonality} and \eref{chaos-projection} corresponds to the
+variance of a polynomial.
 
 Many of the most popular probability distributions directly correspond to
 certain families of orthogonal polynomials, which can be found in the Askey

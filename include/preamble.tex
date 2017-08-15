@@ -146,7 +146,11 @@
 \newcommand{\lc}{\levelof{c}}
 \newcommand{\nc}{\numberof{c}}
 
-\newcommand{\chaos}[3]{\mathcal{C}^{#1}_{#2}\left(#3\right)}
+\makeatletter
+\def\chaos#1#2{\@ifnextchar\bgroup{\chaosthree{#1}{#2}}{\chaostwo{#1}{#2}}}
+\def\chaosthree#1#2#3{\mathcal{C}^{#1}_{#2}\left(#3\right)}
+\def\chaostwo#1#2{\mathcal{C}^{#1}_{#2}}
+\makeatother
 
 %
 % Integration
