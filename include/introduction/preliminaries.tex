@@ -164,13 +164,13 @@ columns of $\m{\Lambda}$.
 \subsection{Numerical Integration}
 \slab{numerical-integration}
 
-The integral of a function $g: D \to \real$ over its domain $D \subseteq \real$
+The integral of a function $g: \real \to \real$
 \[
-  I = \int_D g(x) dx
+  I = \int_\real g(x) dx
 \]
 is approximated by a summation of the function's values computed at prescribed
-points $\{ \hat{x}_i \in D \}_{i = 1}^\nq$ and multiplied by prescribed weights
-$\{ w_i \in \real \}_{i = 1}^\nq$, which we denote as follows:
+points $\{ \hat{x}_i \in \real \}_{i = 1}^\nq$ and multiplied by prescribed
+weights $\{ w_i \in \real \}_{i = 1}^\nq$, which we denote as follows:
 \[
   I \approx \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i.
 \]
@@ -181,9 +181,9 @@ rule, which is the index of the rule in the corresponding family of quadrature
 rules with increasing accuracy. In the one-dimensional case, \lq corresponds to
 the maximum order of polynomials that the rule integrates exactly
 \cite{heiss2008}. Similarly, in multiple dimensions, the integral of a function
-$g: D \to \real$ over its domain $D \subseteq \real^n$
+$g: \real^n \to \real$
 \[
-  I = \int_D g(\v{x}) d\v{x}
+  I = \int_{\real^n} g(\v{x}) d\v{x}
 \]
 is approximated by
 \[
@@ -198,19 +198,20 @@ see, for instance, \cite{burkardt}.
 
 Consider now the following more general integral:
 \[
-  I = \int_D g(\v{x}) dF(\v{x}).
+  I = \int_{\real^n} g(\v{x}) dF(\v{x}).
 \]
-Here $g$ is integrated with respect to a measure $F: D \to \real$
+Here $g$ is integrated with respect to a measure $F: \real^n \to \real$
 \cite{durrett2010} that does not necessarily correspond to the usual Lebesgue
 measure used in the earlier examples. If $F$ is absolutely continuous, the
 integrand can be rewritten as follows:
 \[
-  I = \int_D g(\v{x}) f(\v{x}) d\v{x}
+  I = \int_{\real^n} g(\v{x}) f(\v{x}) d\v{x}
 \]
-where $g$ is weighted by the derivative $f: D \to \real$ of $F$ and integrated
-with respect to the Lebesgue measure. Since integrating in such a way is a very
-frequent operation, there are families of quadrature rules that are designed to
-automatically take this aspect into account for the most common scenarios.
+where $g$ is weighted by the derivative $f: \real^n \to \real$ of $F$ and
+integrated with respect to the Lebesgue measure. Since integrating in such a way
+is a very frequent operation, there are families of quadrature rules that are
+designed to automatically take this aspect into account for the most common
+scenarios.
 
 There is one more and arguably the most crucial aspect of numerical integration
 that we ought to discuss: the algorithm used to construct multidimensional
@@ -243,13 +244,13 @@ random variables. Such series are especially attractive from the post-processing
 perspective as they are nothing more than the familiar polynomials; therefore,
 \ac{PC} expansions are easy to interpret and easy to evaluate.
 
-Let now $\{ \psi_i: D \to \real \}_{i = 1}^\infty$ be a set of $n$-variate
-polynomials defined on $D \subseteq \real^n$. The polynomials span a weighted
-Hilbert space with the inner product
+Let now $\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a set of $n$-variate
+polynomials. The polynomials span a weighted Hilbert space with the inner
+product
 \begin{equation} \elab{polynomial-inner-product}
   \innerproduct{\psi_i}{\psi_j}
-  = \int_D \psi_i(\v{x}) \psi_j(\v{x}) dF(\v{x})
-  = \int_D \psi_i(\v{x}) \psi_j(\v{x}) f(\v{x}) d\v{x}
+  = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) dF(\v{x})
+  = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) f(\v{x}) d\v{x}
 \end{equation}
 where $F$ and $f$ are a measure and a weight function, respectively, similarly
 to \sref{numerical-integration}. Polynomials $\psi_i$ and $\psi_j$ are called
@@ -262,14 +263,13 @@ constitutes a basis of the weighted space if all the polynomials are mutually
 orthogonal.
 
 Consider now a probability space $(\Omega, \mathcal{F}, \probability)$, which is
-defined in \sref{probability-theory}, and let a function $g: D \to \real$ depend
-on a random vector $\v{x}: \Omega \to \real^n$ with mutually independent
-components where $D \subseteq \real^n$ and $\probability{\real^n \setminus D} =
-0$. Let also $\{ \psi_i: D \to \real \}_{i = 1}^\infty$ be a basis whose
-polynomials are mutually orthogonal with respect to the probability distribution
-of $\v{x}$, which means that $F$ and $f$ in \eref{polynomial-inner-product} are
-the \ac{CDF} and \ac{PDF} of $\v{x}$, respectively. Then a \ac{PC} expansion of
-$g$ as a function of $\v{x}$ is defined as follows:
+defined in \sref{probability-theory}, and let a function $g: \real^n \to \real$
+depend on a random vector $\v{x}: \Omega \to \real^n$ with mutually independent
+components. Let also $\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a basis
+whose polynomials are mutually orthogonal with respect to the probability
+distribution of $\v{x}$, which means that $F$ and $f$ in
+\eref{polynomial-inner-product} are the \ac{CDF} and \ac{PDF} of $\v{x}$,
+respectively. Then a \ac{PC} expansion of $g$ as a function of $\v{x}$ is
 \[
   g(\v{x}) = \sum_{i = 1}^\infty \hat{g}_i \psi_i(\v{x}).
 \]
@@ -288,7 +288,12 @@ denote as
 In the notation $\chaos{\nz}{\lc}$, the superscript \nz indicates the
 dimensionality of the problem, and the subscript \lc indicates the accuracy
 level of the expansion. The two parameters dictate the number of terms \nc that
-are preserved.
+are preserved as follows:
+\begin{equation} \elab{chaos-length-total-order}
+  \nc = { \lc + \nz \choose \nz } = \frac{(\lc + \nz)!}{\lc! \, \nz!},
+\end{equation}
+which corresponds to the total-order polynomial space \cite{eldred2008,
+beck2011}.
 
 It is worth noting that, assuming that the polynomials are centered, the inner
 product in \eref{polynomial-inner-product} corresponds to the covariance of two
