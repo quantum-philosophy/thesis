@@ -15,8 +15,8 @@ We proceed as follows. A motivational example is considered in
 \sref{analog-example}. The objective of our study is formulated in
 \sref{analog-problem}. \sref{analog-prior} provides an overview of the prior
 work. The proposed framework is presented in \sref{analog-solution}. An
-exemplary application of our approach is discussed in \sref{analog-example}, and
-the corresponding experimental results are given and compared with \ac{MC}
+exemplary application of our approach is discussed in \sref{analog-application},
+and the corresponding experimental results are given and compared with \ac{MC}
 simulations in \sref{analog-results}. \sref{analog-conclusion} concludes the
 chapter.
 
@@ -459,15 +459,92 @@ sampling is readily adequate. Furthermore, global and local sensitivity analysis
 of deterministic and stochastic quantities can be readily conducted on a \ac{PC}
 expansion.
 
-\section{Illustrative Example}
-\slab{analog-example}
+\section{Illustrative Application}
+\slab{analog-application}
 
-So far we have not made any assumptions regarding the cause of the variability
-of the power term in the thermal system given by \eref{fourier-system}. In this
-section, we shall consider a particular application of the proposed framework.
-To this end, we begin with the problem formulation of this application.
+So far we have not made any assumptions regarding the cause of variability. In
+this section, we consider a particular application of the proposed framework in
+order to illustrate how it is supposed to be used in practice.
 
-\subsection{Parameter Preprocessing}
+The total dissipation of power is composed of two major parts: dynamic and
+static. The influence of process variation on the dynamic power is known to be
+negligibly small \cite{srivastava2010}; on the other hand, the variability of
+the static power is substantial, in which the subthreshold leakage current
+contributes the most \cite{juan2011, juan2012}. Hence, we shall focus on the
+subthreshold leakage and, more specifically, on the effective channel length,
+denoted by $L$, since it has the strongest influence on leakage and is severely
+deteriorated by process variation \cite{chandrakasan2000}. In particular, $L$
+also affects the threshold voltage \cite{juan2011}.
+
+It is well known that the dispersion due to process variation of the effective
+channel length around the nominal value resembles a bell shape, which is similar
+to the ones owned by Gaussian distributions. Therefore, such variations are
+often conveniently modeled using Gaussian variables \cite{bhardwaj2006,
+ghanta2006, huang2009a, shen2009, chandra2010, srivastava2010, juan2011,
+juan2012, lee2013}. In this work, due to both the underlying physics and
+demonstration purposes, we make a step further and bake right into the model the
+fact that the effective channel length---occupying the space between the drain
+and source of a nanoscopic transistor---cannot be arbitrarily large or take a
+negative value, as Gaussian distributions allow it to do. In other words, we
+require the model of $L$ to have a bounded support. With this in mind, we
+propose to model physically-bounded parameters using the four-parametric family
+of beta distributions: $\mathrm{Beta}(a, b, c, d)$ where $a$ and $b$ are the
+shape parameters, and $c$ and $d$ are the left and right bounds of the support,
+respectively. $a$ and $b$ can be chosen in such a way that the typically found
+bell shape of the distribution is preserved. An illustration is given in
+\fref{beta-normal} where we fitted a beta distribution to the standard Gaussian
+distribution.\footnote{Alternatively, one can match the moments of the
+distributions.} It can be seen that the curves are nearly indistinguishable, but
+the beta one has a bounded support $[-4, 4]$, which can potentially lead to more
+realistic models.
+
+The variability of $L$ is split into global $L_\overall$ and local $L_\local$
+parts \cite{shen2009, chandra2010}.\footnote{Without loss of generality,
+$L_\overall$ can be treated as a composition of independent inter-lot,
+inter-wafer, and inter-die variations; likewise, $L_\local$ can be treated as a
+composition of independent and dependent local variations.} $L_\overall$ is
+assumed to be shared among all processing elements whereas each processing
+element has its own local parameter $L_{\local, i}$. Therefore, the effective
+channel length of processing element $i$ is modeled as follows:
+\[
+  L_i = L_\nominal + L_\overall + L_{\local, i}
+\]
+where $L_\nominal$ is the nominal value of the effective channel length. Hence,
+the uncertain parameters of the problem are
+\[
+  \vu = (L_{\local, 1}, \dotsc, L_{\local, \np}, L_\overall).
+\]
+
+Global variations are typically assumed to be uncorrelated with respect to the
+local ones. The latter, however, are known to have high spatial correlations,
+which, similar to \cref{analysis-analog-uncertainty}, we model using the
+correlation given in \sref{inference-correlation}. The choice of the correlation
+function in \eref{correlation-function} is guided by the observations of the
+correlations induced by the fabrication process \cite{friedberg2005,
+chandrakasan2000, cheng2011}: $k_\SE$ imposes similarities between the spatial
+locations that are close to each other, and $k_\OU$ imposes similarities between
+the locations that are at the same distance from the center of the die; see also
+\cite{ghanem1991, ghanta2006, bhardwaj2008, huang2009a, lee2013}.
+
+Although \eref{inference-correlation} captures certain features inherent to the
+fabrication process, it is still an idealization. In practice, it can be
+difficult to make a justifiable choice and tune such a formula, which is a
+prerequisite for the techniques in \sref{prior-work} based on the (continuous)
+KL decomposition. A correlation matrix, on the other hand, can readily be
+estimated from measurements and, thus, is a more probable input to PTA. Thus, we
+use \eref{correlation-function} with the only purpose of constructing a
+correlation matrix of $\{ L_{\local, i} \}$. For convenience, the resulting
+matrix is extended by one dimension to pack $L_\overall$ and $\{ L_{\local, i}
+\}$ together. In this case, the correlation matrix obtains one additional
+non-zero element on the diagonal. Taking into account the variances of the
+variable, the final covariance matrix of the whole random vector \vu (see
+\eref{uncertain-parameters}) is formed, which we denote by $\covariance{\vu}$.
+
+To conclude, an input to our analysis is the marginal distributions of the
+parameters \vu, which are beta distributions, and the corresponding covariance
+matrix $\covariance{\vu}$.
+
+\subsection{Probability Transformation}
 
 At Stage~1, \vu should be preprocessed in order to extract a vector of mutually
 independent random variables denoted by \vz. Following the guidance given in
@@ -612,7 +689,7 @@ composed of two \np-valued polynomials, one for power and one for temperature,
 which are defined in terms of \nz mutually independent random variables; an
 example of such a polynomial is given in \eref{pc-example}.
 
-\subsection{Post-processing}
+\subsection{Post-Processing}
 
 \inputfigure{analog-example-density}
 We turn to Stage~5 in \fref{algorithm}. It can be seen in, for example,
