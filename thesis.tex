@@ -21,7 +21,7 @@
 \nocite{ukhov2012, ukhov2014a, ukhov2014b, ukhov2015, ukhov2017}
 
 \chapter{Introduction}
-\newcommand{\inputsection}[1]{\input{include/introduction/#1}}
+\newcommand{\inputsection}{}
 \input{include/introduction}
 
 \chapter{Design with Certainty}
@@ -51,6 +51,12 @@
 
 \chapter{Conclusion}
 \input{include/conclusion}
+
+\begin{appendices}
+\chapter{Appendix}
+\renewcommand{\inputsection}[1]{\input{include/appendix/#1}}
+\input{include/appendix}
+\end{appendices}
 
 \printbibliography
 \end{document}
