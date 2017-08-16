@@ -1,0 +1,78 @@
+Due to the inherent complexity, uncertainty-quantification problems are
+typically viewed as approximation problems: one usually constructs a
+computationally efficient surrogate for the system under consideration and then
+studies this light representation instead of the original system. One way to
+construct such a surrogate is \ac{PC} \cite{xiu2010}. The technique decomposes
+stochastic quantities into infinite series of mutually orthogonal polynomials of
+random variables. Such series are especially attractive from the post-processing
+perspective as they are nothing more than the familiar polynomials; therefore,
+\ac{PC} expansions are easy to interpret and easy to evaluate.
+
+Let now $\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a set of $n$-variate
+polynomials. The polynomials span a weighted Hilbert space with the inner
+product
+\begin{equation} \elab{polynomial-inner-product}
+  \innerproduct{\psi_i}{\psi_j}
+  = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) dF(\v{x})
+  = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) f(\v{x}) d\v{x}
+\end{equation}
+where $F$ and $f$ are a measure and a weight function, respectively, similarly
+to \sref{numerical-integration}. Polynomials $\psi_i$ and $\psi_j$ are called
+orthogonal if
+\begin{equation} \elab{polynomial-orthogonality}
+  \innerproduct{\psi_i}{\psi_j} = \innerproduct{\psi_i}{\psi_i} \delta_{ij}
+\end{equation}
+where $\delta_{ij}$ is the Kronecker delta function. The set of polynomials
+constitutes a basis of the weighted space if all the polynomials are mutually
+orthogonal.
+
+Consider now a probability space $(\Omega, \mathcal{F}, \probability)$, defined
+in \sref{probability-theory}, and let a function $g: \real^n \to \real$ depend
+on a random vector $\v{x}: \Omega \to \real^n$ with mutually independent
+components. Assume also that $g$, when viewed as a random variable $g: \Omega
+\to \real$, belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$. Lastly, let
+$\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a basis whose polynomials
+are mutually orthogonal with respect to the probability distribution of $\v{x}$,
+which means that $F$ and $f$ in \eref{polynomial-inner-product} are the \ac{CDF}
+and \ac{PDF} of $\v{x}$, respectively. Then the \ac{PC} expansion of $g$ as a
+function of $\v{x}$ is
+\[
+  g(\v{x}) = \sum_{i = 1}^\infty \hat{g}_i \psi_i(\v{x}).
+\]
+The coefficients $\{ \hat{g}_i \}_{i = 1}^\infty$ of the expansion are found by
+multiplying both side of the equation by $\psi_i$ and making use of
+\eref{polynomial-orthogonality}, which results in
+\begin{equation} \elab{chaos-projection}
+  \hat{g}_i = \frac{\innerproduct{g}{\psi_i}}{\innerproduct{\psi_i}{\psi_i}}
+\end{equation}
+for $i = \range{1}{\infty}$. This operation is referred to as a spectral
+projection. For practical calculations, the expansion has be truncated, which we
+denote as
+\begin{equation} \elab{chaos-expansion}
+  g(\v{x}) \approx \chaos{\nz}{\lc}{g}(\v{x}) = \sum_{i = 1}^\nc \hat{g}_i \psi_i(\v{x}).
+\end{equation}
+In the notation $\chaos{\nz}{\lc}$, the superscript \nz indicates the
+dimensionality of the problem, and the subscript \lc indicates the accuracy
+level of the expansion. The two parameters dictate the number of terms \nc,
+which is
+\begin{equation} \elab{chaos-length-total-order}
+  \nc = { \lc + \nz \choose \nz } = \frac{(\lc + \nz)!}{\lc! \, \nz!}
+\end{equation}
+and corresponds to the total-order polynomial space \cite{eldred2008, beck2011}.
+
+It is worth noting that, assuming that the polynomials are centered, the inner
+product in \eref{polynomial-inner-product} corresponds to the covariance of two
+polynomials, and orthogonality corresponds to the absence of correlation. In
+addition, the inner product $\innerproduct{\psi_i}{\psi_i}$ in
+\eref{polynomial-orthogonality} and \eref{chaos-projection} corresponds to the
+variance of a polynomial.
+
+Many of the most popular probability distributions directly correspond to
+certain families of orthogonal polynomials, which can be found in the Askey
+scheme of orthogonal polynomials \cite{xiu2010}. A distribution that does not
+have such a correspondence can be transformed into one of those that do using
+such techniques as the one shown in \sref{probability-transformation}. Another
+solutions is to construct a custom polynomial basis using the Gram--Schmidt
+process. Lastly, let us note that the machinery of \ac{PC} expansions is
+applicable to discrete distributions as well. The interested reader is referred
+to \cite{xiu2010} for further discussions.

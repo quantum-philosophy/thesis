@@ -1,0 +1,34 @@
+The eigendecomposition in \eref{eigendecomposition} applied to
+\eref{covariance-matrix} provides a useful transformation, which is known as the
+discrete \ac{KL} decomposition \cite{ghanem1991, xiu2010} and is closely related
+to principal component analysis \cite{hastie2013}. The decomposition transforms
+$n$ potentially correlated variables $\v{x}$ into $n$ linearly uncorrelated
+variables \vz whose variances are given by the corresponding eigenvalues (they
+are non-negative since the matrix is positive semi-definite). More concretely,
+the relationship between the two vectors is as follows:
+\[
+  \v{x} = \m{U} \m{\Lambda}^\frac{1}{2} \vz.
+\]
+When $\v{x}$ obeys a multivariate Gaussian distribution, the individual
+variables in \vz follow the standard Gaussian distribution and are independent.
+
+In addition, the decomposition provides a means of model order reduction. In
+this case, we are to select the smallest subset of the uncorrelated variables
+such that its cumulative contribution to the total variance is above a certain
+threshold. Formally, assuming that $\{ \lambda_i: i = \range{1}{n} \}$ are
+sorted in the descending order and given a threshold $\eta \in (0, 1]$, which is
+the fraction of the total variance to be preserved, we identify the smallest
+$\nz \leq n$ such that
+\[
+  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^n \lambda_i} \geq \eta.
+\]
+Then, given a vector \vz in the reduced space $\real^\nz$, the corresponding
+vector $\v{x}$ in the original space $\real^n$ can be lossy reconstructed as
+follows:
+\begin{equation} \elab{model-order-reduction}
+  \v{x} = \m{U} \tm{\Lambda}^\frac{1}{2} \vz.
+\end{equation}
+In the above formula, $\tm{\Lambda} \in \real^{n \times \nz}$ is a truncated
+version of $\m{\Lambda} \in \real^{n \times n}$ given in
+\eref{eigendecomposition}, that is, the matrix contains only the first \nz
+columns of $\m{\Lambda}$.

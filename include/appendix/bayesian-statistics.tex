@@ -1,0 +1,36 @@
+Let \u be a set of unknown parameters that we would like to know. In order to
+find them, the following information is at our disposal: \one~a set of
+observations $H$ of a quantity \h that is related to \u; \two~a data model that
+describes the relation between \u and \h; and \three~prior beliefs about what \u
+should be. A natural solution is Bayes' theorem \cite{gelman2004}, which is as
+follows:
+\begin{equation} \elab{bayes-theorem}
+  p(\u | H) \propto p(H | \u) p(\u)
+\end{equation}
+where $p$ denotes a probability density function. In \eref{bayes-theorem}, $p(H
+| \u)$ is known as the likelihood function, which accommodates the data model
+and yields the probability of observing the data set $H$ given the parameters
+\u; $p(\u)$ is called the prior of \u, which represents our knowledge on \u
+prior to any observations; and $p(\u | H)$ is known as the posterior of \u given
+$H$. The last is an exhaustive solution to our problem: having constructed $p(\u
+| H)$, all the needed information about \u can be trivially estimated by drawing
+samples from this posterior.
+
+The posterior distribution does not typically belong to any of the common
+families of probability distributions, which is primarily due to the data model
+involved in the likelihood function, and, therefore, the sampling procedure is
+not straightforward. In order to tackle the difficulty, one usually relies on
+Markov chain Monte Carlo sampling \cite{gelman2004}. In this case, an ergodic
+Markov chain with the stationary distribution equal to the target posterior
+distribution is constructed and then utilized for exploring the probability
+space. A popular technique in this regard is the Metropolis--Hastings algorithm
+where the chain is constructed via sampling from a computationally convenient
+distribution known as the proposal distribution. Each sample drawn from the
+proposal is passed through the posterior in order to calculates its posterior
+probability, which is then used to decide whether the sample should be accepted
+or rejected. A rejection means that the sequence of samples advances using the
+last accepted sample as if it was drawn once again. The acceptance strategy of
+the algorithm pushes the produced chain of samples toward regions of high
+posterior probability, which, after a sufficient number of steps, depending on
+the starting point of the chain and the efficiency of the moves, results in an
+adequate approximation of the target posterior distribution.

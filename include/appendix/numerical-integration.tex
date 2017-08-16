@@ -1,0 +1,72 @@
+The integral of a function $g: \real \to \real$
+\[
+  I = \int_\real g(x) dx
+\]
+is approximated by a summation of the function's values computed at prescribed
+points $\{ \hat{x}_i \in \real \}_{i = 1}^\nq$ and multiplied by prescribed
+weights $\{ w_i \in \real \}_{i = 1}^\nq$, which we denote as follows:
+\[
+  I \approx \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i.
+\]
+Such a pair of a set of points and a set of weights is called a quadrature rule.
+In the notation $\quadrature{1}{\lq}$, the superscript $1$ indicates that it is
+a one-dimensional rule, and the subscript \lq gives the accuracy level of the
+rule, which is the index of the rule in the corresponding family of quadrature
+rules with increasing accuracy. In the one-dimensional case, \lq corresponds to
+the maximum order of polynomials that the rule integrates exactly
+\cite{heiss2008}. Similarly, in multiple dimensions, the integral of a function
+$g: \real^n \to \real$
+\[
+  I = \int_{\real^n} g(\v{x}) d\v{x}
+\]
+is approximated by
+\[
+  I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\v{x}}_i) w_i.
+\]
+An appropriate $n$-dimensional quadrature rule $\quadrature{n}{\lq}$ is
+typically formed by computing the tensor product of $n$ potentially distinct
+one-dimensional quadrature rules. The number of terms \nq in summations is
+dictated by both $n$ and \lq. Lastly, it is worth noting that quadrature rules
+are generally precomputed and tabulated since they do not depend the integrand;
+see, for instance, \cite{burkardt}.
+
+Consider now the following more general integral:
+\[
+  I = \int_{\real^n} g(\v{x}) dF(\v{x}).
+\]
+Here $g$ is integrated with respect to a measure $F: \real^n \to \real$
+\cite{durrett2010} that does not necessarily correspond to the usual Lebesgue
+measure used in the earlier examples. If $F$ is absolutely continuous, the
+integrand can be rewritten as follows:
+\[
+  I = \int_{\real^n} g(\v{x}) f(\v{x}) d\v{x}
+\]
+where $g$ is weighted by the derivative $f: \real^n \to \real$ of $F$ and
+integrated with respect to the Lebesgue measure. Since integrating in such a way
+is a very frequent operation, there are families of quadrature rules that are
+designed to automatically take this aspect into account for the most common
+scenarios.
+
+Let us highlight one broad class of rules known as Gaussian quadratures. The
+accuracy level \lq of a one-dimensional Gaussian quadrature with \nq points is
+$2 \nq - 1$, that is, the rule integrates exactly polynomials of an order up to
+$2 \nq - 1$. This feature makes such quadratures especially efficient
+\cite{heiss2008}.
+
+There is one more and arguably the most crucial aspect of numerical integration
+that we ought to discuss: the algorithm used to construct multidimensional
+quadrature rules. In low dimensions, the construction can be based on the direct
+tensor product of one-dimensional rules. However, in high dimensions, the
+situation changes dramatically as the number of points produced by this approach
+can easily explode. For instance \cite{heiss2008}, if a one-dimensional rule has
+only 4 points, that is, $\nq = 4$, then in 10 stochastic dimensions, that is, $n
+= 10$, the number of multivariate points becomes $\nq = 4^{10} = 1~048~576$,
+which is not affordable. Moreover, it can be shown that most of the points
+obtained in this way do not contribute to the asymptotic accuracy and, hence,
+are a waste of time. In order to tackle this problem, one resides to sparse
+integration grids constructed via the Smolyak algorithm \cite{burkardt,
+eldred2008, heiss2008}. The algorithm preserves the accuracy of the underlying
+one-dimensional rules for complete polynomials while significantly reducing the
+number of points. For instance, in the example given earlier, the number of
+points computed by the algorithm is only $\nq = 1~581$, which implies a drastic
+saving of the computation time.

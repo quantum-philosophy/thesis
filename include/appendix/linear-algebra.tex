@@ -1,0 +1,41 @@
+Vectors are denoted by bold lowercase. An $n$-dimensional vector $\v{x}$ in a
+vector space such as $\real^n$ can be defined in a number of equivalent ways,
+depending on what is important to emphasize in a particular context, as follows:
+\begin{align*}
+  & \v{x} = (x_i), \\
+  & \v{x} = (x_i)_{i = 1}^n, \text{ and} \\
+  & \v{x} = (\range{x_1}{x_n}).
+\end{align*}
+Matrices are denoted by bold uppercase letters. An $n_1 \times n_2$ matrix in a
+vector space such as $\real^{n_1 \times n_2}$ can also be defined in several
+ways as follows:
+\begin{align*}
+  & \m{X} = (x_{ij}), \\
+  & \m{X} = (x_{ij})_{i = 1, j = 1}^{n_1, n_2}, \text{ and} \\
+  & \m{X} = \left(
+    \begin{array}{lll}
+      x_{1 1}   & \cdots & x_{1 n_2}   \\
+      \cdots    & \cdots & \cdots      \\
+      x_{n_1 1} & \cdots & x_{n_1 n_2}
+    \end{array}
+  \right).
+\end{align*}
+
+Any symmetric matrix $\m{X} \in \real^{n \times n}$ admits the
+eigendecomposition \cite{press2007}, which, in this particular case, takes the
+following form:
+\begin{equation} \elab{eigendecomposition}
+  \m{X} = \m{U} \m{\Lambda} \transpose{\m{U}}
+\end{equation}
+where $\m{U} \in \real^{n \times n}$ is an orthogonal matrix of the eigenvectors
+of $\m{X}$, and
+\[
+  \m{\Lambda} = \diagonal{\lambda_1}{\lambda_n} = \left(
+    \begin{array}{lll}
+      \lambda_1 & \cdots & 0         \\
+      \cdots    & \cdots & \cdots    \\
+      0         & \cdots & \lambda_n
+    \end{array}
+  \right) \in \real^{n \times n}
+\]
+is a diagonal matrix of the eigenvalues of $\m{X}$.

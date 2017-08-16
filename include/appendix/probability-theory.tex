@@ -1,0 +1,73 @@
+Let $(\Omega, \mathcal{F}, \probability)$ be a probability space where $\Omega$
+is a set of outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a $\sigma$-algebra on
+$\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a probability measure
+\cite{durrett2010}. The $\sigma$-algebra represents a set of events, and the
+probability measure assigns probabilities to these events. A real-valued random
+variable defined on $(\Omega, \mathcal{F}, \probability)$ is an
+$\mathcal{F}$-measurable function $x: \Omega \to \real$. A random variable $x$
+is uniquely characterized by its distribution function---which is also known as
+the \ac{CDF}---defined by
+\begin{equation*}
+  F(x^*) = \probability{x \leq x^*} = \probability{\{ \omega \in \Omega: x(\omega) \leq x^* \}}.
+\end{equation*}
+The expectation of $x$ is given by
+\[
+  \expectation{x} = \int_\real x^* dF(x^*) = \int_\Omega x(\omega) dP(\omega).
+\]
+If $\expectation{x} = 0$, $x$ is called centered. The variance of $x$ is given
+by
+\[
+  \variance{x} = \expectation{(x - \expectation{x})^2}.
+\]
+If $\expectation{x} = 0$ and $\variance{x} = 1$, $x$ is called standardized.
+
+The above quantities are well defined only when the corresponding integrals are
+finite. An example of a space of random variables defined on $(\Omega,
+\mathcal{F}, \probability)$ whose expectations and variances are finite is
+$\L{2}(\Omega, \mathcal{F}, \probability)$, the Hilbert space of
+square-integrable random variables \cite{janson1997} with the inner product
+defined by
+\[
+  \innerproduct{x_1}{x_2} = \expectation{(x_1 x_2)}
+\]
+and the norm defined by
+\[
+  \norm{x} = \innerproduct{x}{x}^\frac{1}{2}
+\]
+for any $x$, $x_1$, and $x_2$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
+
+If the distribution function $F$ of a random variable $x$ is continuous, $x$ is
+said to be a continuous random variable. If, moreover, $F$ is absolutely
+continuous, $x$ admits a \ac{PDF} defined by
+\[
+  f(x) = \frac{dF(x)}{dx}.
+\]
+Other types of random variables such as discrete random variables are of little
+interest to this thesis, and, therefore, they are not covered here.
+
+Suppose now that there is a set of $n$ random variables $\{ x_i \}_{i = 1}^n$.
+In order to impose an ordering, the variables are often gathered in a vector
+$\v{x} = (x_i)_{i = 1}^n: \Omega \to \real^n$, which is called a random vector
+and can also be viewed as a single random variable taking values in $\real^n$.
+The variables obey a common distribution called a joint distribution, and the
+distribution of any subset of the variables is called a marginal distribution.
+The individual variables are called mutually independent if their joint
+distribution function $F$ factorizes as follows:
+\[
+  F(\v{x}) = \prod_{i = 1}^n F_i(x_i)
+\]
+where $F_i$ is the marginal distribution of $x_i$ for $i = \range{1}{n}$.
+
+Analogously to the one-dimensional case, $\v{x}$ has an expectation and a
+variance (if the integrals are finite) as well as a \ac{PDF} (if the \ac{CDF} is
+absolutely continuous). In addition, the covariance of $x_i$ and $x_j$ is
+defined as follows:
+\[
+  \covariance{x_i}{x_j} = \expectation{((x_i - \expectation{x_i})(x_j - \expectation{x_j}))}.
+\]
+If $\covariance{x_i}{x_j} = 0$, $x_i$ and $x_j$ are called uncorrelated.
+Finally, the covariance matrix of $\v{x}$ is given by
+\begin{equation} \elab{covariance-matrix}
+  \covariance{\v{x}} = \left(\covariance{x_i}{x_j}\right)_{i = 1, j = 1}^{n, n},
+\end{equation}
+which is positive semi-definite by definition.
