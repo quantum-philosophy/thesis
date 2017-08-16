@@ -32,7 +32,7 @@ defined by
 \]
 and the norm defined by
 \[
-  \norm{x} = \innerproduct{x}{x}^\frac{1}{2}
+  \norm{x} = \sqrt{\innerproduct{x}{x}}
 \]
 for any $x$, $x_1$, and $x_2$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
 
@@ -66,8 +66,18 @@ defined as follows:
   \covariance{x_i}{x_j} = \expectation{((x_i - \expectation{x_i})(x_j - \expectation{x_j}))}.
 \]
 If $\covariance{x_i}{x_j} = 0$, $x_i$ and $x_j$ are called uncorrelated.
-Finally, the covariance matrix of $\v{x}$ is given by
+Furthermore, the covariance matrix of $\v{x}$ is given by
 \begin{equation} \elab{covariance-matrix}
   \covariance{\v{x}} = \left(\covariance{x_i}{x_j}\right)_{i = 1, j = 1}^{n, n},
 \end{equation}
-which is positive semi-definite by definition.
+which is positive semi-definite by definition. Lastly, a special case of the
+covariance matrix is the correlation matrix
+\[
+  \correlation{\v{x}} = \diagonal{\covariance{\v{x}}}^{-\frac{1}{2}} \covariance{\v{x}} \diagonal{\covariance{\v{x}}}^{-\frac{1}{2}}
+\]
+where $\diagonal{\cdot}$ extracts the diagonal elements and yields a diagonal
+matrix. The correlation matrix is the covariance matrix of the normalized
+$\v{x}$, that is, of
+\[
+  \left(\frac{x_i}{\sqrt{\variance{x_i}}}\right)_{i = 1}^n.
+\]
