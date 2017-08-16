@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/07/28 Thesis]
+\ProvidesClass{thesis}[2017/08/16 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -28,8 +28,8 @@
 \createvariable{publicationyear}
 \createvariable{publicationnumber}
 
-\gdef\@abstractenglish{\input{include/abstract-en}}
-\gdef\@abstractswedish{\input{include/abstract-sv}}
+\gdef\@abstractenglish{\input{include/abstract/english}}
+\gdef\@abstractswedish{\input{include/abstract/swedish}}
 \gdef\@acknowledgments{\input{include/acknowledgments}}
 \gdef\@abbreviations{\input{include/abbreviations}}
 \gdef\@dedication{\input{include/dedication}}
