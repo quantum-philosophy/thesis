@@ -268,14 +268,16 @@ where $\delta_{ij}$ is the Kronecker delta function. The set of polynomials
 constitutes a basis of the weighted space if all the polynomials are mutually
 orthogonal.
 
-Consider now a probability space $(\Omega, \mathcal{F}, \probability)$, which is
-defined in \sref{probability-theory}, and let a function $g: \real^n \to \real$
-depend on a random vector $\v{x}: \Omega \to \real^n$ with mutually independent
-components. Let also $\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a basis
-whose polynomials are mutually orthogonal with respect to the probability
-distribution of $\v{x}$, which means that $F$ and $f$ in
-\eref{polynomial-inner-product} are the \ac{CDF} and \ac{PDF} of $\v{x}$,
-respectively. Then a \ac{PC} expansion of $g$ as a function of $\v{x}$ is
+Consider now a probability space $(\Omega, \mathcal{F}, \probability)$, defined
+in \sref{probability-theory}, and let a function $g: \real^n \to \real$ depend
+on a random vector $\v{x}: \Omega \to \real^n$ with mutually independent
+components. Assume also that $g$, when viewed as a random variable $g: \Omega
+\to \real$, belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$. Lastly, let
+$\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a basis whose polynomials
+are mutually orthogonal with respect to the probability distribution of $\v{x}$,
+which means that $F$ and $f$ in \eref{polynomial-inner-product} are the \ac{CDF}
+and \ac{PDF} of $\v{x}$, respectively. Then the \ac{PC} expansion of $g$ as a
+function of $\v{x}$ is
 \[
   g(\v{x}) = \sum_{i = 1}^\infty \hat{g}_i \psi_i(\v{x}).
 \]
@@ -293,13 +295,12 @@ denote as
 \end{equation}
 In the notation $\chaos{\nz}{\lc}$, the superscript \nz indicates the
 dimensionality of the problem, and the subscript \lc indicates the accuracy
-level of the expansion. The two parameters dictate the number of terms \nc that
-are preserved as follows:
+level of the expansion. The two parameters dictate the number of terms \nc,
+which is
 \begin{equation} \elab{chaos-length-total-order}
-  \nc = { \lc + \nz \choose \nz } = \frac{(\lc + \nz)!}{\lc! \, \nz!},
+  \nc = { \lc + \nz \choose \nz } = \frac{(\lc + \nz)!}{\lc! \, \nz!}
 \end{equation}
-which corresponds to the total-order polynomial space \cite{eldred2008,
-beck2011}.
+and corresponds to the total-order polynomial space \cite{eldred2008, beck2011}.
 
 It is worth noting that, assuming that the polynomials are centered, the inner
 product in \eref{polynomial-inner-product} corresponds to the covariance of two

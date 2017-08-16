@@ -283,9 +283,9 @@ and transient temperature analysis is based on the one presented in
 \eref{temperature-model} implicitly operates on stochastic quantities.
 Consequently, the recurrent solution in \eref{transient-state-recurrence}, that
 is,
-\[
+\begin{equation} \elab{analog-recurrence-original}
   \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
-\]
+\end{equation}
 for $i = \range{1}{\ns}$ where $\vs_0 = \v{0}$, is such as well. In the
 deterministic case, it can be readily employed to perform deterministic
 transient power and temperature analysis via the techniques in
@@ -304,7 +304,7 @@ address in the following subsection.
 \subsection{Surrogate Model}
 \slab{analog-surrogate-model}
 
-The goal now is to transform the recurrence in \eref{transient-state-recurrence}
+The goal now is to transform the recurrence in \eref{analog-recurrence-original}
 in such a way that it becomes possible to estimate the probability distributions
 of power and temperature. Our solution is the construction of a surrogate model
 for the power function $f$, which we then propagate through the recurrence in
@@ -323,7 +323,7 @@ being tried first; on the other hand, the Hermite basis is preferable for
 Gaussian distributions.
 
 Having chosen an appropriate basis, we apply the \ac{PC} formalism to the power
-term $\vp_i$ in \eref{transient-state-recurrence} as described in
+term $\vp_i$ in \eref{analog-recurrence-original} as described in
 \eref{chaos-expansion}. The result is
 \[
   \chaos{\nz}{\lc}{\vp_i} = \sum_{j = 1}^\nc \hat{\vp}_{ij} \psi_j(\vz)
@@ -333,7 +333,7 @@ polynomials of the basis; $\{ \hat{\vp}_{ij} \in \real^\np \}_{j = 1}^\nc$ are
 the coefficients of the expansion; and \nc is given by
 \eref{chaos-length-total-order}.
 
-It can be seen in \eref{transient-state-recurrence} that, due to the linearity
+It can be seen in \eref{analog-recurrence-original} that, due to the linearity
 of the operations involved in the recurrence, $\vs_i$ attains an expansion that
 has the same structure as the one of $\vp_i$, and the recurrence can be
 rewritten as follows:
@@ -351,7 +351,7 @@ structure of the above formula better, let us spell it out as
 Multiplying the above equation by each polynomial from the basis and making use
 of the orthogonality property in \eref{polynomial-orthogonality}, we obtain the
 following recurrence:
-\begin{equation} \elab{analog-chaos-recurrence}
+\begin{equation} \elab{analog-recurrence}
   \hat{\vs}_{ij} = \m{E} \hat{\vs}_{i - 1, j} + \m{F} \hat{\vp}_{ij}
 \end{equation}
 for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$. Combining the recurrence with
@@ -373,59 +373,58 @@ adequate quadrature $\quadrature{\nz}{\lq}$ should be used. The result is
 for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$ where the integration should
 be understood element-wise. It is worth emphasizing that, since power depends on
 temperature as shown in \sref{power-model}, at each step of the recurrence in
-\eref{analog-chaos-recurrence}, the computation of $\hat{\vp}_{ij}$ should be
-done with respect to the \ac{PC} expansion of $\vq_{i - 1}$.
+\eref{analog-recurrence}, the computation of $\hat{\vp}_{ij}$ should be done
+with respect to the \ac{PC} expansion of $\vq_{i - 1}$.
 
-\subsubsection{Computational challenges}
-\slab{computational-challenges}
-
-The construction process of the stochastic power and temperature profiles,
-implemented inside our prototype of the proposed framework, has been estimated
-to have the following time complexity:
+The construction process of the stochastic power and temperature profiles is
+estimated to have the following time complexity per time step:
 \[
-  \bigo{\ns \nn^2 \nc + \ns \np \nq \nc + \ns \nq f(\np)}
+  \bigo{\nn \nn \nc + \nn \np \nq \nc + \nq f(\np)}
 \]
-where $\bigo{f(\np)}$ denotes the complexity of the computations associated with
-the power model in \eref{power-model}. The expression can be detailed further by
-expanding \nc and \nq. The exact formula for \nc is given in \eref{pc-terms},
-and the limiting behavior of \nc with respect to \nz is $\bigo{\nz^\nc / \nc!}$.
-For brute-force quadrature rules, $\log(\nq)$ is $\bigo{\nz}$, meaning that the
-dependency of \nq on \nz is exponential. It can be seen that the theory of PC
-expansions suffers from the so-called curse of dimensionality \cite{xiu2010,
-eldred2008}. More precisely, when \nz increases, the number of polynomial terms
-as well as the complexity of the corresponding coefficients exhibit a growth,
-which is exponential without special treatments. The problem does not have a
-general solution and is one of the central topics of many ongoing studies. In
-this paper, we mitigate this issue by: (a) keeping the number of stochastic
-dimensions low using the KL decomposition as we shall see in
-\sref{ie-uncertain-parameters} and (b) utilizing efficient integration
-techniques as discussed in \sref{gauss-quadrature}. In particular, for sparse
-integration grids based on Gaussian quadratures, $\log(\nq)$ is
-$\bigo{\log(\nz)}$, meaning that the dependency of \nq on \nz is only polynomial
-\cite{heiss2008}.
+where \nn, \np, \nc, and \nq are the number of thermal nodes, processing
+elements, polynomial terms, and quadrature points, respectively,
+and $f(\np)$ denotes the contribution of the power model in
+\eref{analog-power-model}. The expression can be detailed further by expanding
+\nc and \nq. The formula of \nc is given in \eref{chaos-length-total-order},
+which behaves as $\nz^\nc / \nc!$ in the limit with respect to \nz. For
+quadrature rules based on the full tensor product, $\log(\nq) \propto \nz$,
+which means that the dependency of \nq on \nz is exponential. It can be seen
+that the theory of \ac{PC} expansions suffers from the curse of dimensionality
+\cite{eldred2008, xiu2010}. Concretely, when \nz increases, the number of
+polynomial terms as well as the complexity of the corresponding coefficients
+exhibit a growth, which is exponential without special treatments. The problem
+does not have a general solution and is one of the central topics of many
+ongoing studies. We mitigate this issue by \one~keeping the number of stochastic
+dimensions low using the model order reduction based on the \ac{KL}
+decomposition discussed in \sref{probability-transformation} and \two~utilizing
+efficient integration techniques discussed in \sref{numerical-integration}. In
+particular, for sparse integration grids based on Gaussian quadrature rules,
+$\log(\nq) \propto \log(\nz)$, which means that the dependency of \nq on \nz is
+only polynomial \cite{heiss2008}.
 
-To summarize, let us recall the stochastic recurrence in \eref{recurrence}
-where, in the presence of correlations, an arbitrary functional $\vp_k$ of the
-uncertain parameters \vu and random temperature $\vq_k$ (see \sref{power-model})
-needs to be evaluated and combined with another random vector $\vs_k$. Now the
-recurrence in \eref{recurrence} has been replaced with a purely deterministic
-recurrence in \eref{pc-recurrence}. More importantly, the heavy thermal system
-in \eref{fourier-system} has been substituted with a light polynomial surrogate
-defined by a set of basis functions $\{ \psi_i \}_{i = 1}^\nc$ and the
-corresponding sets of coefficients, namely, $\{ \hat{\vp}_{ki} \}_{i = 1}^\nc$
-for power and $\{ \hat{\vq}_{ki} \}_{i = 1}^\nc$ for temperature, where $k$
-traverses the \ns intervals of the considered time span. Consequently, the
-output of the proposed PTA framework constitutes two stochastic profiles: the
-power and temperature profiles denoted by \mp and \mq, respectively, which are
-ready to be analyzed.
+Let us summarize this subsection. Recall the stochastic recurrence in
+\eref{analog-recurrence-original} where, in the presence of dependencies, an
+arbitrary functional $\vp_k$ of the uncertain parameters \vu and stochastic
+temperature $\vq_k$---which can be seen in \eref{analog-power-model}---needs to
+be evaluated and combined with another random vector $\vs_k$. This recurrence in
+\eref{analog-recurrence-original} has been replaced with a purely deterministic
+recurrence in \eref{analog-recurrence}. More globally, the whole system
+including the heavy temperature model in \eref{temperature-model-original} has
+been substituted with a light surrogate defined by a set of polynomials $\{
+\psi_j \}_{j = 1}^\nc$ in \vz, a set of coefficients $\{ \hat{\vp}_{ij} \}_{i =
+1, j = 1}^{\ns, \nc}$ for power, and a set of coefficient $\{ \hat{\vq}_{ij}
+\}_{i = 1, j = 1}^{\ns, \nc}$ for temperature. These quantities constitute a
+stochastic power profile \mp and a stochastic temperature profile \mq, and these
+profiles are ready to be analyzed, which we discuss in the following subsection.
 
-Finally, note the ease and generality of taking the uncertainty into
-consideration using the proposed approach: the above derivation is delivered
-from any explicit formula for any particular uncertain parameter. In contrast, a
-typical solution from the literature related to process variation is based on ad
-hoc expressions and should be tailored by the user for each new parameter
-individually; see, for instance, \cite{huang2009a, bhardwaj2008, ghanta2006}.
-Our framework provides a great flexibility in this regard.
+Before we proceed, let us draw attention to the ease and generality of taking
+uncertainty into consideration using the proposed approach. The above
+description is delivered from any explicit formula of any particular uncertain
+parameter. In contrast, the solutions from the literature related to process
+variation are typically based on ad~hoc expressions and should be tailored by
+the user for each new parameter individually; see, for instance,
+\cite{ghanta2006, bhardwaj2008, huang2009a}. Our framework provides a great
+flexibility in this regard.
 
 \subsection{Post-Processing}
 \slab{analog-post-processing}
@@ -593,6 +592,16 @@ with respect to the PDF of \vz, which should be done numerically using a
 quadrature rule; recall \sref{pc-coefficients}. When beta distributions are
 concerned, a natural choice of such a rule is the Gauss-Jacobi quadrature.
 Additional details are given in \sref{gauss-quadrature}.
+
+Using \eref{quadrature}, we rewrite \eref{pc-coefficients} as shown in
+\eref{pc-coefficients-quadrature} where $\{ \innerproduct{\psi_i}{\psi_i} \}_{i
+= 1}^\nc$ are computed exactly, either by applying the same quadrature rule or
+by taking products of the one-dimensional counterparts with known analytical
+expressions \cite{xiu2010}; the result is further tabulated. It is important to
+note that \lq should be chosen in such a way that the rule is exact for
+polynomials of the total order at least $2 \lc$, that is, twice the order of PC
+expansions, which can be seen in \eref{pc-coefficients} \cite{eldred2008}.
+Therefore, $\lq \geq \lc + 1$ as the quadrature is Gaussian.
 
 To summarize, we have completed four out of five stages of the proposed
 framework depicted in \fref{algorithm}. The result is a light surrogate for the
@@ -994,21 +1003,3 @@ subset of them that has the cumulative sum greater than a certain threshold.
 When this threshold is sufficiently high (close to one), the rest of the
 eigenvalues and the corresponding eigenvectors can be dropped as being
 insignificant, reducing the stochastic dimensionality of the problem.
-
-\section{Numerical Integration}
-
-Since in the example in \sref{illustrative-example} we need to compute the inner
-product with respect to beta measures, the Gauss-Jacobi quadrature rule is of
-particular interest. The rule belongs to a broad class of rules known as
-Gaussian quadratures. The precision of a one-dimensional Gaussian quadrature
-with $\hat{\nq}$ points is $2 \hat{\nq} - 1$; this feature makes such
-quadratures especially efficient \cite{heiss2008}. Using \eref{quadrature}, we
-rewrite \eref{pc-coefficients} as shown in \eref{pc-coefficients-quadrature}
-where $\{ \innerproduct{\psi_i}{\psi_i} \}_{i = 1}^\nc$ are computed exactly,
-either by applying the same quadrature rule or by taking products of the
-one-dimensional counterparts with known analytical expressions \cite{xiu2010};
-the result is further tabulated. It is important to note that \lq should be
-chosen in such a way that the rule is exact for polynomials of the total order
-at least $2 \lc$, that is, twice the order of PC expansions, which can be seen
-in \eref{pc-coefficients} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as
-the quadrature is Gaussian.
