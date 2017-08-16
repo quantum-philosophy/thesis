@@ -477,75 +477,76 @@ the leakage current and is severely deteriorated by process variation
 \cite{chandrakasan2000}. In particular, \u also affects the threshold voltage.
 
 \inputfigure{beta-gaussian}
-It is well known that the dispersion due to process variation of the effective
-channel length around the nominal value resembles the bell shape of Gaussian
-distributions. Therefore, such variations are often conveniently modeled using
-Gaussian variables \cite{bhardwaj2006, ghanta2006, huang2009a, shen2009,
-chandra2010, srivastava2010, juan2011, juan2012, lee2013}. Due to both the
-underlying physics and demonstration purposes, we make a step further and bake
-right into the model the fact that the effective channel length---occupying the
-space between the drain and source of a transistor---cannot be arbitrarily large
-or take a negative value, which Gaussian distributions allow it to do. In other
-words, we require the model of \u to have a bounded support. With this in mind,
-we propose to model \u (and other physically-bounded parameters) using the
-four-parametric family of beta distributions as
+It is well known that the dispersion of the effective channel length around its
+nominal value resembles the bell shape of Gaussian distributions. Therefore,
+such variations are often conveniently modeled using Gaussian random variables
+\cite{bhardwaj2006, ghanta2006, huang2009a, shen2009, chandra2010,
+srivastava2010, juan2011, juan2012, lee2013}. Due to both the underlying physics
+and demonstration purposes, we make a step further and bake into the model the
+fact that the effective channel length---occupying the space between the drain
+and source of a transistor---cannot be arbitrarily large or take a negative
+value, which Gaussian distributions allow it to do. In other words, we require
+the model of \u to have a bounded support. With this in mind, we propose to
+model the effective channel length and other physically-bounded parameters using
+the four-parametric family of beta distributions as
 \[
   \u \sim \mathrm{Beta}(a, b, c, d)
 \]
 where $a$ and $b$ are the shape parameters, and $c$ and $d$ are the left and
 right bounds of the support, respectively. The parameters $a$ and $b$ can be
-chosen in such a way that the typically found bell shape of the distribution is
-preserved. An illustration is given in \fref{beta-gaussian} where we fitted a
-beta distribution to the standard Gaussian distribution.\footnote{Alternatively,
-one can match the moments of the distributions.} It can be seen that the curves
-are nearly indistinguishable, but the beta one has a bounded support $[-4, 4]$,
-which can potentially lead to more realistic models.
+chosen so that the typically found bell shape of the distribution is preserved.
+An illustration is given in \fref{beta-gaussian} where a beta distribution is
+fitted to the standard Gaussian distribution; alternatively, one can match
+probabilistic moments. It can be seen that the curves are nearly
+indistinguishable, but the beta one has a bounded support $[-4, 4]$, which can
+potentially lead to more realistic models.
 
-The variability of $L$ is split into global $L_\overall$ and local $L_\local$
-parts \cite{shen2009, chandra2010}.\footnote{Without loss of generality,
-$L_\overall$ can be treated as a composition of independent inter-lot,
-inter-wafer, and inter-die variations; likewise, $L_\local$ can be treated as a
-composition of independent and dependent local variations.} $L_\overall$ is
-assumed to be shared among all processing elements whereas each processing
-element has its own local parameter $L_{\local, i}$. Therefore, the effective
-channel length of processing element $i$ is modeled as follows:
+The variability of $u$ is split into global $u_\overall$ and local $u_\local$
+parts \cite{shen2009, chandra2010}. Without loss of generality, $u_\overall$ can
+be treated as a composition of independent inter-lot, inter-wafer, and inter-die
+variations; likewise, $u_\local$ can be treated as a composition of independent
+and dependent local variations. The variability $u_\overall$ is assumed to be
+shared by all the \np processing elements whereas each processing element has
+its own local parameter $u_{\local, i}$. Therefore, the effective channel length
+of processing element $i$ is modeled as follows:
 \[
-  L_i = L_\nominal + L_\overall + L_{\local, i}
+  u_i = u_\nominal + u_\overall + u_{\local, i}
 \]
-where $L_\nominal$ is the nominal value of the effective channel length. Hence,
+where $u_\nominal$ is the nominal value of the effective channel length. Hence,
 the uncertain parameters of the problem are
 \[
-  \vu = (L_{\local, 1}, \dotsc, L_{\local, \np}, L_\overall).
+  \vu = (u_{\local, 1}, \dotsc, u_{\local, \np}, u_\overall): \Omega \to \real^{\np + 1}.
 \]
 
 Global variations are typically assumed to be uncorrelated with respect to the
-local ones. The latter, however, are known to have high spatial correlations,
-which, similar to \cref{analysis-analog-uncertainty}, we model using the
-correlation given in \sref{inference-correlation}. The choice of the correlation
-function in \eref{correlation-function} is guided by the observations of the
-correlations induced by the fabrication process \cite{friedberg2005,
-chandrakasan2000, cheng2011}: $k_\SE$ imposes similarities between the spatial
-locations that are close to each other, and $k_\OU$ imposes similarities between
-the locations that are at the same distance from the center of the die; see also
-\cite{ghanem1991, ghanta2006, bhardwaj2008, huang2009a, lee2013}.
+local ones. The latter, however, are known to have high spatial correlations.
+Similar to \cref{analysis-analog-uncertainty}, these correlations are modeled
+here using the correlation function given in \eref{inference-correlation}. This
+choice is guided by the observations of the correlation structured induced by
+the manufacturing process \cite{friedberg2005, chandrakasan2000, cheng2011}:
+$k_\SE$ imposes similarities between the spatial locations that are close to
+each other, and $k_\OU$ imposes similarities between the locations that are at
+the same distance from the center of the die; see also \cite{ghanem1991,
+ghanta2006, bhardwaj2008, huang2009a, lee2013}.
 
 Although \eref{inference-correlation} captures certain features inherent to the
-fabrication process, it is still an idealization. In practice, it can be
+manufacturing process, it is still an idealization. In practice, it can be
 difficult to make a justifiable choice and tune such a formula, which is a
-prerequisite for the techniques in \sref{prior-work} based on the (continuous)
-KL decomposition. A correlation matrix, on the other hand, can readily be
-estimated from measurements and, thus, is a more probable input to PTA. Thus, we
-use \eref{correlation-function} with the only purpose of constructing a
-correlation matrix of $\{ L_{\local, i} \}$. For convenience, the resulting
-matrix is extended by one dimension to pack $L_\overall$ and $\{ L_{\local, i}
-\}$ together. In this case, the correlation matrix obtains one additional
-non-zero element on the diagonal. Taking into account the variances of the
-variable, the final covariance matrix of the whole random vector \vu (see
-\eref{uncertain-parameters}) is formed, which we denote by $\covariance{\vu}$.
+prerequisite for the techniques that are discussed in \sref{analog-prior} and
+based on the continuous \ac{KL} decomposition. A correlation matrix, on the
+other hand, can readily be estimated from measurements and, thus, is a more
+probable input to probabilistic analysis. Therefore, we use
+\eref{inference-correlation} with the only purpose of constructing a correlation
+matrix of $\{ u_{\local, i} \}_{i = 1}^\np$. For convenience, the resulting
+matrix is extended by one dimension in order to tie $u_\overall$ and $\{
+u_{\local, i} \}_{i = 1}^\np$ together. In this case, the correlation matrix
+obtains one additional nonzero element equal to unity on the diagonal. Taking
+into account the variances of the variables, the final covariance matrix
+$\covariance{\vu}$ of the whole random vector \vu is formed.
 
-To conclude, an input to our analysis is the marginal distributions of the
-parameters \vu, which are beta distributions, and the corresponding covariance
-matrix $\covariance{\vu}$.
+To conclude, the input to our probabilistic analysis is composed of the marginal
+distributions of the uncertain parameters \vu, which are beta distributions, and
+the corresponding covariance matrix $\covariance{\vu}$.
 
 \subsection{Probability Transformation}
 
