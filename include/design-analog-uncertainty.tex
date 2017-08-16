@@ -326,7 +326,7 @@ Having chosen an appropriate basis, we apply the \ac{PC} formalism to the power
 term $\vp_i$ in \eref{analog-recurrence-original} as described in
 \eref{chaos-expansion}. The result is
 \[
-  \chaos{\nz}{\lc}{\vp_i} = \sum_{j = 1}^\nc \hat{\vp}_{ij} \psi_j(\vz)
+  \chaos{\nz}{\lc}{\vp_i}(\vz) = \sum_{j = 1}^\nc \hat{\vp}_{ij} \psi_j(\vz)
 \]
 where $\{ \psi_j: \real^\nz \to \real \}_{j = 1}^\nc$ are the first \nc
 polynomials of the basis; $\{ \hat{\vp}_{ij} \in \real^\np \}_{j = 1}^\nc$ are
@@ -338,7 +338,7 @@ of the operations involved in the recurrence, $\vs_i$ attains an expansion that
 has the same structure as the one of $\vp_i$, and the recurrence can be
 rewritten as follows:
 \[
-  \chaos{\nz}{\lc}{\vs_i} = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}} + \m{F} \, \chaos{\nz}{\lc}{\vp_i}
+  \chaos{\nz}{\lc}{\vs_i}(\vz) = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}}(\vz) + \m{F} \, \chaos{\nz}{\lc}{\vp_i}(\vz)
 \]
 for $i = \range{1}{\ns}$. Consequently, there are two concurrent \ac{PC}
 expansions: one is for power, and one is for temperature; the two expansions
@@ -429,33 +429,35 @@ flexibility in this regard.
 \subsection{Post-Processing}
 \slab{analog-post-processing}
 
-Due to the properties of PC expansions---in particular, due to the pairwise
-orthogonality of the basis polynomials as discussed in
-\sref{polynomial-chaos}---the obtained polynomial traces allow for various
-prospective analyses to be performed with no effort. For instance, consider the
-PC expansion of temperature at the $k$th moment of time given by
-\begin{equation} \elab{pc-k}
-  \chaos{\nz}{\lc}{\vq_k} = \sum_{i = 1}^{\nc} \hat{\vq}_{ki} \psi_i(\vz)
-\end{equation}
-where $\hat{\vq}_{ki}$ are computed using \eref{fourier-output} and
-\eref{pc-recurrence}. Let us, for example, find the expectation and variance of
-the expansion. Due to the fact that, by definition \cite{xiu2010}, the first
-polynomial $\psi_1$ in a polynomial basis is unity, $\expectation{\psi_1(\vz)} =
-1$. Therefore, using the orthogonality property in \eref{orthogonality}, we
-conclude that $\expectation{\psi_i(\vz)} = 0$ for $i = \range{2}{\nc}$.
-Consequently, the expected value and variance have the following simple
-expressions solely based on the coefficients:
-\begin{equation} \elab{pc-moments}
+Due to the properties of \ac{PC} expansions---in particular, due to the mutual
+orthogonality of the basis functions discussed in \sref{polynomial-chaos}---the
+obtained polynomial representations allow for various prospective analyses to be
+performed with no effort. For instance, consider the expansion of temperature at
+step $i$
+\[
+  \chaos{\nz}{\lc}{\vq_i}(\vz) = \sum_{j = 1}^{\nc} \hat{\vq}_{ij} \psi_j(\vz)
+\]
+where $\hat{\vq}_{ij}$ are computed using \eref{analog-recurrence} and
+\eref{temperature-algebraic}. Let us, for example, find the expectation and
+variance of the temperature at this time moment. Since the first polynomial
+$\psi_1$ in a polynomial basis is unity by definition \cite{xiu2010},
+$\expectation{\psi_1(\vz)} = 1$. Therefore, using the orthogonality property in
+\eref{polynomial-orthogonality}, we conclude that $\expectation{\psi_i(\vz)} =
+0$ for $i = \range{2}{\nc}$. Consequently, the expected value and variance have
+the following simple expressions solely based on the coefficients:
+\[
   \begin{split}
-    & \expectation{\vq_k} = \hat{\vq}_{k1} \text{ and} \\
-    & \variance{\vq_k} = \sum_{i = 2}^{\nc} \innerproduct{\psi_i}{\psi_i} \hat{\vq}_{ki}^2
+    & \expectation{\vq_i} = \hat{\vq}_{i1} \text{ and} \\
+    & \variance{\vq_i} = \sum_{j = 2}^{\nc} \innerproduct{\psi_j}{\psi_j} \hat{\vq}_{ij}^2,
   \end{split}
-\end{equation}
-where the squaring should be understood elementwise. Such quantities as CDFs,
-PDFs, probabilities of certain events, and so on can be estimated by sampling
-\eref{pc-k}; each sample is a trivial evaluation of a polynomial. Furthermore,
-global and local sensitivity analyses of deterministic and non-deterministic
-quantities can be readily conducted on \eref{pc-k}.
+\]
+respectively, where the squaring should be understood element-wise. Such
+quantities as \acp{CDF}, \acp{PDF}, and probabilities of certain events can be
+estimated by means of \ac{MC} sampling applied to the expansion. In this case,
+each sample is a trivial evaluation of a polynomial, and, hence, \ac{MC}
+sampling is readily adequate. Furthermore, global and local sensitivity analysis
+of deterministic and stochastic quantities can be readily conducted on a \ac{PC}
+expansion.
 
 \section{Illustrative Example}
 \slab{analog-example}
