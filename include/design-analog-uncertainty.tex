@@ -914,32 +914,3 @@ distributions and accompanying quantities of the power and temperature
 characteristics of the system. The approximation accuracy and computational time
 of our approach are assessed by a range of comparisons with Monte Carlo
 simulations, which confirm the efficiency of the proposed technique.
-
-\section{Model Order Reduction}
-
-This section contains a description of the discrete Karhunen-Lo\`{e}ve
-decomposition \cite{ghanem1991}, which is utilized at Stage~1. We shall use the
-notation introduced in \sref{ie-uncertain-parameters}. Let $\m{\Sigma}_{\vz'}$
-be the covariance matrix of the centered random vector $\vz'$ (which is the
-result of the first step of the Nataf transformation discussed in
-\sref{ie-uncertain-parameters}). Since any covariance matrix is real and
-symmetric, $\m{\Sigma}_{\vz'}$ admits the eigenvalue decomposition as
-$\m{\Sigma}_{\vz'} = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$
-are an orthogonal matrix of the eigenvectors and a diagonal matrix of the
-eigenvalues of $\m{\Sigma}_{\vz'}$, respectively. $\vz'$ can then be represented
-as $\vz' = \m{V} \m{\Lambda}^\frac{1}{2} \vz''$ where the vector $\vz''$ is
-centered, normalized, and uncorrelated, which is also independent as $\vz'$ is
-Gaussian.
-
-The aforementioned decomposition provides means for model order reduction. The
-intuition is that, due to the correlations possessed by $\vz' \in \real^\nu$,
-this vector can be recovered from a small subset $\vz''' \in \real^\nz$ of
-$\vz'' \in \real^\nu$, $\nz \ll \nu$. Such redundancies can be revealed by
-analyzing the eigenvalues $\lambda_i$ stored in $\m{\Lambda}$. Assume
-$\lambda_i$, $\forall i$, are arranged in a non-increasing order and let
-$\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$. Gradually summing up the
-arranged and normalized eigenvalues $\tilde{\lambda}_i$, we can identify a
-subset of them that has the cumulative sum greater than a certain threshold.
-When this threshold is sufficiently high (close to one), the rest of the
-eigenvalues and the corresponding eigenvectors can be dropped as being
-insignificant, reducing the stochastic dimensionality of the problem.
