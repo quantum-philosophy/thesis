@@ -466,37 +466,40 @@ So far we have not made any assumptions regarding the cause of variability. In
 this section, we consider a particular application of the proposed framework in
 order to illustrate how it is supposed to be used in practice.
 
-The total dissipation of power is composed of two major parts: dynamic and
-static. The influence of process variation on the dynamic power is known to be
-negligibly small \cite{srivastava2010}; on the other hand, the variability of
-the static power is substantial, in which the subthreshold leakage current
-contributes the most \cite{juan2011, juan2012}. Hence, we shall focus on the
-subthreshold leakage and, more specifically, on the effective channel length,
-denoted by $L$, since it has the strongest influence on leakage and is severely
-deteriorated by process variation \cite{chandrakasan2000}. In particular, $L$
-also affects the threshold voltage \cite{juan2011}.
+As discussed in \sref{power-model}, the total dissipation of power is composed
+of two major parts: dynamic and static. The influence of process variation on
+the dynamic power is known to be negligibly small \cite{srivastava2010}; on the
+other hand, the variability of the static power is substantial, in which the
+subthreshold leakage current contributes the most \cite{juan2011, juan2012}.
+Hence, we focus on the subthreshold leakage and, more specifically, on the
+effective channel length denoted by \u since it has the strongest influence on
+the leakage current and is severely deteriorated by process variation
+\cite{chandrakasan2000}. In particular, \u also affects the threshold voltage.
 
+\inputfigure{beta-gaussian}
 It is well known that the dispersion due to process variation of the effective
-channel length around the nominal value resembles a bell shape, which is similar
-to the ones owned by Gaussian distributions. Therefore, such variations are
-often conveniently modeled using Gaussian variables \cite{bhardwaj2006,
-ghanta2006, huang2009a, shen2009, chandra2010, srivastava2010, juan2011,
-juan2012, lee2013}. In this work, due to both the underlying physics and
-demonstration purposes, we make a step further and bake right into the model the
-fact that the effective channel length---occupying the space between the drain
-and source of a nanoscopic transistor---cannot be arbitrarily large or take a
-negative value, as Gaussian distributions allow it to do. In other words, we
-require the model of $L$ to have a bounded support. With this in mind, we
-propose to model physically-bounded parameters using the four-parametric family
-of beta distributions: $\mathrm{Beta}(a, b, c, d)$ where $a$ and $b$ are the
-shape parameters, and $c$ and $d$ are the left and right bounds of the support,
-respectively. $a$ and $b$ can be chosen in such a way that the typically found
-bell shape of the distribution is preserved. An illustration is given in
-\fref{beta-normal} where we fitted a beta distribution to the standard Gaussian
-distribution.\footnote{Alternatively, one can match the moments of the
-distributions.} It can be seen that the curves are nearly indistinguishable, but
-the beta one has a bounded support $[-4, 4]$, which can potentially lead to more
-realistic models.
+channel length around the nominal value resembles the bell shape of Gaussian
+distributions. Therefore, such variations are often conveniently modeled using
+Gaussian variables \cite{bhardwaj2006, ghanta2006, huang2009a, shen2009,
+chandra2010, srivastava2010, juan2011, juan2012, lee2013}. Due to both the
+underlying physics and demonstration purposes, we make a step further and bake
+right into the model the fact that the effective channel length---occupying the
+space between the drain and source of a transistor---cannot be arbitrarily large
+or take a negative value, which Gaussian distributions allow it to do. In other
+words, we require the model of \u to have a bounded support. With this in mind,
+we propose to model \u (and other physically-bounded parameters) using the
+four-parametric family of beta distributions as
+\[
+  \u \sim \mathrm{Beta}(a, b, c, d)
+\]
+where $a$ and $b$ are the shape parameters, and $c$ and $d$ are the left and
+right bounds of the support, respectively. The parameters $a$ and $b$ can be
+chosen in such a way that the typically found bell shape of the distribution is
+preserved. An illustration is given in \fref{beta-gaussian} where we fitted a
+beta distribution to the standard Gaussian distribution.\footnote{Alternatively,
+one can match the moments of the distributions.} It can be seen that the curves
+are nearly indistinguishable, but the beta one has a bounded support $[-4, 4]$,
+which can potentially lead to more realistic models.
 
 The variability of $L$ is split into global $L_\overall$ and local $L_\local$
 parts \cite{shen2009, chandra2010}.\footnote{Without loss of generality,
