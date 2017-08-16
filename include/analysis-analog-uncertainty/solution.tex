@@ -110,15 +110,15 @@ of \g, respectively, which take locations on the wafer as arguments. The
 notation also indicates that \g depends on a set of parameters $\u_\g$, which we
 shall identify later on. Prior to taking any measurements, \g is assumed to be
 spatially unbiased; therefore, we let $\mu$ be a single location-independent
-parameter $\mu_\g$, that is, $\mu(r) = \mu_\g$ for any $r \in \real^2$. The
-covariance function $k$ is chosen to be as follows:
+parameter $\mu_\g$, that is, $\mu(\v{r}) = \mu_\g$ for any $\v{r} \in \real^2$.
+The covariance function $k$ is chosen to be as follows:
 \begin{equation} \elab{inference-covariance}
-  k(r_1, r_2) = \sigma_\g^2 \left(w \, k_\SE(r_1, r_2) + (1 - w) k_\OU(r_1, r_2)\right)
+  k(\v{r}_1, \v{r}_2) = \sigma_\g^2 \left(w \, k_\SE(\v{r}_1, \v{r}_2) + (1 - w) k_\OU(\v{r}_1, \v{r}_2)\right)
 \end{equation}
-for $r_1 \in \real^2$ and $r_2 \in \real^2$ where
+for $\v{r}_1 \in \real^2$ and $\v{r}_2 \in \real^2$ where
 \begin{align*}
-  k_\SE(r_1, r_2) & = \exp\left(-\frac{\norm[2]{r_1 - r_2}^2}{\ell_\SE^2}\right) \text{ and} \\
-  k_\OU(r_1, r_2) & = \exp\left(-\frac{\absolute{\norm[2]{r_1} - \norm[2]{r_2}}}{\ell_OU}\right)
+  k_\SE(\v{r}_1, \v{r}_2) & = \exp\left(-\frac{\norm[2]{\v{r}_1 - \v{r}_2}^2}{\ell_\SE^2}\right) \text{ and} \\
+  k_\OU(\v{r}_1, \v{r}_2) & = \exp\left(-\frac{\absolute{\norm[2]{\v{r}_1} - \norm[2]{\v{r}_2}}}{\ell_OU}\right)
 \end{align*}
 are the squared exponential and Ornstein--Uhlenbeck correlation functions
 \cite{rasmussen2006}, respectively; $\sigma_\g^2$ is the variance of \g; $w \in
