@@ -97,7 +97,6 @@
 
 \newcommand{\absolute}[1]{|#1|}
 \newcommand{\bigo}[1]{\mathcal{O}\left(#1\right)}
-\newcommand{\diagonal}[2]{\mathrm{diag}\left(\range{#1}{#2}\right)}
 \newcommand{\innerproduct}[2]{\left\langle #1, #2 \right\rangle}
 \newcommand{\maximum}{\mathrm{max}}
 \newcommand{\minimum}{\mathrm{min}}
@@ -106,6 +105,12 @@
 \newcommand{\real}{\mathbb{R}}
 \newcommand{\transpose}[1]{{#1}^\mathrm{T}}
 \renewcommand{\L}[1]{{L^{#1}}}
+
+\makeatletter
+\def\diagonal#1{\@ifnextchar\bgroup{\diagonaltwo{#1}}{\diagonalone{#1}}}
+\def\diagonaltwo#1#2{\mathrm{diag}\left(\range{#1}{#2}\right)}
+\def\diagonalone#1{\mathrm{diag}\left(#1\right)}
+\makeatother
 
 %
 % Probability theory
@@ -137,6 +142,14 @@
 \def\covariancetwo#1#2{\mathrm{Cov}\left(#1, #2\right)}
 \def\covarianceone#1{\mathrm{Cov}\left(#1\right)}
 \def\covariancezero{\mathrm{Cov}}
+\makeatother
+
+\makeatletter
+\def\correlation{\@ifnextchar\bgroup{\correlationplus}{\correlationzero}}
+\def\correlationplus#1{\@ifnextchar\bgroup{\correlationtwo{#1}}{\correlationone{#1}}}
+\def\correlationtwo#1#2{\mathrm{Corr}\left(#1, #2\right)}
+\def\correlationone#1{\mathrm{Corr}\left(#1\right)}
+\def\correlationzero{\mathrm{Corr}}
 \makeatother
 
 %
