@@ -8,9 +8,9 @@ advantages as we shall see throughout the thesis.
 \subsection{Prior Work}
 
 Suppose for now that the power consumption of the processing elements does not
-change over time: $\vp(t) = \vp$. Then \eref{temperature-differential-original}
-is a system of linear ordinary differential equations that has the following
-analytical solution:
+change over time; hence, $\vp(t) = \vp$. Then
+\eref{temperature-differential-original} is a system of linear ordinary
+differential equations that has the following analytical solution:
 \begin{equation} \elab{transient-state-solution-original}
   \tvs(t) = e^{\tm{A} t} \tvs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
 \end{equation}
@@ -18,6 +18,9 @@ where $\tvs_0$ is the initial condition, $\m{I}$ is the identity matrix, and
 \[
   \tm{A} = -\m{C}^{-1} \m{G}.
 \]
+The solution belongs to the family of so-called exponential integrators, which
+have good stability properties; refer to \cite{hochbruck2010} for an overview.
+
 Assume now that the sampling interval \dt of \mp is sufficiently small so that
 the power consumption in the interval $[t_i, t_{i + 1})$ can reasonably be
 approximated by a constant equal to $\vp_i = \vp(t_i)$. Then the corresponding

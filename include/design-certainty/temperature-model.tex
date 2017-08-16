@@ -26,22 +26,28 @@ that is used throughout this thesis unless stated otherwise.
 
 Suppose now that an adequate thermal \up{RC} circuit has been constructed for
 the considered electronic system. Regardless of the structure of the circuit,
-the thermal dynamics of the circuit (and the electronic system) are governed by
-the following system of \nn differential and \np algebraic equations:
+the thermal dynamics of the circuit and, therefore, the electronic system are
+governed by the following system of \nn differential and \np algebraic
+equations, which is based on Fourier's law \cite{fourier2009}:
 \begin{subnumcases}{\elab{temperature-model-original}}
   \m{C} \frac{d\tvs(t)}{dt} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
   \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
 \end{subnumcases}
-In \eref{temperature-model-original}, $\vq \in \real^\np$, $\vq_\ambient \in
-\real^\np$, and $\vp \in \real^\np$ are vectors of the operating temperature,
-ambient temperature, and power dissipation of the processing elements,
-respectively. Further, $\tvs \in \real^\nn$ represents the state of the thermal
-nodes, and $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in \real^{\nn \times
-\nn}$ are a diagonal matrix of the thermal capacitance and a symmetric and
-positive-definite matrix of the thermal conductance, respectively. Lastly,
-$\tm{B} \in \real^{\nn \times \np}$ is a mapping between the processing elements
-and the thermal nodes, which, without loss of generality, is assumed to be a
-rectangular diagonal matrix whose diagonal elements are equal to unity.
+where $\vq \in \real^\np$, $\vq_\ambient \in \real^\np$, and $\vp \in \real^\np$
+are vectors of the operating temperature, ambient temperature, and power
+dissipation of the processing elements, respectively. Further, $\tvs \in
+\real^\nn$ represents the state of the thermal nodes, and $\m{C} \in \real^{\nn
+\times \nn}$ and $\m{G} \in \real^{\nn \times \nn}$ are a diagonal matrix of the
+thermal capacitance and a symmetric and positive-definite matrix of the thermal
+conductance, respectively. Lastly, $\tm{B} \in \real^{\nn \times \np}$ is a
+mapping between the processing elements and the thermal nodes, which, without
+loss of generality, is assumed to be a rectangular diagonal matrix whose
+diagonal elements are equal to unity.
+
+In general, the differential part in \eref{temperature-differential-original} is
+nonlinear due to the source term \vp since we do not make any assumptions about
+its structure; see the discussion in \sref{power-model}. Therefore, there is no
+closed-form solution to the system.
 
 It can be seen in \eref{temperature-model-original} that the input to
 temperature analysis is power, and the output is temperature. For practical
