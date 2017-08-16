@@ -33,7 +33,7 @@
 \gdef\@acknowledgments{\input{include/acknowledgments}}
 \gdef\@abbreviations{\input{include/abbreviations}}
 \gdef\@dedication{\input{include/dedication}}
-\gdef\@logo{include/assets/figures/university-logo}
+\gdef\@logo{include/assets/figures/university}
 
 \setmainlanguage{english}
 \setotherlanguages{swedish}
