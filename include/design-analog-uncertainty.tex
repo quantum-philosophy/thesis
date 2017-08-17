@@ -225,19 +225,15 @@ should be undertaken \cite{eldred2008}. Denote such a transformation by $\vu =
 mutually independent components.
 
 Correlated random variables can be transformed into linearly uncorrelated ones
-via the \ac{KL} decomposition presented in \sref{probability-transformation}.
-If, in addition, the correlated variables form a Gaussian vector, the
-uncorrelated ones are also mutually independent. In the general case
-(non-Gaussian), the most prominent solutions to attain independence are the
-Rosenblatt \cite{rosenblatt1952} and Nataf transformations \cite{li2008}.
-Rosenblatt's approach is suitable when the joint probability distribution
-function of \vu is known; however, such information is rarely available. A set
-of marginal probability distributions and a correlation matrix are more likely
-to be given, which are already sufficient for perform the Nataf transformation.
-The Nataf transformation is an approximation that operates under the assumption
-that the copula of the distribution is elliptical, and it produces correlated
-Gaussian variables, which are then turned into mutually independent ones by
-virtue of the aforementioned \ac{KL} decomposition.
+via the \ac{KL} decomposition given in \eref{karhunen-loeve}. If, in addition,
+the correlated variables form a Gaussian vector, the uncorrelated ones are also
+mutually independent. In the general case (non-Gaussian), the most prominent
+solutions to attain independence are the Rosenblatt \cite{rosenblatt1952} and
+Nataf transformations \cite{liu1986}. Rosenblatt's approach is suitable when the
+joint distribution function of \vu is known; however, such information is rarely
+available. A set of marginal distributions and a correlation matrix are more
+likely to be given, which are already sufficient for the Nataf transformation.
+See \sref{probability-transformation} for more detail.
 
 Apart from the extraction of the independent variables \vz, an essential
 operation at this stage is model order reduction since the number of stochastic
@@ -245,11 +241,8 @@ dimensions directly impacts the complexity of the rest of the computations. The
 intuition is that, due to the correlations between the random variables in \vu,
 some of them can be harmlessly replaced by combinations of the rest, leading to
 a random vector \vz with fewer dimensions. This operation is often treated as a
-part of the \ac{KL} decomposition and is explained in
+part of the \ac{KL} decomposition, which is also covered in
 \sref{probability-transformation}.
-
-In \sref{analog-example}, we shall demonstrate the Nataf transformation together
-with the discrete \ac{KL} decomposition using a concrete example.
 
 \subsection{Power Model}
 \slab{analog-power-model}
@@ -538,65 +531,40 @@ other hand, can readily be estimated from measurements and, thus, is a more
 probable input to probabilistic analysis. Therefore, we use
 \eref{inference-correlation} with the only purpose of constructing a correlation
 matrix of $\{ u_{\local, i} \}_{i = 1}^\np$. For convenience, the resulting
-matrix is extended by one dimension in order to tie $u_\overall$ and $\{
-u_{\local, i} \}_{i = 1}^\np$ together. In this case, the correlation matrix
-obtains one additional nonzero element equal to unity on the diagonal. Taking
-into account the variances of the variables, the final covariance matrix
-$\covariance{\vu}$ of the whole random vector \vu is formed.
+matrix is extended by one dimension in order to accommodate $u_\overall$ along
+with $\{ u_{\local, i} \}_{i = 1}^\np$. In this case, the correlation matrix
+obtains one additional nonzero diagonal element equal to unity; the result is
+the correlation matrix of \vu denoted by $\correlation{\vu}$.
 
-To conclude, the input to our probabilistic analysis is composed of the marginal
-distributions of the uncertain parameters \vu, which are beta distributions, and
-the corresponding covariance matrix $\covariance{\vu}$.
+To conclude, the input to our analysis is composed of the marginal distributions
+of the uncertain parameters \vu, which are beta distributions, and the
+corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
+stages of the proposed framework discussed in \sref{analog-solution} and
+depicted in \fref{analog-overview}.
 
 \subsection{Probability Transformation}
 
 At Stage~1, \vu should be preprocessed in order to extract a vector of mutually
 independent random variables denoted by \vz. Following the guidance given in
-\sref{uncertain-parameters}, the most suitable transformation for the ongoing
-scenario is the Nataf transformation. Here we describe the algorithm in brief
-and refer the interested reader to \cite{li2008} for additional details. The
-transformation is typically presented in two steps. First, $\vu \in \real^\nu$,
-$\nu = \np + 1$, is morphed into correlated Gaussian variables, denoted by $\vz'
-\in \real^\nu$, using the knowledge of the marginal distributions and covariance
-matrix of \vu. Second, the obtained correlated Gaussian variables are mapped
-into independent standard Gaussian variables, denoted by $\vz'' \in \real^\nu$,
-using one of several available techniques; see \cite{li2008}.
-
-The number of stochastic dimensions, which so far is $\np+ 1$, directly impacts
-the computational cost of PC expansions as it is discussed in
-\sref{computational-challenges}. Therefore, one should consider a possibility
-for model order reduction before constructing PC expansions. To this end, we
-perform the second step of the Nataf transformation by virtue of the discrete
-Karhunen--Lo\`{e}ve (KL) decomposition \cite{ghanem1991} as the reduction comes
-naturally in this way. A description of this procedure can be found in
-\sref{karhunen-loeve}. Let us denote the trimmed independent variables by
-$\vz'''$ and their number by \nz. We also denote the whole operation, that is,
-the reduction-aware Nataf transformation, by
+\sref{analog-probability-transformation}, the most suitable transformation for
+the ongoing scenario is the one given in \eref{probability-transformation},
+which we denote here by
 \[
-  \vu = \mathrm{Nataf}^{-1}(\vz''')
+  \vu \approx \transform{\vz}.
 \]
-where the superscript ``$-1$'' signifies the fact that we are interested in
-expressing \vu via $\vz'''$ and, hence, need to perform all the operations in
-the reversed order.
 
-At this point, we have \nz independent Gaussian random variables stored in
-$\vz'''$, which already suffice the independence prerequisite for PC expansions
-(see \sref{uncertain-parameters}). However, we prefer to construct PC expansions
-in terms of bounded variables since such expansions will also be bounded. To
-this end, we undertake one additional transformation that yields a vector of
-(independent) random variables $\vz \in \real^\nz$ whose distributions have
-bounded supports. This transformation is a standard technique based on the
-composition of the inverse CDF of $\vz'''$ and the CDF of \vz denoted by
-$F^{-1}_{\vz'''}$ and $F_{\vz}$, respectively. The overall probability
-transformation $\transform{}$ (see \sref{uncertain-parameters}) from \vu to \vz
-is then given as follows:
-\[
-  \vu = \transform{\vz} = \mathrm{Nataf}^{-1}(F^{-1}_{\vz'''}(F_{\vz}(\vz))).
-\]
-The distributions of \vz can be chosen arbitrary as long as one can construct a
-suitable polynomial basis as described in \sref{pc-basis}. We let \vz have beta
-distributions, staying in the same family of distributions with the parameters
-\vu.
+Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
+directly impacts the computational cost of \ac{PC} expansions, which is
+elaborated on in \sref{analog-surrogate-model}, one should consider a
+possibility for model order reduction before constructing \ac{PC} expansions. To
+this end, the model order reduction described in
+\sref{probability-transformation} is an essential part of and assumed to be
+active in the above transformation. The reduce dimensionality is denoted by \nz.
+
+The marginal distributions of \vz can be arbitrary as long as one can construct
+a suitable polynomial basis as described in \sref{analog-surrogate-model}. We
+let \vz have beta distributions, staying in the same family of distributions
+with \vu.
 
 \subsection{Power Modeling}
 

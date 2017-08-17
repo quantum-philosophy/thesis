@@ -24,9 +24,9 @@ be centered---into linearly uncorrelated random variables. Conversely, it allows
 one to transition from a random vector $\v{x}_1$ with $n_1$ linearly
 uncorrelated components into a random vector $\v{x}_2$ with a prescribed
 correlation structure. Specifically, the relationship between the two vectors is
-\[
+\begin{equation} \elab{karhunen-loeve}
   \v{x}_2 = \transform_2(\v{x}_1) = \m{U} \m{\Lambda}^\frac{1}{2} \v{x}_1
-\]
+\end{equation}
 where the eigenvalues gathered in $\m{\Lambda}$ correspond to the variances
 induced to the uncorrelated variables when the transition is taken. When
 $\v{x}_2$ obeys a multivariate Gaussian distribution, the individual variables
@@ -57,11 +57,11 @@ columns of $\m{\Lambda}$.
 The third transformation $\transform_3$ builds upon the previous two
 transformations and allows one to tackle the following problem. Let $\v{x}_1:
 \Omega \to \real^{n_1}$ be a random vector whose joint distribution is know, and
-it is the product of the marginal distributions $\{ F_{1, i} \}_{i = 1}^{n_1}$
-of the individual variables; hence, the variables are independent. Let also
+it is the product of the marginal distributions $\{ F_{1i} \}_{i = 1}^{n_1}$ of
+the individual variables; hence, the variables are independent. Let also
 $\v{x}_2: \Omega \to \real^{n_2}$ be a random vector whose joint distribution is
 unknown, and the only available information about $\v{x}_2$ is the marginal
-distributions $\{ F_{2, i} \}_{i = 1}^{n_2}$ and correlation matrix
+distributions $\{ F_{2i} \}_{i = 1}^{n_2}$ and correlation matrix
 $\correlation{\v{x}_2}$, which are not sufficient to recover the joint
 distribution in general. The goal is to transform $\v{x}_1$ into such a random
 vector that has the same marginal distributions and correlation matrix as
@@ -80,9 +80,9 @@ Gaussian variables are transformed into $n_2$ dependent Gaussian variables with
 a correlation matrix carefully constructed based on the knowledge about
 $\v{x}_2$. Third, using $\transform_1$, the $n_2$ dependent Gaussian variables
 are transformed into $n_2$ dependent uniform variables and then into $n_2$
-dependent variables with the marginal distributions $\{ F_{2, i} \}_{i =
-1}^{n_2}$ and correlation matrix $\correlation{\v{x}_2}$, which approximate the
-$n_2$ dependent variables $\v{x}_2$.
+dependent variables with the marginal distributions $\{ F_{2i} \}_{i = 1}^{n_2}$
+and correlation matrix $\correlation{\v{x}_2}$, which approximate the $n_2$
+dependent variables $\v{x}_2$.
 
 The auxiliary correlation matrix mentioned above is constructed using the Nataf
 model described in \cite{liu1986}; see also \cite{li2008}. In fact, the two
