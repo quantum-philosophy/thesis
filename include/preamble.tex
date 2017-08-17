@@ -116,7 +116,11 @@
 % Probability theory
 %
 
-\newcommand{\transform}[1]{\mathbb{T}\left(#1\right)}
+\makeatletter
+\def\transform{\@ifnextchar\bgroup{\transformone}{\transformzero}}
+\def\transformone#1{\mathbb{T}\left(#1\right)}
+\def\transformzero{\mathbb{T}}
+\makeatother
 
 \makeatletter
 \def\probability{\@ifnextchar\bgroup{\probabilityone}{\probabilityzero}}

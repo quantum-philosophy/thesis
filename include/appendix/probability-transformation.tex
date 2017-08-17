@@ -1,34 +1,92 @@
-The eigendecomposition in \eref{eigendecomposition} applied to
-\eref{covariance-matrix} provides a useful transformation, which is known as the
-discrete \ac{KL} decomposition \cite{ghanem1991, xiu2010} and is closely related
-to principal component analysis \cite{hastie2013}. The decomposition transforms
-$n$ potentially correlated variables $\v{x}$ into $n$ linearly uncorrelated
-variables \vz whose variances are given by the corresponding eigenvalues (they
-are non-negative since the matrix is positive semi-definite). More concretely,
-the relationship between the two vectors is as follows:
+There are three probability transformations that we would like to cover.
+
+The first transformation $\transform_1$ is the usual integral transformation.
+The technique allows one to transition from a random variable $x_1$ with a
+distribution function $F_1$ to a random variable $x_2$ with a distribution
+function $F_2$ as
 \[
-  \v{x} = \m{U} \m{\Lambda}^\frac{1}{2} \vz.
+  x_2 = \transform_1(x_1) = (F_2^{-1} \circ F_1)(x_1) = (F_2^{-1}(F_1(x_1))
 \]
-When $\v{x}$ obeys a multivariate Gaussian distribution, the individual
-variables in \vz follow the standard Gaussian distribution and are independent.
+where $F_2^{-1}$ is the inverse of $F_2$, and the equality should be understood
+in distribution. In order for $F_2^{-1}$ to exist, $F_2$ is assumed to be
+strictly increasing. By applying $F_1$ to $x_1$, we obtain a random variable
+with a uniform distribution on $[0, 1]$, and, by applying $F_2^{-1}$ to such a
+uniform random variable, we obtain a random variable distributed according to
+the target $F_2$.
+
+The second transformation $\transform_2$ is based on the eigendecomposition
+given in \eref{eigendecomposition} applied to \eref{correlation-matrix} or, more
+generally, to \eref{covariance-matrix}. The technique is known as the discrete
+\acf{KL} decomposition \cite{ghanem1991, xiu2010}, and it is closely related to
+principal component analysis \cite{hastie2013}. It transforms potentially
+correlated random variables---which, without loss of generality, are assumed to
+be centered---into linearly uncorrelated random variables. Conversely, it allows
+one to transition from a random vector $\v{x}_1$ with $n_1$ linearly
+uncorrelated components into a random vector $\v{x}_2$ with a prescribed
+correlation structure. Specifically, the relationship between the two vectors is
+\[
+  \v{x}_2 = \transform_2(\v{x}_1) = \m{U} \m{\Lambda}^\frac{1}{2} \v{x}_1
+\]
+where the eigenvalues gathered in $\m{\Lambda}$ correspond to the variances
+induced to the uncorrelated variables when the transition is taken. When
+$\v{x}_2$ obeys a multivariate Gaussian distribution, the individual variables
+in $\v{x}_1$ follow the standard Gaussian distribution and are independent, and
+vice versa.
 
 In addition, the decomposition provides a means of model order reduction. In
 this case, we are to select the smallest subset of the uncorrelated variables
-such that its cumulative contribution to the total variance is above a certain
-threshold. Formally, assuming that $\{ \lambda_i: i = \range{1}{n} \}$ are
-sorted in the descending order and given a threshold $\eta \in (0, 1]$, which is
-the fraction of the total variance to be preserved, we identify the smallest
-$\nz \leq n$ such that
+$\v{x}_1$ such that its cumulative contribution to the variance of $\v{x}_2$ is
+above a certain threshold. Formally, assuming that $\{ \lambda_i: i =
+\range{1}{n_1} \}$ are sorted in the descending order and given a threshold
+$\eta \in (0, 1]$, which is the fraction of the variance to be preserved, we
+identify the smallest $n_2 \leq n_1$ such that
 \[
-  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^n \lambda_i} \geq \eta.
+  \frac{\sum_{i = 1}^{n_2} \lambda_i}{\sum_{i = 1}^{n_1} \lambda_i} \geq \eta.
 \]
-Then, given a vector \vz in the reduced space $\real^\nz$, the corresponding
-vector $\v{x}$ in the original space $\real^n$ can be lossy reconstructed as
-follows:
+Then, given a vector $\v{x}_1$ in the reduced space $\real^{n_1}$, the
+corresponding vector $\v{x}_2$ in the original space $\real^{n_2}$ can be lossy
+reconstructed as follows:
 \begin{equation} \elab{model-order-reduction}
-  \v{x} = \m{U} \tm{\Lambda}^\frac{1}{2} \vz.
+  \v{x}_2 \approx \transform_2(\v{x}_1) = \m{U} \tm{\Lambda}^\frac{1}{2} \v{x}_1.
 \end{equation}
-In the above formula, $\tm{\Lambda} \in \real^{n \times \nz}$ is a truncated
-version of $\m{\Lambda} \in \real^{n \times n}$ given in
-\eref{eigendecomposition}, that is, the matrix contains only the first \nz
+In the above formula, $\tm{\Lambda} \in \real^{n_2 \times n_1}$ is a truncated
+version of $\m{\Lambda} \in \real^{n_2 \times n_2}$ given in
+\eref{eigendecomposition}, that is, the matrix contains only the first $n_1$
 columns of $\m{\Lambda}$.
+
+The third transformation $\transform_3$ builds upon the previous two
+transformations and allows one to tackle the following problem. Let $\v{x}_1:
+\Omega \to \real^{n_1}$ be a random vector whose joint distribution is know, and
+it is the product of the marginal distributions $\{ F_{1, i} \}_{i = 1}^{n_1}$
+of the individual variables; hence, the variables are independent. Let also
+$\v{x}_2: \Omega \to \real^{n_2}$ be a random vector whose joint distribution is
+unknown, and the only available information about $\v{x}_2$ is the marginal
+distributions $\{ F_{2, i} \}_{i = 1}^{n_2}$ and correlation matrix
+$\correlation{\v{x}_2}$, which are not sufficient to recover the joint
+distribution in general. The goal is to transform $\v{x}_1$ into such a random
+vector that has the same marginal distributions and correlation matrix as
+$\v{x}_2$ and, thereby, approximates $\v{x}_2$ as closely as possible.
+
+Making use of the first two transformations outlined above, we obtain a
+potential solution, which we loosely denote as follows:
+\begin{equation} \elab{probability-transformation}
+  \v{x}_2 \approx \transform_3(\v{x}_1) = (\transform_1 \circ \transform_2 \circ \transform_1)(\v{x}_1).
+\end{equation}
+First, using $\transform_1$, the $n_1$ independent variables $\v{x}_1$ are
+transformed into $n_1$ independent uniform variables and then into $n_1$
+independent standard Gaussian variables; the operation should be understood
+element-wise. Second, using $\transform_2$, the $n_1$ independent standard
+Gaussian variables are transformed into $n_2$ dependent Gaussian variables with
+a correlation matrix carefully constructed based on the knowledge about
+$\v{x}_2$. Third, using $\transform_1$, the $n_2$ dependent Gaussian variables
+are transformed into $n_2$ dependent uniform variables and then into $n_2$
+dependent variables with the marginal distributions $\{ F_{2, i} \}_{i =
+1}^{n_2}$ and correlation matrix $\correlation{\v{x}_2}$, which approximate the
+$n_2$ dependent variables $\v{x}_2$.
+
+The auxiliary correlation matrix mentioned above is constructed using the Nataf
+model described in \cite{liu1986}; see also \cite{li2008}. In fact, the two
+outermost transformation in \eref{probability-transformation} without model
+order reduction are referred to as the Nataf transformation. The technique
+operates under the assumption that the copula of $\v{x}_2$ is elliptical. In the
+general case, it is an approximation.
