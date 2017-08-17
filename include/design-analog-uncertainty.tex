@@ -360,9 +360,9 @@ normalization constant that can be considered given along with the basis. The
 inner product in the enumerator, however, should generally be evaluated
 numerically, which is described in \sref{numerical-integration}. To this end, an
 adequate quadrature $\quadrature{\nz}{\lq}$ should be used. The result is
-\[
+\begin{equation} \elab{analog-coefficient}
   \hat{\vp}_{ij} = \frac{\quadrature{\nz}{\lq}{\vp_i \psi_j}}{\innerproduct{\psi_j}{\psi_j}}
-\]
+\end{equation}
 for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$ where the integration should
 be understood element-wise. It is worth emphasizing that, since power depends on
 temperature as shown in \sref{power-model}, at each step of the recurrence in
@@ -601,66 +601,67 @@ $\m{F}$ used in the recurrence in \eref{analog-recurrence} are calculated.
 \subsection{Surrogate Model}
 
 At Stage~4 in \fref{analog-overview}, the uncertain parameters, power model, and
-thermal model developed in the previous sections are to be fused together under
-the desired workload $\mp_\dynamic$ to produce the corresponding stochastic
-power $\mp$ and temperature $\mq$ profiles. The construction of PC expansions,
-in the current scenario, is based on the Jacobi polynomial basis as it is
-preferable in situations involving beta-distributed parameters \cite{xiu2010}.
-To give an example, for a dual-core platform (that is, $\np = 2$) with two
-stochastic dimensions (that is, $\nz = 2$), the second-order PC expansion (that
-is, $\nc = 2$) of temperature at the $k$th time moment is as
-follows:\footnote{The Jacobi polynomials have two parameters \cite{xiu2010}, and
-the shown $\{ \psi_i \}_{i = 1}^6$ correspond to the case where both parameters
-are equal to two.}
-\begin{align}
-  \chaos{2}{2}{\vq_k}
-  & = \hat{\vq}_{k1} \, \psi_1(\vz) + \hat{\vq}_{k2} \, \psi_2(\vz) + \hat{\vq}_{k3} \, \psi_3(\vz) \nonumber \\
-  & {} + \hat{\vq}_{k4} \, \psi_4(\vz) + \hat{\vq}_{k5} \, \psi_5(\vz) + \hat{\vq}_{k6} \, \psi_6(\vz) \elab{pc-example}
-\end{align}
-where the coefficients $\hat{\vq}_{ki}$ are vectors with two elements
-corresponding to the two processing elements,
+temperature model developed in the previous subsections are to be fused together
+under the desired workload $\mp_\dynamic$ in order to produce the corresponding
+stochastic power and temperature profiles denoted by \mp and \mq, respectively.
+
+In the current scenario, the construction of \ac{PC} expansions is based on the
+Jacobi polynomial basis as it is preferable in situations involving
+beta-distributed parameters \cite{xiu2010}. To give an example, for a dual-core
+platform, that is, $\np = 2$, with two stochastic dimensions, that is, $\nz =
+2$, the second-order PC expansion, that is, $\nc = 2$, of temperature at step
+$i$ is as follows:
+\[
+  \begin{split}
+    \chaos{2}{2}{\vq_i}(\vz)
+    =    {} & \hat{\vq}_{i1} \, \psi_1(\vz) + \hat{\vq}_{i2} \, \psi_2(\vz) + \hat{\vq}_{i3} \, \psi_3(\vz) \\
+    {} + {} & \hat{\vq}_{i4} \, \psi_4(\vz) + \hat{\vq}_{i5} \, \psi_5(\vz) + \hat{\vq}_{i6} \, \psi_6(\vz)
+  \end{split}
+\]
+where the coefficients $\{ \hat{\vq}_{ij} \}_{j = 1}^6$ are vectors with two
+elements corresponding to the two processing elements. Regarding the basis,
 \begin{align*}
-  & \psi_1(\v{x}) = 1, \\
-  & \psi_2(\v{x}) = 2 x_1, \\
-  & \psi_3(\v{x}) = 2 x_2, \\
-  & \psi_4(\v{x}) = 4 x_1 x_2 \\
-  & \psi_5(\v{x}) = \frac{15}{4} x_1^2 - \frac{3}{4}, \text{ and} \\
-  & \psi_6(\v{x}) = \frac{15}{4} x_2^2 - \frac{3}{4}.
+  & \psi_1(\vz) = 1, \\
+  & \psi_2(\vz) = 2 z_1, \\
+  & \psi_3(\vz) = 2 z_2, \\
+  & \psi_4(\vz) = 4 z_1 z_2 \\
+  & \psi_5(\vz) = \frac{15}{4} z_1^2 - \frac{3}{4}, \text{ and} \\
+  & \psi_6(\vz) = \frac{15}{4} z_2^2 - \frac{3}{4}.
 \end{align*}
-The expansion for power has the same structure but different coefficients. Such
-a series might be shorter or longer depending on the accuracy requirements
-defined by \lc.
+The Jacobi polynomials have two parameters \cite{xiu2010}, and the ones shown
+above correspond to the case where both parameters are equal to two. Such a
+series might be shorter or longer depending on the accuracy requirements given
+by \lc. The expansion for power has the same structure but different
+coefficients.
 
-Once the basis has been chosen, we need to compute the corresponding
-coefficients, specifically, $\{ \hat{\vp}_{ki} \}_{i = 1}^\nc$ in
-\eref{pc-expansion}, which yield $\{ \hat{\vq}_{ki} \}_{i = 1}^\nc$. As shown in
-\sref{polynomial-chaos}, these computations involve multidimensional integration
-with respect to the PDF of \vz, which should be done numerically using a
-quadrature rule; recall \sref{pc-coefficients}. When beta distributions are
-concerned, a natural choice of such a rule is the Gauss-Jacobi quadrature.
-Additional details are given in \sref{gauss-quadrature}.
-
-Using \eref{quadrature}, we rewrite \eref{pc-coefficients} as shown in
-\eref{pc-coefficients-quadrature} where $\{ \innerproduct{\psi_i}{\psi_i} \}_{i
-= 1}^\nc$ are computed exactly, either by applying the same quadrature rule or
-by taking products of the one-dimensional counterparts with known analytical
-expressions \cite{xiu2010}; the result is further tabulated. It is important to
-note that \lq should be chosen in such a way that the rule is exact for
-polynomials of the total order at least $2 \lc$, that is, twice the order of PC
-expansions, which can be seen in \eref{pc-coefficients} \cite{eldred2008}.
-Therefore, $\lq \geq \lc + 1$ as the quadrature is Gaussian.
+The next step is to compute the coefficients $\{ \hat{\vp}_{ij} \}_{j = 1}^\nc$
+in \eref{analog-recurrence}, which subsequently yield $\{ \hat{\vq}_{ij} \}_{j =
+1}^\nc$. As shown in \sref{polynomial-chaos}, these computations involve
+multidimensional integration with respect to the distribution of \vz, which
+should be done numerically using a quadrature rule; recall
+\sref{analog-surrogate-model}. When beta distributions are concerned, a natural
+choice of such a rule is the Gauss--Jacobi quadrature; see
+\sref{numerical-integration}. Then, using \eref{quadrature-summation}, the
+coefficient are computed as shown in \eref{analog-coefficient}. The
+normalization constants $\{ \innerproduct{\psi_j}{\psi_j} \}_{j = 1}^\nc$ are
+computed exactly either by applying the same quadrature rule or by taking
+products of the one-dimensional counterparts with known analytical expressions
+\cite{xiu2010}; the result is tabulated. It is important to note that \lq should
+be chosen in such a way that the rule is exact for polynomials of a total order
+up to $2 \lc$, that is, twice the order of \ac{PC} expansions, which can be seen
+in \eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as
+the quadrature is Gaussian.
 
 To summarize, we have completed four out of five stages of the proposed
-framework depicted in \fref{algorithm}. The result is a light surrogate for the
-model in \eref{fourier-system}. At each moment of time, the surrogate is
-composed of two \np-valued polynomials, one for power and one for temperature,
-which are defined in terms of \nz mutually independent random variables; an
-example of such a polynomial is given in \eref{pc-example}.
+framework depicted in \fref{analog-overview}. The result is a light surrogate
+for the entire system. At each time step, the surrogate is composed of two
+\np-valued polynomials---one is for power, and one is for temperature---which
+are defined in terms of \nz mutually independent random variables.
 
 \subsection{Post-Processing}
 
 \inputfigure{analog-example-density}
-We turn to Stage~5 in \fref{algorithm}. It can be seen in, for example,
+At Stage~5 in \fref{algorithm}, it can be seen in, for example,
 \eref{pc-example} that the surrogate model has a negligibly small computational
 cost at this stage: for any outcome of the parameters $\vz \equiv \vz(\omega)$,
 we can easily compute the corresponding temperature by plugging in \vz into

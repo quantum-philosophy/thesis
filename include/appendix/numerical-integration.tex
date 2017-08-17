@@ -20,9 +20,9 @@ $g: \real^n \to \real$
   I = \int_{\real^n} g(\v{x}) d\v{x}
 \]
 is approximated by
-\[
+\begin{equation} \elab{quadrature-summation}
   I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\v{x}}_i) w_i.
-\]
+\end{equation}
 An appropriate $n$-dimensional quadrature rule $\quadrature{n}{\lq}$ is
 typically formed by computing the tensor product of $n$ potentially distinct
 one-dimensional quadrature rules. The number of terms \nq in summations is
