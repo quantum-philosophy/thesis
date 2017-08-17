@@ -566,9 +566,9 @@ a suitable polynomial basis as described in \sref{analog-surrogate-model}. We
 let \vz have beta distributions, staying in the same family of distributions
 with \vu.
 
-\subsection{Power Modeling}
+\subsection{Power Model}
 
-At Stage~2 in \fref{analog-overview}, we have to decide on a power model with
+At Stage~2 in \fref{analog-overview}, we have to decide on the power model with
 the identified uncertain parameters as an input. To this end,
 \eref{analog-power-model} is decomposed into the sum of the dynamic and static
 components
@@ -587,37 +587,31 @@ grid, the effective channel length and temperature, and the results are
 tabulated. An interpolation technique is then utilized whenever we need to
 evaluate the static power for a particular point within the range of the grid.
 
-\subsection{Thermal Modeling}
+\subsection{Temperature Model}
 
-We move on to Stage~3 where the thermal model of the multiprocessor system is to
-be established. Given the thermal specification \spec of the considered platform
-(the floorplan of the die, the configuration of the thermal package, and so on),
-we employ HotSpot (v5.02) \cite{skadron2004} in order to construct an equivalent
-thermal RC circuits of the system. Specifically, we are interested in the
-coefficient matrices $\m{E}(t)$ and $\m{F}(t)$ in \eref{recurrence} (see also
-\fref{algorithm}), which HotSpot helps us to compute by providing the
-corresponding capacitance and conductance matrices of the system as described in
-\sref{thermal-model}. In this case, thermal packages are modeled with three
-layers, and the relation between the number of processing elements and the
-number of thermal nodes is given by $\nn = 4 \np + 12$.
+At Stage~3 in \fref{analog-overview}, the temperature model is to be detailed.
+More concretely, we need to provide an adequate thermal \up{RC} circuit. Given
+the specification of the platform at hand---including the floorplan of the die
+and the configuration of the thermal package---such a circuit is constructed by
+means of HotSpot \cite{skadron2003}; the structure is the default one described
+in \sref{temperature-model}. Finally, using the solution technique presented in
+\sref{transient-state-solution}, the two coefficient matrices $\m{E}$ and
+$\m{F}$ used in the recurrence in \eref{analog-recurrence} are calculated.
 
-To conclude, the power and thermal models of the platform are now acquired, and
-we are ready to construct the corresponding surrogate model via PC expansions,
-which is the topic for the discussion in the following subsection.
+\subsection{Surrogate Model}
 
-\subsection{Surrogate Modeling}
-
-At Stage~4, the uncertain parameters, power model, and thermal model developed
-in the previous sections are to be fused together under the desired workload
-$\mp_\dynamic$ to produce the corresponding stochastic power $\mp$ and
-temperature $\mq$ profiles. The construction of PC expansions, in the current
-scenario, is based on the Jacobi polynomial basis as it is preferable in
-situations involving beta-distributed parameters \cite{xiu2010}. To give an
-example, for a dual-core platform (that is, $\np = 2$) with two stochastic
-dimensions (that is, $\nz = 2$), the second-order PC expansion (that is, $\nc =
-2$) of temperature at the $k$th time moment is as follows:\footnote{The Jacobi
-polynomials have two parameters \cite{xiu2010}, and the shown $\{ \psi_i \}_{i =
-1}^6$ correspond to the case where both parameters are equal to two.}
+At Stage~4 in \fref{analog-overview}, the uncertain parameters, power model, and
+thermal model developed in the previous sections are to be fused together under
+the desired workload $\mp_\dynamic$ to produce the corresponding stochastic
+power $\mp$ and temperature $\mq$ profiles. The construction of PC expansions,
+in the current scenario, is based on the Jacobi polynomial basis as it is
+preferable in situations involving beta-distributed parameters \cite{xiu2010}.
+To give an example, for a dual-core platform (that is, $\np = 2$) with two
+stochastic dimensions (that is, $\nz = 2$), the second-order PC expansion (that
+is, $\nc = 2$) of temperature at the $k$th time moment is as
+follows:\footnote{The Jacobi polynomials have two parameters \cite{xiu2010}, and
+the shown $\{ \psi_i \}_{i = 1}^6$ correspond to the case where both parameters
+are equal to two.}
 \begin{align}
   \chaos{2}{2}{\vq_k}
   & = \hat{\vq}_{k1} \, \psi_1(\vz) + \hat{\vq}_{k2} \, \psi_2(\vz) + \hat{\vq}_{k3} \, \psi_3(\vz) \nonumber \\
