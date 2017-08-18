@@ -789,10 +789,10 @@ in all the subtables, all the error metrics tend to decrease from the top-left
 corners (low values of \lc and \ns) to the bottom-right corners (high values of
 \lc and \ns), which suggests that the \ac{PC} and \ac{MC} methods converge.
 There are a few outliers, associated with low \ac{PC} levels and the random
-nature of sampling; for instance, $\epsilon_{\variance}$ increases from 66.13
-to 66.7 and $\epsilon_f$ from 1.59 to 1.62 when \no increases from $10^4$ and
-$10^5$ in \tref{chaos-accuracy-0-5}. However, the aforementioned main trend is
-still clear.
+nature of sampling; for instance, $\epsilon_{\variance}$ increases from 66.13 to
+66.7 and $\epsilon_f$ from 1.59 to 1.62 when \no increases from
+10\textsuperscript{4} and $10^5$ in \tref{chaos-accuracy-0-5}. However, the
+aforementioned main trend is still clear.
 
 For clarity of the discussions below, we focus primarily on one of the three
 tables, namely, on \tref{chaos-accuracy-0-5}, since the case with $w = 0.5$
@@ -810,20 +810,21 @@ for the first-level \ac{PC} expansions and drops significantly to 5.71\% and
 below for the fourth level and higher; see $\epsilon_{\variance}$ for $\lc \geq
 4$ and $\no = 10^5$. It should be noted, however, that, for a fixed $\lc \geq
 4$, $\epsilon_{\variance}$ exhibits a considerable decrease even when \no
-transitions from $10^4$ to $10^5$. The rate of this decrease suggests that $\no
-= 10^4$ is not sufficient to reach the accuracy delivered by the proposed
-framework, and $\no = 10^5$ might not be either. Finally, the error of the
-\acp{PDF} allows us to conclude that the \ac{PDF} computed by the third-level
-(and higher) \ac{PC} expansions closely follow those estimated by the \ac{MC}
-technique with large numbers of samples. The observed difference in
-\tref{chaos-accuracy-0-5} is bounded by 1.83\%; see $\epsilon_f$ for $\lc \geq
-3$ and $\no \geq 10^4$. In order to give a better intuition about the proximity
-of the two methods, \fref{chaos-example-density} displays the \acp{PDF}
-computed using our framework with $\lc = 4$ (the solid lines) along with those
-calculated by the \ac{MC} approach with $\no = 10^4$ (the dashed lines) for
-time moment 50~ms. It can be seen that the \acp{PDF} tightly match each other.
-Note that this example captures one particular time moment, and such curves are
-also readily available for the other steps of the considered time span.
+transitions from 10\textsuperscript{4} to 10\textsuperscript{5}. The rate of
+this decrease suggests that $\no = 10^4$ is not sufficient to reach the accuracy
+delivered by the proposed framework, and $\no = 10^5$ might not be either.
+Finally, the error of the \acp{PDF} allows us to conclude that the \ac{PDF}
+computed by the third-level (and higher) \ac{PC} expansions closely follow those
+estimated by the \ac{MC} technique with large numbers of samples. The observed
+difference in \tref{chaos-accuracy-0-5} is bounded by 1.83\%; see $\epsilon_f$
+for $\lc \geq 3$ and $\no \geq 10^4$. In order to give a better intuition about
+the proximity of the two methods, \fref{chaos-example-density} displays the
+\acp{PDF} computed using our framework with $\lc = 4$ (the solid lines) along
+with those calculated by the \ac{MC} approach with $\no = 10^4$ (the dashed
+lines) for time moment 50~ms. It can be seen that the \acp{PDF} tightly match
+each other. Note that this example captures one particular time moment, and such
+curves are also readily available for the other steps of the considered time
+span.
 
 Second, we investigate the convergence of the \ac{MC} technique and, therefore,
 watch the rows of \tref{chaos-accuracy-0-5} that correspond to \ac{PC}
@@ -835,8 +836,9 @@ error rates in terms of the variance and \acp{PDF}: they are above 38\% and
 almost 3.5\%, respectively; see $\epsilon_{\variance}$ and $\epsilon_f$ for
 $\lc = 7$ and $\no = 10^2$. The results for the case with $\no = 10^3$ are
 reasonably more accurate. However, this trend is compromised by the figures in
-\tref{chaos-accuracy-1}: $10^3$ samples leave an error of more than 7\% for the
-variance; see $\epsilon_{\variance}$ for $\lc \geq 4$ and $\no = 10^3$.
+\tref{chaos-accuracy-1}: 10\textsuperscript{3} samples leave an error of more
+than 7\% for the variance; see $\epsilon_{\variance}$ for $\lc \geq 4$ and $\no
+= 10^3$.
 
 The above conclusions based on the results in \tref{chaos-accuracy-0-5} ($w =
 0.5$) are directly applicable to those in \tref{chaos-accuracy-0} ($w = 0$) and
@@ -862,81 +864,78 @@ based on the conclusions from the previous subsection, $\lc = 4$ and $\no =
 10^4$; the latter is also consistent with the experience from the literature
 \cite{ghanta2006, bhardwaj2008, huang2009a, shen2009, lee2013} and with the
 theoretical results on the accuracy of \ac{MC} sampling given in
-\cite{diaz-emparanza2002}.
+\cite{diaz-emparanza2002}. As before, we report the results obtained for various
+values of the weight coefficient $w$, which impacts the number of the
+independent variables $\vz: \Omega \to \real^\nz$ preserved after the model
+order reduction procedure described in \sref{probability-transformation}.
 
 \inputtable{chaos-scaling}
-First, we vary the number of processing elements \np, which directly affects
-the dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$;
-recall \sref{chaos-application}. As before, we report the results obtained for
-various weight coefficients $w$, which impacts the number of the independent
-variables $\vz: \Omega \to \real^\nz$ preserved after the model order reduction
-procedure described in \sref{probability-transformation}. The results,
-including the dimensionality \nz of \vz, are given in
-\tref{speed-processing-elements} where the considered values for \np are $\{
-2^n \}_{n = 1}^5$, and the number of time steps \ns is set to $10^3$. It can be
-seen that the correlation patters inherent to the fabrication process
-\cite{cheng2011} open a great possibility for model order reduction: \nz is
-observed to be at most 12 while the maximum number without reduction is 33 (one
-global variable and 32 local ones corresponding to the case with 32 processing
-elements). This reduction also depends on the floorplans, which is illustrated
-by the decrease of \nz when \np increases from 16 to 32 for $\eta = 1$. To
-elaborate, one floorplan is a four-by-four grid, a perfect square, while the
-other an eight-by-four grid, a rectangle. Since both are fitted into square
-dies, the former is spread across the whole die whereas the latter is
-concentrated along the middle line; the rest is ascribed to the particularities
-of $k_\SE$. On average, the $k_\OU$ kernel ($\eta = 0$) requires the fewest
-number of variables while the mixture of $k_\SE$ and $k_\OU$ ($\eta = 0.5$)
-requires the most.\footnote{The results in \sref{er-accuracy} correspond to the
-case with $\np = 4$; therefore, \nz is two, five, and five for
-\tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1},
-respectively.} It means that, in the latter case, more variables should be
-preserved in order to retain 99\% of the variance. Hence, the case with $\eta =
-0.5$ is the most demanding in terms of complexity; see
-\sref{computational-challenges}.
+First, we vary the number of processing elements \np, which directly affects the
+dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$; recall
+\sref{chaos-application}. The results, including the dimensionality \nz of \vz,
+are given in \tref{chaos-scaling-elements} where the considered values of \np
+are in $\{ 2^i \}_{i = 1}^5$, and $\ns = 10^3$. It can be seen that the
+correlation patters inherent to the manufacturing process \cite{cheng2011} open
+a great possibility for model order reduction: \nz is observed to be at most 12
+while the maximum number without reduction is 33 (1 global variable and 32 local
+ones corresponding to the case with $\np = 32$). This reduction depends also on
+the floorplans, which is illustrated by the decrease of \nz when \np increases
+from 16 to 32 for $w = 1$. To elaborate, one floorplan is a four-by-four grid, a
+perfect square, while the other an eight-by-four grid, a rectangle. Since both
+are fitted into square dies, the former is spread across the whole die whereas
+the latter is concentrated along the middle line; the rest is ascribed to the
+particularities of $k_\SE$. On average, the $k_\OU$ kernel ($w = 0$) requires
+the fewest number of variables while the mixture of $k_\SE$ and $k_\OU$ ($w =
+0.5$) requires the most. It means that, in the latter case, more variables
+should be preserved in order to retain 99\% of the variance. Hence, the case
+with $w = 0.5$ is the most demanding in terms of computational complexity. The
+results in the previous subsection correspond to the case with $\np = 4$;
+therefore, \nz is two, five, and five in \tref{chaos-accuracy-0},
+\tref{chaos-accuracy-0-5}, and \tref{chaos-accuracy-1}, respectively.
 
-It is important to note the following. First, since the curse of dimensionality
-constitutes arguably the major concern of the theory of PC expansions, the
-applicability of our framework primarily depends on how this curse manifests
-itself in the problem at hand, that is, on the dimensionality \nz of \vz.
-Second, since \vz is a result of the preprocessing stage depending on many
-factors, the relation between $\vu$ and $\vz$ is not straightforward, which is
-illustrated in the previous paragraph. Consequently, the dimensionality of \vu
-can be misleading when reasoning about the applicability of our technique, and
-\nz shown \tref{speed-processing-elements} is well suited for this purpose.
+At this point, it is important to note the following. First, since the curse of
+dimensionality constitutes arguably the major concern of the theory of \ac{PC}
+expansions, the applicability of our framework primarily depends on how this
+curse manifests itself in the problem at hand, that is, on the dimensionality
+\nz of \vz. Second, since \vz is a result of a procedure that depends on many
+factors, the relation between \vu and \vz is not straightforward, which is also
+illustrated in the previous paragraph. Consequently, \nu can be misleading when
+reasoning about the applicability of our technique; \nz is well suited for this
+purpose.
 
-Another observation from \tref{speed-processing-elements} is the low slope of
-the execution time of the MC technique, which illustrates the well-known fact
-that the workload per MC sample is independent of the number of stochastic
-dimensions. On the other hand, the rows with $\nz > 10$ hint at the curse of
-dimensionality characteristic to PC expansions (see
-\sref{computational-challenges}). However, even with high dimensions, our
-framework significantly outperforms MC sampling. For instance, in order to
-analyze a power profile with $10^3$ steps of a system with 32 cores, the MC
-approach requires more than 40 hours whereas the proposed framework takes less
-than two minutes (the case with $\eta = 0.5$).
+Another observation in \tref{chaos-scaling-elements} is that the slope of the
+execution time of the \ac{MC} technique is low, which illustrates the well-known
+fact that the workload per \ac{MC} sample is independent of the number of
+stochastic dimensions. On the other hand, the rows with $\nz > 10$ hint at the
+curse of dimensionality, which \ac{PC} expansions suffer from. However, even in
+high dimensions, the proposed framework significantly outperforms the approach
+based on \ac{MC} sampling. For instance, in order to analyze a power profile
+with 10\textsuperscript{3} steps of a platform with 32 cores, the \ac{MC}
+approach requires more than 40 hours whereas our framework takes less than two
+minutes; see the case with $w = 0.5$.
 
-Finally, we investigate the scaling properties of the proposed framework with
-respect to the duration of the considered time spans, which is directly
-proportional to the number of steps \ns in the power and temperature profiles.
-The results for a quad-core architecture are given in \tref{speed-time-spans}.
-Due to the long execution times demonstrated by the MC approach, its statistics
-for high values of \ns are extrapolated based on a smaller number of samples,
-that is, $\ns \ll 10^4$. As it was noted before regarding the results in
-\tref{speed-processing-elements}, we observe the dependency of the PC expansions
-on the dimensionality \nz of \vz, which is two for $\eta = 0$ and five for the
-other two values of $\eta$ (see \tref{speed-processing-elements} for $\np = 4$).
-It can be seen in \tref{speed-time-spans} that the computational times of both
-methods grow linearly with $\ns$, which is expected. However, the proposed
-framework shows a vastly superior performance being up to five orders of
-magnitude faster than MC sampling.
+Second, we investigate the scaling properties of the framework with respect to
+the duration of the analyzed time span, which is directly proportional to the
+number of steps \ns in power and temperature profiles. The results for a
+quad-core platform are reported in \tref{chaos-scaling-steps}. Due to the long
+execution times demonstrated by the \ac{MC} approach, its statistics for high
+values of \ns are extrapolated based on a smaller number of samples, that is,
+$\no < 10^4$. As it is noted with respect to \tref{chaos-scaling-elements}, we
+observe the dependency of the \ac{PC} expansions on the dimensionality \nz of
+\vz, which is two for $w = 0$ and five for the other two values of $w$; see
+\tref{chaos-scaling-elements} for $\np = 4$. It can be seen in
+\tref{chaos-scaling-steps} that the computation times of both methods grow
+linearly with \ns, which is expected. However, the proposed framework shows a
+vastly superior performance being up to five orders of magnitude faster than
+the \ac{MC} alternative.
 
 It is worth noting that the observed speedups are due to two major reasons.
-First of all, PC expansions are generally superior to MC sampling when the curse
-of dimensionality is suppressed \cite{xiu2010, eldred2008}, which we accomplish
-by model order reduction and efficient integration schemes; see
-\sref{computational-challenges}. The second reason is the particular solution
-process used in this work to solve the thermal model and construct PC expansions
-in a stepwise manner; see \sref{pc-recurrence}.
+First of all, \ac{PC} expansions are generally superior to \ac{MC} sampling when
+the curse of dimensionality is suppressed \cite{eldred2008, xiu2010}, which we
+accomplish by model order reduction and efficient integration schemes. The
+second reason is the particular solution process used in the framework to solve
+the thermal model and construct \ac{PC} expansions in a stepwise manner shown in
+\eref{chaos-recurrence}.
 
 \section{Conclusion}
 \slab{chaos-conclusion}
