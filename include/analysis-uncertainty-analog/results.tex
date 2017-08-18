@@ -17,18 +17,18 @@ the power consumption and heat dissipation \cite{chandrakasan2000,
 srivastava2010, juan2011, juan2012}. It also influences other process-related
 parameters such as the threshold voltage.
 
-We describe now the default setup, which will be later adjusted according to the
-purpose of each particular experiment. We consider a 45-nanometer technological
-process. The diameter of the wafer is 20 dies, and the total number of dies \nd
-is 316. The number of measured dies \hnd is 20, and these dies are chosen by an
-algorithm that strives for an even coverage of the wafer. The fabricated
-platform has four processing elements, and they are the points of taking
-measurements, that is, $\np = 4$. The floorplan of the platform is constructed
-in such a way that the processing elements form a regular grid. The dynamic
-power profiles involved in the experiments are based on simulations of
-applications generated randomly by \up{TGFF} \cite{dick1998}. The model of the
-static power parameterized by temperature and the effective channel length is
-constructed by fitting to \up{SPICE} simulations of reference electrical
+We first describe the default configuration, which will be later adjusted
+according to the purpose of each particular experiment. We consider a
+45-nanometer technological process. The diameter of the wafer is 20 dies, and
+the total number of dies \nd is 316. The number of measured dies \hnd is 20, and
+these dies are chosen by an algorithm that strives for an even coverage of the
+wafer. The fabricated platform has four processing elements, and they are the
+points of taking measurements, that is, $\np = 4$. The floorplan of the platform
+is constructed in such a way that the processing elements form a regular grid.
+The dynamic power profiles involved in the experiments are based on simulations
+of applications generated randomly by \up{TGFF} \cite{dick1998}. The model of
+the static power parameterized by temperature and the effective channel length
+is constructed by fitting to \up{SPICE} simulations of reference electrical
 circuits composed of \up{BSIM4} devices \cite{bsim} configured according to the
 45-nm \up{PTM} \up{HP} model \cite{ptm}. The temperature calculations are done
 using the approach described in \sref{transient-state-solution}; the
@@ -53,8 +53,8 @@ the two length-scale parameters $\ell_\SE$ and $\ell_\OU$ should be set
 according to the correlation patterns typical for the manufacturing process at
 hand \cite{chandrakasan2000, cheng2011}; we set $w$ to 0.7 and $\ell_\SE$ and
 $\ell_\OU$ to half the radius of the wafer. The threshold parameter $\eta$ of
-the model-order-reduction procedure described in \sref{linear-algebra} and
-utilized in \eref{inference-reduction} should be set high enough to preserve a
+the model-order-reduction procedure given in \eref{karhunen-loeve} and utilized
+in \eref{inference-reduction} should be set high enough to preserve a
 sufficiently large portion of the variance of the data and, thus, to keep the
 modeling sufficiently accurate; we set it to 0.99. The resulting dimensionality
 \nz of \vz in \eref{inference-reduction} is found to be 27--28. The parameters
