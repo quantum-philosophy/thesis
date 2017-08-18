@@ -825,32 +825,33 @@ time moment 50~ms. It can be seen that the \acp{PDF} tightly match each other.
 Note that this example captures one particular time moment, and such curves are
 also readily available for the other steps of the considered time span.
 
-Now we take a closer look at the convergence of the MC-based technique. With
-this in mind, we focus on the rows of \tref{accuracy-eta-0-5} that correspond to
-PC expansions of high orders. Similar to the previous observations, even for low
-values of \ns, the error of the expected values estimated by MC sampling is
-relatively small, namely, bounded by 1.19\% (see $\epsilon_{\expectation}$ for
-$\lc \geq 4$ and $\ns = 10^2$). Meanwhile, the case with $\ns = 10^2$ has a high
-error rate in terms of $\epsilon_{\variance}$ and $\epsilon_{\probability}$: it
-is above 38\% for variance and almost 3.5\% for PDFs (see $\epsilon_{\variance}$
-and $\epsilon_{\probability}$ for $\lc = 7$ and $\ns = 10^2$). The results with
-$\ns = 10^3$ are reasonably more accurate; however, this trend is compromised by
-\tref{accuracy-eta-1}: $10^3$ samples leave an error of more than 7\% for
-variance (see $\epsilon_{\variance}$ for $\lc \geq 4$ and $\ns = 10^3$).
+Second, we investigate the convergence of the \ac{MC} technique and, therefore,
+watch the rows of \tref{chaos-accuracy-0-5} that correspond to \ac{PC}
+expansions of high levels. Similar to the previous observations, even for low
+values of \no, the error of the expectation estimated by \ac{MC} sampling is
+relatively small, bounded by 1.19\%; see $\epsilon_{\expectation}$ for $\lc
+\geq 4$ and $\no = 10^2$. At the same time, the case with $\no = 10^2$ has high
+error rates in terms of the variance and \acp{PDF}: they are above 38\% and
+almost 3.5\%, respectively; see $\epsilon_{\variance}$ and $\epsilon_f$ for
+$\lc = 7$ and $\no = 10^2$. The results for the case with $\no = 10^3$ are
+reasonably more accurate. However, this trend is compromised by the figures in
+\tref{chaos-accuracy-1}: $10^3$ samples leave an error of more than 7\% for the
+variance; see $\epsilon_{\variance}$ for $\lc \geq 4$ and $\no = 10^3$.
 
-The aforementioned conclusions, based on \tref{accuracy-eta-0-5} ($\eta = 0.5$),
-are directly applicable to \tref{accuracy-eta-0} ($\eta = 0$) and
-\tref{accuracy-eta-1} ($\eta = 1$). The only difference is that the average
-error rates are lower when either of the two correlation kernels dominates. In
-particular, according to $\epsilon_{\variance}$, the case with $\eta = 1$, which
-corresponds to $k_\SE$, stands out to be the least error prone.
+The above conclusions based on the results in \tref{chaos-accuracy-0-5} ($w =
+0.5$) are directly applicable to those in \tref{chaos-accuracy-0} ($w = 0$) and
+\tref{chaos-accuracy-1} ($w = 1$). The only difference is that the average
+error rates are lower when either of the two correlation kernels in
+\eref{inference-correlation} dominates. In particular, according to
+$\epsilon_{\variance}$, the case with $w = 1$, which corresponds to $k_\SE$,
+stands out to be the least error prone.
 
 Guided by the observations in this subsection, we conclude that our framework
-delivers accurate results starting from $\lc = 4$. The MC estimates, on the
-other hand, can be considered as sufficiently reliable starting from $\ns =
-10^4$. The last conclusion, however, is biased in favor of the MC technique
-since, as we noted earlier, there is evidence that $10^4$ samples might still
-not be enough.
+delivers accurate results starting from $\lc = 4$. The \ac{MC} estimates, on
+the other hand, can be considered as sufficiently reliable starting from $\no =
+10^4$. The last conclusion, however, is biased in favor of the \ac{MC}
+technique since, as noted earlier, there is evidence that $10^4$ samples might
+still be not enough.
 
 \hiddensubsection{Computational Speed}
 
