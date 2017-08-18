@@ -162,7 +162,7 @@ The most direct way to solve the system in \eref{steady-state-system} is to use
 a dense solver such as the \up{LU} decomposition \cite{press2007}. However,
 since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is to employ
 a sparse solver such as the unsymmetric multifrontal method \cite{davis2004}.
-The computational complexity of such solutions is $\bigo{\ns^3 \nn^3}$
+The computational complexity of such solutions is $\bigo{n_s^3 n_n^3}$
 \cite{press2007} where $\nn$ is the number of nodes in the thermal \up{RC}
 circuit, and $\ns$ is the number of samples in the power profile. The problem
 here is that the system to solve can be extremely large, in particular due to
@@ -259,7 +259,7 @@ in \eref{steady-state-recurrence} and \eref{steady-state-auxiliary-recurrence}
 that traverse the \ns steps of the power profile \mp. The computational
 complexity of the whole procedure is estimated to be
 \[
-  \bigo{\ns \nn^2 + \nn^3}.
+  \bigo{\ns n_n^2 + n_n^3}.
 \]
 The complexity is linear with respect to \ns, which is important since \ns is
 typically much large than \nn, that is, the number of thermal nodes.
