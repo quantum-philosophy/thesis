@@ -124,23 +124,23 @@ is the correlation function, and
   k_\SE(\v{r}_1, \v{r}_2) & = \exp\left(-\frac{\norm[2]{\v{r}_1 - \v{r}_2}^2}{\ell_\SE^2}\right) \text{ and} \\
   k_\OU(\v{r}_1, \v{r}_2) & = \exp\left(-\frac{\absolute{\norm[2]{\v{r}_1} - \norm[2]{\v{r}_2}}}{\ell_\OU}\right)
 \end{align*}
-are the squared exponential and Ornstein--Uhlenbeck correlation functions
+are the squared-exponential and Ornstein--Uhlenbeck kernels
 \cite{rasmussen2006}, respectively. In these formulae, $\sigma_\g^2$ is the
 variance of \g; $w \in [0, 1]$ is a weight coefficient; $\ell_\SE > 0$ and
 $\ell_\OU > 0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$
 stands for the Euclidean distance. The choice of $v$ is based on the
 observations of the correlation structures induced by the manufacturing process
 \cite{chandrakasan2000, cheng2011}. Specifically, $k_\SE$ imposes similarities
-between locations on the wafer that are close to each other, and $k_\OU$ imposes
-similarities between locations that are at the same distance from the center of
-the wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control the extend of these
-similarities, that is, the range where the correlation between two locations is
-significant. Although all the above parameters of \g can be inferred from data,
-for simplicity, we shall focus on $\mu_\g$ and $\sigma_\g^2$. The rest of the
-parameters---namely, $w$, $\ell_\SE$, and $\ell_\OU$---are assumed to be
-determined prior to our analysis based on the knowledge of the correlation
-patterns typical for the production process utilized; see \cite{marzouk2009} and
-the references therein.
+between locations on the wafer that are close to each other, and $k_\OU$
+imposes similarities between locations that are at the same distance from the
+center of the wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control the
+extend of these similarities, that is, the range where the correlation between
+two locations is significant. Although all the above parameters of \g can be
+inferred from data, for simplicity, we shall focus on $\mu_\g$ and
+$\sigma_\g^2$. The rest of the parameters---namely, $w$, $\ell_\SE$, and
+$\ell_\OU$---are assumed to be determined prior to our analysis based on the
+knowledge of the correlation patterns typical for the production process
+utilized; see \cite{marzouk2009} and the references therein.
 
 Step~2 is to make the above model of \g computationally tractable. The model is
 an infinite-dimensional object as it characterizes a continuum of locations. For
