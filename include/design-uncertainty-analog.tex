@@ -737,15 +737,15 @@ Dormand--Prince method).
 
 \hiddensubsection{Approximation Accuracy}
 
-The first set of experiments is aimed to identify the accuracy of our framework
-with respect to \ac{MC} sampling. At this point, it is important to note that
-the true distributions of temperature are unknown, and both the \ac{PC} and
-\ac{MC} approaches introduce errors. These errors decrease as the accuracy level
-\lc of \ac{PC} expansions and the number of samples \no of \ac{MC} sampling
-increase. Hence, instead of postulating that the \ac{MC} technique with a
-certain number of samples is the solution that we should achieve, we vary both
-\lc and \no and monitor the corresponding difference between the results
-produced by the two alternatives.
+The first set of experiments is to identify the accuracy of our framework with
+respect to \ac{MC} sampling. At this point, it is important to note that the
+true distributions of temperature are unknown, and both the \ac{PC} and \ac{MC}
+approaches introduce errors. These errors decrease as the accuracy level \lc of
+\ac{PC} expansions and the number of samples \no of \ac{MC} sampling increase.
+Hence, instead of postulating that the \ac{MC} technique with a certain number
+of samples is the solution that we should achieve, we vary both \lc and \no and
+monitor the corresponding difference between the results produced by the two
+alternatives.
 
 We also inspect the impact of the correlation patterns between the local random
 variables $\{ u_{\local, i} \}_{i = 1}^\np$; recall \sref{chaos-application}.
@@ -855,25 +855,26 @@ still be not enough.
 
 \hiddensubsection{Computational Speed}
 
-In this section, we focus on the speed of our framework. In order to increase
-the clarity of the comparisons given below, we use the same order of PC
-expansions and the same number of MC samples in each case. Namely, based on the
-conclusions from the previous subsection, \lc is set to four, and \ns is set to
-$10^4$; the latter also conforms to the experience from the literature
-\cite{huang2009, lee2013, shen2009, bhardwaj2008, ghanta2006} and to the
-theoretical results on the accuracy of MC sampling given in
+The second set of experiments is to measure the speed of the framework with
+respect to \ac{MC} sampling. For clarify, we use the same level of \ac{PC}
+expansions and the same number of \ac{MC} samples in each case. More precisely,
+based on the conclusions from the previous subsection, $\lc = 4$ and $\no =
+10^4$; the latter is also consistent with the experience from the literature
+\cite{ghanta2006, bhardwaj2008, huang2009a, shen2009, lee2013} and with the
+theoretical results on the accuracy of \ac{MC} sampling given in
 \cite{diaz-emparanza2002}.
 
-First, we vary the number of processing elements \np, which directly affects the
-dimensionality of the uncertain parameters $\vu \in \real^\nu$ (recall
-\sref{illustrative-example}). As before, we shall report the results obtained
-for various correlation weights $\eta$, which impacts the number of the
-independent variables $\vz \in \real^\nz$, preserved after the model order
-reduction procedure described in \sref{ie-uncertain-parameters} and
-\sref{karhunen-loeve}. The results, including the dimensionality \nz of \vz, are
-given in \tref{speed-processing-elements} where the considered values for \np
-are $\{ 2^n \}_{n = 1}^5$, and the number of time steps \ns is set to $10^3$. It
-can be seen that the correlation patters inherent to the fabrication process
+\inputtable{chaos-scaling}
+First, we vary the number of processing elements \np, which directly affects
+the dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$;
+recall \sref{chaos-application}. As before, we report the results obtained for
+various weight coefficients $w$, which impacts the number of the independent
+variables $\vz: \Omega \to \real^\nz$ preserved after the model order reduction
+procedure described in \sref{probability-transformation}. The results,
+including the dimensionality \nz of \vz, are given in
+\tref{speed-processing-elements} where the considered values for \np are $\{
+2^n \}_{n = 1}^5$, and the number of time steps \ns is set to $10^3$. It can be
+seen that the correlation patters inherent to the fabrication process
 \cite{cheng2011} open a great possibility for model order reduction: \nz is
 observed to be at most 12 while the maximum number without reduction is 33 (one
 global variable and 32 local ones corresponding to the case with 32 processing
