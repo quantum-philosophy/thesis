@@ -12,30 +12,30 @@ through the system under development and investigate its impact on the system's
 behavior.
 
 We proceed as follows. A motivational example is considered in
-\sref{analog-example}. The objective of our study is formulated in
-\sref{analog-problem}. \sref{analog-prior} provides an overview of the prior
-work. The proposed framework is presented in \sref{analog-solution}. An
-exemplary application of our approach is discussed in \sref{analog-application},
-and the corresponding experimental results are given and compared with \ac{MC}
-simulations in \sref{analog-results}. \sref{analog-conclusion} concludes the
+\sref{chaos-example}. The objective of our study is formulated in
+\sref{chaos-problem}. \sref{chaos-prior} provides an overview of the prior work.
+The proposed framework is presented in \sref{chaos-solution}. An exemplary
+application of our approach is discussed in \sref{chaos-application}, and the
+corresponding experimental results are given and compared with \ac{MC}
+simulations in \sref{chaos-results}. \sref{chaos-conclusion} concludes the
 chapter.
 
 \section{Motivational Example}
-\slab{analog-example}
+\slab{chaos-example}
 
-\inputfigure{analog-example}
+\inputfigure{chaos-example}
 Consider a quad-core architecture exposed to the uncertainty due to parameters
 that affect the leakage current. Assume first that these parameters have nominal
 values. We can then simulate the system under a certain workload and observe the
 corresponding temperature profile; the experimental setup is to be detailed in
-\sref{analog-example} and \sref{analog-results}. The result is depicted in
-\fref{analog-example} by a blue line, which corresponds to the temperature of
-one of the processors. It can be seen that the temperature is always below
+\sref{chaos-example} and \sref{chaos-results}. The result is depicted in
+\fref{chaos-example} by a blue line, which corresponds to the temperature of one
+of the processors. It can be seen that the temperature is always below
 \celsius{90}. Let us now assume a mild deviation of the parameters from the
 nominal values and simulate once again. The result is the orange line in
-\fref{analog-example}; the maximum temperature is approaching \celsius{100}.
+\fref{chaos-example}; the maximum temperature is approaching \celsius{100}.
 Finally, we repeat the experiment considering a severe deviation of the
-parameters and observe the yellow line in \fref{analog-example}; the maximum
+parameters and observe the yellow line in \fref{chaos-example}; the maximum
 temperature is almost \celsius{110}. Suppose that the designer is tuning a
 solution constrained by a maximum temperature of \celsius{90} and is guided
 exclusively by the nominal parameters. In this case, even with mild deviations,
@@ -51,7 +51,7 @@ this chapter is to eliminate it in the case of the uncertainty due to process
 variation.
 
 \section{Problem Formulation}
-\slab{analog-problem}
+\slab{chaos-problem}
 
 Let $(\Omega, \mathcal{F}, \probability)$ be a probability space as it defined
 in \sref{probability-theory} and assume the same system model as the one
@@ -74,7 +74,7 @@ this workload, and obtaining the corresponding stochastic power \mp and
 temperature \mq profiles with a desired level of accuracy and at low costs.
 
 \section{Prior Work}
-\slab{analog-prior}
+\slab{chaos-prior}
 
 Since the appearance of the first digital computers in 1940s, \acf{MC} sampling
 remains one of the most well-known and widely used methods for the analysis of
@@ -142,14 +142,14 @@ juan2012}. However, this assumption often fails in practice---which is also
 noted in \cite{juan2012} regarding the normality of the leakage current---due to
 \one~the nonlinear dependence of power on process parameters and \two~the
 nonlinear interdependence between power and temperature. In order to illustrate
-this, we simulate $10^4$ times the example given in \sref{analog-example}
+this, we simulate $10^4$ times the example given in \sref{chaos-example}
 assuming the widespread Gaussian model of the effective channel length and apply
 the Jarque--Bera test of normality to the collected temperature directly as well
 as after processing them with the log transformation. The null hypothesis that
 the data are from an unspecified Gaussian distribution is firmly rejected in
 both cases at the significance level of 5\%. Therefore, the two distributions
 are neither Gaussian nor log-normal, which can also be seen in
-\fref{analog-example-density} described in \sref{analog-results}.
+\fref{chaos-example-density} described in \sref{chaos-results}.
 
 To conclude, the prior techniques for stochastic power and temperature analysis
 are restricted in use due to one or several of the following traits: based on
@@ -164,7 +164,7 @@ srivastava2010, juan2012}. Consequently, there is a lack of flexible techniques
 for stochastic power and temperature analysis.
 
 \section{Our Solution}
-\slab{analog-solution}
+\slab{chaos-solution}
 
 We develop a framework for the analysis of the transient power and temperature
 profiles of electronic systems subject to the uncertainty due to process
@@ -195,27 +195,27 @@ estimated. Moreover, the representation that we compute provides analytical
 formulae for probabilistic moments, which means that the expectation and
 variance are readily available.
 
-\inputfigure{analog-overview}
-The major stages of our technique are depicted in \fref{analog-overview}. At
-Stage~1 (\sref{analog-probability-transformation}), the uncertain parameters \vu
+\inputfigure{chaos-overview}
+The major stages of our technique are depicted in \fref{chaos-overview}. At
+Stage~1 (\sref{chaos-probability-transformation}), the uncertain parameters \vu
 are transformed into independent random variables \vz since independence is a
-prerequisite of the \ac{PC} approach. At Stage~2 (\sref{analog-power-model}),
-the user specifies the power model of the system via a ``black-box'' function
-$f$ that computes the total power \vp for a particular temperature \vq and a
+prerequisite of the \ac{PC} approach. At Stage~2 (\sref{chaos-power-model}), the
+user specifies the power model of the system via a ``black-box'' function $f$
+that computes the total power \vp for a particular temperature \vq and a
 particular outcome of the parameters \vu. At Stage~3
-(\sref{analog-temperature-model}), based on \sref{transient-state-solution}, a
+(\sref{chaos-temperature-model}), based on \sref{transient-state-solution}, a
 mathematical description of the thermal behavior of the system is obtained. At
-Stage~4 (\sref{analog-surrogate-model}), the surrogate model is computed by
+Stage~4 (\sref{chaos-surrogate-model}), the surrogate model is computed by
 traversing the desired time span and gradually constructing \ac{PC} expansions
 of the stochastic power and temperature profiles. At Stage~5
-(\sref{analog-post-processing}), the computed \ac{PC} expansions are analyzed in
+(\sref{chaos-post-processing}), the computed \ac{PC} expansions are analyzed in
 order to obtain the needed characteristics of the system such as \acp{PDF} and
 moments.
 
 Let us now detail each of the five stages of the proposed framework.
 
 \subsection{Probability Transformation}
-\slab{analog-probability-transformation}
+\slab{chaos-probability-transformation}
 
 Independence is required by \ac{PC} expansions. In general, the \nu individual
 variables in \vu are dependent and, therefore, should be preprocessed in order
@@ -245,11 +245,11 @@ part of the \ac{KL} decomposition, which is also covered in
 \sref{probability-transformation}.
 
 \subsection{Power Model}
-\slab{analog-power-model}
+\slab{chaos-power-model}
 
-As stated in \sref{analog-problem}, the user is supposed to decide on the power
+As stated in \sref{chaos-problem}, the user is supposed to decide on the power
 model for the system, which we denote as follows:
-\begin{equation} \elab{analog-power-model}
+\begin{equation} \elab{chaos-power-model}
   \vp(t) = f(t, \vq, \vu)
 \end{equation}
 where $f$ is a function that evaluates the power $\vp \in \real^\np$ of the
@@ -268,7 +268,7 @@ enough to account for such effects as the interdependence between power and
 temperature discussed in \sref{power-model}.
 
 \subsection{Temperature Model}
-\slab{analog-temperature-model}
+\slab{chaos-temperature-model}
 
 The temperature model is based on the one described in \sref{temperature-model},
 and transient temperature analysis is based on the one presented in
@@ -276,7 +276,7 @@ and transient temperature analysis is based on the one presented in
 \eref{temperature-model} implicitly operates on stochastic quantities.
 Consequently, the recurrent solution in \eref{transient-state-recurrence}, that
 is,
-\begin{equation} \elab{analog-recurrence-original}
+\begin{equation} \elab{chaos-recurrence-original}
   \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
 \end{equation}
 for $i = \range{1}{\ns}$ where $\vs_0 = \v{0}$, is such as well. In the
@@ -295,9 +295,9 @@ distributions, which, in general, have no closed-form solutions, which we
 address in the following subsection.
 
 \subsection{Surrogate Model}
-\slab{analog-surrogate-model}
+\slab{chaos-surrogate-model}
 
-The goal now is to transform the recurrence in \eref{analog-recurrence-original}
+The goal now is to transform the recurrence in \eref{chaos-recurrence-original}
 in such a way that it becomes possible to estimate the probability distributions
 of power and temperature. Our solution is the construction of a surrogate model
 for the power function $f$, which we then propagate through the recurrence in
@@ -316,7 +316,7 @@ being tried first; on the other hand, the Hermite basis is preferable for
 Gaussian distributions.
 
 Having chosen an appropriate basis, we apply the \ac{PC} formalism to the power
-term $\vp_i$ in \eref{analog-recurrence-original} as described in
+term $\vp_i$ in \eref{chaos-recurrence-original} as described in
 \eref{chaos-expansion}. The result is
 \[
   \chaos{\nz}{\lc}{\vp_i}(\vz) = \sum_{j = 1}^\nc \hat{\vp}_{ij} \psi_j(\vz)
@@ -326,10 +326,10 @@ polynomials of the basis; $\{ \hat{\vp}_{ij} \in \real^\np \}_{j = 1}^\nc$ are
 the coefficients of the expansion; and \nc is given by
 \eref{chaos-length-total-order}.
 
-It can be seen in \eref{analog-recurrence-original} that, due to the linearity
-of the operations involved in the recurrence, $\vs_i$ attains an expansion that
-has the same structure as the one of $\vp_i$, and the recurrence can be
-rewritten as follows:
+It can be seen in \eref{chaos-recurrence-original} that, due to the linearity of
+the operations involved in the recurrence, $\vs_i$ attains an expansion that has
+the same structure as the one of $\vp_i$, and the recurrence can be rewritten as
+follows:
 \[
   \chaos{\nz}{\lc}{\vs_i}(\vz) = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}}(\vz) + \m{F} \, \chaos{\nz}{\lc}{\vp_i}(\vz)
 \]
@@ -344,7 +344,7 @@ structure of the above formula better, let us spell it out as
 Multiplying the above equation by each polynomial from the basis and making use
 of the orthogonality property in \eref{polynomial-orthogonality}, we obtain the
 following recurrence:
-\begin{equation} \elab{analog-recurrence}
+\begin{equation} \elab{chaos-recurrence}
   \hat{\vs}_{ij} = \m{E} \hat{\vs}_{i - 1, j} + \m{F} \hat{\vp}_{ij}
 \end{equation}
 for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$. Combining the recurrence with
@@ -360,14 +360,14 @@ normalization constant that can be considered given along with the basis. The
 inner product in the enumerator, however, should generally be evaluated
 numerically, which is described in \sref{numerical-integration}. To this end, an
 adequate quadrature $\quadrature{\nz}{\lq}$ should be used. The result is
-\begin{equation} \elab{analog-coefficient}
+\begin{equation} \elab{chaos-coefficient}
   \hat{\vp}_{ij} = \frac{\quadrature{\nz}{\lq}{\vp_i \psi_j}}{\innerproduct{\psi_j}{\psi_j}}
 \end{equation}
 for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$ where the integration should
 be understood element-wise. It is worth emphasizing that, since power depends on
 temperature as shown in \sref{power-model}, at each step of the recurrence in
-\eref{analog-recurrence}, the computation of $\hat{\vp}_{ij}$ should be done
-with respect to the \ac{PC} expansion of $\vq_{i - 1}$.
+\eref{chaos-recurrence}, the computation of $\hat{\vp}_{ij}$ should be done with
+respect to the \ac{PC} expansion of $\vq_{i - 1}$.
 
 The construction process of the stochastic power and temperature profiles is
 estimated to have the following time complexity per time step:
@@ -375,40 +375,40 @@ estimated to have the following time complexity per time step:
   \bigo{\nn \nn \nc + \nn \np \nq \nc + \nq f(\np)}
 \]
 where \nn, \np, \nc, and \nq are the number of thermal nodes, processing
-elements, polynomial terms, and quadrature points, respectively,
-and $f(\np)$ denotes the contribution of the power model in
-\eref{analog-power-model}. The expression can be detailed further by expanding
-\nc and \nq. The formula of \nc is given in \eref{chaos-length-total-order},
-which behaves as $\nz^\nc / \nc!$ in the limit with respect to \nz. For
-quadrature rules based on the full tensor product, $\log(\nq) \propto \nz$,
-which means that the dependency of \nq on \nz is exponential. It can be seen
-that the theory of \ac{PC} expansions suffers from the curse of dimensionality
-\cite{eldred2008, xiu2010}. Concretely, when \nz increases, the number of
-polynomial terms as well as the complexity of the corresponding coefficients
-exhibit a growth, which is exponential without special treatments. The problem
-does not have a general solution and is one of the central topics of many
-ongoing studies. We mitigate this issue by \one~keeping the number of stochastic
-dimensions low using the model order reduction based on the \ac{KL}
-decomposition discussed in \sref{probability-transformation} and \two~utilizing
-efficient integration techniques discussed in \sref{numerical-integration}. In
-particular, for sparse integration grids based on Gaussian quadrature rules,
-$\log(\nq) \propto \log(\nz)$, which means that the dependency of \nq on \nz is
-only polynomial \cite{heiss2008}.
+elements, polynomial terms, and quadrature points, respectively, and $f(\np)$
+denotes the contribution of the power model in \eref{chaos-power-model}. The
+expression can be detailed further by expanding \nc and \nq. The formula of \nc
+is given in \eref{chaos-length-total-order}, which behaves as $\nz^\nc / \nc!$
+in the limit with respect to \nz. For quadrature rules based on the full tensor
+product, $\log(\nq) \propto \nz$, which means that the dependency of \nq on \nz
+is exponential. It can be seen that the theory of \ac{PC} expansions suffers
+from the curse of dimensionality \cite{eldred2008, xiu2010}. Concretely, when
+\nz increases, the number of polynomial terms as well as the complexity of the
+corresponding coefficients exhibit a growth, which is exponential without
+special treatments. The problem does not have a general solution and is one of
+the central topics of many ongoing studies. We mitigate this issue by
+\one~keeping the number of stochastic dimensions low using the model order
+reduction based on the \ac{KL} decomposition discussed in
+\sref{probability-transformation} and \two~utilizing efficient integration
+techniques discussed in \sref{numerical-integration}. In particular, for sparse
+integration grids based on Gaussian quadrature rules, $\log(\nq) \propto
+\log(\nz)$, which means that the dependency of \nq on \nz is only polynomial
+\cite{heiss2008}.
 
 Let us summarize this subsection. Recall the stochastic recurrence in
-\eref{analog-recurrence-original} where, in the presence of dependencies, an
+\eref{chaos-recurrence-original} where, in the presence of dependencies, an
 arbitrary functional $\vp_k$ of the uncertain parameters \vu and stochastic
-temperature $\vq_k$---which can be seen in \eref{analog-power-model}---needs to
+temperature $\vq_k$---which can be seen in \eref{chaos-power-model}---needs to
 be evaluated and combined with another random vector $\vs_k$. This recurrence in
-\eref{analog-recurrence-original} has been replaced with a purely deterministic
-recurrence in \eref{analog-recurrence}. More globally, the whole system
-including the heavy temperature model in \eref{temperature-model-original} has
-been substituted with a light surrogate defined by a set of polynomials $\{
-\psi_j \}_{j = 1}^\nc$ in \vz, a set of coefficients $\{ \hat{\vp}_{ij} \}_{i =
-1, j = 1}^{\ns, \nc}$ for power, and a set of coefficient $\{ \hat{\vq}_{ij}
-\}_{i = 1, j = 1}^{\ns, \nc}$ for temperature. These quantities constitute a
-stochastic power profile \mp and a stochastic temperature profile \mq, and these
-profiles are ready to be analyzed, which we discuss in the following subsection.
+\eref{chaos-recurrence-original} has been replaced with a purely deterministic
+recurrence in \eref{chaos-recurrence}. More globally, the whole system including
+the heavy temperature model in \eref{temperature-model-original} has been
+substituted with a light surrogate defined by a set of polynomials $\{ \psi_j
+\}_{j = 1}^\nc$ in \vz, a set of coefficients $\{ \hat{\vp}_{ij} \}_{i = 1, j =
+1}^{\ns, \nc}$ for power, and a set of coefficient $\{ \hat{\vq}_{ij} \}_{i = 1,
+j = 1}^{\ns, \nc}$ for temperature. These quantities constitute a stochastic
+power profile \mp and a stochastic temperature profile \mq, and these profiles
+are ready to be analyzed, which we discuss in the following subsection.
 
 Before we proceed, let us draw attention to the ease and generality of taking
 uncertainty into consideration using the proposed approach. The above
@@ -420,7 +420,7 @@ the user for each new parameter individually; see, for instance,
 flexibility in this regard.
 
 \subsection{Post-Processing}
-\slab{analog-post-processing}
+\slab{chaos-post-processing}
 
 Due to the properties of \ac{PC} expansions---in particular, due to the mutual
 orthogonality of the basis functions discussed in \sref{polynomial-chaos}---the
@@ -430,7 +430,7 @@ step $i$
 \[
   \chaos{\nz}{\lc}{\vq_i}(\vz) = \sum_{j = 1}^{\nc} \hat{\vq}_{ij} \psi_j(\vz)
 \]
-where $\hat{\vq}_{ij}$ are computed using \eref{analog-recurrence} and
+where $\hat{\vq}_{ij}$ are computed using \eref{chaos-recurrence} and
 \eref{temperature-algebraic}. Let us, for example, find the expectation and
 variance of the temperature at this time moment. Since the first polynomial
 $\psi_1$ in a polynomial basis is unity by definition \cite{xiu2010},
@@ -438,7 +438,7 @@ $\expectation{\psi_1(\vz)} = 1$. Therefore, using the orthogonality property in
 \eref{polynomial-orthogonality}, we conclude that $\expectation{\psi_i(\vz)} =
 0$ for $i = \range{2}{\nc}$. Consequently, the expected value and variance have
 the following simple expressions solely based on the coefficients:
-\begin{equation} \elab{analog-chaos-moments}
+\begin{equation} \elab{chaos-chaos-moments}
   \begin{split}
     & \expectation{\vq_i} = \hat{\vq}_{i1} \text{ and} \\
     & \variance{\vq_i} = \sum_{j = 2}^{\nc} \innerproduct{\psi_j}{\psi_j} \hat{\vq}_{ij}^2,
@@ -453,7 +453,7 @@ of deterministic and stochastic quantities can be readily conducted on a \ac{PC}
 expansion.
 
 \section{Illustrative Application}
-\slab{analog-application}
+\slab{chaos-application}
 
 So far we have not made any assumptions regarding the cause of variability. In
 this section, we consider a particular application of the proposed framework in
@@ -525,7 +525,7 @@ ghanta2006, bhardwaj2008, huang2009a, lee2013}.
 Although \eref{inference-correlation} captures certain features inherent to the
 manufacturing process, it is still an idealization. In practice, it can be
 difficult to make a justifiable choice and tune such a formula, which is a
-prerequisite for the techniques that are discussed in \sref{analog-prior} and
+prerequisite for the techniques that are discussed in \sref{chaos-prior} and
 based on the continuous \ac{KL} decomposition. A correlation matrix, on the
 other hand, can readily be estimated from measurements and, thus, is a more
 probable input to probabilistic analysis. Therefore, we use
@@ -539,14 +539,14 @@ the correlation matrix of \vu denoted by $\correlation{\vu}$.
 To conclude, the input to our analysis is composed of the marginal distributions
 of the uncertain parameters \vu, which are beta distributions, and the
 corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
-stages of the proposed framework discussed in \sref{analog-solution} and
-depicted in \fref{analog-overview}.
+stages of the proposed framework discussed in \sref{chaos-solution} and depicted
+in \fref{chaos-overview}.
 
 \subsection{Probability Transformation}
 
-At Stage~1 in \fref{analog-overview}, \vu should be preprocessed in order to
+At Stage~1 in \fref{chaos-overview}, \vu should be preprocessed in order to
 extract a vector of mutually independent random variables denoted by \vz.
-Following the guidance given in \sref{analog-probability-transformation}, the
+Following the guidance given in \sref{chaos-probability-transformation}, the
 most suitable transformation for the ongoing scenario is the one given in
 \eref{probability-transformation}, which we denote here by
 \[
@@ -555,22 +555,22 @@ most suitable transformation for the ongoing scenario is the one given in
 
 Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
 directly impacts the computational cost of \ac{PC} expansions, which is
-elaborated on in \sref{analog-surrogate-model}, one should consider a
-possibility for model order reduction before constructing \ac{PC} expansions. To
-this end, the model order reduction described in
-\sref{probability-transformation} is an essential part of and assumed to be
-active in the above transformation. The reduce dimensionality is denoted by \nz.
+elaborated on in \sref{chaos-surrogate-model}, one should consider a possibility
+for model order reduction before constructing \ac{PC} expansions. To this end,
+the model order reduction described in \sref{probability-transformation} is an
+essential part of and assumed to be active in the above transformation. The
+reduce dimensionality is denoted by \nz.
 
 The marginal distributions of \vz can be arbitrary as long as one can construct
-a suitable polynomial basis as described in \sref{analog-surrogate-model}. We
-let \vz have beta distributions, staying in the same family of distributions
-with \vu.
+a suitable polynomial basis as described in \sref{chaos-surrogate-model}. We let
+\vz have beta distributions, staying in the same family of distributions with
+\vu.
 
 \subsection{Power Model}
 
-At Stage~2 in \fref{analog-overview}, we have to decide on the power model with
+At Stage~2 in \fref{chaos-overview}, we have to decide on the power model with
 the identified uncertain parameters as an input. To this end,
-\eref{analog-power-model} is decomposed into the sum of the dynamic and static
+\eref{chaos-power-model} is decomposed into the sum of the dynamic and static
 components
 \[
   f(t, \vq, \vu) = f_\dynamic(t) + f_\static(\vq, \vu)
@@ -589,18 +589,18 @@ evaluate the static power for a particular point within the range of the grid.
 
 \subsection{Temperature Model}
 
-At Stage~3 in \fref{analog-overview}, the temperature model is to be detailed.
+At Stage~3 in \fref{chaos-overview}, the temperature model is to be detailed.
 More concretely, we need to provide an adequate thermal \up{RC} circuit. Given
 the specification of the platform at hand---including the floorplan of the die
 and the configuration of the thermal package---such a circuit is constructed by
 means of HotSpot \cite{skadron2003}; the structure is the default one described
 in \sref{temperature-model}. Finally, using the solution technique presented in
 \sref{transient-state-solution}, the two coefficient matrices $\m{E}$ and
-$\m{F}$ used in the recurrence in \eref{analog-recurrence} are calculated.
+$\m{F}$ used in the recurrence in \eref{chaos-recurrence} are calculated.
 
 \subsection{Surrogate Model}
 
-At Stage~4 in \fref{analog-overview}, the uncertain parameters, power model, and
+At Stage~4 in \fref{chaos-overview}, the uncertain parameters, power model, and
 temperature model developed in the previous subsections are to be fused together
 under the desired workload $\mp_\dynamic$ in order to produce the corresponding
 stochastic power and temperature profiles denoted by \mp and \mq, respectively.
@@ -611,7 +611,7 @@ beta-distributed parameters \cite{xiu2010}. To give an example, for a dual-core
 platform, that is, $\np = 2$, with two stochastic dimensions, that is, $\nz =
 2$, the second-order PC expansion, that is, $\nc = 2$, of temperature at step
 $i$ is as follows:
-\begin{equation} \elab{analog-expansion-example}
+\begin{equation} \elab{chaos-expansion-example}
   \begin{split}
     \chaos{2}{2}{\vq_i}(\vz)
     =    {} & \hat{\vq}_{i1} \, \psi_1(\vz) + \hat{\vq}_{i2} \, \psi_2(\vz) + \hat{\vq}_{i3} \, \psi_3(\vz) \\
@@ -635,62 +635,62 @@ by \lc. The expansion for power has the same structure but different
 coefficients.
 
 The next step is to compute the coefficients $\{ \hat{\vp}_{ij} \}_{j = 1}^\nc$
-in \eref{analog-recurrence}, which subsequently yield $\{ \hat{\vq}_{ij} \}_{j =
+in \eref{chaos-recurrence}, which subsequently yield $\{ \hat{\vq}_{ij} \}_{j =
 1}^\nc$. As shown in \sref{polynomial-chaos}, these computations involve
 multidimensional integration with respect to the distribution of \vz, which
 should be done numerically using a quadrature rule; recall
-\sref{analog-surrogate-model}. When beta distributions are concerned, a natural
+\sref{chaos-surrogate-model}. When beta distributions are concerned, a natural
 choice of such a rule is the Gauss--Jacobi quadrature; see
 \sref{numerical-integration}. Then, using \eref{quadrature-summation}, the
-coefficient are computed as shown in \eref{analog-coefficient}. The
-normalization constants $\{ \innerproduct{\psi_j}{\psi_j} \}_{j = 1}^\nc$ are
-computed exactly either by applying the same quadrature rule or by taking
-products of the one-dimensional counterparts with known analytical expressions
-\cite{xiu2010}; the result is tabulated. It is important to note that \lq should
-be chosen in such a way that the rule is exact for polynomials of a total order
-up to $2 \lc$, that is, twice the order of \ac{PC} expansions, which can be seen
-in \eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as
-the quadrature is Gaussian.
+coefficient are computed as shown in \eref{chaos-coefficient}. The normalization
+constants $\{ \innerproduct{\psi_j}{\psi_j} \}_{j = 1}^\nc$ are computed exactly
+either by applying the same quadrature rule or by taking products of the
+one-dimensional counterparts with known analytical expressions \cite{xiu2010};
+the result is tabulated. It is important to note that \lq should be chosen in
+such a way that the rule is exact for polynomials of a total order up to $2
+\lc$, that is, twice the order of \ac{PC} expansions, which can be seen in
+\eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as the
+quadrature is Gaussian.
 
 To summarize, we have completed four out of five stages of the proposed
-framework depicted in \fref{analog-overview}. The result is a light surrogate
-for the entire system. At each time step, the surrogate is composed of two
+framework depicted in \fref{chaos-overview}. The result is a light surrogate for
+the entire system. At each time step, the surrogate is composed of two
 \np-valued polynomials---one is for power, and one is for temperature---which
 are defined in terms of \nz mutually independent random variables.
 
 \subsection{Post-Processing}
 
-At Stage~5 in \fref{analog-overview}, the constructed expansions are utilized in
+At Stage~5 in \fref{chaos-overview}, the constructed expansions are utilized in
 order to assist the designer by analyzing the impact of process variation on
 power- and temperature-related characteristics of the system. It can be seen in,
-for example, \eref{analog-expansion-example} that the surrogate model has a
+for example, \eref{chaos-expansion-example} that the surrogate model has a
 negligibly small computational cost: for any outcome of \vz, one can easily
 compute the corresponding temperature by plugging this outcome into
-\eref{analog-expansion-example}; the same applies to power. Hence, the
+\eref{chaos-expansion-example}; the same applies to power. Hence, the
 representation can be trivially analyzed in order to retrieve various statistics
 about the system. Let us illustrate a few of them using the example in
-\eref{analog-expansion-example}.
+\eref{chaos-expansion-example}.
 
-\inputfigure{analog-example-power}
-\inputfigure{analog-example-temperature}
+\inputfigure{chaos-example-power}
+\inputfigure{chaos-example-temperature}
 Assume that the dynamic power profile $\mp_\dynamic$ is the one shown in
-\fref{analog-example-power}. Having constructed a surrogate with respect to this
+\fref{chaos-example-power}. Having constructed a surrogate with respect to this
 profile, we can calculate, for instance, the expectation and variance of the
 temperature that the system has at a certain time moment, which is a trivial
-operation given the formulae in \eref{analog-chaos-moments}. For the whole time
+operation given the formulae in \eref{chaos-chaos-moments}. For the whole time
 span of $\mp_\dynamic$, these quantities are plotted in
-\fref{analog-example-temperature} where the dashed lines correspond to one
+\fref{chaos-example-temperature} where the dashed lines correspond to one
 standard deviation above the corresponding expectations. The displayed curves
 closely match those obtained via \ac{MC} sampling with $\no = 10^4$ samples;
 however, our method takes less than a second while \ac{MC} sampling takes more
-than a day as we shall see in \sref{analog-results}. In addition, the \ac{PDF}
-of the temperature at that time moment can also be estimated. This operation is
+than a day as we shall see in \sref{chaos-results}. In addition, the \ac{PDF} of
+the temperature at that time moment can also be estimated. This operation is
 undertaken by sampling the surrogate, in which case we might obtain curves
-similar to those shown \fref{analog-example-density}, which is a part of a
-different example given in \sref{analog-results}.
+similar to those shown \fref{chaos-example-density}, which is a part of a
+different example given in \sref{chaos-results}.
 
 \section{Experimental Results}
-\slab{analog-results}
+\slab{chaos-results}
 
 In this section, we report the results of the proposed framework for different
 configurations of the illustrative example in \sref{illustrative-example}. All
@@ -813,7 +813,7 @@ transitions from $10^4$ to $10^5$. The rate of this decrease suggests that $\ns
 = 10^4$ is not sufficient to reach the same accuracy as the one delivered by the
 proposed framework, and $\ns = 10^5$ might not be either.
 
-\inputfigure{analog-example-density}
+\inputfigure{chaos-example-density}
 The results of the third metric $\epsilon_{\probability}$ allow us to conclude
 that the PDFs computed by the third-order (and higher) PC expansions closely
 follow those estimated by the MC technique with large numbers of samples,
@@ -939,7 +939,7 @@ process used in this work to solve the thermal model and construct PC expansions
 in a stepwise manner; see \sref{pc-recurrence}.
 
 \section{Conclusion}
-\slab{analog-conclusion}
+\slab{chaos-conclusion}
 
 We presented a framework for transient power-temperature analysis (PTA) of
 electronic systems under process variation. Our general technique was then
