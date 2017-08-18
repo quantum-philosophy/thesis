@@ -438,12 +438,12 @@ $\expectation{\psi_1(\vz)} = 1$. Therefore, using the orthogonality property in
 \eref{polynomial-orthogonality}, we conclude that $\expectation{\psi_i(\vz)} =
 0$ for $i = \range{2}{\nc}$. Consequently, the expected value and variance have
 the following simple expressions solely based on the coefficients:
-\[
+\begin{equation} \elab{analog-chaos-moments}
   \begin{split}
     & \expectation{\vq_i} = \hat{\vq}_{i1} \text{ and} \\
     & \variance{\vq_i} = \sum_{j = 2}^{\nc} \innerproduct{\psi_j}{\psi_j} \hat{\vq}_{ij}^2,
   \end{split}
-\]
+\end{equation}
 respectively, where the squaring should be understood element-wise. Such
 quantities as \acp{CDF}, \acp{PDF}, and probabilities of certain events can be
 estimated by means of \ac{MC} sampling applied to the expansion. In this case,
@@ -611,13 +611,13 @@ beta-distributed parameters \cite{xiu2010}. To give an example, for a dual-core
 platform, that is, $\np = 2$, with two stochastic dimensions, that is, $\nz =
 2$, the second-order PC expansion, that is, $\nc = 2$, of temperature at step
 $i$ is as follows:
-\[
+\begin{equation} \elab{analog-expansion-example}
   \begin{split}
     \chaos{2}{2}{\vq_i}(\vz)
     =    {} & \hat{\vq}_{i1} \, \psi_1(\vz) + \hat{\vq}_{i2} \, \psi_2(\vz) + \hat{\vq}_{i3} \, \psi_3(\vz) \\
     {} + {} & \hat{\vq}_{i4} \, \psi_4(\vz) + \hat{\vq}_{i5} \, \psi_5(\vz) + \hat{\vq}_{i6} \, \psi_6(\vz)
   \end{split}
-\]
+\end{equation}
 where the coefficients $\{ \hat{\vq}_{ij} \}_{j = 1}^6$ are vectors with two
 elements corresponding to the two processing elements. Regarding the basis,
 \begin{align*}
@@ -660,27 +660,34 @@ are defined in terms of \nz mutually independent random variables.
 
 \subsection{Post-Processing}
 
-\inputfigure{analog-example-density}
-At Stage~5 in \fref{algorithm}, it can be seen in, for example,
-\eref{pc-example} that the surrogate model has a negligibly small computational
-cost at this stage: for any outcome of the parameters $\vz \equiv \vz(\omega)$,
-we can easily compute the corresponding temperature by plugging in \vz into
-\eref{pc-example}; the same applies to power. Hence, the constructed
-representation can be trivially analyzed to retrieve various statistics about
-the system in \eref{fourier-system}. Let us illustrate a few of them still
-retaining the example in \eref{pc-example}. Assume that the dynamic power
-profile $\mp_\dynamic$ corresponding to the considered workload is the one shown
-in \fref{application-power}. Having constructed the surrogate with respect to
-this profile, we can then rigorously estimate, say, the PDF of temperature at
-some $k$th moment of time by sampling the surrogate and obtain curves similar to
-those shown \fref{experimental-results-pdf} (discussed in
-\sref{experimental-results}). Furthermore, the expectation and variance of
-temperature are trivially calculated using the formulae in \eref{pc-moments}
-where $\nc = 6$. For the whole time span of the power profile $\mp_\dynamic$
-depicted in \fref{application-power}, these quantities are plotted in
-\fref{application-temperature}. The displayed curves closely match those
-obtained via MC simulations with $10^4$ samples; however, our method takes less
-than a second whilst MC sampling takes more than a day as we shall see next.
+At Stage~5 in \fref{analog-overview}, the constructed expansions are utilized in
+order to assist the designer by analyzing the impact of process variation on
+power- and temperature-related characteristics of the system. It can be seen in,
+for example, \eref{analog-expansion-example} that the surrogate model has a
+negligibly small computational cost: for any outcome of \vz, one can easily
+compute the corresponding temperature by plugging this outcome into
+\eref{analog-expansion-example}; the same applies to power. Hence, the
+representation can be trivially analyzed in order to retrieve various statistics
+about the system. Let us illustrate a few of them using the example in
+\eref{analog-expansion-example}.
+
+\inputfigure{analog-example-power}
+\inputfigure{analog-example-temperature}
+Assume that the dynamic power profile $\mp_\dynamic$ is the one shown in
+\fref{analog-example-power}. Having constructed a surrogate with respect to this
+profile, we can calculate, for instance, the expectation and variance of the
+temperature that the system has at a certain time moment, which is a trivial
+operation given the formulae in \eref{analog-chaos-moments}. For the whole time
+span of $\mp_\dynamic$, these quantities are plotted in
+\fref{analog-example-temperature} where the dashed lines correspond to one
+standard deviation above the corresponding expectations. The displayed curves
+closely match those obtained via \ac{MC} sampling with $\no = 10^4$ samples;
+however, our method takes less than a second while \ac{MC} sampling takes more
+than a day as we shall see in \sref{analog-results}. In addition, the \ac{PDF}
+of the temperature at that time moment can also be estimated. This operation is
+undertaken by sampling the surrogate, in which case we might obtain curves
+similar to those shown \fref{analog-example-density}, which is a part of a
+different example given in \sref{analog-results}.
 
 \section{Experimental Results}
 \slab{analog-results}
@@ -806,6 +813,7 @@ transitions from $10^4$ to $10^5$. The rate of this decrease suggests that $\ns
 = 10^4$ is not sufficient to reach the same accuracy as the one delivered by the
 proposed framework, and $\ns = 10^5$ might not be either.
 
+\inputfigure{analog-example-density}
 The results of the third metric $\epsilon_{\probability}$ allow us to conclude
 that the PDFs computed by the third-order (and higher) PC expansions closely
 follow those estimated by the MC technique with large numbers of samples,
