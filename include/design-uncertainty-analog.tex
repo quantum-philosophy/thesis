@@ -1398,25 +1398,6 @@ quantity in order to pursue robustness of electronic system designs.
 
 \section{Appendix}
 
-\subsection{Probability Transformation}
-
-The uncertain parameters \vu should be preprocessed in order to extract a set of
-mutually independent random variables \vz. This task is accomplished by virtue
-of the Nataf transformation. Here we describe the algorithm in brief and refer
-the interested reader to \cite{li2008} for additional details.
-
-The transformation has two steps. First, $\vu \in \real^{\nu \np}$ are morphed
-into correlated standard Gaussian variables $\vh \in \real^{\nu \np}$ using the
-knowledge of the marginal distributions and correlation matrix of \vu. Second,
-the obtained variables are mapped into independent standard Gaussian variables
-$\vz \in \real^{\nu \np}$ using the eigendecomposition as we show next. Let
-$\correlation{\vh}$ be the correlation matrix of \vh. Since any correlation
-matrix is real and symmetric, $\correlation{\vh}$ admits the eigendecomposition:
-$\correlation{\vh} = \m{V} \m{\Lambda} \m{V}^T$ (see \sref{thermal-model} for
-the notation). \vh can then be represented as $\vh = \m{V}
-\m{\Lambda}^\frac{1}{2} \vz$ where the vector \vz is standardized and
-uncorrelated, which is also independent as \vz is Gaussian.
-
 \subsection{Model Order Reduction}
 
 In this section, we discuss the model order reduction performed by $\transform$
