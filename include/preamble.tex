@@ -38,17 +38,23 @@
 % References
 %
 
+\newcommand{\alab}[1]{\label{algorithm:#1}}
+\newcommand{\aref}[1]{Algorithm~\ref{algorithm:#1}}
+
 \newcommand{\clab}[1]{\label{chapter:#1}}
 \newcommand{\cref}[1]{Chapter~\ref{chapter:#1}}
-
-\newcommand{\slab}[1]{\label{section:#1}}
-\newcommand{\sref}[1]{Section~\ref{section:#1}}
 
 \newcommand{\elab}[1]{\label{equation:#1}}
 \newcommand{\eref}[1]{(\ref{equation:#1})}
 
 \newcommand{\flab}[1]{\label{figure:#1}}
 \renewcommand{\fref}[1]{Figure~\ref{figure:#1}}
+
+\newcommand{\rlab}[1]{\label{remark:#1}}
+\newcommand{\rref}[1]{Remark~\ref{remark:#1}}
+
+\newcommand{\slab}[1]{\label{section:#1}}
+\newcommand{\sref}[1]{Section~\ref{section:#1}}
 
 \newcommand{\tlab}[1]{\label{table:#1}}
 \renewcommand{\tref}[1]{Table~\ref{table:#1}}
@@ -81,7 +87,11 @@
 \usepackage{cases}
 \usepackage{xspace}
 
+\usepackage{amsthm}
+\newtheorem{remark}{Remark}
+
 \numberwithin{equation}{chapter}
+\numberwithin{remark}{chapter}
 
 \renewcommand{\math}[1]{\ensuremath{#1}\xspace}
 
@@ -97,16 +107,24 @@
 \newcommand{\hm}[1]{\hat{\m{#1}}}
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
+\newcommand{\real}{\mathbb{R}}
+\renewcommand{\natural}{\mathbb{N}}
+
+\newcommand{\cardinality}[1]{\# #1}
+\newcommand{\multiindex}[1][\alpha]{\math{\boldsymbol{#1}}}
+\newcommand{\multiindices}[2][]{\mathcal{A}_{#1}\left(#2\right)}
+
 \newcommand{\absolute}[1]{|#1|}
 \newcommand{\bigo}[1]{\mathcal{O}\left(#1\right)}
 \newcommand{\innerproduct}[2]{\left\langle #1, #2 \right\rangle}
-\newcommand{\maximum}{\mathrm{max}}
-\newcommand{\minimum}{\mathrm{min}}
 \newcommand{\norm}[2][]{\|#2\|_{#1}}
 \newcommand{\range}[2]{#1, \dots, #2}
-\newcommand{\real}{\mathbb{R}}
 \newcommand{\transpose}[1]{{#1}^\mathrm{T}}
+\renewcommand{\d}[1]{\mathrm{d} #1}
 \renewcommand{\L}[1]{{L^{#1}}}
+
+\newcommand{\maximum}{\mathrm{max}}
+\newcommand{\minimum}{\mathrm{min}}
 
 \makeatletter
 \def\diagonal#1{\@ifnextchar\bgroup{\diagonaltwo{#1}}{\diagonalone{#1}}}
@@ -215,21 +233,22 @@
 \newcommand{\overall}{\mathrm{glob}}
 
 %
-% Wafer
+% System
 %
 
 \newcommand{\nd}{\numberof{d}}
 \newcommand{\hnd}{\hnumberof{d}}
+\newcommand{\ns}{\numberof{s}}
+
+\newcommand{\dt}{\math{\Delta t}}
+\newcommand{\schedule}{\math{\mathcal{S}}}
+\newcommand{\spec}{\math{\mathcal{S}}}
 
 %
 % Platform
 %
 
 \newcommand{\np}{\numberof{p}}
-\newcommand{\ns}{\numberof{s}}
-
-\newcommand{\dt}{\math{\Delta t}}
-\newcommand{\spec}{\math{\mathcal{S}}}
 
 %
 % Application
@@ -265,3 +284,10 @@
 
 \newcommand{\ambient}{\mathrm{amb}}
 \newcommand{\celsius}[1]{#1${}^\circ$C}
+
+%
+% Reliability
+%
+
+\newcommand{\burn}{\mathrm{burn}}
+\newcommand{\wear}{\mathrm{wear}}
