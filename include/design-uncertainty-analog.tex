@@ -237,7 +237,7 @@ distribution function defined by
 \end{equation*}
 The expectation and variance of $x$ are given by
 \begin{align*}
-  & \expectation{x} := \int_\Omega x(\omega) \, \d{\probability(\omega)} = \int_\real y \, \d{F_x(y)} \hspace{1em} \text{and} \\
+  & \expectation{x} := \int_\Omega x(\omega) \, \d \probability(\omega) = \int_\real y \, \d F_x(y) \hspace{1em} \text{and} \\
   & \variance{x} := \expectation{(x - \expectation{x})^2},
 \end{align*}
 respectively. A random vector $\v{x} = (x_i)$ and matrix $\m{X} = (x_{ij})$ are
@@ -690,7 +690,7 @@ additional nodes.
 The thermal dynamics of the system are modeled using the following system of
 differential-algebraic equations \cite{ukhov2012, ukhov2014}:
 \begin{subnumcases}{\elab{thermal-model}}
-  \frac{\d{\vs(t, \vu)}}{\d{t}} = \m{A} \: \vs(t, \vu) + \m{B} \: \vp(t, \vu, \vq(t, \vu)) \elab{thermal-model-inner} \\
+  \frac{\d \vs(t, \vu)}{\d t} = \m{A} \: \vs(t, \vu) + \m{B} \: \vp(t, \vu, \vq(t, \vu)) \elab{thermal-model-inner} \\
   \vq(t, \vu) = \m{B}^T \vs(t, \vu) + \vq_\ambient \elab{thermal-model-outer}
 \end{subnumcases}
 where
@@ -1408,7 +1408,7 @@ member from that family. In what follows, for compactness, we shall omit \vu.
 Multiplying both sides of \eref{thermal-model-inner} by $e^{- \m{A} t}$ and
 noting that
 \[
-  e^{-\m{A} t} \frac{\d{\vs(t)}}{\d{t}} = \frac{\d{e^{-\m{A} t} \vs(t)}}{\d{t}} + e^{-\m{A} t} \m{A} \vs(t),
+  e^{-\m{A} t} \frac{\d \vs(t)}{\d t} = \frac{\d e^{-\m{A} t} \vs(t)}{\d t} + e^{-\m{A} t} \m{A} \vs(t),
 \]
 we obtain the exact solution of \eref{thermal-model-inner} over a time interval
 $\dt = t_k - t_{k - 1}$ given as follows:
@@ -1509,22 +1509,22 @@ The cardinality of $\multiindices{\lc}$ in
 \[
   \cardinality{\multiindices{\lc}} := { \lc + \nz \choose \nz }.
 \]
-Denote by $\d{F_\z}$ the probability measure induced on $\real^\nz$
+Denote by $\d F_\z$ the probability measure induced on $\real^\nz$
 by \vz, which is standard Gaussian given by
 \[
-  \d{F_\z(\v{x})} = (2 \pi)^{-\nz/2} \, e^{-\norm[2]{\v{x}}^2 / 2} \, d\v{x}.
+  \d F_\z(\v{x}) = (2 \pi)^{-\nz/2} \, e^{-\norm[2]{\v{x}}^2 / 2} \, \d \v{x}.
 \]
 The inner product in \eref{spectral-decomposition} projects \g onto the
 corresponding polynomial subspaces and is given by
 \[
   \hat{\g}_{\multiindex}
   = \innerproduct{\g}{\psi_{\multiindex}}
-  = \int_{\real^\nz} \g(\transform{\v{x}}) \, \psi_{\multiindex}(\v{x}) \, \d{F_\z(\v{x})}.
+  = \int_{\real^\nz} \g(\transform{\v{x}}) \, \psi_{\multiindex}(\v{x}) \, \d F_\z(\v{x}).
 \]
 Recall that \g is a function of \vu, and $\transform$, defined in
 \eref{probability-transformation}, bridges \vu with \vz. Lastly, we note that
 $\{ \psi_{\multiindex}: \multiindex \in \natural^\nz \}$ are orthonormal with
-respect to $\d{F_\z}$:
+respect to $\d F_\z$:
 $\innerproduct{\psi_{\multiindex}}{\psi_{\multiindex[\beta]}} =
 \delta_{\multiindex \multiindex[\beta]}$ where $\multiindex = (\alpha_i)$ and
 $\multiindex[\beta] = (\beta_i)$ are two arbitrary multi-indices,

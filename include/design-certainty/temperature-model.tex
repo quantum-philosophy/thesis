@@ -30,7 +30,7 @@ the thermal dynamics of the circuit and, therefore, the electronic system are
 governed by the following system of \nn differential and \np algebraic
 equations, which is based on Fourier's law \cite{fourier2009}:
 \begin{subnumcases}{\elab{temperature-model-original}}
-  \m{C} \frac{d\tvs(t)}{dt} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
+  \m{C} \frac{\d \tvs(t)}{\d t} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
   \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
 \end{subnumcases}
 where $\vq \in \real^\np$, $\vq_\ambient \in \real^\np$, and $\vp \in \real^\np$

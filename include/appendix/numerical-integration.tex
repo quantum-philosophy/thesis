@@ -1,6 +1,6 @@
 The integral of a function $g: \real \to \real$
 \[
-  I = \int_\real g(x) dx
+  I = \int_\real g(x) \d x
 \]
 is approximated by a summation of the function's values computed at prescribed
 points $\{ \hat{x}_i \in \real \}_{i = 1}^\nq$ and multiplied by prescribed
@@ -17,7 +17,7 @@ the maximum order of polynomials that the rule integrates exactly
 \cite{heiss2008}. Similarly, in multiple dimensions, the integral of a function
 $g: \real^n \to \real$
 \[
-  I = \int_{\real^n} g(\v{x}) d\v{x}
+  I = \int_{\real^n} g(\v{x}) \d \v{x}
 \]
 is approximated by
 \begin{equation} \elab{quadrature-summation}
@@ -32,14 +32,14 @@ see, for instance, \cite{burkardt}.
 
 Consider now the following more general integral:
 \[
-  I = \int_{\real^n} g(\v{x}) dF(\v{x}).
+  I = \int_{\real^n} g(\v{x}) \d F(\v{x})
 \]
 Here $g$ is integrated with respect to a measure $F: \real^n \to \real$
 \cite{durrett2010} that does not necessarily correspond to the usual Lebesgue
 measure used in the earlier examples. If $F$ is absolutely continuous, the
 integrand can be rewritten as
 \[
-  I = \int_{\real^n} g(\v{x}) f(\v{x}) d\v{x}
+  I = \int_{\real^n} g(\v{x}) f(\v{x}) \d \v{x}
 \]
 where $g$ is weighted by the derivative $f: \real^n \to \real$ of $F$ and
 integrated with respect to the Lebesgue measure. Since integrating in such a way

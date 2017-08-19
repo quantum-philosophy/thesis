@@ -12,7 +12,7 @@ as the \acf{CDF}---defined by
 \end{equation*}
 The expectation of $x$ is given by
 \[
-  \expectation{x} = \int_\real y \, dF(y) = \int_\Omega x(\omega) dP(\omega).
+  \expectation{x} = \int_\real y \, \d F(y) = \int_\Omega x(\omega) \d \probability(\omega).
 \]
 If $\expectation{x} = 0$, $x$ is called centered. The variance of $x$ is given
 by
@@ -41,7 +41,7 @@ said to be a continuous random variable. If, moreover, $F$ is absolutely
 continuous, $x$ is said to have a density function $f$, which is also known as
 the \acf{PDF}. In such a case,
 \[
-  F(y) = \int_{-\infty}^y f(z) dz.
+  F(y) = \int_{-\infty}^y f(z) \d z.
 \]
 Other types of random variables such as discrete random variables are of little
 interest to this thesis, and, therefore, they are not covered here.
