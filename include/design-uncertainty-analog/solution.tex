@@ -1,0 +1,285 @@
+We develop a framework for the analysis of the transient power and temperature
+profiles of electronic systems subject to the uncertainty due to process
+variation. The proposed technique is flexible in modeling diverse probability
+distributions, specified by the user, of the uncertain parameters, such as the
+effective channel length and gate oxide thickness. Moreover, there are no
+assumptions on the distributions of the resulting power and temperature traces
+as these distributions are unlikely to be known \emph{a priori}. The proposed
+technique is capable of capturing arbitrary joint effects of the uncertain
+parameters on the system since the impact of these parameters is introduced into
+the framework as a ``black box,'' which is also defined by the user. In
+particular, it allows for the power-temperature interplay to be taken into
+account with no effort. Our approach is founded on the basis of \acf{PC}
+expansions, which constitute an attractive alternative to \ac{MC} sampling. This
+is due to the fact that \ac{PC} expansions possess much faster convergence
+properties and provide succinct and intuitive representations of system
+responses to stochastic inputs. In addition, we illustrate the framework
+considering one of the most important parameters affected by process variation,
+namely, the effective channel length. Note, however, that our approach is not
+bound to any particular source of variability and, apart from the effective
+channel length, can be applied to other process parameters such as the gate
+oxide thickness.
+
+The main idea is to construct a surrogate model for the joint power and
+temperature model of the system using \ac{PC} expansions. Having constructed
+this surrogate, such quantities as the \acf{CDF} and \acf{PDF} can be easily
+estimated. Moreover, the representation that we compute provides analytical
+formulae for probabilistic moments, which means that the expectation and
+variance are readily available.
+
+\inputfigure{chaos-overview}
+The major stages of our technique are depicted in \fref{chaos-overview}. At
+Stage~1 (\sref{chaos-probability-transformation}), the uncertain parameters \vu
+are transformed into independent random variables \vz since independence is a
+prerequisite of the \ac{PC} approach. At Stage~2 (\sref{chaos-power-model}), the
+user specifies the power model of the system via a ``black-box'' function $f$
+that computes the total power \vp for a particular temperature \vq and a
+particular outcome of the parameters \vu. At Stage~3
+(\sref{chaos-temperature-model}), based on \sref{transient-state-solution}, a
+mathematical description of the thermal behavior of the system is obtained. At
+Stage~4 (\sref{chaos-surrogate-model}), the surrogate model is computed by
+traversing the desired time span and gradually constructing \ac{PC} expansions
+of the stochastic power and temperature profiles. At Stage~5
+(\sref{chaos-post-processing}), the computed \ac{PC} expansions are analyzed in
+order to obtain the needed characteristics of the system such as \acp{PDF} and
+moments.
+
+Let us now detail each of the five stages of the proposed framework.
+
+\subsection{Probability Transformation}
+\slab{chaos-probability-transformation}
+
+Independence is required by \ac{PC} expansions. In general, the \nu individual
+variables in \vu are dependent and, therefore, should be preprocessed in order
+to fulfill the requirement. To this end, an adequate probability transformation
+should be undertaken \cite{eldred2008}. Denote such a transformation by $\vu =
+\transform{\vz}$ where $\vz: \Omega \to \real^\nz$ is a random vector with \nz
+mutually independent components.
+
+Correlated random variables can be transformed into linearly uncorrelated ones
+via the \ac{KL} decomposition given in \eref{karhunen-loeve}. If, in addition,
+the correlated variables form a Gaussian vector, the uncorrelated ones are also
+mutually independent. In the general case (non-Gaussian), the most prominent
+solutions to attain independence are the Rosenblatt \cite{rosenblatt1952} and
+Nataf transformations \cite{liu1986}. Rosenblatt's approach is suitable when the
+joint distribution function of \vu is known; however, such information is rarely
+available. A set of marginal distributions and a correlation matrix are more
+likely to be given, which are already sufficient for the Nataf transformation.
+See \sref{probability-transformation} for more detail.
+
+Apart from the extraction of the independent variables \vz, an essential
+operation at this stage is model order reduction since the number of stochastic
+dimensions directly impacts the complexity of the rest of the computations. The
+intuition is that, due to the correlations between the random variables in \vu,
+some of them can be harmlessly replaced by combinations of the rest, leading to
+a random vector \vz with fewer dimensions. This operation is often treated as a
+part of the \ac{KL} decomposition, which is also covered in
+\sref{probability-transformation}.
+
+\subsection{Power Model}
+\slab{chaos-power-model}
+
+As stated in \sref{chaos-problem}, the user is supposed to decide on the power
+model for the system, which we denote as follows:
+\begin{equation} \elab{chaos-power-model}
+  \vp(t) = f(t, \vq, \vu)
+\end{equation}
+where $f$ is a function that evaluates the power $\vp \in \real^\np$ of the
+processing elements given their temperature $\vq \in \real^\np$ and parameters
+$\vu \in \real^\nu$. It should be understood that \vp, \vq, and \vu are random
+vectors in general, and that $f$ consumes $\vq(t, \omega)$ and $\vu(\omega)$ and
+yields $\vp(t, \omega)$ for some particular outcome $\omega \in \Omega$.
+
+The user can choose any $f$. It can be, for instance, a closed-form formula or a
+piece of code. The only assumption we make about $f$ is that it is smooth in \vz
+and belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$ when it is viewed as a
+random variable (see \sref{probability-theory}), which is generally applicable
+to most physical systems \cite{xiu2010}. Note also that the operation performed
+by this ``black box'' is purely deterministic. The definition of $f$ is flexible
+enough to account for such effects as the interdependence between power and
+temperature discussed in \sref{power-model}.
+
+\subsection{Temperature Model}
+\slab{chaos-temperature-model}
+
+The temperature model is based on the one described in \sref{temperature-model},
+and transient temperature analysis is based on the one presented in
+\sref{transient-state-solution}. The major difference is that
+\eref{temperature-model} implicitly operates on stochastic quantities.
+Consequently, the recurrent solution in \eref{transient-state-recurrence}, that
+is,
+\begin{equation} \elab{chaos-recurrence-original}
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
+\end{equation}
+for $i = \range{1}{\ns}$ where $\vs_0 = \v{0}$, is such as well. In the
+deterministic case, it can be readily employed to perform deterministic
+transient power and temperature analysis via the techniques in
+\sref{power-temperature-interplay}. In the stochastic case, however, the
+situation is substantially different since $\vp_i$ and, consequently, $\vs_i$
+and $\vq_i$ are probabilistic quantities. Moreover, at each step, $\vp_i$ is an
+arbitrary transformation of the uncertain parameters \vu and stochastic
+temperature $\vq_i$, which results in a multivariate random variable with a
+generally unknown probability distribution. Furthermore, $\vp_i$, $\vq_i$,
+$\vs_i$, and \vu are dependent random vectors since the first three are
+functions of the last. Consequently, the operations involved in the recurrence
+are to be performed on dependent random vectors with arbitrary probability
+distributions, which, in general, have no closed-form solutions, which we
+address in the following subsection.
+
+\subsection{Surrogate Model}
+\slab{chaos-surrogate-model}
+
+The goal now is to transform the recurrence in \eref{chaos-recurrence-original}
+in such a way that it becomes possible to estimate the probability distributions
+of power and temperature. Our solution is the construction of a surrogate model
+for the power function $f$, which we then propagate through the recurrence in
+order to obtain an approximation for power and an approximation for temperature.
+To this end, we employ \ac{PC}, which is introduce in \sref{polynomial-chaos}.
+
+The first step toward a polynomial expansion is the choice of a suitable
+polynomial basis, which is typically made based on the Askey scheme of
+orthogonal polynomials \cite{xiu2010}. The step is crucial as the rate of
+convergence of \ac{PC} expansions closely depends on it. Although there are no
+strict rules that guarantee the optimal choice \cite{knio2006}, there are best
+practices saying that one should be guided by the probability distributions of
+the random variables that drive the stochastic system at hand. For instance,
+when a random variable follows a beta distribution, the Jacobi basis is worth
+being tried first; on the other hand, the Hermite basis is preferable for
+Gaussian distributions.
+
+Having chosen an appropriate basis, we apply the \ac{PC} formalism to the power
+term $\vp_i$ in \eref{chaos-recurrence-original} as described in
+\eref{chaos-expansion}. The result is
+\[
+  \chaos{\nz}{\lc}{\vp_i}(\vz) = \sum_{j = 1}^\nc \hat{\vp}_{ij} \psi_j(\vz)
+\]
+where $\{ \psi_j: \real^\nz \to \real \}_{j = 1}^\nc$ are the first \nc
+polynomials of the basis; $\{ \hat{\vp}_{ij} \in \real^\np \}_{j = 1}^\nc$ are
+the coefficients of the expansion; and \nc is given by
+\eref{chaos-length-total-order}.
+
+It can be seen in \eref{chaos-recurrence-original} that, due to the linearity of
+the operations involved in the recurrence, $\vs_i$ attains an expansion that has
+the same structure as the one of $\vp_i$, and the recurrence can be rewritten as
+follows:
+\[
+  \chaos{\nz}{\lc}{\vs_i}(\vz) = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}}(\vz) + \m{F} \, \chaos{\nz}{\lc}{\vp_i}(\vz)
+\]
+for $i = \range{1}{\ns}$. Consequently, there are two concurrent \ac{PC}
+expansions: one is for power, and one is for temperature; the two expansions
+have the same basis but different coefficients. In order to understand the
+structure of the above formula better, let us spell it out as
+\[
+  \sum_{j = 1}^\nc \hat{\vs}_{ij} \psi_j(\vz) =
+  \sum_{j = 1}^\nc \left( \m{E} \, \hat{\vs}_{i - 1, j} + \m{F} \, \hat{\vp}_{ij} \right) \psi_j(\vz).
+\]
+Multiplying the above equation by each polynomial from the basis and making use
+of the orthogonality property in \eref{polynomial-orthogonality}, we obtain the
+following recurrence:
+\begin{equation} \elab{chaos-recurrence}
+  \hat{\vs}_{ij} = \m{E} \hat{\vs}_{i - 1, j} + \m{F} \hat{\vp}_{ij}
+\end{equation}
+for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$. Combining the recurrence with
+\eref{temperature-algebraic}, we obtain the coefficients of the \ac{PC}
+expansion of the temperature vector $\vq_k$.
+
+Let us now find the coefficients $\{ \hat{\vp}_{ij} \}_{i = 1, j = 1}^{\ns,
+\nc}$ of the \ac{PC} expansion of power, which will subsequently be propagated
+to temperature. The coefficients are computed using spectral projections as
+shown in \eref{chaos-projection}. The inner product in the denominator of
+\eref{chaos-projection} does not pose any computation problem: it is a
+normalization constant that can be considered given along with the basis. The
+inner product in the enumerator, however, should generally be evaluated
+numerically, which is described in \sref{numerical-integration}. To this end, an
+adequate quadrature $\quadrature{\nz}{\lq}$ should be used. The result is
+\begin{equation} \elab{chaos-coefficient}
+  \hat{\vp}_{ij} = \frac{\quadrature{\nz}{\lq}{\vp_i \psi_j}}{\innerproduct{\psi_j}{\psi_j}}
+\end{equation}
+for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$ where the integration should
+be understood element-wise. It is worth emphasizing that, since power depends on
+temperature as shown in \sref{power-model}, at each step of the recurrence in
+\eref{chaos-recurrence}, the computation of $\hat{\vp}_{ij}$ should be done with
+respect to the \ac{PC} expansion of $\vq_{i - 1}$.
+
+The construction process of the stochastic power and temperature profiles is
+estimated to have the following time complexity per time step:
+\[
+  \bigo{n_n^2 \nc + \nn \np \nq \nc + \nq f(\np)}
+\]
+where \nn, \np, \nc, and \nq are the number of thermal nodes, processing
+elements, polynomial terms, and quadrature points, respectively, and $f(\np)$
+denotes the contribution of the power model in \eref{chaos-power-model}. The
+expression can be detailed further by expanding \nc and \nq. The formula of \nc
+is given in \eref{chaos-length-total-order}, which behaves as $\nz^\nc / \nc!$
+in the limit with respect to \nz. For quadrature rules based on the full tensor
+product, $\log(\nq) \propto \nz$, which means that the dependency of \nq on \nz
+is exponential. It can be seen that the theory of \ac{PC} expansions suffers
+from the curse of dimensionality \cite{eldred2008, xiu2010}. Concretely, when
+\nz increases, the number of polynomial terms as well as the complexity of the
+corresponding coefficients exhibit a growth, which is exponential without
+special treatments. The problem does not have a general solution and is one of
+the central topics of many ongoing studies. We mitigate this issue by
+\one~keeping the number of stochastic dimensions low using the model order
+reduction based on the \ac{KL} decomposition discussed in
+\sref{probability-transformation} and \two~utilizing efficient integration
+techniques discussed in \sref{numerical-integration}. In particular, for sparse
+integration grids based on Gaussian quadrature rules, $\log(\nq) \propto
+\log(\nz)$, which means that the dependency of \nq on \nz is only polynomial
+\cite{heiss2008}.
+
+Let us summarize this subsection. Recall the stochastic recurrence in
+\eref{chaos-recurrence-original} where, in the presence of dependencies, an
+arbitrary functional $\vp_k$ of the uncertain parameters \vu and stochastic
+temperature $\vq_k$---which can be seen in \eref{chaos-power-model}---needs to
+be evaluated and combined with another random vector $\vs_k$. This recurrence in
+\eref{chaos-recurrence-original} has been replaced with a purely deterministic
+recurrence in \eref{chaos-recurrence}. More globally, the whole system including
+the heavy temperature model in \eref{temperature-model-original} has been
+substituted with a light surrogate defined by a set of polynomials $\{ \psi_j
+\}_{j = 1}^\nc$ in \vz, a set of coefficients $\{ \hat{\vp}_{ij} \}_{i = 1, j =
+1}^{\ns, \nc}$ for power, and a set of coefficient $\{ \hat{\vq}_{ij} \}_{i = 1,
+j = 1}^{\ns, \nc}$ for temperature. These quantities constitute a stochastic
+power profile \mp and a stochastic temperature profile \mq, and these profiles
+are ready to be analyzed, which we discuss in the following subsection.
+
+Before we proceed, let us draw attention to the ease and generality of taking
+uncertainty into consideration using the proposed approach. The above
+description is delivered from any explicit formula of any particular uncertain
+parameter. In contrast, the solutions from the literature related to process
+variation are typically based on ad~hoc expressions and should be tailored by
+the user for each new parameter individually; see, for instance,
+\cite{ghanta2006, bhardwaj2008, huang2009a}. Our framework provides a great
+flexibility in this regard.
+
+\subsection{Post-Processing}
+\slab{chaos-post-processing}
+
+Due to the properties of \ac{PC} expansions---in particular, due to the mutual
+orthogonality of the basis functions discussed in \sref{polynomial-chaos}---the
+obtained polynomial representations allow for various prospective analyses to be
+performed with no effort. For instance, consider the expansion of temperature at
+step $i$
+\[
+  \chaos{\nz}{\lc}{\vq_i}(\vz) = \sum_{j = 1}^{\nc} \hat{\vq}_{ij} \psi_j(\vz)
+\]
+where $\hat{\vq}_{ij}$ are computed using \eref{chaos-recurrence} and
+\eref{temperature-algebraic}. Let us, for example, find the expectation and
+variance of the temperature at this time moment. Since the first polynomial
+$\psi_1$ in a polynomial basis is unity by definition \cite{xiu2010},
+$\expectation{\psi_1(\vz)} = 1$. Therefore, using the orthogonality property in
+\eref{polynomial-orthogonality}, we conclude that $\expectation{\psi_i(\vz)} =
+0$ for $i = \range{2}{\nc}$. Consequently, the expected value and variance have
+the following simple expressions solely based on the coefficients:
+\begin{equation} \elab{chaos-moments}
+  \begin{split}
+    & \expectation{\vq_i} = \hat{\vq}_{i1} \text{ and} \\
+    & \variance{\vq_i} = \sum_{j = 2}^{\nc} \innerproduct{\psi_j}{\psi_j} \hat{\vq}_{ij}^2,
+  \end{split}
+\end{equation}
+respectively, where the squaring should be understood element-wise. Such
+quantities as \acp{CDF}, \acp{PDF}, and probabilities of certain events can be
+estimated by means of \ac{MC} sampling applied to the expansion. In this case,
+each sample is a trivial evaluation of a polynomial, and, hence, \ac{MC}
+sampling is readily adequate. Furthermore, global and local sensitivity analysis
+of deterministic and stochastic quantities can be readily conducted on a \ac{PC}
+expansion.

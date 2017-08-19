@@ -1,0 +1,233 @@
+So far we have not made any assumptions regarding the cause of variability. In
+this section, we consider a particular application of the proposed framework in
+order to illustrate how it is supposed to be used in practice.
+
+As discussed in \sref{power-model}, the total dissipation of power is composed
+of two major parts: dynamic and static. The influence of process variation on
+the dynamic power is known to be negligibly small \cite{srivastava2010}; on the
+other hand, the variability of the static power is substantial, in which the
+subthreshold leakage current contributes the most \cite{juan2011, juan2012}.
+Hence, we focus on the subthreshold leakage and, more specifically, on the
+effective channel length denoted by \u since it has the strongest influence on
+the leakage current and is severely deteriorated by process variation
+\cite{chandrakasan2000}. In particular, \u also affects the threshold voltage.
+
+\inputfigure{beta-gaussian}
+It is well known that the dispersion of the effective channel length around its
+nominal value resembles the bell shape of Gaussian distributions. Therefore,
+such variations are often conveniently modeled using Gaussian random variables
+\cite{bhardwaj2006, ghanta2006, huang2009a, shen2009, chandra2010,
+srivastava2010, juan2011, juan2012, lee2013}. Due to both the underlying physics
+and demonstration purposes, we make a step further and bake into the model the
+fact that the effective channel length---occupying the space between the drain
+and source of a transistor---cannot be arbitrarily large or take a negative
+value, which Gaussian distributions allow it to do. In other words, we require
+the model of \u to have a bounded support. With this in mind, we propose to
+model the effective channel length and other physically-bounded parameters using
+the four-parametric family of beta distributions as
+\[
+  \u \sim \mathrm{Beta}(a, b, c, d)
+\]
+where $a$ and $b$ are the shape parameters, and $c$ and $d$ are the left and
+right bounds of the support, respectively. The parameters $a$ and $b$ can be
+chosen so that the typically found bell shape of the distribution is preserved.
+An illustration is given in \fref{beta-gaussian} where a beta distribution is
+fitted to the standard Gaussian distribution; alternatively, one can match
+probabilistic moments. It can be seen that the curves are nearly
+indistinguishable, but the beta one has a bounded support $[-4, 4]$, which can
+potentially lead to more realistic models.
+
+The variability of $u$ is split into global $u_\overall$ and local $u_\local$
+parts \cite{shen2009, chandra2010}. Without loss of generality, $u_\overall$ can
+be treated as a composition of independent inter-lot, inter-wafer, and inter-die
+variations; likewise, $u_\local$ can be treated as a composition of independent
+and dependent local variations. The variability $u_\overall$ is assumed to be
+shared by all the \np processing elements whereas each processing element has
+its own local parameter $u_{\local, i}$. Therefore, the effective channel length
+of processing element $i$ is modeled as follows:
+\[
+  u_i = u_\nominal + u_\overall + u_{\local, i}
+\]
+where $u_\nominal$ is the nominal value of the effective channel length. Hence,
+the uncertain parameters of the problem are
+\[
+  \vu = (u_{\local, 1}, \dotsc, u_{\local, \np}, u_\overall): \Omega \to \real^{\np + 1}.
+\]
+
+Global variations are typically assumed to be uncorrelated with respect to the
+local ones. The latter, however, are known to have high spatial correlations.
+Similar to \cref{analysis-uncertainty-analog}, these correlations are modeled
+here using the correlation function given in \eref{inference-correlation}. This
+choice is guided by the observations of the correlation structured induced by
+the manufacturing process \cite{friedberg2005, chandrakasan2000, cheng2011}:
+$k_\SE$ imposes similarities between the spatial locations that are close to
+each other, and $k_\OU$ imposes similarities between the locations that are at
+the same distance from the center of the die; see also \cite{ghanem1991,
+ghanta2006, bhardwaj2008, huang2009a, lee2013}.
+
+Although \eref{inference-correlation} captures certain features inherent to the
+manufacturing process, it is still an idealization. In practice, it can be
+difficult to make a justifiable choice and tune such a formula, which is a
+prerequisite for the techniques that are discussed in \sref{chaos-prior} and
+based on the continuous \ac{KL} decomposition. A correlation matrix, on the
+other hand, can readily be estimated from measurements and, thus, is a more
+probable input to probabilistic analysis. Therefore, we use
+\eref{inference-correlation} with the only purpose of constructing a correlation
+matrix of $\{ u_{\local, i} \}_{i = 1}^\np$. For convenience, the resulting
+matrix is extended by one dimension in order to accommodate $u_\overall$ along
+with $\{ u_{\local, i} \}_{i = 1}^\np$. In this case, the correlation matrix
+obtains one additional nonzero diagonal element equal to unity; the result is
+the correlation matrix of \vu denoted by $\correlation{\vu}$.
+
+To conclude, the input to our analysis is composed of the marginal distributions
+of the uncertain parameters \vu, which are beta distributions, and the
+corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
+stages of the proposed framework discussed in \sref{chaos-solution} and depicted
+in \fref{chaos-overview}.
+
+\subsection{Probability Transformation}
+
+At Stage~1 in \fref{chaos-overview}, \vu should be preprocessed in order to
+extract a vector of mutually independent random variables denoted by \vz.
+Following the guidance given in \sref{chaos-probability-transformation}, the
+most suitable transformation for the ongoing scenario is the one given in
+\eref{probability-transformation}, which we denote here by
+\[
+  \vu \approx \transform{\vz}.
+\]
+
+Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
+directly impacts the computational cost of \ac{PC} expansions, which is
+elaborated on in \sref{chaos-surrogate-model}, one should consider a possibility
+for model order reduction before constructing \ac{PC} expansions. To this end,
+the model order reduction described in \sref{probability-transformation} is an
+essential part of and assumed to be active in the above transformation. The
+reduce dimensionality is denoted by \nz.
+
+The marginal distributions of \vz can be arbitrary as long as one can construct
+a suitable polynomial basis as described in \sref{chaos-surrogate-model}. We let
+\vz have beta distributions, staying in the same family of distributions with
+\vu.
+
+\subsection{Power Model}
+
+At Stage~2 in \fref{chaos-overview}, we have to decide on the power model with
+the identified uncertain parameters as an input. To this end,
+\eref{chaos-power-model} is decomposed into the sum of the dynamic and static
+components
+\[
+  f(t, \vq, \vu) = f_\dynamic(t) + f_\static(\vq, \vu)
+\]
+where, as motivated earlier, $f_\dynamic$ does not depend on \vu. We assume that
+the desired workload of the system is given as a dynamic power profile denoted
+by $\mp_\dynamic$. Similar to \sref{inference-results}, without loss of
+generality, the development of the static part is based on \up{SPICE}
+simulations of a reference electrical circuit composed of \up{BSIM4} devices
+\cite{bsim} configured according to the 45-nm \up{PTM} model \cite{ptm}.
+Specifically, we use a series of \up{CMOS} invertors for this purpose. The
+simulations are performed for a sufficiently wide fine-grained two-dimensional
+grid, the effective channel length and temperature, and the results are
+tabulated. An interpolation technique is then utilized whenever we need to
+evaluate the static power for a particular point within the range of the grid.
+
+\subsection{Temperature Model}
+
+At Stage~3 in \fref{chaos-overview}, the temperature model is to be detailed.
+More concretely, we need to provide an adequate thermal \up{RC} circuit. Given
+the specification of the platform at hand---including the floorplan of the die
+and the configuration of the thermal package---such a circuit is constructed by
+means of HotSpot \cite{skadron2003}; the structure is the default one described
+in \sref{temperature-model}. Finally, using the solution technique presented in
+\sref{transient-state-solution}, the two coefficient matrices $\m{E}$ and
+$\m{F}$ used in the recurrence in \eref{chaos-recurrence} are calculated.
+
+\subsection{Surrogate Model}
+
+At Stage~4 in \fref{chaos-overview}, the uncertain parameters, power model, and
+temperature model developed in the previous subsections are to be fused together
+under the desired workload $\mp_\dynamic$ in order to produce the corresponding
+stochastic power and temperature profiles denoted by \mp and \mq, respectively.
+
+In the current scenario, the construction of \ac{PC} expansions is based on the
+Jacobi polynomial basis as it is preferable in situations involving
+beta-distributed parameters \cite{xiu2010}. To give an example, for a dual-core
+platform, that is, $\np = 2$, with two stochastic dimensions, that is, $\nz =
+2$, the second-order PC expansion, that is, $\nc = 2$, of temperature at step
+$i$ is as follows:
+\begin{equation} \elab{chaos-expansion-example}
+  \begin{split}
+    \chaos{2}{2}{\vq_i}(\vz)
+    =    {} & \hat{\vq}_{i1} \, \psi_1(\vz) + \hat{\vq}_{i2} \, \psi_2(\vz) + \hat{\vq}_{i3} \, \psi_3(\vz) \\
+    {} + {} & \hat{\vq}_{i4} \, \psi_4(\vz) + \hat{\vq}_{i5} \, \psi_5(\vz) + \hat{\vq}_{i6} \, \psi_6(\vz)
+  \end{split}
+\end{equation}
+where the coefficients $\{ \hat{\vq}_{ij} \}_{j = 1}^6$ are vectors with two
+elements corresponding to the two processing elements. Regarding the basis,
+\begin{align*}
+  & \psi_1(\vz) = 1, \\
+  & \psi_2(\vz) = 2 z_1, \\
+  & \psi_3(\vz) = 2 z_2, \\
+  & \psi_4(\vz) = 4 z_1 z_2 \\
+  & \psi_5(\vz) = \frac{15}{4} z_1^2 - \frac{3}{4}, \text{ and} \\
+  & \psi_6(\vz) = \frac{15}{4} z_2^2 - \frac{3}{4}.
+\end{align*}
+The Jacobi polynomials have two parameters \cite{xiu2010}, and the ones shown
+above correspond to the case where both parameters are equal to two. Such a
+series might be shorter or longer depending on the accuracy requirements given
+by \lc. The expansion for power has the same structure but different
+coefficients.
+
+The next step is to compute the coefficients $\{ \hat{\vp}_{ij} \}_{j = 1}^\nc$
+in \eref{chaos-recurrence}, which subsequently yield $\{ \hat{\vq}_{ij} \}_{j =
+1}^\nc$. As shown in \sref{polynomial-chaos}, these computations involve
+multidimensional integration with respect to the distribution of \vz, which
+should be done numerically using a quadrature rule; recall
+\sref{chaos-surrogate-model}. When beta distributions are concerned, a natural
+choice of such a rule is the Gauss--Jacobi quadrature; see
+\sref{numerical-integration}. Then, using \eref{quadrature-summation}, the
+coefficient are computed as shown in \eref{chaos-coefficient}. The normalization
+constants $\{ \innerproduct{\psi_j}{\psi_j} \}_{j = 1}^\nc$ are computed exactly
+either by applying the same quadrature rule or by taking products of the
+one-dimensional counterparts with known analytical expressions \cite{xiu2010};
+the result is tabulated. It is important to note that \lq should be chosen in
+such a way that the rule is exact for polynomials of a total order up to $2
+\lc$, that is, twice the level of \ac{PC} expansions, which can be seen in
+\eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as the
+quadrature is Gaussian.
+
+To summarize, we have completed four out of five stages of the proposed
+framework depicted in \fref{chaos-overview}. The result is a light surrogate for
+the entire system. At each time step, the surrogate is composed of two
+\np-valued polynomials---one is for power, and one is for temperature---which
+are defined in terms of \nz mutually independent random variables.
+
+\subsection{Post-Processing}
+
+At Stage~5 in \fref{chaos-overview}, the constructed expansions are utilized in
+order to assist the designer by analyzing the impact of process variation on
+power- and temperature-related characteristics of the system. It can be seen in,
+for example, \eref{chaos-expansion-example} that the surrogate model has a
+negligibly small computational cost: for any outcome of \vz, one can easily
+compute the corresponding temperature by plugging this outcome into
+\eref{chaos-expansion-example}; the same applies to power. Hence, the
+representation can be trivially analyzed in order to retrieve various statistics
+about the system. Let us illustrate a few of them using the example in
+\eref{chaos-expansion-example}.
+
+\inputfigure{chaos-example-power}
+\inputfigure{chaos-example-temperature}
+Assume that the dynamic power profile $\mp_\dynamic$ is the one shown in
+\fref{chaos-example-power}. Having constructed a surrogate with respect to this
+profile, we can calculate, for instance, the expectation and variance of the
+temperature that the system has at a certain time moment, which is a trivial
+operation given the formulae in \eref{chaos-moments}. For the whole time span of
+$\mp_\dynamic$, these quantities are plotted in \fref{chaos-example-temperature}
+where the dashed lines correspond to one standard deviation above the
+corresponding expectations. The displayed curves closely match those obtained
+via \ac{MC} sampling with $\no = 10^4$ samples; however, our method takes less
+than a second while \ac{MC} sampling takes more than a day as we shall see in
+\sref{chaos-results}. In addition, the \ac{PDF} of the temperature at that time
+moment can also be estimated. This operation is undertaken by sampling the
+surrogate, in which case we might obtain curves similar to those shown
+\fref{chaos-example-density}, which is a part of a different example given in
+\sref{chaos-results}.

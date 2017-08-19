@@ -1,0 +1,19 @@
+Let $(\Omega, \mathcal{F}, \probability)$ be a probability space as it defined
+in \sref{probability-theory} and assume the same system model as the one
+described in \sref{system-model}. The system depends on \nu process parameters
+that are uncertain at the design stage. These parameters are denoted by a random
+vector $\vu: \Omega \to \real^\nu$. Once the fabrication process yields a
+particular outcome, \vu takes potentially different values across each
+fabricated chip and stays unchanged thereafter. This variability leads to
+deviations of power from the nominal values and, therefore, to deviations of
+temperature from the one corresponding to the nominal power consumption.
+
+The goal is to develop a system-level framework for transient temperature and,
+hence, power analysis of electronic systems where the power consumption and heat
+dissipation are stochastic due to their dependency on the uncertain parameters
+\vu. The user is required to specify \one~the probability distribution of \vu
+and \two~the dependency of the power consumption on \vu, which can be given as a
+``black box.'' The framework is to provide the user with the tools for analyzing
+the system under a given workload, without imposing constraints on the nature of
+this workload, and obtaining the corresponding stochastic power \mp and
+temperature \mq profiles with a desired level of accuracy and at low costs.

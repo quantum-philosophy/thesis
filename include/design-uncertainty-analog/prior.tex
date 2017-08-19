@@ -1,0 +1,86 @@
+Since the appearance of the first digital computers in 1940s, \acf{MC} sampling
+remains one of the most well-known and widely used methods for the analysis of
+stochastic systems. The reason for this popularity lies in the ease of
+implementation, in the independence of the stochastic dimensionality of the
+problem at hand, and in the fact that, by the law of large numbers
+\cite{durrett2010}, the quantities estimated using \ac{MC} sampling
+asymptotically approach the true values. The main problem with \ac{MC} sampling,
+however, is the low rate of convergence: the error decreases as $\no^{-1/2}$
+where \no is the number of drawn samples. This means that an additional decimal
+point of accuracy requires hundred times more samples. Each such sample implies
+a complete realization of the whole system, which renders \ac{MC}-based methods
+slow and often unfeasible since the needed number of simulations can be
+extremely large \cite{diaz-emparanza2002}. There are other sampling techniques
+that have better convergence rates than the one of the classical \ac{MC}
+sampling such as quasi-\ac{MC} sampling; however, due to additional
+restrictions, their applicability is often limited \cite{xiu2010}.
+
+In order to overcome the limitations of deterministic techniques and, at the
+same time, to eliminate or, at least, mitigate the computation costs associated
+with \ac{MC} sampling, a number of stochastic techniques have been introduced,
+which we elaborate on in what follows. We are particularly interested in power
+and temperature and, therefore, shape the exposition accordingly. Since the
+static component of the total power dissipation is influenced by process
+variation the most, which is due to the leakage current, the techniques
+discussed below primarily focus on the variability of this component.
+
+A solely power-targeted but temperature-aware solution is proposed in
+\cite{chandra2010} where the driving force of the analysis is \ac{MC} sampling
+with partially precomputed data. A learning-based approach is presented in
+\cite{juan2011} in order to estimate the maximum temperature under the static
+steady-state condition; recall \sref{static-steady-state}. Temperature-related
+issues originating from process variation are also considered in \cite{juan2012}
+where a statistical model of the static steady-state temperature based on
+Gaussian distributions is derived. A statistical simulator of the static
+steady-state temperature is developed in \cite{huang2009a} using \ac{PC}
+expansions and the \acf{KL} decomposition; see
+\sref{probability-transformation}. A \ac{KL}-aided stochastic collocation
+\cite{xiu2010} approach to static steady-state temperature analysis is presented
+in \cite{lee2013}. In \cite{shen2009}, \ac{PC} expansions are employed in order
+to estimate the leakage power of the entire chip. The \ac{KL} decomposition is
+utilized in \cite{bhardwaj2006} for leakage calculations. In
+\cite{bhardwaj2008}, the total leakage is quantified using the \ac{PC} and
+\ac{KL} methods. The same combination of tools is employed in
+\cite{vrudhula2006} and \cite{ghanta2006} in order to analyze the response of
+interconnect networks and power grids, respectively, under process variation.
+
+The last five of the aforementioned techniques, that is, \cite{bhardwaj2006,
+vrudhula2006, ghanta2006, bhardwaj2008, shen2009}, perform only stochastic power
+analysis and ignore the interdependence between power and temperature described
+in \sref{power-model}. The others are temperature-related approaches, but none
+of them attempts to tackle stochastic transient temperature analysis and to
+compute the probability distribution of temperature that evolves over time.
+However, such transient curves are of practical importance. First, certain
+procedures cannot be undertaken without the knowledge of time-dependent
+temperature variations; an example is reliability optimization based on the
+thermal-cycling fatigue, which is discussed in
+\sref{thermal-cycling-exploration}. Second, the static steady-state assumption
+considered, for instance, in \cite{huang2009a, juan2011, juan2012, lee2013} can
+rarely be justified since power profiles are not invariant in reality. In
+addition, one frequently encounters the assumption that power and temperature
+follow \emph{a priori} known probability distributions; Gaussian and log-normal
+distributions are popular choices as in \cite{bhardwaj2006, srivastava2010,
+juan2012}. However, this assumption often fails in practice---which is also
+noted in \cite{juan2012} regarding the normality of the leakage current---due to
+\one~the nonlinear dependence of power on process parameters and \two~the
+nonlinear interdependence between power and temperature. In order to illustrate
+this, we simulate $10^4$ times the example given in \sref{chaos-example}
+assuming the widespread Gaussian model of the effective channel length and apply
+the Jarque--Bera test of normality to the collected temperature directly as well
+as after processing them with the log transformation. The null hypothesis that
+the data are from an unspecified Gaussian distribution is firmly rejected in
+both cases at the significance level of 5\%. Therefore, the two distributions
+are neither Gaussian nor log-normal, which can also be seen in
+\fref{chaos-example-density} described in \sref{chaos-results}.
+
+To conclude, the prior techniques for stochastic power and temperature analysis
+are restricted in use due to one or several of the following traits: based on
+\ac{MC} simulations (potentially slow) \cite{chandra2010}, limited to power
+analysis \cite{bhardwaj2006, ghanta2006, vrudhula2006, bhardwaj2008, shen2009,
+chandra2010}, ignoring the power-temperature interplay \cite{bhardwaj2006,
+ghanta2006, vrudhula2006, bhardwaj2008, huang2009a, shen2009}, limited to the
+static steady-state temperature \cite{huang2009a, juan2011, juan2012, lee2013},
+exclusive focus on the maximum temperature \cite{juan2011}, and \emph{a priori}
+chosen distributions of power and temperature \cite{bhardwaj2006,
+srivastava2010, juan2012}. Consequently, there is a lack of flexible techniques
+for stochastic power and temperature analysis.
