@@ -188,16 +188,16 @@ produce a chromosome with the best possible fitness, that is, a solution that
 maximizes the objective function. The fitness function in this case is
 \eref{thermal-cycling-objective}.
 
-Each chromosome contains $2 \times \nt$ genes. The first \nt genes encode
-priorities of the tasks, and the second \nt genes encode a mapping of the tasks
-onto the processing elements; the usage of this information is to be discussed
-shortly. The population contains $4 \times \nt$ chromosomes. In each generation,
-a number of chromosomes are chosen for breeding by the tournament selection with
-the number of competitors proportional to the population size. The chosen
-chromosomes undergo the two-point crossover with probability 0.8 and the uniform
-mutation with probability 0.01. The evolution mechanism follows the elitism
-model where the best chromosome always survives. The stopping condition is the
-absence of improvement within 200 successive generations.
+Each chromosome contains $2 \nt$ genes. The first \nt genes encode priorities of
+the tasks, and the second \nt genes encode a mapping of the tasks onto the
+processing elements; the usage of this information is to be discussed shortly.
+The population contains $4 \nt$ chromosomes. In each generation, a number of
+chromosomes are chosen for breeding by the tournament selection with the number
+of competitors proportional to the population size. The chosen chromosomes
+undergo the two-point crossover with probability 0.8 and the uniform mutation
+with probability 0.01. The evolution mechanism follows the elitism model where
+the best chromosome always survives. The stopping condition is the absence of
+improvement within 200 successive generations.
 
 The fitness of a chromosome is evaluated in a number of steps. First, the
 chromosome is decoded, and the priorities of the tasks and their mapping onto
