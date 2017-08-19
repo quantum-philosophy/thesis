@@ -2,7 +2,7 @@ In this section, we illustrate the importance of temperature analysis for
 design-space exploration. Specifically, we consider reliability optimization and
 demonstrate the utility of our solution to dynamic steady-state analysis
 presented in \sref{dynamic-steady-state} for mitigating the fatigue due to
-thermal cycling \cite{jedec2010}, which is one of the most common failure
+thermal cycling \cite{jedec2016}, which is one of the most common failure
 mechanism. To this end, we develop a thermal-cycling-aware technique for
 scheduling of periodic applications.
 
@@ -115,7 +115,7 @@ follows:
 \]
 where $\nc_i$ stands for the mean number of such cycles to failure. This number
 is estimated using a modified version of the Coffin--Manson equation with the
-Arrhenius term as shown in the following equation \cite{xiang2010, jedec2010}:
+Arrhenius term as shown in the following equation \cite{xiang2010, jedec2016}:
 \begin{equation} \elab{reliability-mean-cycles}
   \nc = a (\Delta \q - \Delta \q_0)^{-b} \exp\left(\frac{c}{k \q_\maximum}\right)
 \end{equation}
@@ -233,7 +233,7 @@ based on the linear approximation discussed in
 $\q_\maximum$ in \eref{thermal-cycling-constraints} is set to \celsius{100}. In
 \eref{reliability-mean-cycles}, the Coffin--Manson exponent $b$ is set to 6, the
 activation energy $c$ to 0.5, and the elastic region $\Delta \q_0$ to 0
-\cite{jedec2010}; the coefficient of proportionality $a$ in
+\cite{jedec2016}; the coefficient of proportionality $a$ in
 \eref{reliability-mean-cycles} is irrelevant since we are concerned with
 relative improvements, which will be explained shortly.
 
