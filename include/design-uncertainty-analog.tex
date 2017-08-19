@@ -903,39 +903,39 @@ illustrated in the previous paragraph. Consequently, \nu can be misleading when
 reasoning about the applicability of our technique; \nz is well suited for this
 purpose.
 
-Another observation in \tref{chaos-scaling-elements} is that the slope of the
-execution time of the \ac{MC} technique is low, which illustrates the well-known
-fact that the workload per \ac{MC} sample is independent of the number of
-stochastic dimensions. On the other hand, the rows with $\nz > 10$ hint at the
-curse of dimensionality, which \ac{PC} expansions suffer from. However, even in
-high dimensions, the proposed framework significantly outperforms the approach
-based on \ac{MC} sampling. For instance, in order to analyze a power profile
-with 10\textsuperscript{3} steps of a platform with 32 cores, the \ac{MC}
-approach requires more than 40 hours whereas our framework takes less than two
-minutes; see the case with $w = 0.5$.
+Another observation with respect to \tref{chaos-scaling-elements} is the low
+slope of the execution time of the \ac{MC} technique, which illustrates the
+well-known fact that the workload per sample is independent of the number of
+stochastic dimensions. On the other hand, the rows with $\nz \geq 10$ hint at
+the curse of dimensionality, which \ac{PC} expansions suffer from. However, even
+in high dimensions, the proposed framework significantly outperforms \ac{MC}
+sampling. For instance, in order to analyze a dynamic power profile with
+10\textsuperscript{3} steps of a platform with 32 processing elements, the
+\ac{MC} approach requires more than 40 hours whereas our framework takes less
+than two minutes; see the case with $w = 0.5$.
 
 Second, we investigate the scaling properties of the framework with respect to
 the duration of the analyzed time span, which is directly proportional to the
-number of steps \ns in power and temperature profiles. The results for a
-quad-core platform are reported in \tref{chaos-scaling-steps}. Due to the long
-execution times demonstrated by the \ac{MC} approach, its statistics for high
-values of \ns are extrapolated based on a smaller number of samples, that is,
-$\no < 10^4$. As it is noted with respect to \tref{chaos-scaling-elements}, we
-observe the dependency of the \ac{PC} expansions on the dimensionality \nz of
-\vz, which is two for $w = 0$ and five for the other two values of $w$; see
+number of time steps \ns covered by power and temperature profiles. The results
+for a quad-core platform are reported in \tref{chaos-scaling-steps}. Due to the
+long execution times demonstrated by the \ac{MC} approach, its statistics for
+high values of \ns are extrapolated based on a smaller number of samples, that
+is, $\no < 10^4$. Similar to \tref{chaos-scaling-elements}, we observe the
+dependency of the constructed expansions on the dimensionality \nz, which is two
+for $w = 0$ and five for the other two values of $w$; see
 \tref{chaos-scaling-elements} for $\np = 4$. It can be seen in
 \tref{chaos-scaling-steps} that the computation times of both methods grow
-linearly with \ns, which is expected. However, the proposed framework shows a
-vastly superior performance being up to five orders of magnitude faster than
-the \ac{MC} alternative.
+linearly with respect to \ns, which is expected. However, the proposed framework
+shows a vastly superior performance being up to five orders of magnitude faster
+than the \ac{MC} alternative.
 
 It is worth noting that the observed speedups are due to two major reasons.
 First of all, \ac{PC} expansions are generally superior to \ac{MC} sampling when
 the curse of dimensionality is suppressed \cite{eldred2008, xiu2010}, which we
 accomplish by model order reduction and efficient integration schemes. The
-second reason is the particular solution process used in the framework to solve
-the thermal model and construct \ac{PC} expansions in a stepwise manner shown in
-\eref{chaos-recurrence}.
+second reason is the particular technique used in the framework for solving the
+temperature model and constructing \ac{PC} expansions in a stepwise manner shown
+in \eref{chaos-recurrence}.
 
 \section{Conclusion}
 \slab{chaos-conclusion}
