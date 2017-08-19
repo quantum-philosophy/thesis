@@ -5,11 +5,15 @@ that this deteriorating impact can be taken into account in the final design.
 
 \section{Introduction}
 
-As it is emphasized in \sref{inference-introduction}, process variation is a
-major concern of the designer. In order to assist the designer, we develop a
-framework that allows the designer to propagate the corresponding uncertainty
-through the system under development and investigate its impact on the system's
-behavior.
+As emphasized in \sref{inference-introduction}, process variation is a major
+concern of the designer of electronic systems. A design that is exclusively
+based on deterministic techniques for power and temperature analysis is, in the
+context of current and future technologies, both unreliable and inefficient
+since the presence of the deteriorating uncertainty due to process variation is
+disregarded. In order to assist the designer, in this chapter, we develop a
+framework that allows the designer to propagate this uncertainty through the
+system under development and, thereby, investigate and account for its impact on
+the system's behavior.
 
 We proceed as follows. A motivational example is considered in
 \sref{chaos-example}. The objective of our study is formulated in
@@ -940,30 +944,23 @@ in \eref{chaos-recurrence}.
 \section{Conclusion}
 \slab{chaos-conclusion}
 
-We presented a framework for transient power-temperature analysis (PTA) of
-electronic systems under process variation. Our general technique was then
-applied in a context of particular importance wherein the variability of the
-effective channel length was addressed. Note, however, that the framework can be
-readily utilized to analyze any other quantities affected by process variation
-and to study their combinations. Finally, we drew a comparison with MC sampling,
-which confirmed the efficiency of our approach in terms of both accuracy and
-speed. The reduced execution times, by up to five orders of magnitude, implied
-by the proposed framework allow for PTA to be efficiently performed inside
-design space exploration loops aimed at, for instance, energy and reliability
-optimization with temperature-related constraints under process variation.
+In this chapter, we have presented a framework targeted at the quantification of
+transient power and temperature variations of electronic systems under process
+variation. The framework is capable of modeling diverse probability laws of the
+underlying uncertain parameters and arbitrary dependencies of the system on such
+parameters. For a given system under a given workload, our technique delivers
+analytical representations of the corresponding stochastic power and temperature
+profiles. These representations allow for a computationally efficient estimation
+of the probability distributions and accompanying quantities of the power and
+temperature characteristics of the system.
 
-Electronic system design based on deterministic techniques for power-temperature
-analysis is, in the context of current and future technologies, both unreliable
-and inefficient since the presence of uncertainty, in particular, due to process
-variation, is disregarded. In this work, we propose a flexible probabilistic
-framework targeted at the quantification of the transient power and temperature
-variations of an electronic system. The framework is capable of modeling diverse
-probability laws of the underlying uncertain parameters and arbitrary
-dependencies of the system on such parameters. For the considered system, under
-a given workload, our technique delivers analytical representations of the
-corresponding stochastic power and temperature profiles. These representations
-allow for a computationally efficient estimation of the probability
-distributions and accompanying quantities of the power and temperature
-characteristics of the system. The approximation accuracy and computational time
-of our approach are assessed by a range of comparisons with Monte Carlo
-simulations, which confirm the efficiency of the proposed technique.
+Our general technique has been applied in a context of particular importance
+where the variability of the effective channel length has been addressed. Note,
+however, that the framework can be readily utilized to analyze any other
+quantities affected by process variation and to study their combinations. Using
+this application, we have drawn a comparison with \ac{MC} sampling, which has
+confirmed the efficiency of our approach in terms of both accuracy and speed.
+The reduced execution times, by up to five orders of magnitude, implied by our
+framework allow for the analysis to be efficiently performed inside design space
+exploration loops aimed at, for instance, energy and reliability optimization
+with temperature-related constraints under process variation.
