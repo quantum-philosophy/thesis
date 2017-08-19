@@ -33,10 +33,12 @@ $\v{x}_2$ obeys a multivariate Gaussian distribution, the individual variables
 in $\v{x}_1$ follow the standard Gaussian distribution and are independent, and
 vice versa.
 
-In addition, the decomposition provides a means of model order reduction. In
-this case, we are to select the smallest subset of the uncorrelated variables
-$\v{x}_1$ such that its cumulative contribution to the variance of $\v{x}_2$ is
-above a certain threshold. Formally, assuming that $\{ \lambda_i: i =
+In addition, the eigendecomposition decomposition provides a means of model
+order reduction. The intuition is that, since the variables in $\v{x}_2$ are
+correlated, $\v{x}_2$ can be recovered sufficiently well from a small subset of
+the variables in $\v{x}_1$. Specifically, we are to select the smallest subset
+of $\v{x}_1$ such that its cumulative contribution to the variance of $\v{x}_2$
+is above a certain threshold. Formally, assuming that $\{ \lambda_i: i =
 \range{1}{n_1} \}$ are sorted in the descending order and given a threshold
 $\eta \in (0, 1]$, which is the fraction of the variance to be preserved, we
 identify the smallest $n_2 \leq n_1$ such that
@@ -51,8 +53,9 @@ reconstructed as follows:
 \end{equation}
 In the above formula, $\tm{\Lambda} \in \real^{n_2 \times n_1}$ is a truncated
 version of $\m{\Lambda} \in \real^{n_2 \times n_2}$ given in
-\eref{eigendecomposition}, that is, the matrix contains only the first $n_1$
-columns of $\m{\Lambda}$.
+\eref{eigendecomposition}: the matrix contains only the first $n_1$ columns of
+$\m{\Lambda}$. When $\eta$ is sufficiently high, the dropped variables are
+considered insignificant, redundant.
 
 The third transformation $\transform_3$ builds upon the previous two
 transformations and allows one to tackle the following problem. Let $\v{x}_1:

@@ -1398,24 +1398,6 @@ quantity in order to pursue robustness of electronic system designs.
 
 \section{Appendix}
 
-\subsection{Model Order Reduction}
-
-In this section, we discuss the model order reduction performed by $\transform$
-in \sref{preprocessing}. This reduction is based on the eigendecomposition
-undertaken in \sref{probability-transformation}. The intuition is that, due to
-the correlations possessed by $\vu \in \real^{\nu \np}$, it can be recovered
-from a small subset with only \nz variables where $\nz \ll \nu \np$. Such
-redundancies can be revealed by analyzing the eigenvalues $\m{\lambda} =
-(\lambda_i)_{i = 1}^{\nu \np}$ located on the diagonal of $\m{\Lambda}$, which
-are all non-negative. Without loss of generality, we let $\lambda_i \geq
-\lambda_j$ whenever $i < j$ and assume $\norm[1]{\m{\lambda}} = 1$. Then we can
-identify the smallest \nz such that $\sum_{i = 1}^\nz \lambda_i$ is greater than
-a certain threshold chosen from the interval $(0, 1]$. When this threshold is
-sufficiently high (close to one), the rest of the eigenvalues and the
-corresponding eigenvectors can be dropped as being insignificant, reducing the
-number of stochastic dimensions to \nz. With a slight abuse of notation, we let
-\vz be the result of the reduction.
-
 \subsection{Spectral Decomposition}
 
 Let $H \subset \L{2}(\Omega, \mathcal{F}, \probability)$ be the Gaussian Hilbert
