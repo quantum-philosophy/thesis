@@ -1398,31 +1398,6 @@ quantity in order to pursue robustness of electronic system designs.
 
 \section{Appendix}
 
-\subsection{Temperature Solution}
-
-The technique used to solve the thermal system in \eref{thermal-model} belongs
-to the family of exponential integrators \cite{hochbruck2010}, which are known
-to have good stability properties. More specifically, we rely on a one-step
-member from that family. In what follows, for compactness, we shall omit \vu.
-
-Multiplying both sides of \eref{thermal-model-inner} by $e^{- \m{A} t}$ and
-noting that
-\[
-  e^{-\m{A} t} \frac{\d \vs(t)}{\d t} = \frac{\d e^{-\m{A} t} \vs(t)}{\d t} + e^{-\m{A} t} \m{A} \vs(t),
-\]
-we obtain the exact solution of \eref{thermal-model-inner} over a time interval
-$\dt = t_k - t_{k - 1}$ given as follows:
-\[
-  \vs(t_k) = e^{\m{A} \dt} \vs(t_{k - 1}) + \int_0^{\dt} e^{\m{A} (\dt - t)} \m{B} \: \vp(t_k + t, \vs(t_k + t)) \: \d t.
-\]
-The integral on the right-hand side is approximated by assuming that, within
-\dt, the power dissipation does not change and is equal to the power dissipation
-at $t_k$. Thus, we have
-\[
-  \vs(t_k) = e^{\m{A} \dt} \vs(t_{k - 1}) + \m{A}^{-1}(e^{\m{A} \dt} - \m{I}) \m{B} \: \vp(t_{k - 1}, \vs(t_{k - 1})),
-\]
-which leads to the recurrence in \eref{recurrence}.
-
 \subsection{Probability Transformation}
 
 The uncertain parameters \vu should be preprocessed in order to extract a set of

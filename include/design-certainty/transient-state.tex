@@ -7,19 +7,35 @@ advantages as we shall see throughout the thesis.
 
 \subsection{Prior Work}
 
-Suppose for now that the power consumption of the processing elements does not
-change over time; hence, $\vp(t) = \vp$. Then
-\eref{temperature-differential-original} is a system of linear ordinary
-differential equations that has the following analytical solution:
-\begin{equation} \elab{transient-state-solution-original}
-  \tvs(t) = e^{\tm{A} t} \tvs_0 + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
-\end{equation}
-where $\tvs_0$ is the initial condition, $\m{I}$ is the identity matrix, and
+Let us discuss an analytical approach to solving the system of differential
+equations given in \eref{temperature-differential-original}. To begin with, the
+system is rewritten as follows:
+\[
+  \frac{\d \tvs(t)}{\d t} = \tm{A} \tvs(t) + \m{C}^{-1} \tm{B} \vp(t)
+\]
+where
 \[
   \tm{A} = -\m{C}^{-1} \m{G}.
 \]
-The solution belongs to the family of so-called exponential integrators, which
+We apply a solution technique from the family of exponential integrators, which
 have good stability properties; refer to \cite{hochbruck2010} for an overview.
+Multiplying both sides of the above system by $e^{- \tm{A} t}$ and noting that
+\[
+  e^{-\tm{A} t} \frac{\d \tvs(t)}{\d t} = \frac{\d e^{-\tm{A} t} \tvs(t)}{\d t} + e^{-\tm{A} t} \tm{A} \tvs(t),
+\]
+we obtain
+\[
+  \tvs(t) = e^{\tm{A} t} \tvs(0) +  e^{\tm{A} t} \int_0^t e^{-\tm{A} s} \m{C}^{-1} \tm{B} \vp(s) \d s,
+\]
+which is the solution at time $t$ starting from the initial condition $\tvs(0)$
+at time 0. Suppose now that the power consumption of the processing elements
+does not change over time; hence, $\vp(t) = \vp$. In this case, the system is a
+system of linear differential equations that has the following analytical
+solution:
+\begin{equation} \elab{transient-state-solution-original}
+  \tvs(t) = e^{\tm{A} t} \tvs(0) + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
+\end{equation}
+where $\m{I}$ is the identity matrix.
 
 Assume now that the sampling interval \dt of \mp is sufficiently small so that
 the power consumption in the interval $[t_i, t_{i + 1})$ can reasonably be
