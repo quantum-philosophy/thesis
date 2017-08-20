@@ -10,12 +10,12 @@ weights $\{ w_i \in \real \}_{i = 1}^\nq$, which we denote as follows:
 \]
 Such a pair of a set of points and a set of weights is called a quadrature rule.
 In the notation $\quadrature{1}{\lq}$, the superscript $1$ indicates that it is
-a one-dimensional rule, and the subscript \lq gives the accuracy level of the
-rule, which is the index of the rule in the corresponding family of quadrature
-rules with increasing accuracy. In the one-dimensional case, \lq corresponds to
-the maximum order of polynomials that the rule integrates exactly
-\cite{heiss2008}. Similarly, in multiple dimensions, the integral of a function
-$g: \real^n \to \real$
+a one-dimensional rule, and the subscript \lq gives the level of the rule, which
+is the index of the rule in the corresponding family of quadrature rules with
+increasing accuracy. In the one-dimensional case, \lq corresponds to the maximum
+order of polynomials that the rule integrates exactly \cite{heiss2008}.
+Similarly, in multiple dimensions, the integral of a function $g: \real^n \to
+\real$
 \[
   I = \int_{\real^n} g(\v{x}) \d \v{x}
 \]
@@ -47,11 +47,11 @@ is a very frequent operation, there are families of quadrature rules that are
 designed to automatically take this aspect into account for the most common
 scenarios.
 
-Let us highlight one broad class of rules known as Gaussian quadratures. The
-accuracy level \lq of a one-dimensional Gaussian quadrature with \nq points is
-$2 \nq - 1$, that is, the rule integrates exactly polynomials of an order up to
-$2 \nq - 1$. This feature makes such quadratures especially efficient
-\cite{heiss2008}.
+Let us highlight one broad class of quadrature rules known as Gaussian
+quadratures. The level \lq of a one-dimensional Gaussian quadrature with \nq
+points is $2 \nq - 1$. In other words, the rule integrates exactly polynomials
+of an order up to $2 \nq - 1$. This feature makes such rules especially
+efficient \cite{heiss2008}.
 
 There is one more and arguably the most crucial aspect of numerical integration
 that we ought to discuss: the algorithm used to construct multidimensional
