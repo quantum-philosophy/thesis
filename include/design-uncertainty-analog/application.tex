@@ -120,15 +120,15 @@ components
 \]
 where, as motivated earlier, $f_\dynamic$ does not depend on \vu. We assume that
 the desired workload of the system is given as a dynamic power profile denoted
-by $\mp_\dynamic$. Similar to \sref{inference-result}, without loss of
+by $\mp_\dynamic$. Similarly to \sref{inference-result}, without loss of
 generality, the development of the static part is based on \up{SPICE}
 simulations of a reference electrical circuit composed of \up{BSIM4} devices
 \cite{bsim} configured according to the 45-nm \up{PTM} model \cite{ptm}.
-Specifically, we use a series of \up{CMOS} invertors for this purpose. The
-simulations are performed for a sufficiently wide fine-grained two-dimensional
-grid, the effective channel length and temperature, and the results are
-tabulated. An interpolation technique is then utilized whenever we need to
-evaluate the static power for a particular point within the range of the grid.
+Specifically, we use a series of \up{CMOS} invertors. The simulations are
+performed for a sufficiently wide fine-grained two-dimensional grid, the
+effective channel length and temperature, and the results are tabulated. An
+interpolation technique is then utilized whenever we need to evaluate the static
+power for a particular point within the range of the grid.
 
 \subsection{Temperature Model}
 
@@ -152,24 +152,28 @@ In the current scenario, the construction of \ac{PC} expansions is based on the
 Jacobi polynomial basis as it is preferable in situations involving
 beta-distributed parameters \cite{xiu2010}. To give an example, for a dual-core
 platform, that is, $\np = 2$, with two stochastic dimensions, that is, $\nz =
-2$, the second-order PC expansion, that is, $\nc = 2$, of temperature at step
-$i$ is as follows:
+2$, the second-level \ac{PC} expansion, that is, $\lc = 2$, of temperature at
+step $i$ is as follows:
 \begin{equation} \elab{chaos-expansion-example}
   \begin{split}
-    \chaos{2}{2}{\vq_i}(\vz)
-    =    {} & \hat{\vq}_{i1} \, \psi_1(\vz) + \hat{\vq}_{i2} \, \psi_2(\vz) + \hat{\vq}_{i3} \, \psi_3(\vz) \\
-    {} + {} & \hat{\vq}_{i4} \, \psi_4(\vz) + \hat{\vq}_{i5} \, \psi_5(\vz) + \hat{\vq}_{i6} \, \psi_6(\vz)
+    \chaos{2}{2}{\vq_i}
+    =    {} & \hat{\vq}_{i, (0, 0)} \, \psi_{(0, 0)} +
+              \hat{\vq}_{i, (1, 0)} \, \psi_{(1, 0)} +
+              \hat{\vq}_{i, (0, 1)} \, \psi_{(0, 1)} \\
+    {} + {} & \hat{\vq}_{i, (1, 1)} \, \psi_{(1, 1)} +
+              \hat{\vq}_{i, (2, 0)} \, \psi_{(2, 0)} +
+              \hat{\vq}_{i, (0, 2)} \, \psi_{(0, 2)}
   \end{split}
 \end{equation}
-where the coefficients $\{ \hat{\vq}_{ij} \}_{j = 1}^6$ are vectors with two
+where the coefficients $\{ \hat{\vq}_{i \multiindex[j]} \}$ are vectors with two
 elements corresponding to the two processing elements. Regarding the basis,
 \begin{align*}
-  & \psi_1(\vz) = 1, \\
-  & \psi_2(\vz) = 2 z_1, \\
-  & \psi_3(\vz) = 2 z_2, \\
-  & \psi_4(\vz) = 4 z_1 z_2 \\
-  & \psi_5(\vz) = \frac{15}{4} z_1^2 - \frac{3}{4}, \text{ and} \\
-  & \psi_6(\vz) = \frac{15}{4} z_2^2 - \frac{3}{4}.
+  & \psi_{(0, 0)}(\vz) = 1, \\
+  & \psi_{(1, 0)}(\vz) = 2 z_1, \\
+  & \psi_{(0, 1)}(\vz) = 2 z_2, \\
+  & \psi_{(1, 1)}(\vz) = 4 z_1 z_2 \\
+  & \psi_{(2, 0)}(\vz) = \frac{15}{4} z_1^2 - \frac{3}{4}, \text{ and} \\
+  & \psi_{(0, 2)}(\vz) = \frac{15}{4} z_2^2 - \frac{3}{4}.
 \end{align*}
 The Jacobi polynomials have two parameters \cite{xiu2010}, and the ones shown
 above correspond to the case where both parameters are equal to two. Such a
@@ -177,19 +181,16 @@ series might be shorter or longer depending on the accuracy requirements given
 by \lc. The expansion for power has the same structure but different
 coefficients.
 
-The next step is to compute the coefficients $\{ \hat{\vp}_{ij} \}_{j = 1}^\nc$
-in \eref{chaos-recurrence}, which subsequently yield $\{ \hat{\vq}_{ij} \}_{j =
-1}^\nc$. As shown in \sref{polynomial-chaos}, these computations involve
-multidimensional integration with respect to the distribution of \vz, which
-should be done numerically using a quadrature rule; recall
-\sref{chaos-surrogate-model}. When beta distributions are concerned, a natural
-choice of such a rule is the Gauss--Jacobi quadrature; see
-\sref{numerical-integration}. Then, using \eref{quadrature-summation}, the
-coefficient are computed as shown in \eref{chaos-coefficient}. The normalization
-constants $\{ \innerproduct{\psi_j}{\psi_j} \}_{j = 1}^\nc$ are computed exactly
-either by applying the same quadrature rule or by taking products of the
-one-dimensional counterparts with known analytical expressions \cite{xiu2010};
-the result is tabulated. It is important to note that \lq should be chosen in
+The next step is to compute the coefficients of power $\{ \hat{\vp}_{i
+\multiindex[j]} \}$ in \eref{chaos-recurrence}, which subsequently yield the
+coefficients of temperature $\{ \hat{\vq}_{i \multiindex[j]} \}$. As discussed
+in \sref{polynomial-chaos}, these computations involve multidimensional
+integration with respect to the distribution of \vz, which should be done
+numerically using a quadrature rule; recall \sref{chaos-surrogate-model}. When
+beta distributions are concerned, the natural choice is the Gauss--Jacobi
+quadrature; see \sref{numerical-integration}. Then, using
+\eref{quadrature-summation}, the coefficient are computed as shown in
+\eref{chaos-coefficient}. It is important to note that \lq should be chosen in
 such a way that the rule is exact for polynomials of a total order up to $2
 \lc$, that is, twice the level of \ac{PC} expansions, which can be seen in
 \eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as the

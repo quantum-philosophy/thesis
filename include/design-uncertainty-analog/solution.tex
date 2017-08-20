@@ -146,58 +146,57 @@ being tried first; on the other hand, the Hermite basis is preferable for
 Gaussian distributions.
 
 Having chosen an appropriate basis, we apply the \ac{PC} formalism to the power
-term $\vp_i$ in \eref{chaos-recurrence-original} as described in
+term $\vp_i$ in \eref{chaos-recurrence-original} as shown in
 \eref{chaos-expansion}. The result is
 \[
-  \chaos{\nz}{\lc}{\vp_i}(\vz) = \sum_{j = 1}^\nc \hat{\vp}_{ij} \psi_j(\vz)
+  \chaos{\nz}{\lc}{\vp_i} = \sum_{\multiindex[j] \in \multiindices[J]{\lc}} \hat{\vp}_{i, \multiindex[j]} \psi_{\multiindex[j]}
 \]
-where $\{ \psi_j: \real^\nz \to \real \}_{j = 1}^\nc$ are the first \nc
-polynomials of the basis; $\{ \hat{\vp}_{ij} \in \real^\np \}_{j = 1}^\nc$ are
-the coefficients of the expansion; and \nc is given by
-\eref{chaos-multi-index-isotropic-length}.
+where $\{ \psi_{\multiindex[j]}: \real^\nz \to \real \}$ are the basis
+polynomials; $\{ \hat{\vp}_{i, \multiindex[j]} \in \real^\np \}$ are the
+corresponding coefficients; and the multi-index set $\multiindices[J]{\lc}$ is
+given by \eref{chaos-multi-index-isotropic}.
 
 It can be seen in \eref{chaos-recurrence-original} that, due to the linearity of
 the operations involved in the recurrence, $\vs_i$ attains an expansion that has
 the same structure as the one of $\vp_i$, and the recurrence can be rewritten as
 follows:
 \[
-  \chaos{\nz}{\lc}{\vs_i}(\vz) = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}}(\vz) + \m{F} \, \chaos{\nz}{\lc}{\vp_i}(\vz)
+  \chaos{\nz}{\lc}{\vs_i} = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}} + \m{F} \, \chaos{\nz}{\lc}{\vp_i}
 \]
 for $i = \range{1}{\ns}$. Consequently, there are two concurrent \ac{PC}
 expansions: one is for power, and one is for temperature; the two expansions
 have the same basis but different coefficients. In order to understand the
 structure of the above formula better, let us spell it out as
 \[
-  \sum_{j = 1}^\nc \hat{\vs}_{ij} \psi_j(\vz) =
-  \sum_{j = 1}^\nc \left( \m{E} \, \hat{\vs}_{i - 1, j} + \m{F} \, \hat{\vp}_{ij} \right) \psi_j(\vz).
+  \sum_{\multiindex[j] \in \multiindices[J]{\lc}} \hat{\vs}_{i \multiindex[j]} \psi_{\multiindex[j]} =
+  \sum_{\multiindex[j] \in \multiindices[J]{\lc}} \left(\m{E} \, \hat{\vs}_{i - 1, \multiindex[j]} + \m{F} \, \hat{\vp}_{i \multiindex[j]}\right) \psi_{\multiindex[j]}.
 \]
 Multiplying the above equation by each polynomial from the basis and making use
 of the orthogonality property in \eref{chaos-orthogonality}, we obtain the
 following recurrence:
 \begin{equation} \elab{chaos-recurrence}
-  \hat{\vs}_{ij} = \m{E} \hat{\vs}_{i - 1, j} + \m{F} \hat{\vp}_{ij}
+  \hat{\vs}_{i \multiindex[j]} = \m{E} \hat{\vs}_{i - 1, \multiindex[j]} + \m{F} \hat{\vp}_{i \multiindex[j]}
 \end{equation}
-for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$. Combining the recurrence with
-\eref{temperature-algebraic}, we obtain the coefficients of the \ac{PC}
-expansion of the temperature vector $\vq_k$.
+for $i = \range{1}{\ns}$ and $\multiindex[j] \in \multiindices[J]{\lc}$.
+Combining the recurrence with \eref{temperature-algebraic}, we obtain the
+coefficients of the \ac{PC} expansion of the temperature vector $\vq_k$.
 
-Let us now find the coefficients $\{ \hat{\vp}_{ij} \}_{i = 1, j = 1}^{\ns,
-\nc}$ of the \ac{PC} expansion of power, which will subsequently be propagated
-to temperature. The coefficients are computed using spectral projections as
-shown in \eref{chaos-projection}. The inner product in the denominator of
-\eref{chaos-projection} does not pose any computation problem: it is a
-normalization constant that can be considered given along with the basis. The
-inner product in the enumerator, however, should generally be evaluated
-numerically, which is described in \sref{numerical-integration}. To this end, an
-adequate quadrature $\quadrature{\nz}{\lq}$ should be used. The result is
+Let us now find the coefficients $\{ \hat{\vp}_{i \multiindex[j]} \}$ of the
+\ac{PC} expansion of power, which will subsequently be propagated to
+temperature. The coefficients are computed using spectral projections as shown
+in \eref{chaos-projection}. In general, the inner product in
+\eref{chaos-projection} should be evaluated numerically as it is described in
+\sref{numerical-integration}. To this end, an adequate quadrature
+$\quadrature{\nz}{\lq}$ should be used. The result is
 \begin{equation} \elab{chaos-coefficient}
-  \hat{\vp}_{ij} = \frac{\quadrature{\nz}{\lq}{\vp_i \psi_j}}{\innerproduct{\psi_j}{\psi_j}}
+  \hat{\vp}_{i \multiindex[j]} = \quadrature{\nz}{\lq}{\vp_i \psi_{\multiindex[j]}}
 \end{equation}
-for $i = \range{1}{\ns}$ and $j = \range{1}{\nc}$ where the integration should
-be understood element-wise. It is worth emphasizing that, since power depends on
-temperature as shown in \sref{power-model}, at each step of the recurrence in
-\eref{chaos-recurrence}, the computation of $\hat{\vp}_{ij}$ should be done with
-respect to the \ac{PC} expansion of $\vq_{i - 1}$.
+for $i = \range{1}{\ns}$ and $\multiindex[j] \in \multiindices[J]{\lc}$ where
+the integration should be understood element-wise. It is worth emphasizing that,
+since power depends on temperature as shown in \sref{power-model}, at each step
+of the recurrence in \eref{chaos-recurrence}, the computation of $\hat{\vp}_{i
+\multiindex[j]}$ should be done with respect to the \ac{PC} expansion of $\vq_{i
+- 1}$.
 
 The construction process of the stochastic power and temperature profiles is
 estimated to have the following time complexity per time step:
@@ -207,23 +206,23 @@ estimated to have the following time complexity per time step:
 where \nn, \np, \nc, and \nq are the number of thermal nodes, processing
 elements, polynomial terms, and quadrature points, respectively, and $f(\np)$
 denotes the contribution of the power model in \eref{chaos-power-model}. The
-expression can be detailed further by expanding \nc and \nq. The formula of \nc
-is given in \eref{chaos-multi-index-isotropic-length}, which behaves as $\nz^\nc
-/ \nc!$ in the limit with respect to \nz. For quadrature rules based on the full
-tensor product, $\log(\nq) \propto \nz$, which means that the dependency of \nq
-on \nz is exponential. It can be seen that the theory of \ac{PC} expansions
-suffers from the curse of dimensionality \cite{eldred2008, xiu2010}. Concretely,
-when \nz increases, the number of polynomial terms as well as the complexity of
-the corresponding coefficients exhibit a growth, which is exponential without
-special treatments. The problem does not have a general solution and is one of
-the central topics of many ongoing studies. We mitigate this issue by
-\one~keeping the number of stochastic dimensions low using the model order
-reduction based on the \ac{KL} decomposition discussed in
-\sref{probability-transformation} and \two~utilizing efficient integration
-techniques discussed in \sref{numerical-integration}. In particular, for sparse
-integration grids based on Gaussian quadrature rules, $\log(\nq) \propto
-\log(\nz)$, which means that the dependency of \nq on \nz is only polynomial
-\cite{heiss2008}.
+expression can be detailed further by expanding \nc and \nq. The formula of \nc,
+which is the cardinality of $\multiindices[J]{\lc}$, is given in
+\eref{chaos-multi-index-isotropic-length}; it behaves as $\nz^\nc / \nc!$ in the
+limit with respect to \nz. For quadratures based on the full tensor product,
+$\log(\nq) \propto \nz$, which means that the dependency of \nq on \nz is
+exponential. It can be seen that the theory of \ac{PC} expansions suffers from
+the curse of dimensionality \cite{eldred2008, xiu2010}: when \nz increases, the
+number of polynomial terms as well as the complexity of the corresponding
+coefficients exhibit a growth, which is exponential without special treatments.
+The problem does not have a general solution and is one of the central topics of
+many ongoing studies. We mitigate this issue by \one~keeping the number of
+stochastic dimensions low using the model order reduction based on the \ac{KL}
+decomposition discussed in \sref{probability-transformation} and \two~utilizing
+efficient integration techniques discussed in \sref{numerical-integration}. In
+particular, for sparse integration grids based on Gaussian quadrature rules,
+$\log(\nq) \propto \log(\nz)$, which means that the dependency of \nq on \nz is
+only polynomial \cite{heiss2008}.
 
 Let us summarize this subsection. Recall the stochastic recurrence in
 \eref{chaos-recurrence-original} where, in the presence of dependencies, an
@@ -233,10 +232,10 @@ be evaluated and combined with another random vector $\vs_k$. This recurrence in
 \eref{chaos-recurrence-original} has been replaced with a purely deterministic
 recurrence in \eref{chaos-recurrence}. More globally, the whole system including
 the heavy temperature model in \eref{temperature-model-original} has been
-substituted with a light surrogate defined by a set of polynomials $\{ \psi_j
-\}_{j = 1}^\nc$ in \vz, a set of coefficients $\{ \hat{\vp}_{ij} \}_{i = 1, j =
-1}^{\ns, \nc}$ for power, and a set of coefficient $\{ \hat{\vq}_{ij} \}_{i = 1,
-j = 1}^{\ns, \nc}$ for temperature. These quantities constitute a stochastic
+substituted with a light surrogate defined by a set of polynomials $\{
+\psi_{\multiindex[j]} \}$ in \vz, a set of coefficients $\{ \hat{\vp}_{i
+\multiindex[j]} \}$ for power, and a set of coefficient $\{ \hat{\vq}_{i
+\multiindex[j]} \}$ for temperature. These quantities constitute a stochastic
 power profile \mp and a stochastic temperature profile \mq, and these profiles
 are ready to be analyzed, which we discuss in the following subsection.
 
@@ -258,20 +257,28 @@ obtained polynomial representations allow for various prospective analyses to be
 performed with no effort. For instance, consider the expansion of temperature at
 step $i$
 \[
-  \chaos{\nz}{\lc}{\vq_i}(\vz) = \sum_{j = 1}^{\nc} \hat{\vq}_{ij} \psi_j(\vz)
+  \chaos{\nz}{\lc}{\vq_i} = \sum_{\multiindex[j] \in \multiindices[J]{\lc}} \hat{\vq}_{i \multiindex[j]} \psi_{\multiindex[j]}
 \]
-where $\hat{\vq}_{ij}$ are computed using \eref{chaos-recurrence} and
-\eref{temperature-algebraic}. Let us, for example, find the expectation and
-variance of the temperature at this time moment. Since the first polynomial
-$\psi_1$ in a polynomial basis is unity by definition \cite{xiu2010},
-$\expectation{\psi_1(\vz)} = 1$. Therefore, using the orthogonality property in
-\eref{chaos-orthogonality}, we conclude that $\expectation{\psi_i(\vz)} = 0$ for
-$i = \range{2}{\nc}$. Consequently, the expected value and variance have the
-following simple expressions solely based on the coefficients:
+where $\{ \hat{\vq}_{i \multiindex[j]} \}$ are computed using
+\eref{chaos-recurrence} and \eref{temperature-algebraic}. The above formula
+given in terms of operators can be better understood when these operators are
+applied to a particular \vz as follows:
+\[
+  \chaos{\nz}{\lc}{\vq_i}(\vz) = \sum_{\multiindex[j] \in \multiindices[J]{\lc}} \hat{\vq}_{i \multiindex[j]} \psi_{\multiindex[j]}(\vz).
+\]
+Let us now find, for example, the expectation and variance of the temperature at
+this time moment. Since the first polynomial $\psi_{\multiindex[0]}$ in a
+polynomial basis is unity by definition \cite{xiu2010},
+$\expectation{\psi_{\multiindex[0]}(\vz)} = 1$. Therefore, using the
+orthogonality property in \eref{chaos-orthogonality}, we conclude that
+$\expectation{\psi_{\multiindex[j]}(\vz)} = 0$ for $\multiindex[j] \in
+\multiindices[J]{\lc} \setminus \{ \multiindex[0] \}$. Consequently, the
+expected value and variance have the following straightforward expressions
+solely based on the coefficients:
 \begin{equation} \elab{chaos-moments}
   \begin{split}
-    & \expectation{\vq_i} = \hat{\vq}_{i1} \text{ and} \\
-    & \variance{\vq_i} = \sum_{j = 2}^{\nc} \innerproduct{\psi_j}{\psi_j} \hat{\vq}_{ij}^2,
+    & \expectation{\vq_i} = \hat{\vq}_{i \multiindex[0]} \text{ and} \\
+    & \variance{\vq_i} = \sum_{\multiindices[J]{\lc} \setminus \{ \multiindex[0] \}} \hat{\vq}_{i \multiindex[j]}^2,
   \end{split}
 \end{equation}
 respectively, where the squaring should be understood element-wise. Such

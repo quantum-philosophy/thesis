@@ -25,7 +25,7 @@ Then the inner product in the vector space of functions over $G$ is defined as
 \end{equation}
 for any $g$ and $h$ in this space, and the norm is defined as
 \[
-  \norm{g} = \sqrt{\innerproduct{g}{g}}.
+  \norm[2]{g} = \sqrt{\innerproduct{g}{g}}.
 \]
 
 Let $\Psi_\lc(G)$ be the space of $n$-variate polynomials over $G$ such that the
@@ -35,33 +35,32 @@ maitre2010}
 \[
   \Psi_\lc(G) = \hull{\left\{ \psi_{\multiindex}(\v{y}): \multiindex \in \multiindices{\lc}, \v{y} \in G \right\}}
 \]
-where $\multiindex = (\alpha_i) \in \natural^n$ is a multi-index,
+where $\multiindex = (i_k) \in \natural^n$ is a multi-index,
 \begin{align}
   & \multiindices{\lc} = \left\{ \multiindex: \norm[1]{\multiindex} \leq \lc \right\}, \text{ and} \elab{chaos-multi-index-isotropic} \\
-  & \psi_{\multiindex}(\v{y}) = \prod_{i = 1}^n \psi_{\alpha_i}(y_i). \nonumber
+  & \psi_{\multiindex}(\v{y}) = \prod_{k = 1}^n \psi_{i_k}(y_k). \nonumber
 \end{align}
-In the above formulae, $\psi_{\alpha_i}$ is a one-dimensional Hermite polynomial
-of order $\alpha_i$, which is assumed to be normalized, and $\norm[1]{\cdot}$
-stands for the Manhattan norm. Furthermore, the set $\multiindices{\lc}$ in
-\eref{chaos-multi-index-isotropic} is called the total-order multi-index set
-since it constrains polynomials by their total order \cite{eldred2008,
-beck2011}, and its cardinality can be calculated as follows:
+In the above formulae, $\psi_{i_k}: \real \to \real$ is a one-dimensional
+Hermite polynomial of order $i_k$, which is assumed to be normalized, and
+$\norm[1]{\cdot}$ stands for the Manhattan norm. Furthermore, the multi-index
+set $\multiindices{\lc}$ in \eref{chaos-multi-index-isotropic} is called a
+total-order multi-index set since it constrains polynomials by their total order
+\cite{eldred2008, beck2011}, and its cardinality can be calculated as follows:
 \begin{equation} \elab{chaos-multi-index-isotropic-length}
   \cardinality{\multiindices{\lc}} = {\lc + n \choose n} = \frac{(\lc + \nz)!}{\lc! \, \nz!}.
 \end{equation}
-It is important to note that the basis polynomials $\{ \psi_{\multiindex}:
-\multiindex \in \natural^n \}$ are orthonormal with respect to $F$, which means
-that
+It is important to note that the basis polynomials $\{ \psi_{\multiindex} \}$
+are orthonormal with respect to $F$, which means that
 \begin{equation} \elab{chaos-orthogonality}
-  \innerproduct{\psi_{\multiindex}}{\psi_{\multiindex[\beta]}} = \delta_{\multiindex \multiindex[\beta]}
+  \innerproduct{\psi_{\multiindex}}{\psi_{\multiindex[j]}} = \delta_{\multiindex \multiindex[j]}
 \end{equation}
-for any two multi-indices $\multiindex = (\alpha_i) \in \natural^n$ and
-$\multiindex[\beta] = (\beta_i) \in \natural^n$ where
+for any two multi-indices $\multiindex = (i_k) \in \natural^n$ and
+$\multiindex[j] = (j_k) \in \natural^n$ where
 \[
-  \delta_{\multiindex \multiindex[\beta]} = \prod_{i = 1}^n \delta_{\alpha_i \beta_i},
+  \delta_{\multiindex \multiindex[j]} = \prod_{k = 1}^n \delta_{i_k j_k},
 \]
-and $\delta_{ij}$ is the Kronecker delta. In particular, the polynomials are
-also centered with respect to $F$, and, therefore, the inner product in
+and $\delta_{i_k j_k}$ is the Kronecker delta. In particular, the polynomials
+are also centered with respect to $F$, and, therefore, the inner product in
 \eref{chaos-inner-product} applied to two polynomials yields their correlation,
 which is zero due to the orthogonality. In addition, the inner product applied
 to a polynomial with itself yields the variance of that polynomial, which is
