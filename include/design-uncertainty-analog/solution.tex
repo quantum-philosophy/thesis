@@ -154,7 +154,7 @@ term $\vp_i$ in \eref{chaos-recurrence-original} as described in
 where $\{ \psi_j: \real^\nz \to \real \}_{j = 1}^\nc$ are the first \nc
 polynomials of the basis; $\{ \hat{\vp}_{ij} \in \real^\np \}_{j = 1}^\nc$ are
 the coefficients of the expansion; and \nc is given by
-\eref{chaos-length-total-order}.
+\eref{chaos-multi-index-isotropic-length}.
 
 It can be seen in \eref{chaos-recurrence-original} that, due to the linearity of
 the operations involved in the recurrence, $\vs_i$ attains an expansion that has
@@ -172,7 +172,7 @@ structure of the above formula better, let us spell it out as
   \sum_{j = 1}^\nc \left( \m{E} \, \hat{\vs}_{i - 1, j} + \m{F} \, \hat{\vp}_{ij} \right) \psi_j(\vz).
 \]
 Multiplying the above equation by each polynomial from the basis and making use
-of the orthogonality property in \eref{polynomial-orthogonality}, we obtain the
+of the orthogonality property in \eref{chaos-orthogonality}, we obtain the
 following recurrence:
 \begin{equation} \elab{chaos-recurrence}
   \hat{\vs}_{ij} = \m{E} \hat{\vs}_{i - 1, j} + \m{F} \hat{\vp}_{ij}
@@ -208,13 +208,13 @@ where \nn, \np, \nc, and \nq are the number of thermal nodes, processing
 elements, polynomial terms, and quadrature points, respectively, and $f(\np)$
 denotes the contribution of the power model in \eref{chaos-power-model}. The
 expression can be detailed further by expanding \nc and \nq. The formula of \nc
-is given in \eref{chaos-length-total-order}, which behaves as $\nz^\nc / \nc!$
-in the limit with respect to \nz. For quadrature rules based on the full tensor
-product, $\log(\nq) \propto \nz$, which means that the dependency of \nq on \nz
-is exponential. It can be seen that the theory of \ac{PC} expansions suffers
-from the curse of dimensionality \cite{eldred2008, xiu2010}. Concretely, when
-\nz increases, the number of polynomial terms as well as the complexity of the
-corresponding coefficients exhibit a growth, which is exponential without
+is given in \eref{chaos-multi-index-isotropic-length}, which behaves as $\nz^\nc
+/ \nc!$ in the limit with respect to \nz. For quadrature rules based on the full
+tensor product, $\log(\nq) \propto \nz$, which means that the dependency of \nq
+on \nz is exponential. It can be seen that the theory of \ac{PC} expansions
+suffers from the curse of dimensionality \cite{eldred2008, xiu2010}. Concretely,
+when \nz increases, the number of polynomial terms as well as the complexity of
+the corresponding coefficients exhibit a growth, which is exponential without
 special treatments. The problem does not have a general solution and is one of
 the central topics of many ongoing studies. We mitigate this issue by
 \one~keeping the number of stochastic dimensions low using the model order
@@ -265,9 +265,9 @@ where $\hat{\vq}_{ij}$ are computed using \eref{chaos-recurrence} and
 variance of the temperature at this time moment. Since the first polynomial
 $\psi_1$ in a polynomial basis is unity by definition \cite{xiu2010},
 $\expectation{\psi_1(\vz)} = 1$. Therefore, using the orthogonality property in
-\eref{polynomial-orthogonality}, we conclude that $\expectation{\psi_i(\vz)} =
-0$ for $i = \range{2}{\nc}$. Consequently, the expected value and variance have
-the following simple expressions solely based on the coefficients:
+\eref{chaos-orthogonality}, we conclude that $\expectation{\psi_i(\vz)} = 0$ for
+$i = \range{2}{\nc}$. Consequently, the expected value and variance have the
+following simple expressions solely based on the coefficients:
 \begin{equation} \elab{chaos-moments}
   \begin{split}
     & \expectation{\vq_i} = \hat{\vq}_{i1} \text{ and} \\

@@ -8,70 +8,112 @@ random variables. Such series are especially attractive from the post-processing
 perspective as they are nothing more than the familiar polynomials; therefore,
 \ac{PC} expansions are easy to interpret and easy to evaluate.
 
-Let now $\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a set of $n$-variate
-polynomials. The polynomials span a weighted Hilbert space with the inner
-product
-\begin{equation} \elab{polynomial-inner-product}
-  \innerproduct{\psi_i}{\psi_j}
-  = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) \d F(\v{x})
-  = \int_{\real^n} \psi_i(\v{x}) \psi_j(\v{x}) f(\v{x}) \d \v{x}
-\end{equation}
-where $F$ and $f$ are a measure and a weight function, respectively, similarly
-to \sref{numerical-integration}. Two polynomials $\psi_i$ and $\psi_j$ are
-called orthogonal if
-\begin{equation} \elab{polynomial-orthogonality}
-  \innerproduct{\psi_i}{\psi_j} = \innerproduct{\psi_i}{\psi_i} \delta_{ij}
-\end{equation}
-where $\delta_{ij}$ is the Kronecker delta function. The set of polynomials
-constitutes a basis of the weighted space if all the polynomials are mutually
-orthogonal.
-
-Consider now a probability space $(\Omega, \mathcal{F}, \probability)$, defined
-in \sref{probability-theory}, and let a function $g: \real^n \to \real$ depend
-on a random vector $\v{x}: \Omega \to \real^n$ with mutually independent
-components. Assume also that $g$, when viewed as a random variable $g: \Omega
-\to \real$, belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$. Lastly, let
-$\{ \psi_i: \real^n \to \real \}_{i = 1}^\infty$ be a basis whose polynomials
-are mutually orthogonal with respect to the probability distribution of $\v{x}$,
-which means that $F$ and $f$ in \eref{polynomial-inner-product} are the \ac{CDF}
-and \ac{PDF} of $\v{x}$, respectively. Then the \ac{PC} expansion of $g$ as a
-function of $\v{x}$ is
+Let $\L{2}(\Omega, \mathcal{F}, \probability)$ be as in
+\eref{square-integrable-space} and $G \subset \L{2}(\Omega, \mathcal{F},
+\probability)$ be the Gaussian Hilbert space \cite{janson1997} spanned by $n$
+mutually independent standard Gaussian random variables, which we denote by
+$\v{x}: \Omega \to \real^n$. Since the variables are independent and standard,
+they form an orthonormal basis in $G$, and the dimension of $G$ is $n$. The
+variables induce a probability measure on $\real^n$, and the corresponding
+distribution function $F$ is standard Gaussian given by
 \[
-  g(\v{x}) = \sum_{i = 1}^\infty \hat{g}_i \psi_i(\v{x}).
+  \d F(\v{y}) = (2 \pi)^{-\frac{n}{2}} \exp\left(-\frac{\norm[2]{\v{y}}^2}{2}\right) \d \v{y}.
 \]
-The coefficients $\{ \hat{g}_i \}_{i = 1}^\infty$ of the expansion are found by
-multiplying both side of the equation by $\psi_i$ and making use of
-\eref{polynomial-orthogonality}, which results in
+Then the inner product in the vector space of functions over $G$ is defined as
+\begin{equation} \elab{chaos-inner-product}
+  \innerproduct{g}{h} = \int_{\real^n} g(\v{y}) h(\v{y}) \d F(\v{y})
+\end{equation}
+for any $g$ and $h$ in this space, and the norm is defined as
+\[
+  \norm{g} = \sqrt{\innerproduct{g}{g}}.
+\]
+
+Let $\Psi_\lc(G)$ be the space of $n$-variate polynomials over $G$ such that the
+total order of each polynomial is at most \lc. The space $\Psi_\lc(G)$ can be
+constructed as a span of $n$-variate Hermite polynomials \cite{eldred2008,
+maitre2010}
+\[
+  \Psi_\lc(G) = \hull{\left\{ \psi_{\multiindex}(\v{y}): \multiindex \in \multiindices{\lc}, \v{y} \in G \right\}}
+\]
+where $\multiindex = (\alpha_i) \in \natural^n$ is a multi-index,
+\begin{align}
+  & \multiindices{\lc} = \left\{ \multiindex: \norm[1]{\multiindex} \leq \lc \right\}, \text{ and} \elab{chaos-multi-index-isotropic} \\
+  & \psi_{\multiindex}(\v{y}) = \prod_{i = 1}^n \psi_{\alpha_i}(y_i). \nonumber
+\end{align}
+In the above formulae, $\psi_{\alpha_i}$ is a one-dimensional Hermite polynomial
+of order $\alpha_i$, which is assumed to be normalized, and $\norm[1]{\cdot}$
+stands for the Manhattan norm. Furthermore, the set $\multiindices{\lc}$ in
+\eref{chaos-multi-index-isotropic} is called the total-order multi-index set
+since it constrains polynomials by their total order \cite{eldred2008,
+beck2011}, and its cardinality can be calculated as follows:
+\begin{equation} \elab{chaos-multi-index-isotropic-length}
+  \cardinality{\multiindices{\lc}} = {\lc + n \choose n} = \frac{(\lc + \nz)!}{\lc! \, \nz!}.
+\end{equation}
+It is important to note that the basis polynomials $\{ \psi_{\multiindex}:
+\multiindex \in \natural^n \}$ are orthonormal with respect to $F$, which means
+that
+\begin{equation} \elab{chaos-orthogonality}
+  \innerproduct{\psi_{\multiindex}}{\psi_{\multiindex[\beta]}} = \delta_{\multiindex \multiindex[\beta]}
+\end{equation}
+for any two multi-indices $\multiindex = (\alpha_i) \in \natural^n$ and
+$\multiindex[\beta] = (\beta_i) \in \natural^n$ where
+\[
+  \delta_{\multiindex \multiindex[\beta]} = \prod_{i = 1}^n \delta_{\alpha_i \beta_i},
+\]
+and $\delta_{ij}$ is the Kronecker delta. In particular, the polynomials are
+also centered with respect to $F$, and, therefore, the inner product in
+\eref{chaos-inner-product} applied to two polynomials yields their correlation,
+which is zero due to the orthogonality. In addition, the inner product applied
+to a polynomial with itself yields the variance of that polynomial, which is
+unity due to the normality.
+
+Define $H_0 = \Psi_0(G)$ (the space of constants) and, for $i \geq 1$,
+\[
+  H_i = \Psi_i(G) \, \cap \, \Psi_{i - 1}(G)^\perp.
+\]
+The vector spaces $\{ H_i \}_{i = 0}^\infty$ are mutually orthogonal, closed
+subspaces of $\L{2}(\Omega, \mathcal{F}, \probability)$. Since our scope of
+interest is restricted to functions of $\v{x}$, $\mathcal{F}$ is assumed to be
+generated by $\v{x}$. Then, by the Cameron--Martin theorem,
+\[
+  \L{2}(\Omega, \mathcal{F}, \probability) = \bigoplus_{i = 0}^\infty H_i,
+\]
+which is known as the Wiener chaos decomposition.
+
+The Wiener chaos decomposition implies that any $\g \in \L{2}(\Omega,
+\mathcal{F}, \probability)$ admits an expansion with respect to the polynomial
+basis, which is denoted by
+\[
+  \g = \sum_{\multiindex \in \natural^n} \hat{g}_{\multiindex} \psi_{\multiindex}
+\]
+where the equality should be understood in mean square. The coefficients $\{
+\hat{g}_{\multiindex} \}$ of this spectral decomposition are found by
+multiplying both side of the equation by $\psi_{\multiindex}$ and making use of
+\eref{chaos-orthogonality}, which results in
 \begin{equation} \elab{chaos-projection}
-  \hat{g}_i = \frac{\innerproduct{g}{\psi_i}}{\innerproduct{\psi_i}{\psi_i}}
+  \hat{g}_{\multiindex} = \innerproduct{\g}{\psi_{\multiindex}}
 \end{equation}
-for $i = \range{1}{\infty}$. This operation is referred to as a spectral
-projection. For practical calculations, the expansion has be truncated, which we
-denote as
+This operation is referred to as a spectral projection.
+
+In practice, the infinite expansion is truncated, which we denote as
 \begin{equation} \elab{chaos-expansion}
-  g(\v{x}) \approx \chaos{\nz}{\lc}{g}(\v{x}) = \sum_{i = 1}^\nc \hat{g}_i \psi_i(\v{x}).
+  \g \approx \chaos{n}{\lc}{\g} = \sum_{\multiindex \in \multiindices{\lc}} \hat{g}_{\multiindex} \psi_{\multiindex}.
 \end{equation}
-In the notation $\chaos{\nz}{\lc}$, the superscript \nz indicates the
-dimensionality of the problem, and the subscript \lc indicates the accuracy
-level of the expansion. The two parameters dictate the number of terms \nc,
-which is
-\begin{equation} \elab{chaos-length-total-order}
-  \nc = { \lc + \nz \choose \nz } = \frac{(\lc + \nz)!}{\lc! \, \nz!}
-\end{equation}
-and corresponds to the total-order polynomial space \cite{eldred2008, beck2011}.
+In the notation $\chaos{n}{\lc}$, the superscript $n$ indicates the dimension of
+the vector space, and the subscript \lc indicates the level of the truncated
+expansion. This truncated expansion converges in mean square to \g as $\lc \to
+\infty$, that is,
+\[
+  \g = \lim_{\lc \to \infty} \chaos{n}{\lc}{\g}.
+\]
 
-It is worth noting that, when the polynomials are centered, the inner product in
-\eref{polynomial-inner-product} corresponds to the covariance of two
-polynomials, and orthogonality corresponds to the absence of correlation. In
-addition, the inner product $\innerproduct{\psi_i}{\psi_i}$ in
-\eref{polynomial-orthogonality} and \eref{chaos-projection} corresponds to the
-variance of a polynomial.
-
-Many of the most popular probability distributions directly correspond to
+The Wiener chaos decomposition is often referred to as the classical \ac{PC}
+decomposition, and it can be generalized to other types of probability
+distributions than Gaussian. Many popular distributions directly correspond to
 certain families of orthogonal polynomials, which can be found in the Askey
-scheme of orthogonal polynomials \cite{xiu2010}. A distribution that does not
-have such a correspondence can be transformed into one of those that do using
-such techniques as the one shown in \sref{probability-transformation}. Another
+scheme of orthogonal polynomials. A distribution that does not have such a
+correspondence can be transformed into one of those that do using such
+techniques as the one shown in \sref{probability-transformation}. Another
 solutions is to construct a custom polynomial basis using the Gram--Schmidt
 process. Lastly, let us note that the machinery of \ac{PC} expansions is
 applicable to discrete distributions as well. The interested reader is referred
