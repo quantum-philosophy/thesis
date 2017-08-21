@@ -1,21 +1,11 @@
-Due to the inherent complexity, uncertainty-quantification problems are
-typically viewed as approximation problems: one usually constructs a
-computationally efficient surrogate for the system under consideration and then
-studies this light representation instead of the original system. One way to
-construct such a surrogate is \acf{PC} \cite{xiu2010}. The technique decomposes
-stochastic quantities into infinite series of mutually orthogonal polynomials of
-random variables. Such series are especially attractive from the post-processing
-perspective as they are nothing more than the familiar polynomials; therefore,
-\ac{PC} expansions are easy to interpret and easy to evaluate.
-
 Let $\L{2}(\Omega, \mathcal{F}, \probability)$ be as in
 \eref{square-integrable-space} and $G \subset \L{2}(\Omega, \mathcal{F},
 \probability)$ be the Gaussian Hilbert space \cite{janson1997} spanned by $n$
 mutually independent standard Gaussian random variables, which we denote by
 $\v{x}: \Omega \to \real^n$. Since the variables are independent and standard,
-they form an orthonormal basis in $G$, and the dimensionality of $G$ is $n$. The
-variables induce a probability measure on $\real^n$, and the corresponding
-distribution function $F$ is standard Gaussian given by
+they form an orthonormal basis in $G$, and $G$ is $n$-dimensional. The variables
+induce a probability measure on $\real^n$, and the corresponding distribution
+function $F$ is standard Gaussian given by
 \[
   \d F(\v{y}) = (2 \pi)^{-\frac{n}{2}} \exp\left(-\frac{\norm[2]{\v{y}}^2}{2}\right) \d \v{y}.
 \]
@@ -106,7 +96,7 @@ as $\lc \to \infty$, that is,
   \g = \lim_{\lc \to \infty} \chaos{n}{\lc}{\g}.
 \]
 
-The Wiener chaos decomposition is often referred to as the classical \ac{PC}
+The Wiener chaos decomposition is often referred to as the classical \acf{PC}
 decomposition, and it can be generalized to other types of probability
 distributions than Gaussian. Many popular distributions directly correspond to
 certain families of orthogonal polynomials, which can be found in the Askey
