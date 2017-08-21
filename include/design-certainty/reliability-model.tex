@@ -42,16 +42,16 @@ xiang2010}, which we use for characterizing the lifetime of a single processing
 element. For convenience, this lifetime is denoted by $T$ instead of $T_i$. The
 lifetime is assumed to have a Weibull distribution, which is denoted as follows:
 \[
-  T \sim \mathrm{Weibull}(\scale, \shape)
+  T | \vg \sim \mathrm{Weibull}(\scale, \shape)
 \]
 where $\scale$ and $\shape$ are called the scale and shape parameters,
-respectively. The distribution function of $T$ is
+respectively, and $\vg = (\scale, \shape)$. The distribution function of $T$ is
 \begin{equation} \elab{weibull-distribution}
-  F(t) = 1 - \exp\left(-\left(\frac{t}{\scale}\right)^\shape\right);
+  F(t | \vg) = 1 - \exp\left(-\left(\frac{t}{\scale}\right)^\shape\right);
 \end{equation}
 the survival function of the processing element is
 \begin{equation} \elab{weibull-reliability}
-  R(t) = 1 - F(t) = \exp\left(-\left(\frac{t}{\scale}\right)^\shape\right);
+  R(t | \vg) = 1 - F(t | \vg) = \exp\left(-\left(\frac{t}{\scale}\right)^\shape\right);
 \end{equation}
 and the corresponding \ac{MTTF} is
 \begin{equation} \elab{weibull-expectation}
@@ -65,11 +65,11 @@ should reflect this aspect, which is not yet prominent in
 \eref{weibull-distribution}. In order to account for this, the time span is
 split into \ns time intervals $\{ \dt_i: i = \range{1}{\ns} \}$ so that the
 conditions that are relevant to the model stay unchanged within each interval.
-Let $T_i \sim \mathrm{Weibull}(\scale_i, \shape_i)$ be the time to failure that
-the processing element would have if interval $i$ was the only interval present
-and denote by $\mean_i$ the corresponding \ac{MTTF} according to
-\eref{weibull-expectation}. In the case of temperature-induced failures, we have
-that $\shape_i = \shape$ for $i = \range{1}{\ns}$, that is, all the shape
+Let $T_i | \vg_i \sim \mathrm{Weibull}(\scale_i, \shape_i)$ be the time to
+failure that the processing element would have if interval $i$ was the only
+interval present and denote by $\mean_i$ the corresponding \ac{MTTF} according
+to \eref{weibull-expectation}. In the case of temperature-induced failures, we
+have that $\shape_i = \shape$ for $i = \range{1}{\ns}$, that is, all the shape
 parameters are equal. The reason is that, unlike the scale parameters, the shape
 parameters are independent of the operating temperature \cite{chang2006}.
 
