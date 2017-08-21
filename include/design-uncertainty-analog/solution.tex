@@ -192,18 +192,19 @@ for $i = \range{1}{\ns}$ and $\multiindex[j] \in \multiindices[J]{\lc}$.
 Combining the recurrence with \eref{temperature-algebraic}, we obtain the
 coefficients of the \ac{PC} expansion of the temperature vector $\vq_k$.
 
-Let us now find the coefficients $\{ \hat{\vp}_{i \multiindex[j]} \}$ of the
-\ac{PC} expansion of power, which will subsequently be propagated to
-temperature. The coefficients are computed using spectral projections as shown
-in \eref{chaos-projection}. In general, the inner product in
-\eref{chaos-projection} should be evaluated numerically as it is described in
-\sref{numerical-integration}. To this end, an adequate quadrature
-$\quadrature{\nz}{\lq}$ should be used. The result is
+Let us now find the coefficients $\{ \hat{\vp}_{i \multiindex[j]} \}$ of power,
+which will subsequently be propagated to temperature. As shown in
+\eref{chaos-inner-product} and \eref{chaos-projection}, each coefficient is an
+\nz-dimensional integral, which, in general, should be evaluated numerically.
+This task is described in \sref{numerical-integration}, and it is accomplished
+by virtue of an adequate \nz-dimensional quadrature $\quadrature{\nz}{\lq}$,
+which is a set of \nz-dimensional points accompanied by a set of scalar weights.
+The result is
 \begin{equation} \elab{chaos-coefficient}
   \hat{\vp}_{i \multiindex[j]} = \quadrature{\nz}{\lq}{\vp_i \psi_{\multiindex[j]}}
 \end{equation}
 for $i = \range{1}{\ns}$ and $\multiindex[j] \in \multiindices[J]{\lc}$ where
-the integration should be understood element-wise. It is worth emphasizing that,
+the operation should be understood element-wise. It is worth emphasizing that,
 since power depends on temperature as shown in \sref{power-model}, at each step
 of the recurrence in \eref{chaos-recurrence}, the computation of $\hat{\vp}_{i
 \multiindex[j]}$ should be done with respect to the \ac{PC} expansion of $\vq_{i
