@@ -480,13 +480,13 @@ Assume $\g \in \L{2}(\Omega, \mathcal{F}, \probability)$ (see
 \sref{preliminaries}). Then \g can be expanded into the following series:
 \[
   \g \approx \chaos{\nz}{\lc}{\g} := \sum_{\multiindex \in
-  \multiindices{\lc}} \hat{\g}_{\multiindex} \, \phi_{\multiindex}(\vz)
+  \multiindices{\nz}{\lc}} \hat{\g}_{\multiindex} \, \phi_{\multiindex}(\vz)
 \]
 where \lc is the expansion level; $\multiindex = (\alpha_i) \in \natural^\nz$ is
-a multi-index; $\multiindices{\lc}$ is an index set to be discussed shortly; and
-$\phi_{\multiindex}(\vz)$ is an \nz-variate Hermite polynomial constructed as a
-product of normalized one-dimensional Hermite polynomials of orders specified by
-the corresponding elements of \multiindex.
+a multi-index; $\multiindices{\nz}{\lc}$ is an index set to be discussed
+shortly; and $\phi_{\multiindex}(\vz)$ is an \nz-variate Hermite polynomial
+constructed as a product of normalized one-dimensional Hermite polynomials of
+orders specified by the corresponding elements of \multiindex.
 
 As discussed in \sref{spectral-decomposition}, each coefficient
 $\hat{\g}_{\multiindex}$ in \eref{spectral-decomposition} is an
@@ -502,19 +502,19 @@ where $\lq$ is the quadrature level, and $\{ (\v{x}_i \in \real^\nz, w_i \in
 multivariate quadrature operator $\quadrature{\nz}{\lq}$ is based on a set of
 univariate operators and is constructed as follows:
 \begin{equation} \elab{smolyak-sparse-grid}
-  \quadrature{\nz}{\lq} = \bigoplus_{\multiindex \in \multiindices{\lq}}
+  \quadrature{\nz}{\lq} = \bigoplus_{\multiindex \in \multiindices{\nz}{\lq}}
   \Delta_{\alpha_1} \otimes \cdots \otimes \Delta_{\alpha_\nz}.
 \end{equation}
 The notation used in the above equation is not essential for the present
 discussion and is explained in \sref{numerical-integration}. The important
 aspect to note is the structure of this operator, namely, the index set
-$\multiindices{\lq}$, which we shall come back to shortly.
+$\multiindices{\nz}{\lq}$, which we shall come back to shortly.
 
-The standard choice of $\multiindices{\lc}$ in \eref{spectral-decomposition} is
-$\{ \multiindex: \norm[1]{\multiindex} \leq \lc \}$, which is called an
-isotropic total-order index set. \emph{Isotropic} refers to the fact that all
-dimensions are trimmed identically, and \emph{total-order} refers to the
-structure of the corresponding polynomial space. In
+The standard choice of $\multiindices{\nz}{\lc}$ in
+\eref{spectral-decomposition} is $\{ \multiindex: \norm[1]{\multiindex} \leq \lc
+\}$, which is called an isotropic total-order index set. \emph{Isotropic} refers
+to the fact that all dimensions are trimmed identically, and \emph{total-order}
+refers to the structure of the corresponding polynomial space. In
 \eref{numerical-integration}, $\phi_{\multiindex}$ is a polynomial of total
 order at most \lc, and \g is modeled as such a polynomial. Hence, the integrand
 in \eref{numerical-integration} is a polynomial of total order at most $2 \lc$.
@@ -524,8 +524,8 @@ work, we employ Gaussian quadratures for integration, in which case a quadrature
 of level $\lq$ is exact for integrating polynomials of total order $2 \lq + 1$
 \cite{heiss2008} (see also \sref{numerical-integration}). Therefore, it is
 sufficient to keep \lc and \lq equal. More generally, the index sets
-$\multiindices{\lc}$ and $\multiindices{\lq}$ should be synchronized; in what
-follows, we shall denote both by $\multiindices{l}$.
+$\multiindices{\nz}{\lc}$ and $\multiindices{\nz}{\lq}$ should be synchronized;
+in what follows, we shall denote both by $\multiindices{\nz}{l}$.
 
 Since we are interested in integration with respect to the standard Gaussian
 measure over $\real^\nz$, we shall rely on the Gauss--Hermite family of
@@ -543,10 +543,10 @@ is analogous to integration in one dimension.
 In the context of sparse grids, an important generalization of the construction
 in \eref{smolyak-sparse-grid} is the so-called anisotropic Smolyak algorithm
 \cite{nobile2008}. The main difference between the isotropic and anisotropic
-versions lies in the constraints imposed on $\multiindices{l}$. An anisotropic
-total-order index set is defined as follows:
+versions lies in the constraints imposed on $\multiindices{\nz}{l}$. An
+anisotropic total-order index set is defined as follows:
 \begin{equation} \elab{anisotropic-total-order-index-set}
-  \multiindices{l} = \left\{ \multiindex: \innerproduct{\v{c}}{\multiindex} \leq l \, \min_i c_i \right\}
+  \multiindices{\nz}{l} = \left\{ \multiindex: \innerproduct{\v{c}}{\multiindex} \leq l \, \min_i c_i \right\}
 \end{equation}
 where $\v{c} = (c_i) \in \real^\nz$, $c_i \geq 0$, is a vector assigning
 importance coefficients to each dimension, and $\innerproduct{\cdot}{\cdot}$ is
@@ -594,11 +594,11 @@ uses. In particular, the construction in \eref{spectral-decomposition} can be
 reduced to one matrix multiplication with a precomputed matrix, which we shall
 demonstrate next.
 
-Let $\nc = \cardinality{\multiindices{l}}$ be the cardinality of
-$\multiindices{l}$, which is also the number of polynomial terms and, hence,
-coefficients in \eref{spectral-decomposition}. Assume the multi-indices
-contained in $\multiindices{l}$ are arranged in a vector $(\multiindex_i)_{i =
-1}^\nc$, which gives a certain ordering. Now, let
+Let $\nc = \cardinality{\multiindices{\nz}{l}}$ be the cardinality of
+$\multiindices{\nz}{l}$, which is also the number of polynomial terms and,
+hence, coefficients in \eref{spectral-decomposition}. Assume the multi-indices
+contained in $\multiindices{\nz}{l}$ are arranged in a vector
+$(\multiindex_i)_{i = 1}^\nc$, which gives a certain ordering. Now, let
 \[
   \Pi = \big( \pi_{ij} = \phi_{\multiindex_i}(\v{x}_j) \, w_j \big)_{i = 1, \, j = 1}^{i = \nc, \, j = \nq},
 \]
@@ -634,7 +634,7 @@ analytical formulae for the expected value and variance of \g solely based on
 the coefficients of \eref{spectral-decomposition}:
 \[
   \expectation{\g} = \hat{\g}_{\v{0}} \hspace{1em} \text{and} \hspace{1em}
-  \variance{\g} = \sum_{\multiindex \in \multiindices{l} \setminus \{ \v{0} \}} \hat{\g}_{\multiindex}^2
+  \variance{\g} = \sum_{\multiindex \in \multiindices{\nz}{l} \setminus \{ \v{0} \}} \hat{\g}_{\multiindex}^2
 \]
 where $\v{0} = (0)$ is a multi-index with all entries equal to zero. Such
 quantities as the cumulative distribution and probability density functions can

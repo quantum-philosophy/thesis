@@ -64,18 +64,18 @@ computation time. Define $\Delta_0 = \quadrature{1}{0}$ and $\Delta_i =
 \quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then Smolyak's
 approximating formula is
 \begin{equation} \elab{integration-smolyak}
-  \quadrature{n}{\lq} = \bigoplus_{\multiindex \in \multiindices{\lq}} \Delta_{i_1} \otimes \cdots \otimes \Delta_{i_n}.
+  \quadrature{n}{\lq} = \bigoplus_{\multiindex \in \multiindices{n}{\lq}} \Delta_{i_1} \otimes \cdots \otimes \Delta_{i_n}.
 \end{equation}
 In the original (isotropic) formulation of the Smolyak algorithm,
 \begin{equation} \elab{index-total-order-isotropic}
-  \multiindices{\lq} = \left\{ \multiindex: \norm[1]{\multiindex} \leq \lq \right\}
+  \multiindices{n}{\lq} = \left\{ \multiindex \in \natural^n: \norm[1]{\multiindex} \leq \lq \right\}
 \end{equation}
 where $\norm[1]{\cdot}$ stands for the Manhattan norm. The multi-index set
-$\multiindices{\lq}$ is called a total-order multi-index set since it constrains
-polynomials by their total order \cite{eldred2008, beck2011}, and its
+$\multiindices{n}{\lq}$ is called a total-order multi-index set since it
+constrains polynomials by their total order \cite{eldred2008, beck2011}, and its
 cardinality can be calculated as follows:
 \begin{equation} \elab{index-total-order-isotropic-length}
-  \nq(n, \lq) = \cardinality{\multiindices{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
+  \nq(n, \lq) = \cardinality{\multiindices{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
 \end{equation}
 It can be seen that the construction in \eref{integration-smolyak} is a
 summation of cherry-picked tensor products of one-dimensional rules. This
@@ -85,7 +85,7 @@ the literature. Note also that, although we use the same notation in
 \eref{integration-tensor} and \eref{integration-smolyak}, the two constructions
 are generally different; the latter reduces to the former if
 \[
-  \multiindices{\lq} = \left\{ \multiindex: \max_{k = 1}^n i_k \leq \lq \right\}.
+  \multiindices{n}{\lq} = \left\{ \multiindex \in \natural^n: \max_{k = 1}^n i_k \leq \lq \right\}.
 \]
 
 Consider now the following more general integral:
