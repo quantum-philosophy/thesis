@@ -1,0 +1,100 @@
+\newcommand{\mean}{\mu}
+\newcommand{\scale}{\eta}
+\newcommand{\shape}{\beta}
+
+The reliability model that we utilize is the one presented in \cite{huang2009b,
+xiang2010}. The model relies heavily on Weibull distributions, which we overview
+in brief now.
+
+A Weibull distribution has two parameters: $\scale$ and $\shape$, which are
+called the scale and shape parameters, respectively. Let $T$ be a random
+variable that is distributed according to such a distribution, which is denoted
+by $T \sim \mathrm{Weibull}(\scale, \shape)$. Then the distribution function
+\cite{durrett2010} of $T$ is
+\begin{equation} \elab{weibull-distribution}
+  F(t) = 1 - \exp\left(-\left(\frac{t}{\scale}\right)^\shape\right);
+\end{equation}
+the complementary distribution function of $T$ is
+\begin{equation} \elab{weibull-reliability}
+  R(t) = 1 - F(t) = \exp\left(-\left(\frac{t}{\scale}\right)^\shape\right);
+\end{equation}
+and the expectation of $T$ is
+\begin{equation} \elab{weibull-expectation}
+  \mean = \expectation{T} = \scale \: \Gamma\left(1 + \frac{1}{\shape}\right)
+\end{equation}
+where $\Gamma$ is the gamma function. In this context of reliability analysis,
+$T$ represents the time to failure of the component under consideration; $F$
+gives the probability of failure before a certain time moment; $R$ gives the
+probability of survival up to a certain time moment, and it is called the
+reliability function; and $\mean$ corresponds to the \ac{MTTF}.
+
+It is natural to expect that the distribution of $T$ is different for different
+usage conditions, which is not prominent in \eref{weibull-distribution}. In
+order to take this into account, the application period \period is split into
+\ns time intervals $\{ \dt_i: i = \range{1}{\ns} \}$ so that the conditions that
+are relevant to the model stay unchanged within each interval. Let $T_i \sim
+\mathrm{Weibull}(\scale_i, \shape_i)$ be the time to failure that the component
+would have if interval $i$ was the only interval present and denote by $\mean_i$
+the corresponding \ac{MTTF} according to \eref{weibull-expectation}. In the case
+of temperature-induced failures, we have that $\shape_i = \shape$ for $i =
+\range{1}{\ns}$, that is, all the shape parameters are equal. The reason is
+that, unlike the scale parameters, the shape parameters are independent of the
+operating temperature \cite{chang2006}.
+
+As shown in \cite{xiang2010}, in the above scenario, the reliability function of
+the component can still be approximated by means of \eref{weibull-reliability}
+by letting
+\[
+  \scale = \frac{\sum_{i = 1}^\ns \dt_i}{\sum_{i = 1}^\ns \frac{\Delta t_i}{\scale_i}}.
+\]
+Applying \eref{weibull-expectation} at the level of individual cycles, the
+parameter is rewritten as
+\[
+  \scale = \frac{\sum_{i = 1}^\ns \dt_i}{\Gamma\left(1 + \frac{1}{\shape}\right) \sum_{i = 1}^\ns \frac{\Delta t_i}{\mean_i}}.
+\]
+Note that the reliability model in \eref{weibull-reliability} becomes fully
+specified as soon as $\dt_i$ and $\mean_i$ are identified for $i =
+\range{1}{\ns}$. This part of the model depends on the particular failure
+mechanism considered. In the rest of this subsection, we shall tailor the model
+to the thermal-cycling fatigue, which is of interest to us due to its prominent
+dependence on temperature oscillations.
+
+In the case of thermal cycling, the time intervals with constant relevant
+conditions correspond to thermal cycles. In order to detect them in a given
+temperature curve, we utilize the rainflow counting method \cite{xiang2010}. As
+a result, a set of \ns thermal cycles is obtained. Each detected cycle is
+characterized by a number of properties including its duration, which is the
+desired $\dt_i$. Regarding the corresponding $\mean_i$, it can be expressed as
+follows:
+\[
+  \mean_i = \nc_i \dt_i
+\]
+where $\nc_i$ stands for the mean number of such cycles to failure. This number
+is estimated using a modified version of the Coffin--Manson equation with the
+Arrhenius term as shown in the following equation \cite{xiang2010, jedec2016}:
+\begin{equation} \elab{reliability-mean-cycles}
+  \nc = a (\Delta \q - \Delta \q_0)^{-b} \exp\left(\frac{c}{k \q_\maximum}\right)
+\end{equation}
+where $a$, $b$ (called the Coffin--Manson exponent), and $c$ (called the
+activation energy) are empirically determined constants; $k$ is the Boltzmann
+constant; $\Delta \q$ is the excursion of the cycle in question; $\Delta \q_0$
+is the portion of the temperature excursion that resides in the elastic region,
+which does not cause damage; and $\q_\maximum$ is the maximum temperature during
+the cycle.
+
+The reliability model of the abstract component under consideration is now fully
+specified. The reliability function is the one in \eref{weibull-reliability}
+with
+\begin{equation} \elab{reliability-scale}
+  \scale = \frac{\sum_{i = 1}^\ns \dt_i}{\Gamma\left(1 + \frac{1}{\shape}\right) \sum_{i = 1}^\ns \frac{1}{\nc_i}}
+\end{equation}
+where $\nc_i$ is as in \eref{reliability-mean-cycles}. Using
+\eref{weibull-expectation}, the \ac{MTTF} of the
+component is then
+\begin{equation} \elab{reliability-mean-time}
+  \mean = \frac{\sum_{i = 1}^\ns \dt_i}{\sum_{i = 1}^\ns \frac{1}{\nc_i}}.
+\end{equation}
+
+In conclusion, it should be noted that the reliability model requires detailed
+information about the thermal cycles that the component is exposed to, which can
+be obtained by performing dynamic steady-state temperature analysis.
