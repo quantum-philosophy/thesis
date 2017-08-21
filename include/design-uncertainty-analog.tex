@@ -870,34 +870,6 @@ generic reliability model and make several observations with respect to it.
 
 \subsection{Reliability Model}
 
-Let $T: \Omega \to \real$ be a random variable representing the lifetime of the
-considered system. The lifetime is the time span until the system experiences a
-fault after which the system no longer meets the imposed requirements. Let
-$F_T(\cdot | \vg)$ be the distribution of $T$ where $\vg = (\g_i)$ is a vector
-of parameters. The survival function of the system is
-\[
-  S_T(t | \vg) = 1 - F_T(t | \vg).
-\]
-
-The overall lifetime $T$ is a function of the lifetimes of the processing
-elements, which are denoted by a set of random variables $\{ T_i \}_{i =
-1}^\np$. Each $T_i$ is characterized by a physical model of wear
-\cite{jedec2016} describing the fatigues that the corresponding processing
-element is exposed to. Each $T_i$ is also assigned an individual survival
-function $S_{T_i}(\cdot | \vg)$ describing the failures due to those fatigues.
-The structure of $S_T(\cdot | \vg)$ with respect to $\{ S_{T_i}(\cdot | \vg)
-\}_{i = 1}^\np$ is problem specific, and it can be especially diverse in the
-context of fault-tolerant systems. $S_T(\cdot | \vg)$ is to be specified by the
-designer of the system, and it is assumed to be included in the specification
-\spec (see \sref{problem-formulation}). To give an example, suppose the failure
-of any of the \np processing elements makes the system fail, and $\{ T_i \}_{i =
-1}^\np$ are conditionally independent given the parameters gathered in \vg. In
-this scenario,
-\[
-  T = \min_{i = 1}^\np T_i \hspace{1em} \text{and} \hspace{1em}
-  S_T(t | \vg) = \prod_{i = 1}^\np S_{T_i}(t | \vg).
-\]
-
 Our work in this context is motivated by the following two observations. First,
 temperature is the driving force of the dominant failure mechanisms. The most
 prominent examples include electromigration, time-dependent dielectric
