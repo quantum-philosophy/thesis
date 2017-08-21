@@ -38,10 +38,10 @@ order reduction. The intuition is that, since the variables in $\v{x}_2$ are
 correlated, $\v{x}_2$ can be recovered sufficiently well from a small subset of
 the variables in $\v{x}_1$. Specifically, we are to select the smallest subset
 of $\v{x}_1$ such that its cumulative contribution to the variance of $\v{x}_2$
-is above a certain threshold. Formally, assuming that $\{ \lambda_i: i =
-\range{1}{n_1} \}$ are sorted in the descending order and given a threshold
-$\eta \in (0, 1]$, which is the fraction of the variance to be preserved, we
-identify the smallest $n_2 \leq n_1$ such that
+is above a certain threshold. Formally, assuming that $\{ \lambda_i \}_{i =
+1}^{n_1}$ are sorted in the descending order and given a threshold $\eta \in (0,
+1]$, which is the fraction of the variance to be preserved, we identify the
+smallest $n_2 \leq n_1$ such that
 \[
   \frac{\sum_{i = 1}^{n_2} \lambda_i}{\sum_{i = 1}^{n_1} \lambda_i} \geq \eta.
 \]

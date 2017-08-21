@@ -1,93 +1,92 @@
-The construction of high-dimensional rules should be undertaken with a great
-care as, without special treatments, the number of points grows exponentially.
-In what follows, we address this crucial aspect.
-
-Let $f: \real^\nz \to \real$ and define the quadrature-based approximation of
-the integral of $f$ by the linear functional
-\[
-  \quadrature{\nz}{\lq}{f} := \sum_{i = 1}^\nq f(\v{x}_i) \, w_i
-\]
-where $\{ (\v{x}_i \in \real^\nz, w_i \in \real) \}_{i = 1}^\nq$ are the points
-and weights of the chosen quadrature. \rref{multiple-dimensions} applies in this
-context as well. The subscript $\lq \in \natural$ denotes the level of the rule,
-which is its index in the corresponding family of rules with increasing
-precision. The precision refers to the maximal total order of polynomials that
-the quadrature integrates exactly. The number of points $\nq$ can be deduced
-from the pair $(\nz, \lq)$, which we shall occasionally emphasize by writing
-$\nq(\nz, \lq)$. For the Gauss--Hermite quadrature rules in one dimension, we
-have that $\nq = \lq + 1$ and the precision is $2 \nq - 1$ \cite{heiss2008} or,
-equivalently, $2 \lq + 1$, which is a remarkable property of Gaussian
-quadratures.
-
-The foundation of a multidimensional rule $\quadrature{\nz}{\lq}$ is a set of
-one-dimensional counterparts $\{ \quadrature{1}{i} \}_{i = 0}^\lq$. A
-straightforward construction is the tensor product of $\nz$ copies of
-$\quadrature{1}{\lq}$:
-\[
-  \quadrature{\nz}{\lq} = \bigotimes_{i = 1}^\nz \quadrature{1}{\lq},
-\]
-which is referred to as the full-tensor product. In this case, $\nq(\nz,
-\lq) = \nq(1, \lq)^\nz$, that is, the growth of the number of points is
-exponential. Moreover, it can be shown that most of the points obtained via this
-construction are an excess as the full-tensor product does not take into account
-the fact that the integrands under consideration are polynomials whose total
-order is constrained according to a certain strategy.
-
-An alternative construction is the Smolyak algorithm \cite{maitre2010,
-eldred2008}. Intuitively, the algorithm combines $\{ \quadrature{1}{i} \}_{i =
-0}^\lq$ such that $\quadrature{\nz}{\lq}$ is tailored to be exact only for a
-specific polynomial subspace. Define $\Delta_0 := \quadrature{1}{0}$ and
-$\Delta_i := \quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then
-Smolyak's approximating formula is
-\[
-  \quadrature{\nz}{\lq} = \bigoplus_{\multiindex \in \multiindices{\lq}} \Delta_{\alpha_1} \otimes \cdots \otimes \Delta_{\alpha_\nz}.
-\]
-In the original (isotropic) formulation of the Smolyak algorithm,
-$\multiindices{\lq}$ is the same as the one defined in
-\eref{isotropic-total-order-index-set}; the resulting sparse grid is exact for
-polynomials of total order $2 \lq + 1$ (analogous to the integration in one
-dimension). Note that, although we use the same notation in
-\eref{full-tensor-product-grid} and \eref{smolyak-sparse-grid}, the two
-constructions are generally different. (The latter reduces to the former if
-$\multiindices{\lq}$ is set to $\{ \multiindex: \max_i \alpha_i
-\leq \lq \}$.) It can be seen that the construction in
-\eref{smolyak-sparse-grid} is a summation of cherry-picked tensor products of
-one-dimensional quadrature rules. Equation \eref{smolyak-sparse-grid} is well
-suited for grasping the structure of the resulting sparse grids; more
-implementation-oriented versions of the Smolyak formula can be found in the
-cited literature.
-
-The integral of a function $g: \real \to \real$
+In numerical integration, the integral of a function $g: \real \to \real$
 \[
   I = \int_\real g(x) \d x
 \]
 is approximated by a summation of the function's values computed at prescribed
-points $\{ \hat{x}_i \in \real \}_{i = 1}^\nq$ and multiplied by prescribed
-weights $\{ w_i \in \real \}_{i = 1}^\nq$, which we denote as follows:
+points $\{ \hat{x}_i \}_{i = 1}^\nq \subset \real$ and multiplied by prescribed
+weights $\{ w_i \}_{i = 1}^\nq \subset \real$, which we denote as the following
+operator:
 \[
   I \approx \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i.
 \]
 Such a pair of a set of points and a set of weights is called a quadrature rule.
 In the notation $\quadrature{1}{\lq}$, the superscript $1$ indicates that it is
 a one-dimensional rule, and the subscript \lq gives the level of the rule, which
-is the index of the rule in the corresponding family of quadrature rules with
-increasing accuracy. In the one-dimensional case, \lq corresponds to the maximum
-order of polynomials that the rule integrates exactly \cite{heiss2008}.
+is the index of the rule in the corresponding family of rules with increasing
+precision. \emph{Precision} refers to the maximum total order of polynomials
+that the rule integrates exactly \cite{heiss2008}.
+
 Similarly, in multiple dimensions, the integral of a function $g: \real^n \to
 \real$
 \[
   I = \int_{\real^n} g(\v{x}) \d \v{x}
 \]
-is approximated by
+is approximated as
 \begin{equation} \elab{quadrature-summation}
-  I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\v{x}}_i) w_i.
+  I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hv{x}_i) w_i
 \end{equation}
-An appropriate $n$-dimensional quadrature rule $\quadrature{n}{\lq}$ is
-typically formed by computing the tensor product of $n$ potentially distinct
-one-dimensional quadrature rules. The number of terms \nq in summations is
-dictated by both $n$ and \lq. Lastly, it is worth noting that quadrature rules
-are generally precomputed and tabulated since they do not depend the integrand;
-see, for instance, \cite{burkardt}.
+where $\{ \hv{x}_i \}_{i = 1}^\nq \subset \real^n$ and $\{ w_i \}_{i = 1}^\nq
+\subset \real$. The number of points or weights \nq depends on $n$ and \lq,
+which we occasionally emphasize by writing $\nq(n, \lq)$.
+
+The foundation of an $n$-dimensional rule $\quadrature{n}{\lq}$ is a set of
+one-dimensional counterparts of various levels. The most straightforward
+construction of such a rule is the tensor product of $n$ copies of
+$\quadrature{1}{\lq}$ as follows:
+\begin{equation} \elab{integration-tensor}
+  \quadrature{n}{\lq} = \bigotimes_{i = 1}^n \quadrature{1}{\lq},
+\end{equation}
+which is referred to as the full tensor product. In this case,
+\[
+  \nq(n, \lq) = \nq(1, \lq)^n,
+\]
+that is, the growth of the number of points is exponential. In low dimensions,
+the grows is manageable; however, in high dimensions, the situation changes
+dramatically as the number of points produced by this approach can easily
+explode. For instance \cite{heiss2008}, if a one-dimensional rule has only 4
+points, that is, $\nq = 4$, then in 10 stochastic dimensions, that is, $n = 10$,
+the number of multivariate points becomes $\nq = 4^{10} = 1~048~576$, which is
+not affordable. Moreover, it can be shown that most of the points obtained in
+this way do not contribute to the asymptotic accuracy and, hence, are a waste of
+time. In particular, if the integrand under consideration is a polynomial whose
+total order is constrained according to a certain strategy, the full tensor
+product cannot take this information into account. Consequently, a different
+construction technique should be utilized in the case of high-dimensional
+problems.
+
+An alternative construction is the Smolyak algorithm \cite{eldred2008,
+heiss2008, maitre2010}. The algorithm combines a range of one-dimensional rules
+in such a way that $\quadrature{n}{\lq}$ is tailored to be exact only for a
+specific polynomial subspace, which allows for a significantly reduction of the
+number of points. For instance, in the example given earlier, the number of
+points would only be $\nq = 1~581$, which would entail a drastic saving of the
+computation time. Define $\Delta_0 = \quadrature{1}{0}$ and $\Delta_i =
+\quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then Smolyak's
+approximating formula is
+\begin{equation} \elab{integration-smolyak}
+  \quadrature{n}{\lq} = \bigoplus_{\multiindex \in \multiindices{\lq}} \Delta_{i_1} \otimes \cdots \otimes \Delta_{i_n}.
+\end{equation}
+In the original (isotropic) formulation of the Smolyak algorithm,
+\begin{equation} \elab{index-total-order-isotropic}
+  \multiindices{\lq} = \left\{ \multiindex: \norm[1]{\multiindex} \leq \lq \right\}
+\end{equation}
+where $\norm[1]{\cdot}$ stands for the Manhattan norm. The multi-index set
+$\multiindices{\lq}$ is called a total-order multi-index set since it constrains
+polynomials by their total order \cite{eldred2008, beck2011}, and its
+cardinality can be calculated as follows:
+\begin{equation} \elab{index-total-order-isotropic-length}
+  \nq(n, \lq) = \cardinality{\multiindices{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
+\end{equation}
+It can be seen that the construction in \eref{integration-smolyak} is a
+summation of cherry-picked tensor products of one-dimensional rules. This
+formula is well suited for grasping the structure of the resulting sparse grids;
+more implementation-oriented versions of the Smolyak algorithm can be found in
+the literature. Note also that, although we use the same notation in
+\eref{integration-tensor} and \eref{integration-smolyak}, the two constructions
+are generally different; the latter reduces to the former if
+\[
+  \multiindices{\lq} = \left\{ \multiindex: \max_{k = 1}^n i_k \leq \lq \right\}.
+\]
 
 Consider now the following more general integral:
 \[
@@ -101,31 +100,17 @@ integrand can be rewritten as
   I = \int_{\real^n} g(\v{x}) f(\v{x}) \d \v{x}
 \]
 where $g$ is weighted by the derivative $f: \real^n \to \real$ of $F$ and
-integrated with respect to the Lebesgue measure. Since integrating in such a way
+integrated with respect to the Lebesgue measure. Since integrating in this way
 is a very frequent operation, there are families of quadrature rules that are
 designed to automatically take this aspect into account for the most common
 scenarios.
 
 Let us highlight one broad class of quadrature rules known as Gaussian
-quadratures. The level \lq of a one-dimensional Gaussian quadrature with \nq
-points is $2 \nq - 1$. In other words, the rule integrates exactly polynomials
-of an order up to $2 \nq - 1$. This feature makes such rules especially
-efficient \cite{heiss2008}.
+quadratures. In one dimension, the precision of a Gaussian quadrature with \nq
+points is $2 \nq - 1$. In other words, the rule integrates polynomials of an
+order up to $2 \nq - 1$ exactly, which makes such rules especially efficient
+\cite{heiss2008}.
 
-There is one more and arguably the most crucial aspect of numerical integration
-that we ought to discuss: the algorithm used to construct multidimensional
-quadrature rules. In low dimensions, the construction can be based on the direct
-tensor product of one-dimensional rules. However, in high dimensions, the
-situation changes dramatically as the number of points produced by this approach
-can easily explode. For instance \cite{heiss2008}, if a one-dimensional rule has
-only 4 points, that is, $\nq = 4$, then in 10 stochastic dimensions, that is, $n
-= 10$, the number of multivariate points becomes $\nq = 4^{10} = 1~048~576$,
-which is not affordable. Moreover, it can be shown that most of the points
-obtained in this way do not contribute to the asymptotic accuracy and, hence,
-are a waste of time. In order to tackle this problem, one resides to sparse
-integration grids constructed via the Smolyak algorithm \cite{burkardt,
-eldred2008, heiss2008}. The algorithm preserves the accuracy of the underlying
-one-dimensional rules for complete polynomials while significantly reducing the
-number of points. For instance, in the example given earlier, the number of
-points computed by the algorithm is only $\nq = 1~581$, which implies a drastic
-saving of the computation time.
+Lastly, it is worth noting that quadrature rules are generally precomputed and
+tabulated since they do not depend the integrand; see, for instance,
+\cite{burkardt}.

@@ -19,28 +19,21 @@ for any $g$ and $h$ in this space, and the norm is defined as
 \]
 
 Let $\Psi_\lc(G)$ be the space of $n$-variate polynomials over $G$ such that the
-total order of each polynomial is at most \lc. The space $\Psi_\lc(G)$ can be
-constructed as a span of $n$-variate Hermite polynomials \cite{eldred2008,
-maitre2010}
+total order of each polynomial is at most $\lc \in \natural$. The space
+$\Psi_\lc(G)$ can be constructed as a span of $n$-variate Hermite polynomials
+\cite{eldred2008, maitre2010}
 \[
   \Psi_\lc(G) = \hull{\left\{ \psi_{\multiindex}(\v{y}): \multiindex \in \multiindices{\lc}, \v{y} \in G \right\}}
 \]
-where $\multiindex = (i_k) \in \natural^n$ is a multi-index,
-\begin{align}
-  & \multiindices{\lc} = \left\{ \multiindex: \norm[1]{\multiindex} \leq \lc \right\}, \text{ and} \elab{chaos-multi-index-isotropic} \\
-  & \psi_{\multiindex}(\v{y}) = \prod_{k = 1}^n \psi_{i_k}(y_k). \nonumber
-\end{align}
+where $\multiindex = (i_k) \in \natural^n$ is a multi-index;
+$\multiindices{\lc}$ is the one in \eref{index-total-order-isotropic}; and
+\[
+  \psi_{\multiindex}(\v{y}) = \prod_{k = 1}^n \psi_{i_k}(y_k).
+\]
 In the above formulae, $\psi_{i_k}: \real \to \real$ is a one-dimensional
-Hermite polynomial of order $i_k$, which is assumed to be normalized, and
-$\norm[1]{\cdot}$ stands for the Manhattan norm. Furthermore, the multi-index
-set $\multiindices{\lc}$ in \eref{chaos-multi-index-isotropic} is called a
-total-order multi-index set since it constrains polynomials by their total order
-\cite{eldred2008, beck2011}, and its cardinality can be calculated as follows:
-\begin{equation} \elab{chaos-multi-index-isotropic-length}
-  \nc = \cardinality{\multiindices{\lc}} = {\lc + n \choose n} = \frac{(\lc + \nz)!}{\lc! \, \nz!}.
-\end{equation}
-It is important to note that the basis polynomials $\{ \psi_{\multiindex} \}$
-are orthonormal with respect to $F$, which means that
+Hermite polynomial of order $i_k$, which is assumed to be normalized. It is
+important to note that the basis polynomials $\{ \psi_{\multiindex} \}$ are
+orthonormal with respect to $F$, which means that
 \begin{equation} \elab{chaos-orthogonality}
   \innerproduct{\psi_{\multiindex}}{\psi_{\multiindex[j]}} = \delta_{\multiindex \multiindex[j]}
 \end{equation}
