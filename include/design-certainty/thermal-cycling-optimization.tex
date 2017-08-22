@@ -54,10 +54,8 @@ the application is assumed to be scheduled using a list scheduler
 of the tasks onto the processing elements.
 
 The time to failure of each processing element is modeled using the reliability
-model presented in \sref{reliability-model}. With a slight abuse of notation,
-let $\mean_i$ be the \ac{MTTF} of processing element $i$ computed according to
-\eref{reliability-mean-time}. Our optimization objective is to find a schedule
-that maximizes
+model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
+to find a schedule that maximizes
 \begin{equation} \elab{thermal-cycling-objective}
   \min_{i = 1}^\np \mean_i
 \end{equation}
@@ -68,11 +66,12 @@ such that
     & \norm[\infty]{\mq} \leq \q_\maximum
   \end{split}
 \end{align}
-where $t_{\ns_i}$ is the completion time of task $i$, \mq is the dynamic
-steady-state temperature profile of the system, and $\norm[\infty]{\cdot}$
-denotes the uniform norm. The first constraint enforces a deadline on the
-schedule, and the second constraint enforces a maximum temperature $\q_\maximum$
-on the resulting \mq.
+where $\mean_i$ is the \ac{MTTF} of processing element $i$ computed according to
+\eref{thermal-cycling-mean-time}; $t_{\ns_i}$ is the completion time of task
+$i$; \mq is the dynamic steady-state temperature profile of the system; and
+$\norm[\infty]{\cdot}$ denotes the uniform norm. The first constraint enforces a
+deadline on the schedule, and the second constraint enforces a maximum
+temperature $\q_\maximum$ on the resulting \mq.
 
 \subsection{Our Solution}
 \slab{thermal-cycling-solution}
@@ -107,8 +106,8 @@ technique presented in \sref{dynamic-steady-state-solution}. If the profile
 violates the temperature constraint in \eref{thermal-cycling-constraints}, the
 chromosome is penalized proportionally to the amount of violation and is not
 further processed. Otherwise, the \ac{MTTF} of each processing element is
-estimated according to \eref{reliability-mean-time}, and the fitness function in
-\eref{thermal-cycling-objective} is computed.
+estimated according to \eref{thermal-cycling-mean-time}, and the fitness
+function in \eref{thermal-cycling-objective} is computed.
 
 \subsection{Experimental Results}
 \slab{thermal-cycling-result}
@@ -127,10 +126,10 @@ element is set to 4~mm\textsuperscript{2}. The modeling of the leakage power is
 based on the linear approximation discussed in
 \sref{power-temperature-interplay}. The maximum-temperature constraint
 $\q_\maximum$ in \eref{thermal-cycling-constraints} is set to \celsius{100}. In
-\eref{reliability-mean-cycles}, the Coffin--Manson exponent $b$ is set to 6, the
-activation energy $c$ to 0.5, and the elastic region $\Delta \q_0$ to 0
-\cite{jedec2016}; the coefficient of proportionality $a$ in
-\eref{reliability-mean-cycles} is irrelevant since we are concerned with
+\eref{thermal-cycling-mean-cycles}, the Coffin--Manson exponent $b_i$ is set to
+6, the activation energy $c_i$ to 0.5, and the elastic region $\Delta \q_{0,
+ij}$ to 0 \cite{jedec2016}; the coefficient of proportionality $a_i$ in
+\eref{thermal-cycling-mean-cycles} is irrelevant since we are concerned with
 relative improvements, which will be explained shortly.
 
 The initial population of chromosomes is initialized partially randomly and
