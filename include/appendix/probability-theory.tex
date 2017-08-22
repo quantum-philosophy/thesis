@@ -1,12 +1,12 @@
-Let $(\Omega, \mathcal{F}, \probability)$ be a probability space where $\Omega$
-is a set of outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a $\sigma$-algebra on
-$\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a probability measure
-\cite{durrett2010}. The $\sigma$-algebra represents a set of events, and the
-probability measure assigns probabilities to these events. A real-valued random
-variable defined on $(\Omega, \mathcal{F}, \probability)$ is an
-$\mathcal{F}$-measurable function $x: \Omega \to \real$. A random variable $x$
-is uniquely characterized by its distribution function $F$---which is also known
-as the \acf{CDF}---defined by
+Let $(\Omega, \mathcal{F}, \probability)$ be a (complete) probability space
+where $\Omega$ is a set of outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a
+$\sigma$-algebra on $\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a
+probability measure \cite{durrett2010}. The $\sigma$-algebra represents a set of
+events, and the probability measure assigns probabilities to these events. A
+real-valued random variable defined on $(\Omega, \mathcal{F}, \probability)$ is
+an $\mathcal{F}$-measurable function $x: \Omega \to \real$. A random variable
+$x$ is uniquely characterized by its distribution function $F$---which is also
+known as the \acf{CDF}---defined by
 \begin{equation*}
   F(y) = \probability{x \leq y} = \probability{\{ \omega \in \Omega: x(\omega) \leq y \}}.
 \end{equation*}

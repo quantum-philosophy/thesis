@@ -223,36 +223,6 @@ exploration procedure targeted at the minimization of the energy consumption,
 which is \emph{a priori} random, under probabilistic constraints on the thermal
 behavior and lifetime of the system.
 
-\section{Preliminaries}
-
-Let $(\Omega, \mathcal{F}, \probability)$ be a complete probability space, where
-$\Omega$ is a set of Omega, $\mathcal{F} \subseteq 2^\Omega$ is a
-$\sigma$-algebra on $\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a
-probability measure \cite{durrett2010}. A random variable on $(\Omega,
-\mathcal{F}, \probability)$ is an $\mathcal{F}$-measurable function $x: \Omega
-\to \real$. A random variable $x$ is uniquely characterized by its (cumulative)
-distribution function defined by
-\begin{equation*}
-  F_x(y) := \probability(\{ \omega \in \Omega: x(\omega) \leq y \}).
-\end{equation*}
-The expectation and variance of $x$ are given by
-\begin{align*}
-  & \expectation{x} := \int_\Omega x(\omega) \, \d \probability(\omega) = \int_\real y \, \d F_x(y) \hspace{1em} \text{and} \\
-  & \variance{x} := \expectation{(x - \expectation{x})^2},
-\end{align*}
-respectively. A random vector $\v{x} = (x_i)$ and matrix $\m{X} = (x_{ij})$ are
-a vector and matrix whose elements are random variables. Denote by
-$\L{2}(\Omega, \mathcal{F}, \probability)$ the Hilbert space of
-square-integrable random variables \cite{janson1997} defined on $(\Omega,
-\mathcal{F}, \probability)$ with the inner product and norm defined,
-respectively, by
-\begin{equation*}
-  \innerproduct{x_1}{x_2} := \expectation{x_1 x_2} \hspace{1em} \text{and} \hspace{1em}
-  \norm{x} := \innerproduct{x}{x}^{1/2}.
-\end{equation*}
-In what follows, all the random variables will tacitly have $(\Omega,
-\mathcal{F}, \probability)$ as the underlying probability space.
-
 \section{Problem Formulation}
 
 Consider a heterogeneous electronic system that consists of \np processing
