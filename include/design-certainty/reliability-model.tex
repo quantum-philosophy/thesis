@@ -17,7 +17,7 @@ which, in the context of reliability analysis, gives the probability of survival
 up to a certain time moment and is called the reliability function of the
 system.
 
-The lifetime of the system $T$ is a function of the lifetimes of the \np
+The lifetime $T$ of the system is a function of the lifetimes of the \np
 processing elements that the system is composed of. Denote these individual
 lifetimes by $\{ T_i: \Omega \to \real \}_{i = 1}^\np$. Each $T_i$ is
 characterized by a physical model of wear \cite{jedec2016} that describes the
@@ -25,22 +25,25 @@ stress that the corresponding processing element is exposed to. Each $T_i$ is
 also assigned an individual survival function $R_i(\cdot | \vg)$ modeling the
 failures due to that stress. The structure of $R(\cdot | \vg)$ with respect to
 $\{ R_i(\cdot | \vg) \}_{i = 1}^\np$ is problem specific, and it can be
-especially diverse in the context of fault-tolerant systems. Hence, $R(\cdot |
-\vg)$ is to be specified by the designer of the system. To give an example,
-suppose that the failure of any of the \np processing elements makes the system
-fail, and $\{ T_i \}_{i = 1}^\np$ are conditionally independent given the
-parameters gathered in \vg. In this scenario,
+especially diverse in the context of fault-tolerant systems. Therefore, $R(\cdot
+| \vg)$ is to be specified by the designer of the system. To give an example,
+suppose that the failure of any of the \np processing elements makes the whole
+system fail, and that $\{ T_i \}_{i = 1}^\np$ are conditionally independent
+given the parameters gathered in \vg. In this scenario,
 \begin{align*}
   & T = \min_{i = 1}^\np T_i \text{ and} \\
   & R(t | \vg) = \prod_{i = 1}^\np R_i(t | \vg).
 \end{align*}
 
-\subsection{Periodic Thermal Fatigue}
+\subsection{Periodic Thermal Stress}
 
-Let us now describe one wide-spread reliability model \cite{huang2009b,
-xiang2010}, which we use for characterizing the lifetime of a single processing
-element. For convenience, this lifetime is denoted by $T$ instead of $T_i$. The
-lifetime is assumed to have a Weibull distribution, which is denoted as follows:
+In this subsection, we present a model that is used for characterizing the
+lifetime $T_i$ of a single processing element when it is exposed to repetitive
+temperature-induced stress \cite{huang2009b, xiang2010}. Denote the period of
+this stress by \period and, for convenience, denote the lifetime in question by
+$T$ instead of $T_i$.
+
+The lifetime $T$ is assumed to have a Weibull distribution as follows:
 \[
   T | \vg \sim \mathrm{Weibull}(\scale, \shape)
 \]
@@ -57,25 +60,28 @@ and the corresponding \ac{MTTF} is
 \begin{equation} \elab{weibull-expectation}
   \mean = \expectation{T} = \scale \: \Gamma\left(1 + \frac{1}{\shape}\right)
 \end{equation}
-where $\Gamma$ is the gamma function.
+where $\Gamma$ stands for the gamma function.
 
-Let \period be the time horizon of interest. It is natural to expect that the
-usage conditions and, hence, wear change over time. Then the distribution of $T$
-should reflect this aspect, which is not yet prominent in
-\eref{weibull-distribution}. In order to account for this, the time span is
-split into \ns time intervals $\{ \dt_i: i = \range{1}{\ns} \}$ so that the
-conditions that are relevant to the model stay unchanged within each interval.
-Let $T_i | \vg_i \sim \mathrm{Weibull}(\scale_i, \shape_i)$ be the time to
-failure that the processing element would have if interval $i$ was the only
-interval present and denote by $\mean_i$ the corresponding \ac{MTTF} according
-to \eref{weibull-expectation}. In the case of temperature-induced failures, we
-have that $\shape_i = \shape$ for $i = \range{1}{\ns}$, that is, all the shape
-parameters are equal. The reason is that, unlike the scale parameters, the shape
-parameters are independent of the operating temperature \cite{chang2006}.
+It is natural to expect that the usage conditions and, hence, the corresponding
+wear change over the period. Then the distribution of $T$ should reflect this
+aspect, which is not yet prominent in \eref{weibull-distribution}. In order to
+take it into account, the period is split into \ns time intervals $\{ \dt_i
+\}_{i = 1}^\ns$ so that the conditions that are relevant to the model stay
+unchanged within each interval. Let
+\[
+  T_i | \vg_i \sim \mathrm{Weibull}(\scale_i, \shape_i)
+\]
+be the time to failure that the processing element would have if interval $i$
+was the only interval present and denote by $\mean_i$ the corresponding
+\ac{MTTF}.
 
-As shown in \cite{xiang2010}, in the above scenario, the reliability function of
-the processing element can still be approximated by means of
-\eref{weibull-reliability} by letting
+In the case of temperature-induced failures, we have that $\shape_i = \shape$
+for $i = \range{1}{\ns}$, that is, the shape parameters are all equal. The
+reason is that, unlike the scale parameters, the shape parameters are
+independent of the operating temperature \cite{chang2006}. As shown in
+\cite{xiang2010}, in this scenario, the reliability function of the processing
+element can still be approximated by means of \eref{weibull-reliability} by
+letting
 \[
   \scale = \frac{\sum_{i = 1}^\ns \dt_i}{\sum_{i = 1}^\ns \frac{\Delta t_i}{\scale_i}}.
 \]
@@ -84,21 +90,21 @@ $\scale$ is rewritten as
 \[
   \scale = \frac{\sum_{i = 1}^\ns \dt_i}{\Gamma\left(1 + \frac{1}{\shape}\right) \sum_{i = 1}^\ns \frac{\Delta t_i}{\mean_i}}.
 \]
-Note that the reliability model in \eref{weibull-reliability} becomes fully
+Note now that the reliability model in \eref{weibull-reliability} becomes fully
 specified as soon as $\dt_i$ and $\mean_i$ are identified for $i =
 \range{1}{\ns}$. This part of the model depends on the particular failure
 mechanism considered, which we discuss next.
 
-\subsection{Thermal-Cycling Fatigue}
+\subsection{Thermal-Cycling Stress}
 
-Let us tailor the Weibull model to the thermal-cycling fatigue, which is of
-interest to us due to its prominent dependence on temperature oscillations. In
-this case, the time intervals with constant relevant conditions correspond to
+Let us tailor the above Weibull model to the thermal-cycling fatigue, which is
+of interest to us due to its prominent dependence on temperature oscillations.
+In this case, the time intervals with constant relevant conditions correspond to
 thermal cycles. In order to detect them in a given temperature curve, the
-rainflow counting method is utilized \cite{xiang2010}. As a result, a set of \ns
-thermal cycles is obtained. Each detected cycle is characterized by a number of
-properties including its duration, which is the desired $\dt_i$. Regarding the
-corresponding $\mean_i$, it can be expressed as follows:
+rainflow counting method is typically utilized \cite{xiang2010}. As a result, a
+set of \ns thermal cycles is obtained. Each detected cycle is characterized by a
+number of properties including its duration, which is the desired $\dt_i$.
+Regarding the corresponding $\mean_i$, it can be expressed as follows:
 \[
   \mean_i = \nc_i \dt_i
 \]
@@ -128,4 +134,6 @@ where $\nc_i$ is as in \eref{reliability-mean-cycles}. Using
 
 In conclusion, it should be noted that the reliability model requires detailed
 information about the thermal cycles that the processing element is exposed to,
-which is the topic of the previous sections.
+which is the topic of the previous sections and, in particular, of
+\sref{dynamic-steady-state} where dynamic steady-state temperature analysis is
+discussed.
