@@ -20,13 +20,13 @@ leakage current \cite{chandrakasan2000, srivastava2010, juan2011, juan2012},
 especially in modern \up{CMOS} transistors. The leakage and, by extension,
 static power are modeled as follows \cite{liao2005}:
 \begin{equation} \elab{static-power}
-  \p_\static = \numberof{g} V I_0 \left(a \q^2 e^{\frac{\alpha V + \beta}{\q}} + b e^{\gamma V + \delta}\right)
+  \p_\static = \n{g} V I_0 \left(a \q^2 e^{\frac{\alpha V + \beta}{\q}} + b e^{\gamma V + \delta}\right)
 \end{equation}
 where $\q$ is the current temperature, $V$ is the current supply voltage, $I_0$
 is the average leakage current at the reference temperature and reference supply
-voltage, and $\numberof{g}$ is the number of gates in the circuit. The
-quantities $a$, $b$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are
-technology-dependent constants, which can found in \cite{liao2005}.
+voltage, and \n{g} is the number of gates in the circuit. The quantities $a$,
+$b$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are technology-dependent
+constants, which can found in \cite{liao2005}.
 
 It can be seen in the above equations that the dynamic power does not depend on
 the operating temperature whereas the static power does. The dependence is

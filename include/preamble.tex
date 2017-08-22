@@ -95,9 +95,9 @@
 
 \renewcommand{\math}[1]{\ensuremath{#1}\xspace}
 
-\newcommand{\levelof}[1]{\math{{l_{#1}}}}
-\newcommand{\numberof}[1]{\math{{n_{#1}}}}
-\newcommand{\hnumberof}[1]{\math{{\hat{n}_{#1}}}}
+\newcommand{\hn}[1]{\math{{\hat{n}_{#1}}}}
+\newcommand{\n}[1]{\math{{n_{#1}}}}
+\renewcommand{\l}[1]{\math{{l_{#1}}}}
 
 \renewcommand{\v}[1]{\boldsymbol{#1}}
 \newcommand{\hv}[1]{\hat{\v{#1}}}
@@ -181,8 +181,8 @@
 % Polynomial chaos
 %
 
-\newcommand{\lc}{\levelof{c}}
-\newcommand{\nc}{\numberof{c}}
+\newcommand{\lc}{\l{c}}
+\newcommand{\nc}{\n{c}}
 
 \makeatletter
 \def\chaos#1#2{\@ifnextchar\bgroup{\chaosthree{#1}{#2}}{\chaostwo{#1}{#2}}}
@@ -194,8 +194,8 @@
 % Integration
 %
 
-\renewcommand{\lq}{\levelof{q}}
-\newcommand{\nq}{\numberof{q}}
+\renewcommand{\lq}{\l{q}}
+\newcommand{\nq}{\n{q}}
 
 \makeatletter
 \def\quadrature#1#2{\@ifnextchar\bgroup{\quadraturethree{#1}{#2}}{\quadraturetwo{#1}{#2}}}
@@ -207,9 +207,9 @@
 % Uncertainty
 %
 
-\newcommand{\no}{\numberof{\omega}}
-\newcommand{\nz}{\numberof{z}}
-\renewcommand{\nu}{\numberof{u}}
+\newcommand{\no}{\n{\omega}}
+\newcommand{\nz}{\n{z}}
+\renewcommand{\nu}{\n{u}}
 
 \newcommand{\g}{\math{g}}
 \newcommand{\vg}{\math{\v{g}}}
@@ -237,9 +237,9 @@
 % System
 %
 
-\newcommand{\nd}{\numberof{d}}
-\newcommand{\hnd}{\hnumberof{d}}
-\newcommand{\ns}{\numberof{s}}
+\newcommand{\nd}{\n{d}}
+\newcommand{\hnd}{\hn{d}}
+\newcommand{\ns}{\n{s}}
 
 \newcommand{\dt}{\math{\Delta t}}
 \newcommand{\schedule}{\math{\mathcal{S}}}
@@ -249,13 +249,13 @@
 % Platform
 %
 
-\newcommand{\np}{\numberof{p}}
+\newcommand{\np}{\n{p}}
 
 %
 % Application
 %
 
-\newcommand{\nt}{\numberof{t}}
+\newcommand{\nt}{\n{t}}
 
 \newcommand{\period}{\math{t_\mathrm{end}}}
 
@@ -274,7 +274,13 @@
 % Temperature
 %
 
-\newcommand{\nn}{\numberof{n}}
+\newcommand{\nn}{\n{n}}
+
+\makeatletter
+\def\nk{\@ifnextchar{\bgroup}{\nkone}{\nkzero}}
+\def\nkone#1{\n{c, #1}}
+\def\nkzero{\n{c}}
+\makeatother
 
 \newcommand{\q}{q}
 \newcommand{\vq}{\math{\v{q}}}

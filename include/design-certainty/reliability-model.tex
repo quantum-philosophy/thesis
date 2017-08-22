@@ -70,8 +70,8 @@ where $\Gamma$ stands for the gamma function.
 It is natural to expect that the usage conditions and, hence, the corresponding
 wear change over the period. Then the distribution of $T_i$ should reflect this
 aspect, which is not yet prominent in \eref{weibull-distribution}. In order to
-take it into account, the period is split into $\nc_i$ time intervals $\{
-\dt_{ij} \}_{j = 1}^{\nc_i}$ so that the conditions that are relevant to the
+take it into account, the period is split into \nk{i} time intervals $\{
+\dt_{ij} \}_{j = 1}^{\nk{i}}$ so that the conditions that are relevant to the
 model stay unchanged within each interval. Let
 \[
   T_{ij} | \vg_{ij} \sim \mathrm{Weibull}(\scale_{ij}, \shape_{ij})
@@ -81,23 +81,23 @@ was the only interval present and denote by $\mean_{ij}$ the corresponding
 \ac{MTTF}.
 
 In the case of temperature-induced failures, we have that $\shape_{ij} =
-\shape_i$ for $j = \range{1}{\nc_i}$, that is, the shape parameters are all
+\shape_i$ for $j = \range{1}{\nk{i}}$, that is, the shape parameters are all
 equal. The reason is that, unlike the scale parameters, the shape parameters are
 independent of the operating temperature \cite{chang2006}. As shown in
 \cite{xiang2010}, in this scenario, the reliability function of the processing
 element can still be approximated by means of \eref{weibull-reliability} with
 the following scale parameter:
 \[
-  \scale_i = \frac{\sum_{j = 1}^{\nc_i} \dt_{ij}}{\sum_{j = 1}^{\nc_i} \frac{\Delta t_{ij}}{\scale_{ij}}}.
+  \scale_i = \frac{\sum_{j = 1}^{\nk{i}} \dt_{ij}}{\sum_{j = 1}^{\nk{i}} \frac{\Delta t_{ij}}{\scale_{ij}}}.
 \]
 Applying \eref{weibull-expectation} at the level of individual intervals,
 $\scale_i$ is rewritten as
 \[
-  \scale_i = \frac{\sum_{j = 1}^{\nc_i} \dt_{ij}}{\Gamma\left(1 + \frac{1}{\shape_i}\right) \sum_{j = 1}^{\nc_i} \frac{\Delta t_{ij}}{\mean_{ij}}}.
+  \scale_i = \frac{\sum_{j = 1}^{\nk{i}} \dt_{ij}}{\Gamma\left(1 + \frac{1}{\shape_i}\right) \sum_{j = 1}^{\nk{i}} \frac{\Delta t_{ij}}{\mean_{ij}}}.
 \]
 Note now that the reliability model in \eref{weibull-reliability} becomes fully
 specified as soon as $\dt_{ij}$ and $\mean_{ij}$ are identified for $j =
-\range{1}{\nc_i}$. This part of the model depends on the particular failure
+\range{1}{\nk{i}}$. This part of the model depends on the particular failure
 mechanism considered, which we discuss next.
 
 \subsection{Thermal-Cycling Fatigue}
@@ -113,14 +113,14 @@ The time intervals with constant relevant conditions correspond to thermal
 cycles. In order to detect them in a given temperature curve, the curve is first
 analyzed using a peak-detection algorithm in order to extract a set of extrema.
 The rainflow counting method \cite{xiang2010} is then applied to these extrema.
-The result is a set of $\nc_i$ thermal cycles. Each detected cycle is
+The result is a set of \nk{i} thermal cycles. Each detected cycle is
 characterized by a number of properties including its duration, which is the
 desired $\dt_{ij}$. Regarding the corresponding $\mean_{ij}$, it can be
 expressed as follows:
 \[
-  \mean_{ij} = \nc_{ij} \dt_{ij}
+  \mean_{ij} = \nk{ij} \dt_{ij}
 \]
-where $\nc_{ij}$ stands for the mean number of such cycles to failure.
+where \nk{ij} stands for the mean number of such cycles to failure.
 
 \begin{remark}
 A cycle detected by the rainflow counting method does not have to be formed by
@@ -130,11 +130,10 @@ meaning that only an upward or downward swing is present in the time series,
 which is assumed to be adequately taken into account.
 \end{remark}
 
-The number $\nc_{ij}$ is estimated using a modified version of the
-Coffin--Manson equation with the Arrhenius term as follows \cite{xiang2010,
-jedec2016}:
+The number \nk{ij} is estimated using a modified version of the Coffin--Manson
+equation with the Arrhenius term as follows \cite{xiang2010, jedec2016}:
 \begin{equation} \elab{thermal-cycling-mean-cycles}
-  \nc_{ij} = a_i (\Delta \q_{ij} - \Delta \q_{0, ij})^{-b_i} \exp\left(\frac{c_i}{k \q_{\maximum, ij}}\right)
+  \nk{ij} = a_i (\Delta \q_{ij} - \Delta \q_{0, ij})^{-b_i} \exp\left(\frac{c_i}{k \q_{\maximum, ij}}\right)
 \end{equation}
 where $a_i$, $b_i$ (called the Coffin--Manson exponent), and $c_i$ (called the
 activation energy) are empirically determined constants; $k$ is the Boltzmann
@@ -146,12 +145,12 @@ maximum temperature during the cycle.
 The reliability model of a single processing element is now fully specified. The
 reliability function is the one in \eref{weibull-reliability} with
 \begin{equation} \elab{thermal-cycling-scale}
-  \scale_i = \frac{\sum_{j = 1}^{\nc_i} \dt_{ij}}{\Gamma\left(1 + \frac{1}{\shape_i}\right) \sum_{j = 1}^{\nc_i} \frac{1}{\nc_{ij}}}
+  \scale_i = \frac{\sum_{j = 1}^{\nk{i}} \dt_{ij}}{\Gamma\left(1 + \frac{1}{\shape_i}\right) \sum_{j = 1}^{\nk{i}} \frac{1}{\nk{ij}}}
 \end{equation}
-where $\nc_{ij}$ is as in \eref{thermal-cycling-mean-cycles}. Using
+where \nk{ij} is as in \eref{thermal-cycling-mean-cycles}. Using
 \eref{weibull-expectation}, the \ac{MTTF} of the processing element is
 \begin{equation} \elab{thermal-cycling-mean-time}
-  \mean_i = \frac{\sum_{j = 1}^{\nc_i} \dt_{ij}}{\sum_{j = 1}^{\nc_i} \frac{1}{\nc_{ij}}}.
+  \mean_i = \frac{\sum_{j = 1}^{\nk{i}} \dt_{ij}}{\sum_{j = 1}^{\nk{i}} \frac{1}{\nk{ij}}}.
 \end{equation}
 
 In conclusion, it should be noted that the reliability model requires detailed
