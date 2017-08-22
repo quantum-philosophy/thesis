@@ -108,9 +108,18 @@ Regarding the corresponding $\mean_i$, it can be expressed as follows:
 \[
   \mean_i = \nc_i \dt_i
 \]
-where $\nc_i$ stands for the mean number of such cycles to failure. This number
-is estimated using a modified version of the Coffin--Manson equation with the
-Arrhenius term as shown in the following equation \cite{xiang2010, jedec2016}:
+where $\nc_i$ stands for the mean number of such cycles to failure.
+
+\begin{remark}
+A cycle detected by the rainflow counting method does not have to be formed by
+adjacent extrema; cycles can overlap. This feature makes the counting method
+very efficiently at mitigation of overestimation. A cycle can be a half cycle,
+meaning that only an upward or downward swing is present in the time series,
+which is assumed to be adequately taken into account.
+\end{remark}
+
+The number $\nc_i$ is estimated using a modified version of the Coffin--Manson
+equation with the Arrhenius term as follows \cite{xiang2010, jedec2016}:
 \begin{equation} \elab{reliability-mean-cycles}
   \nc = a (\Delta \q - \Delta \q_0)^{-b} \exp\left(\frac{c}{k \q_\maximum}\right)
 \end{equation}
