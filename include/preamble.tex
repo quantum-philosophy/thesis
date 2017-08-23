@@ -12,18 +12,6 @@
 \uspunctuation
 
 %
-% Assets
-%
-
-\usepackage{booktabs}
-\usepackage{multirow}
-\usepackage{rotating}
-\usepackage{subfig}
-
-\newcommand{\inputfigure}[1]{\input{include/assets/figures/#1}}
-\newcommand{\inputtable}[1]{\input{include/assets/tables/#1}}
-
-%
 % Titles
 %
 
@@ -33,6 +21,25 @@
 
 \setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{3}
+
+\newcommand{\hiddensubsection}[1]{
+\stepcounter{subsection}
+\subsection*{\arabic{chapter}.\arabic{section}.\arabic{subsection}\hspace{1ex}{#1}}
+}
+
+%
+% Contents
+%
+
+\usepackage{acronym}
+
+\newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
+
+\newcommand{\one}{(i)\xspace}
+\newcommand{\two}{(ii)\xspace}
+\newcommand{\three}{(iii)\xspace}
+\newcommand{\four}{(iv)\xspace}
+\newcommand{\five}{(v)\xspace}
 
 %
 % References
@@ -60,23 +67,41 @@
 \renewcommand{\tref}[1]{Table~\ref{table:#1}}
 
 %
-% Formatting
+% Algorithms
 %
 
-\usepackage{acronym}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
-\newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
+\usepackage{float}
+\newfloat{algorithm}{t}{lop}
 
-\newcommand{\one}{(i)\xspace}
-\newcommand{\two}{(ii)\xspace}
-\newcommand{\three}{(iii)\xspace}
-\newcommand{\four}{(iv)\xspace}
-\newcommand{\five}{(v)\xspace}
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
 
-\newcommand{\hiddensubsection}[1]{
-\stepcounter{subsection}
-\subsection*{\arabic{chapter}.\arabic{section}.\arabic{subsection}\hspace{1ex}{#1}}
-}
+\usepackage{eqparbox}
+\renewcommand{\algorithmiccomment}[1]{\hfill\eqparbox{COMMENT}{\% #1}}
+
+\newcommand{\inputalgorithm}[1]{\input{include/assets/algorithms/#1}}
+
+%
+% Figures
+%
+
+\usepackage{subfig}
+
+\newcommand{\inputfigure}[1]{\input{include/assets/figures/#1}}
+
+%
+% Tables
+%
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{rotating}
+
+\newcommand{\inputtable}[1]{\input{include/assets/tables/#1}}
 
 %
 % Mathematics
@@ -90,6 +115,7 @@
 \usepackage{amsthm}
 \newtheorem{remark}{Remark}
 
+\numberwithin{algorithm}{chapter}
 \numberwithin{equation}{chapter}
 \numberwithin{remark}{chapter}
 
