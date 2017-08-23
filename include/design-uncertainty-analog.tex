@@ -34,101 +34,6 @@ that this deteriorating impact can be taken into account in the final design.
 \slab{chaos-conclusion}
 \inputsection{conclusion}
 
-\section{Abstract}
-
-Electronic system designs that ignore process variation are unreliable and
-inefficient. In this work, we propose a system-level framework for the analysis
-of temperature-induced failures that takes into account the uncertainty due to
-process variation. As an intermediate step, we also develop a probabilistic
-technique for dynamic steady-state temperature analysis. Given an electronic
-system under a certain workload, our framework delivers the corresponding
-survival function, founded on the basis of well-established reliability models,
-with a closed-form stochastic parameterization in terms of the quantities that
-are uncertain at the design stage. The proposed solution is exemplified
-considering systems with periodic workloads that suffer from the thermal-cycling
-fatigue. The analysis of this fatigue is a challenging problem as it requires
-the availability of detailed temperature profiles, which are uncertain due to
-the variability of process parameters. In order to demonstrate the computational
-efficiency of our framework, we undertake a design-space exploration procedure
-to minimize the expected energy consumption under a set of timing, thermal, and
-reliability constraints.
-
-\section{Introduction}
-
-Process variation constitutes one of the major concerns of electronic system
-designs \cite{srivastava2010}. A crucial implication of process variation is
-that it renders the key parameters of a technological process, for instance, the
-effective channel length, gate oxide thickness, and threshold voltage, as random
-quantities at the design stage. Therefore, the same workload applied to two
-``identical'' dies can lead to two different power and, thus, temperature
-profiles since the dissipation of power and heat essentially depends on the
-aforementioned stochastic parameters. This concern is especially urgent due to
-the interdependence between the leakage power and temperature \cite{liu2007}.
-Consequently, process variation leads to performance degradation in the best
-case and to severe faults or burnt silicon in the worst scenario. Under these
-circumstances, uncertainty quantification \cite{maitre2010} has evolved into an
-indispensable asset of temperature-aware design workflows in order to provide
-them with guaranties on the efficiency and robustness of products.
-
-Temperature analysis can be broadly classified into two categories: transient
-and steady-state. The latter can be further subdivided into static and dynamic.
-Transient temperature analysis is concerned with studying the thermal behavior
-of a system as a function of time. Intuitively speaking, the analysis takes a
-power curve and delivers the corresponding temperature curve. Static
-steady-state temperature analysis addresses the hypothetical scenario in which
-the power dissipation is constant, and one is interested in the temperature that
-the system will attain when it reaches a static steady state. In this case, the
-analysis takes a single value for power (or a power curve which is immediately
-averaged out) and outputs the corresponding single value for temperature.
-Dynamic steady-state temperature analysis is a combination of the previous two:
-it is also targeted at a steady state of the system, but this steady state,
-referred to as a dynamic steady state, is now a temperature curve rather than a
-single value. The considered scenario is that the system is exposed to a
-periodic workload or to such a workload that can be approximated as periodic,
-and one is interested in the repetitive evolution of temperature over time when
-the thermal behavior of the system stabilizes and starts exhibiting the same
-pattern over and over again. Prominent examples here are various multimedia
-applications. The input to the analysis is a power curve, and the output is the
-corresponding periodic temperature curve. In the absence of uncertainty, this
-type of analysis can be efficiently undertaken using the technique developed in
-\sref{dynamic-steady-state-solution}.
-
-A typical design task, for which temperature analysis is of central importance,
-is temperature-aware reliability analysis and optimization. The crucial impact
-of temperature on the lifetime of electronic circuits is well known
-\cite{jedec2016}. Examples of the commonly considered failure mechanisms include
-electromigration, time-dependent dielectric breakdown, and thermal cycling,
-which are directly driven by temperature. Among all failure mechanisms, thermal
-cycling has arguably the most prominent dependence on temperature: not only the
-average and maximum temperature but also the amplitude and frequency of
-temperature oscillations have a huge impact on the lifetime of the circuit. In
-this context, the availability of detailed temperature profiles is essential,
-which can be delivered by means of either transient or dynamic steady-state
-temperature analysis.
-
-Due to the urgent concern originating from process variation, deterministic
-temperature analysis and, thus, all procedures based on it are no longer a
-viable option for the designer. The presence of uncertainty has to be addressed
-in order to pursue efficiency and fail-safeness. In this context, probabilistic
-techniques are the way to go, which, however, implies a higher level of
-complexity. This paper builds upon the state-of-the-art techniques for
-deterministic dynamic steady-state temperature analysis proposed in
-\cite{ukhov2012} and probabilistic transient temperature analysis proposed in
-\cite{ukhov2014b} and presents a computationally efficient framework for
-probabilistic dynamic steady-state temperature analysis and the subsequent
-reliability analysis and optimization of electronic systems.
-
-The remainder of the paper is organized as follows. \sref{foo} provides an
-overview of the prior work. In \sref{foo}, we summarize the contribution of the
-present paper. The preliminaries are given in \sref{foo}. The objective of our
-study is formulated in \sref{foo}. The proposed frameworks for uncertainty,
-temperature, and reliability analyses are presented in \sref{foo}, \sref{foo},
-and \sref{foo}, respectively. An application of the proposed techniques in the
-context of reliability optimization is given in \sref{foo}. In \sref{foo}, the
-experimental results are reported and discussed. \sref{foo} concludes the paper.
-The appendix contains a set of supplementary materials with discussions on
-certain aspects of our solutions.
-
 \section{Prior Work}
 
 In this section, an overview of the literature related to our work is given.
@@ -1191,3 +1096,20 @@ exploration loops, which was also demonstrated in this work considering an
 energy-driven probabilistic optimization procedure under reliability-related
 constraints. We have shown that temperature is to be treated as a stochastic
 quantity in order to pursue robustness of electronic system designs.
+
+Electronic system designs that ignore process variation are unreliable and
+inefficient. In this work, we propose a system-level framework for the analysis
+of temperature-induced failures that takes into account the uncertainty due to
+process variation. As an intermediate step, we also develop a probabilistic
+technique for dynamic steady-state temperature analysis. Given an electronic
+system under a certain workload, our framework delivers the corresponding
+survival function, founded on the basis of well-established reliability models,
+with a closed-form stochastic parameterization in terms of the quantities that
+are uncertain at the design stage. The proposed solution is exemplified
+considering systems with periodic workloads that suffer from the thermal-cycling
+fatigue. The analysis of this fatigue is a challenging problem as it requires
+the availability of detailed temperature profiles, which are uncertain due to
+the variability of process parameters. In order to demonstrate the computational
+efficiency of our framework, we undertake a design-space exploration procedure
+to minimize the expected energy consumption under a set of timing, thermal, and
+reliability constraints.
