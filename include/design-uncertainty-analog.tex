@@ -651,76 +651,13 @@ framework. In order to attain such a solution, we utilize a numerical method
 from the family of exponential integrators \cite{hochbruck2010}. The procedure
 is described in \aref{temperature-solution}, and here we use the final result.
 
-Recall that we are to analyze a dynamic power profile $\mp_\dynamic$ covering a
-time interval $[0, \period]$ with $\ns$ samples that are evenly spaced in
-time. The transient solution of \eref{thermal-model-inner} is reduced to the
-following recurrence for $k = 1, 2, \dots, \ns$:
-\[
-  \vs_k = \m{E} \: \vs_{k - 1} + \m{F} \: \vp_k
-\]
-where the subscript $k$ stands for time $k \dt$, $\vs_0 = \v{0}$,
-\[
-  \m{E} = e^{\m{A} \dt}, \hspace{1em} \text{and} \hspace{1em}
-  \m{F} = \m{A}^{-1} (e^{\m{A} \dt} - \m{I}) \: \m{B}.
-\]
-For computational efficiency, we perform the eigendecomposition of the state
-matrix $\m{A}$:
-\[
-  \m{A} = \m{V} \m{\Lambda} \m{V}^T
-\]
-where $\m{V}$ and $\m{\Lambda} = \diagonal{\lambda_i}{}$ are an
-orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvectors
-of $\m{A}$, respectively. The matrices $\m{E}$ and $\m{F}$ are then
-\begin{align*}
-  & \m{E} = \m{V} \; \diagonal{e^{\lambda_i \dt}}{} \m{V}^T \text{ and} \\
-  & \m{F} = \m{V} \; \diagonal{\frac{e^{\lambda_i \dt} - 1}{\lambda_i}}{} \m{V}^T \m{B}.
-\end{align*}
-To sum up, the derivation up to this point is sufficient for transient
-temperature analysis via \eref{recurrence} followed by
-\eref{thermal-model-outer}.
+Let us move on to the dynamic steady-state case. The pseudocode of this
+algorithm, which delivers the exact solution under the above assumptions, is
+given in \aref{dynamic-steady-state}. In the pseudocode, auxiliary variables are
+written with hats, and $\mq_\ambient$ is a matrix of the ambient temperature.
 
-\begin{remark}
-Although the focus of this paper is on temperature, each temperature analysis
-developed is accompanied by the corresponding power analysis as the two are
-inseparable due to the leakage-temperature interplay. Consequently, when it is
-appropriate, one can easily extract only the (temperature-aware) power part of
-the presented solutions.
-\end{remark}
-
-Let us move on to the dynamic steady-state case. Assume for now that
-$\vp_\static$ in \eref{power-model} does not depend on \vq, that is, no
-interdependency between leakage and temperature. The dynamic steady-state
-boundary condition is $\vs_1 = \vs_{\ns + 1}$. In other words, the system is
-required to come back to its original state by the end of the analyzed time
-frame. This constraint and \eref{recurrence} yield a block-circulant system of
-$\nn \ns$ linear equations with $\nn \ns$ unknowns. As describe in detail in
-\cite{ukhov2012}, the system can be efficiently solved by exploiting its
-particular structure and the decomposition in \eref{eigendecomposition}. The
-pseudocode of this algorithm, which delivers the exact solution under the above
-assumptions, is given in \aref{temperature-solution-without-leakage}. Here we
-adopt \up{MATLAB}'s \cite{matlab} notations $\m{A}(k, :)$ and $\m{A}(:, k)$ to
-refer to the $k$th row and the $k$th column of a matrix $\m{A}$, respectively.
-In the pseudocode, auxiliary variables are written with hats, and $\mq_\ambient$
-is a matrix of the ambient temperature.
-
-\begin{remark}
-The time complexity of  direct dense and sparse solvers (for instance, the LU
-decomposition) of the system of linear equations is $\bigo{\ns^3 \nn^3}$ while
-the one of \aref{temperature-solution-without-leakage} is only $\bigo{\ns \nn^2
-+ \nn^3}$, which the algorithm is able to achieve by exploiting the specific
-structure of the system; see \cite{ukhov2012}.
-\end{remark}
-
-Let us now bring the leakage-temperature interdependence into the picture. To
-this end, we repeat \aref{temperature-solution-without-leakage} for a sequence
-of total power profiles $\{ \mp_k = \mp_\dynamic + \mp_{\static, k} \}$ wherein
-the static part $\mp_{\static, k}$ is being updated using \eref{power-model}
-given the temperature profile $\mq_{k - 1}$ computed at the previous iteration
-starting from the ambient temperature. The procedure stops when the sequence of
-temperature profiles $\{ \mq_k \}$ converges in an appropriate norm, or some
-other stopping condition is satisfied (for instance, a maximum temperature
-constraint is violated). This procedure is illustrated in
-\aref{temperature-solution}.
+Let us now bring the leakage-temperature interdependence into the picture. This
+procedure is illustrated in \aref{temperature-solution}.
 
 In \aref{temperature-solution}, $\mp_\static(\vu, \mq)$ should be understood as
 a call to a subroutine that returns an $\np \times \ns$ matrix wherein the $(i,
