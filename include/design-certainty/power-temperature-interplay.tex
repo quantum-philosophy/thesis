@@ -2,6 +2,7 @@ So far the interdependence between power on temperature, which is drawn
 attention to in \sref{power-model}, has been ignored. In order to properly take
 it into account, several approaches can be employed as follows.
 
+\inputalgorithm{dynamic-steady-state-iterative}
 The first approach is to calculate the power and temperature profiles several
 times in turns until the latter converges. In this case, we obtain a series of
 pairs of a power profile and a temperature profile
@@ -13,14 +14,15 @@ transient, static steady-state, or dynamic steady-state analysis as usual---a
 new power profile $\mp_i$ is obtained by recalculating the static power and
 adding it to the dynamic power, which we write as follows:
 \[
-  \mp_i = \mp_\dynamic + \mp_{\static, i}
+  \mp_i = \mp_\dynamic + \mp_{\static, i}(\mq_{i - 1})
 \]
 where $\mp_{\static, i}$ is computed using $\mq_{i - 1}$. The process continues
 until the difference between two successive temperature profiles is below a
-predefined threshold. According to our experience, in the case of dynamic
-steady-state temperature analysis, it usually takes 4--7 iterations until the
-uniform norm of the difference between two successive temperature profiles drops
-below \celsius{0.5}.
+predefined threshold. The pseudocode of this technique in the case of dynamic
+steady-state temperature analysis is given in
+\aref{dynamic-steady-state-iterative}. According to our experience, it usually
+takes 4--7 iterations until the uniform norm of the difference between two
+successive temperature profiles drops below \celsius{0.5}.
 
 In the case of transient analysis, the above procedure can be also done on a
 step-by-step basis and even with only one iteration. Specifically, at each step

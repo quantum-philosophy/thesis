@@ -1,0 +1,21 @@
+\begin{algorithm}
+  \caption{Calculation of the dynamic steady-state temperature profile}
+  \alab{dynamic-steady-state-iterative}
+  \begin{algorithmic}[1]
+    \vspace{0.4em}
+
+    \Require{$\mp_\dynamic \in \real^{\np \times \ns}$}
+    \Ensure{$\mq \in \real^{\np \times \ns}$ and $\mp \in \real^{\np \times \ns}$}
+
+    \vspace{0.5em}
+
+    \Let{$\mq$}{$\mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
+
+    \Repeat
+      \Let{$\mp$}{$\mp_\dynamic + \mp_\static(\mq)$}
+      \Let{$\mq$}{call \aref{dynamic-steady-state} for $\mp$}
+    \Until{a stopping condition is satisfied}
+
+    \vspace{0.4em}
+  \end{algorithmic}
+\end{algorithm}
