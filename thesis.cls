@@ -6,8 +6,9 @@
 
 \usepackage{geometry}
 
-\usepackage{color}
 \usepackage[no-math]{fontspec}
+\usepackage{algorithm}
+\usepackage{color}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{ifthen}
@@ -219,6 +220,11 @@
   {
     \@abbreviations
     \addcontentsline{toc}{chapter}{List of Abbreviations}
+    \clearpage
+  }
+  {
+    \listofalgorithms
+    \addcontentsline{toc}{chapter}{List of Algorithms}
     \clearpage
   }
   {
