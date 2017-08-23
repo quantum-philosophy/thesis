@@ -9,8 +9,8 @@ way to compute \h for a given \g. The last means that $f$ should be known;
 however, it does not have to be explicitly given: our framework treats $f$ as a
 ``black box.'' For example, $f$ can be a piece of code.
 
-As the first step, the user of the proposed framework is supposed to harvest a
-set of observations of \h at several locations on the wafer; recall
+As the first step, the designer using the framework is supposed to harvest a set
+of observations of \h at several locations on the wafer; recall
 \sref{inference-example}. Without loss of generality, we adhere to the following
 convention. Each die is one potential measurement site, and $\hnd < \nd$ denotes
 the number of those sites that are actually measured. Each site comprises \np
@@ -33,9 +33,9 @@ this standpoint, our approach is a generalization of those developed in
 In the rest of this section, we present our framework for the characterization
 of process variation. The technique revolves around \eref{bayes-theorem} and is
 divided into four major stages depicted in \fref{inference-overview}. Stage~1 is
-the data-harvesting stage where the user collects a set of observations of the
-quantity of measurement, forming the data set $H$. At Stage~2, we undertake an
-optimization procedure, which is to assist the sampling procedure at Stage~3.
+the data-harvesting stage where the designer collects a set of observations of
+the quantity of measurement, forming the data set $H$. At Stage~2, we undertake
+an optimization procedure, which is to assist the sampling procedure at Stage~3.
 The latter produces a collection of samples of the quantity of interest---such
 as the effective channel length---denoted by $G$, which is then processed at
 Stage~4 in order to estimate the desired characteristics of this quantity---such
@@ -53,14 +53,14 @@ measurement \h as follows:
 \[
   \h = f(\g).
 \]
-The function $f$ depends on the choice of \h and is specified by the user. The
-model is utilized in order to predict the values of \h at the same measurement
-sites, at the same measurement points, and with the same number and meaning of
-data instances as the ones in $H$ from Stage~1. The resulting data are stacked
-into a single vector denoted by $\vh \in \real^{\hnd \np \ns}$. Let also $\hvh
-\in \real^{\hnd \np \ns}$ be a stacked version of the data in $H$ such that the
-respective elements of \vh and \hvh correspond to the same locations on the
-wafer.
+The function $f$ depends on the choice of \h and is specified by the designer.
+The model is utilized in order to predict the values of \h at the same
+measurement sites, at the same measurement points, and with the same number and
+meaning of data instances as the ones in $H$ from Stage~1. The resulting data
+are stacked into a single vector denoted by $\vh \in \real^{\hnd \np \ns}$. Let
+also $\hvh \in \real^{\hnd \np \ns}$ be a stacked version of the data in $H$
+such that the respective elements of \vh and \hvh correspond to the same
+locations on the wafer.
 
 In order to acquire a better understanding of the data model, let us return to
 the example given in \sref{inference-example}. In this case, \g stands for the
@@ -148,13 +148,12 @@ practical computations, it should be reduced to a finite-dimensional one. First,
 \g is discretized with respect to the union of two sets of locations. The first
 one is composed of the $\hnd \np$ points where the observations in $H$ are made
 (\hnd measurement sites with \np measurement points each), and the other one of
-the locations where the user wishes to characterize \g. For simplicity, we
-assume that the user is interested in all the sites, which is $\nd \np$
+the locations where the designer wishes to characterize \g. For simplicity,
+assume that the designer is interested in all the sites, which is $\nd \np$
 locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
-these locations. Second, the dimensionality is reduced even further by
-performing the transformation in \eref{model-order-reduction} with respect to
-the correlation matrix of \vg computed via \eref{inference-covariance}. The
-result is
+these locations. Second, the dimensionality is reduced further by performing the
+transformation in \eref{model-order-reduction} with respect to the correlation
+matrix of \vg computed via \eref{inference-covariance}. The result is
 \begin{equation} \elab{inference-reduction}
   \vg = \mu_\g \v{1} + \sigma_\g \m{U} \tm{\Lambda}^\frac{1}{2} \vz
 \end{equation}
@@ -210,9 +209,9 @@ other three priors, that is, a Gaussian and two scaled inverse chi-squared
 distributions, are a common choice for a Gaussian model whose mean and variance
 are unknown. The parameters $\mu_0$, $\tau^2_\g$, and $\tau^2_\epsilon$
 represent the presumable values of $\mu_u$, $\sigma^2_\g$, and
-$\sigma^2_\epsilon$, respectively, and are set by the user based on the prior
-knowledge of the technological process and measurement equipment employed. The
-parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
+$\sigma^2_\epsilon$, respectively, and are set by the designer based on the
+prior knowledge of the technological process and measurement equipment employed.
+The parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
 this prior information. When the prior knowledge is weak, less specific priors
 can be considered \cite{gelman2004}. Taking the product of the densities of the
 priors in \eref{inference-prior}, we obtain $p(\u)$ in \eref{bayes-theorem}.
@@ -295,14 +294,14 @@ $G = \{ \vg_i \}_{i = 1}^\no$ where $\vg_i \in \real^{\nd \np}$.
 \subsection{Post-Processing}
 \slab{inference-post-processing}
 
-At Stage~4 in \fref{inference-overview}, using the set of samples $G$, the user
-computes the desired statistics about the quantity of interest such as the most
-probable value of the effective channel length at some location of interest and
-the probability of a certain area on the wafer to be defective. These
-computations are undertaken in the same way as it is done with \ac{MC} sampling.
-Specifically, they reduce to the estimation of expected values with respect to
-the posterior distribution of \u in \eref{inference-posterior}: in order to
-compute an arbitrary quantity dependent on \g, one evaluates it for each $\vg_i$
+At Stage~4 in \fref{inference-overview}, using the set of samples $G$, the
+designer computes the desired statistics about the quantity of interest such as
+the most probable value of the effective channel length at some location of
+interest and the probability of a certain area on the wafer to be defective.
+These computations are undertaken in the same way as it is done with \ac{MC}
+sampling. Specifically, they reduce to the estimation of expected values with
+respect to the posterior distribution of \u in \eref{inference-posterior}: in
+order to compute a quantity dependent on \g, one evaluates it for each $\vg_i$
 in $G$ and then takes the average value.
 
 The strength of the Bayesian approach to inference starts to shine when one is

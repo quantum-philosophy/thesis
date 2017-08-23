@@ -1,13 +1,13 @@
 We develop a framework for the analysis of the transient power and temperature
 profiles of electronic systems subject to the uncertainty due to process
 variation. The proposed technique is flexible in modeling diverse probability
-distributions, specified by the user, of the uncertain parameters, such as the
-effective channel length and gate oxide thickness. Moreover, there are no
+distributions, specified by the designer, of the uncertain parameters, such as
+the effective channel length and gate oxide thickness. Moreover, there are no
 assumptions on the distributions of the resulting power and temperature traces
 as these distributions are unlikely to be known \emph{a priori}. The proposed
 technique is capable of capturing arbitrary joint effects of the uncertain
 parameters on the system since the impact of these parameters is introduced into
-the framework as a ``black box,'' which is also defined by the user. In
+the framework as a ``black box,'' which is also defined by the designer. In
 particular, it allows for the power-temperature interplay to be taken into
 account with no effort. Our approach is founded on the basis of \acf{PC}
 expansions, which constitute an attractive alternative to \ac{MC} sampling. This
@@ -32,8 +32,8 @@ The major stages of our technique are depicted in \fref{chaos-overview}. At
 Stage~1 (\sref{chaos-probability-transformation}), the uncertain parameters \vu
 are transformed into independent random variables \vz since independence is a
 prerequisite of the \ac{PC} approach. At Stage~2 (\sref{chaos-power-model}), the
-user specifies the power model of the system via a ``black-box'' function $f$
-that computes the total power \vp for a particular temperature \vq and a
+designer specifies the power model of the system via a ``black-box'' function
+$f$ that computes the total power \vp for a particular temperature \vq and a
 particular outcome of the parameters \vu. At Stage~3
 (\sref{chaos-temperature-model}), based on \sref{transient-state-solution}, a
 mathematical description of the thermal behavior of the system is obtained. At
@@ -262,7 +262,7 @@ uncertainty into consideration using the proposed approach. The above
 description is delivered from any explicit formula of any particular uncertain
 parameter. In contrast, the solutions from the literature related to process
 variation are typically based on ad~hoc expressions and should be tailored by
-the user for each new parameter individually; see, for instance,
+the designer for each new parameter individually; see, for instance,
 \cite{ghanta2006, bhardwaj2008, huang2009a}. Our framework provides a great
 flexibility in this regard.
 
