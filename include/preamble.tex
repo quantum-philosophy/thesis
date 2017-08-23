@@ -170,36 +170,36 @@
 
 \makeatletter
 \def\probability{\@ifnextchar{\bgroup}{\probabilityone}{\probabilityzero}}
-\def\probabilityone#1{P\left(#1\right)}
-\def\probabilityzero{P}
+\def\probabilityone#1{\mathbb{P}\left(#1\right)}
+\def\probabilityzero{\mathbb{P}}
 \makeatother
 
 \makeatletter
 \def\expectation{\@ifnextchar{\bgroup}{\expectationone}{\expectationzero}}
-\def\expectationone#1{E #1}
-\def\expectationzero{E}
+\def\expectationone#1{\mathbb{E} #1}
+\def\expectationzero{\mathbb{E}}
 \makeatother
 
 \makeatletter
 \def\variance{\@ifnextchar{\bgroup}{\varianceone}{\variancezero}}
-\def\varianceone#1{\mathrm{Var}\left(#1\right)}
-\def\variancezero{\mathrm{Var}}
+\def\varianceone#1{\mathbb{V}\mathrm{ar}\left(#1\right)}
+\def\variancezero{\mathbb{V}\mathrm{ar}}
 \makeatother
 
 \makeatletter
 \def\covariance{\@ifnextchar{\bgroup}{\covarianceplus}{\covariancezero}}
 \def\covarianceplus#1{\@ifnextchar{\bgroup}{\covariancetwo{#1}}{\covarianceone{#1}}}
-\def\covariancetwo#1#2{\mathrm{Cov}\left(#1, #2\right)}
-\def\covarianceone#1{\mathrm{Cov}\left(#1\right)}
-\def\covariancezero{\mathrm{Cov}}
+\def\covariancetwo#1#2{\mathbb{C}\mathrm{ov}\left(#1, #2\right)}
+\def\covarianceone#1{\mathbb{C}\mathrm{ov}\left(#1\right)}
+\def\covariancezero{\mathbb{C}\mathrm{ov}}
 \makeatother
 
 \makeatletter
 \def\correlation{\@ifnextchar{\bgroup}{\correlationplus}{\correlationzero}}
 \def\correlationplus#1{\@ifnextchar{\bgroup}{\correlationtwo{#1}}{\correlationone{#1}}}
-\def\correlationtwo#1#2{\mathrm{Corr}\left(#1, #2\right)}
-\def\correlationone#1{\mathrm{Corr}\left(#1\right)}
-\def\correlationzero{\mathrm{Corr}}
+\def\correlationtwo#1#2{\mathbb{C}\mathrm{orr}\left(#1, #2\right)}
+\def\correlationone#1{\mathbb{C}\mathrm{orr}\left(#1\right)}
+\def\correlationzero{\mathbb{C}\mathrm{orr}}
 \makeatother
 
 %
