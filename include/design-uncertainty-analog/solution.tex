@@ -77,25 +77,31 @@ part of the \ac{KL} decomposition, which is also covered in
 \subsection{Power Model}
 \slab{chaos-power-model}
 
-As stated in \sref{chaos-problem}, the user is supposed to decide on the power
-model for the system, which we denote as follows:
+As stated in \sref{chaos-problem}, the designer is supposed to decide on the
+power model for the system, which we denote as follows:
 \begin{equation} \elab{chaos-power-model}
   \vp(t) = f(t, \vq, \vu)
 \end{equation}
-where $f$ is a function that evaluates the power $\vp \in \real^\np$ of the
-processing elements given their temperature $\vq \in \real^\np$ and parameters
-$\vu \in \real^\nu$. It should be understood that \vp, \vq, and \vu are random
-vectors in general, and that $f$ consumes $\vq(t, \omega)$ and $\vu(\omega)$ and
-yields $\vp(t, \omega)$ for some particular outcome $\omega \in \Omega$.
+where $f: \real \times \real^\np \times \real^\nu \to \real^\np$ is a function
+that evaluates the power consumption $\vp \in \real^\np$ of the processing
+elements at time $t$ given the heat dissipation $\vq \in \real^\np$ of the
+processing elements and the parameters $\vu \in \real^\nu$.
 
-The user can choose any $f$. It can be, for instance, a closed-form formula or a
-piece of code. The only assumption we make about $f$ is that it is smooth in \vz
-and belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$ when it is viewed as a
-random variable (see \sref{probability-theory}), which is generally applicable
-to most physical systems \cite{xiu2010}. Note also that the operation performed
-by this ``black box'' is purely deterministic. The definition of $f$ is flexible
-enough to account for such effects as the interdependence between power and
-temperature discussed in \sref{power-model}.
+\begin{remark}
+It should be understood that \vp, \vq, and \vu are random vectors in general,
+and that $f$ consumes $\vq(t, \omega)$ and $\vu(\omega)$ and yields $\vp(t,
+\omega)$ for some particular outcome $\omega \in \Omega$. The function itself is
+purely deterministic.
+\end{remark}
+
+The designer can choose any $f$. It can be, for instance, a closed-form formula
+or a piece of code. The only assumption we make about $f$ is that it is smooth
+in \vz and belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$ when it is
+viewed as a random variable (see \sref{probability-theory}), which is generally
+applicable to most physical systems \cite{xiu2010}. Note also that the operation
+performed by this ``black box'' is purely deterministic. The definition of $f$
+is flexible enough to account for such effects as the interdependence between
+power and temperature discussed in \sref{power-model}.
 
 \subsection{Temperature Model}
 \slab{chaos-temperature-model}

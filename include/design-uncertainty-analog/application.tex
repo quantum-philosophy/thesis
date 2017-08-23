@@ -118,8 +118,18 @@ components
 \[
   f(t, \vq, \vu) = f_\dynamic(t) + f_\static(\vq, \vu)
 \]
-where, as motivated earlier, $f_\dynamic$ does not depend on \vu. We assume that
-the desired workload of the system is given as a dynamic power profile denoted
+where $f_\dynamic: \real \to \real^\np$ and $f_\static: \real^\np \times
+\real^\nu \to \real^\np$.
+
+\begin{remark}
+The function $f_\dynamic$ has no dependency on \vu as the influence of process
+variation on the dynamic power is known to be negligibly small
+\cite{srivastava2010}. On the other hand, the variability of the static power
+given by $f_\static$ is substantial and magnified by the power-temperature
+interplay discussed in \sref{power-temperature-interplay}.
+\end{remark}
+
+We assume that the desired workload is given as a dynamic power profile denoted
 by $\mp_\dynamic$. Similarly to \sref{inference-result}, without loss of
 generality, the development of the static part is based on \up{SPICE}
 simulations of a reference electrical circuit composed of \up{BSIM4} devices
