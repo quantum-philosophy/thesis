@@ -30,19 +30,20 @@ with partially precomputed data. A learning-based approach is presented in
 \cite{juan2011} in order to estimate the maximum temperature under the static
 steady-state condition; recall \sref{static-steady-state}. Temperature-related
 issues originating from process variation are also considered in \cite{juan2012}
-where a statistical model of the static steady-state temperature based on
-Gaussian distributions is derived. A statistical simulator of the static
-steady-state temperature is developed in \cite{huang2009a} using \ac{PC}
-expansions and the \acf{KL} decomposition; see
-\sref{probability-transformation}. A \ac{KL}-aided stochastic collocation
-\cite{xiu2010} approach to static steady-state temperature analysis is presented
-in \cite{lee2013}. In \cite{shen2009}, \ac{PC} expansions are employed in order
-to estimate the leakage power of the entire chip. The \ac{KL} decomposition is
-utilized in \cite{bhardwaj2006} for leakage calculations. In
-\cite{bhardwaj2008}, the total leakage is quantified using the \ac{PC} and
-\ac{KL} methods. The same combination of tools is employed in
-\cite{vrudhula2006} and \cite{ghanta2006} in order to analyze the response of
-interconnect networks and power grids, respectively, under process variation.
+where a statistical model of the static steady-state temperature based on the
+linearity of Gaussian distributions and time-invariant systems is derived. A
+statistical simulator of the static steady-state temperature is developed in
+\cite{huang2009a} using \acf{PC} expansions and the \acf{KL} decomposition; see
+\sref{probability-transformation} and \sref{polynomial-chaos}. A \ac{KL}-aided
+stochastic collocation \cite{maitre2010, xiu2010} approach to static
+steady-state temperature analysis is presented in \cite{lee2013}. In
+\cite{shen2009}, \ac{PC} expansions are employed in order to estimate the static
+power of the entire chip. The \ac{KL} decomposition is utilized in
+\cite{bhardwaj2006} for calculating the static power. The static power is also
+quantified in \cite{bhardwaj2008} using the \ac{PC} and \ac{KL} methods. The
+same combination of tools is employed in \cite{vrudhula2006} and
+\cite{ghanta2006} in order to analyze the response of interconnect networks and
+power grids, respectively, under process variation.
 
 The last five of the aforementioned techniques, that is, \cite{bhardwaj2006,
 vrudhula2006, ghanta2006, bhardwaj2008, shen2009}, perform only stochastic power
@@ -73,7 +74,44 @@ both cases at the significance level of 5\%. Therefore, the two distributions
 are neither Gaussian nor log-normal, which can also be seen in
 \fref{chaos-example-density} described in \sref{chaos-result}.
 
-To conclude, the prior techniques for stochastic power and temperature analysis
+It can be seen that the overwhelming majority of the literature related to
+temperature relies on static steady-state temperature analysis---which, as noted
+earlier, inadequate in practice---and the other two types of temperature
+analysis, that is, transient analysis and dynamic steady-state analysis, are
+deprived of attention. To the best of our knowledge, they have not been studied
+yet in the literature from the stochastic perspective. However, the knowledge of
+transient and dynamic steady-state variations is of practical importance.
+
+Let us now discuss reliability analysis. Reliability analysis is probabilistic
+by nature. Certain components of a reliability model, however, can be treated as
+either stochastic or deterministic, depending on the phenomena that the model is
+designed for. Temperature is an example of such a component: it can be
+considered as deterministic if the effect of process variation on temperature is
+neglected and as stochastic otherwise. The former scenario is the one that is
+typically addressed in the literature related to reliability. For instance, the
+reliability model proposed in \cite{xiang2010} has a treatment of process
+variation; however, temperature is included in the model as a deterministic
+quantity. In \cite{das2014a}, a design methodology minimizing the energy
+consumption and temperature-induced wear of multiprocessor systems is
+introduced; yet neither energy nor temperature is aware of the uncertainty due
+to process variation. A similar observation can be made with respect to the work
+in \cite{das2014c} where a reinforcement-learning algorithm is used in order to
+improve the lifetime of multiprocessor systems. An extensive survey on
+reliability-aware system-level design techniques given in \cite{das2014b}
+confirms the trend emphasized above: the widespread device-level models of
+failure mechanisms generally ignore the impact of process variation on
+temperature. However, deterministic temperature is a strong assumption to make
+since it can lead to a substantial yield loss.
+
+An example of a different kind is the work in \cite{lee2013} mentioned earlier.
+It introduces a statistical simulator for reliability analysis under process
+variation and does consider temperature as a stochastic parameter. However, as
+discussed previously, this study is limited to static steady-state temperatures,
+and the presented reliability analysis is essentially an analysis of maximum
+temperatures without any relation to the typical failure mechanisms
+\cite{jedec2016}.
+
+To summarize, the prior techniques for stochastic power and temperature analysis
 are restricted in use due to one or several of the following traits: based on
 \ac{MC} simulations (potentially slow) \cite{chandra2010}, limited to power
 analysis \cite{bhardwaj2006, ghanta2006, vrudhula2006, bhardwaj2008, shen2009,
@@ -82,5 +120,10 @@ ghanta2006, vrudhula2006, bhardwaj2008, huang2009a, shen2009}, limited to the
 static steady-state temperature \cite{huang2009a, juan2011, juan2012, lee2013},
 exclusive focus on the maximum temperature \cite{juan2011}, and \emph{a priori}
 chosen distributions of power and temperature \cite{bhardwaj2006,
-srivastava2010, juan2012}. Consequently, there is a lack of flexible techniques
-for stochastic power and temperature analysis.
+srivastava2010, juan2012}. The designer's toolbox does not yet include a tool
+for transient analysis and a tool for dynamic steady-state analysis under
+process variation, which are of high importance for certain classes of
+applications. Furthermore, the state-of-the-art reliability models lack a
+flexible approach to taking the effect of process variation on power and, hence,
+temperature into consideration. This chapter addresses the aforementioned
+concerns.
