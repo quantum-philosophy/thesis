@@ -1,12 +1,16 @@
 In this section, we illustrate the importance of temperature analysis for
-design-space exploration. Specifically, we consider reliability optimization and
-demonstrate the utility of our solution to dynamic steady-state analysis
-presented in \sref{dynamic-steady-state} for mitigating the fatigue due to
-thermal cycling \cite{jedec2016}, which is one of the most common failure
-mechanism. To this end, we develop a thermal-cycling-aware technique for
-scheduling of periodic applications.
+design-space exploration and, more specifically, for reliability optimization.
+The impact of temperature on the lifetime of electronic systems is well known
+\cite{srinivasan2004, coskun2006, xiang2010, jedec2016}. The failure mechanisms
+that are commonly considered are electromigration, time-dependent dielectric
+breakdown, and thermal cycling, which are directly driven by temperature
+\cite{jedec2016}. Here we focus our attention on the last one, namely, thermal
+cycling, and demonstrate the utility of our solution to dynamic steady-state
+analysis presented in \sref{dynamic-steady-state} for mitigating the damage
+caused by temperature oscillations. To this end, we develop a
+thermal-cycling-aware technique for scheduling of periodic applications.
 
-In this section, we first consider a motivational example,
+In the remainder of the section, we first consider a motivational example,
 \sref{thermal-cycling-example}. In \sref{thermal-cycling-problem}, we formulate
 our optimization objective and, in \sref{thermal-cycling-solution}, describe the
 optimization technique that we utilize in order to attain it. Lastly, the
