@@ -11,3 +11,85 @@ thickness $T$. In this example,
 which is to be discussed in detail shortly. Regarding reliability, we shall
 address the thermal-cycling fatigue as it is naturally connected with dynamic
 steady-state temperature analysis that we develop.
+
+Before we proceed to the construction of surrogate models, let us first refine
+our definition of $\vu = (\u_i)_{i = 1}^\nu$. Each $\u_i$ is a characteristic of
+a single transistor---consider, for instance, the effective channel
+length---and, therefore, each device in the electrical circuit at hand
+potentially has a different value of this parameter since, in general, the
+variability due to process variation is not uniform. Consequently, each $\u_i$
+can be viewed as a random process $\u_i: \Omega \times \real^2 \to \real$
+defined on a two-dimensional plane. Since this work is system-level oriented, we
+model each processing element with one variable for each such random process.
+More specifically, we let $\u_{ij} = \u_i(\cdot, \v{r}_j)$ be the random
+variable representing uncertain parameter $i$ at processing element $j$ where
+$\v{r}_j \in \real^2$ stands for the spatial location of the center of the
+processing element. Therefore, we redefine the parameterization \vu of the
+problem at hand as
+\[
+  \vu = (\u_i)_{i = 1}^{\nu \np}: \Omega \to \real^{\nu \np}
+\]
+such that there is a one-to-one correspondence between $\u_i$ for $i =
+\range{1}{\nu \np}$ and $\u_{ij}$ for $i = \range{1}{\nu}$ and $j =
+\range{1}{\np}$. For instance, in our illustrative application with two process
+parameters, the total number of stochastic dimensions is $2 \np$.
+
+\begin{remark}
+Some authors prefer to split the variability of a process parameter at a spatial
+location into several parts such as wafer-to-wafer, die-to-die, and within-die;
+see, for instance, \cite{juan2012}. However, from the mathematical point of
+view, it is sufficient to consider just one random variable per location which
+is adequately correlated with the other locations of interest.
+\end{remark}
+
+A description of \vu given by the designer is an input to our analysis. A proper
+(complete, unambiguous) way to describe a set of random variables is to specify
+their joint probability distribution function. In practice, however, such
+exhaustive information is often unavailable, in particular, due to the high
+dimensionality in the presence of prominent dependencies inherent to the
+considered problem. A more realistic assumption is the knowledge of the marginal
+distributions and correlation matrix of \vu. Denote by $\{ F_{\u_i} \}_{i =
+1}^{\nu \np}$ and $\correlation{\vu} \in \real^{\nu \np \times \nu \np}$ the
+marginal distribution functions and correlation matrix of the uncertain
+parameters \vu in \eref{uncertain-parameters}, respectively. Note that the
+number of distinct marginals is only \nu since \np components of \vu correspond
+to the same uncertain parameter.
+
+\subsection{Probability Transformation}
+
+Let us turn to the illustrative application. Recall that we exemplify our
+framework considering the effective channel length and gate-oxide thickness with
+the notation given in \eref{application-uncertain-parameters}. Both parameters
+correspond to Euclidean distances; they take values on bounded intervals of the
+positive part of the real line. With this in mind, we model the two process
+parameters using the four-parametric family of beta distributions:
+\[
+  \u_i \sim F_{\u_i} = \mathrm{Beta}(a_i, b_i, c_i, d_i)
+\]
+where $i = 1, 2, \dots, 2 \np$, $a_i$ and $b_i$ control the shape of the
+distributions, and $[c_i, d_i]$ correspond to their supports. Without loss of
+generality, we let the two considered process parameters be independent of each
+other, and the correlations among those elements of \vu that correspond to the
+same process parameter be given by the following correlation function:
+\[
+  k(\v{r}_i, \v{r}_j) = w \; k_\SE(\v{r}_i, \v{r}_j) + (1 - w) k_\OU(\v{r}_i, \v{r}_j)
+\]
+where $\v{r}_i \in \real^2$ is the center of the $i$th processing element
+relative to the center of the die. The correlation function is a composition of
+two kernels:
+\begin{align*}
+  & k_\SE(\v{r}_i, \v{r}_j) = \exp\left(- \frac{\norm{\v{r}_i - \v{r}_j}^2}{\ell_\SE^2} \right) \text{ and} \\
+  & k_\OU(\v{r}_i, \v{r}_j) = \exp\left(- \frac{\absolute{\norm{\v{r}_i} - \norm{\v{r}_j}}}{\ell_\OU} \right),
+\end{align*}
+which are known as the squared-exponential and Ornstein--Uhlenbeck kernels,
+respectively. In the above formulae, $w \in [0, 1]$ is a weight coefficient
+balancing the kernels; $\ell_\SE$ and $\ell_\OU > 0$ are so-called length-scale
+parameters; and $\norm{\cdot}$ stands for the Euclidean norm in $\real^2$. The
+choice of these two kernels is guided by the observations of the correlation
+patterns induced by the fabrication process: $k_\SE$ imposes similarities
+between those spatial locations that are close to each other, and $k_\OU$
+imposes similarities between those locations that are at the same distance from
+the center of the die; see, for instance, \cite{friedberg2005} for additional
+details. The length-scale parameters $\ell_\SE$ and $\ell_\OU$ control the
+extend of these similarities, that is the range wherein the influence of one
+point on another is significant.
