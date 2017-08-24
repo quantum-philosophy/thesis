@@ -54,15 +54,15 @@ product cannot take this information into account. Consequently, a different
 construction technique should be utilized in the case of high-dimensional
 problems.
 
-An alternative construction is the Smolyak algorithm \cite{eldred2008,
-heiss2008, maitre2010}. The algorithm combines a range of one-dimensional rules
-in such a way that $\quadrature{n}{\lq}$ is tailored to be exact only for a
-specific polynomial subspace, which allows for a significantly reduction of the
-number of points. For instance, in the example given earlier, the number of
-points would only be $\nq = 1~581$, which would entail a drastic saving of the
-computation time. Define $\Delta_0 = \quadrature{1}{0}$ and $\Delta_i =
-\quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then Smolyak's
-approximating formula is
+An alternative construction is the Smolyak algorithm \cite{smolyak1963}; see
+also \cite{eldred2008, heiss2008, maitre2010}. The algorithm combines a range of
+one-dimensional rules in such a way that $\quadrature{n}{\lq}$ is tailored to be
+exact only for a specific polynomial subspace, which allows for a significantly
+reduction of the number of points. For instance, in the example given earlier,
+the number of points would only be $\nq = 1~581$, which would entail a drastic
+saving of the computation time. Define $\Delta_0 = \quadrature{1}{0}$ and
+$\Delta_i = \quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then
+Smolyak's approximating formula is
 \begin{equation} \elab{integration-smolyak}
   \quadrature{n}{\lq} = \bigoplus_{\multiindex \in \multiindices{n}{\lq}} \Delta_{i_1} \otimes \cdots \otimes \Delta_{i_n}.
 \end{equation}
