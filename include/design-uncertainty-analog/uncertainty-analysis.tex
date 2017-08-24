@@ -160,9 +160,9 @@ weight $j$. The matrix $\Pi$ is referred to as the projection matrix. Using
 $\Pi$, the coefficients $\{ \hat{g}_{\multiindex}: \multiindex \in
 \multiindices{\nz}{l} \}$ in \eref{chaos-expansion} can now be trivially
 computed as
-\[
+\begin{equation} \elab{chaos-coefficients}
   \hat{\vg} = \Pi \, \vg
-\]
+\end{equation}
 where
 \begin{align*}
   & \hat{\vg} = (\hat{\g}_i)_{i = 1}^\nc \text{ and} \\
@@ -188,34 +188,35 @@ used thereafter.
 
 \subsection{Post-Processing}
 
-The function given by \eref{spectral-decomposition} is nothing more than a
-polynomial; hence, it is easy to interpret and easy to evaluate. Consequently,
-having constructed such an expansion, various statistics about \g can be
-estimated with little effort. Moreover, \eref{spectral-decomposition} yields
-analytical formulae for the expected value and variance of \g solely based on
-the coefficients of \eref{spectral-decomposition}:
-\[
-  \expectation{\g} = \hat{\g}_{\v{0}} \hspace{1em} \text{and} \hspace{1em}
-  \variance{\g} = \sum_{\multiindex \in \multiindices{\nz}{l} \setminus \{ \v{0} \}} \hat{\g}_{\multiindex}^2
-\]
-where $\v{0} = (0)$ is a multi-index with all entries equal to zero. Such
-quantities as the cumulative distribution and probability density functions can
-be estimated by sampling \eref{spectral-decomposition}; each sample is a trivial
+The function given by \eref{chaos-expansion} is nothing more than a polynomial;
+hence, it is easy to interpret and easy to evaluate. Consequently, having
+constructed such an expansion, various statistics about \g can be estimated with
+little effort. Moreover, \eref{chaos-expansion} provides analytical formulae for
+the expectation and variance of \g solely based on the coefficients of
+\eref{chaos-expansion} as follows:
+\begin{equation} \elab{chaos-moments}
+  \begin{split}
+    & \expectation{\g} = \hat{\g}_{\v{0}} \text{ and} \\
+    & \variance{\g} = \sum_{\multiindex \in \multiindices{\nz}{l} \setminus \{ \v{0} \}} \hat{\g}_{\multiindex}^2,
+  \end{split}
+\end{equation}
+respectively, where $\v{0} = (0)_{i = 1}^\nz$, and the squaring should be
+understood element-wise. Moreover, such quantities as the \ac{CDF} and \ac{PDF}
+can be estimated by sampling \eref{chaos-expansion}; each sample is a trivial
 evaluation of a polynomial.
 
 \begin{remark}
-When \g is multidimensional, we shall consider it as a row vector with an
-appropriate number of elements. Then all the operations with respect to \g, such
-as those in \eref{spectral-decomposition}, \eref{numerical-integration}, and
-\eref{probabilistic-moments}, should be undertaken elementwise. In
-\eref{coefficient-evaluation}, \eref{quantity-evaluation}, and
-\aref{surrogate-construction}, $\v{v}$ and $\hat{\v{v}}$ are to be treated as
-matrices with \nc rows, and $\g_i$ as a row vector. The output of Algorithm~X is
-assumed to be automatically reshaped into a row vector.
+The development given here remains valid even when \g is multidimensional from
+the standpoint of the number of outputs. In this case, it is considered as a row
+vector with an appropriate number of elements. Then all the operations with
+respect to \g, such as those in \eref{chaos-expansion},
+\eref{chaos-coefficient}, and \eref{chaos-moments}, should be undertaken
+element-wise. In \eref{chaos-coefficients} and \aref{chaos-expansion}, \vg and
+$\hat{\vg}$ are matrices with \nc rows, and $\g_i$ as a row vector. The output
+of Algorithm~X in \aref{chaos-expansion} is assumed to be automatically reshaped
+into a row vector.
 \end{remark}
 
-In what follows, we shall apply the probabilistic analysis developed in this
-section to a number of concrete problems: temperature analysis
-(\sref{temperature-analysis}), reliability analysis
-(\sref{reliability-analysis}), and reliability optimization
-(\sref{reliability-optimization}).
+In what follows, we shall apply the uncertainty analysis developed in this
+section to a number of concrete problems, namely, transient and dynamic
+steady-state temperature analysis and reliability analysis and optimization.
