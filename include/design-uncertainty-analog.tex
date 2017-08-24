@@ -48,61 +48,7 @@ exploration procedure targeted at the minimization of the energy consumption,
 which is \emph{a priori} random, under probabilistic constraints on the thermal
 behavior and lifetime of the system.
 
-\section{Problem Formulation}
-
-Consider a heterogeneous electronic system that consists of \np processing
-elements and is equipped with a thermal package. The processing elements are the
-active components of the system that are identified at the system level with a
-desired level of granularity (for instance, \up{SoC}s, \up{CPU}s, and
-\up{ALU}s); the components can be subdivided whenever a finer level of modeling
-is required for the problem at hand.
-
-We shall denote by \spec an abstract set containing all information
-about the system that is relevant to our analysis, and we shall refer to it as
-the system specification. The content of \spec is problem specific,
-and it will be gradually detailed when it is needed. For now, \spec
-is assumed to include: (a) the floorplan of the chip; (b) the geometry of the
-thermal package; and (c) the thermal parameters of the materials that the chip
-and package are made of (for instance, silicon thermal conductivity).
-
-A power profile is defined as a matrix $\mp \in \real^{\np \times \ns}$
-containing \ns samples of the power dissipation of the processing elements. The
-samples correspond to certain moments of time $(t_k)_{k = 1}^\ns$ that partition
-a time interval $[0, \period]$ as
-\[
-  0 = t_0 < t_1 < \dotsc < t_\ns = \period.
-\]
-Analogously, a temperature profile $\mq \in \real^{\np \times \ns}$ is a matrix
-containing samples of temperature. For clarity, power and temperature profiles
-are assumed to have a one-to-one correspondence and a constant sampling interval
-\dt, that is, $t_k - t_{k - 1} = \dt$, for $k = 1, 2, \dots, \ns$. In what
-follows, a power profile that contains only the dynamic component of the (total)
-power dissipation will be denoted by $\mp_\dynamic$.
-
-The system depends on a set of parameters that are uncertain at the design stage
-due to process variation. We model such parameters using random variables and
-denote them by a random vector $\vu = (\u_i)_{i = 1}^\nu: \Omega \to \real^\nu$.
-In this work, we are only concerned with those parameters that manifest
-themselves in the deviation of the actual power dissipation from nominal values
-and, consequently, in the deviation of temperature from the one corresponding to
-the nominal power consumption.
-
-Given \spec, we pursue the following major objectives:
-\begin{itemize}
-
-  \item Objective~1. Extend probabilistic temperature analysis to include the
-  dynamic steady-state scenario under the uncertainty due to process variation
-  specified by \vu.
-
-  \item Objective~2. Taking into consideration the effect of process variation
-  on temperature, find the survival function of the system at hand under an
-  arbitrary workload given as a dynamic power profile $\mp_\dynamic$.
-
-  \item Objective~3. Develop a computationally tractable design-space
-  exploration scheme exploiting the proposed framework for
-  temperature/reliability analysis.
-
-\end{itemize}
+\section{Illustrative Application}
 
 In order to give a better intuition about our solutions, we shall accompany the
 development of our framework with the development of a concrete
