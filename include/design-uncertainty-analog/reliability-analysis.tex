@@ -1,0 +1,107 @@
+In this section, our objective is to build a flexible and computationally
+efficient model for reliability analysis of electronic systems affected by
+process variation. The development here is based on the reliability model
+described in \sref{reliability-model}, which is not aware of process variation
+yet.
+
+\begin{remark}
+It is important to realize that there are two levels of probabilistic modeling
+here. First, the reliability model itself is a probabilistic model describing
+the lifetime of the system. Second, the parameterization \vg is another
+probabilistic model characterizing the impact of the uncertainty due to process
+variation on the reliability model. Thus, the overall model can be thought of as
+a probability distribution over probability distributions. Given an outcome of
+the manufacturing process and, hence, \vg, the lifetime remains random.
+\end{remark}
+
+\subsection{Prior Work}
+
+The reliability analysis that ignores process variation is discussed
+\sref{reliability-model}.
+
+\subsection{Our Solution}
+
+Our work in this context is motivated by the following two observations.
+
+First, as emphasized throughout the thesis, temperature is the driving force of
+many failure mechanisms. The most prominent examples include electromigration,
+time-dependent dielectric breakdown, stress migration, and thermal cycling
+\cite{xiang2010}; see \cite{jedec2016} for an exhaustive overview. All of the
+aforementioned mechanisms have strong dependencies on the operating temperature.
+At the same time, temperature is tightly related to process parameters---such as
+the effective channel length and gate-oxide thickness---and can vary
+dramatically when those parameters deviate from their nominal values. Meanwhile,
+the state-of-the-art techniques for reliability analysis of electronic systems
+lack a systematic treatment of process variation and, in particular, of the
+effect of process variation on temperature, which is also the case in
+\sref{reliability-model}.
+
+Second, having established a reliability model $R(\cdot | \vg)$ of the system
+under consideration, the major portion of the associated computation time is
+ascribed to the evaluation of the parameterization \vg rather than to the model
+itself, that is, for a given \vg. For instance, \vg often contains estimates of
+the \ac{MTTF} of each processing element for a range of stress levels.
+Therefore, \vg typically involves computationally intensive full-system
+simulations including power analysis paired with temperature analysis; see
+\sref{reliability-model}.
+
+Guided by the aforementioned observations, we propose to use \ac{PC} expansions
+in order to construct a light surrogate for \vg. The proposed technique is
+founded on the basis of the state-of-the-art reliability models by enriching
+their modeling capabilities with respect to process variation and by speeding up
+the associated computational process. This approach allows one to seamlessly
+incorporate into reliability analysis the effect of process variation on process
+parameters. In particular, the framework allows for a straightforward
+propagation of the uncertainty from process parameters through power and
+temperature to the lifetime of the system. In contrast to the straightforward
+use of \ac{MC} sampling, the \ac{PC} expansions that we construct make the
+subsequent analysis highly efficient from the computational perspective.
+
+Note that $R(\cdot | \vg)$ is left intact, meaning that our approach does not
+impose any restrictions on $R(\cdot | \vg)$. Thus, the designer can take
+advantage of various reliability models in a straightforward manner. Naturally,
+this also implies that the modeling errors associated with the chosen $R(\cdot |
+\vg)$ can affect the quality of the results delivered by our technique.
+Therefore, choosing an adequate reliability model for the problem at hand is a
+responsibility of the designer.
+
+Let us now illustrate how this approach works in practice. To this end, we
+consider the thermal-cycling fatigue \cite{jedec2016}, which is introduced in
+\sref{thermal-cycling-fatigue}. Recall that, in this case, the system is exposed
+a periodic workload, and that the corresponding temperature profile is a dynamic
+steady-state profile, which, in the deterministic case, can be computed as
+described in \sref{dynamic-steady-state-solution}.
+
+Assume that the structure of the reliability model is the one shown in
+\eref{reliability-model} where each individual reliability function $R_i$ is the
+one given in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for
+$i = \range{1}{\np}$. During each iteration, the temperature of processing
+element $i$ exhibits \nk{i} cycles. Each cycle generally has different
+characteristics and, therefore, causes different damage. This aspect is taken
+into account by adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The
+shape parameter $\beta_i$ is known to be indifferent to temperature. For
+simplicity, let us also assume that $\beta_i$ does not depend on process
+parameters, and that $\beta_i = \beta$ for $i = \range{1}{\np}$.
+
+Under the above assumptions, \rref{weibull-homogeneity} applies, and the
+lifetime $T: \Omega \to \real$ of the system has a Weibull distribution as
+follows:
+\[
+  T | \vg \sim \mathrm{Weibull}(\eta, \beta)
+\]
+where $\eta$ is as in \rref{weibull-homogeneity} combined with
+\eref{thermal-cycling-scale}. The high-level parameters of the above model are
+two parameters: $\eta$ and $\beta$, among which only $\eta$ is uncertain.
+Thus, $\vg = (\eta)$ in this particular scenario; $\beta$ is given implicitly.
+
+Now we apply the technique in \sref{uncertainty-analysis} to this quantity. In
+this case, Algorithm~X in \aref{surrogate-construction} is an auxiliary function
+that makes a call to \aref{temperature-solution}, processes the resulting
+temperature profile as it was described earlier in this subsection, and returns
+$\eta$ computed according to the formula in \eref{compound-weibull-eta}.
+Consequently, we obtain a light polynomial surrogate of the parameterization of
+the reliability model, which can be then studied from various perspectives. The
+example for a dual-core system given at the end of \sref{temperature-solution}
+can be considered in this context as well with the only change that the
+dimensionality of the polynomial coefficients would be two here (since $\eta \in
+\real^\np$ and $\np = 2$).

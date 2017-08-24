@@ -1,0 +1,111 @@
+In this section, the proposed analysis techniques are applied in the context of
+design-space exploration.
+
+\subsection{Problem Formulation}
+
+Consider a periodic application which is composed of a number of tasks and is
+given as a directed acyclic graph. The graph has \nt vertices representing the
+tasks and a number of edges specifying data dependencies between those tasks.
+Any processing element can execute any task, and each pair of a processing
+element and a task is characterized by an execution time and dynamic power.
+Since the proposed techniques are orientated towards the design stage, static
+scheduling is considered, which is typically done offline. More specifically,
+the application is scheduled using a static cyclic scheduler, and schedules are
+generated using the list scheduling policy \cite{adam1974}. A schedule is
+defined as a mapping of the tasks onto the processing elements and the
+corresponding starting times; we shall denote it by \schedule. The goal of our
+optimization is to find such a schedule \schedule that minimizes the energy
+consumption while satisfying certain constraints.
+
+Since energy is a function of power, and power depends on a set of uncertain
+parameters, the energy consumption is a random variable at the design stage,
+which we denote by $E$. Our objective is to minimize the expected value of $E$:
+\[
+  \min_{\schedule} \expectation{E(\schedule)}
+\]
+where
+\[
+  E(\schedule) = \dt \sum \mp(\schedule),
+\]
+\dt is the sampling interval of the power profile \mp, and $\sum \mp$ denotes
+the summation over all elements of \mp. Hereafter, we also emphasize the
+dependency on \schedule. Our constraints are (i) time, (ii) temperature, and
+(iii) reliability as follows. (i) The period of the application is constrained
+by $t_\maximum$ (a deadline). (ii) The maximum temperature that the system can
+tolerate is constrained by $\q_\maximum$, and $\rho_\burn$ is an acceptable
+probability of burning the chip. (iii) The minimum time that the system should
+survive is constrained by $T_\minimum$, and $\rho_\wear$ is an acceptable
+probability of having a premature fault due to wear. The three constraints are
+formalized as follows:
+\begin{align}
+  & \period(\schedule) \leq t_\maximum, \elab{timing-constraint} \\
+  & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \elab{thermal-constraint} \\
+  & \probability\left(T(\schedule) \leq T_\minimum\right) \leq \rho_\wear. \elab{reliability-constraint}
+\end{align}
+In \eref{timing-constraint}--\eref{reliability-constraint}, $\period$ is the
+period of the application according to the schedule,
+\begin{align*}
+  & Q(\schedule) = \norm[\infty]{\mq(\schedule)}, \\
+  & T(\schedule) = \expectation{T(\schedule) \, | \, \eta} = \eta(\schedule) \, \Gamma\left(1 + \frac{1}{\beta}\right), \text{ and}
+\end{align*}
+$\norm[\infty]{\mq}$ denotes the extraction of the maximum value from the
+temperature profile \mq. The last two constraints, that is,
+\eref{thermal-constraint} and \eref{reliability-constraint}, are probabilistic
+as the quantities under consideration are random. In
+\eref{reliability-constraint}, we set an upper bound on the probability of the
+expected value of $T$, and it is important to realize that this expectation is a
+random variable itself due to the nested structure of the reliability model
+described in \rref{two-level-probabilistic-modeling}.
+
+\subsection{Our Solution}
+
+In order to evaluate \eref{objective}--\eref{reliability-constraint}, we utilize
+the uncertainty analysis technique presented in \sref{uncertainty-analysis}. In
+this case, the quantity of interest is a vector with three elements:
+\[
+  \vq = (E, Q, T).
+\]
+Although it is not spelled out, each quantity depends on \schedule. The first
+element corresponds to the energy consumption used in \eref{objective}, the
+second element is the maximum temperature used in \eref{thermal-constraint}, and
+the last one is the scale parameter of the reliability model (see
+\sref{reliability-analysis}) used in \eref{reliability-constraint}. The
+uncertainty analysis in \sref{uncertainty-analysis} should be applied as
+explained in \rref{multiple-dimensions}. In \aref{surrogate-construction},
+Algorithm~X is an intermediate procedure that makes a call to
+\aref{temperature-solution} and processes the resulting power and temperature
+profiles as required by \eref{quantity-of-interest}.
+
+We use a genetic algorithm for optimization. Each chromosome is a $2
+\nt$-element vector (twice the number of tasks) concatenating a pair of two
+vectors. The first is a vector in $\{ 1, 2, \dotsc, \np\}^\nt$ that maps the
+tasks onto the processing elements (that is, a mapping). The second is a vector
+in $\{ 1, 2, \dotsc, \nt \}^\nt$ that orders the tasks according to their
+priorities (that is, a ranking). Since we rely on a static cyclic scheduler and
+the list scheduling policy \cite{adam1974}, such a pair of vectors uniquely
+encodes a schedule \schedule. The population contains $4 \nt$ individuals which
+are initialized using uniform distributions. The parents for the next generation
+are chosen by a tournament selection with the number of competitors equal to
+20\% of \nt. A one-point crossover is then applied to 80\% of the parents. Each
+parent undergoes a uniform mutation wherein each gene is altered with
+probability 0.01. The top five-percent individuals always survive. The stopping
+condition is the absence of improvement within 10 successive generations.
+
+Let us turn to the evaluation of a chromosome's fitness. We begin by checking
+the timing constraint given in \eref{timing-constraint} as it does not require
+any probabilistic analysis; the constraint is purely deterministic. If
+\eref{timing-constraint} is violated, we set the fitness to the amount of this
+violation relative to the constraint---that is, to the difference between the
+actual application period and the deadline $t_\maximum$ divided by
+$t_\maximum$---and add a large constant, say, $C$, on top. If
+\eref{timing-constraint} is satisfied, we perform our probabilistic analysis and
+proceed to checking the constraints in \eref{thermal-constraint} and
+\eref{reliability-constraint}. If any of the two is violated, we set the fitness
+to the total relative amount of violation plus $C / 2$. If all the constraints
+are satisfied, the fitness value of the chromosome is set to the expected
+consumption of energy, as in shown in \eref{objective}.
+
+In order to speed up the optimization, we make use of caching and parallel
+computing. Specifically, the fitness value of each evaluated chromosome is
+stored in memory and pulled out when a chromosome with the same set of genes is
+encountered, and unseen (not cached) individuals are assessed in parallel.

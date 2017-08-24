@@ -1,0 +1,86 @@
+In this section, we detail our temperature analysis, which is suitable for
+system-level studies. We shall cover both the transient and dynamic steady-state
+scenarios as the former is a prerequisite for the latter. Since temperature is a
+direct consequence of power, we begin with the power model utilized in the
+proposed framework.
+
+\subsection{Our Solution}
+
+The temperature model is the one described in \sref{temperature-model}.
+
+Let us fix $\omega \in \Omega$, meaning that \vu is assumed to be known, and
+consider the system in \eref{thermal-model} as deterministic. In general,
+\eref{thermal-model-inner} is a system of ordinary differential equations which
+is nonlinear due to the power term, given in \eref{power-model} as an arbitrary
+function. Hence, the system in \eref{thermal-model} does not have a general
+closed-form solution. A robust and computationally efficient solution to
+\eref{thermal-model} for a given \vu is an essential part of our probabilistic
+framework. In order to attain such a solution, we utilize a numerical method
+from the family of exponential integrators \cite{hochbruck2010}. The procedure
+is described in \aref{temperature-solution}, and here we use the final result.
+
+Let us move on to the dynamic steady-state case. The pseudocode of this
+algorithm, which delivers the exact solution under the above assumptions, is
+given in \aref{dynamic-steady-state}. In the pseudocode, auxiliary variables are
+written with hats, and $\mq_\ambient$ is a matrix of the ambient temperature.
+
+Let us now bring the leakage-temperature interdependence into the picture. This
+procedure is illustrated in \aref{temperature-solution}.
+
+In \aref{temperature-solution}, $\mp_\static(\vu, \mq)$ should be understood as
+a call to a subroutine that returns an $\np \times \ns$ matrix wherein the $(i,
+k)$th element is the static component of the power dissipation of the $i$th
+processing element at the $k$th moment of time with respect to \vu and the
+temperature given by the $(i, k)$th entry of \mq.
+
+\begin{remark}
+A widespread approach to account for leakage is to linearize it with respect to
+temperature. As shown in \cite{liu2007}, already one linear segment can deliver
+sufficiently accurate results. One notable feature of such a linearization is
+that no iterating-until-convergence is needed in this case; see
+\cite{ukhov2012}. However, this technique assumes that the only varying
+parameter of leakage is temperature, and all other parameters have nominal
+values. In that case, it is relatively easy to decide on a representative
+temperature range and undertake a one-dimensional curve-fitting procedure with
+respect to it. In our case, the power model has multiple parameters stepping far
+from their nominal values, which makes it difficult to construct a good linear
+fit with respect to temperature. Thus, in order to be accurate, we use a
+nonlinear model of leakage.
+\end{remark}
+
+So far in this subsection, \vu has been assumed to be deterministic. Now we turn
+to the stochastic scenario and let \vu be random. Then we apply
+\aref{surrogate-construction} to one particular quantity of interest \g.
+Specifically, \g is now the temperature profile \mq corresponding to a given
+$\mp_\dynamic$. Since \mq is an $\np \times \ns$ matrix, following
+\rref{multiple-dimensions}, \g is viewed as an $\np \ns$-element row vector, in
+which case each coefficient $\hat{\g}_{\multiindex}$ in
+\eref{spectral-decomposition} is also such a vector. The projection in
+\eref{coefficient-evaluation} and, consequently, \aref{surrogate-construction}
+should be interpreted as follows: $\v{v}$ is an $\nq \times \np \ns$ matrix, and
+the $i$th row of this matrix is the temperature profile computed at the $i$th
+quadrature point and reshaped into a row vector. Similarly, $\hat{\v{v}}$ is an
+$\nc \times \np \ns$ matrix, and the $i$th row of this matrix is the $i$th
+coefficient $\hat{\g}_{\multiindex_i}$ of the spectral decomposition in
+\eref{spectral-decomposition} (recall that a fixed ordering is assumed to be
+imposed on the multi-indices). Keeping the above in mind, a call to
+\aref{surrogate-construction} should be made such that Algorithm~X points at an
+auxiliary routine which receives \vu, forwards it to \aref{temperature-solution}
+along with $\mp_\dynamic$, and returns the resulting temperature profile to
+\aref{surrogate-construction}. The constructed expansion can now be
+postprocessed as needed; see \sref{postprocessing}.
+
+To give a concrete example, for a dual-core system ($\np = 2$) with one
+independent random variable ($\nz = 1$), a second-level expansion ($\lc = 2$) of
+the temperature profile with 100 time steps ($\ns = 100$) can be written as
+follows (see \eref{spectral-decomposition}):
+\[
+  \g \approx \hat{\g}_0 + \hat{\g}_1 \z + \hat{\g}_2(\z^2 - 1),
+\]
+which is a polynomial in \z, and each coefficient is a vector with $\np \ns =
+200$ elements. Then, for any outcome $\z \equiv \z(\o)$, the corresponding
+temperature profile \mq can be evaluated by plugging in \z into the above
+equation and reshaping the result into an $\np \times \ns = 2 \times 100$
+matrix. In this case, the three rows of $\hat{\v{v}}$ are $\hat{\g}_0$,
+$\hat{\g}_1$, and $\hat{\g}_2$; the first one is also a flattened version of the
+expected value of $\mq$ as shown in \eref{probabilistic-moments}.
