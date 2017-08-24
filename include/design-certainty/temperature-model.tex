@@ -48,26 +48,3 @@ In general, the differential part in \eref{temperature-differential-original} is
 nonlinear due to the source term \vp since we do not make any assumptions about
 its structure; see the discussion in \sref{power-model}. Therefore, there is no
 closed-form solution to the system.
-
-It can be seen in \eref{temperature-model-original} that the input to
-temperature analysis is power, and the output is temperature. For practical
-computations, these quantities should be discrete. To this end, we introduce the
-notions of a power and a temperature profile. A power profile of the system is
-defined to be an $\np \times \ns$ matrix
-\[
-  \mp
-  = \left(\range{\vp_1}{\vp_\ns}\right)
-  = \left(\range{\vp(t_1)}{\vp(t_\ns)}\right) \in \real^{\np \times \ns}
-\]
-that contains \ns samples of the power consumption of the \np processing
-elements over \ns time steps with a certain sampling interval \dt. Similarly, a
-temperature profile is defined to be an $\np \times \ns$ matrix
-\begin{equation} \elab{temperature-profile}
-  \mq
-  = \left(\range{\vq_1}{\vq_\ns}\right)
-  = \left(\range{\vq(t_1)}{\vq(t_\ns)}\right) \in \real^{\np \times \ns}
-\end{equation}
-that captures the heat dissipation of the processing elements over a number of
-equidistant time moments. Let us note that, even though the exact time frame and
-sampling interval of a power or a temperature profile are not included in the
-above notation, they are typically understood from the context.
