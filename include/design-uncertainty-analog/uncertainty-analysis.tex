@@ -129,7 +129,7 @@ polynomial terms. Then the question is in the choice of $\v{c}$. When the
 \eref{chaos-transform}, a viable option is to rely on the variance contributions
 of the dimensions given by $\{ \lambda_i \}_{i = 1}^\nu$ in
 \eref{karhunen-loeve}. Specifically, we let
-\begin{equation} \elab{anisotropic-weight}
+\begin{equation} \elab{chaos-anisotropic-weight}
   c_i = \left(\frac{\lambda_i}{\sum_{j = 1}^\nu \lambda_j}\right)^\gamma
 \end{equation}
 for $i = \range{1}{\nz}$ where $\gamma \in [0, 1]$ is a tuning parameter. The
@@ -137,57 +137,54 @@ isotropic scenario can be recovered by setting $\gamma = 0$; other values of
 $\gamma$ correspond to various levels of anisotropy with the maximum attained by
 setting $\gamma = 1$.
 
-Let us summarize what has been achieved in this subsection so far. In order to
-give a probabilistic characterization of a quantity of interest, we construct a
-polynomial expansion of this quantity as shown in \eref{chaos-expansion}. The
-coefficients of this expansion are found by means of a suitable multivariate
-quadrature as shown in \eref{chaos-coefficient}. The quadrature is constructed
-via the Smolyak formula given in \eref{integration-smolyak}. The multi-index set
-used in both \eref{chaos-expansion} and \eref{integration-smolyak} is the one
-given in \eref{index-total-order-anisotropic} where the anisotropic weights can
-be set according to \eref{anisotropic-weight}.
+Once \vz has been identified, and \lc, \lq, and $\v{c}$ have been chosen, the
+corresponding polynomial basis and quadrature rule stay the same for all
+quantities that one might be interested in studying. This observation is of high
+importance as a lot of preparatory work can and should be done only once and
+then reused as needed. In particular, the construction in \eref{chaos-expansion}
+can be reduced to one matrix multiplication with a precomputed matrix, which we
+show next.
 
-\subsubsection{Efficient Implementation}
-
-The pair of \vz and $\v{c}$ uniquely characterizes the uncertainty
-quantification problem at hand. Once they have been identified, and the desired
-approximation level $l = \lc = \lq$ has been specified, the corresponding
-polynomial basis and quadrature stay the same for all quantities that one might
-be interested in studying. This observation is of high importance as a lot of
-preparatory work can and should be done only once and then stored for future
-uses. In particular, the construction in \eref{spectral-decomposition} can be
-reduced to one matrix multiplication with a precomputed matrix, which we shall
-demonstrate next.
-
+\inputalgorithm{chaos-expansion}
 Let $\nc = \cardinality{\multiindices{\nz}{l}}$ be the cardinality of
-$\multiindices{\nz}{l}$, which is also the number of polynomial terms and,
-hence, coefficients in \eref{spectral-decomposition}. Assume the multi-indices
-contained in $\multiindices{\nz}{l}$ are arranged in a vector
-$(\multiindex_i)_{i = 1}^\nc$, which gives a certain ordering. Now, let
+$\multiindices{\nz}{l}$, which is also the number of polynomial terms or,
+equivalently, coefficients in \eref{chaos-expansion}. Assume that the
+multi-index set $\multiindices{\nz}{l}$ is given a certain ordering so that one
+can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now, let
+\begin{equation} \elab{chaos-projection-matrix}
+  \Pi = (\psi_{\multiindex_i}(\v{x}_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
+\end{equation}
+The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
+multi-index $i$ evaluated at quadrature point $j$ and multiplied by quadrature
+weight $j$. The matrix $\Pi$ is referred to as the projection matrix. Using
+$\Pi$, the coefficients $\{ \hat{g}_{\multiindex}: \multiindex \in
+\multiindices{\nz}{l} \}$ in \eref{chaos-expansion} can now be trivially
+computed as
 \[
-  \Pi = \big( \pi_{ij} = \psi_{\multiindex_i}(\v{x}_j) \, w_j \big)_{i = 1, \, j = 1}^{i = \nc, \, j = \nq},
-\]
-that is, $\pi_{ij}$ is the polynomial corresponding to the $i$th multi-index
-evaluated at the $j$th quadrature point and multiplied by the $j$th quadrature
-weight. We refer to $\Pi$ as the projection matrix. The coefficients in
-\eref{spectral-decomposition} can now be computed as
-\[
-  \hat{\v{v}} = \Pi \, \v{v}
+  \hat{\vg} = \Pi \, \vg
 \]
 where
-\[
-  \hat{\v{v}} = (\hat{\g}_i)_{i = 1}^\nc \hspace{1em} \text{and} \hspace{1em}
-  \v{v} = \big(\g(\transform{\v{x}_i}) \big)_{i = 1}^\nq.
-\]
-It can be seen that \eref{coefficient-evaluation} is a matrix version of
-\eref{numerical-integration}. $\Pi$ is the one that should be precomputed. The
-pseudocode of the procedure is given in \aref{surrogate-construction} wherein
-Algorithm~X stands for the routine that calculates \g for a given \vu. Needless
-to say, Algorithm~X is problem specific and has a crucial impact on the
-performance of the whole procedure presented in this section: any modeling
-errors inherent to this algorithm can propagate to the output of the uncertainty
-analysis. Algorithm~X will be further discussed in
-\sref{temperature-analysis}--\sref{reliability-optimization}.
+\begin{align*}
+  & \hat{\vg} = (\hat{\g}_i)_{i = 1}^\nc \text{ and} \\
+  & \vg = (\g(\transform{\v{x}_i}))_{i = 1}^\nq.
+\end{align*}
+It can be seen that this formula is a matrix version of
+\eref{chaos-coefficient}. The matrix $\Pi$ is the one that should be precomputed
+and stored for future use. The pseudocode of the expansion procedure is given in
+\aref{chaos-expansion} where Algorithm~X stands for the routine that calculates
+\g for a given \vu, which is problem specific.
+
+Let us summarize this subsection. In order to give a probabilistic
+characterization of a quantity of interest, we construct a polynomial expansion
+of this quantity as shown in \eref{chaos-expansion}. The coefficients of this
+expansion are found by means of a suitable multivariate quadrature as shown in
+\eref{chaos-coefficient}. The quadrature is constructed via the Smolyak formula
+given in \eref{integration-smolyak}. The multi-index set used in both
+\eref{chaos-expansion} and \eref{integration-smolyak} is the one given in
+\eref{index-total-order-anisotropic} where the anisotropic weights can be set
+according to \eref{chaos-anisotropic-weight}. For computational efficiency, the
+projection matrix in \eref{chaos-projection-matrix} is to be calculated once and
+used thereafter.
 
 \subsection{Post-Processing}
 
