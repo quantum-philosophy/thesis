@@ -91,24 +91,23 @@ total-order multi-index set. \emph{Isotropic} refers to constraining all
 dimensions identically, and \emph{total-order} refers to the criterion used for
 constraining each dimension. Since $\psi_{\multiindex}$ is a polynomial of total
 order at most \lc, and \g is approximated by such a polynomial, the integrand in
-\eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. With
-this aspect in mind, one usually constructs such a quadrature rule that is exact
-for polynomials of total order up to $2 \lc$ \cite{eldred2008}. In the case of
-Gaussian quadratures discussed in \sref{numerical-integration}, a quadrature of
-level \lq is exact for polynomials of total order up to $2 \lq + 1$
-\cite{heiss2008}. Therefore, in this particular and very common case, it is
-sufficient to keep \lc and \lq equal. More generally, the multi-index sets
-$\multiindices{\nz}{\lc}$ in \eref{chaos-expansion} and
-$\multiindices{\nz}{\lq}$ in \eref{chaos-coefficient} should be synchronized. In
-what follows, we shall denote both by $\multiindices{\nz}{l}$.
+\eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. Then
+one usually constructs such a quadrature rule that is exact for polynomials of
+total order up to $2 \lc$ \cite{eldred2008}. In the case of Gaussian quadratures
+discussed in \sref{numerical-integration}, a quadrature of level \lq is exact
+for polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
+this particular and very common case, it is sufficient to keep \lc and \lq
+equal. More generally, the multi-index sets $\multiindices{\nz}{\lc}$ in
+\eref{chaos-expansion} and $\multiindices{\nz}{\lq}$ in \eref{chaos-coefficient}
+should be synchronized.
 
 An important generalization of the isotropic Smolyak algorithm in
 \eref{integration-smolyak} is the anisotropic Smolyak algorithm
 \cite{nobile2008}. The main difference between the isotropic and anisotropic
-versions lies in the content of $\multiindices{\nz}{l}$. An anisotropic
+versions lies in the content of $\multiindices{\nz}{\lq}$. An anisotropic
 total-order multi-index set is defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
-  \multiindices{\nz}{l} = \left\{ \multiindex \in \natural^\nz: \innerproduct{\v{c}}{\multiindex} \leq l \, \min_{i = 1}^\nz c_i \right\}
+  \multiindices{\nz}{\lq} = \left\{ \multiindex \in \natural^\nz: \innerproduct{\v{c}}{\multiindex} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
 \end{equation}
 where $\v{c} = (c_i) \in \real^\nz$ with $c_i \geq 0$ for $i = \range{1}{\nz}$
 is a vector assigning importance weights to the dimensions, and
@@ -146,11 +145,12 @@ can be reduced to one matrix multiplication with a precomputed matrix, which we
 show next.
 
 \inputalgorithm{chaos-expansion}
-Let $\nc = \cardinality{\multiindices{\nz}{l}}$ be the cardinality of
-$\multiindices{\nz}{l}$, which is also the number of polynomial terms or,
+Let $\nc = \cardinality{\multiindices{\nz}{\lc}}$ be the cardinality of
+$\multiindices{\nz}{\lc}$, which is also the number of polynomial terms or,
 equivalently, coefficients in \eref{chaos-expansion}. Assume that the
-multi-index set $\multiindices{\nz}{l}$ is given a certain ordering so that one
-can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now, let
+multi-index set $\multiindices{\nz}{\lc}$ is given a certain ordering so that
+one can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now,
+let
 \begin{equation} \elab{chaos-projection-matrix}
   \Pi = (\psi_{\multiindex_i}(\v{x}_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
 \end{equation}
@@ -158,7 +158,7 @@ The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
 multi-index $i$ evaluated at quadrature point $j$ and multiplied by quadrature
 weight $j$. The matrix $\Pi$ is referred to as the projection matrix. Using
 $\Pi$, the coefficients $\{ \hat{g}_{\multiindex}: \multiindex \in
-\multiindices{\nz}{l} \}$ in \eref{chaos-expansion} can now be trivially
+\multiindices{\nz}{\lc} \}$ in \eref{chaos-expansion} can now be trivially
 computed as
 \begin{equation} \elab{chaos-coefficients}
   \hat{\vg} = \Pi \, \vg
@@ -187,23 +187,53 @@ projection matrix in \eref{chaos-projection-matrix} is to be calculated once and
 used thereafter.
 
 \subsection{Post-Processing}
+\slab{chaos-post-processing}
 
-The function given by \eref{chaos-expansion} is nothing more than a polynomial;
-hence, it is easy to interpret and easy to evaluate. Consequently, having
-constructed such an expansion, various statistics about \g can be estimated with
-little effort. Moreover, \eref{chaos-expansion} provides analytical formulae for
-the expectation and variance of \g solely based on the coefficients of
-\eref{chaos-expansion} as follows:
+Due to the properties of \ac{PC} expansions---in particular, due to the mutual
+orthogonality of the basis functions discussed in \sref{polynomial-chaos}---the
+obtained polynomial representation allows for various statistics about \g to be
+estimated with little effort. The reason is that the function given in
+\eref{chaos-expansion} is nothing more than a polynomial; hence, it is easy to
+interpret and easy to evaluate.
+
+Let us find, for example, the expectation and variance of \g. Since the first
+polynomial $\psi_{\multiindex[0]}$ in a polynomial basis is unity by definition
+\cite{xiu2010},
+\[
+  \expectation{\psi_{\multiindex[0]}} = 1.
+\]
+Therefore, using the orthogonality property in \eref{chaos-orthogonality}, we
+conclude that
+\[
+  \expectation{\psi_{\multiindex}} = 0
+\]
+for $\multiindex \in \multiindices{\nz}{\lc} \setminus \{ \multiindex[0] \}$.
+Consequently, the expected value and variance of \g have the following
+straightforward expressions:
 \begin{equation} \elab{chaos-moments}
   \begin{split}
-    & \expectation{\g} = \hat{\g}_{\v{0}} \text{ and} \\
-    & \variance{\g} = \sum_{\multiindex \in \multiindices{\nz}{l} \setminus \{ \v{0} \}} \hat{\g}_{\multiindex}^2,
+    & \expectation{\g} = \hat{\g}_{\multiindex[0]} \text{ and} \\
+    & \variance{\g} = \sum_{\multiindex \in \multiindices{\nz}{\lc} \setminus \{ \v{0} \}} \hat{\g}_{\multiindex}^2,
   \end{split}
 \end{equation}
-respectively, where $\v{0} = (0)_{i = 1}^\nz$, and the squaring should be
-understood element-wise. Moreover, such quantities as the \ac{CDF} and \ac{PDF}
-can be estimated by sampling \eref{chaos-expansion}; each sample is a trivial
-evaluation of a polynomial.
+respectively, the squaring should be understood element-wise. It can be seen
+that the \ac{PC} decomposition provides analytical formulae for these
+probabilistic moments, and that they are solely based on the coefficients of the
+expansion.
+
+The \ac{CDF} and \ac{PDF} of \g as well as probabilities of various events can
+be estimated by means of \ac{MC} sampling applied to \eref{chaos-expansion}. The
+procedure can be better understood by rewriting \eref{chaos-expansion}, which is
+given in terms of operators, as follows:
+\[
+  \g \approx \chaos{\nz}{\lc}{\g}(\vz) = \sum_{\multiindex \in \multiindices{\nz}{\lc}} \hat{\g}_{\multiindex} \psi_{\multiindex}(\vz).
+\]
+Here the aforementioned operators are applied to an outcome of \vz drawn from
+the corresponding distribution. Consequently, in this case, each sample is a
+trivial evaluation of a polynomial, and, hence, \ac{MC} sampling is
+computationally cheap. Furthermore, global and local sensitivity analysis of
+deterministic and stochastic quantities can be readily conducted on the
+expansion.
 
 \begin{remark}
 The development given here remains valid even when \g is multidimensional from
