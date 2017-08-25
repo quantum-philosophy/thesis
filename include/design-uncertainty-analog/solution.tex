@@ -2,15 +2,17 @@ The uncertainty imposed by process variation is addressed as follows. Due to the
 inherent complexity, uncertainty-quantification problems are often viewed as
 approximation problems: one constructs a computationally efficient surrogate for
 the system under consideration and then studies this light representation
-instead of the original system. In this chapter, we reside to the machinery of
-the \acf{PC} decomposition described in \sref{polynomial-chaos} for the
+instead of the original system. In this chapter, we reside to the \acf{PC}
+decomposition---which is introduced in \sref{polynomial-chaos}---for the
 construction of such a lightweight surrogate for the quantity of interest. The
-expansions that we construct constitute an attractive alternative to \ac{MC}
-sampling since they possess much faster convergence properties and provide
-succinct and intuitive representations of system responses to stochastic inputs.
-Having obtained the surrogate, we utilize it for calculating the desired
-statistics about the quantity of interest such as its \acf{CDF}, \acf{PDF}, and
-probabilistic moments.
+technique decomposes stochastic quantities into infinite series of mutually
+orthogonal polynomials operating on random variables. These series are an
+attractive alternative to \ac{MC} sampling since they possess much faster
+convergence properties and provide succinct and intuitive representations of
+system responses to stochastic inputs. Having obtained an adequate polynomial
+surrogate, we utilize it for calculating the desired statistics about the
+quantity of interest such as its \acf{CDF}, \acf{PDF}, probabilistic moments,
+and probabilities of various events.
 
 To elaborate, we develop a framework for the analysis of electronic systems
 subject to the uncertainty due to process variation. The framework is flexible

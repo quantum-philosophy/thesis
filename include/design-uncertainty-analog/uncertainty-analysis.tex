@@ -75,12 +75,24 @@ where $\lc \in \natural$ is the level of the expansion; $\multiindex = (i_k) \in
 and $\{ \psi_{\multiindex} \}$ are \nz-variate orthonormal polynomials of orders
 specified by the corresponding elements of \multiindex.
 
+It can be seen that the foremost step toward a polynomial expansion is the
+choice of a suitable polynomial basis, which is typically made based on the
+Askey scheme of orthogonal polynomials \cite{xiu2010}. The step is crucial as
+the rate of convergence of \ac{PC} expansions depends on it. Although there are
+no rules that guarantee the optimal choice \cite{knio2006}, there are best
+practices suggesting that one should be guided by the probability distributions
+of the random variables that drive the stochastic system at hand. For instance,
+when a random variable follows a beta distribution, the Jacobi basis is worth
+being tried first; on the other hand, the Hermite basis is preferable for
+Gaussian distributions.
+
 As shown in \eref{chaos-inner-product} and \eref{chaos-projection}, each
 coefficient $\hat{\g}_{\multiindex}$ is an \nz-dimensional integral of the
 product of \g and $\psi_{\multiindex}$. In general, this integral should be
-computed numerically using the technique presented in
-\sref{numerical-integration}. To this end, an adequate quadrature is constructed
-and utilized as follows:
+computed numerically as described in \sref{numerical-integration}. Specifically,
+an adequate \nz-dimensional quadrature rule $\quadrature{\nz}{\lq}$---which is a
+set of \nz-dimensional points accompanied by a set of scalar weights---is to be
+utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
   \hat{\g}_{\multiindex} \approx \quadrature{\nz}{\lq}{\g \psi_{\multiindex}} = \sum_{i = 1}^\nq \g(\transform{\v{x}_i}) \psi_{\multiindex}(\v{x}_i) w_i
 \end{equation}
