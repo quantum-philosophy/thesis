@@ -1,4 +1,69 @@
-\subsection{Our Solution}
+In this section, we develop a probabilistic technique for transient power and
+temperature analysis based on the one presented in
+\sref{transient-state-solution} using the machinery described in
+\sref{chaos-uncertainty-analysis}. In this context, the quantity of interest \g
+introduced in \sref{chaos-uncertainty-analysis} stands roughly for the transient
+power \mp and temperature \mq profiles of the system. Our goal is to obtain such
+a solution that is capable of undertaking the analysis is the same step-by-step
+manner as the one inherent to the deterministic solution described in
+\sref{transient-state-solution}. In this way, the workload can be continuously
+analyzed as long as it is needed.
+
+\subsection{System Model}
+
+As stated in \sref{chaos-uncertainty-analysis}, the designer is supposed to
+decide on the system model producing the quantity of interest. Assuming the
+general system and temperature models given in \sref{system-model} and
+\sref{temperature-model}, respectively, the only component that is left to
+define is the power model since it is the one introducing the actual workload
+into the system. Denote the prescribed power model by
+\begin{equation} \elab{chaos-power-model}
+  \vp(t) = f(t, \vq, \vu)
+\end{equation}
+where $f: \real \times \real^\np \times \real^\nu \to \real^\np$ is a function
+that evaluates the power consumption $\vp \in \real^\np$ of the processing
+elements at time $t$ given the heat dissipation $\vq \in \real^\np$ of the
+processing elements and the parameters $\vu \in \real^\nu$.
+
+\begin{remark}
+It should be understood that \vp, \vq, and \vu are random vectors in general,
+and that $f$ consumes $\vq(t, \omega)$ and $\vu(\omega)$ and yields $\vp(t,
+\omega)$ for some particular outcome $\omega \in \Omega$. The function itself is
+purely deterministic.
+\end{remark}
+
+The designer can choose any $f$. It can be, for instance, a closed-form formula
+or a piece of code. The only assumption we make about $f$ is that it is smooth
+in \vz and belongs to $\L{2}(\Omega, \mathcal{F}, \probability)$ when it is
+viewed as a random variable (see \sref{probability-theory}), which is generally
+applicable to most physical systems \cite{xiu2010}. Note also that the operation
+performed by this ``black box'' is purely deterministic. The definition of $f$
+is flexible enough to account for such effects as the interdependence between
+power and temperature discussed in \sref{power-model}.
+
+The solution to transient temperature analysis is based on the one presented in
+\sref{transient-state-solution}. The major difference is that
+\eref{temperature-model} implicitly operates on stochastic quantities in the
+context of this chapter. Consequently, the recurrent solution in
+\eref{transient-state-recurrence}, that is,
+\begin{equation} \elab{chaos-recurrence-original}
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
+\end{equation}
+for $i = \range{1}{\ns}$ where $\vs_0 = \v{0}$, is such as well. In the
+deterministic case, it can be readily employed to perform transient power and
+temperature analysis. In the stochastic case, however, the situation is
+substantially different since $\vp_i$ and, hence, $\vs_i$ and $\vq_i$ are
+probabilistic quantities. Moreover, at each step, $\vp_i$ is an arbitrary
+transformation of the uncertain parameters \vu and stochastic temperature
+$\vq_i$, which results in a multivariate random variable with a generally
+unknown probability distribution. Furthermore, $\vp_i$, $\vq_i$, $\vs_i$, and
+\vu are dependent random vectors since the first three are functions of the
+last. Consequently, the operations involved in the recurrence are to be
+performed on dependent random vectors with arbitrary distributions, which, in
+general, have no closed-form solutions, which we address in the following
+subsection.
+
+\subsection{Surrogate Construction}
 
 The goal now is to transform the recurrence in \eref{chaos-recurrence-original}
 in such a way that the distributions of power and temperature can be estimated
