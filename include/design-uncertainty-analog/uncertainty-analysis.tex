@@ -2,24 +2,21 @@ The key building block of our solutions developed in the subsequent section is
 the uncertainty-quantification technique presented in this section. The task of
 this technique is to propagate the uncertainty through the system, from a set of
 inputs to a set of outputs. The inputs are the uncertain parameters \vu, and the
-outputs are the quantities that we are interested in studying. The former can
-be, for instance, the effective channel length, gate oxide thickness, and
-threshold voltage, and the latter can be, for instance, the temperature profile,
-energy consumption, and maximum temperature of the system.
+outputs are the quantities that the designer is interested in studying. The
+former can be, for instance, the effective channel length, gate oxide thickness,
+and threshold voltage, and the latter can be, for instance, the temperature
+profile, energy consumption, and maximum temperature of the system at hand.
 
 \inputfigure{chaos-overview}
-The major stages of our technique are depicted in \fref{chaos-overview}. At
-Stage~1, the uncertain parameters \vu are transformed into independent random
-variables \vz since independence is a prerequisite of the \ac{PC} approach. At
-Stage~2, the designer specifies the power model of the system via a
-``black-box'' function $f$ that computes the total power \vp for a particular
-temperature \vq and a particular outcome of the parameters \vu. At Stage~3,
-based on \sref{transient-state-solution}, a mathematical description of the
-thermal behavior of the system is obtained. At Stage~4, the surrogate model is
-computed by traversing the desired time span and gradually constructing \ac{PC}
-expansions of the stochastic power and temperature profiles. At Stage~5, the
-computed \ac{PC} expansions are analyzed in order to obtain the needed
-characteristics of the system such as \acp{PDF} and moments.
+The major stages of our general approach are depicted in \fref{chaos-overview}.
+At Stage~1, the quantity of interest \g is to be specified via a ``black-box''
+function that operates on a particular outcome of the parameters \vu. In order
+to evaluate \g, the designer is implicitly required to define the system model
+including the power and temperature models. At Stage~2, the uncertain parameters
+\vu are transformed into independent random variables \vz since independence is
+a prerequisite of the subsequent calculations. At Stage~3, a surrogate for \g is
+constructed by means of a \ac{PC} expansion. At Stage~4, the computed expansion
+is analyzed in order to obtain the desired characteristics of the quantity \g.
 
 \subsection{Probability Transformation}
 \slab{chaos-probability-transformation}
