@@ -1,61 +1,44 @@
-First, we extend the deterministic transient and dynamic steady-state analysis
-presented in \sref{transient-analysis} and \sref{dynamic-steady-state-analysis},
-respectively, in order to account for the uncertainty due to process variation.
-Second, we develop a framework for the reliability analysis of electronic
-systems that enriches the state-of-the-art reliability models by taking into
-consideration the effect of process variation on temperature. Third, we
+The uncertainty imposed by process variation is addressed as follows. Due to the
+inherent complexity, uncertainty-quantification problems are often viewed as
+approximation problems: one constructs a computationally efficient surrogate for
+the system under consideration and then studies this light representation
+instead of the original system. In this chapter, we reside to the machinery of
+the \acf{PC} decomposition described in \sref{polynomial-chaos} for the
+construction of such a lightweight surrogate for the quantity of interest. The
+expansions that we construct constitute an attractive alternative to \ac{MC}
+sampling since they possess much faster convergence properties and provide
+succinct and intuitive representations of system responses to stochastic inputs.
+Having obtained the surrogate, we utilize it for calculating the desired
+statistics about the quantity of interest such as its \acf{CDF}, \acf{PDF}, and
+probabilistic moments.
+
+To elaborate, we develop a framework for the analysis of electronic systems
+subject to the uncertainty due to process variation. The framework is flexible
+in modeling diverse probability distributions, specified by the designer, of the
+uncertain parameters---such as the effective channel length and gate oxide
+thickness. Moreover, there are no assumptions on the probability distribution of
+the quantity of interest---such as power and temperature profiles---as this
+distribution is unlikely to be known \emph{a priori}. The proposed technique is
+capable of capturing arbitrary joint effects of the uncertain parameters on the
+system since the impact of these parameters is introduced into the framework as
+a ``black box,'' which is also defined by the designer. In particular, it allows
+for the power-temperature interplay to be taken into account with no effort.
+
+Leveraging the proposed framework, we extend the deterministic transient and
+dynamic steady-state analysis presented in \sref{transient-analysis} and
+\sref{dynamic-steady-state-analysis}, respectively, by accounting for the
+uncertainty due to process variation. Moreover, the framework allows us to
+enrich the reliability analysis presented in \sref{reliability-analysis}, which
+is based on the state-of-the-art reliability models, by taking into
+consideration the effect of process variation on temperature.
+
+We illustrate the proposed framework by considering two important process
+parameters that are affected by process variation, namely, the effective channel
+length and gate oxide thickness; note, however, that our approach can be applied
+to other parameters as well. Furthermore, we utilize the framework in order to
 construct a computationally efficient design-space exploration procedure
-targeted at the minimization of the energy consumption, which is \emph{a priori}
-random, under probabilistic constraints on the thermal behavior and lifetime of
-the system.
-
-We develop a framework for the analysis of the transient power and temperature
-profiles of electronic systems subject to the uncertainty due to process
-variation. The proposed technique is flexible in modeling diverse probability
-distributions, specified by the designer, of the uncertain parameters, such as
-the effective channel length and gate oxide thickness. Moreover, there are no
-assumptions on the distributions of the resulting power and temperature traces
-as these distributions are unlikely to be known \emph{a priori}. The proposed
-technique is capable of capturing arbitrary joint effects of the uncertain
-parameters on the system since the impact of these parameters is introduced into
-the framework as a ``black box,'' which is also defined by the designer. In
-particular, it allows for the power-temperature interplay to be taken into
-account with no effort. Our approach is founded on the basis of \acf{PC}
-expansions, which constitute an attractive alternative to \ac{MC} sampling. This
-is due to the fact that \ac{PC} expansions possess much faster convergence
-properties and provide succinct and intuitive representations of system
-responses to stochastic inputs. In addition, we illustrate the framework
-considering one of the most important parameters affected by process variation,
-namely, the effective channel length. Note, however, that our approach is not
-bound to any particular source of variability and, apart from the effective
-channel length, can be applied to other process parameters such as the gate
-oxide thickness.
-
-The main idea is to construct a surrogate model for the joint power and
-temperature model of the system using \ac{PC} expansions. Having constructed
-this surrogate, such quantities as the \acf{CDF} and \acf{PDF} can be easily
-estimated. Moreover, the representation that we compute provides analytical
-formulae for probabilistic moments, which means that the expectation and
-variance are readily available.
-
-\inputfigure{chaos-overview}
-The major stages of our technique are depicted in \fref{chaos-overview}. At
-Stage~1 (\sref{chaos-probability-transformation}), the uncertain parameters \vu
-are transformed into independent random variables \vz since independence is a
-prerequisite of the \ac{PC} approach. At Stage~2 (\sref{chaos-power-model}), the
-designer specifies the power model of the system via a ``black-box'' function
-$f$ that computes the total power \vp for a particular temperature \vq and a
-particular outcome of the parameters \vu. At Stage~3
-(\sref{chaos-temperature-model}), based on \sref{transient-state-solution}, a
-mathematical description of the thermal behavior of the system is obtained. At
-Stage~4 (\sref{chaos-surrogate-model}), the surrogate model is computed by
-traversing the desired time span and gradually constructing \ac{PC} expansions
-of the stochastic power and temperature profiles. At Stage~5
-(\sref{chaos-post-processing}), the computed \ac{PC} expansions are analyzed in
-order to obtain the needed characteristics of the system such as \acp{PDF} and
-moments.
-
-Let us now detail each of the five stages of the proposed framework.
+targeted at the minimization of the energy consumption under probabilistic
+constraints on the temperature and lifetime of the system.
 
 \subsection{Power Model}
 
