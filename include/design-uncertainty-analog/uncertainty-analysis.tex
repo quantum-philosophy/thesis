@@ -18,15 +18,19 @@ a prerequisite of the subsequent calculations. At Stage~3, a surrogate for \g is
 constructed by means of a \ac{PC} expansion. At Stage~4, the computed expansion
 is analyzed in order to obtain the desired characteristics of the quantity \g.
 
+Stage~1 is problem specific and will be discussed in the subsequent sections. In
+this section, we elaborate on Stage~2, Stage~3, and Stage~4.
+
 \subsection{Probability Transformation}
 \slab{chaos-probability-transformation}
 
 Independence is required by \ac{PC} expansions. In general, however, the \nu
 individual variables in $\vu: \Omega \to \real^\nu$ are dependent. Therefore,
 our foremost task is to transform \vu into mutually independent random variables
-in order to fulfill the requirement. To this end, an adequate probability
-transformation should be undertaken depending on the available information; see
-\cite{eldred2008} for an overview. Denote such a transformation by
+in order to fulfill the requirement; see Stage~2 in \fref{chaos-overview}. To
+this end, an adequate probability transformation should be undertaken depending
+on the available information; see \cite{eldred2008} for an overview. Denote such
+a transformation by
 \begin{equation} \elab{chaos-transform}
   \vu = \transform{\vz}
 \end{equation}
@@ -61,8 +65,8 @@ on orthogonal polynomials. The corresponding mathematical foundation is outlined
 in \sref{polynomial-chaos}.
 
 Assume that \g as a function of \vu belongs to $\L{2}(\Omega, \mathcal{F},
-\probability)$; see \sref{probability-theory}. Then \g can be expanded into the
-following series:
+\probability)$; see \sref{probability-theory}. Then \g can be
+expanded into the following series (see Stage~3 in \fref{chaos-overview}):
 \begin{equation} \elab{chaos-expansion}
   \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\multiindex \in \multiindices{\nz}{\lc}} \hat{\g}_{\multiindex} \psi_{\multiindex}
 \end{equation}
@@ -196,9 +200,10 @@ used thereafter.
 Due to the properties of \ac{PC} expansions---in particular, due to the mutual
 orthogonality of the basis functions discussed in \sref{polynomial-chaos}---the
 obtained polynomial representation allows for various statistics about \g to be
-estimated with little effort. The reason is that the function given in
-\eref{chaos-expansion} is nothing more than a polynomial; hence, it is easy to
-interpret and easy to evaluate.
+estimated with little effort, which is the subject of Stage~4 in
+\fref{chaos-overview}. The reason behind the straightforwardness is that the
+function given in \eref{chaos-expansion} is nothing more than a polynomial;
+hence, it is easy to interpret and easy to evaluate.
 
 Let us find, for example, the expectation and variance of \g. Since the first
 polynomial $\psi_{\multiindex[0]}$ in a polynomial basis is unity by definition
