@@ -3,12 +3,12 @@
   \alab{chaos-expansion}
   \begin{algorithmic}[1]
     \vspace{0.4em}
-    \Require{Algorithm X} \Comment{the subroutine evaluating $\v{g}$}
+    \Require{Algorithm G} \Comment{the subroutine evaluating $\g$}
     \Ensure{$\hat{\vg} \in \real^\nc$}
     \vspace{0.5em}
     \For{$i \gets 1 \textrm{ to } \nq$} \Comment{for each quadrature point $\v{x}_i$}
       \Let{$\vu$}{$\transform{\v{x}_i}$}
-      \Let{$\vg(i)$}{call Algorithm X for $\vu$}
+      \Let{$\vg(i)$}{call Algorithm G for $\vu$}
     \EndFor
     \Let{$\hat{\vg}$}{$\Pi \, \vg$}
     \vspace{0.4em}
