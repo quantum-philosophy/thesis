@@ -25,16 +25,16 @@
 \createvariable{division}
 \createvariable{isbn}
 \createvariable{issn}
+\createvariable{publicationnumber}
 \createvariable{publicationseries}
 \createvariable{publicationyear}
-\createvariable{publicationnumber}
 
+\gdef\@abbreviations{\input{include/abbreviations}}
 \gdef\@abstractenglish{\input{include/abstract/english}}
 \gdef\@abstractswedish{\input{include/abstract/swedish}}
 \gdef\@acknowledgments{\input{include/acknowledgments}}
-\gdef\@abbreviations{\input{include/abbreviations}}
 \gdef\@dedication{\input{include/dedication}}
-\gdef\@logo{include/assets/figures/university}
+\gdef\@logotype{include/assets/figures/logotype}
 
 \setmainlanguage{english}
 \setotherlanguages{swedish}
@@ -53,7 +53,7 @@
 \setmainfont{MillerText}[
   BoldFont="MillerText-Roman",
   ItalicFont="MillerText-Italic",
-  SmallCapsFont="MillerText-RomanSC"
+  SmallCapsFont="MillerText-RomanSC",
 ]
 
 \setmonofont{InputMonoNarrow}[
@@ -154,7 +154,7 @@
     \@author
   }\\
   \vfill
-  \includegraphics[width=14em]{\@logo}\\[2em]
+  \includegraphics[width=14em]{\@logotype}\\[2em]
   {
     \footnotesize
     Linköping University\\
