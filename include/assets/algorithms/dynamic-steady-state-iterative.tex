@@ -1,13 +1,13 @@
 \begin{algorithm}[t]
   \caption{
-    Calculation of the dynamic steady-state temperature profile considering the
-    power-temperature interplay
+    Calculation of a dynamic steady-state power or temperature profile
+    considering the power-temperature interplay.
   }
   \alab{dynamic-steady-state-iterative}
   \begin{algorithmic}[1]
     \vspace{0.4em}
     \Require{$\mp_\dynamic \in \real^{\np \times \ns}$}
-    \Ensure{$\mq \in \real^{\np \times \ns}$ and $\mp \in \real^{\np \times \ns}$}
+    \Ensure{$\mq \in \real^{\np \times \ns}$ or $\mp \in \real^{\np \times \ns}$}
     \vspace{0.5em}
     \Let{$\mq$}{$\mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
     \Repeat
