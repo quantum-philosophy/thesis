@@ -4,9 +4,9 @@
 *.blg
 *.fdb_latexmk
 *.fls
+*.loa
 *.lof
 *.log
-*.lop
 *.lot
 *.out
 *.run.xml

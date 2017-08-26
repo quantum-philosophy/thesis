@@ -60,7 +60,10 @@
   Scale=MatchLowercase,
 ]
 
-\renewcommand{\insertchapterspace}{}
+\renewcommand{\insertchapterspace}{%
+  \addtocontents{loa}{\protect\addvspace{10pt}}%
+  \addtocontents{lof}{\protect\addvspace{10pt}}%
+  \addtocontents{lot}{\protect\addvspace{10pt}}}
 
 \newcommand{\makeabstract}{
   \begin{english}
