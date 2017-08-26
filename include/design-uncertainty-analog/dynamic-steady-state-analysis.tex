@@ -10,60 +10,52 @@ shown in \fref{chaos-overview}.
 
 \subsection{System Model}
 
-The system model here is the same as the one in \sref{chaos-transient-analysis}.
-The only difference is that the power function $f$ is periodic in its first
-argument with period \period when the other two arguments are fixed. Concretely,
-the function traverses the periodic power profile that corresponds to a given
-periodic workload.
+The system model is the same as the one in \sref{chaos-transient-analysis}. The
+only difference is that the power model is more convenient to be defined as
+follows:
+\begin{equation} \elab{chaos-power-model-bulk}
+  \mp = f(\vu, \mq).
+\end{equation}
+The function $f: \real^\nu \times \real^{\np \times \ns} \to \real^{\np \times
+\ns}$ is supposed to return the periodic power profile that corresponds to the
+desired periodic workload.
 
 The solution to dynamic steady-state analysis is based on the one in
 \sref{dynamic-steady-state-solution}; however, in the present context, the
 power, temperature, and state vectors are random, which also concerns the
 boundary condition in \eref{dynamic-steady-state-condition}.
 
-\subsection{Surrogate Construction}
-
-The temperature model is the one described in \sref{temperature-model}.
-
-Let us fix $\omega \in \Omega$, meaning that \vu is assumed to be known, and
-consider the system in \eref{thermal-model} as deterministic. In general,
-\eref{thermal-model-inner} is a system of ordinary differential equations which
-is nonlinear due to the power term, given in \eref{power-model} as an arbitrary
-function. Hence, the system in \eref{thermal-model} does not have a general
-closed-form solution. A robust and computationally efficient solution to
-\eref{thermal-model} for a given \vu is an essential part of our probabilistic
-framework. In order to attain such a solution, we utilize a numerical method
-from the family of exponential integrators \cite{hochbruck2010}. The procedure
-is described in \aref{temperature-solution}, and here we use the final result.
-
-Let us move on to the dynamic steady-state case. The pseudocode of this
-algorithm, which delivers the exact solution under the above assumptions, is
-given in \aref{dynamic-steady-state}. In the pseudocode, auxiliary variables are
-written with hats, and $\mq_\ambient$ is a matrix of the ambient temperature.
-
-Let us now bring the leakage-temperature interdependence into the picture. This
-procedure is illustrated in \aref{temperature-solution}.
-
-In \aref{temperature-solution}, $\mp_\static(\vu, \mq)$ should be understood as
-a call to a subroutine that returns an $\np \times \ns$ matrix wherein the $(i,
-k)$th element is the static component of the power dissipation of the $i$th
-processing element at the $k$th moment of time with respect to \vu and the
-temperature given by the $(i, k)$th entry of \mq.
+\inputalgorithm{chaos-dynamic-steady-state-iterative}
+The pseudocode of a procedure that delivers \mq is given in
+\aref{dynamic-steady-state}. The algorithm does not account for the
+interdependence between power and temperature, and this interdependence can be
+addressed by means of one of the techniques presented in
+\sref{power-temperature-interplay}. In the context of this chapter, the most
+appropriate technique is the iterative approach illustrated in
+\aref{dynamic-steady-state-iterative}, which we rewritten here as shown in
+\aref{chaos-dynamic-steady-state-iterative}.
 
 \begin{remark}
-A widespread approach to account for leakage is to linearize it with respect to
-temperature. As shown in \cite{liu2007}, already one linear segment can deliver
-sufficiently accurate results. One notable feature of such a linearization is
-that no iterating-until-convergence is needed in this case; see
-\cite{ukhov2012}. However, this technique assumes that the only varying
-parameter of leakage is temperature, and all other parameters have nominal
-values. In that case, it is relatively easy to decide on a representative
-temperature range and undertake a one-dimensional curve-fitting procedure with
-respect to it. In our case, the power model has multiple parameters stepping far
-from their nominal values, which makes it difficult to construct a good linear
-fit with respect to temperature. Thus, in order to be accurate, we use a
-nonlinear model of leakage.
+The application of the linear approximation described in
+\sref{power-temperature-interplay} is not straightforward in this case. This
+technique is suitable when the only varying parameter is temperature, and all
+other parameters have nominal values. In that case, it is relatively easy to
+decide on a representative temperature range and apply a curve-fitting
+procedure. In this case, however, the power model has multiple parameters
+stepping far from their nominal values.
 \end{remark}
+
+In this section, the quantity of interest \g is exactly the dynamic steady-state
+temperature profile \mq (or the corresponding power profile \mp if preferable).
+Therefore, the output of Stage~1 in \fref{chaos-overview} is
+\aref{chaos-dynamic-steady-state-iterative}.
+
+\subsection{Surrogate Construction}
+
+The workflow in \sref{chaos-surrogate-construction} is applied to an algorithm
+that computes \mq for a given \vu and returns it in a suitable format. See
+\rref{chaos-multidimensional-output} regarding the treatment of vector-valued
+quantities.
 
 So far in this subsection, \vu has been assumed to be deterministic. Now we turn
 to the stochastic scenario and let \vu be random. Then we apply
