@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/08/23 Thesis]
+\ProvidesClass{thesis}[2017/08/26 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -59,6 +59,8 @@
 \setmonofont{InputMonoNarrow}[
   Scale=MatchLowercase,
 ]
+
+\renewcommand{\insertchapterspace}{}
 
 \newcommand{\makeabstract}{
   \begin{english}
