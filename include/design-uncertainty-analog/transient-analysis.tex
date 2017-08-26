@@ -41,7 +41,7 @@ performed by this ``black box'' is purely deterministic. The definition of $f$
 is flexible enough to account for such effects as the interdependence between
 power and temperature discussed in \sref{power-model}.
 
-The solution to transient temperature analysis is based on the one presented in
+The solution to transient analysis is based on the one presented in
 \sref{transient-state-solution}. The major difference is that
 \eref{temperature-model} implicitly operates on stochastic quantities in the
 context of this chapter. Consequently, the recurrent solution in
@@ -147,7 +147,7 @@ dimensions low via the model-order-reduction technique discussed in
 \sref{probability-transformation}---which is based on the \ac{KL} decomposition
 and is a part of $\transform$ in \eref{chaos-transform}---and \two~utilizing
 efficient construction techniques discussed in \sref{numerical-integration} as
-well as in \sref{chaos-uncertainty-analysis}. In the case of, for instance,
+well as in \sref{chaos-surrogate-construction}. In the case of, for instance,
 isotropic integration grids based on the Smolyak algorithm and Gaussian
 quadrature rules, $\log(\nq) \propto \log(\nz)$, which means that the dependency
 of \nq on \nz is only polynomial \cite{heiss2008}. Anisotropic constructions
@@ -166,7 +166,8 @@ substituted with a light surrogate defined by a set of polynomials $\{
 \multiindex[j]} \}$ for power, and a set of coefficient $\{ \hat{\vq}_{i
 \multiindex[j]} \}$ for temperature. These quantities constitute a stochastic
 power profile \mp and a stochastic temperature profile \mq, and these profiles
-are ready to be analyzed, which we discuss in the following subsection.
+are ready to be analyzed at each step of the process as discussed in
+\sref{chaos-post-processing}.
 
 Before we proceed, let us draw attention to the ease and generality of taking
 uncertainty into consideration using the proposed approach. The above

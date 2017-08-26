@@ -1,10 +1,27 @@
-In this section, we detail our temperature analysis, which is suitable for
-system-level studies. We shall cover both the transient and dynamic steady-state
-scenarios as the former is a prerequisite for the latter. Since temperature is a
-direct consequence of power, we begin with the power model utilized in the
-proposed framework.
+In this section, we elaborate on dynamic steady-state analysis under process
+variation. Unlike transient analysis, this analysis cannot be done one time step
+at a time since the whole repetitive workload needs to be taken into account at
+once in order to calculate the corresponding dynamic steady state. Consequently,
+similar to the contrast between \sref{transient-analysis} and
+\sref{dynamic-steady-state-analysis}, the solutions in
+\sref{chaos-transient-analysis} and this section differ. However, they still
+rely on the same strategy outlined in \sref{chaos-uncertainty-analysis} and
+shown in \fref{chaos-overview}.
 
-\subsection{Our Solution}
+\subsection{System Model}
+
+The system model here is the same as the one in \sref{chaos-transient-analysis}.
+The only difference is that the power function $f$ is periodic in its first
+argument with period \period when the other two arguments are fixed. Concretely,
+the function traverses the periodic power profile that corresponds to a given
+periodic workload.
+
+The solution to dynamic steady-state analysis is based on the one in
+\sref{dynamic-steady-state-solution}; however, in the present context, the
+power, temperature, and state vectors are random, which also concerns the
+boundary condition in \eref{dynamic-steady-state-condition}.
+
+\subsection{Surrogate Construction}
 
 The temperature model is the one described in \sref{temperature-model}.
 
