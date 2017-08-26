@@ -99,7 +99,7 @@ state-of-the-art solutions discussed in the previous subsection.
 Consider the temperature model in \eref{temperature-model} and the corresponding
 recurrence in \eref{transient-state-recurrence}. The key characteristic of a
 dynamic steady state is as follows:
-\begin{equation} \elab{boundary-condition}
+\begin{equation} \elab{dynamic-steady-state-condition}
   \vs_0 = \vs_\ns.
 \end{equation}
 In words, the above condition means that, once the dynamic steady state has been
@@ -115,9 +115,9 @@ can be computed by solving the following system of linear equations:
   \end{cases}
 \]
 where the first equation enforces the boundary condition in
-\eref{boundary-condition}. In order to get the big picture, the system can be
-rewritten as follows:
-\begin{equation} \elab{steady-state-system}
+\eref{dynamic-steady-state-condition}. In order to get the big picture, the
+system can be rewritten as follows:
+\begin{equation} \elab{dynamic-steady-state-system}
   \resizebox{0.89\linewidth}{!}{
     $\underbrace{\left[
       \begin{array}{rrrrrrr}
@@ -155,16 +155,16 @@ rewritten as follows:
 where $\mathbb{A}$ is an $\nn \ns \times \nn \ns$ matrix, and $\mathbb{X}$ and
 $\mathbb{B}$ are $\nn \ns$-element vectors.
 
-The most direct way to solve the system in \eref{steady-state-system} is to use
-a dense solver such as the \up{LU} decomposition \cite{press2007}. However,
-since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is to employ
-a sparse solver such as the unsymmetric multifrontal method \cite{davis2004}.
-The computational complexity of such solutions is $\bigo{n_s^3 n_n^3}$
-\cite{press2007} where $\nn$ is the number of nodes in the thermal \up{RC}
-circuit, and $\ns$ is the number of samples in the power profile. The problem
-here is that the system to solve can be extremely large, in particular due to
-$\ns$. In such cases, direct solvers are prohibitively slow and require an
-enormous amount of memory. Therefore, we do not discuss them any further.
+The most direct way to solve the system in \eref{dynamic-steady-state-system} is
+to use a dense solver such as the \up{LU} decomposition \cite{press2007}.
+However, since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is
+to employ a sparse solver such as the unsymmetric multifrontal method
+\cite{davis2004}. The computational complexity of such solutions is $\bigo{n_s^3
+n_n^3}$ \cite{press2007} where $\nn$ is the number of nodes in the thermal
+\up{RC} circuit, and $\ns$ is the number of samples in the power profile. The
+problem here is that the system to solve can be extremely large, in particular
+due to $\ns$. In such cases, direct solvers are prohibitively slow and require
+an enormous amount of memory. Therefore, we do not discuss them any further.
 
 Another potential approach is leveraging an iterative method for solving systems
 of linear equations such as the Jacobi or Gauss--Seidel method \cite{press2007}.
@@ -175,11 +175,11 @@ have not observed any advantages of using these methods compared to the other
 considered techniques. Thus, they are excluded from the discussion.
 
 Yet another solution can be obtain by observing that $\mathbb{A}$ in
-\eref{steady-state-system} is, in fact, a block Toeplitz matrix and, moreover, a
-block-circulant matrix, wherein each block row is rotated one block element to
-the right relative to the preceding block row. This observation leads to a wide
-range of possible techniques for solving the system in
-\eref{steady-state-system} such as the fast Fourier transform
+\eref{dynamic-steady-state-system} is, in fact, a block Toeplitz matrix and,
+moreover, a block-circulant matrix, wherein each block row is rotated one block
+element to the right relative to the preceding block row. This observation leads
+to a wide range of possible techniques for solving the system in
+\eref{dynamic-steady-state-system} such as the fast Fourier transform
 \cite{mazancourt1983}, which we shall discuss further in our experiments in
 given \sref{dynamic-steady-state-result}.
 
@@ -190,8 +190,8 @@ inaccurate computations. Let us now develop a solution that does not have these
 issues.
 
 Have a careful look at the structure of $\mathbb{A}$ in
-\eref{steady-state-system}. The nonzero elements are located only on the block
-diagonal, on the subdiagonal attached to the block diagonal, and on the
+\eref{dynamic-steady-state-system}. The nonzero elements are located only on the
+block diagonal, on the subdiagonal attached to the block diagonal, and on the
 superdiagonal in the top-right corner of the matrix. Linear systems with similar
 structures arise in boundary value problems for ordinary differential equations,
 and the typical technique to solve them is to form a so-called condensed
@@ -203,7 +203,7 @@ To begin with, let
 \]
 for $i = \range{1}{\ns}$. Equation~\eref{transient-state-recurrence} can then be
 rewritten as follows:
-\begin{equation} \elab{steady-state-recurrence}
+\begin{equation} \elab{dynamic-steady-state-recurrence}
   \vs_i = \m{E} \vs_{i - 1} + \v{v}_i
 \end{equation}
 for $i = \range{1}{\ns}$. Apply this formula recursively starting from $\vs_0$
@@ -213,7 +213,7 @@ leads to
 \]
 for $i = \range{1}{\ns}$. In the above, $\v{w}_i$ is an auxiliary recurrence
 defined as
-\begin{equation} \elab{steady-state-auxiliary-recurrence}
+\begin{equation} \elab{dynamic-steady-state-auxiliary-recurrence}
   \v{w}_i = \m{E} \v{w}_{i - 1} + \v{v}_i
 \end{equation}
 for $i = \range{1}{\ns}$ where
@@ -224,8 +224,9 @@ After taking \ns steps, we arrive at the following state vector:
 \[
   \vs_\ns = \m{E}^\ns \vs_0 + \v{w}_\ns.
 \]
-Taking into account the boundary condition given in \eref{boundary-condition},
-we obtain the following system of linear equations:
+Taking into account the boundary condition given in
+\eref{dynamic-steady-state-condition}, we obtain the following system of linear
+equations:
 \[
   (\m{I} - \m{E}^\ns) \vs_\ns = \v{w}_\ns.
 \]
@@ -245,18 +246,18 @@ following solution to the system:
 The above equation yields not only the final state vector $\vs_\ns$ but also the
 initial one $\vs_0$. Consequently, the rest of the state vectors $\{ \vs_i \}_{i
 = 1}^{\ns - 1}$ can be successively found by means of
-\eref{steady-state-recurrence} where each $\v{v}_i$ has already been calculated
-when computing $\v{w}_\ns$. The last step of the solution is to compute the
-actual dynamic steady-state temperature profile \mq by applying
+\eref{dynamic-steady-state-recurrence} where each $\v{v}_i$ has already been
+calculated when computing $\v{w}_\ns$. The last step of the solution is to
+compute the actual dynamic steady-state temperature profile \mq by applying
 \eref{temperature-algebraic}.
 
 \inputalgorithm{dynamic-steady-state}
 It can be seen that the solution to the $\nn \ns \times \nn \ns$ system given in
-\eref{steady-state-system} has been reduced to the two trivial recurrences given
-in \eref{steady-state-recurrence} and \eref{steady-state-auxiliary-recurrence}
-that traverse the \ns steps of the power profile \mp. The pseudocode of a
-potential implementation of the solution process is given in
-\aref{dynamic-steady-state}.
+\eref{dynamic-steady-state-system} has been reduced to the two trivial
+recurrences given in \eref{dynamic-steady-state-recurrence} and
+\eref{dynamic-steady-state-auxiliary-recurrence} that traverse the \ns steps of
+the power profile \mp. The pseudocode of a potential implementation of the
+solution process is given in \aref{dynamic-steady-state}.
 
 It is worth noting that the auxiliary transformation presented in
 \sref{transient-state-solution} and the accompanying eigendecomposition in
