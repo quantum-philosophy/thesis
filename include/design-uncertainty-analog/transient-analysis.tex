@@ -1,11 +1,9 @@
 In this section, we develop a probabilistic technique for transient power and
 temperature analysis based on the one presented in
 \sref{transient-state-solution} using the machinery described in
-\sref{chaos-uncertainty-analysis}. In this context, the quantity of interest \g
-introduced in \sref{chaos-uncertainty-analysis} stands roughly for the transient
-power \mp and temperature \mq profiles of the system. Our goal is to obtain such
-a solution that is capable of undertaking the analysis is the same step-by-step
-manner as the one inherent to the deterministic solution described in
+\sref{chaos-uncertainty-analysis}. Our goal is to obtain such a solution that is
+capable of undertaking the analysis is the same step-by-step manner as the one
+inherent to the deterministic solution described in
 \sref{transient-state-solution}. In this way, the workload can be continuously
 analyzed as long as it is needed.
 
@@ -18,18 +16,18 @@ general system and temperature models given in \sref{system-model} and
 define is the power model since it is the one introducing the actual workload
 into the system. Denote the prescribed power model by
 \begin{equation} \elab{chaos-power-model}
-  \vp(t) = f(t, \vq, \vu)
+  \vp = f(i, \vq, \vu)
 \end{equation}
-where $f: \real \times \real^\np \times \real^\nu \to \real^\np$ is a function
-that evaluates the power consumption $\vp \in \real^\np$ of the processing
-elements at time $t$ given the heat dissipation $\vq \in \real^\np$ of the
-processing elements and the parameters $\vu \in \real^\nu$.
+where $f: \natural[+] \times \real^\np \times \real^\nu \to \real^\np$ is a
+function that evaluates the power consumption $\vp \in \real^\np$ of the
+processing elements at step $i$ given the heat dissipation $\vq \in \real^\np$
+of the processing elements and the parameters $\vu \in \real^\nu$.
 
 \begin{remark}
 It should be understood that \vp, \vq, and \vu are random vectors in general,
-and that $f$ consumes $\vq(t, \omega)$ and $\vu(\omega)$ and yields $\vp(t,
-\omega)$ for some particular outcome $\omega \in \Omega$. The function itself is
-purely deterministic.
+and that $f$ consumes $\vq(\omega)$ and $\vu(\omega)$ and yields $\vp(\omega)$
+for some particular outcome $\omega \in \Omega$. The function itself is purely
+deterministic.
 \end{remark}
 
 The designer can choose any $f$. It can be, for instance, a closed-form formula
@@ -58,23 +56,24 @@ transformation of the uncertain parameters \vu and stochastic temperature
 $\vq_i$, which results in a multivariate random variable with a generally
 unknown probability distribution. Furthermore, $\vp_i$, $\vq_i$, $\vs_i$, and
 \vu are dependent random vectors since the first three are functions of the
-last. Consequently, the operations involved in the recurrence are to be
+last. Hence, the operations in \eref{chaos-recurrence-original} are to be
 performed on dependent random vectors with arbitrary distributions, which, in
-general, have no closed-form solutions, which we address in the following
-subsection.
+general, have no closed-form solutions.
+
+In this section, the quantity of interest \g---which is the output of Stage~1 in
+\fref{chaos-overview}---is roughly $f$ given in \eref{chaos-power-model};
+however, in the end, the actual quantities of interest \mp and \mq will be
+attained, which we discuss now.
 
 \subsection{Surrogate Construction}
 
 The goal now is to transform the recurrence in \eref{chaos-recurrence-original}
 in such a way that the distributions of power and temperature can be estimated
-efficiently.
-
-Based on the methodology presented in \sref{chaos-uncertainty-analysis}, we
-construct a \ac{PC} surrogate for the power function $f$ so that it can be then
-propagated through the recurrence in \eref{chaos-recurrence-original} in order
+efficiently. Based on the methodology presented in
+\sref{chaos-uncertainty-analysis}, we construct a \ac{PC} surrogate for $f$ so
+that it can be then propagated through \eref{chaos-recurrence-original} in order
 to obtain an expansion for (temperature-aware) power and an expansion for
-temperature. Technically, \g in \sref{chaos-uncertainty-analysis} is $f$ in this
-section; however, in the end, we arrive at the desired \mp and \mq.
+temperature.
 
 The expansion of $\vp_i$ in \eref{chaos-recurrence-original} computed via $f$ in
 \eref{chaos-power-model} is
