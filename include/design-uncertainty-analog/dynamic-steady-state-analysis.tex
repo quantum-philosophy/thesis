@@ -32,7 +32,7 @@ interdependence between power and temperature, and this interdependence can be
 addressed by means of one of the techniques presented in
 \sref{power-temperature-interplay}. In the context of this chapter, the most
 appropriate technique is the iterative approach illustrated in
-\aref{dynamic-steady-state-iterative}, which we rewritten here as shown in
+\aref{dynamic-steady-state-iterative}, which we rewrite here as listed in
 \aref{chaos-dynamic-steady-state-iterative}.
 
 \begin{remark}
@@ -52,29 +52,22 @@ Therefore, the output of Stage~1 in \fref{chaos-overview} is
 
 \subsection{Surrogate Construction}
 
-The workflow in \sref{chaos-surrogate-construction} is applied to an algorithm
-that computes \mq for a given \vu and returns it in a suitable format. See
-\rref{chaos-multidimensional-output} regarding the treatment of vector-valued
-quantities.
+At Stage~3 in \fref{chaos-overview}, relying on the output of Stage~2, the
+procedure delineated in \sref{chaos-surrogate-construction} is applied to
+\aref{chaos-dynamic-steady-state-iterative} from Stage~1. The algorithm computes
+\mp or \mq for a given \vu and returns it in a suitable format.
 
-So far in this subsection, \vu has been assumed to be deterministic. Now we turn
-to the stochastic scenario and let \vu be random. Then we apply
-\aref{surrogate-construction} to one particular quantity of interest \g.
-Specifically, \g is now the temperature profile \mq corresponding to a given
-$\mp_\dynamic$. Since \mq is an $\np \times \ns$ matrix, following
-\rref{multiple-dimensions}, \g is viewed as an $\np \ns$-element row vector, in
-which case each coefficient $\hat{\g}_{\multiindex}$ in
-\eref{spectral-decomposition} is also such a vector. The projection in
-\eref{coefficient-evaluation} and, consequently, \aref{surrogate-construction}
-should be interpreted as follows: $\v{v}$ is an $\nq \times \np \ns$ matrix, and
-the $i$th row of this matrix is the temperature profile computed at the $i$th
-quadrature point and reshaped into a row vector. Similarly, $\hat{\v{v}}$ is an
-$\nc \times \np \ns$ matrix, and the $i$th row of this matrix is the $i$th
-coefficient $\hat{\g}_{\multiindex_i}$ of the spectral decomposition in
-\eref{spectral-decomposition} (recall that a fixed ordering is assumed to be
-imposed on the multi-indices). Keeping the above in mind, a call to
-\aref{surrogate-construction} should be made such that Algorithm~G points at an
-auxiliary routine which receives \vu, forwards it to \aref{temperature-solution}
-along with $\mp_\dynamic$, and returns the resulting temperature profile to
-\aref{surrogate-construction}. The constructed expansion can now be
-postprocessed as needed; see \sref{postprocessing}.
+Following \rref{chaos-multidimensional-output} regarding the treatment of
+vector-valued quantities, \g is treated as an $\np \ns$-element row vector, in
+which case each coefficient $\hat{\g}_{\multiindex}$ in \eref{chaos-expansion}
+is also such a vector. The projection matrix in \eref{chaos-projection-matrix}
+and, consequently, \aref{chaos-expansion} should be interpreted as follows: \vg
+is an $\nq \times \np \ns$ matrix whose row $i$ is the temperature or power
+profile computed at point $i$ of the quadrature in \eref{chaos-coefficient} and
+reshaped into a row vector. Similarly, $\hat{\vg}$ should be understood as an
+$\nc \times \np \ns$ matrix whose row $i$ is coefficient $i$ of the expansion in
+\eref{chaos-expansion}; recall that an ordering is assumed to be imposed on the
+multi-index set.
+
+The constructed expansion can now be post-processed as needed, which is already
+the topic of Stage~4 in \fref{chaos-overview}; see \sref{chaos-post-processing}
