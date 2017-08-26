@@ -86,18 +86,3 @@ auxiliary routine which receives \vu, forwards it to \aref{temperature-solution}
 along with $\mp_\dynamic$, and returns the resulting temperature profile to
 \aref{surrogate-construction}. The constructed expansion can now be
 postprocessed as needed; see \sref{postprocessing}.
-
-To give a concrete example, for a dual-core system ($\np = 2$) with one
-independent random variable ($\nz = 1$), a second-level expansion ($\lc = 2$) of
-the temperature profile with 100 time steps ($\ns = 100$) can be written as
-follows (see \eref{spectral-decomposition}):
-\[
-  \g \approx \hat{\g}_0 + \hat{\g}_1 \z + \hat{\g}_2(\z^2 - 1),
-\]
-which is a polynomial in \z, and each coefficient is a vector with $\np \ns =
-200$ elements. Then, for any outcome $\z \equiv \z(\o)$, the corresponding
-temperature profile \mq can be evaluated by plugging in \z into the above
-equation and reshaping the result into an $\np \times \ns = 2 \times 100$
-matrix. In this case, the three rows of $\hat{\v{v}}$ are $\hat{\g}_0$,
-$\hat{\g}_1$, and $\hat{\g}_2$; the first one is also a flattened version of the
-expected value of $\mq$ as shown in \eref{probabilistic-moments}.
