@@ -93,9 +93,9 @@ does not require any uncertainty analysis; the constraint is purely
 deterministic. If it is violated, we set the fitness to the amount of this
 violation relative to the constraint---that is, to the difference between the
 actual application period and the deadline $t_\maximum$ divided by
-$t_\maximum$---and add a constant $C$. If the timing constraint is satisfied, we
-perform our uncertainty analysis and proceed to checking the other two
-constraints. If any of them is violated, we set the fitness to the total
+$t_\maximum$---and add a big constant $C$. If the timing constraint is
+satisfied, we perform our uncertainty analysis and proceed to checking the other
+two constraints. If any of them is violated, we set the fitness to the total
 relative amount of violation plus $C / 2$. If all the constraints are satisfied,
 the fitness value of the chromosome is set to the expected consumption of
 energy.
@@ -104,3 +104,10 @@ In order to speed up the optimization, we make use of caching and parallel
 computing. Specifically, the fitness value of each evaluated chromosome is
 stored in memory and reused when a chromosome with the same set of genes is
 encountered, and unseen (not cached) individuals are assessed in parallel.
+
+The important aspect to note is that the examination of the temperature and
+lifetime constraints, the last two in \eref{chaos-constraints}, as well as the
+evaluation of the expect energy consumption in \eref{chaos-objective} are
+undertaken by means of a \ac{PC} expansion. The probabilities of the events are
+estimated via sampling the light surrogate, and the expectation has an
+analytical formula; see \sref{chaos-post-processing}.
