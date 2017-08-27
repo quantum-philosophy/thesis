@@ -72,38 +72,35 @@ stage, Stage~4, is worth discussing.
 
 \subsection{Post-Processing}
 
-We use a genetic algorithm for optimization. Each chromosome is a $2
-\nt$-element vector (twice the number of tasks) concatenating a pair of two
-vectors. The first is a vector in $\{ 1, 2, \dotsc, \np\}^\nt$ that maps the
-tasks onto the processing elements (that is, a mapping). The second is a vector
-in $\{ 1, 2, \dotsc, \nt \}^\nt$ that orders the tasks according to their
-priorities (that is, a ranking). Since we rely on a static cyclic scheduler and
-the list scheduling policy \cite{adam1974}, such a pair of vectors uniquely
-encodes a schedule \schedule. The population contains $4 \nt$ individuals which
-are initialized using uniform distributions. The parents for the next generation
-are chosen by a tournament selection with the number of competitors equal to
-20\% of \nt. A one-point crossover is then applied to 80\% of the parents. Each
-parent undergoes a uniform mutation wherein each gene is altered with
-probability 0.01. The top five-percent individuals always survive. The stopping
-condition is the absence of improvement within 10 successive generations.
+Polynomial expansions are utilized inside an optimization procedure whose
+objective is to minimize \eref{chaos-objective}. Let us discuss this procedure.
 
-Let us turn to the evaluation of a chromosome's fitness. We begin by checking
-the timing constraint given in \eref{timing-constraint} as it does not require
-any probabilistic analysis; the constraint is purely deterministic. If
-\eref{timing-constraint} is violated, we set the fitness to the amount of this
+Similar to \sref{reliability-optimization}, we make use of a genetic algorithm.
+Each chromosome contains $2 \nt$ genes that encode a mapping of the tasks onto
+the processing elements and their priorities; this information is needed for
+constructing a schedule \schedule. The population contains $4 \nt$ individuals
+that are initialized using uniform distributions. The parents for the next
+generation are chosen by a tournament selection with the number of competitors
+equal to 20\% of \nt. A one-point crossover is then applied to 80\% of the
+parents. Each parent undergoes a uniform mutation where each gene is altered
+with probability 0.01. The top five-percent individuals always survive. The
+stopping condition is the absence of improvement within 10 successive
+generations.
+
+Let us turn to the evaluation of the fitness of a chromosome. We begin by
+checking the timing constraint, the first in \eref{chaos-constraints}, as it
+does not require any uncertainty analysis; the constraint is purely
+deterministic. If it is violated, we set the fitness to the amount of this
 violation relative to the constraint---that is, to the difference between the
 actual application period and the deadline $t_\maximum$ divided by
-$t_\maximum$---and add a large constant, say, $C$, on top. If
-\eref{timing-constraint} is satisfied, we perform our probabilistic analysis and
-proceed to checking the constraints in \eref{thermal-constraint} and
-\eref{reliability-constraint}. If any of the two is violated, we set the fitness
-to the total relative amount of violation plus $C / 2$. If all the constraints
-are satisfied, the fitness value of the chromosome is set to the expected
-consumption of energy, as in shown in \eref{objective}.
+$t_\maximum$---and add a constant $C$. If the timing constraint is satisfied, we
+perform our uncertainty analysis and proceed to checking the other two
+constraints. If any of them is violated, we set the fitness to the total
+relative amount of violation plus $C / 2$. If all the constraints are satisfied,
+the fitness value of the chromosome is set to the expected consumption of
+energy.
 
 In order to speed up the optimization, we make use of caching and parallel
 computing. Specifically, the fitness value of each evaluated chromosome is
-stored in memory and pulled out when a chromosome with the same set of genes is
+stored in memory and reused when a chromosome with the same set of genes is
 encountered, and unseen (not cached) individuals are assessed in parallel.
-
-\subsection{Reliability Analysis}
