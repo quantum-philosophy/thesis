@@ -73,9 +73,8 @@ and starting times are referred to as a schedule, which we denote by \schedule.
 
 The time to failure of each processing element is modeled using the reliability
 model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
-to find a schedule \schedule that maximizes
 \begin{equation} \elab{thermal-cycling-objective}
-  \min_{i = 1}^\np \mean_i(\schedule)
+  \max_{\schedule} \min_{i = 1}^\np \mean_i(\schedule)
 \end{equation}
 such that
 \begin{align} \elab{thermal-cycling-constraints}
