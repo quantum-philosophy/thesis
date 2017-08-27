@@ -55,25 +55,33 @@ steady-state temperature analysis has to be undertaken.
 A heterogeneous platform with \np processing elements is to execute a periodic
 application with \nt tasks. The application is given as a directed acyclic graph
 whose vertices and edges correspond to the tasks and to data dependencies
-between the tasks, respectively; see \fref{thermal-cycling-task-graph} for an
+between these tasks, respectively; see \fref{thermal-cycling-task-graph} for an
 example. The period of the application is denoted by \period and assumed to be
-equal to the application's deadline. Each pair of a task and a processing
-element is characterized by an execution time and a power consumption. Lastly,
-the application is assumed to be scheduled using a list scheduler
-\cite{adam1974} whose inputs are a set of priorities of the tasks and a mapping
-of the tasks onto the processing elements.
+equal to the application's deadline. Furthermore, each pair of a task and a
+processing element is characterized by an execution time and a power
+consumption; these are the characteristics that the task has when it is assigned
+to the processing element.
+
+Since we are orientated toward the design stage in this context, static
+scheduling is considered, which is a task that is typically done offline. The
+application is assumed to be scheduled using a static cyclic scheduler following
+the list scheduling policy \cite{adam1974}. The input to the scheduler is a set
+of priorities of the tasks and a mapping of the tasks onto the processing
+elements; other parameters are implicitly known to the scheduler. The schedule
+produces a vector specifying the starting times of the tasks. Both the mapping
+and starting times are referred to as a schedule, which we denote by \schedule.
 
 The time to failure of each processing element is modeled using the reliability
 model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
-to find a schedule that maximizes
+to find a schedule \schedule that maximizes
 \begin{equation} \elab{thermal-cycling-objective}
-  \min_{i = 1}^\np \mean_i
+  \min_{i = 1}^\np \mean_i(\schedule)
 \end{equation}
 such that
 \begin{align} \elab{thermal-cycling-constraints}
   \begin{split}
-    & \max_{i = 1}^\nt t_{\ns_i} \leq \period \text{ and} \\
-    & \norm[\infty]{\mq} \leq \q_\maximum
+    & \max_{i = 1}^\nt t_{\ns_i}(\schedule) \leq \period \text{ and} \\
+    & \norm[\infty]{\mq(\schedule)} \leq \q_\maximum
   \end{split}
 \end{align}
 where $\mean_i$ is the \ac{MTTF} of processing element $i$ computed according to
@@ -107,7 +115,7 @@ improvement within 200 successive generations.
 The fitness of a chromosome is evaluated in a number of steps. First, the
 chromosome is decoded, and the priorities of the tasks and their mapping onto
 the processing elements are fed to the list scheduler. The scheduler produces a
-schedule. If the schedule violates the deadline constraint given in
+schedule \schedule. If the schedule violates the deadline constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, based on the
 parameters of the processing elements and tasks, a power profile \mp is
