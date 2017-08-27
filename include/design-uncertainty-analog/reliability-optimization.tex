@@ -109,3 +109,46 @@ In order to speed up the optimization, we make use of caching and parallel
 computing. Specifically, the fitness value of each evaluated chromosome is
 stored in memory and pulled out when a chromosome with the same set of genes is
 encountered, and unseen (not cached) individuals are assessed in parallel.
+
+\subsection{Reliability Analysis}
+
+Let us now illustrate how this approach works in practice. To this end, we
+consider the thermal-cycling fatigue \cite{jedec2016}, which is introduced in
+\sref{thermal-cycling-fatigue}. Recall that, in this case, the system is exposed
+a periodic workload, and that the corresponding temperature profile is a dynamic
+steady-state profile, which, in the deterministic case, can be computed as
+described in \sref{dynamic-steady-state-solution}.
+
+Assume that the structure of the reliability model is the one shown in
+\eref{reliability-model} where each individual reliability function $R_i$ is the
+one given in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for
+$i = \range{1}{\np}$. During each iteration, the temperature of processing
+element $i$ exhibits \nk{i} cycles. Each cycle generally has different
+characteristics and, therefore, causes different damage. This aspect is taken
+into account by adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The
+shape parameter $\beta_i$ is known to be indifferent to temperature. For
+simplicity, let us also assume that $\beta_i$ does not depend on process
+parameters, and that $\beta_i = \beta$ for $i = \range{1}{\np}$.
+
+Under the above assumptions, \rref{weibull-homogeneity} applies, and the
+lifetime $T: \Omega \to \real$ of the system has a Weibull distribution as
+follows:
+\[
+  T | \vg \sim \mathrm{Weibull}(\eta, \beta)
+\]
+where $\eta$ is as in \rref{weibull-homogeneity} combined with
+\eref{thermal-cycling-scale}. The high-level parameters of the above model are
+two parameters: $\eta$ and $\beta$, among which only $\eta$ is uncertain.
+Thus, $\vg = (\eta)$ in this particular scenario; $\beta$ is given implicitly.
+
+Now we apply the technique in \sref{uncertainty-analysis} to this quantity. In
+this case, Algorithm~G in \aref{surrogate-construction} is an auxiliary function
+that makes a call to \aref{temperature-solution}, processes the resulting
+temperature profile as it was described earlier in this subsection, and returns
+$\eta$ computed according to the formula in \eref{compound-weibull-eta}.
+Consequently, we obtain a light polynomial surrogate of the parameterization of
+the reliability model, which can be then studied from various perspectives. The
+example for a dual-core system given at the end of \sref{temperature-solution}
+can be considered in this context as well with the only change that the
+dimensionality of the polynomial coefficients would be two here (since $\eta \in
+\real^\np$ and $\np = 2$).
