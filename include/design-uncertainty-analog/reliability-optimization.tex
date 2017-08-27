@@ -3,16 +3,19 @@ techniques are illustrated in the context of design-space exploration.
 
 \subsection{Problem Formulation}
 
-The general setup is the same as the one in \sref{reliability-optimization}.
-However, the goal of our optimization in this section is to find such a schedule
+The general setup is the same as the one in \sref{reliability-optimization}. We
+consider the thermal-cycling fatigue \cite{jedec2016}, which is introduced in
+\sref{thermal-cycling-fatigue}. Recall that, in this case, the system is exposed
+a periodic workload, and that the corresponding temperature profile is a dynamic
+steady-state profile, which, in the deterministic case, can be computed as
+described in \sref{dynamic-steady-state-solution}.
+
+The goal of our optimization in this section is to find such a schedule
 \schedule that minimizes the energy consumption while satisfying certain
-constraints. To elaborate, since energy is a function of power, and power
-depends on the uncertain parameters \vu, the energy consumption is a random
-variable at the design stage, which we denote by $E: \Omega \to \real$. Our
-objective is then
-\[
+constraints. More specifically, our objective is
+\begin{equation} \elab{chaos-objective}
   \min_{\schedule} \expectation{(E(\schedule))}
-\]
+\end{equation}
 such that
 \begin{equation} \elab{chaos-constraints}
   \begin{split}
@@ -25,43 +28,49 @@ In the above formulae,
 \begin{align*}
   & E(\schedule) = \dt \, \norm[1]{\mp(\schedule)}; \\
   & Q(\schedule) = \norm[\infty]{\mq(\schedule)}; \\
-  & T(\schedule) = \expectation{\left(T(\schedule)\right)} = \eta(\schedule) \Gamma\left(1 + \frac{1}{\beta}\right);
+  & T(\schedule) = \expectation{\left(T(\schedule)\right)};
 \end{align*}
 $\period(\schedule)$ is the period of the application; \dt is the sampling
 interval of power and temperature profiles; and $\norm[1]{\cdot}$ denotes the
 Manhattan norm.
 
-Our constraints in \eref{chaos-constraints} are \one~time, \two~temperature, and
-\three~reliability. The first constrains the period of the application by
+Our objective in \eref{chaos-objective} is to minimize the expectation of the
+total energy consumption $E: \Omega \to \real$, which is a random variable since
+energy is a function of power, and power, in turn, depends on the uncertain
+parameters \vu.
+
+Our constraints in \eref{chaos-constraints} concern \one~time, \two~temperature,
+and \three~reliability. The first constrains the period of the application by
 $t_\maximum$ (a deadline). The second constrains the maximum temperature of the
-system by $\q_\maximum$, and $\rho_\burn$ is an acceptable probability of
-burning the chip. The third constrains the lifetime of the system from below by
-$T_\minimum$, and $\rho_\wear$ is an acceptable probability of having a
+system by $\q_\maximum$ where $\rho_\burn$ is an acceptable probability of
+burning the chip. The third constrains from below the lifetime of the system by
+$T_\minimum$ where $\rho_\wear$ is an acceptable probability of having a
 premature fault due to wear. The last two constraints in
 \eref{chaos-constraints} are probabilistic since the quantities under
 consideration are random. In the last constraint, we set an upper bound on the
-probability of the expected value of $T$, and it is important to realize that
-this expectation is a random variable itself due to the nested structure of the
-reliability model described in \rref{chaos-nested-uncertainty}.
+probability of the expected value of $T$; note that this expectation is a random
+variable itself due to the nested structure of the reliability model described
+in \rref{chaos-nested-uncertainty}.
 
-\subsection{Our Solution}
-
-In order to evaluate \eref{objective}--\eref{reliability-constraint}, we utilize
-the uncertainty analysis technique presented in \sref{uncertainty-analysis}. In
-this case, the quantity of interest is a vector with three elements:
+In this section, the quantity of interest \g in \fref{chaos-overview} is the
+vector
 \[
-  \vq = (E, Q, T).
+  \vg = (E, Q, T)
 \]
-Although it is not spelled out, each quantity depends on \schedule. The first
-element corresponds to the energy consumption used in \eref{objective}, the
-second element is the maximum temperature used in \eref{thermal-constraint}, and
-the last one is the scale parameter of the reliability model (see
-\sref{reliability-analysis}) used in \eref{reliability-constraint}. The
-uncertainty analysis in \sref{uncertainty-analysis} should be applied as
-explained in \rref{multiple-dimensions}. In \aref{surrogate-construction},
-Algorithm~G is an intermediate procedure that makes a call to
-\aref{temperature-solution} and processes the resulting power and temperature
-profiles as required by \eref{quantity-of-interest}.
+where the first element corresponds to the total energy consumption; the second
+is the maximum temperature; and, with a slight abuse of notation, the third is
+the parameters of the reliability model characterizing the lifetime---in
+\sref{reliability-analysis} and \sref{chaos-reliability-analysis}, these
+parameters are denoted by \vg. Each element implicitly depends on \schedule and
+\vu. In \aref{chaos-expansion}, Algorithm~G is an intermediate procedure that
+makes a call to \aref{chaos-dynamic-steady-state-iterative} and processes the
+resulting power and temperature profiles as required in order to compute \vg.
+
+The construction of a surrogate at Stage~3 is standard; see
+\sref{chaos-surrogate-construction}. On the other hand, the post-processing
+stage, Stage~4, is worth discussing.
+
+\subsection{Post-Processing}
 
 We use a genetic algorithm for optimization. Each chromosome is a $2
 \nt$-element vector (twice the number of tasks) concatenating a pair of two
@@ -98,44 +107,3 @@ stored in memory and pulled out when a chromosome with the same set of genes is
 encountered, and unseen (not cached) individuals are assessed in parallel.
 
 \subsection{Reliability Analysis}
-
-Let us now illustrate how this approach works in practice. To this end, we
-consider the thermal-cycling fatigue \cite{jedec2016}, which is introduced in
-\sref{thermal-cycling-fatigue}. Recall that, in this case, the system is exposed
-a periodic workload, and that the corresponding temperature profile is a dynamic
-steady-state profile, which, in the deterministic case, can be computed as
-described in \sref{dynamic-steady-state-solution}.
-
-Assume that the structure of the reliability model is the one shown in
-\eref{reliability-model} where each individual reliability function $R_i$ is the
-one given in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for
-$i = \range{1}{\np}$. During each iteration, the temperature of processing
-element $i$ exhibits \nk{i} cycles. Each cycle generally has different
-characteristics and, therefore, causes different damage. This aspect is taken
-into account by adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The
-shape parameter $\beta_i$ is known to be indifferent to temperature. For
-simplicity, let us also assume that $\beta_i$ does not depend on process
-parameters, and that $\beta_i = \beta$ for $i = \range{1}{\np}$.
-
-Under the above assumptions, \rref{weibull-homogeneity} applies, and the
-lifetime $T: \Omega \to \real$ of the system has a Weibull distribution as
-follows:
-\[
-  T | \vg \sim \mathrm{Weibull}(\eta, \beta)
-\]
-where $\eta$ is as in \rref{weibull-homogeneity} combined with
-\eref{thermal-cycling-scale}. The high-level parameters of the above model are
-two parameters: $\eta$ and $\beta$, among which only $\eta$ is uncertain.
-Thus, $\vg = (\eta)$ in this particular scenario; $\beta$ is given implicitly.
-
-Now we apply the technique in \sref{uncertainty-analysis} to this quantity. In
-this case, Algorithm~G in \aref{surrogate-construction} is an auxiliary function
-that makes a call to \aref{temperature-solution}, processes the resulting
-temperature profile as it was described earlier in this subsection, and returns
-$\eta$ computed according to the formula in \eref{compound-weibull-eta}.
-Consequently, we obtain a light polynomial surrogate of the parameterization of
-the reliability model, which can be then studied from various perspectives. The
-example for a dual-core system given at the end of \sref{temperature-solution}
-can be considered in this context as well with the only change that the
-dimensionality of the polynomial coefficients would be two here (since $\eta \in
-\real^\np$ and $\np = 2$).
