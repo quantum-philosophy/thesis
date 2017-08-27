@@ -79,16 +79,21 @@ model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
 such that
 \begin{align} \elab{thermal-cycling-constraints}
   \begin{split}
-    & \max_{i = 1}^\nt t_{\ns_i}(\schedule) \leq \period \text{ and} \\
-    & \norm[\infty]{\mq(\schedule)} \leq \q_\maximum
+    & \period(\schedule) \leq t_\maximum \text{ and} \\
+    & Q(\schedule) \leq \q_\maximum.
   \end{split}
 \end{align}
-where $\mean_i$ is the \ac{MTTF} of processing element $i$ computed according to
-\eref{thermal-cycling-mean-time}; $t_{\ns_i}$ is the completion time of task
-$i$; \mq is the dynamic steady-state temperature profile of the system; and
-$\norm[\infty]{\cdot}$ denotes the uniform norm. The first constraint enforces a
-deadline on the schedule, and the second constraint enforces a maximum
-temperature $\q_\maximum$ on the resulting \mq.
+In the above formulae, $\mean_i$ is the \ac{MTTF} of processing element $i$
+computed according to \eref{thermal-cycling-mean-time}; \period is the period of
+the application; and
+\[
+  Q(\schedule) = \norm[\infty]{\mq(\schedule)}
+\]
+where \mq is the dynamic steady-state temperature profile of the system, and
+$\norm[\infty]{\cdot}$ denotes the uniform norm. The first constraint in
+\eref{thermal-cycling-constraints} enforces a deadline on the schedule while the
+second constraint enforces a maximum temperature $\q_\maximum$ on the resulting
+temperature profile \mq.
 
 \subsection{Our Solution}
 \slab{thermal-cycling-solution}

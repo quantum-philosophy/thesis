@@ -1,61 +1,48 @@
-In this section, the proposed analysis techniques are applied in the context of
-design-space exploration.
+Analogous to \sref{reliability-optimization}, in this section, the proposed
+techniques are illustrated in the context of design-space exploration.
 
 \subsection{Problem Formulation}
 
-Consider a periodic application which is composed of a number of tasks and is
-given as a directed acyclic graph. The graph has \nt vertices representing the
-tasks and a number of edges specifying data dependencies between those tasks.
-Any processing element can execute any task, and each pair of a processing
-element and a task is characterized by an execution time and dynamic power.
-Since the proposed techniques are orientated towards the design stage, static
-scheduling is considered, which is typically done offline. More specifically,
-the application is scheduled using a static cyclic scheduler, and schedules are
-generated using the list scheduling policy \cite{adam1974}. A schedule is
-defined as a mapping of the tasks onto the processing elements and the
-corresponding starting times; we shall denote it by \schedule. The goal of our
-optimization is to find such a schedule \schedule that minimizes the energy
-consumption while satisfying certain constraints.
-
-Since energy is a function of power, and power depends on a set of uncertain
-parameters, the energy consumption is a random variable at the design stage,
-which we denote by $E$. Our objective is to minimize the expected value of $E$:
+The general setup is the same as the one in \sref{reliability-optimization}.
+However, the goal of our optimization in this section is to find such a schedule
+\schedule that minimizes the energy consumption while satisfying certain
+constraints. To elaborate, since energy is a function of power, and power
+depends on the uncertain parameters \vu, the energy consumption is a random
+variable at the design stage, which we denote by $E: \Omega \to \real$. Our
+objective is then
 \[
-  \min_{\schedule} \expectation{E(\schedule)}
+  \min_{\schedule} \expectation{(E(\schedule))}
 \]
-where
-\[
-  E(\schedule) = \dt \sum \mp(\schedule),
-\]
-\dt is the sampling interval of the power profile \mp, and $\sum \mp$ denotes
-the summation over all elements of \mp. Hereafter, we also emphasize the
-dependency on \schedule. Our constraints are (i) time, (ii) temperature, and
-(iii) reliability as follows. (i) The period of the application is constrained
-by $t_\maximum$ (a deadline). (ii) The maximum temperature that the system can
-tolerate is constrained by $\q_\maximum$, and $\rho_\burn$ is an acceptable
-probability of burning the chip. (iii) The minimum time that the system should
-survive is constrained by $T_\minimum$, and $\rho_\wear$ is an acceptable
-probability of having a premature fault due to wear. The three constraints are
-formalized as follows:
-\begin{align}
-  & \period(\schedule) \leq t_\maximum, \elab{timing-constraint} \\
-  & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \elab{thermal-constraint} \\
-  & \probability\left(T(\schedule) \leq T_\minimum\right) \leq \rho_\wear. \elab{reliability-constraint}
-\end{align}
-In \eref{timing-constraint}--\eref{reliability-constraint}, $\period$ is the
-period of the application according to the schedule,
+such that
+\begin{equation} \elab{chaos-constraints}
+  \begin{split}
+    & \period(\schedule) \leq t_\maximum, \\
+    & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \\
+    & \probability\left(T(\schedule) \leq T_\minimum\right) \leq \rho_\wear.
+  \end{split}
+\end{equation}
+In the above formulae,
 \begin{align*}
-  & Q(\schedule) = \norm[\infty]{\mq(\schedule)}, \\
-  & T(\schedule) = \expectation{T(\schedule) \, | \, \eta} = \eta(\schedule) \, \Gamma\left(1 + \frac{1}{\beta}\right), \text{ and}
+  & E(\schedule) = \dt \, \norm[1]{\mp(\schedule)}; \\
+  & Q(\schedule) = \norm[\infty]{\mq(\schedule)}; \\
+  & T(\schedule) = \expectation{\left(T(\schedule)\right)} = \eta(\schedule) \Gamma\left(1 + \frac{1}{\beta}\right);
 \end{align*}
-$\norm[\infty]{\mq}$ denotes the extraction of the maximum value from the
-temperature profile \mq. The last two constraints, that is,
-\eref{thermal-constraint} and \eref{reliability-constraint}, are probabilistic
-as the quantities under consideration are random. In
-\eref{reliability-constraint}, we set an upper bound on the probability of the
-expected value of $T$, and it is important to realize that this expectation is a
-random variable itself due to the nested structure of the reliability model
-described in \rref{two-level-probabilistic-modeling}.
+$\period(\schedule)$ is the period of the application; \dt is the sampling
+interval of power and temperature profiles; and $\norm[1]{\cdot}$ denotes the
+Manhattan norm.
+
+Our constraints in \eref{chaos-constraints} are \one~time, \two~temperature, and
+\three~reliability. The first constrains the period of the application by
+$t_\maximum$ (a deadline). The second constrains the maximum temperature of the
+system by $\q_\maximum$, and $\rho_\burn$ is an acceptable probability of
+burning the chip. The third constrains the lifetime of the system from below by
+$T_\minimum$, and $\rho_\wear$ is an acceptable probability of having a
+premature fault due to wear. The last two constraints in
+\eref{chaos-constraints} are probabilistic since the quantities under
+consideration are random. In the last constraint, we set an upper bound on the
+probability of the expected value of $T$, and it is important to realize that
+this expectation is a random variable itself due to the nested structure of the
+reliability model described in \rref{chaos-nested-uncertainty}.
 
 \subsection{Our Solution}
 
