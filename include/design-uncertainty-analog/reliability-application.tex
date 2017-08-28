@@ -7,10 +7,44 @@ of our technique given in the next section, \sref{chaos-reliability-results}.
 
 \subsection{Problem Formulation}
 
-We focus on two crucial process parameters, namely, on the effective channel
-length and gate-oxide thickness. Consequently, each processing element is
-ascribed two random variables corresponding to the two process parameters, which
-means that $\nu = 2 \np$ in this example; see also \sref{chaos-problem}.
+Assume that the structure of the reliability model is the one shown in
+\eref{reliability-model} where each individual reliability function $R_i$ is the
+one given in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for
+$i = \range{1}{\np}$. During each iteration, the temperature of processing
+element $i$ exhibits \nk{i} cycles. Each cycle generally has different
+characteristics and, therefore, causes different damage. This aspect is taken
+into account by adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The
+shape parameter $\beta_i$ is known to be indifferent to temperature. For
+simplicity, let us also assume that $\beta_i$ does not depend on process
+parameters, and that $\beta_i = \beta$ for $i = \range{1}{\np}$.
+
+Under the above assumptions, \rref{weibull-homogeneity} applies, and the
+lifetime $T: \Omega \to \real$ of the system has a Weibull distribution as
+follows:
+\[
+  T | (\eta, \beta) \sim \mathrm{Weibull}(\eta, \beta)
+\]
+where $\eta$ is as in \rref{weibull-homogeneity} combined with
+\eref{thermal-cycling-scale}. Even though the model has two parameters, $\eta$
+and $\beta$, only $\eta$ is uncertain. Therefore, we treat the model as having
+only one parameter, $\eta$, and $\beta$ is assumed to be implicitly given.
+
+In the case of reliability analysis without any accompanying optimization, one
+can proceed to constructing a \ac{PC} expansion for $\eta$. Having obtained a
+lightweight surrogate for $\eta$, the system's reliability can be studied from
+various perspectives. In the current scenario, however, the quantity of interest
+\g is the one given in \eref{chaos-optimization-quantity} since it allows for
+evaluating the objective function and constraints defined in
+\eref{chaos-optimization-objective} and \eref{chaos-optimization-constraints},
+respectively. In \eref{chaos-optimization-quantity}, the component denoted by
+$T$ stands for the parameterization of the reliability model, and, consequently,
+it is equal to $\eta$ in the example developed in this section.
+
+Let us not turn our attention to the uncertain parameters \vu. We focus on two
+crucial process parameters, namely, on the effective channel length and
+gate-oxide thickness. Consequently, each processing element is ascribed two
+random variables corresponding to the two process parameters, which means that
+$\nu = 2 \np$ in this example; see also \sref{chaos-problem}.
 
 \begin{remark}
 The variability of a process parameter at a spatial location can be split into
@@ -32,107 +66,55 @@ functions and correlation matrix of the uncertain parameters \vu in,
 respectively. Note that the number of distinct marginals is only two since \np
 components of \vu correspond to the same process parameter.
 
+Both considered process parameters, the effective channel length and gate-oxide
+thickness, correspond to Euclidean distances; they take values on bounded
+intervals of the positive half of the real line. With this in mind, similar to
+\sref{chaos-transient-application}, we model the two process parameters using
+the four-parametric family of beta distributions shown in
+\eref{beta-distribution}. Without loss of generality, the parameters are assumed
+to be independent of each other, and the correlations among those elements of
+\vu that correspond to the same process parameter are assumed to be given by the
+correlation function shown in \eref{inference-correlation}.
+
+At this point, the two outputs of Stage~1 are now specified.
+
 \subsection{Probability Transformation}
 
-Let us turn to the illustrative application. Recall that we exemplify our
-framework considering the effective channel length and gate-oxide thickness with
-the notation given in \eref{application-uncertain-parameters}. Both parameters
-correspond to Euclidean distances; they take values on bounded intervals of the
-positive part of the real line. With this in mind, we model the two process
-parameters using the four-parametric family of beta distributions:
-\[
-  \u_i \sim F_{\u_i} = \mathrm{Beta}(a_i, b_i, c_i, d_i)
-\]
-where $i = 1, 2, \dots, 2 \np$, $a_i$ and $b_i$ control the shape of the
-distributions, and $[c_i, d_i]$ correspond to their supports. Without loss of
-generality, we let the two considered process parameters be independent of each
-other, and the correlations among those elements of \vu that correspond to the
-same process parameter be given by the following correlation function:
-\[
-  k(\v{r}_i, \v{r}_j) = w \; k_\SE(\v{r}_i, \v{r}_j) + (1 - w) k_\OU(\v{r}_i, \v{r}_j)
-\]
-where $\v{r}_i \in \real^2$ is the center of the $i$th processing element
-relative to the center of the die. The correlation function is a composition of
-two kernels:
-\begin{align*}
-  & k_\SE(\v{r}_i, \v{r}_j) = \exp\left(- \frac{\norm{\v{r}_i - \v{r}_j}^2}{\ell_\SE^2} \right) \text{ and} \\
-  & k_\OU(\v{r}_i, \v{r}_j) = \exp\left(- \frac{\absolute{\norm{\v{r}_i} - \norm{\v{r}_j}}}{\ell_\OU} \right),
-\end{align*}
-which are known as the squared-exponential and Ornstein--Uhlenbeck kernels,
-respectively. In the above formulae, $w \in [0, 1]$ is a weight coefficient
-balancing the kernels; $\ell_\SE$ and $\ell_\OU > 0$ are so-called length-scale
-parameters; and $\norm{\cdot}$ stands for the Euclidean norm in $\real^2$. The
-choice of these two kernels is guided by the observations of the correlation
-patterns induced by the fabrication process: $k_\SE$ imposes similarities
-between those spatial locations that are close to each other, and $k_\OU$
-imposes similarities between those locations that are at the same distance from
-the center of the die; see, for instance, \cite{friedberg2005} for additional
-details. The length-scale parameters $\ell_\SE$ and $\ell_\OU$ control the
-extend of these similarities, that is the range wherein the influence of one
-point on another is significant.
+At Stage~2 in \fref{chaos-overview}, the uncertain parameters \vu are
+transformed into independent random variables \vz via a suitable transformation
+$\transform$. Specifically, we use the one in \eref{probability-transformation},
+which also includes model order reduction. Unlike
+\sref{chaos-transient-application}, in this section, we let \vz obey the
+standard Gaussian distribution and, therefore, tailor $\transform$ accordingly;
+see \sref{probability-transformation}.
 
 \subsection{Surrogate Construction}
 
-Since we are interested in integration with respect to the standard Gaussian
-measure over $\real^\nz$, we shall rely on the Gauss--Hermite family of
-quadrature rules \cite{maitre2010}, which is a subset of a broader family known
-as Gaussian quadratures.
+Since the expansion variables \vz are Gaussian, the polynomial basis considered
+at Stage~3 is to be composed of Hermite polynomials, which is the exact scenario
+described in \sref{polynomial-chaos}. The variables also tell us how to approach
+numerical integration needed for the evaluation of the coefficients of \ac{PC}
+expansions: since we are interested in integrals with respect to the standard
+Gaussian measure, Gauss--Hermite quadrature rules \cite{maitre2010} are worth
+considering. These quadratures are especially efficient since they belong to the
+family of Gaussian quadratures and, thus, inherit their properties; see
+\sref{numerical-integration}.
 
-For the Gauss--Hermite quadrature rules in one dimension, we have that $\nq =
-\lq + 1$ and the precision is $2 \nq - 1$ \cite{heiss2008} or, equivalently, $2
-\lq + 1$, which is a remarkable property of Gaussian quadratures. The resulting
-sparse grid is exact for polynomials with a total order up to $2 \lq + 1$, which
-is analogous to integration in one dimension.
-
-\subsection{Dynamic Steady-State Analysis}
-
-To give a concrete example, for a dual-core system ($\np = 2$) with one
-independent random variable ($\nz = 1$), a second-level expansion ($\lc = 2$) of
-the temperature profile with 100 time steps ($\ns = 100$) can be written as
-follows (see \eref{spectral-decomposition}):
+Lastly, let us illustrate of the Hermite basis. For a random vector $\vz: \Omega
+\to \real$ with one standard Gaussian variable ($\nz = 1$), a second-level
+\ac{PC} expansion ($\lc = 2$) of a quantity of interest $\vg: \Omega \to
+\real^3$ with three outputs is
 \[
-  \g \approx \hat{\g}_0 + \hat{\g}_1 \z + \hat{\g}_2(\z^2 - 1),
+  \chaos{1}{2}{\vg}
+  = \hat{\vg}_{(0)} \psi_{(0)}
+  + \hat{\vg}_{(1)} \psi_{(1)}
+  + \hat{\vg}_{(2)} \psi_{(2)}
 \]
-which is a polynomial in \z, and each coefficient is a vector with $\np \ns =
-200$ elements. Then, for any outcome $\z \equiv \z(\o)$, the corresponding
-temperature profile \mq can be evaluated by plugging in \z into the above
-equation and reshaping the result into an $\np \times \ns = 2 \times 100$
-matrix. In this case, the three rows of $\hat{\v{v}}$ are $\hat{\g}_0$,
-$\hat{\g}_1$, and $\hat{\g}_2$; the first one is also a flattened version of the
-expected value of $\mq$ as shown in \eref{probabilistic-moments}.
-
-\subsection{Reliability Optimization}
-
-Assume that the structure of the reliability model is the one shown in
-\eref{reliability-model} where each individual reliability function $R_i$ is the
-one given in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for
-$i = \range{1}{\np}$. During each iteration, the temperature of processing
-element $i$ exhibits \nk{i} cycles. Each cycle generally has different
-characteristics and, therefore, causes different damage. This aspect is taken
-into account by adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The
-shape parameter $\beta_i$ is known to be indifferent to temperature. For
-simplicity, let us also assume that $\beta_i$ does not depend on process
-parameters, and that $\beta_i = \beta$ for $i = \range{1}{\np}$.
-
-Under the above assumptions, \rref{weibull-homogeneity} applies, and the
-lifetime $T: \Omega \to \real$ of the system has a Weibull distribution as
-follows:
-\[
-  T | \vg \sim \mathrm{Weibull}(\eta, \beta)
-\]
-where $\eta$ is as in \rref{weibull-homogeneity} combined with
-\eref{thermal-cycling-scale}. The high-level parameters of the above model are
-two parameters: $\eta$ and $\beta$, among which only $\eta$ is uncertain.
-Thus, $\vg = (\eta)$ in this particular scenario; $\beta$ is given implicitly.
-
-Now we apply the technique in \sref{uncertainty-analysis} to this quantity. In
-this case, Algorithm~G in \aref{surrogate-construction} is an auxiliary function
-that makes a call to \aref{temperature-solution}, processes the resulting
-temperature profile as it was described earlier in this subsection, and returns
-$\eta$ computed according to the formula in \eref{compound-weibull-eta}.
-Consequently, we obtain a light polynomial surrogate of the parameterization of
-the reliability model, which can be then studied from various perspectives. The
-example for a dual-core system given at the end of \sref{temperature-solution}
-can be considered in this context as well with the only change that the
-dimensionality of the polynomial coefficients would be two here (since $\eta \in
-\real^\np$ and $\np = 2$).
+where $\{ \hat{\vg}_{\multiindex} \} \subset \real^3$,
+\begin{align*}
+  & \psi_{(0)}(\vz) = 1, \\
+  & \psi_{(1)}(\vz) = \z_1, \text{ and} \\
+  & \psi_{(2)}(\vz) = \z_1^2 - 1.
+\end{align*}
+The expansion is post-processed at Stage~4 as described in
+\sref{chaos-reliability-optimization}.
