@@ -102,7 +102,7 @@ correlation patterns induced by the manufacturing process; \two~it is
 computationally efficient; and \three~Gaussian distributions are often natural
 and accurate models for uncertainties due to process variation
 \cite{srivastava2010, reda2009, juan2012}. We denote this as
-\begin{equation} \elab{inference-prior}
+\begin{equation} \elab{inference-prior-quantity}
   \g | \u_\g \sim \mathrm{Gaussian\ Process}(\mu, v)
 \end{equation}
 where $\mu(\cdot)$ and $v(\cdot, \cdot)$ are the mean and covariance functions
@@ -161,8 +161,8 @@ where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
 \real^\nz$ independent random variables that obey the standard Gaussian
 distribution. The number \nz is the final dimensionality of the model of \g.
 Typically, $\nz \ll \nd \np$. The model is now ready for practical computations.
-In addition, the parameters $\u_\g$ in \eref{inference-prior} are now known, and
-they are $\u_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
+In addition, the parameters $\u_\g$ in \eref{inference-prior-quantity} are now
+known, and they are $\u_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
 \fref{inference-statistical-model}.
 
 Step~3 is to define a likelihood function, which is where the observed
