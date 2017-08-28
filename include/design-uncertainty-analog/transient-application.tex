@@ -1,6 +1,14 @@
-So far we have not made any assumptions regarding the cause of variability. In
-this section, we consider a particular application of the proposed framework in
-order to illustrate how it is supposed to be used in practice.
+In this section, we consider a particular application of the proposed approach
+to transient analysis given in \sref{chaos-transient-analysis} in order to
+illustrate how it is supposed to be used in practice. We begin by describing the
+considered scenario.
+
+\subsection{Problem Formulation}
+
+At Stage~1 in \fref{chaos-overview}, the quantity of interest \g is the
+transient (temperature-aware) power and temperature profiles corresponding to a
+given workload. Let us now specify the parameters \vu that make \g uncertain to
+the designer.
 
 As discussed in \sref{power-model}, the total dissipation of power is composed
 of two major parts: dynamic and static. The influence of process variation on
@@ -79,42 +87,8 @@ with $\{ u_{\local, i} \}_{i = 1}^\np$. In this case, the correlation matrix
 obtains one additional nonzero diagonal element equal to unity; the result is
 the correlation matrix of \vu denoted by $\correlation{\vu}$.
 
-To conclude, the input to our analysis is composed of the marginal distributions
-of the uncertain parameters \vu, which are beta distributions, and the
-corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
-stages of the proposed framework discussed in \sref{chaos-solution} and depicted
-in \fref{chaos-overview}.
-
-\subsection{Probability Transformation}
-
-At Stage~1 in \fref{chaos-overview}, \vu should be preprocessed in order to
-extract a vector of mutually independent random variables denoted by \vz.
-Following the guidance given in \sref{chaos-probability-transformation}, the
-most suitable transformation for the ongoing scenario is the one given in
-\eref{probability-transformation}, which we denote here by
-\[
-  \vu \approx \transform{\vz}.
-\]
-
-Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
-directly impacts the computational cost of \ac{PC} expansions, which is
-elaborated on in \sref{chaos-surrogate-model}, one should consider a possibility
-for model order reduction before constructing \ac{PC} expansions. To this end,
-the model order reduction described in \sref{probability-transformation} is an
-essential part of and assumed to be active in the above transformation. The
-reduce dimensionality is denoted by \nz.
-
-The marginal distributions of \vz can be arbitrary as long as one can construct
-a suitable polynomial basis as described in \sref{chaos-surrogate-model}. We let
-\vz have beta distributions, staying in the same family of distributions with
-\vu.
-
-\subsection{Power Model}
-
-At Stage~2 in \fref{chaos-overview}, we have to decide on the power model with
-the identified uncertain parameters as an input. To this end,
-\eref{chaos-power-model} is decomposed into the sum of the dynamic and static
-components
+Let us now be more specific about the power model in \eref{chaos-power-model}.
+The equation is decomposed into the sum of the dynamic and static components
 \[
   f(t, \vq, \vu) = f_\dynamic(t) + f_\static(\vq, \vu)
 \]
@@ -140,20 +114,46 @@ effective channel length and temperature, and the results are tabulated. An
 interpolation technique is then utilized whenever we need to evaluate the static
 power for a particular point within the range of the grid.
 
-\subsection{Temperature Model}
+Regarding temperature analysis, an adequate thermal \up{RC} circuit should be
+constructed. Given the specification of the platform---including the floorplan
+of the die and the configuration of the thermal package---the circuit is
+constructed by means of HotSpot \cite{skadron2003}; the structure is the default
+one described in \sref{temperature-model}. The solution process is the one
+presented in \sref{transient-state-solution}.
 
-At Stage~3 in \fref{chaos-overview}, the temperature model is to be detailed.
-More concretely, we need to provide an adequate thermal \up{RC} circuit. Given
-the specification of the platform at hand---including the floorplan of the die
-and the configuration of the thermal package---such a circuit is constructed by
-means of HotSpot \cite{skadron2003}; the structure is the default one described
-in \sref{temperature-model}. Finally, using the solution technique presented in
-\sref{transient-state-solution}, the two coefficient matrices $\m{E}$ and
-$\m{F}$ used in the recurrence in \eref{chaos-recurrence} are calculated.
+To conclude, the input to our analysis is composed of the marginal distributions
+of the uncertain parameters \vu, which are beta distributions, and the
+corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
+other stages of our methodology discussed in \sref{chaos-uncertainty-analysis}
+and depicted in \fref{chaos-overview}.
 
-\subsection{Surrogate Model}
+\subsection{Probability Transformation}
 
-At Stage~4 in \fref{chaos-overview}, the uncertain parameters, power model, and
+At Stage~2 in \fref{chaos-overview}, \vu should be preprocessed in order to
+extract a vector of mutually independent random variables denoted by \vz.
+Following the guidance given in \sref{chaos-probability-transformation}, the
+most suitable transformation for the ongoing scenario is the one given in
+\eref{probability-transformation}, which we denote here by
+\[
+  \vu \approx \transform{\vz}.
+\]
+
+Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
+directly impacts the computational cost of \ac{PC} expansions, which is
+elaborated on in \sref{chaos-surrogate-construction}, one should consider a
+possibility for model order reduction before constructing \ac{PC} expansions. To
+this end, the model order reduction described in
+\sref{probability-transformation} is an essential part of and assumed to be
+active in the above transformation. The reduce dimensionality is denoted by \nz.
+
+The marginal distributions of \vz can be arbitrary as long as one can construct
+a suitable polynomial basis as described in \sref{chaos-surrogate-construction}.
+We let \vz have beta distributions, staying in the same family of distributions
+with \vu.
+
+\subsection{Surrogate Construction}
+
+At Stage~3 in \fref{chaos-overview}, the uncertain parameters, power model, and
 temperature model developed in the previous subsections are to be fused together
 under the desired workload $\mp_\dynamic$ in order to produce the corresponding
 stochastic power and temperature profiles denoted by \mp and \mq, respectively.
@@ -196,8 +196,8 @@ The next step is to compute the coefficients of power $\{ \hat{\vp}_{i
 coefficients of temperature $\{ \hat{\vq}_{i \multiindex[j]} \}$. As discussed
 in \sref{polynomial-chaos}, these computations involve multidimensional
 integration with respect to the distribution of \vz, which should be done
-numerically using a quadrature rule; recall \sref{chaos-surrogate-model}. When
-beta distributions are concerned, the natural choice is the Gauss--Jacobi
+numerically using a quadrature rule; recall \sref{chaos-surrogate-construction}.
+When beta distributions are concerned, the natural choice is the Gauss--Jacobi
 quadrature; see \sref{numerical-integration}. Then, using
 \eref{quadrature-summation}, the coefficient are computed as shown in
 \eref{chaos-coefficient}. It is important to note that \lq should be chosen in
@@ -214,7 +214,7 @@ are defined in terms of \nz mutually independent random variables.
 
 \subsection{Post-Processing}
 
-At Stage~5 in \fref{chaos-overview}, the constructed expansions are utilized in
+At Stage~4 in \fref{chaos-overview}, the constructed expansions are utilized in
 order to assist the designer by analyzing the impact of process variation on
 power- and temperature-related characteristics of the system. It can be seen in,
 for example, \eref{chaos-expansion-example} that the surrogate model has a
@@ -241,4 +241,4 @@ than a second while \ac{MC} sampling takes more than a day as we shall see in
 moment can also be estimated. This operation is undertaken by sampling the
 surrogate, in which case we might obtain curves similar to those shown
 \fref{chaos-example-density}, which is a part of a different example given in
-\sref{chaos-result}.
+\sref{chaos-transient-result}.
