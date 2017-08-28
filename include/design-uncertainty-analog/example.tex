@@ -3,12 +3,12 @@ Consider a quad-core architecture exposed to the uncertainty due to parameters
 that affect the leakage current. Assume first that these parameters have nominal
 values. We can then simulate the system under a certain workload and observe the
 corresponding temperature profile; the experimental setup is to be detailed in
-\sref{chaos-example} and \sref{chaos-results}. The result is depicted in
-\fref{chaos-example} by a blue line, which corresponds to the temperature of one
-of the processors. It can be seen that the temperature is always below
-\celsius{90}. Let us now assume a mild deviation of the parameters from the
-nominal values and simulate once again. The result is the orange line in
-\fref{chaos-example}; the maximum temperature is approaching \celsius{100}.
+\sref{chaos-transient-application} and \sref{chaos-transient-results}. The
+result is depicted in \fref{chaos-example} by a blue line, which corresponds to
+the temperature of one of the processors. It can be seen that the temperature is
+always below \celsius{90}. Let us now assume a mild deviation of the parameters
+from the nominal values and simulate once again. The result is the orange line
+in \fref{chaos-example}; the maximum temperature is approaching \celsius{100}.
 Finally, we repeat the experiment considering a severe deviation of the
 parameters and observe the yellow line in \fref{chaos-example}; the maximum
 temperature is almost \celsius{110}. Suppose that the designer is tuning a

@@ -54,11 +54,12 @@ monitor the corresponding difference between the results produced by the two
 alternatives.
 
 We also inspect the impact of the correlation patterns between the local random
-variables $\{ u_{\local, i} \}_{i = 1}^\np$; recall \sref{chaos-application}.
-More specifically, apart from \lc and \no, we change the balance between the two
-correlation functions shown in \eref{inference-correlation}, that is, the
-squared-exponential $k_\SE$ and Ornstein--Uhlenbeck $k_\OU$ kernels, which is
-controlled by the weight coefficient $w \in [0, 1]$.
+variables $\{ u_{\local, i} \}_{i = 1}^\np$; recall
+\sref{chaos-transient-application}. More specifically, apart from \lc and \no,
+we change the balance between the two correlation functions shown in
+\eref{inference-correlation}, that is, the squared-exponential $k_\SE$ and
+Ornstein--Uhlenbeck $k_\OU$ kernels, which is controlled by the weight
+coefficient $w \in [0, 1]$.
 
 The \ac{PC} and \ac{MC} methods are compared by means of three metrics. The
 first two are the \acfp{NRMSE} of the expectation and variance of the computed
@@ -178,26 +179,27 @@ order reduction procedure described in \sref{probability-transformation}.
 \inputtable{chaos-scaling}
 First, we vary the number of processing elements \np, which directly affects the
 dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$; recall
-\sref{chaos-application}. The results, including the dimensionality \nz of \vz,
-are given in \tref{chaos-scaling-elements} where the considered values of \np
-are in $\{ 2^i \}_{i = 1}^5$, and $\ns = 10^3$. It can be seen that the
-correlation patters inherent to the manufacturing process \cite{cheng2011} open
-a great possibility for model order reduction: \nz is observed to be at most 12
-while the maximum number without reduction is 33 (1 global variable and 32 local
-ones corresponding to the case with $\np = 32$). This reduction depends also on
-the floorplans, which is illustrated by the decrease of \nz when \np increases
-from 16 to 32 for $w = 1$. To elaborate, one floorplan is a four-by-four grid, a
-perfect square, while the other an eight-by-four grid, a rectangle. Since both
-are fitted into square dies, the former is spread across the whole die whereas
-the latter is concentrated along the middle line; the rest is ascribed to the
-particularities of $k_\SE$. On average, the $k_\OU$ kernel ($w = 0$) requires
-the fewest number of variables while the mixture of $k_\SE$ and $k_\OU$ ($w =
-0.5$) requires the most. It means that, in the latter case, more variables
-should be preserved in order to retain 99\% of the variance. Hence, the case
-with $w = 0.5$ is the most demanding in terms of computational complexity. The
-results in the previous subsection correspond to the case with $\np = 4$;
-therefore, \nz is two, five, and five in \tref{chaos-accuracy-0},
-\tref{chaos-accuracy-0-5}, and \tref{chaos-accuracy-1}, respectively.
+\sref{chaos-transient-application}. The results, including the dimensionality
+\nz of \vz, are given in \tref{chaos-scaling-elements} where the considered
+values of \np are in $\{ 2^i \}_{i = 1}^5$, and $\ns = 10^3$. It can be seen
+that the correlation patters inherent to the manufacturing process
+\cite{cheng2011} open a great possibility for model order reduction: \nz is
+observed to be at most 12 while the maximum number without reduction is 33 (1
+global variable and 32 local ones corresponding to the case with $\np = 32$).
+This reduction depends also on the floorplans, which is illustrated by the
+decrease of \nz when \np increases from 16 to 32 for $w = 1$. To elaborate, one
+floorplan is a four-by-four grid, a perfect square, while the other an
+eight-by-four grid, a rectangle. Since both are fitted into square dies, the
+former is spread across the whole die whereas the latter is concentrated along
+the middle line; the rest is ascribed to the particularities of $k_\SE$. On
+average, the $k_\OU$ kernel ($w = 0$) requires the fewest number of variables
+while the mixture of $k_\SE$ and $k_\OU$ ($w = 0.5$) requires the most. It means
+that, in the latter case, more variables should be preserved in order to retain
+99\% of the variance. Hence, the case with $w = 0.5$ is the most demanding in
+terms of computational complexity. The results in the previous subsection
+correspond to the case with $\np = 4$; therefore, \nz is two, five, and five in
+\tref{chaos-accuracy-0}, \tref{chaos-accuracy-0-5}, and \tref{chaos-accuracy-1},
+respectively.
 
 At this point, it is important to note the following. First, since the curse of
 dimensionality constitutes arguably the major concern of the theory of \ac{PC}
