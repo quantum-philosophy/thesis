@@ -1,8 +1,8 @@
 In this section, we evaluate our framework on different configurations of the
 illustrative application given in \sref{chaos-transient-application}. All the
-experiments are conducted on a \up{GNU}/Linux machine with Intel Core i7
-2.66~\up{GH}z and 8~\up{GB} of \up{RAM}. All the configuration files used in the
-experiments are available online at \cite{eslab2014b}.
+experiments are conducted on a \up{GNU}/Linux machine equipped with Intel Core
+i7 2.66~\up{GH}z and 8~\up{GB} of \up{RAM}. All the configuration files used in
+the experiments are available online at \cite{eslab2014b}.
 
 Let us first elaborate on the default configuration of our experimental setup,
 which, in the following subsections, will be adjusted according to the purpose
@@ -21,6 +21,13 @@ architecture of interest. The floorplans are constructed in such a way that the
 processing elements form regular grids. The time step of power and temperature
 traces is set to 1~ms, which is also the time step of the recurrence in
 \eref{chaos-recurrence}.
+
+The construction of \ac{PC} expansions and quadrature rules follows the
+exposition given in \sref{chaos-surrogate-construction}. The tuning parameter
+$\gamma$ in \eref{chaos-anisotropic-weight} is set to zero, which turns the
+anisotropic multi-index set given in \eref{index-total-order-anisotropic} into
+the isotropic one given in \eref{index-total-order-isotropic}. Anisotropy is to
+be exploited in a later section of this chapter.
 
 Since the temperature part of our power and temperature analysis is our primary
 contribution in this chapter, we focus on the assessment of temperature

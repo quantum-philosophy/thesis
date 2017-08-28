@@ -12,13 +12,13 @@ channel length and gate-oxide thickness are assumed to have nominal values equal
 to 22.5~nm and 1~nm, respectively. Following the information about process
 variation reported by \up{ITRS} \cite{itrs}, we assume that each process
 parameter can deviate up to 12\% of its nominal value, and this percentage is
-treated as three standard deviations. The corresponding probabilistic model is
-the one described in \sref{preprocessing}. Regarding the correlation function in
-\eref{correlation-function}, the weight coefficient $w$ is set to 0.5, and the
+treated as three standard deviations. Regarding the correlation function in
+\eref{inference-correlation}, the weight coefficient $w$ is set to 0.5, and the
 length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of
-the die (see the next paragraph). The model order reduction is set to preserve
-95\% of the variance of the problem (see also \sref{model-order-reduction}). The
-tuning parameter $\v{c}$ in \eref{dimension-anisotropy} is set to 0.25.
+the die (to be discussed). The model-order-reduction procedure in
+\sref{probability-transformation} is set to preserve 95\% of the variance of the
+problem. The tuning parameter $\gamma$ in \eref{chaos-anisotropic-weight} is set
+to 0.25.
 
 Heterogeneous platforms and periodic applications are generated randomly using
 \up{TGFF} \cite{dick1998} in such a way that the execution time of each task is
