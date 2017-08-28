@@ -33,9 +33,9 @@ value, which Gaussian distributions allow it to do. In other words, we require
 the model of \u to have a bounded support. With this in mind, we propose to
 model the effective channel length and other physically-bounded parameters using
 the four-parametric family of beta distributions as
-\[
+\begin{equation} \elab{beta-distribution}
   \u \sim \mathrm{Beta}(a, b, c, d)
-\]
+\end{equation}
 where $a$ and $b$ are the shape parameters, and $c$ and $d$ are the left and
 right bounds of the support, respectively. The parameters $a$ and $b$ can be
 chosen so that the typically found bell shape of the distribution is preserved.
@@ -133,10 +133,8 @@ At Stage~2 in \fref{chaos-overview}, \vu should be preprocessed in order to
 extract a vector of mutually independent random variables denoted by \vz.
 Following the guidance given in \sref{chaos-probability-transformation}, the
 most suitable transformation for the ongoing scenario is the one given in
-\eref{probability-transformation}, which we denote here by
-\[
-  \vu \approx \transform{\vz}.
-\]
+\eref{probability-transformation}, which we denote here by $\transform$; see
+\eref{chaos-transform}.
 
 Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
 directly impacts the computational cost of \ac{PC} expansions, which is

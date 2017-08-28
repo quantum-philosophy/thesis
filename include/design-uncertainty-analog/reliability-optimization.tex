@@ -15,11 +15,11 @@ which, in the deterministic case, can be computed as described in
 The goal of our optimization in this section is to find such a schedule
 \schedule that minimizes the energy consumption while satisfying certain
 constraints. More specifically, our objective is
-\begin{equation} \elab{chaos-objective}
+\begin{equation} \elab{chaos-optimization-objective}
   \min_{\schedule} \expectation{(E(\schedule))}
 \end{equation}
 such that
-\begin{equation} \elab{chaos-constraints}
+\begin{equation} \elab{chaos-optimization-constraints}
   \begin{split}
     & \period(\schedule) \leq t_\maximum, \\
     & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \\
@@ -36,29 +36,29 @@ $\period(\schedule)$ is the period of the application; \dt is the sampling
 interval of power and temperature profiles; and $\norm[1]{\cdot}$ denotes the
 Manhattan norm.
 
-Our objective in \eref{chaos-objective} is to minimize the expectation of the
-total energy consumption $E: \Omega \to \real$, which is a random variable since
-energy is a function of power, and power, in turn, depends on the uncertain
-parameters \vu.
+Our objective in \eref{chaos-optimization-objective} is to minimize the
+expectation of the total energy consumption $E: \Omega \to \real$, which is a
+random variable since energy is a function of power, and power, in turn, depends
+on the uncertain parameters \vu.
 
-Our constraints in \eref{chaos-constraints} concern \one~time, \two~temperature,
-and \three~reliability. The first constrains the period of the application by
-$t_\maximum$ (a deadline). The second constrains the maximum temperature of the
-system by $\q_\maximum$ where $\rho_\burn$ is an acceptable probability of
-burning the chip. The third constrains from below the lifetime of the system by
-$T_\minimum$ where $\rho_\wear$ is an acceptable probability of having a
-premature fault due to wear. The last two constraints in
-\eref{chaos-constraints} are probabilistic since the quantities under
-consideration are random. In the last constraint, we set an upper bound on the
-probability of the expected value of $T$; note that this expectation is a random
-variable itself due to the nested structure of the reliability model described
-in \rref{chaos-nested-uncertainty}.
+Our constraints in \eref{chaos-optimization-constraints} concern \one~time,
+\two~temperature, and \three~reliability. The first constrains the period of the
+application by $t_\maximum$ (a deadline). The second constrains the maximum
+temperature of the system by $\q_\maximum$ where $\rho_\burn$ is an acceptable
+probability of burning the chip. The third constrains from below the lifetime of
+the system by $T_\minimum$ where $\rho_\wear$ is an acceptable probability of
+having a premature fault due to wear. The last two constraints in
+\eref{chaos-optimization-constraints} are probabilistic since the quantities
+under consideration are random. In the last constraint, we set an upper bound on
+the probability of the expected value of $T$; note that this expectation is a
+random variable itself due to the nested structure of the reliability model
+described in \rref{chaos-nested-uncertainty}.
 
 In this section, the quantity of interest \g in \fref{chaos-overview} is the
 vector
-\[
+\begin{equation} \elab{chaos-optimization-quantity}
   \vg = (E, Q, T)
-\]
+\end{equation}
 where the first element corresponds to the total energy consumption; the second
 is the maximum temperature; and, with a slight abuse of notation, the third is
 the parameters of the reliability model characterizing the lifetime---in
@@ -75,7 +75,8 @@ stage, Stage~4, is worth discussing.
 \subsection{Post-Processing}
 
 Polynomial expansions are utilized inside an optimization procedure whose
-objective is to minimize \eref{chaos-objective}. Let us discuss this procedure.
+objective is to minimize \eref{chaos-optimization-objective}. Let us discuss
+this procedure.
 
 Similar to \sref{reliability-optimization}, we make use of a genetic algorithm.
 Each chromosome contains $2 \nt$ genes that encode a mapping of the tasks onto
@@ -90,17 +91,17 @@ stopping condition is the absence of improvement within 10 successive
 generations.
 
 Let us turn to the evaluation of the fitness of a chromosome. We begin by
-checking the timing constraint, the first in \eref{chaos-constraints}, as it
-does not require any uncertainty analysis; the constraint is purely
-deterministic. If it is violated, we set the fitness to the amount of this
-violation relative to the constraint---that is, to the difference between the
-actual application period and the deadline $t_\maximum$ divided by
-$t_\maximum$---and add a big constant $C$. If the timing constraint is
-satisfied, we perform our uncertainty analysis and proceed to checking the other
-two constraints. If any of them is violated, we set the fitness to the total
-relative amount of violation plus $C / 2$. If all the constraints are satisfied,
-the fitness value of the chromosome is set to the expected consumption of
-energy.
+checking the timing constraint, the first in
+\eref{chaos-optimization-constraints}, as it does not require any uncertainty
+analysis; the constraint is purely deterministic. If it is violated, we set the
+fitness to the amount of this violation relative to the constraint---that is, to
+the difference between the actual application period and the deadline
+$t_\maximum$ divided by $t_\maximum$---and add a big constant $C$. If the timing
+constraint is satisfied, we perform our uncertainty analysis and proceed to
+checking the other two constraints. If any of them is violated, we set the
+fitness to the total relative amount of violation plus $C / 2$. If all the
+constraints are satisfied, the fitness value of the chromosome is set to the
+expected consumption of energy.
 
 In order to speed up the optimization, we make use of caching and parallel
 computing. Specifically, the fitness value of each evaluated chromosome is
@@ -108,8 +109,9 @@ stored in memory and reused when a chromosome with the same set of genes is
 encountered, and unseen (not cached) individuals are assessed in parallel.
 
 The important aspect to note is that the examination of the temperature and
-lifetime constraints, the last two in \eref{chaos-constraints}, as well as the
-evaluation of the expect energy consumption in \eref{chaos-objective} are
-undertaken by means of a \ac{PC} expansion. The probabilities of the events are
-estimated via sampling the light surrogate, and the expectation has an
-analytical formula; see \sref{chaos-post-processing}.
+lifetime constraints, the last two in \eref{chaos-optimization-constraints}, as
+well as the evaluation of the expect energy consumption in
+\eref{chaos-optimization-objective} are undertaken by means of a \ac{PC}
+expansion. The probabilities of the events are estimated via sampling the light
+surrogate, and the expectation has an analytical formula; see
+\sref{chaos-post-processing}.
