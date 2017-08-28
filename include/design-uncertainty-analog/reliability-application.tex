@@ -1,59 +1,36 @@
-In order to give a better intuition about our solutions, we shall accompany the
-development of our framework with the development of a concrete
-example/application, which will eventually be utilized for the quantitative
-evaluation of the framework given in \sref{experimental-results}. To this end,
-we have decided to focus on two process parameters, which are arguably the most
-crucial ones, namely, the effective channel length $L$ and the gate-oxide
-thickness $T$. In this example,
-\[
-  \vu = (L, T): \Omega \to \real^2,
-\]
-which is to be discussed in detail shortly. Regarding reliability, we shall
-address the thermal-cycling fatigue as it is naturally connected with dynamic
-steady-state temperature analysis that we develop.
+In order to give a better intuition about the approach to reliability analysis
+and optimization presented in \sref{chaos-reliability-analysis} and
+\sref{chaos-reliability-optimization}, we consider a concrete application,
+meaning that we specify the uncertain parameters and carry out the corresponding
+computations. This application is also utilized for the quantitative evaluation
+of our technique given in the next section, \sref{chaos-reliability-results}.
 
-Before we proceed to the construction of surrogate models, let us first refine
-our definition of $\vu = (\u_i)_{i = 1}^\nu$. Each $\u_i$ is a characteristic of
-a single transistor---consider, for instance, the effective channel
-length---and, therefore, each device in the electrical circuit at hand
-potentially has a different value of this parameter since, in general, the
-variability due to process variation is not uniform. Consequently, each $\u_i$
-can be viewed as a random process $\u_i: \Omega \times \real^2 \to \real$
-defined on a two-dimensional plane. Since this work is system-level oriented, we
-model each processing element with one variable for each such random process.
-More specifically, we let $\u_{ij} = \u_i(\cdot, \v{r}_j)$ be the random
-variable representing uncertain parameter $i$ at processing element $j$ where
-$\v{r}_j \in \real^2$ stands for the spatial location of the center of the
-processing element. Therefore, we redefine the parameterization \vu of the
-problem at hand as
-\[
-  \vu = (\u_i)_{i = 1}^{\nu \np}: \Omega \to \real^{\nu \np}
-\]
-such that there is a one-to-one correspondence between $\u_i$ for $i =
-\range{1}{\nu \np}$ and $\u_{ij}$ for $i = \range{1}{\nu}$ and $j =
-\range{1}{\np}$. For instance, in our illustrative application with two process
-parameters, the total number of stochastic dimensions is $2 \np$.
+\subsection{Problem Formulation}
+
+We focus on two crucial process parameters, namely, on the effective channel
+length and gate-oxide thickness. Consequently, each processing element is
+ascribed two random variables corresponding to the two process parameters, which
+means that $\nu = 2 \np$ in this example; see also \sref{chaos-problem}.
 
 \begin{remark}
-Some authors prefer to split the variability of a process parameter at a spatial
-location into several parts such as wafer-to-wafer, die-to-die, and within-die;
-see, for instance, \cite{juan2012}. However, from the mathematical point of
-view, it is sufficient to consider just one random variable per location which
-is adequately correlated with the other locations of interest.
+The variability of a process parameter at a spatial location can be split into
+several parts such as inter-lot, inter-wafer, inter-die, and intra-die; see, for
+instance, \cite{juan2012}. However, from the mathematical point of view, it is
+sufficient to consider just one random variable per location with an adequate
+distribution and adequate correlations with the other locations of interest.
 \end{remark}
 
-A description of \vu given by the designer is an input to our analysis. A proper
-(complete, unambiguous) way to describe a set of random variables is to specify
-their joint probability distribution function. In practice, however, such
-exhaustive information is often unavailable, in particular, due to the high
-dimensionality in the presence of prominent dependencies inherent to the
-considered problem. A more realistic assumption is the knowledge of the marginal
-distributions and correlation matrix of \vu. Denote by $\{ F_{\u_i} \}_{i =
-1}^{\nu \np}$ and $\correlation{\vu} \in \real^{\nu \np \times \nu \np}$ the
-marginal distribution functions and correlation matrix of the uncertain
-parameters \vu in \eref{uncertain-parameters}, respectively. Note that the
-number of distinct marginals is only \nu since \np components of \vu correspond
-to the same uncertain parameter.
+A description of \vu is an input to our analysis. A proper way to describe a set
+of random variables is to specify their joint probability distribution function.
+In practice, however, such exhaustive information is often unavailable, in
+particular, due to the high dimensionality in the presence of prominent
+dependencies inherent to the considered problem. A more realistic assumption,
+which we make here, is the knowledge of the marginal distributions and
+correlation matrix of \vu. Denote by $\{ F_i \}_{i = 1}^\nu$ and
+$\correlation{\vu} \in \real^{\nu \times \nu}$ the marginal distribution
+functions and correlation matrix of the uncertain parameters \vu in,
+respectively. Note that the number of distinct marginals is only two since \np
+components of \vu correspond to the same process parameter.
 
 \subsection{Probability Transformation}
 
