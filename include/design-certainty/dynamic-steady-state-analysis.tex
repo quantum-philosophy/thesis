@@ -300,12 +300,12 @@ corresponding iterative calculation is undertaken until the \ac{NRMSE} relative
 to the dynamic steady-state temperature profile calculated by means of the
 proposed method (which is exact) is less than 1\%.
 
-\inputfigure{dynamic-steady-state-scaling}
+\inputfigure{dynamic-steady-state-speed}
 First, we vary the period \period of power and temperature profiles---and,
 thereby, the number of samples \ns that they contain---while keeping the
 architecture fixed, which is a quad-core platform with a processing-element area
 of 4~mm\textsuperscript{2}. The results of this experiment are depicted in
-\fref{scaling-steps} on a semi-logarithmic scale. It can be seen that the
+\fref{dynamic-steady-state-speed-steps} on a semi-logarithmic scale. It can be seen that the
 proposed technique is 9--170 times faster than iterative transient analysis with
 the analytical solution and roughly 5000 times faster than iterative transient
 analysis with HotSpot.
@@ -313,5 +313,6 @@ analysis with HotSpot.
 In the second experiment, we evaluate the scaling of our method with respect to
 the number of processing elements \np. The period is fixed to 500~ms, which
 results in 500 time steps. The obtained results are shown in
-\fref{scaling-elements}. It can be observed that the proposed technique provides
-a significant performance improvement relative to the alternative solutions.
+\fref{dynamic-steady-state-speed-elements}. It can be observed that the proposed
+technique provides a significant performance improvement relative to the
+alternative solutions.
