@@ -82,57 +82,58 @@ sampling the constructed \ac{PC} expansions. In contrast to the \ac{MC}
 approach, this sampling has a negligible overhead as we note in
 \sref{chaos-post-processing}.
 
-\inputtable{chaos-accuracy}
+\inputtable{chaos-transient-accuracy}
 The considered values of \lc, \no, and $w$ are in the sets $\{ i \}_{i = 1}^7$,
 $\{ 10^i \}_{i = 2}^5$, and $\{ 0, 0.5, 1 \}$, respectively. The three variants
 of $w$ correspond to the total dominance of $k_\OU$ ($w = 0$), perfect balance
 between $k_\SE$ and $k_\OU$ ($w = 0.5$), and total dominance of $k_\SE$ ($w =
 1$). A comparison for a quad-core architecture with a dynamic power profile of
-$\ns = 10^2$ steps is given in \tref{chaos-accuracy-0},
-\tref{chaos-accuracy-0-5}, and \tref{chaos-accuracy-1}, which correspond to $w
-= 0$, $w = 0.5$, and $w = 1$, respectively. Each table contains three
-subtables: one is for $\epsilon_{\expectation}$ (left), one is for
-$\epsilon_{\variance}$ (middle), and one is for $\epsilon_f$ (right), which
+$\ns = 10^2$ steps is given in \tref{chaos-transient-accuracy-0},
+\tref{chaos-transient-accuracy-0-5}, and \tref{chaos-transient-accuracy-1},
+which correspond to $w = 0$, $w = 0.5$, and $w = 1$, respectively. Each table
+contains three subtables: one is for $\epsilon_{\expectation}$ (left), one is
+for $\epsilon_{\variance}$ (middle), and one is for $\epsilon_f$ (right), which
 gives nine subtables in total.
 
 The columns of the tables that correspond to high values of \no can be used to
 assess the accuracy of the constructed \ac{PC} expansions; likewise, the rows
-that correspond to high values of \lc can be used to judge about the
-sufficiency of the number of \ac{MC} sampling. One can immediately note that,
-in all the subtables, all the error metrics tend to decrease from the top-left
-corners (low values of \lc and \ns) to the bottom-right corners (high values of
-\lc and \ns), which suggests that the \ac{PC} and \ac{MC} methods converge.
-There are a few outliers, associated with low \ac{PC} levels and the random
-nature of sampling; for instance, $\epsilon_{\variance}$ increases from 66.13 to
-66.7 and $\epsilon_f$ from 1.59 to 1.62 when \no increases from
-10\textsuperscript{4} and 10\textsuperscript{5} in \tref{chaos-accuracy-0-5}.
-However, the aforementioned main trend is still clear.
+that correspond to high values of \lc can be used to judge about the sufficiency
+of the number of \ac{MC} sampling. One can immediately note that, in all the
+subtables, all the error metrics tend to decrease from the top-left corners (low
+values of \lc and \ns) to the bottom-right corners (high values of \lc and \ns),
+which suggests that the \ac{PC} and \ac{MC} methods converge. There are a few
+outliers, associated with low \ac{PC} levels and the random nature of sampling;
+for instance, $\epsilon_{\variance}$ increases from 66.13 to 66.7 and
+$\epsilon_f$ from 1.59 to 1.62 when \no increases from 10\textsuperscript{4} and
+10\textsuperscript{5} in \tref{chaos-transient-accuracy-0-5}. However, the
+aforementioned main trend is still clear.
 
 For clarity of the discussions below, we focus primarily on one of the three
-tables, namely, on \tref{chaos-accuracy-0-5}, since the case with $w = 0.5$
-turns out to be the most challenging, which we shall elaborate on shortly. The
-drawn conclusions are generalized to the other two tables at the end of this
+tables, namely, on \tref{chaos-transient-accuracy-0-5}, since the case with $w =
+0.5$ turns out to be the most challenging, which we shall elaborate on shortly.
+The drawn conclusions are generalized to the other two tables at the end of this
 subsection.
 
 \inputfigure{chaos-example-density}
 First, we inspect the accuracy of our technique and, therefore, pay particular
-attention the columns of \tref{chaos-accuracy-0-5} corresponding to high values
-of \no. It can be seen that the error of the expectation is small even for $\lc
-= 1$. Concretely, it is bounded by 0.6\%; see $\epsilon_{\expectation}$ for
-$\lc \geq 1$ and $\no \geq 10^4$. The error of the variance starts from 66.7\%
-for the first-level \ac{PC} expansions and drops significantly to 5.71\% and
-below for the fourth level and higher; see $\epsilon_{\variance}$ for $\lc \geq
-4$ and $\no = 10^5$. It should be noted, however, that, for a fixed $\lc \geq
-4$, $\epsilon_{\variance}$ exhibits a considerable decrease even when \no
-transitions from 10\textsuperscript{4} to 10\textsuperscript{5}. The rate of
-this decrease suggests that $\no = 10^4$ is not sufficient to reach the accuracy
-delivered by the proposed framework, and $\no = 10^5$ might not be either.
-Finally, the error of the \acp{PDF} allows us to conclude that the \ac{PDF}
-computed by the third-level (and higher) \ac{PC} expansions closely follow those
-estimated by the \ac{MC} technique with large numbers of samples. The observed
-difference in \tref{chaos-accuracy-0-5} is bounded by 1.83\%; see $\epsilon_f$
-for $\lc \geq 3$ and $\no \geq 10^4$. In order to give a better intuition about
-the proximity of the two methods, \fref{chaos-example-density} displays the
+attention the columns of \tref{chaos-transient-accuracy-0-5} corresponding to
+high values of \no. It can be seen that the error of the expectation is small
+even for $\lc = 1$. Concretely, it is bounded by 0.6\%; see
+$\epsilon_{\expectation}$ for $\lc \geq 1$ and $\no \geq 10^4$. The error of the
+variance starts from 66.7\% for the first-level \ac{PC} expansions and drops
+significantly to 5.71\% and below for the fourth level and higher; see
+$\epsilon_{\variance}$ for $\lc \geq 4$ and $\no = 10^5$. It should be noted,
+however, that, for a fixed $\lc \geq 4$, $\epsilon_{\variance}$ exhibits a
+considerable decrease even when \no transitions from 10\textsuperscript{4} to
+10\textsuperscript{5}. The rate of this decrease suggests that $\no = 10^4$ is
+not sufficient to reach the accuracy delivered by the proposed framework, and
+$\no = 10^5$ might not be either. Finally, the error of the \acp{PDF} allows us
+to conclude that the \ac{PDF} computed by the third-level (and higher) \ac{PC}
+expansions closely follow those estimated by the \ac{MC} technique with large
+numbers of samples. The observed difference in
+\tref{chaos-transient-accuracy-0-5} is bounded by 1.83\%; see $\epsilon_f$ for
+$\lc \geq 3$ and $\no \geq 10^4$. In order to give a better intuition about the
+proximity of the two methods, \fref{chaos-example-density} displays the
 \acp{PDF} computed using our framework with $\lc = 4$ (the solid lines) along
 with those calculated by the \ac{MC} approach with $\no = 10^4$ (the dashed
 lines) for time moment 50~ms. It can be seen that the \acp{PDF} tightly match
@@ -141,23 +142,24 @@ curves are also readily available for the other steps of the considered time
 span.
 
 Second, we investigate the convergence of the \ac{MC} technique and, therefore,
-watch the rows of \tref{chaos-accuracy-0-5} that correspond to \ac{PC}
+watch the rows of \tref{chaos-transient-accuracy-0-5} that correspond to \ac{PC}
 expansions of high levels. Similar to the previous observations, even for low
 values of \no, the error of the expectation estimated by \ac{MC} sampling is
-relatively small, bounded by 1.19\%; see $\epsilon_{\expectation}$ for $\lc
-\geq 4$ and $\no = 10^2$. At the same time, the case with $\no = 10^2$ has high
-error rates in terms of the variance and \acp{PDF}: they are above 38\% and
-almost 3.5\%, respectively; see $\epsilon_{\variance}$ and $\epsilon_f$ for
-$\lc = 7$ and $\no = 10^2$. The results for the case with $\no = 10^3$ are
-reasonably more accurate. However, this trend is compromised by the figures in
-\tref{chaos-accuracy-1}: 10\textsuperscript{3} samples leave an error of more
-than 7\% for the variance; see $\epsilon_{\variance}$ for $\lc \geq 4$ and $\no
-= 10^3$.
+relatively small, bounded by 1.19\%; see $\epsilon_{\expectation}$ for $\lc \geq
+4$ and $\no = 10^2$. At the same time, the case with $\no = 10^2$ has high error
+rates in terms of the variance and \acp{PDF}: they are above 38\% and almost
+3.5\%, respectively; see $\epsilon_{\variance}$ and $\epsilon_f$ for $\lc = 7$
+and $\no = 10^2$. The results for the case with $\no = 10^3$ are reasonably more
+accurate. However, this trend is compromised by the figures in
+\tref{chaos-transient-accuracy-1}: 10\textsuperscript{3} samples leave an error
+of more than 7\% for the variance; see $\epsilon_{\variance}$ for $\lc \geq 4$
+and $\no = 10^3$.
 
-The above conclusions based on the results in \tref{chaos-accuracy-0-5} ($w =
-0.5$) are directly applicable to those in \tref{chaos-accuracy-0} ($w = 0$) and
-\tref{chaos-accuracy-1} ($w = 1$). The only difference is that the average
-error rates are lower when either of the two correlation kernels in
+The above conclusions based on the results in
+\tref{chaos-transient-accuracy-0-5} ($w = 0.5$) are directly applicable to those
+in \tref{chaos-transient-accuracy-0} ($w = 0$) and
+\tref{chaos-transient-accuracy-1} ($w = 1$). The only difference is that the
+average error rates are lower when either of the two correlation kernels in
 \eref{inference-correlation} dominates. In particular, according to
 $\epsilon_{\variance}$, the case with $w = 1$, which corresponds to $k_\SE$,
 stands out to be the least error prone.
@@ -183,13 +185,13 @@ values of the weight coefficient $w$, which impacts the number of the
 independent variables $\vz: \Omega \to \real^\nz$ preserved after the model
 order reduction procedure described in \sref{probability-transformation}.
 
-\inputtable{chaos-scaling}
+\inputtable{chaos-transient-speed}
 First, we vary the number of processing elements \np, which directly affects the
 dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$; recall
 \sref{chaos-transient-application}. The results, including the dimensionality
-\nz of \vz, are given in \tref{chaos-scaling-elements} where the considered
-values of \np are in $\{ 2^i \}_{i = 1}^5$, and $\ns = 10^3$. It can be seen
-that the correlation patters inherent to the manufacturing process
+\nz of \vz, are given in \tref{chaos-transient-speed-elements} where the
+considered values of \np are in $\{ 2^i \}_{i = 1}^5$, and $\ns = 10^3$. It can
+be seen that the correlation patters inherent to the manufacturing process
 \cite{cheng2011} open a great possibility for model order reduction: \nz is
 observed to be at most 12 while the maximum number without reduction is 33 (1
 global variable and 32 local ones corresponding to the case with $\np = 32$).
@@ -205,8 +207,8 @@ that, in the latter case, more variables should be preserved in order to retain
 99\% of the variance. Hence, the case with $w = 0.5$ is the most demanding in
 terms of computational complexity. The results in the previous subsection
 correspond to the case with $\np = 4$; therefore, \nz is two, five, and five in
-\tref{chaos-accuracy-0}, \tref{chaos-accuracy-0-5}, and \tref{chaos-accuracy-1},
-respectively.
+\tref{chaos-transient-accuracy-0}, \tref{chaos-transient-accuracy-0-5}, and
+\tref{chaos-transient-accuracy-1}, respectively.
 
 At this point, it is important to note the following. First, since the curse of
 dimensionality constitutes arguably the major concern of the theory of \ac{PC}
@@ -218,8 +220,8 @@ illustrated in the previous paragraph. Consequently, \nu can be misleading when
 reasoning about the applicability of our technique; \nz is well suited for this
 purpose.
 
-Another observation with respect to \tref{chaos-scaling-elements} is the low
-slope of the execution time of the \ac{MC} technique, which illustrates the
+Another observation with respect to \tref{chaos-transient-speed-elements} is the
+low slope of the execution time of the \ac{MC} technique, which illustrates the
 well-known fact that the workload per sample is independent of the number of
 stochastic dimensions. On the other hand, the rows with $\nz \geq 10$ hint at
 the curse of dimensionality, which \ac{PC} expansions suffer from. However, even
@@ -232,17 +234,17 @@ than two minutes; see the case with $w = 0.5$.
 Second, we investigate the scaling properties of the framework with respect to
 the duration of the analyzed time span, which is directly proportional to the
 number of time steps \ns covered by power and temperature profiles. The results
-for a quad-core platform are reported in \tref{chaos-scaling-steps}. Due to the
-long execution times demonstrated by the \ac{MC} approach, its statistics for
-high values of \ns are extrapolated based on a smaller number of samples, that
-is, $\no < 10^4$. Similar to \tref{chaos-scaling-elements}, we observe the
-dependency of the constructed expansions on the dimensionality \nz, which is two
-for $w = 0$ and five for the other two values of $w$; see
-\tref{chaos-scaling-elements} for $\np = 4$. It can be seen in
-\tref{chaos-scaling-steps} that the computation times of both methods grow
-linearly with respect to \ns, which is expected. However, the proposed framework
-shows a vastly superior performance being up to five orders of magnitude faster
-than the \ac{MC} alternative.
+for a quad-core platform are reported in \tref{chaos-transient-speed-steps}. Due
+to the long execution times demonstrated by the \ac{MC} approach, its statistics
+for high values of \ns are extrapolated based on a smaller number of samples,
+that is, $\no < 10^4$. Similar to \tref{chaos-transient-speed-elements}, we
+observe the dependency of the constructed expansions on the dimensionality \nz,
+which is two for $w = 0$ and five for the other two values of $w$; see
+\tref{chaos-transient-speed-elements} for $\np = 4$. It can be seen in
+\tref{chaos-transient-speed-steps} that the computation times of both methods
+grow linearly with respect to \ns, which is expected. However, the proposed
+framework shows a vastly superior performance being up to five orders of
+magnitude faster than the \ac{MC} alternative.
 
 It is worth noting that the observed speedups are due to two major reasons.
 First of all, \ac{PC} expansions are generally superior to \ac{MC} sampling when
