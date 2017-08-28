@@ -105,11 +105,13 @@ is a very frequent operation, there are families of quadrature rules that are
 designed to automatically take this aspect into account for the most common
 scenarios.
 
-Let us highlight one broad class of quadrature rules known as Gaussian
-quadratures. In one dimension, the precision of a Gaussian quadrature with \nq
-points is $2 \nq - 1$. In other words, the rule integrates polynomials of an
-order up to $2 \nq - 1$ exactly, which makes such rules especially efficient
-\cite{heiss2008}.
+We would like to highlight one broad family of quadrature rules known as
+Gaussian quadratures. In one dimension, the precision of a Gaussian quadrature
+with \nq points is $2 \nq - 1$ \cite{heiss2008} or, equivalently, $2 \lq + 1$
+since $\nq = \lq + 1$ in this case. In other words, a Gaussian quadrature with
+\nq points is exact for polynomials with orders up to $2 \nq - 1$ or $2 \lq +
+1$, which is a remarkable property of Gaussian quadratures that makes such rules
+especially efficient.
 
 Lastly, it is worth noting that quadrature rules are generally precomputed and
 tabulated since they do not depend the integrand; see, for instance,
