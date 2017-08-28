@@ -42,7 +42,7 @@ it is equal to $\eta$ in the example developed in this section.
 
 Let us not turn our attention to the uncertain parameters \vu. We focus on two
 crucial process parameters, namely, on the effective channel length and
-gate-oxide thickness. Consequently, each processing element is ascribed two
+gate oxide thickness. Consequently, each processing element is ascribed two
 random variables corresponding to the two process parameters, which means that
 $\nu = 2 \np$ in this example; see also \sref{chaos-problem}.
 
@@ -66,7 +66,7 @@ functions and correlation matrix of the uncertain parameters \vu in,
 respectively. Note that the number of distinct marginals is only two since \np
 components of \vu correspond to the same process parameter.
 
-Both considered process parameters, the effective channel length and gate-oxide
+Both considered process parameters, the effective channel length and gate oxide
 thickness, correspond to Euclidean distances; they take values on bounded
 intervals of the positive half of the real line. With this in mind, similar to
 \sref{chaos-transient-application}, we model the two process parameters using
@@ -75,6 +75,21 @@ the four-parametric family of beta distributions shown in
 to be independent of each other, and the correlations among those elements of
 \vu that correspond to the same process parameter are assumed to be given by the
 correlation function shown in \eref{inference-correlation}.
+
+The two process parameters manifest itself in the calculations associated with
+the power model in \eref{chaos-power-model-bulk} through the static power. The
+modeling here is based on \up{SPICE} simulations of a series of \up{CMOS}
+invertors taken from the 45-nm open cell library by NanGate \cite{nangate} and
+configured according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}. The
+simulations are performed on a fine-grained and sufficiently broad
+three-dimensional grid comprising the effective channel length, gate oxide
+thickness, and temperature; the results are tabulated. An interpolation
+algorithm is then utilized whenever the static power has to be evaluated for a
+particular point within the range of the grid. The output of this model is
+scaled up to account for about 40\% of the total power dissipation
+\cite{liu2007}. Regarding temperature modeling, the thermal \up{RC} circuit used
+for dynamic steady-state analysis is constructed via HotSpot \cite{skadron2003}
+as described in \sref{temperature-model}.
 
 At this point, the two outputs of Stage~1 are now specified.
 

@@ -107,7 +107,7 @@ We assume that the desired workload is given as a dynamic power profile denoted
 by $\mp_\dynamic$. Similar to \sref{inference-results}, without loss of
 generality, the development of the static part is based on \up{SPICE}
 simulations of a reference electrical circuit composed of \up{BSIM4} devices
-\cite{bsim} configured according to the 45-nm \up{PTM} model \cite{ptm}.
+\cite{bsim} configured according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}.
 Specifically, we use a series of \up{CMOS} invertors. The simulations are
 performed for a sufficiently wide fine-grained two-dimensional grid, the
 effective channel length and temperature, and the results are tabulated. An
@@ -117,9 +117,8 @@ power for a particular point within the range of the grid.
 Regarding temperature analysis, an adequate thermal \up{RC} circuit should be
 constructed. Given the specification of the platform---including the floorplan
 of the die and the configuration of the thermal package---the circuit is
-constructed by means of HotSpot \cite{skadron2003}; the structure is the default
-one described in \sref{temperature-model}. The solution process is the one
-presented in \sref{transient-state-solution}.
+constructed by HotSpot \cite{skadron2003} adhering to the structure described in
+\sref{temperature-model}.
 
 To conclude, the input to our analysis is composed of the marginal distributions
 of the uncertain parameters \vu, which are beta distributions, and the

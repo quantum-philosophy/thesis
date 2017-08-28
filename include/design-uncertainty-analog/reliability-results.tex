@@ -1,51 +1,35 @@
-In this section, we evaluate the performance of the proposed techniques. All the
-experiments are conducted on a \up{GNU}/Linux machine equipped with 16
-processors Intel Xeon E5520 2.27~\up{GH}z and 24~\up{GB} of \up{RAM}. Parallel
-computing is utilized only in the experiments reported in
-\sref{experimental-results-optimization}.
+In this section, we evaluate the performance of the proposed approach to
+reliability analysis and optimization presented in
+\sref{chaos-reliability-analysis} and \sref{chaos-reliability-optimization}
+considering the illustrative application that is described in
+\sref{chaos-reliability-application}. All the experiments are conducted on a
+\up{GNU}/Linux machine equipped with 16 processors Intel Xeon E5520
+2.27~\up{GH}z and 24~\up{GB} of \up{RAM}. All the configuration files used in
+the experiments are available online at \cite{eslab2015}.
 
-\hiddensubsection{Configuration}
-
-We consider a 45-nm technological process and rely on the 45-nm standard-cell
-library published and maintained by NanGate \cite{nangate}. The effective
-channel length and gate-oxide thickness are assumed to have nominal values equal
-to 22.5~nm and 1~nm, respectively. Following the information about process
-variation reported by \up{ITRS} \cite{itrs}, we assume that each process
-parameter can deviate up to 12\% of its nominal value, and this percentage is
-treated as three standard deviations. Regarding the correlation function in
+We consider a 45-nm technological process and rely on the 45-nm open cell
+library by NanGate \cite{nangate}. The effective channel length and gate oxide
+thickness are assumed to have nominal values equal to 22.5~nm and 1~nm,
+respectively. Based on \up{ITRS} \cite{itrs}, each process parameter is assumed
+to deviate up to 12\% of its nominal value, and this percentage is treated as
+three standard deviations. Regarding the correlation function in
 \eref{inference-correlation}, the weight coefficient $w$ is set to 0.5, and the
 length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of
-the die (to be discussed). The model-order-reduction procedure in
+the die. The model-order-reduction procedure in
 \sref{probability-transformation} is set to preserve 95\% of the variance of the
-problem. The tuning parameter $\gamma$ in \eref{chaos-anisotropic-weight} is set
-to 0.25.
+problem. The parameter $\gamma$ in \eref{chaos-anisotropic-weight} tuning the
+anisotropy of \ac{PC} expansions and integration grids is set to 0.25.
 
-Heterogeneous platforms and periodic applications are generated randomly using
+Heterogeneous platforms and periodic applications are generated randomly via
 \up{TGFF} \cite{dick1998} in such a way that the execution time of each task is
-uniformly distributed between 10 and 30~ms, and its dynamic power between 6 and
-20~W. The floorplans of the platforms are regular grids wherein each processing
-element occupies $2 \times 2\,\text{mm}^2$. Thermal RC circuits---which are
-essentially pairs of a thermal capacitance matrix $\m{C}$ and a thermal
-conductance $\m{G}$ matrix needed in the equations given in
-\sref{thermal-model}---are constructed using the HotSpot thermal model
-\cite{skadron2004}. The granularity of power and temperature profiles, that is,
-\dt in \sref{temperature-solution} and \sref{temperature-solution}, is set to
-1~ms; in practice, \dt should be set to a value that is reasonable for the
-problem at hand. The stopping condition in \aref{temperature-solution} is a
-decrease of the normalized root-mean-square error between two successive
-temperature profiles smaller than 1\%, which typically requires 3--5 iterations.
-
-The leakage model needed for the calculation of $\mp_\static(\vu, \mq)$ in
-\aref{temperature-solution} is based on \up{SPICE} simulations of a series of
-\up{CMOS} invertors taken from the NanGate cell library and configured according
-to the high-performance 45-nm \up{PTM} \cite{ptm}. The simulations are performed
-on a fine-grained and sufficiently broad three-dimensional grid comprising the
-effective channel length, gate-oxide thickness, and temperature; the results are
-tabulated. The interpolation facilities of \up{MATLAB} \cite{matlab} are then
-utilized whenever we need to evaluate the leakage power for a particular point
-within the range of the grid. The output of the constructed leakage model is
-scaled up to account for about 40\% of the total power dissipation
-\cite{liu2007}.
+uniformly distributed between 10 and 30~ms, and its dynamic power is uniformly
+distributed between 6 and 20~W. The floorplans of the platforms are regular
+grids where each processing element occupies $2 \times 2$~mm\textsuperscript{2}.
+The sampling interval \dt of power and temperature profiles is set to 1~ms; in
+practice, \dt should be set to a value that is reasonable for the problem at
+hand. The stopping condition in \aref{chaos-dynamic-steady-state-iterative} is
+that the \ac{NRMSE} between two successive temperature profiles becomes smaller
+than 1\%, which typically requires 3--5 iterations.
 
 \hiddensubsection{Probabilistic Analysis}
 
@@ -134,6 +118,9 @@ interest given in \eref{quantity-of-interest}. The results shown in
 accurate and computationally efficient.
 
 \hiddensubsection{Probabilistic Optimization}
+
+Parallel computing is utilized only in the experiments reported in
+\sref{experimental-results-optimization}.
 
 In this subsection, we report the results of the optimization procedure
 formulated in \sref{reliability-optimization}. To reiterate, the objective is to
