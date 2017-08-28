@@ -1,0 +1,25 @@
+\begin{table}
+  \centering
+  \caption{Comparison of the stochastic and deterministic optimization.}
+  \tlab{chaos-optimization-objective}
+  \ttfamily
+  \begin{tabular}{rrrr}
+    \toprule
+    &
+    \multicolumn{1}{c}{\textnormal{Stochastic case}} &
+    \multicolumn{2}{c}{\textnormal{Deterministic case}} \\
+    \np &
+    \textnormal{Time (m)} &
+    \textnormal{Time (m)} &
+    \textnormal{Failure (\%)} \\
+    \cmidrule( r){1-1}
+    \cmidrule(l ){2-2}
+    \cmidrule(l ){3-4}
+     2 &   1.07 & 0.67 &  40 \\
+     4 &   5.38 & 1.99 &  60 \\
+     8 &  16.65 & 3.89 &  70 \\
+    16 &  56.23 & 7.54 & 100 \\
+    32 & 341.08 & 9.26 & 100 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
