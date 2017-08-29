@@ -19,7 +19,7 @@ polynomials that the rule integrates exactly \cite{heiss2008}.
 Similarly, in multiple dimensions, the integral of a function $g: \real^n \to
 \real$
 \[
-  I = \int_{\real^n} g(\v{x}) \d \v{x}
+  I = \int_{\real^n} g(\vx) \d \vx
 \]
 is approximated as
 \begin{equation} \elab{quadrature-summation}
@@ -88,14 +88,14 @@ are generally different; the latter reduces to the former if
 
 Consider now the following more general integral:
 \[
-  I = \int_{\real^n} g(\v{x}) \d F(\v{x}).
+  I = \int_{\real^n} g(\vx) \d F(\vx).
 \]
 Here $g$ is integrated with respect to a measure $F: \real^n \to \real$
 \cite{durrett2010} that does not necessarily correspond to the usual Lebesgue
 measure used in the earlier examples. If $F$ is absolutely continuous, the
 integrand can be rewritten as
 \[
-  I = \int_{\real^n} g(\v{x}) f(\v{x}) \d \v{x}
+  I = \int_{\real^n} g(\vx) f(\vx) \d \vx
 \]
 where $g$ is weighted by the derivative $f: \real^n \to \real$ of $F$ and
 integrated with respect to the Lebesgue measure. Since integrating in this way

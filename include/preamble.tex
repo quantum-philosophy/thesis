@@ -115,6 +115,10 @@
 \numberwithin{equation}{chapter}
 \numberwithin{remark}{chapter}
 
+\newcommand{\continuous}{\mathcal{C}}
+\newcommand{\real}{\mathbb{R}}
+\renewcommand{\natural}[1][0]{\mathbb{N}_{#1}}
+
 \renewcommand{\math}[1]{\ensuremath{#1}\xspace}
 
 \newcommand{\hn}[1]{\math{{\hat{n}_{#1}}}}
@@ -129,15 +133,13 @@
 \newcommand{\hm}[1]{\hat{\m{#1}}}
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
-\newcommand{\continuous}{\mathcal{C}}
-\newcommand{\real}{\mathbb{R}}
-\renewcommand{\natural}[1][0]{\mathbb{N}_{#1}}
-
 \newcommand{\vi}{\math{\boldsymbol{i}}}
 \newcommand{\vj}{\math{\boldsymbol{j}}}
+\newcommand{\vx}{\math{\v{x}}}
 
 \newcommand{\cardinality}[1]{\# #1}
-\newcommand{\multiindices}[2]{\mathcal{I}^{#1}_{#2}}
+\newcommand{\indices}[1]{\mathcal{I}_{#1}}
+\newcommand{\multiindices}[2]{\mathcal{J}^{#1}_{#2}}
 
 \newcommand{\absolute}[1]{|#1|}
 \newcommand{\bigo}[1]{\mathcal{O}\left(#1\right)}

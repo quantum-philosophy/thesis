@@ -96,9 +96,9 @@ described in \sref{numerical-integration}. Specifically, an adequate
 \nz-dimensional points accompanied by a set of scalar weights---is to be
 utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
-  \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}} = \sum_{i = 1}^\nq \g(\transform{\v{x}_i}) \psi_{\vi}(\v{x}_i) w_i
+  \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}} = \sum_{i = 1}^\nq \g(\transform{\vx_i}) \psi_{\vi}(\vx_i) w_i
 \end{equation}
-where $\lq \in \natural$ is the level of the quadrature, and $\{ \v{x}_i \}_{i =
+where $\lq \in \natural$ is the level of the quadrature, and $\{ \vx_i \}_{i =
 1}^\nq \subset \real^\nz$ and $\{ w_i \}_{i = 1}^\nq \subset \real$ are the
 corresponding points and weights, respectively. The operator
 $\quadrature{\nz}{\lq}$ is constructed by means of the isotropic Smolyak
@@ -174,7 +174,7 @@ multi-index set $\multiindices{\nz}{\lc}$ is given a certain ordering so that
 one can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now,
 let
 \begin{equation} \elab{chaos-projection-matrix}
-  \Pi = (\psi_{\vi_i}(\v{x}_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
+  \Pi = (\psi_{\vi_i}(\vx_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
 \end{equation}
 The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
 multi-index $i$ evaluated at quadrature point $j$ and multiplied by quadrature
@@ -187,7 +187,7 @@ in \eref{chaos-expansion} can now be trivially computed as
 where
 \begin{align*}
   & \hat{\vg} = (\hat{\g}_i)_{i = 1}^\nc \text{ and} \\
-  & \vg = (\g(\transform{\v{x}_i}))_{i = 1}^\nq.
+  & \vg = (\g(\transform{\vx_i}))_{i = 1}^\nq.
 \end{align*}
 It can be seen that this formula is a matrix version of
 \eref{chaos-coefficient}. The matrix $\Pi$ is the one that should be precomputed
