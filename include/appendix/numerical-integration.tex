@@ -26,8 +26,8 @@ is approximated as
   I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hv{x}_i) w_i
 \end{equation}
 where $\{ \hv{x}_i \}_{i = 1}^\nq \subset \real^n$ and $\{ w_i \}_{i = 1}^\nq
-\subset \real$. The number of points or weights \nq depends on $n$ and \lq,
-which we occasionally emphasize by writing $\nq(n, \lq)$.
+\subset \real$. The number of grid points or, equivalently, weights \nq depends
+on both $n$ and \lq.
 
 The foundation of an $n$-dimensional rule $\quadrature{n}{\lq}$ is a set of
 one-dimensional counterparts of various levels. The most straightforward
@@ -36,21 +36,19 @@ $\quadrature{1}{\lq}$ as follows:
 \begin{equation} \elab{integration-tensor}
   \quadrature{n}{\lq} = \bigotimes_{i = 1}^n \quadrature{1}{\lq},
 \end{equation}
-which is referred to as the full tensor product. In this case,
-\[
-  \nq(n, \lq) = \nq(1, \lq)^n,
-\]
-that is, the growth of the number of points is exponential. In low dimensions,
-the grows is manageable; however, in high dimensions, the situation changes
-dramatically as the number of points produced by this approach can easily
-explode. For instance \cite{heiss2008}, if a one-dimensional rule has only 4
-points, that is, $\nq = 4$, then in 10 stochastic dimensions, that is, $n = 10$,
-the number of multivariate points becomes $\nq = 4^{10} = 1~048~576$, which is
-not affordable. Moreover, it can be shown that most of the points obtained in
-this way do not contribute to the asymptotic accuracy and, hence, are a waste of
-time. In particular, if the integrand under consideration is a polynomial whose
-total order is constrained according to a certain strategy, the full tensor
-product cannot take this information into account. Consequently, a different
+which is referred to as the full tensor product. If $\quadrature{1}{\lq}$ has
+\nq points, $\quadrature{n}{\lq}$ has $n_\mathrm{q}^n$ points, that is, the
+growth of the number of points is exponential. In low dimensions, the grows is
+manageable; however, in high dimensions, the situation changes dramatically as
+the number of points produced by this approach can easily explode. For instance
+\cite{heiss2008}, if a one-dimensional rule has only 4 points, that is, $\nq =
+4$, then in 10 stochastic dimensions, that is, $n = 10$, the number of
+multivariate points becomes $\nq = 4^{10} = 1~048~576$, which is not affordable.
+Moreover, it can be shown that most of the points obtained in this way do not
+contribute to the asymptotic accuracy and, hence, are a waste of time. In
+particular, if the integrand under consideration is a polynomial whose total
+order is constrained according to a certain strategy, the full tensor product
+cannot take this information into account. Consequently, a different
 construction technique should be utilized in the case of high-dimensional
 problems.
 
@@ -75,7 +73,7 @@ $\multiindices{n}{\lq}$ is called a total-order multi-index set since it
 constrains polynomials by their total order \cite{eldred2008, beck2011}, and its
 cardinality can be calculated as follows:
 \begin{equation} \elab{index-total-order-isotropic-length}
-  \nq(n, \lq) = \cardinality{\multiindices{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
+  \nq = \cardinality{\multiindices{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
 \end{equation}
 It can be seen that the construction in \eref{integration-smolyak} is a
 summation of cherry-picked tensor products of one-dimensional rules. This
