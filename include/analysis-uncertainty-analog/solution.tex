@@ -214,7 +214,7 @@ $\sigma^2_\epsilon$, respectively, and are set by the designer based on the
 prior knowledge of the technological process and measurement equipment employed.
 The parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
 this prior information. When the prior knowledge is weak, less specific priors
-can be considered \cite{gelman2004}. Taking the product of the densities of the
+can be considered \cite{gelman2013}. Taking the product of the densities of the
 priors in \eref{inference-prior}, we obtain $p(\u)$ in \eref{bayes-theorem}.
 
 Step~5 is to compile the posterior in \eref{bayes-theorem}. To this end, the
@@ -230,7 +230,7 @@ the quantity of interest can be readily analyzed as we shall see in
 \sref{inference-post-processing}. The problem, however, is that direct sampling
 of the posterior is difficult due to the data model involved in the likelihood
 function via \vh; see \eref{inference-likelihood}. In order to circumvent this
-problem, we utilize the Metropolis--Hastings algorithm \cite{gelman2004}
+problem, we utilize the Metropolis--Hastings algorithm \cite{gelman2013}
 outlined in \sref{bayesian-statistics}, which operates on an auxiliary
 distribution called the proposal distribution. The construction of an adequate
 proposal is discussed next.
@@ -267,11 +267,11 @@ $\u^*$ and $\m{J}$ from Stage~2 in order to construct an adequate proposal and
 utilize it for sampling. A commonly used proposal is a multivariate Gaussian
 distribution where the mean is the current location of the chain of samples
 started at $\u^*$, and the covariance matrix is the inverse of $\m{J}$
-\cite{gelman2004}. In order to speed up the sampling process, we would like to
+\cite{gelman2013}. In order to speed up the sampling process, we would like to
 make use of parallelization. The aforementioned proposal, however, is purely
 sequential as the mean for the next sample draw is dependent on the previous
 sample. Therefore, we appeal to a variation of the Metropolis--Hastings
-algorithm known as the independence sampler \cite{gelman2004}. In this case, a
+algorithm known as the independence sampler \cite{gelman2013}. In this case, a
 typical choice of the proposal is a multivariate t-distribution independent of
 the current position of the chain as follows:
 \begin{equation} \elab{inference-proposal}

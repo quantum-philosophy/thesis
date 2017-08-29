@@ -2,7 +2,7 @@ Let \u be a set of unknown parameters that we would like to know. In order to
 find them, the following information is at our disposal: \one~a set of
 observations $H$ of a quantity \h that is related to \u; \two~a data model that
 describes the relation between \u and \h; and \three~prior beliefs about what \u
-should be. A natural solution is Bayes' theorem \cite{gelman2004}, which is as
+should be. A natural solution is Bayes' theorem \cite{gelman2013}, which is as
 follows:
 \begin{equation} \elab{bayes-theorem}
   p(\u | H) \propto p(H | \u) p(\u)
@@ -20,7 +20,7 @@ The posterior distribution does not typically belong to any of the common
 families of probability distributions, which is primarily due to the data model
 involved in the likelihood function, and, therefore, the sampling procedure is
 not straightforward. In order to tackle the difficulty, one usually relies on
-Markov chain Monte Carlo sampling \cite{gelman2004}. In this case, an ergodic
+Markov chain Monte Carlo sampling \cite{gelman2013}. In this case, an ergodic
 Markov chain with the stationary distribution equal to the target posterior
 distribution is constructed and then utilized for exploring the probability
 space. A popular technique in this regard is the Metropolis--Hastings algorithm
