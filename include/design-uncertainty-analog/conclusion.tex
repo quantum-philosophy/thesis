@@ -1,51 +1,36 @@
-In this chapter, we have presented a framework targeted at the quantification of
-transient power and temperature variations of electronic systems under process
-variation. The framework is capable of modeling diverse probability laws of the
-underlying uncertain parameters and arbitrary dependencies of the system on such
-parameters. For a given system under a given workload, our technique delivers
-analytical representations of the corresponding stochastic power and temperature
-profiles. These representations allow for a computationally efficient estimation
-of the probability distributions and accompanying quantities of the power and
-temperature characteristics of the system.
+Electronic-system designs that ignore process variation are unreliable and
+inefficient. Acknowledging this aspect, we have developed a flexible framework
+for the analysis of electronic systems subjected to process variation. The
+framework is capable of modeling diverse probability laws of the underlying
+uncertain parameters and arbitrary dependencies of the system on these
+parameters. Our technique delivers a lightweight representation of the quantity
+that the designer is interest in studying, and this representation allows for a
+computationally efficient estimation of the corresponding probability
+distribution as well as of other accompanying statistics about this quantity of
+interest.
 
-Our general technique has been applied in a context of particular importance
-where the variability of the effective channel length has been addressed. Note,
-however, that the framework can be readily utilized to analyze any other
-quantities affected by process variation and to study their combinations. Using
-this application, we have drawn a comparison with \ac{MC} sampling, which has
+We have presented a technique targeted at the quantification of transient power
+and temperature variations of electronic systems under process variation. Our
+technique has been applied in a context of particular importance where the
+variability of the effective channel length has been addressed. Note, however,
+that the framework can be readily utilized to analyze any other quantities
+affected by process variation and to study their combinations. Using this
+application, we have drawn a comparison with \ac{MC} sampling, which has
 confirmed the efficiency of our approach in terms of both accuracy and speed.
 The reduced execution times, by up to five orders of magnitude, implied by our
 framework allow for the analysis to be efficiently performed inside design space
 exploration loops aimed at, for instance, energy and reliability optimization
 with temperature-related constraints under process variation.
 
-We have presented a number of techniques for uncertainty quantification of
-electronic systems subjected to process variation. First, we developed a
-process-variation-aware approach to dynamic steady-state temperature analysis.
-Second, we proposed a framework for reliability analysis that seamlessly takes
-into account the variability of process parameters and, in particular, the
-effect of process variation on temperature. We drew a comparison with \ac{MC}
-sampling, which confirmed the efficiency of our solutions in terms of both
-accuracy and speed. The low computational demand of our techniques implies that
-they are readily applicable for practical instantiations inside design-space
-exploration loops, which was also demonstrated in this work considering an
-energy-driven probabilistic optimization procedure under reliability-related
-constraints. We have shown that temperature is to be treated as a stochastic
-quantity in order to pursue robustness of electronic system designs.
-
-Electronic system designs that ignore process variation are unreliable and
-inefficient. In this work, we propose a system-level framework for the analysis
-of temperature-induced failures that takes into account the uncertainty due to
-process variation. As an intermediate step, we also develop a probabilistic
-technique for dynamic steady-state temperature analysis. Given an electronic
-system under a certain workload, our framework delivers the corresponding
-survival function, founded on the basis of well-established reliability models,
-with a closed-form stochastic parameterization in terms of the quantities that
-are uncertain at the design stage. The proposed solution is exemplified
-considering systems with periodic workloads that suffer from the thermal-cycling
-fatigue. The analysis of this fatigue is a challenging problem as it requires
-the availability of detailed temperature profiles, which are uncertain due to
-the variability of process parameters. In order to demonstrate the computational
-efficiency of our framework, we undertake a design-space exploration procedure
-to minimize the expected energy consumption under a set of timing, thermal, and
-reliability constraints.
+We have also presented a process-variation-aware approach to dynamic
+steady-state temperature analysis as well as such an approach to reliability
+analysis that seamlessly takes into account the variability of process
+parameters and, in particular, the effect of process variation on temperature.
+We have drawn a comparison with \ac{MC} sampling, which has shown the efficiency
+of our solutions with respect to accuracy and speed. The low computational
+demand of our techniques implies that they are readily applicable for
+design-space exploration, which has also been demonstrated in this chapter by
+considering an energy-driven probabilistic optimization procedure under
+reliability-related constraints. We have shown that temperature has to be
+treated as a stochastic quantity in order to pursue robustness of
+electronic-system designs.
