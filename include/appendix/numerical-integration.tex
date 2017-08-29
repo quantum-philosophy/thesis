@@ -1,13 +1,13 @@
 In numerical integration, the integral of a function $g: \real \to \real$
 \[
-  I = \int_\real g(x) \d x
+  I = \int_\real g(\x) \d \x
 \]
 is approximated by a summation of the function's values computed at prescribed
-points $\{ \hat{x}_i \}_{i = 1}^\nq \subset \real$ and multiplied by prescribed
+points $\{ \hat{\x}_i \}_{i = 1}^\nq \subset \real$ and multiplied by prescribed
 weights $\{ w_i \}_{i = 1}^\nq \subset \real$, which we denote as the following
 operator:
 \[
-  I \approx \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{x}_i) w_i.
+  I \approx \quadrature{1}{\lq}{g} = \sum_{i = 1}^\nq g(\hat{\x}_i) w_i.
 \]
 Such a pair of a set of points and a set of weights is called a quadrature rule.
 In the notation $\quadrature{1}{\lq}$, the superscript $1$ indicates that it is
@@ -23,9 +23,9 @@ Similarly, in multiple dimensions, the integral of a function $g: \real^n \to
 \]
 is approximated as
 \begin{equation} \elab{quadrature-summation}
-  I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hv{x}_i) w_i
+  I \approx \quadrature{n}{\lq}{g} = \sum_{i = 1}^\nq g(\hv{\x}_i) w_i
 \end{equation}
-where $\{ \hv{x}_i \}_{i = 1}^\nq \subset \real^n$ and $\{ w_i \}_{i = 1}^\nq
+where $\{ \hv{\x}_i \}_{i = 1}^\nq \subset \real^n$ and $\{ w_i \}_{i = 1}^\nq
 \subset \real$. The number of grid points or, equivalently, weights \nq depends
 on both $n$ and \lq.
 

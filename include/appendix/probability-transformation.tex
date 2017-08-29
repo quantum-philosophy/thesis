@@ -1,15 +1,15 @@
 There are three probability transformations that we would like to cover.
 
 The first transformation $\transform_1$ is the usual integral transformation.
-The technique allows one to transition from a random variable $x_1$ with a
-distribution function $F_1$ to a random variable $x_2$ with a distribution
+The technique allows one to transition from a random variable $\x_1$ with a
+distribution function $F_1$ to a random variable $\x_2$ with a distribution
 function $F_2$ as
 \[
-  x_2 = \transform_1(x_1) = (F_2^{-1} \circ F_1)(x_1) = (F_2^{-1}(F_1(x_1))
+  \x_2 = \transform_1(\x_1) = (F_2^{-1} \circ F_1)(\x_1) = (F_2^{-1}(F_1(\x_1))
 \]
 where $F_2^{-1}$ is the inverse of $F_2$, and the equality should be understood
 in distribution. In order for $F_2^{-1}$ to exist, $F_2$ is assumed to be
-strictly increasing. By applying $F_1$ to $x_1$, we obtain a random variable
+strictly increasing. By applying $F_1$ to $\x_1$, we obtain a random variable
 with a uniform distribution on $[0, 1]$, and, by applying $F_2^{-1}$ to such a
 uniform random variable, we obtain a random variable distributed according to
 the target $F_2$.
