@@ -1,12 +1,11 @@
-Let $(\Omega, \mathcal{F}, \probability)$ be a (complete) probability space
-where $\Omega$ is a set of outcomes, $\mathcal{F} \subseteq 2^\Omega$ is a
-$\sigma$-algebra on $\Omega$, and $\probability: \mathcal{F} \to [0, 1]$ is a
-probability measure \cite{durrett2010}. The $\sigma$-algebra represents a set of
-events, and the probability measure assigns probabilities to these events. A
-real-valued random variable defined on $(\Omega, \mathcal{F}, \probability)$ is
-an $\mathcal{F}$-measurable function $x: \Omega \to \real$. A random variable
-$x$ is uniquely characterized by its distribution function $F$---which is also
-known as the \acf{CDF}---defined by
+Let $(\Omega, \F, \probability)$ be a (complete) probability space where
+$\Omega$ is a set of outcomes, $\F \subseteq 2^\Omega$ is a $\sigma$-algebra on
+$\Omega$, and $\probability: \F \to [0, 1]$ is a probability measure
+\cite{durrett2010}. The $\sigma$-algebra represents a set of events, and the
+probability measure assigns probabilities to these events. A real-valued random
+variable defined on $(\Omega, \F, \probability)$ is an \F-measurable function
+$x: \Omega \to \real$. A random variable $x$ is uniquely characterized by its
+distribution function $F$---which is also known as the \acf{CDF}---defined by
 \begin{equation*}
   F(y) = \probability{x \leq y} = \probability{\{ \omega \in \Omega: x(\omega) \leq y \}}.
 \end{equation*}
@@ -23,9 +22,9 @@ If $\expectation{x} = 0$ and $\variance{x} = 1$, $x$ is called standardized.
 
 The above quantities are well defined only when the corresponding integrals are
 finite. An example of a vector space of random variables defined on $(\Omega,
-\mathcal{F}, \probability)$ whose expectations and variances are finite is
+\F, \probability)$ whose expectations and variances are finite is
 \begin{equation} \elab{square-integrable-space}
-  \L{2}(\Omega, \mathcal{F}, \probability) = \left\{ x: \Omega \to \real: \int_\Omega \absolute{x(\omega)}^2 \d \probability(\omega) < \infty \right\},
+  \L{2}(\Omega, \F, \probability) = \left\{ x: \Omega \to \real: \int_\Omega \absolute{x(\omega)}^2 \d \probability(\omega) < \infty \right\},
 \end{equation}
 the Hilbert space of square-integrable random variables \cite{janson1997}. The
 inner product in this vector space is defined by
@@ -36,7 +35,7 @@ and the norm is defined by
 \[
   \norm[2]{x} = \sqrt{\innerproduct{x}{x}}
 \]
-for any $x$, $x_1$, and $x_2$ in $\L{2}(\Omega, \mathcal{F}, \probability)$.
+for any $x$, $x_1$, and $x_2$ in $\L{2}(\Omega, \F, \probability)$.
 
 If the distribution function $F$ of a random variable $x$ is continuous, $x$ is
 said to be a continuous random variable. If, moreover, $F$ is absolutely
