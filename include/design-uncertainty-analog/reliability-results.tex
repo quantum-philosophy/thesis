@@ -1,9 +1,11 @@
-In this section, we evaluate the performance of the proposed approach to
-reliability analysis and optimization presented in
-\sref{chaos-reliability-analysis} and \sref{chaos-reliability-optimization}
-considering the illustrative application that is described in
-\sref{chaos-reliability-application}. All the experiments are conducted on a
-\up{GNU}/Linux machine equipped with 16 processors Intel Xeon E5520
+In this section, we evaluate the performance of our approach to reliability
+analysis and optimization presented in \sref{chaos-reliability-analysis} and
+\sref{chaos-reliability-optimization} considering the illustrative application
+described in \sref{chaos-reliability-application}. The technique for dynamic
+steady-state analysis under process variation delineated in
+\sref{chaos-dynamic-steady-state-analysis} is also a part of the assessment
+since it is included in the reliability model. All the experiments are conducted
+on a \up{GNU}/Linux machine equipped with 16 processors Intel Xeon E5520
 2.27~\up{GH}z and 24~\up{GB} of \up{RAM}. All the configuration files used in
 the experiments are available online at \cite{eslab2015}.
 
@@ -31,58 +33,59 @@ hand. The stopping condition in \aref{chaos-dynamic-steady-state-iterative} is
 that the \ac{NRMSE} between two successive temperature profiles becomes smaller
 than 1\%, which typically requires 3--5 iterations.
 
-\hiddensubsection{Accuracy and Speed}
+\hiddensubsection{Approximation Accuracy}
+
+Our goal here is to study the accuracy of the proposed solutions. To this end,
+in this subsection, we consider the quantity of interest given in
+\eref{chaos-optimization-quantity} in isolation. This quantity plays the key
+role in the subsequent optimization since the optimization objective and
+constraints depend on it as discussed previously.
+
+We compare our performance with the performance of \ac{MC} sampling applied to
+\eref{chaos-optimization-quantity}. The operations performed by the
+\ac{MC}-based approach for one sample are exactly the same as those performed by
+our technique for one quadrature point. The only difference is that no model
+order reduction of any kind is undertaken prior to \ac{MC} sampling, which
+ensures that the resulting accuracy is not compromised. The number of \ac{MC}
+samples is set to 10\textsuperscript{4}, which is a practical assumption based
+on our experience, the experience from the literature \cite{xiang2010, juan2012,
+lee2013}, and the theoretical estimates given in \cite{diaz-emparanza2002}.
+Thus, we consider this setup of \ac{MC} sampling to be an adequate reference for
+comparison.
 
 \inputtable{chaos-optimization-accuracy}
-\inputtable{chaos-optimization-speed}
-Our objective here is to study the accuracy and speed of the proposed solutions.
-Since the optimization procedure described in \sref{reliability-optimization}
-embraces all the techniques developed throughout the paper, we shall perform the
-assessment directly in the design-space-exploration context. In other words, we
-do not consider temperature analysis or reliability analysis as a separate
-uncertainty quantification problem in our experiments and shall focus on the
-quantity of interest given in \eref{quantity-of-interest}. This quantity plays
-the key role as the objective function in \eref{objective} and the constraints
-in \eref{thermal-constraint} and \eref{reliability-constraint} are entirely
-based on it.
-
-We shall compare our performance with the performance of \ac{MC} sampling. The
-operations performed by the \ac{MC}-based approach for one sample are exactly
-the same as those performed by our technique for one quadrature point. The only
-difference is that no reduction of any kind is undertaken prior to \ac{MC}
-sampling. In other words, the \ac{MC}-based approach samples the \emph{original}
-model and, hence, does not compromise any resulting accuracy. The number of
-\ac{MC} samples is set to $10^4$, which is a practical assumption that conforms
-to the experience from the literature \cite{ukhov2014, lee2013, juan2012,
-xiang2010} and to the theoretical estimates given in \cite{diaz-emparanza2002}.
-Hence, we consider this setup of \ac{MC} sampling to be a paragon of accuracy.
-
-The results concerning accuracy are displayed in \tref{accuracy} where we
-consider a quad-core platform, that is, $\np = 4$, with ten randomly generated
-applications and vary the level of polynomial expansions \lc from one to five.
-The errors for the three components of $\vq = (E, Q, T)$ are denoted by
+The obtained results are displayed in \tref{chaos-optimization-accuracy} where
+we consider a quad-core platform, that is, $\np = 4$, with 10 randomly generated
+applications and vary the level of polynomial expansions \lc from 1 to 5. The
+errors for the three components of $\vg = (E, Q, T)$ are denoted by
 $\epsilon_E$, $\epsilon_Q$, and $\epsilon_T$, respectively. Each error indicator
 shows the distance between the empirical probability distributions produced by
 our approach and the ones produced by \ac{MC}\ sampling, and the measure of this
-distance is the popular Kullback--Leibler divergence (\up{KLD}) wherein the
-results of \ac{MC}\ sampling are treaded as the ``true'' ones. The \up{KLD}
-takes nonnegative values and attains zero only when two distributions are equal
-almost everywhere \cite{durrett2010}. In general, the errors decrease as \lc
-increases. This trend, however, is not monotonic for expansions of high levels
-(see $\epsilon_Q$ and $\epsilon_T$ for $\lc = 5$). The observation can be
-ascribed to the random nature of sampling and the fact that the reduction
-procedures, which we undertake to gain speed, might impose limitations on the
-accuracy that can be attained by polynomial expansions. \tref{accuracy} also
-contains the numbers of polynomial terms \nc and quadrature points \nq
-corresponding to each value of \lc. We also performed the above experiment for
-platforms with fewer/more processing elements; the observations were similar to
-the ones in \tref{accuracy}.
+distance is the Kullback--Leibler divergence (\up{KLD}) \cite{gelman2013,
+hastie2013} where the results of \ac{MC} sampling are treated as the true ones.
+The \up{KLD} takes non-negative values and attains zero only when two
+distributions are equal almost everywhere \cite{durrett2010}. In general, the
+errors decrease as \lc increases. This trend, however, is not monotonic for
+\ac{PC} expansions of high levels; see $\epsilon_Q$ and $\epsilon_T$ for $\lc =
+5$. The observation can be ascribed to the random nature of sampling and to the
+reduction procedures that we undertake in order to gain speed; they might impose
+limitations on the accuracy that can be attained by polynomial approximations.
+\tref{chaos-optimization-accuracy} also contains the numbers of polynomial terms
+\nc and quadrature points \nq corresponding to each value of \lc. We have also
+performed the above experiment for platforms with fewer and with more processing
+elements and observed results similar to those in
+\tref{chaos-optimization-accuracy}.
 
-Based on \tref{accuracy}, we consider the results delivered by third-level
-polynomial expansions, where the \up{KLD} drops to the third decimal place for
-all quantities, to be sufficiently accurate, and, therefore, we fix $\lc = \lq =
-l = 3$ (recall the notation in the last paragraph of
-\sref{classical-decomposition}) for the rest of the experiments.
+Based on the figures reported in \tref{chaos-optimization-accuracy}, we consider
+the results delivered by third-level \ac{PC} expansions---where the \up{KLD}
+drops to the third decimal place for all three quantities---to be sufficiently
+accurate. Therefore, we fix \lc (and \lq as they are kept synchronized) to three
+for the rest of the experiments.
+
+\hiddensubsection{Computational Speed}
+
+\inputtable{chaos-optimization-speed}
+Our objective here is to study the speed of the proposed solutions.
 
 \tref{speed} displays the time needed to perform one characterization of \vq for
 the number of processing elements \np swept from 2 to 32. It can be seen that
@@ -119,7 +122,7 @@ interest given in \eref{quantity-of-interest}. The results shown in
 \tref{accuracy} and \tref{speed} allow us to conclude that our approach is both
 accurate and computationally efficient.
 
-\hiddensubsection{Probabilistic Optimization}
+\hiddensubsection{Optimization Effectiveness}
 
 \inputtable{chaos-optimization-objective}
 Parallel computing is utilized only in the experiments reported in
@@ -173,7 +176,7 @@ reevaluated using the probabilistic approach (that is, after taking process
 variation into account), have been found to be violating the probabilistic
 constraints given in \eref{thermal-constraint} and/or
 \eref{reliability-constraint}. To give an example, for the quad-core platform,
-six out of ten schedules proposed by the deterministic approach violate the
+six out of 10 schedules proposed by the deterministic approach violate the
 constraints on the maximum temperature and/or minimum lifetime when evaluated
 considering process variation. The more complex the problem becomes, the higher
 values the failure rate attains: with 16 and 32 processing elements (320 and 640
