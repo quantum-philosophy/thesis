@@ -70,12 +70,12 @@ Assume that \g as a function of \vu belongs to $\L{2}(\Omega, \mathcal{F},
 \probability)$; see \sref{probability-theory}. Then \g can be
 expanded into the following series (see Stage~3 in \fref{chaos-overview}):
 \begin{equation} \elab{chaos-expansion}
-  \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\multiindex \in \multiindices{\nz}{\lc}} \hat{\g}_{\multiindex} \psi_{\multiindex}
+  \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\vi \in \multiindices{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
 \end{equation}
-where $\lc \in \natural$ is the level of the expansion; $\multiindex = (i_k) \in
+where $\lc \in \natural$ is the level of the expansion; $\vi = (i_k) \in
 \natural^\nz$ is a multi-index; $\multiindices{\nz}{\lc}$ is a multi-index set;
-and $\{ \psi_{\multiindex} \}$ are \nz-variate orthonormal polynomials of orders
-specified by the corresponding elements of \multiindex.
+and $\{ \psi_{\vi} \}$ are \nz-variate orthonormal polynomials of orders
+specified by the corresponding elements of \vi.
 
 It can be seen that the foremost step toward a polynomial expansion is the
 choice of a suitable polynomial basis, which is typically made based on the
@@ -89,14 +89,14 @@ being tried first; on the other hand, the Hermite basis is preferable for
 Gaussian distributions.
 
 As shown in \eref{chaos-inner-product} and \eref{chaos-projection}, each
-coefficient $\hat{\g}_{\multiindex}$ is an \nz-dimensional integral of the
-product of \g and $\psi_{\multiindex}$. In general, this integral should be
-computed numerically as described in \sref{numerical-integration}. Specifically,
-an adequate \nz-dimensional quadrature rule $\quadrature{\nz}{\lq}$---which is a
-set of \nz-dimensional points accompanied by a set of scalar weights---is to be
+coefficient $\hat{\g}_{\vi}$ is an \nz-dimensional integral of the product of \g
+and $\psi_{\vi}$. In general, this integral should be computed numerically as
+described in \sref{numerical-integration}. Specifically, an adequate
+\nz-dimensional quadrature rule $\quadrature{\nz}{\lq}$---which is a set of
+\nz-dimensional points accompanied by a set of scalar weights---is to be
 utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
-  \hat{\g}_{\multiindex} \approx \quadrature{\nz}{\lq}{\g \psi_{\multiindex}} = \sum_{i = 1}^\nq \g(\transform{\v{x}_i}) \psi_{\multiindex}(\v{x}_i) w_i
+  \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}} = \sum_{i = 1}^\nq \g(\transform{\v{x}_i}) \psi_{\vi}(\v{x}_i) w_i
 \end{equation}
 where $\lq \in \natural$ is the level of the quadrature, and $\{ \v{x}_i \}_{i =
 1}^\nq \subset \real^\nz$ and $\{ w_i \}_{i = 1}^\nq \subset \real$ are the
@@ -111,8 +111,8 @@ The standard choice of $\multiindices{\nz}{\lc}$ in \eref{chaos-expansion} is
 the one in \eref{index-total-order-isotropic}, which is called an isotropic
 total-order multi-index set. \emph{Isotropic} refers to constraining all
 dimensions identically, and \emph{total-order} refers to the criterion used for
-constraining each dimension. Since $\psi_{\multiindex}$ is a polynomial of total
-order at most \lc, and \g is approximated by such a polynomial, the integrand in
+constraining each dimension. Since $\psi_{\vi}$ is a polynomial of total order
+at most \lc, and \g is approximated by such a polynomial, the integrand in
 \eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. Then
 one usually constructs such a quadrature rule that is exact for polynomials of
 total order up to $2 \lc$ \cite{eldred2008}. In the case of Gaussian quadratures
@@ -129,7 +129,7 @@ An important generalization of the isotropic Smolyak algorithm in
 versions lies in the content of $\multiindices{\nz}{\lq}$. An anisotropic
 total-order multi-index set is defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
-  \multiindices{\nz}{\lq} = \left\{ \multiindex \in \natural^\nz: \innerproduct{\v{c}}{\multiindex} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
+  \multiindices{\nz}{\lq} = \left\{ \vi \in \natural^\nz: \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
 \end{equation}
 where $\v{c} = (c_i) \in \real^\nz$ with $c_i \geq 0$ for $i = \range{1}{\nz}$
 is a vector assigning importance weights to the dimensions, and
@@ -174,14 +174,13 @@ multi-index set $\multiindices{\nz}{\lc}$ is given a certain ordering so that
 one can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now,
 let
 \begin{equation} \elab{chaos-projection-matrix}
-  \Pi = (\psi_{\multiindex_i}(\v{x}_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
+  \Pi = (\psi_{\vi_i}(\v{x}_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
 \end{equation}
 The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
 multi-index $i$ evaluated at quadrature point $j$ and multiplied by quadrature
 weight $j$. The matrix $\Pi$ is referred to as the projection matrix. Using
-$\Pi$, the coefficients $\{ \hat{g}_{\multiindex}: \multiindex \in
-\multiindices{\nz}{\lc} \}$ in \eref{chaos-expansion} can now be trivially
-computed as
+$\Pi$, the coefficients $\{ \hat{g}_{\vi}: \vi \in \multiindices{\nz}{\lc} \}$
+in \eref{chaos-expansion} can now be trivially computed as
 \begin{equation} \elab{chaos-coefficients}
   \hat{\vg} = \Pi \, \vg
 \end{equation}
@@ -220,23 +219,23 @@ function given in \eref{chaos-expansion} is nothing more than a polynomial;
 hence, it is easy to interpret and easy to evaluate.
 
 Let us find, for example, the expectation and variance of \g. Since the first
-polynomial $\psi_{\multiindex[0]}$ in a polynomial basis is unity by definition
+polynomial $\psi_{\v{0}}$ in a polynomial basis is unity by definition
 \cite{xiu2010},
 \[
-  \expectation{\psi_{\multiindex[0]}} = 1.
+  \expectation{\psi_{\v{0}}} = 1.
 \]
 Therefore, using the orthogonality property in \eref{chaos-orthogonality}, we
 conclude that
 \[
-  \expectation{\psi_{\multiindex}} = 0
+  \expectation{\psi_{\vi}} = 0
 \]
-for $\multiindex \in \multiindices{\nz}{\lc} \setminus \{ \multiindex[0] \}$.
-Consequently, the expected value and variance of \g have the following
-straightforward expressions:
+for $\vi \in \multiindices{\nz}{\lc} \setminus \{ \v{0} \}$. Consequently, the
+expected value and variance of \g have the following straightforward
+expressions:
 \begin{equation} \elab{chaos-moments}
   \begin{split}
-    & \expectation{\g} = \hat{\g}_{\multiindex[0]} \text{ and} \\
-    & \variance{\g} = \sum_{\multiindex \in \multiindices{\nz}{\lc} \setminus \{ \v{0} \}} \hat{\g}_{\multiindex}^2,
+    & \expectation{\g} = \hat{\g}_{\v{0}} \text{ and} \\
+    & \variance{\g} = \sum_{\vi \in \multiindices{\nz}{\lc} \setminus \{ \v{0} \}} \hat{\g}_{\vi}^2,
   \end{split}
 \end{equation}
 respectively, the squaring should be understood element-wise. It can be seen
@@ -249,7 +248,7 @@ be estimated by means of \ac{MC} sampling applied to \eref{chaos-expansion}. The
 procedure can be better understood by rewriting \eref{chaos-expansion}, which is
 given in terms of operators, as follows:
 \[
-  \g \approx \chaos{\nz}{\lc}{\g}(\vz) = \sum_{\multiindex \in \multiindices{\nz}{\lc}} \hat{\g}_{\multiindex} \psi_{\multiindex}(\vz).
+  \g \approx \chaos{\nz}{\lc}{\g}(\vz) = \sum_{\vi \in \multiindices{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}(\vz).
 \]
 Here the aforementioned operators are applied to an outcome of \vz drawn from
 the corresponding distribution. Consequently, in this case, each sample is a

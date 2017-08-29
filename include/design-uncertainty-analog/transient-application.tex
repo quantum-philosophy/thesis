@@ -172,8 +172,8 @@ step $i$ is as follows:
               \hat{\vq}_{i, (0, 2)} \, \psi_{(0, 2)}
   \end{split}
 \end{equation}
-where the coefficients $\{ \hat{\vq}_{i \multiindex[j]} \}$ are vectors with two
-elements corresponding to the two processing elements. Regarding the basis,
+where the coefficients $\{ \hat{\vq}_{i \vj} \}$ are vectors with two elements
+corresponding to the two processing elements. Regarding the basis,
 \begin{align*}
   & \psi_{(0, 0)}(\vz) = 1, \\
   & \psi_{(1, 0)}(\vz) = 2 z_1, \\
@@ -188,20 +188,19 @@ series might be shorter or longer depending on the accuracy requirements given
 by \lc. The expansion for power has the same structure but different
 coefficients.
 
-The next step is to compute the coefficients of power $\{ \hat{\vp}_{i
-\multiindex[j]} \}$ in \eref{chaos-recurrence}, which subsequently yield the
-coefficients of temperature $\{ \hat{\vq}_{i \multiindex[j]} \}$. As discussed
-in \sref{polynomial-chaos}, these computations involve multidimensional
-integration with respect to the distribution of \vz, which should be done
-numerically using a quadrature rule; recall \sref{chaos-surrogate-construction}.
-When beta distributions are concerned, the natural choice is the Gauss--Jacobi
-quadrature; see \sref{numerical-integration}. Then, using
-\eref{quadrature-summation}, the coefficient are computed as shown in
-\eref{chaos-coefficient}. It is important to note that \lq should be chosen in
-such a way that the rule is exact for polynomials of a total order up to $2
-\lc$, that is, twice the level of \ac{PC} expansions, which can be seen in
-\eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as the
-quadrature is Gaussian.
+The next step is to compute the coefficients of power $\{ \hat{\vp}_{i \vj} \}$
+in \eref{chaos-recurrence}, which subsequently yield the coefficients of
+temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in \sref{polynomial-chaos},
+these computations involve multidimensional integration with respect to the
+distribution of \vz, which should be done numerically using a quadrature rule;
+recall \sref{chaos-surrogate-construction}. When beta distributions are
+concerned, the natural choice is the Gauss--Jacobi quadrature; see
+\sref{numerical-integration}. Then, using \eref{quadrature-summation}, the
+coefficient are computed as shown in \eref{chaos-coefficient}. It is important
+to note that \lq should be chosen in such a way that the rule is exact for
+polynomials of a total order up to $2 \lc$, that is, twice the level of \ac{PC}
+expansions, which can be seen in \eref{chaos-projection} \cite{eldred2008}.
+Therefore, $\lq \geq \lc + 1$ as the quadrature is Gaussian.
 
 To summarize, we have completed four out of five stages of the proposed
 framework depicted in \fref{chaos-overview}. The result is a light surrogate for

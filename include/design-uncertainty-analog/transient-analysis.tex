@@ -78,12 +78,12 @@ temperature.
 The expansion of $\vp_i$ in \eref{chaos-recurrence-original} computed via $f$ in
 \eref{chaos-power-model} is
 \[
-  \chaos{\nz}{\lc}{\vp_i} = \sum_{\multiindex[j] \in \multiindices[J]{\nz}{\lc}} \hat{\vp}_{i \multiindex[j]} \psi_{\multiindex[j]}
+  \chaos{\nz}{\lc}{\vp_i} = \sum_{\vj \in \multiindices[J]{\nz}{\lc}} \hat{\vp}_{i \vj} \psi_{\vj}
 \]
-where $\{ \psi_{\multiindex[j]}: \real^\nz \to \real \}$ are the basis
-polynomials; $\{ \hat{\vp}_{i \multiindex[j]} \} \subset \real^\np$ are the
-corresponding coefficients; and the multi-index set $\multiindices[J]{\nz}{\lc}$
-is given by \eref{index-total-order-anisotropic}. It can be seen in
+where $\{ \psi_{\vj}: \real^\nz \to \real \}$ are the basis polynomials; $\{
+\hat{\vp}_{i \vj} \} \subset \real^\np$ are the corresponding coefficients; and
+the multi-index set $\multiindices[J]{\nz}{\lc}$ is given by
+\eref{index-total-order-anisotropic}. It can be seen in
 \eref{chaos-recurrence-original} that, due to the linearity of the operations
 involved in the recurrence, $\vs_i$ attains a \ac{PC} expansion that has the
 same structure as the one of $\vp_i$, and the recurrence can be rewritten as
@@ -96,30 +96,30 @@ expansions: one is for power, and one is for temperature; the two expansions
 have the same polynomial basis but different coefficients. In order to
 understand the structure of the above formula better, let us spell it out as
 \[
-  \sum_{\multiindex[j] \in \multiindices[J]{\nz}{\lc}} \hat{\vs}_{i \multiindex[j]} \psi_{\multiindex[j]} =
-  \sum_{\multiindex[j] \in \multiindices[J]{\nz}{\lc}} \left(\m{E} \, \hat{\vs}_{i - 1, \multiindex[j]} + \m{F} \, \hat{\vp}_{i \multiindex[j]}\right) \psi_{\multiindex[j]}.
+  \sum_{\vj \in \multiindices[J]{\nz}{\lc}} \hat{\vs}_{i \vj} \psi_{\vj} =
+  \sum_{\vj \in \multiindices[J]{\nz}{\lc}} \left(\m{E} \, \hat{\vs}_{i - 1, \vj} + \m{F} \, \hat{\vp}_{i \vj}\right) \psi_{\vj}.
 \]
 Multiplying the above equation by each polynomial from the basis and making use
 of the orthogonality property in \eref{chaos-orthogonality}, we obtain the
 following recurrence:
 \begin{equation} \elab{chaos-recurrence}
-  \hat{\vs}_{i \multiindex[j]} = \m{E} \hat{\vs}_{i - 1, \multiindex[j]} + \m{F} \hat{\vp}_{i \multiindex[j]}
+  \hat{\vs}_{i \vj} = \m{E} \hat{\vs}_{i - 1, \vj} + \m{F} \hat{\vp}_{i \vj}
 \end{equation}
-for $i = \range{1}{\ns}$ and $\multiindex[j] \in \multiindices[J]{\nz}{\lc}$.
-Combining the recurrence with \eref{temperature-algebraic}, we obtain the
-coefficients of the \ac{PC} expansion of the temperature vector $\vq_i$. Lastly,
-the coefficients $\{ \hat{\vp}_{i \multiindex[j]} \}$ are found using a
-quadrature rule $\quadrature{\nz}{\lq}$ as follows:
+for $i = \range{1}{\ns}$ and $\vj \in \multiindices[J]{\nz}{\lc}$. Combining the
+recurrence with \eref{temperature-algebraic}, we obtain the coefficients of the
+\ac{PC} expansion of the temperature vector $\vq_i$. Lastly, the coefficients
+$\{ \hat{\vp}_{i \vj} \}$ are found using a quadrature rule
+$\quadrature{\nz}{\lq}$ as follows:
 \[
-  \hat{\vp}_{i \multiindex[j]} = \quadrature{\nz}{\lq}{\vp_i \psi_{\multiindex[j]}}
+  \hat{\vp}_{i \vj} = \quadrature{\nz}{\lq}{\vp_i \psi_{\vj}}
 \]
-for $i = \range{1}{\ns}$ and $\multiindex[j] \in \multiindices[J]{\nz}{\lc}$
-where the operation should be understood element-wise, and it can be efficiently
+for $i = \range{1}{\ns}$ and $\vj \in \multiindices[J]{\nz}{\lc}$ where the
+operation should be understood element-wise, and it can be efficiently
 undertaken by virtue of a projection matrix in \eref{chaos-projection-matrix}.
 It is worth noting that, since power depends on temperature as discussed in
 \sref{power-model}, at each step of the recurrence in \eref{chaos-recurrence},
-the computation of $\hat{\vp}_{i \multiindex[j]}$ via $f$ should be done with
-respect to the expansion of $\vq_{i - 1}$.
+the computation of $\hat{\vp}_{i \vj}$ via $f$ should be done with respect to
+the expansion of $\vq_{i - 1}$.
 
 The construction process of the stochastic power and temperature profiles is
 estimated to have the following time complexity per time step:
@@ -161,12 +161,11 @@ be evaluated and combined with another random vector $\vs_k$. This recurrence in
 recurrence in \eref{chaos-recurrence}. More globally, the whole system including
 the heavy temperature model in \eref{temperature-model-original} has been
 substituted with a light surrogate defined by a set of polynomials $\{
-\psi_{\multiindex[j]} \}$ in \vz, a set of coefficients $\{ \hat{\vp}_{i
-\multiindex[j]} \}$ for power, and a set of coefficient $\{ \hat{\vq}_{i
-\multiindex[j]} \}$ for temperature. These quantities constitute a stochastic
-power profile \mp and a stochastic temperature profile \mq, and these profiles
-are ready to be analyzed at each step of the process as discussed in
-\sref{chaos-post-processing}.
+\psi_{\vj} \}$ in \vz, a set of coefficients $\{ \hat{\vp}_{i \vj} \}$ for
+power, and a set of coefficient $\{ \hat{\vq}_{i \vj} \}$ for temperature. These
+quantities constitute a stochastic power profile \mp and a stochastic
+temperature profile \mq, and these profiles are ready to be analyzed at each
+step of the process as discussed in \sref{chaos-post-processing}.
 
 Before we proceed, let us draw attention to the ease and generality of taking
 uncertainty into consideration using the proposed approach. The above

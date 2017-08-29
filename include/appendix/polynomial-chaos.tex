@@ -23,24 +23,24 @@ total order of each polynomial is at most $\lc \in \natural$. The space
 $\Psi_\lc(G)$ can be constructed as a span of $n$-variate Hermite polynomials
 \cite{eldred2008, maitre2010}
 \[
-  \Psi_\lc(G) = \hull{\left\{ \psi_{\multiindex}(\v{y}): \multiindex \in \multiindices{n}{\lc}, \v{y} \in G \right\}}
+  \Psi_\lc(G) = \hull{\left\{ \psi_{\vi}(\v{y}): \vi \in \multiindices{n}{\lc}, \v{y} \in G \right\}}
 \]
-where $\multiindex = (i_k) \in \natural^n$ is a multi-index;
-$\multiindices{n}{\lc}$ is the one in \eref{index-total-order-isotropic}; and
+where $\vi = (i_k) \in \natural^n$ is a multi-index; $\multiindices{n}{\lc}$ is
+the one in \eref{index-total-order-isotropic}; and
 \[
-  \psi_{\multiindex}(\v{y}) = \prod_{k = 1}^n \psi_{i_k}(y_k).
+  \psi_{\vi}(\v{y}) = \prod_{k = 1}^n \psi_{i_k}(y_k).
 \]
 In the above formulae, $\psi_{i_k}: \real \to \real$ is a one-dimensional
 Hermite polynomial of order $i_k$, which is assumed to be normalized. It is
-important to note that the basis polynomials $\{ \psi_{\multiindex} \}$ are
-orthonormal with respect to $F$, which means that
+important to note that the basis polynomials $\{ \psi_{\vi} \}$ are orthonormal
+with respect to $F$, which means that
 \begin{equation} \elab{chaos-orthogonality}
-  \innerproduct{\psi_{\multiindex}}{\psi_{\multiindex[j]}} = \delta_{\multiindex \multiindex[j]}
+  \innerproduct{\psi_{\vi}}{\psi_{\vj}} = \delta_{\vi \vj}
 \end{equation}
-for any two multi-indices $\multiindex = (i_k) \in \natural^n$ and
-$\multiindex[j] = (j_k) \in \natural^n$ where
+for any two multi-indices $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in
+\natural^n$ where
 \[
-  \delta_{\multiindex \multiindex[j]} = \prod_{k = 1}^n \delta_{i_k j_k},
+  \delta_{\vi \vj} = \prod_{k = 1}^n \delta_{i_k j_k},
 \]
 and $\delta_{i_k j_k}$ is the Kronecker delta. In particular, the polynomials
 are also centered with respect to $F$, and, therefore, the inner product in
@@ -66,20 +66,20 @@ The Wiener chaos decomposition implies that any $\g \in \L{2}(\Omega,
 \mathcal{F}, \probability)$ admits an expansion with respect to the polynomial
 basis, which is denoted by
 \[
-  \g = \sum_{\multiindex \in \natural^n} \hat{g}_{\multiindex} \psi_{\multiindex}
+  \g = \sum_{\vi \in \natural^n} \hat{g}_{\vi} \psi_{\vi}
 \]
 where the equality should be understood in mean square. The coefficients $\{
-\hat{g}_{\multiindex} \}$ of this spectral decomposition are found by
-multiplying both sides of the equation by $\psi_{\multiindex}$ and making use of
+\hat{g}_{\vi} \}$ of this spectral decomposition are found by multiplying both
+sides of the equation by $\psi_{\vi}$ and making use of
 \eref{chaos-orthogonality}, which results in
 \begin{equation} \elab{chaos-projection}
-  \hat{g}_{\multiindex} = \innerproduct{\g}{\psi_{\multiindex}}
+  \hat{g}_{\vi} = \innerproduct{\g}{\psi_{\vi}}
 \end{equation}
 This operation is referred to as a spectral projection.
 
 In practice, the infinite expansion is truncated, which we denote as
 \[
-  \g \approx \chaos{n}{\lc}{\g} = \sum_{\multiindex \in \multiindices{n}{\lc}} \hat{g}_{\multiindex} \psi_{\multiindex}.
+  \g \approx \chaos{n}{\lc}{\g} = \sum_{\vi \in \multiindices{n}{\lc}} \hat{g}_{\vi} \psi_{\vi}.
 \]
 In the notation $\chaos{n}{\lc}$, the superscript $n$ indicates the
 dimensionality of the vector space, and the subscript \lc indicates the level of
