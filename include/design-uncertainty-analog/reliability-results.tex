@@ -88,11 +88,12 @@ for the rest of the experiments.
 Our objective is now to assess the speed of the proposed solutions by
 considering the same setup as the one outlined in the previous subsection.
 \tref{chaos-optimization-speed} displays the time needed to perform one
-characterization of \vg for the number of processing elements \np swept from 2
-to 32. It can be seen that the computation time ranges from a fraction of a
-second to around two seconds. More importantly, \tref{chaos-optimization-speed}
-provides information about a number of complementary quantities that are of high
-interest to the designer, which we discuss below.
+characterization of \vg for the number of processing elements \np ranging from 2
+to 32. Note that, in this experiment, no parallel computing is utilized. It can
+be seen that the computation time ranges from a fraction of a second to around
+two seconds. More importantly, \tref{chaos-optimization-speed} provides
+information about a number of complementary quantities that are of high interest
+to the designer, which we discuss below.
 
 The primary quantity to pay attention to is the number of random variables \nz
 preserved after the reduction procedure noted in
@@ -131,101 +132,98 @@ to conclude that our approach is both accurate and computationally efficient.
 \hiddensubsection{Optimization Effectiveness}
 
 \inputtable{chaos-optimization-objective}
-Parallel computing is utilized only in the experiments reported in
-\sref{experimental-results-optimization}.
-
-In this subsection, we report the results of the optimization procedure
-formulated in \sref{reliability-optimization}. To reiterate, the objective is to
-minimize energy as shown in \eref{objective} while satisfying a set of
-constraints on the application period, maximum temperature, and minimum lifetime
-as shown in \eref{timing-constraint}, \eref{thermal-constraint}, and
-\eref{reliability-constraint}, respectively. We employ a genetic algorithm for
-optimization. The population is evaluated in parallel using 16 processors; this
-job is delegated to the parallel computing toolbox of \up{MATLAB} \cite{matlab}.
+In this subsection, the results of the optimization procedure formulated in
+\sref{chaos-reliability-optimization} are reported. To reiterate, the objective
+is to minimize the expected energy consumption as shown in
+\eref{chaos-optimization-objective} while satisfying a set of constraints on the
+maximum application period, maximum temperature, and minimum lifetime as shown
+in \eref{chaos-optimization-constraints}. To this end, we employ a genetic
+algorithm. The population is evaluated in parallel using 16 computational cores.
 
 The goal of this experiment is to justify the following assertion: reliability
 analysis has to account for the effect of process variation on temperature. To
-this end, for each problem (a pair of a platform and an application), we shall
-run the optimization procedure twice: once using the setup that has been
-described so far and once making the objective in \eref{objective} and the
-constraints in \eref{thermal-constraint} and \eref{reliability-constraint}
-deterministic. To elaborate, the second run assumes that temperature is
-deterministic and can be computed using the nominal values of the process
-parameters. Consequently, only one simulation of the system is needed in the
-deterministic case to evaluate the fitness function, and \eref{objective},
-\eref{thermal-constraint}, and \eref{reliability-constraint} become,
-respectively,
+this end, for each problem (a pair of a platform and an application), we run the
+optimization procedure twice: the first run assumes the usual setup discussed so
+far, and the second run treats the objective in
+\eref{chaos-optimization-objective} and the constraints in
+\eref{chaos-optimization-constraints} as deterministic. To elaborate, the second
+run assumes that temperature is deterministic and can be computed using the
+nominal values of the process parameters. Hence, in the deterministic case, only
+one execution of the system is needed in order to evaluate the fitness function,
+and \eref{chaos-optimization-objective} and \eref{chaos-optimization-constraints}
+become, respectively,
 \[
-  \min_{\schedule} E(\schedule), \hspace{0.7em}
-  Q(\schedule) \geq \q_\maximum, \hspace{0.7em} \text{and} \hspace{0.7em}
-  T(\schedule) \leq T_\minimum.
+    \min_{\schedule} E(\schedule)
+\]
+and
+\[
+  \begin{split}
+    & \period(\schedule) \leq t_\maximum, \\
+    & Q(\schedule) \geq \q_\maximum, \text{ and} \\
+    & T(\schedule) \leq T_\minimum.
+  \end{split}
 \]
 
-We consider platforms with $\np = 2$, 4, 8, 16, and 32 cores. Ten applications
-with the number of tasks $\nt = 20 \, \np$ (that is, 40 tasks for 2 cores up to
-640 tasks for 32 cores) are randomly generated for each platform; thus, 50
-problems in total. The floorplans of the platforms and the task graphs of the
-applications, including the execution time and dynamic power consumption of each
-task on each core, are available online at \cite{sources}. $\rho_\burn$ and
-$\rho_\wear$ in \eref{thermal-constraint} and \eref{reliability-constraint},
-respectively, are set to 0.01. Due to the diversity of the problems,
-$t_\maximum$, $\q_\maximum$, and $T_\minimum$ are found individually for each
-problem, ensuring that they make sense for the subsequent optimization. For
-instance, $\q_\maximum$ was found within the range 90--120${}^\circ{}C$. Note,
-however, that these three parameters stay the same for both the probabilistic
-and deterministic variants of the optimization.
+We consider 5 platforms with the number of processing elements \np taking values
+in $\{ 2^i \}_{i = 1}^5$ and 10 applications with the number of tasks $\nt = 20
+\np$; thus, there are 50 problems in total. The platforms and applications are
+generated randomly using \up{TGFF} \cite{dick1998}. In
+\eref{chaos-optimization-constraints}, $\rho_\burn$ and $\rho_\wear$ are set to
+0.01. Due to the diversity of the problems, $t_\maximum$, $\q_\maximum$, and
+$T_\minimum$ are found individually for each problem, ensuring that they make
+sense for the subsequent optimization. For instance, $\q_\maximum$ is found
+between 90 and \celsius{120}. Note, however, that these three parameters stay
+the same for both the stochastic and deterministic cases.
 
-The obtained results are reported in \tref{optimization}, and the most important
-message is in the last column. \emph{Failure rate} refers to the ratio of the
-solutions produced by the deterministic optimization that, after being
-reevaluated using the probabilistic approach (that is, after taking process
-variation into account), have been found to be violating the probabilistic
-constraints given in \eref{thermal-constraint} and/or
-\eref{reliability-constraint}. To give an example, for the quad-core platform,
-six out of 10 schedules proposed by the deterministic approach violate the
-constraints on the maximum temperature and/or minimum lifetime when evaluated
-considering process variation. The more complex the problem becomes, the higher
-values the failure rate attains: with 16 and 32 processing elements (320 and 640
-tasks, respectively), all deterministic solutions violate the imposed
-constraints. Moreover, the difference between the acceptable one percent of
-burn/wear ($\rho_\burn = \rho_\wear = 0.01$) and the actual probability of
-burn/wear was found to be as high as 80\% in some cases, which is unacceptable.
+The obtained results are reported in \tref{chaos-optimization-objective}. The
+most important message is in the last column where \emph{failure} refers to the
+ratio of the solutions produced by the deterministic optimization that, after
+being reevaluated using our probabilistic approach (that is, after taking
+process variation into account), have been found to be violating the
+probabilistic constraints given in \eref{chaos-optimization-constraints}. To
+give an example, for the quad-core platform, 6 out of 10 schedules proposed by
+the deterministic approach violate the constraint on the maximum temperature or
+minimum lifetime (or both) when process variation is taken into consideration.
+The more complex the problem becomes, the higher values the failure rate
+attains: with 16 and 32 processing elements (320 and 640 tasks, respectively),
+all deterministic solutions violate the imposed constraints. Moreover, the
+difference between the acceptable one percent of burn and wear ($\rho_\burn =
+\rho_\wear = 0.01$) and the actual probability of burn and wear is found to be
+as high as 80\% in some cases, which is unacceptable.
 
-In addition, we inspected those few deterministic solutions that had passed the
-probabilistic reevaluation and observed that the reported reduction of the
-energy consumption and maximum temperature as well as the reported increase of
-the lifetime were overoptimistic. More precisely, the predictions produced by
-the deterministic optimization, which ignores variations, were compared with the
-expected values obtained when process variation was taken into account. The
-comparison showed that the expected energy and temperature were up to 5\% higher
-while the expected lifetime was up to 20\% shorter than the ones estimated by
-the deterministic approach. This aspect of the deterministic optimization can
-mislead the designer.
+In addition, we take a close look at those few deterministic solutions that have
+passed the probabilistic reevaluation and observe that the reported reduction of
+the energy consumption and maximum temperature as well as the reported increase
+in the lifetime are overoptimistic. To elaborate, the predictions produced by
+the deterministic optimization, which neglects process variation, are compared
+with the expected values obtained when process variation is taken into account.
+The comparison shows that the expected energy and temperature are up to 5\%
+higher while the expected lifetime is up to 20\% shorter than the ones estimated
+by the deterministic approach. This aspect of the deterministic optimization can
+mislead the designer. Consequently, when studying those aspects of electronic
+systems that are concerned with power, temperature, and reliability, the
+ignorance of the deteriorating effect of process variation can severely
+compromise the associated design decisions, making them less profitable in the
+best case and dangerous in the worst scenario.
 
-Consequently, when studying those aspects of electronic systems that are
-concerned with power, temperature, and reliability, the ignorance of the
-deteriorating effect of process variation can severely compromise the associated
-design decisions making them less profitable in the best case and dangerous,
-harmful in the worst scenario.
+Let us now comment on the optimization time shown in
+\tref{chaos-optimization-objective}. It can be seen that our implementation of
+the proposed framework takes from about one minute to six hours (utilizing 16
+cores) in order to perform the optimization, and that the deterministic
+optimization is approximately 2--40 times faster. However, the price to pay when
+relying on the deterministic approach is considerably high as discussed above.
+The deterministic technique is blind-guessing with highly unfavorable odds of
+succeeding. Therefore, we consider the computation time of our framework to be
+reasonable and affordable.
 
-Let us now comment on the optimization time shown in \tref{optimization}. It can
-be seen that the prototype of the proposed framework takes from about one minute
-to six hours (utilizing 16 \up{CPU}s) in order to perform optimization, and
-the deterministic optimization is approximately 2--40 times faster. However, the
-price to pay when relying on the deterministic approach is considerably high as
-we discussed in the previous paragraphs. It can be summarized as ``blind
-guessing with highly unfavorable odds of succeeding." Consequently, we consider
-the computation time of our framework to be reasonable and affordable,
-especially in an industrial setting.
-
-Lastly, we performed experiments also to investigate the impact of the lifetime
-constraint in \eref{reliability-constraint} on the reduction of the expected
-energy consumption. To this end, we ran our probabilistic optimization (all 50
-problems) without the constraint in \eref{reliability-constraint} and compared
-the corresponding results with those obtained considering the lifetime
-constraint. We observed that the expected energy consumption was higher when
-\eref{reliability-constraint} was taken into account, but the difference
-vanishes when the complexity of the problems increases. On average, the cost of
-\eref{reliability-constraint} was below 5\% of the expected energy consumption.
-Without \eref{reliability-constraint}, however, no (probabilistic) guarantees on
-the lifetime of the considered systems can be given.
+Lastly, we perform an experiment targeted at investigating the impact of the
+lifetime constraint in \eref{chaos-optimization-constraints} on the reduction of
+the expected energy consumption. To this end, we run our stochastic optimization
+(all 50 problems) without the reliability constraint and compare the
+corresponding results with those obtained when the lifetime constraint is
+included. We observe that the expected energy consumption is higher when the
+constraint is taken into account; however, the difference vanishes when the
+complexity of the problem increases. On average, the cost of the lifetime
+constraint is below 5\% in terms of the expected energy consumption. Without the
+constraint, however, no (probabilistic) guarantees on the lifetime of the
+considered systems can be given.
