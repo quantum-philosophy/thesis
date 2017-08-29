@@ -105,13 +105,14 @@ and accurate models for uncertainties due to process variation
 \begin{equation} \elab{inference-prior-quantity}
   \g | \u_\g \sim \mathrm{Gaussian\ Process}(\mu, v)
 \end{equation}
-where $\mu(\cdot)$ and $v(\cdot, \cdot)$ are the mean and covariance functions
-of \g, respectively, which take locations on the wafer as arguments. The
-notation also indicates that \g depends on a set of parameters $\u_\g$, which we
-shall identify later on. Prior to taking any measurements, \g is assumed to be
-spatially unbiased; therefore, we let $\mu$ be a single location-independent
-parameter $\mu_\g$, that is, $\mu(\v{r}) = \mu_\g$ for any $\v{r} \in \real^2$.
-The covariance function $v$ is chosen to be as follows:
+where $\mu: \real^2 \to \real$ and $v: \real^2 \times \real^2 \to \real$ are the
+mean and covariance functions of \g, respectively, which take locations on the
+wafer as arguments. The notation also indicates that \g depends on a set of
+parameters $\u_\g$, which we shall identify later on. Prior to taking any
+measurements, \g is assumed to be spatially unbiased; therefore, we let $\mu$ be
+a single location-independent parameter $\mu_\g$, that is, $\mu(\v{r}) = \mu_\g$
+for any $\v{r} \in \real^2$. The covariance function $v$ is chosen to be the
+following:
 \begin{equation} \elab{inference-covariance}
   v(\v{r}_1, \v{r}_2) = \sigma_\g^2 \, k(\v{r}_1, \v{r}_2)
 \end{equation}
