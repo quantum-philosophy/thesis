@@ -85,42 +85,48 @@ for the rest of the experiments.
 \hiddensubsection{Computational Speed}
 
 \inputtable{chaos-optimization-speed}
-Our objective here is to study the speed of the proposed solutions.
-
-\tref{speed} displays the time needed to perform one characterization of \vq for
-the number of processing elements \np swept from 2 to 32. It can be seen that
-the computational time ranges from a fraction of a second to around two seconds.
-More importantly, \tref{speed} provides information about a number of
-complementary quantities that are of high interest for the designer of the
-proposed techniques, which we discuss below.
+Our objective is now to assess the speed of the proposed solutions by
+considering the same setup as the one outlined in the previous subsection.
+\tref{chaos-optimization-speed} displays the time needed to perform one
+characterization of \vg for the number of processing elements \np swept from 2
+to 32. It can be seen that the computation time ranges from a fraction of a
+second to around two seconds. More importantly, \tref{chaos-optimization-speed}
+provides information about a number of complementary quantities that are of high
+interest to the designer, which we discuss below.
 
 The primary quantity to pay attention to is the number of random variables \nz
-preserved after the reduction procedure described in \sref{preprocessing} and
-\sref{model-order-reduction}. Without this reduction, \nz would be $2 \np$ as
-there are two process parameters per processing element. It can be seen that
-there is no reduction for the dual-core platform while around 80\% of the
-stochastic dimensions have been eliminated for the platform with 32 cores. In
-addition, one can note that \nz is the same for the last two platforms. The
-magnitude of reduction is solely determined by the correlation patterns assumed
-(see \sref{preprocessing}) and the floorplans of the considered platforms.
+preserved after the reduction procedure noted in
+\sref{chaos-probability-transformation} and described in
+\sref{probability-transformation}. Without this reduction, \nz would be $2 \np$
+since there are two process parameters per processing element; see
+\sref{chaos-reliability-application}. It can be seen in
+\tref{chaos-optimization-speed} that there is no reduction for the dual-core
+platform while around 80\% of the stochastic dimensions are eliminated for the
+platform with 32 cores. In addition, one can note that \nz is the same for the
+last two platforms. The magnitude of reduction is solely determined by the
+correlation patterns assumed (see \sref{chaos-reliability-application}) and the
+floorplans of the considered platforms, which we also observe and elaborate on
+in \sref{chaos-transient-results}.
 
-Another important quantity displayed in \tref{speed} is the number of quadrature
-nodes \nq. This number is the main indicator of the computational complexity of
-our probabilistic analysis: it equals to the number of times Algorithm~G in
-\aref{surrogate-construction} is executed to construct a polynomial expansion of
-\eref{quantity-of-interest} needed for the evaluation of the fitness function.
-It can be seen that \nq is very low. To illustrate this, the last column of
-\tref{speed} shows the speedup of our approach with respect to $10^4$ \ac{MC}.
-Our solution is faster by approximately 100--200 times while delivering highly
-accurate results as discussed earlier. It should be noted that the comparison
-has been drawn based on the number of evaluation points rather than on the
-actual time since the relative cost of other computations is negligible.
+Another important quantity displayed in \tref{chaos-optimization-speed} is the
+number of quadrature points \nq. This number is the main indicator of the
+computational complexity of our probabilistic analysis: it equals to the number
+of times Algorithm~G in \aref{chaos-expansion} is to be executed in order to
+construct a polynomial expansion for the quantity of interest \g, which, in this
+case, is given in \eref{chaos-optimization-quantity}. It can be seen that \nq is
+very low. In order to substantiate this, the last column of
+\tref{chaos-optimization-speed} shows the speedup of our approach with respect
+to 10\textsuperscript{4} \ac{MC} samples. Our solution is faster by
+approximately 100--200 times while delivering highly accurate results as
+discussed earlier. It should be noted that the comparison has been drawn based
+on the number of evaluation points rather than on the actual time since the
+relative cost of other computations is negligible.
 
-To conclude, the proposed solutions to temperature and reliability analyses
-under process variation have been assessed using the composite quantity of
-interest given in \eref{quantity-of-interest}. The results shown in
-\tref{accuracy} and \tref{speed} allow us to conclude that our approach is both
-accurate and computationally efficient.
+To conclude, the proposed solutions to dynamic steady-state analysis and
+reliability analysis under process variation have been assessed using the
+composite quantity in \eref{chaos-optimization-quantity}. The results shown in
+\tref{chaos-optimization-accuracy} and \tref{chaos-optimization-speed} allow us
+to conclude that our approach is both accurate and computationally efficient.
 
 \hiddensubsection{Optimization Effectiveness}
 
@@ -209,7 +215,7 @@ the deterministic optimization is approximately 2--40 times faster. However, the
 price to pay when relying on the deterministic approach is considerably high as
 we discussed in the previous paragraphs. It can be summarized as ``blind
 guessing with highly unfavorable odds of succeeding." Consequently, we consider
-the computational time of our framework to be reasonable and affordable,
+the computation time of our framework to be reasonable and affordable,
 especially in an industrial setting.
 
 Lastly, we performed experiments also to investigate the impact of the lifetime
