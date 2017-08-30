@@ -21,7 +21,7 @@ constraints. More specifically, our objective is
 such that
 \begin{equation} \elab{chaos-optimization-constraints}
   \begin{split}
-    & \period(\schedule) \leq t_\maximum, \\
+    & \period(\schedule) \leq \period_\maximum, \\
     & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \\
     & \probability\left(\life(\schedule) \leq \life_\minimum\right) \leq \rho_\wear.
   \end{split}
@@ -43,11 +43,11 @@ on the uncertain parameters \vu.
 
 Our constraints in \eref{chaos-optimization-constraints} concern \one~time,
 \two~temperature, and \three~reliability. The first constrains the period of the
-application by $t_\maximum$ (a deadline). The second constrains the maximum
-temperature of the system by $\q_\maximum$ where $\rho_\burn$ is an acceptable
-probability of burning the chip. The third constrains from below the lifetime of
-the system by $\life_\minimum$ where $\rho_\wear$ is an acceptable probability
-of having a premature fault due to wear. The last two constraints in
+application by $\period_\maximum$ (a deadline). The second constrains the
+maximum temperature of the system by $\q_\maximum$ where $\rho_\burn$ is an
+acceptable probability of burning the chip. The third constrains from below the
+lifetime of the system by $\life_\minimum$ where $\rho_\wear$ is an acceptable
+probability of having a premature fault due to wear. The last two constraints in
 \eref{chaos-optimization-constraints} are probabilistic since the quantities
 under consideration are random. In the last constraint, we set an upper bound on
 the probability of the expected value of \life; note that this expectation is a
@@ -96,11 +96,11 @@ checking the timing constraint, the first in
 analysis; the constraint is purely deterministic. If it is violated, we set the
 fitness to the amount of this violation relative to the constraint---that is, to
 the difference between the actual application period and the deadline
-$t_\maximum$ divided by $t_\maximum$---and add a big constant $C$. If the timing
-constraint is satisfied, we perform our uncertainty analysis and proceed to
-checking the other two constraints. If any of them is violated, we set the
-fitness to the total relative amount of violation plus $C / 2$. If all the
-constraints are satisfied, the fitness value of the chromosome is set to the
+$\period_\maximum$ divided by $\period_\maximum$---and add a big constant $C$.
+If the timing constraint is satisfied, we perform our uncertainty analysis and
+proceed to checking the other two constraints. If any of them is violated, we
+set the fitness to the total relative amount of violation plus $C / 2$. If all
+the constraints are satisfied, the fitness value of the chromosome is set to the
 expected consumption of energy.
 
 In order to speed up the optimization, we make use of caching and parallel

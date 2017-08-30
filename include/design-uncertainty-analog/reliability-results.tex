@@ -158,7 +158,7 @@ become, respectively,
 and
 \[
   \begin{split}
-    & \period(\schedule) \leq t_\maximum, \\
+    & \period(\schedule) \leq \period_\maximum, \\
     & Q(\schedule) \geq \q_\maximum, \text{ and} \\
     & \life(\schedule) \leq \life_\minimum.
   \end{split}
@@ -169,8 +169,8 @@ in $\{ 2^i \}_{i = 1}^5$ and 10 applications with the number of tasks $\nt = 20
 \np$; thus, there are 50 problems in total. The platforms and applications are
 generated randomly using \up{TGFF} \cite{dick1998}. In
 \eref{chaos-optimization-constraints}, $\rho_\burn$ and $\rho_\wear$ are set to
-0.01. Due to the diversity of the problems, $t_\maximum$, $\q_\maximum$, and
-$\life_\minimum$ are found individually for each problem, ensuring that they
+0.01. Due to the diversity of the problems, $\period_\maximum$, $\q_\maximum$,
+and $\life_\minimum$ are found individually for each problem, ensuring that they
 make sense for the subsequent optimization. For instance, $\q_\maximum$ is found
 between 90 and \celsius{120}. Note, however, that these three parameters stay
 the same for both the stochastic and deterministic cases.

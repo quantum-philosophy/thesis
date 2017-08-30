@@ -42,10 +42,10 @@ given the parameters gathered in \vg. In this scenario,
 In this subsection, we present a model that is frequently used for
 characterizing the lifetime $\life_i$ of a single processing element when it is
 exposed to repetitive temperature-induced stress \cite{huang2009b, xiang2010}.
-The considered scenario is that the system is experiencing a periodic workload
-with a certain period denoted by \period. The corresponding temperature profile
-is then a dynamic steady-state temperature profile, which is discussed in
-\sref{dynamic-steady-state-analysis}.
+The considered scenario is that the system at hand is experiencing a periodic
+workload with a certain period denoted by \period. The corresponding temperature
+profile is then a dynamic steady-state temperature profile, which is discussed
+in \sref{dynamic-steady-state-analysis}.
 
 The lifetime $\life_i$ is assumed to have a Weibull distribution as follows:
 \[
@@ -78,11 +78,11 @@ is $\beta$ and scale parameter is given by
 \end{remark}
 
 It is natural to expect that the usage conditions and, hence, the corresponding
-wear change over the period. Then the distribution of $\life_i$ should reflect
-this aspect, which is not yet prominent in \eref{weibull-distribution}. In order
-to take it into account, the period is split into \nk{i} time intervals $\{
-\dt_{ij} \}_{j = 1}^{\nk{i}}$ so that the conditions that are relevant to the
-model stay unchanged within each interval. Let
+wear change over the period \period. Then the distribution of $\life_i$ should
+reflect this aspect, which is not yet prominent in \eref{weibull-distribution}.
+In order to take it into account, the period is split into \nk{i} time intervals
+$\{ \dt_{ij} \}_{j = 1}^{\nk{i}}$ so that the conditions that are relevant to
+the model stay unchanged within each interval. Let
 \[
   \life_{ij} | \vg_{ij} \sim \mathrm{Weibull}(\scale_{ij}, \shape_{ij})
 \]
