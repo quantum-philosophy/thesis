@@ -70,10 +70,10 @@ Assume that \g as a function of \vu belongs to $\L{2}(\Omega, \F,
 \probability)$; see \sref{probability-theory}. Then \g can be expanded into the
 following series (see Stage~3 in \fref{chaos-overview}):
 \begin{equation} \elab{chaos-expansion}
-  \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\vi \in \multiindices{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
+  \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
 \end{equation}
 where $\lc \in \natural$ is the level of the expansion; $\vi = (i_k) \in
-\natural^\nz$ is a multi-index; $\multiindices{\nz}{\lc}$ is a multi-index set;
+\natural^\nz$ is a multi-index; $\sparseindex{\nz}{\lc}$ is a multi-index set;
 and $\{ \psi_{\vi} \}$ are \nz-variate orthonormal polynomials of orders
 specified by the corresponding elements of \vi.
 
@@ -104,11 +104,11 @@ corresponding points and weights, respectively. The operator
 $\quadrature{\nz}{\lq}$ is constructed by means of the isotropic Smolyak
 algorithm \cite{smolyak1963} as shown in \eref{integration-smolyak}. The
 important aspect to note about \eref{integration-smolyak} is the structure of
-the operator, namely, the multi-index index set $\multiindices{\nz}{\lq}$, which
+the operator, namely, the multi-index index set $\sparseindex{\nz}{\lq}$, which
 we discuss now.
 
-The standard choice of $\multiindices{\nz}{\lc}$ in \eref{chaos-expansion} is
-the one in \eref{index-total-order-isotropic}, which is called an isotropic
+The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
+one in \eref{index-total-order-isotropic}, which is called an isotropic
 total-order multi-index set. \emph{Isotropic} refers to constraining all
 dimensions identically, and \emph{total-order} refers to the criterion used for
 constraining each dimension. Since $\psi_{\vi}$ is a polynomial of total order
@@ -119,17 +119,17 @@ total order up to $2 \lc$ \cite{eldred2008}. In the case of Gaussian quadratures
 discussed in \sref{numerical-integration}, a quadrature of level \lq is exact
 for polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
 this particular and very common case, it is sufficient to keep \lc and \lq
-equal. More generally, the multi-index sets $\multiindices{\nz}{\lc}$ in
-\eref{chaos-expansion} and $\multiindices{\nz}{\lq}$ in \eref{chaos-coefficient}
+equal. More generally, the multi-index sets $\sparseindex{\nz}{\lc}$ in
+\eref{chaos-expansion} and $\sparseindex{\nz}{\lq}$ in \eref{chaos-coefficient}
 should be synchronized.
 
 An important generalization of the isotropic Smolyak algorithm in
 \eref{integration-smolyak} is the anisotropic Smolyak algorithm
 \cite{nobile2008}. The main difference between the isotropic and anisotropic
-versions lies in the content of $\multiindices{\nz}{\lq}$. An anisotropic
+versions lies in the content of $\sparseindex{\nz}{\lq}$. An anisotropic
 total-order multi-index set is defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
-  \multiindices{\nz}{\lq} = \left\{ \vi \in \natural^\nz: \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
+  \sparseindex{\nz}{\lq} = \left\{ \vi \in \natural^\nz: \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
 \end{equation}
 where $\v{c} = (c_i) \in \real^\nz$ with $c_i \geq 0$ for $i = \range{1}{\nz}$
 is a vector assigning importance weights to the dimensions, and
@@ -167,20 +167,19 @@ can be reduced to one matrix multiplication with a precomputed matrix, which we
 show next.
 
 \inputalgorithm{chaos-expansion}
-Let $\nc = \cardinality{\multiindices{\nz}{\lc}}$ be the cardinality of
-$\multiindices{\nz}{\lc}$, which is also the number of polynomial terms or,
+Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of
+$\sparseindex{\nz}{\lc}$, which is also the number of polynomial terms or,
 equivalently, coefficients in \eref{chaos-expansion}. Assume that the
-multi-index set $\multiindices{\nz}{\lc}$ is given a certain ordering so that
-one can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now,
-let
+multi-index set $\sparseindex{\nz}{\lc}$ is given a certain ordering so that one
+can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
   \Pi = (\psi_{\vi_i}(\vx_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
 \end{equation}
 The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
 multi-index $i$ evaluated at quadrature point $j$ and multiplied by quadrature
 weight $j$. The matrix $\Pi$ is referred to as the projection matrix. Using
-$\Pi$, the coefficients $\{ \hat{g}_{\vi}: \vi \in \multiindices{\nz}{\lc} \}$
-in \eref{chaos-expansion} can now be trivially computed as
+$\Pi$, the coefficients $\{ \hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in
+\eref{chaos-expansion} can now be trivially computed as
 \begin{equation} \elab{chaos-coefficients}
   \hat{\vg} = \Pi \, \vg
 \end{equation}
@@ -229,13 +228,13 @@ conclude that
 \[
   \expectation{\psi_{\vi}} = 0
 \]
-for $\vi \in \multiindices{\nz}{\lc} \setminus \{ \v{0} \}$. Consequently, the
+for $\vi \in \sparseindex{\nz}{\lc} \setminus \{ \v{0} \}$. Consequently, the
 expected value and variance of \g have the following straightforward
 expressions:
 \begin{equation} \elab{chaos-moments}
   \begin{split}
     & \expectation{\g} = \hat{\g}_{\v{0}} \text{ and} \\
-    & \variance{\g} = \sum_{\vi \in \multiindices{\nz}{\lc} \setminus \{ \v{0} \}} \hat{\g}_{\vi}^2,
+    & \variance{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc} \setminus \{ \v{0} \}} \hat{\g}_{\vi}^2,
   \end{split}
 \end{equation}
 respectively, the squaring should be understood element-wise. It can be seen
@@ -248,7 +247,7 @@ be estimated by means of \ac{MC} sampling applied to \eref{chaos-expansion}. The
 procedure can be better understood by rewriting \eref{chaos-expansion}, which is
 given in terms of operators, as follows:
 \[
-  \g \approx \chaos{\nz}{\lc}{\g}(\vz) = \sum_{\vi \in \multiindices{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}(\vz).
+  \g \approx \chaos{\nz}{\lc}{\g}(\vz) = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}(\vz).
 \]
 Here the aforementioned operators are applied to an outcome of \vz drawn from
 the corresponding distribution. Consequently, in this case, each sample is a

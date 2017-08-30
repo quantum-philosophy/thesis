@@ -22,9 +22,9 @@ total order of each polynomial is at most $\lc \in \natural$. The space
 $\Psi_\lc(G)$ can be constructed as a span of $n$-variate Hermite polynomials
 \cite{eldred2008, maitre2010}
 \[
-  \Psi_\lc(G) = \hull{\left\{ \psi_{\vi}(\v{y}): \vi \in \multiindices{n}{\lc}, \v{y} \in G \right\}}
+  \Psi_\lc(G) = \hull{\left\{ \psi_{\vi}(\v{y}): \vi \in \sparseindex{n}{\lc}, \v{y} \in G \right\}}
 \]
-where $\vi = (i_k) \in \natural^n$ is a multi-index; $\multiindices{n}{\lc}$ is
+where $\vi = (i_k) \in \natural^n$ is a multi-index; $\sparseindex{n}{\lc}$ is
 the one in \eref{index-total-order-isotropic}; and
 \[
   \psi_{\vi}(\v{y}) = \prod_{k = 1}^n \psi_{i_k}(y_k).
@@ -78,7 +78,7 @@ This operation is referred to as a spectral projection.
 
 In practice, the infinite expansion is truncated, which we denote as
 \[
-  \g \approx \chaos{n}{\lc}{\g} = \sum_{\vi \in \multiindices{n}{\lc}} \hat{g}_{\vi} \psi_{\vi}.
+  \g \approx \chaos{n}{\lc}{\g} = \sum_{\vi \in \sparseindex{n}{\lc}} \hat{g}_{\vi} \psi_{\vi}.
 \]
 In the notation $\chaos{n}{\lc}$, the superscript $n$ indicates the
 dimensionality of the vector space, and the subscript \lc indicates the level of
