@@ -16,26 +16,26 @@ general system and temperature models given in \sref{system-model} and
 define is the power model since it is the one introducing the actual workload
 into the system. Denote the prescribed power model by
 \begin{equation} \elab{chaos-power-model}
-  \vp = f(i, \vq, \vu)
+  \vp = \f(i, \vq, \vu)
 \end{equation}
-where $f: \natural[+] \times \real^\np \times \real^\nu \to \real^\np$ is a
+where $\f: \natural[+] \times \real^\np \times \real^\nu \to \real^\np$ is a
 function that evaluates the power consumption $\vp \in \real^\np$ of the
 processing elements at step $i$ given the heat dissipation $\vq \in \real^\np$
 of the processing elements and the parameters $\vu \in \real^\nu$.
 
 \begin{remark}
 It should be understood that \vp, \vq, and \vu are random vectors in general,
-and that $f$ consumes $\vq(\omega)$ and $\vu(\omega)$ and yields $\vp(\omega)$
+and that \f consumes $\vq(\omega)$ and $\vu(\omega)$ and yields $\vp(\omega)$
 for some particular outcome $\omega \in \Omega$. The function itself is purely
 deterministic.
 \end{remark}
 
-The designer can choose any $f$. It can be, for instance, a closed-form formula
-or a piece of code. The only assumption we make about $f$ is that it is smooth
-in \vz and belongs to $\L{2}(\Omega, \F, \probability)$ when it is viewed as a
+The designer can choose any \f. It can be, for instance, a closed-form formula
+or a piece of code. The only assumption we make about \f is that it is smooth in
+\vz and belongs to $\L{2}(\Omega, \F, \probability)$ when it is viewed as a
 random variable (see \sref{probability-theory}), which is generally applicable
 to most physical systems \cite{xiu2010}. Note also that the operation performed
-by this ``black box'' is purely deterministic. The definition of $f$ is flexible
+by this ``black box'' is purely deterministic. The definition of \f is flexible
 enough to account for such effects as the interdependence between power and
 temperature discussed in \sref{power-model}.
 
@@ -61,7 +61,7 @@ performed on dependent random vectors with arbitrary distributions, which, in
 general, have no closed-form solutions.
 
 In this section, the quantity of interest \g---which is the output of Stage~1 in
-\fref{chaos-overview}---is roughly $f$ given in \eref{chaos-power-model};
+\fref{chaos-overview}---is roughly \f given in \eref{chaos-power-model};
 however, in the end, the actual quantities of interest \mp and \mq will be
 attained, which we discuss now.
 
@@ -70,12 +70,12 @@ attained, which we discuss now.
 The goal now is to transform the recurrence in \eref{chaos-recurrence-original}
 in such a way that the distributions of power and temperature can be estimated
 efficiently. Based on the methodology presented in
-\sref{chaos-uncertainty-analysis}, we construct a \ac{PC} surrogate for $f$ so
+\sref{chaos-uncertainty-analysis}, we construct a \ac{PC} surrogate for \f so
 that it can be then propagated through \eref{chaos-recurrence-original} in order
 to obtain an expansion for (temperature-aware) power and an expansion for
 temperature.
 
-The expansion of $\vp_i$ in \eref{chaos-recurrence-original} computed via $f$ in
+The expansion of $\vp_i$ in \eref{chaos-recurrence-original} computed via \f in
 \eref{chaos-power-model} is
 \[
   \chaos{\nz}{\lc}{\vp_i} = \sum_{\vj \in \sparseindex{\nz}{\lc}} \hat{\vp}_{i \vj} \psi_{\vj}
@@ -118,16 +118,16 @@ operation should be understood element-wise, and it can be efficiently
 undertaken by virtue of a projection matrix in \eref{chaos-projection-matrix}.
 It is worth noting that, since power depends on temperature as discussed in
 \sref{power-model}, at each step of the recurrence in \eref{chaos-recurrence},
-the computation of $\hat{\vp}_{i \vj}$ via $f$ should be done with respect to
-the expansion of $\vq_{i - 1}$.
+the computation of $\hat{\vp}_{i \vj}$ via \f should be done with respect to the
+expansion of $\vq_{i - 1}$.
 
 The construction process of the stochastic power and temperature profiles is
 estimated to have the following time complexity per time step:
 \[
-  \bigo{n_n^2 \nc + \nn \np \nq \nc + \nq f(\np)}
+  \bigo{n_n^2 \nc + \nn \np \nq \nc + \nq \f(\np)}
 \]
 where \nn, \np, \nc, and \nq are the number of thermal nodes, processing
-elements, polynomial terms, and quadrature points, respectively, and $f(\np)$
+elements, polynomial terms, and quadrature points, respectively, and $\f(\np)$
 denotes the contribution of the power model in \eref{chaos-power-model}. The
 expression can be detailed further by expanding \nc and \nq. Assuming the
 isotropic total-order multi-index set in \eref{index-total-order-isotropic}, \nc
