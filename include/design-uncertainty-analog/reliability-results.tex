@@ -57,24 +57,24 @@ comparison.
 The obtained results are displayed in \tref{chaos-optimization-accuracy} where
 we consider a quad-core platform, that is, $\np = 4$, with 10 randomly generated
 applications and vary the level of polynomial expansions \lc from 1 to 5. The
-errors for the three components of $\vg = (E, Q, T)$ are denoted by
-$\epsilon_E$, $\epsilon_Q$, and $\epsilon_T$, respectively. Each error indicator
-shows the distance between the empirical probability distributions produced by
-our approach and the ones produced by \ac{MC}\ sampling, and the measure of this
-distance is the Kullback--Leibler divergence (\up{KLD}) \cite{gelman2013,
-hastie2013} where the results of \ac{MC} sampling are treated as the true ones.
-The \up{KLD} takes non-negative values and attains zero only when two
-distributions are equal almost everywhere \cite{durrett2010}. In general, the
-errors decrease as \lc increases. This trend, however, is not monotonic for
-\ac{PC} expansions of high levels; see $\epsilon_Q$ and $\epsilon_T$ for $\lc =
-5$. The observation can be ascribed to the random nature of sampling and to the
-reduction procedures that we undertake in order to gain speed; they might impose
-limitations on the accuracy that can be attained by polynomial approximations.
-\tref{chaos-optimization-accuracy} also contains the numbers of polynomial terms
-\nc and quadrature points \nq corresponding to each value of \lc. We have also
-performed the above experiment for platforms with fewer and with more processing
-elements and observed results similar to those in
-\tref{chaos-optimization-accuracy}.
+errors for the three components of $\vg = (E, Q, \life)$ are denoted by
+$\epsilon_E$, $\epsilon_Q$, and $\epsilon_{\life}$, respectively. Each error
+indicator shows the distance between the empirical probability distributions
+produced by our approach and the ones produced by \ac{MC}\ sampling, and the
+measure of this distance is the Kullback--Leibler divergence (\up{KLD})
+\cite{gelman2013, hastie2013} where the results of \ac{MC} sampling are treated
+as the true ones. The \up{KLD} takes non-negative values and attains zero only
+when two distributions are equal almost everywhere \cite{durrett2010}. In
+general, the errors decrease as \lc increases. This trend, however, is not
+monotonic for \ac{PC} expansions of high levels; see $\epsilon_Q$ and
+$\epsilon_{\life}$ for $\lc = 5$. The observation can be ascribed to the random
+nature of sampling and to the reduction procedures that we undertake in order to
+gain speed; they might impose limitations on the accuracy that can be attained
+by polynomial approximations. \tref{chaos-optimization-accuracy} also contains
+the numbers of polynomial terms \nc and quadrature points \nq corresponding to
+each value of \lc. We have also performed the above experiment for platforms
+with fewer and with more processing elements and observed results similar to
+those in \tref{chaos-optimization-accuracy}.
 
 Based on the figures reported in \tref{chaos-optimization-accuracy}, we consider
 the results delivered by third-level \ac{PC} expansions---where the \up{KLD}
@@ -160,7 +160,7 @@ and
   \begin{split}
     & \period(\schedule) \leq t_\maximum, \\
     & Q(\schedule) \geq \q_\maximum, \text{ and} \\
-    & T(\schedule) \leq T_\minimum.
+    & \life(\schedule) \leq \life_\minimum.
   \end{split}
 \]
 
@@ -170,8 +170,8 @@ in $\{ 2^i \}_{i = 1}^5$ and 10 applications with the number of tasks $\nt = 20
 generated randomly using \up{TGFF} \cite{dick1998}. In
 \eref{chaos-optimization-constraints}, $\rho_\burn$ and $\rho_\wear$ are set to
 0.01. Due to the diversity of the problems, $t_\maximum$, $\q_\maximum$, and
-$T_\minimum$ are found individually for each problem, ensuring that they make
-sense for the subsequent optimization. For instance, $\q_\maximum$ is found
+$\life_\minimum$ are found individually for each problem, ensuring that they
+make sense for the subsequent optimization. For instance, $\q_\maximum$ is found
 between 90 and \celsius{120}. Note, however, that these three parameters stay
 the same for both the stochastic and deterministic cases.
 

@@ -23,14 +23,14 @@ such that
   \begin{split}
     & \period(\schedule) \leq t_\maximum, \\
     & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \\
-    & \probability\left(T(\schedule) \leq T_\minimum\right) \leq \rho_\wear.
+    & \probability\left(\life(\schedule) \leq \life_\minimum\right) \leq \rho_\wear.
   \end{split}
 \end{equation}
 In the above formulae,
 \begin{align*}
   & E(\schedule) = \dt \, \norm[1]{\mp(\schedule)}; \\
   & Q(\schedule) = \norm[\infty]{\mq(\schedule)}; \\
-  & T(\schedule) = \expectation{\left(T(\schedule)\right)};
+  & \life(\schedule) = \expectation{\left(\life(\schedule)\right)};
 \end{align*}
 $\period(\schedule)$ is the period of the application; \dt is the sampling
 interval of power and temperature profiles; and $\norm[1]{\cdot}$ denotes the
@@ -46,18 +46,18 @@ Our constraints in \eref{chaos-optimization-constraints} concern \one~time,
 application by $t_\maximum$ (a deadline). The second constrains the maximum
 temperature of the system by $\q_\maximum$ where $\rho_\burn$ is an acceptable
 probability of burning the chip. The third constrains from below the lifetime of
-the system by $T_\minimum$ where $\rho_\wear$ is an acceptable probability of
-having a premature fault due to wear. The last two constraints in
+the system by $\life_\minimum$ where $\rho_\wear$ is an acceptable probability
+of having a premature fault due to wear. The last two constraints in
 \eref{chaos-optimization-constraints} are probabilistic since the quantities
 under consideration are random. In the last constraint, we set an upper bound on
-the probability of the expected value of $T$; note that this expectation is a
+the probability of the expected value of \life; note that this expectation is a
 random variable itself due to the nested structure of the reliability model
 described in \rref{chaos-nested-uncertainty}.
 
 In this section, the quantity of interest \g in \fref{chaos-overview} is the
 vector
 \begin{equation} \elab{chaos-optimization-quantity}
-  \vg = (E, Q, T)
+  \vg = (E, Q, \life)
 \end{equation}
 where the first element corresponds to the total energy consumption; the second
 is the maximum temperature; and, with a slight abuse of notation, the third is

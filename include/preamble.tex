@@ -133,22 +133,9 @@
 \newcommand{\hm}[1]{\hat{\m{#1}}}
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
-\newcommand{\x}{\math{x}}
-
-\newcommand{\vi}{\math{\boldsymbol{i}}}
-\newcommand{\vj}{\math{\boldsymbol{j}}}
-\newcommand{\vx}{\math{\v{x}}}
-
-\newcommand{\E}{\math{\mathcal{E}}}
-\newcommand{\F}{\math{\mathcal{F}}}
-\newcommand{\X}{\math{\mathcal{X}}}
-
-\newcommand{\cardinality}[1]{\# #1}
-\newcommand{\indices}[1]{\mathcal{I}_{#1}}
-\newcommand{\multiindices}[2]{\mathcal{J}^{#1}_{#2}}
-
 \newcommand{\absolute}[1]{|#1|}
 \newcommand{\bigo}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\cardinality}[1]{\# #1}
 \newcommand{\hull}[1]{\mathrm{span}\left(#1\right)}
 \newcommand{\innerproduct}[2]{\left\langle #1, #2 \right\rangle}
 \newcommand{\norm}[2][]{\|#2\|_{#1}}
@@ -165,6 +152,19 @@
 \def\diagonaltwo#1#2{\mathrm{diag}\left(\range{#1}{#2}\right)}
 \def\diagonalone#1{\mathrm{diag}\left(#1\right)}
 \makeatother
+
+\newcommand{\indices}[1]{\mathcal{I}_{#1}}
+\newcommand{\multiindices}[2]{\mathcal{J}^{#1}_{#2}}
+
+\newcommand{\vi}{\math{\boldsymbol{i}}}
+\newcommand{\vj}{\math{\boldsymbol{j}}}
+
+\newcommand{\x}{\math{x}}
+\newcommand{\vx}{\math{\v{x}}}
+
+\newcommand{\E}{\math{\mathcal{E}}}
+\newcommand{\F}{\math{\mathcal{F}}}
+\newcommand{\X}{\math{\mathcal{X}}}
 
 %
 % Probability theory
@@ -328,6 +328,8 @@
 %
 % Reliability
 %
+
+\newcommand{\life}{\math{L}}
 
 \newcommand{\burn}{\mathrm{burn}}
 \newcommand{\wear}{\mathrm{wear}}

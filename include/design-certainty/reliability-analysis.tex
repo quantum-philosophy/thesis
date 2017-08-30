@@ -3,13 +3,13 @@
 \newcommand{\shape}{\beta}
 
 Let $(\Omega, \F, \probability)$ be a probability space as defined in
-\sref{probability-theory} and let $T: \Omega \to \real$ be a random variable
+\sref{probability-theory} and let $\life: \Omega \to \real$ be a random variable
 that represents the lifetime of the system at hand. The lifetime is the time
 until the system experiences a fault after which it no longer meets certain
-requirements. Let also $F(\cdot | \vg)$ be the distribution function of $T$,
+requirements. Let also $F(\cdot | \vg)$ be the distribution function of \life,
 which gives the probability of failure before a certain time moment, where \vg
-is a vector of parameters. The expectation $\expectation{T}$ is called the
-\ac{MTTF}. Lastly, the complementary distribution function of $T$ is
+is a vector of parameters. The expectation $\expectation{\life}$ is called the
+\ac{MTTF}. Lastly, the complementary distribution function of \life is
 \[
   R(t | \vg) = 1 - F(t | \vg),
 \]
@@ -17,22 +17,22 @@ which, in the context of reliability analysis, gives the probability of survival
 up to a certain time moment and is called the reliability function of the
 system.
 
-The lifetime $T$ of the system is a function of the lifetimes of the \np
+The lifetime \life of the system is a function of the lifetimes of the \np
 processing elements that the system is composed of. Denote these individual
-lifetimes by $\{ T_i: \Omega \to \real \}_{i = 1}^\np$. Each $T_i$ is
+lifetimes by $\{ \life_i: \Omega \to \real \}_{i = 1}^\np$. Each $\life_i$ is
 characterized by a physical model of wear \cite{jedec2016} that describes the
-stress that the corresponding processing element is exposed to. Each $T_i$ is
-also assigned an individual reliability function $R_i(\cdot | \vg)$ modeling the
-failures due to that stress. The structure of $R(\cdot | \vg)$ with respect to
-$\{ R_i(\cdot | \vg) \}_{i = 1}^\np$ is problem specific, and it can be
+stress that the corresponding processing element is exposed to. Each $\life_i$
+is also assigned an individual reliability function $R_i(\cdot | \vg)$ modeling
+the failures due to that stress. The structure of $R(\cdot | \vg)$ with respect
+to $\{ R_i(\cdot | \vg) \}_{i = 1}^\np$ is problem specific, and it can be
 especially diverse in the context of fault-tolerant systems. Therefore, $R(\cdot
 | \vg)$ is to be specified by the designer of the system. To give an example,
 suppose that the failure of any of the \np processing elements makes the whole
-system fail, and that $\{ T_i \}_{i = 1}^\np$ are conditionally independent
+system fail, and that $\{ \life_i \}_{i = 1}^\np$ are conditionally independent
 given the parameters gathered in \vg. In this scenario,
 \begin{equation} \elab{reliability-model}
   \begin{split}
-    & T = \min_{i = 1}^\np T_i \text{ and} \\
+    & \life = \min_{i = 1}^\np \life_i \text{ and} \\
     & R(t | \vg) = \prod_{i = 1}^\np R_i(t | \vg).
   \end{split}
 \end{equation}
@@ -40,20 +40,20 @@ given the parameters gathered in \vg. In this scenario,
 \subsection{Periodic Thermal Stress}
 
 In this subsection, we present a model that is frequently used for
-characterizing the lifetime $T_i$ of a single processing element when it is
+characterizing the lifetime $\life_i$ of a single processing element when it is
 exposed to repetitive temperature-induced stress \cite{huang2009b, xiang2010}.
 The considered scenario is that the system is experiencing a periodic workload
 with a certain period denoted by \period. The corresponding temperature profile
 is then a dynamic steady-state temperature profile, which is discussed in
 \sref{dynamic-steady-state-analysis}.
 
-The lifetime $T_i$ is assumed to have a Weibull distribution as follows:
+The lifetime $\life_i$ is assumed to have a Weibull distribution as follows:
 \[
-  T_i | \vg_i \sim \mathrm{Weibull}(\scale_i, \shape_i)
+  \life_i | \vg_i \sim \mathrm{Weibull}(\scale_i, \shape_i)
 \]
 where $\scale_i$ and $\shape_i$ are called the scale and shape parameters,
 respectively, and $\vg_i = (\scale_i, \shape_i)$. The distribution function of
-$T_i$ is
+$\life_i$ is
 \begin{equation} \elab{weibull-distribution}
   F_i(t | \vg_i) = 1 - \exp\left(-\left(\frac{t}{\scale_i}\right)^{\shape_i}\right);
 \end{equation}
@@ -63,7 +63,7 @@ the reliability function of the processing element is
 \end{equation}
 and the corresponding \ac{MTTF} is
 \begin{equation} \elab{weibull-expectation}
-  \mean_i = \expectation{T_i} = \scale_i \: \Gamma\left(1 + \frac{1}{\shape_i}\right)
+  \mean_i = \expectation{\life_i} = \scale_i \: \Gamma\left(1 + \frac{1}{\shape_i}\right)
 \end{equation}
 where $\Gamma$ stands for the gamma function.
 
@@ -78,13 +78,13 @@ is $\beta$ and scale parameter is given by
 \end{remark}
 
 It is natural to expect that the usage conditions and, hence, the corresponding
-wear change over the period. Then the distribution of $T_i$ should reflect this
-aspect, which is not yet prominent in \eref{weibull-distribution}. In order to
-take it into account, the period is split into \nk{i} time intervals $\{
+wear change over the period. Then the distribution of $\life_i$ should reflect
+this aspect, which is not yet prominent in \eref{weibull-distribution}. In order
+to take it into account, the period is split into \nk{i} time intervals $\{
 \dt_{ij} \}_{j = 1}^{\nk{i}}$ so that the conditions that are relevant to the
 model stay unchanged within each interval. Let
 \[
-  T_{ij} | \vg_{ij} \sim \mathrm{Weibull}(\scale_{ij}, \shape_{ij})
+  \life_{ij} | \vg_{ij} \sim \mathrm{Weibull}(\scale_{ij}, \shape_{ij})
 \]
 be the time to failure that the processing element would have if interval $j$
 was the only interval present and denote by $\mean_{ij}$ the corresponding

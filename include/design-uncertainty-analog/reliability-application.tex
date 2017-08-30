@@ -19,10 +19,10 @@ simplicity, let us also assume that $\beta_i$ does not depend on process
 parameters, and that $\beta_i = \beta$ for $i = \range{1}{\np}$.
 
 Under the above assumptions, \rref{weibull-homogeneity} applies, and the
-lifetime $T: \Omega \to \real$ of the system has a Weibull distribution as
+lifetime $\life: \Omega \to \real$ of the system has a Weibull distribution as
 follows:
 \[
-  T | (\eta, \beta) \sim \mathrm{Weibull}(\eta, \beta)
+  \life | (\eta, \beta) \sim \mathrm{Weibull}(\eta, \beta)
 \]
 where $\eta$ is as in \rref{weibull-homogeneity} combined with
 \eref{thermal-cycling-scale}. Even though the model has two parameters, $\eta$
@@ -37,8 +37,8 @@ various perspectives. In the current scenario, however, the quantity of interest
 evaluating the objective function and constraints defined in
 \eref{chaos-optimization-objective} and \eref{chaos-optimization-constraints},
 respectively. In \eref{chaos-optimization-quantity}, the component denoted by
-$T$ stands for the parameterization of the reliability model, and, consequently,
-it is equal to $\eta$ in the example developed in this section.
+\life stands for the parameterization of the reliability model, and,
+consequently, it is equal to $\eta$ in the example developed in this section.
 
 Let us not turn our attention to the uncertain parameters \vu. We focus on two
 crucial process parameters, namely, on the effective channel length and
