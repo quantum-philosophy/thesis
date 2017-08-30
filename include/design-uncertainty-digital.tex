@@ -1,9 +1,1446 @@
-She sells seashells on the seashore.
+We present a framework for system-level analysis of electronic systems whose
+runtime behaviors depend on uncertain parameters. The proposed approach thrives
+on hierarchical interpolation guided by an advanced adaptation strategy, which
+makes the framework general and suitable for studying various metrics that are
+of interest to the designer. Examples of such metrics include the end-to-end
+delay, total energy consumption, and maximum temperature of the system under
+consideration. The framework delivers a light generative representation that
+allows for a straightforward, computationally efficient calculation of the
+probability distribution and accompanying statistics of the metric at hand. Our
+technique is illustrated by considering a number of uncertainty-quantification
+problems and comparing the corresponding results with exhaustive simulations.
 
 \section{Introduction}
 
-She sells seashells on the seashore.
+Probabilistic analysis of electronic systems is an extensive and diverse area,
+which is expanding with an accelerating pace. The rapid growth is instigated by
+the fact that electronic systems naturally become more sophisticated and
+refined, and that they penetrate deeper into everyday life. Therefore, the
+impact of uncertainty inevitably becomes more prominent and entails more severe
+consequences, necessitating an adequate treatment. Consequently, the designer of
+an electronic system is obliged to account for the presence of uncertainty in
+order to produce an efficient and reliable product.
+
+In order to account for uncertainty, one has to quantify it first. In this
+setting, one is usually interested in evaluating a certain metric whose complete
+knowledge would be highly profitable for the design at hand but cannot be
+attained since the metric involves a number of parameters that are inherently
+uncertain at design time. To give a concrete example, such a metric could be the
+maximum temperature of an electronic system whose thermal behavior depends on
+the runtime workload.
+
+Uncertainty quantification is a broad area. The techniques for uncertainty
+quantification can deliver radically different pieces of information about the
+metric under consideration. In this paper, we are interested in probability
+distributions rather than, for instance, corner cases. Designing for the worst
+case leads often to a poor solution as the system under consideration might
+easily end up being too conservative, overdesigned \cite{quinton2012}.
+
+When it comes to the estimation of probability distributions and to uncertainty
+quantification in general, sampling methods are of great use. The classical
+Monte Carlo (\up{MC}) sampling, quasi-\up{MC} sampling, and Latin hypercube
+sampling are examples of such methods \cite{asmussen2007}. Compared to other
+techniques for probabilistic analysis, these methods are straightforward to
+apply. The system at hand is treated as an opaque object, and one only has to
+evaluate this object a number of times in order to start to draw conclusions
+about the system's behavior.
+
+The major problem with sampling techniques, however, is in sampling: one should
+be able to obtain sufficient many realizations of the metric of interest in
+order to accurately estimate the needed statistics about that metric
+\cite{diaz-emparanza2002}. When the subject under analysis is expensive to
+evaluate, sampling methods are rendered slow and often unfeasible.
+
+We propose a design-time system-level framework for the analysis of electronic
+systems that are dependent on uncertain parameters. Similar to sampling methods,
+our technique treats the system at hand as a ``black box'' and, therefore, is
+straightforward to apply since no handcrafting is required, and existing codes
+need no change. Consequently, the metrics that the framework is able to tackle
+are diverse. Examples include those metrics concerned with timing-, power-, and
+temperature-related characteristics of elaborate applications running on
+heterogeneous multiprocessor platforms.
+
+In contrast to sampling methods, our technique explores and exploits the nature
+of the problem---that is, the way the metric depends on the uncertain
+parameters---by exercising the aforementioned ``black box'' at a set of points
+chosen adaptively. The adaptivity that our framework leverages is hybrid
+\cite{jakeman2012}: it tries to pick up both global (that is, on the level of
+individual dimensions \cite{klimke2006}) and, more importantly, local (that is,
+on the level on individual points \cite{ma2009}) variations. This means that the
+framework is able to benefit from many particularities that might be present in
+the stochastic space, that is, the space of the uncertain parameters. The
+adaptivity is the capital feature of our technique, and we would like to
+elaborate on it now.
+
+The uncertainties present in electronic systems originate from both the physical
+world and the computer world. An example of a physical source of uncertainty is
+process variation \cite{srivastava2005}, which is a side effect of contemporary
+fabrication processes. Process variation has been central for many lines of
+research \cite{bhardwaj2008, juan2012, lee2013, ukhov2014, ukhov2015}. An
+example of a digital source of uncertainty (the computer world) is workload. To
+elaborate, the characteristics of the codes running on modern devices change
+from one activation to another depending on the environment and input data. This
+source of uncertainty has not been deprived of attention either, especially in
+the real-time community \cite{quinton2012, diaz2002, santinelli2011,
+tanasa2015}. Regardless of the origin, such phenomena as the ones mentioned
+above render the behavior of an electronic system nondeterministic to the
+designer.
+
+Due to its nature, the variability coming from the physical world is typically
+smooth, well behaved. In such cases, uncertainty quantification based on
+polynomial chaos (\up{PC}) expansions \cite{xiu2010} and other approximation
+techniques making use of global polynomials generally work well, as in
+\cite{bhardwaj2008, lee2013, ukhov2014, ukhov2015}. On the other hand, the
+variability coming from the computer world has often steep gradients and favors
+nondifferentiability and even discontinuity. In such cases, \up{PC} expansions
+and similar techniques fail: they require extremely many evaluations of the
+desired metric in order to deliver an acceptable level of accuracy and, hence,
+are not worth it.
+
+In order to illustrate this concern, let us consider an example. Suppose that
+our system has only one processing element, and it is running an application
+with only one task. Suppose further that the task has two branches and takes
+either one depending on the input data. Assume that one branch takes 0.1~s to
+execute and has probability 0.6, and the other branch takes 1~s and has
+probability 0.4. Our goal is to find the distribution of the end-to-end delay of
+the application. In this example, the metric is the end-to-end delay, and it
+coincides with the execution time of the task; hence, we already know the
+answer. Let us pretend we do not and try to obtain it by other means.
+
+Suppose the above scenario is modeled by a random variable \u uniformly
+distributed on $[0, 1]$: the execution time of the task (the end-to-end delay of
+the application) is 0.1~s if $\u \in [0, 0.6]$, and it is 1~s if $\u \in (0.6,
+1]$. The response in this case is a step function, which is illustrated by the
+yellow line in \fref{motivation}.
+
+First, we try to quantify the end-to-end delay by constructing and subsequently
+sampling a \up{PC} expansion founded on the Legendre polynomial basis
+\cite{xiu2010}. The orange line in \fref{motivation} shows a ninth-order \up{PC}
+expansion, which uses 10 points. It can be seen that the approximation is
+poor---not to mention negative execution times---which means that the follow-up
+sampling will also yield a poor approximation of the true distribution. The
+observed oscillating behavior is the well-known Gibbs phenomenon stemming from
+the discontinuity of the response. No matter how many points are used in the
+construction of a polynomial, the oscillations will never go away completely.
+
+Let us now see how the framework proposed in this paper solves the same problem.
+For the purpose of the experiment, our technique is constrained to make use of
+as many points as the \up{PC} expansion did. The result is the blue curve in
+\fref{motivation}, and the adaptively chosen points are plotted on the
+horizontal axis. It can be seen that the approximation is good, and, in fact, it
+would be indistinguishable from the true response with a few additional points.
+One can note that the adaptive procedure started to concentrate interpolation
+points at the jump and left the insipid regions on both sides of the jump with
+no particular attention. Having constructed such a representation, one can
+proceed to the calculation of the probability distribution of the metric, which,
+in general, is done via sampling followed by such techniques as kernel density
+estimation. The crucial point to note is that this follow-up sampling does not
+involve the original system in any way, which implies that it costs practically
+nothing in terms of the computation time.
+
+The example discussed above illustrates the fact that the proposed framework is
+well suited for nonsmooth response surfaces. More generally, the adaptivity
+featured by our technique allows for a reduction of the costs associated with
+probabilistic analysis of the metric under consideration, as measured by the
+number of times the metric needs to be evaluated in order to achieve a certain
+accuracy level. The magnitude of the reduction depends on the problem, and it
+can be substantial when the problem is well disposed to adaptation.
+
+The remainder of the paper is organized as follows. Section~\ref{sec:overview}
+provides an overview of the prior work and summarizes our contribution. In
+\sref{description}, the problem that we consider is formulated, and our solution
+to the problem is outlined. The framework proposed to tackle the problem is
+presented in \sref{modeling}, \ref{sec:interpolation}, and \ref{sec:analysis}.
+The experimental results are given in \sref{experiments}. Finally,
+\sref{conclusion} concludes the paper.
+
+\section{Prior Work}
+
+Sampling methods would be a reasonable solution to probabilistic analysis of
+electronic systems if electronic systems were inexpensive (with respect to the
+computation time) to simulate. In order to eliminate or reduce the costs
+associated with direct sampling, a number of techniques have been introduced.
+
+Let us first discuss physical sources of uncertainty and, more concretely,
+process variation as it has been extensively studied. Circuit-level timing and
+power analyses under process variation are undertaken in \cite{bhardwaj2008} by
+means of polynomial chaos (\up{PC}) expansions \cite{xiu2010}. The work in
+\cite{juan2012} models static steady-state temperature and accounts for process
+variation by leveraging the linearity of Gaussian distributions and
+time-invariant systems. A stochastic collocation \cite{xiu2010} approach to
+static steady-state temperature analysis is given in \cite{lee2013}, which
+relies on global interpolation using Newton polynomials. In \cite{ukhov2014},
+transient temperature analysis is considered, and process variation is addressed
+via \up{PC} expansions. The machinery of \up{PC} expansions is also utilized in
+\cite{ukhov2015} in order to model dynamic steady-state temperature
+\cite{ukhov2012} and to enhance reliability models.
+
+Let us now turn to digital sources of uncertainty. In this context, timing
+analysis has drawn the major attention \cite{quinton2012}. A seminal work on
+response time analysis of periodic tasks with random execution times on
+uniprocessors is reported in \cite{diaz2002}. A novel analytical solution to
+this problem is given in \cite{tanasa2015}, which makes milder assumptions and
+allows for addressing larger, previously unsolvable problems. The framework
+proposed in \cite{santinelli2011} facilitates task scheduling by providing
+probabilistic bounds on the resource given to a task flow and the resource
+needed by that task flow; the approach is based on real-time calculus and is
+applicable to electronic systems.
+
+Studying the literature on probabilistic analysis of electronic systems, one can
+note a pronounced trend: the generality and straightforwardness of sampling
+methods tend to be lost. To elaborate, a technique typically: 1)~requires
+restrictive assumptions to be fulfilled such as the absence of correlations,
+2)~is tailored to one concrete metric such as the response time, and 3)~requires
+substantial effort to be deployed.
+
+However, one should keep in mind what is practical. First of all, although
+additional assumptions might make the mathematics analytically solvable, they
+often do not hold in reality and oversimplify the model. An exact analytical
+solution might also be extremely complex, requiring a lot of computational
+resources upon evaluation. Furthermore, it is often the case that there has been
+developed a robust simulator evaluating the metric at hand for the deterministic
+scenario. Switching to probabilistic analysis based on analytical approaches
+means discarding this battle-tested code and implementing something else from
+scratch, which is wasteful and not desirable.
+
+Some of the techniques listed earlier in this section, in fact, preserve the
+generality and straightforwardness of sampling methods. An example is the
+uncertainty analysis presented in \cite{ukhov2015}. The reason is that the
+construction of \up{PC} expansions in \cite{ukhov2015} is undertaken by means of
+so-called nonintrusive spectral projections \cite{xiu2010}, which do not need to
+look inside the ``black box,'' similar to sampling methods. However, as
+motivated in \sref{introduction}, nonsmoothness is a serious problem for global
+approximation based on polynomials. The convergence of \up{PC} expansions, for
+instance, deteriorates substantially in such cases, requiring partitioning of
+the stochastic space in order to alleviate the problem. Therefore, it is not
+straightforward to apply such techniques as the one given in \cite{ukhov2015} in
+the context of digital sources of uncertainty exhibiting nonsmoothness.
+
+To conclude, the available techniques for probabilistic analysis of electronic
+systems are restricted in use. Flexible, capable, and easy-to-deploy frameworks
+are needed.
+
+\section{Our Contribution}
+
+Our work brings the following major contribution: we develop an efficient
+framework for probabilistic analysis of electronic systems that is
+straightforward to use and is applicable to a wide range of
+uncertainty-quantification problems.
+
+The usage of our framework is streamlined because it has the same low entrance
+requirements as sampling techniques: one only has to be able to evaluate the
+metric given a set of deterministic parameters. Moreover, the framework can be
+utilized in scenarios with limited knowledge of the joint probability
+distribution of the uncertain parameters, which are common in practice (to be
+elaborated on in \sref{parameters}).
+
+The scope of our framework is wide because the framework features a powerful
+approximation engine. We make use of the hierarchical interpolation with hybrid
+adaptivity developed in \cite{jakeman2012, klimke2006, ma2009}, which enables us
+to tackle diverse design problems while keeping the associated computation costs
+low.
+
+To the best of our knowledge, our framework is the first one to address
+systematically and efficiently nonsmooth problems in the context of
+probabilistic analysis of electronic systems. The importance of the
+characteristic is motivated in \sref{introduction}.
+
+In addition to the aforementioned contribution, we open-source our
+implementation \cite{sources}. The code base also includes the whole
+experimental setup described in \sref{experiments}.
+
+\section{Preliminaries}
+
+Let $(\Omega, \F, \probability)$ be a probability space where $\Omega$ is a set
+of outcomes, $\F \subseteq 2^\Omega$ is a $\sigma$-algebra, and $\probability:
+\F \to [0, 1]$ is a probability measure \cite{durrett2010}. A random variable \h
+defined on $(\Omega, \F, \probability)$ is an \F-measurable function $\h: \Omega
+\to \real$. A random variable is uniquely characterized by its distribution
+function defined by $F_\h(z) = \probability{\omega \in \Omega: \h(\omega) \leq
+z}$, written as $\h \sim F_\h$. The expected value and variance of \h are given
+by
+\begin{align*}
+  & \expectation{\h} = \int_\Omega \h(\omega) \, \d\probability(\omega) = \int_\real z \, \d F_\h(z) \text{ and} \\
+  & \variance{\h} = \expectation{\h^2} - (\expectation{\h})^2, \text{ respectively.}
+\end{align*}
+
+A random vector $\vh = (\h_i)_{i = 1}^n$ is a vector whose elements are random
+variables. A random vector is fully characterized by its distribution function
+$F_{\vh}$, written as $\vh \sim F_{\vh}$. This function is referred to as a
+joint or multivariate distribution function, emphasizing the fact that the
+variables work together.
+
+An $n$-variate distribution can be expressed as a set of $n$ marginal
+(univariate) distributions and an $n$-dimensional copula \cite{nelsen2006}. The
+copula is a uniform distribution function on $[0, 1]^n$ (referred to as the
+$n$-dimensional unit hypercube) that captures the dependencies between the $n$
+individual variables.
+
+\section{Problem Formulation}
+
+Consider an electronic system composed of two major components: a platform and
+an application. The platform is a collection of heterogeneous processing
+elements, and the application is a collection of interdependent tasks.
+
+The designer is interested in evaluating a metric \g that characterizes the
+electronic system under consideration from a certain perspective. Examples of \g
+include the execution delay of the application or a task, energy consumption of
+the platform or a processing element, and maximum temperature of the platform or
+a processing element.
+
+The metric \g depends on a set of parameters \vu that are uncertain at the
+design stage. Examples of \vu include the amount of data the application needs
+to process, execution times of the tasks, and properties of the environment.
+
+The parameters \vu are given as a random vector $\vu = (\u_i)_{i = 1}^\nu$ with
+an arbitrary but known distribution $F_{\vu}$. The dependency of \g on \vu,
+written as $\g(\vu)$, implies that \g is random to the designer. For a given
+outcome of \vu, however, the evaluation of \g is purely deterministic. This
+operation is typically undertaken by an adequate simulator of the system at
+hand, and it is assumed to be doable but computationally expensive.
+
+Our objective is to develop an efficient framework for estimating the
+probability distribution of the metric of interest \g dependent on the uncertain
+parameters \vu. The framework is required to be able to handle nondifferentiable
+and even discontinuous dependencies between \g and \vu as they constitute an
+important class of problems for electronic-system design.
+
+\section{Our Solution}
+
+As noted earlier, making use of a sampling method is a compelling approach to
+uncertainty quantification. We would readily apply such a method to study our
+metric \g if only evaluating \g had a small cost, which it does not.
+
+Our solution to the above predicament is to construct a light representation of
+the heavy \g and study this representation instead of \g. The surrogate that we
+build is based on adaptive interpolation: \g is evaluated at a number of
+strategically chosen collocation nodes, and any other values of \g are
+reconstructed on demand (without involving \g) using a set of basis functions
+mediating between the collected values of \g. The benefit of this approach is in
+the number of invocations of the metric \g: only a few evaluations of \g are
+needed, and the rest of our probabilistic analysis is powered by the constructed
+interpolant, which, in contrast to \g, has a negligible cost.
+
+Let us delineate the steps involved in the solution process. Recall that \g is
+parameterized by the uncertain parameters \vu, and these variables are the only
+source of randomness. 1)~The metric \g is reparameterized in terms of an
+auxiliary random vector \vz extracted from \vu; the necessity of this stage will
+become clear later on. 2)~An interpolant of \g is constructed by considering \g
+as a deterministic function of \vz and evaluating \g at a small set of carefully
+chosen points. 3)~The probability distribution of \g is then estimated by
+applying an arbitrary sampling method to the constructed interpolant of \g.
+
+The first two of the above steps should be undertaken with a great care as
+interpolation of multivariate functions is a challenging task. This aspect will
+be discussed in detail in \sref{modeling} and \sref{interpolation}. However,
+before we proceed to those sections, we would like to give an illustrative
+example.
+
+\section{Illustrative Example}
+
+In this section, we apply our framework to a small problem in order to get a
+better understanding of the workflow of the framework. A detailed description of
+our experimental setup is given in \sref{configuration}; here we give only the
+bare minimum.
+
+The addressed problem is depicted in \fref{example}. We consider a platform with
+two processing elements, PE1 and PE2, and an application with four tasks,
+T1--T4. The data dependencies between T1--T4 and their mapping onto PE1 and PE2
+can be seen in \fref{example}. The metric \g is the end-to-end delay of the
+application. The uncertain parameters \vu are the execution times of T2 and T4
+denoted by $\u_1$ and $\u_2$, respectively.
+
+The leftmost box in \fref{example} represents a simulator of the system at hand,
+and it could involve such tools as Sniper \cite{carlson2011}. It takes an
+assignment of the execution times of T2 and T3, $\u_1$ and $\u_2$, and outputs
+the calculated end-to-end delay \g. The second box corresponds to the
+reparameterization mentioned in \sref{solution} (to be discussed in
+\sref{parameters}). It converts the auxiliary variables $\z_1$ and $\z_2$ into
+$\u_1$ and $\u_2$ in accordance with $\u_1$ and $\u_2$'s joint distribution. The
+third box is our interpolation engine (to be discussed in \sref{interpolation}).
+Using a number of strategic invocations of the simulator, the interpolation
+engine yields a light surrogate for the simulator; the surrogate corresponds to
+the slim box with rounded corners. Having obtained such a surrogate, one
+proceeds to sampling extensively the surrogate via a sampling method of choice
+(the rightmost box). The surrogate takes $\z_1$ and $\z_2$ and returns an
+approximation of \g at that point. Recall that the computation cost of this
+extensive sampling is negligible as \g is not involved. The samples are then
+used to compute an estimate of the distribution of \g.
+
+In the graph on the right-hand side of \fref{example}, the blue line shows the
+probability density function of \g computed by applying kernel density
+estimation to the samples obtained from our surrogate. The yellow line (barely
+visible behind the blue line) shows the true density of \g; its calculation is
+explained in \sref{experiments}. It can be seen that our solution closely
+matches the exact one. In addition, the orange line shows the estimation that
+one would get if one sampled \g directly 156 times and used only those samples
+in order to calculate the density of \g. We see that, for the same budget of
+simulations, the solution delivered by our framework is substantially closer to
+the true one than the one delivered by na\"{i}ve sampling.
+
+At this point, we are ready to present to the proposed framework. We begin by
+elaborating on the modeling of uncertain parameters and metrics of interest. We
+shall then proceed to the interpolation engine (\sref{interpolation}).
+
+\section{Modeling}
+
+The agenda for this section is as follows. In \sref{parameters}, the uncertain
+parameters \vu are transformed into a form suitable for the subsequent
+calculations. This stage is an essential part of our framework, and it is
+denoted by $\transform$ in \fref{example}. The rest of the subsections,
+\sref{time}--\ref{sec:temperature}, serve a strictly illustrative purpose. They
+exemplify the leftmost box in \fref{example} in order to give the reader a
+better intuition about the utility of the framework. The subsections introduce a
+number of models and a number of metrics \g; however, it should be well
+understood that the essence of \g is problem specific. In practice, \g stands
+for an adequate simulator of the system under consideration. The modeling
+capabilities of this simulator are naturally inherited by the proposed
+framework.
+
+\subsection{Uncertainty Parameters}
+
+The foremost step of our framework is to change the parameterization of the
+problem from the random vector $\vu = (\u_i)_{i = 1}^\nu \sim F_{\vu}$ to an
+auxiliary random vector $\vz = (\z_i)_{i = 1}^\nz \sim F_{\vz}$ such that: 1)
+the support of $F_{\vz}$ is the unit hypercube $[0, 1]^\nz$, and 2) $\nz \leq
+\nu$ has the smallest value needed to retain the desired level of accuracy. The
+first is standardization, which is done primarily for convenience. The second is
+model-order reduction, which identifies and eliminates excessive complexity and,
+hence, speeds up the solution process. The reduction is possible whenever there
+are dependencies between $(\u_i)_{i = 1}^\nu$, in which case one can find such
+$(\z_i)_{i = 1}^\nz$, $\nz < \nu$, that each $\u_i$ can be recovered from
+$(\z_i)_{i = 1}^\nz$. We shall denote the overall transformation by $\vu =
+\transform{\vz}$ where
+\[
+  \transform: \real^\nu \to [0, 1]^\nz.
+\]
+For any point $\vz \in [0, 1]^\nz$, we are now able to compute the corresponding
+\vu and, consequently, the metric \g as $(\g \circ \transform)(\vz) =
+\g(\transform(\vz)) = \g(\vu)$; recall \sref{problem} and see \fref{example}.
+
+Let us consider an example of $\transform$ in order to understand the concept
+better. To this end, we begin by assuming that the distribution of $\vu =
+(\u_i)_{i = 1}^\nu$, $F_{\vu}$, is given as a set of marginal distribution
+functions $\{ F_{\u_i} \}_{i = 1}^\nu$ and a copula \cite{nelsen2006} (see also
+\sref{preliminaries}). Furthermore, the copula is assumed to be a Gaussian
+copula whose correlation matrix is $\correlation{\vu} \in \real^{\nu \times
+\nu}$.
+
+\begin{remark}
+A set of marginals and a copula entirely characterize the joint distribution of
+\vu, that is, $F_{\vu}$. However, we consider this distribution as an
+approximation rather than as the true one. The knowledge of the true joint would
+be an impractical assumption to make. A more realistic assumption is the
+availability of the marginals and correlation matrix of \vu. In general, these
+two pieces are not sufficient to recover the joint of \vu; however, the joint
+can be approximated well by accompanying the available marginals by a Gaussian
+copula constructed based on the available correlation matrix; see \cite{liu1986}
+and also \cite{ukhov2014}. Hence, a set of marginals and a Gaussian copula are
+practical inputs to probabilistic analysis.
+\end{remark}
+
+The number of variables, which is so far \nu, has a significant impact on the
+complexity of the problem at hand. Therefore, an important component of our
+framework is model-order reduction, which we shall base on the discrete \acf{KL}
+decomposition, also known as the principal component analysis. We proceed as
+follows. Since any correlation matrix is real and symmetric, $\correlation{\vu}$
+admits the eigendecomposition: $\correlation{\vu} = \m{V} \m{\Lambda} \m{V}^T$
+where $\m{V} \in \real^{\nu \times \nu}$ is an orthogonal matrix whose columns
+are the eigenvectors of $\correlation{\vu}$, and $\m{\Lambda} =
+\diagonal{\lambda_i}_{i = 1}^\nu$ is a diagonal matrix whose diagonal elements
+are the eigenvalues of $\correlation{\vu}$. The eigenvalues $(\lambda_i)_{i =
+1}^\nu$ correspond to the variances of the corresponding components revealed by
+the decomposition. The model-order reduction boils down to selecting those major
+components whose cumulative contributions to the total variance is above a
+certain threshold. Formally, assuming that $(\lambda_i)_{i = 1}^\nu$ are sorted
+in the descending order and given a threshold $\eta \in (0, 1]$ specifying the
+fraction of the total variance to be preserved, we identify the smallest \nz
+such that
+\[
+  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^\nu \lambda_i} \geq \eta.
+\]
+Denote by $\tilde{\m{V}} \in \real^{\nu \times \nz}$ and $\tilde{\m{\Lambda}}
+\in\real^{\nz \times \nz}$ the matrices obtained by truncating $\m{V}$ and
+$\m{\Lambda}$, respectively, to preserve only the first \nz components where \nz
+is as shown above.
+
+Now, the transformation $\transform$ in \eref{transformation} is
+\[
+  \vu = F_{\vu}^{-1} \left( \Phi\left( \tilde{\m{V}} \tilde{\m{\Lambda}}^\frac{1}{2} \, \Phi^{-1}(\vz) \right) \right)
+\]
+where the random variables $\vz = (\z_i)_{i = 1}^\nz$ are independent and
+uniformly distributed on $[0, 1]^\nz$; $\Phi$ and $\Phi^{-1}$ are the
+distribution function of the standard Gaussian distribution and its inverse,
+respectively, which are applied elementwise; and $F_{\vu}^{-1} = F_{\u_1}^{-1}
+\times \cdots \times F_{\u_\nz}^{-1}$ is the Cartesian product of the inverse
+marginal distributions of \vu, which are applied to the corresponding element of
+the vector yielded by $\Phi$. In the absence of correlations,
+\eref{transformation-concrete} is simply $\vu = F_{\vu}^{-1}(\vz)$, and no
+model-order reduction is possible ($\nu = \nz$).
+
+To summarize, we have found such a transformation $\transform$ and the
+corresponding random vector $\vz \sim F_{\vz}$ that: 1) $F_{\vz}$ is supported
+by $[0, 1]^\nz$, and 2) \vz has the smallest number of dimensions \nz needed to
+preserve $\eta$ portion of the variance. Let us emphasize that this $\transform$
+is an example; the framework works with any $\transform$ that yields $\vz \sim
+F_{\vz}$ for some \nz.
+
+\subsection{Application Timing}
+
+Suppose the application is given as a directed acyclic graph. The vertices
+represent tasks, and the edges data dependency between these tasks. Suppose
+further that a static cyclic scheduling policy is utilized. Note, however, these
+assumptions are orthogonal to our framework: the framework can be applied to any
+application model and any scheduling policy.
+
+Each task has a start and a finish time. For task $i$, denote these two time
+moments by $b_i$ and $d_i$, respectively, and let $\v{b} = (b_i)_{i = 1}^\nt$
+and $\v{d} = (d_i)_{i = 1}^\nt$. Other timing characteristics of the application
+can be derived from $(\v{b}, \v{d})$. An example is the end-to-end delay, which
+is the difference between the finish time of the latest task and the start time
+of the earliest task:
+\[
+  \text{End-to-end delay} = \max_{i = 1}^\nt \, d_i - \min_{i = 1}^\nt \, b_i.
+\]
+
+Suppose the execution times of the tasks depend on \vu (see \sref{problem}).
+Then the tuple $(\v{b}, \v{d})$ depends on \vu. Then the end-to-end delay given
+in \eref{end-to-end-delay} depends on \vu and is a potential metric \g; it is
+used in \fref{example}. Note that this \g is nondifferentiable as the $\max$ and
+$\min$ functions are such. Hence, \g is nonsmooth, which renders \up{PC}
+expansions and similar techniques inadequate for this problem, as illustrated in
+\sref{introduction}.
+
+\begin{remark}
+In general, the behavior of \g with respect to continuity, differentiability,
+and smoothness cannot be inferred from the behavior of \vu. Even when the
+parameters are perfectly behaved, \g can still and likely will exhibit
+nondifferentiability or even discontinuity, which depends on how \g works
+internally. For example, as shown in \cite{tanasa2015}, even if execution times
+of tasks are continuous, due to the actual scheduling policy, end-to-end delays
+are very often discontinuous.
+\end{remark}
+
+\subsection{Power Consumption}
+
+Denote the number of processing elements present on the platform by \np. Let the
+dynamic power consumed by task $j$ when running on processing element $i$ be
+fixed during the execution of the task and denote this dynamic power by
+$\p^\dynamic_{ij}$. The fact that $\p^\dynamic_{ij}$ is constant might seem
+restrictive. However, one should keep in mind that it is an example. Our
+framework does not have such a restriction. Even in this simple model, the
+modeling accuracy can be substantially improved by representing large tasks as
+sequences of smaller tasks.
+
+Let the vector $\vp(t) = (\p_i(t))_{i = 1}^\np$ capture the total power
+consumption of the system at time $t$. This vector is related to the dynamic
+power introduced above as follows:
+\[
+  \p_i(t) = \sum_{j = 1}^\nt \p^\dynamic_{ij} \: \delta_{ij} (t) + \p^\static_i(t), \text{ for $i = 1, \dots, \np$},
+\]
+where $\delta_{ij}(t)$ is an indicator function (outputs either zero or one) of
+the event that processing element $i$ executes task $j$ at time $t$, and
+$\p^\static_i(t)$ is the static power consumed by processing element $j$ at time
+$t$. The last component depends on time because the leakage power and
+temperature are interdependent \cite{liu2007}, and temperature changes over time
+(see the next subsection).
+
+Given a set of \ns points on the timeline $\{ t_i \}_{i = 1}^\ns$, \eref{power}
+can be used to construct a power profile of the system as follows:
+\[
+  \mp = (\p_i(t_j))_{i = 1, j = 1}^{\np, \ns} \in \real^{\np \times \ns}.
+\]
+The above is a matrix where row $i$ captures the power consumed by processing
+element $i$ at the \ns time moments.
+
+The total energy consumed by the system during an application run can be
+computed by integrating \eref{power} over the time span of the
+application---which is demarcated by the minuend and subtrahend in
+\eref{end-to-end-delay}---and the corresponding integral can be estimated using
+the power profile as follows:
+\[
+  \text{Total energy} = \sum_{i = 1}^\np \int \p_i(t) \, \d t \approx \sum_{i = 1}^\np \sum_{j = 1}^\ns \p_i(t_j) \, \Delta t_j
+\]
+where $\Delta t_j$ is either $t_j - t_{j - 1}$ or $t_{j + 1} - t_j$, depending
+on how power values are encoded in \mp. The assumption that \eref{total-energy}
+is based on is that each $\Delta t_i$ is sufficiently small so that the power
+consumed within the interval does not change significantly.
+
+Since the tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption of the
+system depends on \vu too. Consequently, the total energy given in
+\eref{total-energy} depends on \vu and is a candidate for \g. Note that
+\rref{smoothness} applies in this context to the full extent.
+
+\subsection{Heat Dissipation}
+
+Based on the specification of the platform including its thermal package, an
+equivalent thermal \up{RC} circuit is constructed \cite{skadron2004}. The
+circuit comprises \nn thermal nodes, and its structure depends on the intended
+level of granularity, which impacts the resulting accuracy. For clarity, we
+assume that each processing element is mapped onto one corresponding node, and
+the thermal package is represented as a set of additional nodes.
+
+The thermal dynamics of the system are modeled using the following system of
+differential-algebraic equations \cite{ukhov2014, ukhov2012}:
+\begin{subnumcases}{}
+  \m{C} \frac{\d\vs(t)}{\d t} + \m{G} \vs(t) = \m{M} \vp(t) \\
+  \vq(t) = \m{M}^T \vs(t) + \vq_\ambient
+\end{subnumcases}
+The coefficients $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in \real^{\nn
+\times \nn}$ are a diagonal matrix of thermal capacitance and a symmetric,
+positive-definite matrix of thermal conductance, respectively. The vectors
+$\vp(t) \in \real^\np$,  $\vq(t) \in \real^\np$, and $\vs(t) \in \real^\nn$
+correspond the system's power, temperature, and internal state at time $t$,
+respectively. The vector $\vq_\ambient \in \real^\np$ contains the ambient
+temperature. The matrix $\m{M} \in \real^{\nn \times \np}$ is a mapping that
+distributes the power consumption of the processing elements across the thermal
+nodes; without loss of generality, $\m{M}$ is a rectangular diagonal matrix
+whose diagonal elements are equal to one.
+
+Given a set of \ns points on the timeline $\{ t_i \}_{i = 1}^\ns$,
+\eref{thermal-system} can be used to compute a temperature profile of the system
+as follows:
+\[
+  \mq = (\q_i(t_j))_{i = 1, j = 1}^{\np, \ns} \in \real^{\np \times \ns}.
+\]
+Then the maximum temperature of the system can be estimated using the
+temperature profile as follows:
+\[
+  \text{Max temperature} = \max_{i = 1}^\np \, \sup_{t} \, \q_i(t) \approx \max_{i = 1}^\np \max_{j = 1}^\ns \, \q_i(t_j).
+\]
+
+Since the power consumption of the system is affected by \vu (see \sref{power}),
+the system's temperature is affected by \vu as well. Therefore, the temperature
+in \eref{maximum-temperature} can be considered as a metric \g. Note that, due
+to the maximization involved, the metric is nondifferentiable and, hence, cannot
+be adequately addressed using polynomial approximations, specially taking into
+account the concern in \rref{smoothness}.
+
+To sum up, we have discussed the transformation that needs to be applied to \vu
+prior to the interpolation of \g. We have also covered three aspects of
+electronic systems, namely, timing, power, and temperature, and introduced a
+number of metrics associated with them; we shall come back to these metrics in
+the section on experimental results, \sref{experiments}.
+
+\section{Interpolation}
+
+In this section, we present the algorithm that constitutes the core of the
+proposed framework for probabilistic analysis of electronic systems. It
+corresponds to the third box from the left in \fref{example}. The algorithm
+features a sparse-grid structure, hierarchical construction, and hybrid
+adaptivity. The benefits of these features are interconnected and can be
+summarized as follows: the ability to efficiently tackle multidimensional
+problems, the ability to perform gradual refinement of the approximation with a
+natural error control, and the ability to make the refinement fine-grained and,
+therefore, gain further efficiency. The mathematics presented in
+\sref{tensor}--\ref{sec:adaptivity} is a distilled version of the one developed
+in \cite{jakeman2012, klimke2006, ma2009}.
+
+Let \f be a function that we would like to approximate; the connection between
+\f and \g will be explained in \sref{analysis}. The function is assumed to be in
+$\continuous([0, 1]^n)$, the space of continuous functions in the unit hypercube
+$[0, 1]^n$. The assumption is a formality and does not impose any restrictions
+in practice.
+
+\subsection{Tensor Product}
+
+In one dimension ($n = 1$), \f is approximated by virtue of the following
+interpolation formula:
+\[
+  \tensor{i}(\f) = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) \, e_{ij}
+\]
+where $i \geq 0$ signifies the level of interpolation; $\X_i = \{ \x_{ij} \}_{j
+\in \tensorindex{1}{i}} \subset [0, 1]$ are the collocation nodes; $\E_i = \{
+e_{ij} \}_{j \in \tensorindex{1}{i}} \subset \continuous([0, 1])$ are the basis
+functions; and $\tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i}$ is an index set
+enumerating (starting from zero) the nodes and functions of level $i$. The
+subscript $j \in \tensorindex{1}{i}$ is referred to as the order of a node or
+function. The choice of $\X_i$ and $\E_i$ is important and will be discussed
+thoroughly later on.
+
+In multiple dimensions ($n > 1$), \f is approximated by the tensor product of
+$n$ one-dimensional interpolants:
+\[
+  \tensor{\vi}(\f)
+  = \left( \bigotimes_{k = 1}^n \tensor{1}{i_k} \right)(\f)
+  = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) \, e_{\vi \vj}
+\]
+where $\vi = (i_k)_{k = 1}^n$ and $\vj = (j_k)_{k = 1}^n$ are (multi-)indices
+specifying levels and orders, respectively, for each of the dimensions, and
+$\tensorindex{n}{\vi} = \tensorindex{n}{i_1} \times \cdots \times
+\tensorindex{n}{i_n}$ is an index set obtained by computing the Cartesian
+product of one-dimensional index sets. In the above formula,
+\begin{align*}
+  \X_{\vi} &= \X_{i_1} \times \cdots \times \X_{i_n} \\
+           &= \left\{ \vx_{\vi \vj} = (x_{i_k j_k})_{k = 1}^n \right\}_{\vj \in \tensorindex{n}{\vi}} \subset [0, 1]^n
+\end{align*}
+and
+\[
+  \E_{\vi}
+  = \bigotimes_{k = 1}^n \E_{i_k}
+  = \left\{ e_{\vi \vj} = \bigotimes_{k = 1}^n e_{i_k j_k} \right\}_{\vj \in \tensorindex{n}{\vi}} \subset \continuous([0, 1]^n)
+\]
+are the collocation nodes and basis functions, respectively, corresponding to
+index \vi. In \eref{basis-functions}, for any $\vx \in [0, 1]^n$,
+\[
+  e_{\vi \vj}(\vx)
+  = \left( \bigotimes_{k = 1}^n e_{i_k j_k} \right)(\vx)
+  = \prod_{k = 1}^n e_{i_k j_k}(x_k).
+\]
+Finally, the cardinality of $\tensorindex{n}{\vi}$ is as follows:
+\[
+  n_{\vi}
+  = \cardinality{\tensorindex{n}{\vi}}
+  = \prod_{k = 1}^n \cardinality{\tensorindex{n}{i_k}}
+  = \prod_{k = 1}^n n_{i_k}.
+\]
+Equation \eref{tensor-cardinality} elucidates the prohibitive expense of the
+tensor-product construction shown in \eref{tensor-nd} for multidimensional
+problems: the number of nodes grows exponentially as $n$ increases. However,
+\eref{tensor-nd} serves well as a building block for more efficient algorithms,
+which we discuss next.
+
+\subsection{Smolyak Algorithm}
+
+One of the central algorithms in the field of multidimensional integration and
+interpolation is the Smolyak algorithm \cite{smolyak1963}. Intuitively speaking,
+the algorithm takes a number of small tensor-product structures and composes
+them in such a way that the resulting grid has a drastically reduced number of
+nodes while preserving the approximating power of the full tensor-product
+construction for the classes of functions that one is typically interested in
+integrating or interpolating \cite{klimke2006}.
+
+The Smolyak interpolant for \f is as follows:
+\[
+  \sparse{n}{l}(\f) = \sum_{\l - n + 1 \leq |\vi| \leq l} (-1)^{l - |\vi|} \, {n - 1 \choose l - |\vi|} \, \tensor{n}{\vi}(\f)
+\]
+where $l \geq 0$ is the index of the interpolation step, which we shall refer to
+as the Smolyak level, and $|\vi| = i_1 + \dots + i_n$. It can be seen that the
+algorithm is indeed just a peculiar composition of cherry-picked tensor
+products. However, the formula has an implication of paramount importance. The
+function \f needs to be evaluated only at the nodes of the grid underpinning
+\eref{smolyak-original}:
+\[
+  \Y_l = \bigcup_{l - n + 1 \leq |\vi| \leq l} \X_{\vi}.
+\]
+The cardinality of the above set does not have a general closed-form formula;
+however, it can be several orders of magnitude smaller than the one of the full
+tensor product given in \eref{tensor-cardinality}, which depends on the
+dimensionality of the problem at hand and the one-dimensional rules utilized
+(\sref{tensor}).
+
+A better intuition about the properties of the Smolyak construction can be
+obtained by rewriting \eref{smolyak-original} in an incremental form. To this
+end, let $\Delta\tensor{n}{-1}(\f) = 0$,
+\begin{align*}
+  & \Delta\tensor{n}{i}(\f) = (\tensor{n}{i} - \tensor{n}{i - 1})(\f), \text{ and} \\
+  & \Delta\tensor{n}{\vi}(\f) = \left( \bigotimes_{k = 1}^n \Delta\tensor{n}{i_k} \right)(\f).
+\end{align*}
+Then, \eref{smolyak-original} is identical to
+\[
+  \sparse{n}{l}(\f)
+  = \sum_{\vi \in \sparseindex{n}{l}} \Delta\tensor{n}{\vi}(\f)
+  = \sparse{n}{l - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{l}} \Delta\tensor{n}{\vi}(\f)
+\]
+where $\sparse{n}{-1}(\f) = 0$, and we let $\sparseindex{n}{l} = \{ \vi: |\vi|
+\leq l \}$ and $\Delta\sparseindex{n}{l} = \{ \vi: |\vi| = l \}$. It can be seen
+that a Smolyak interpolant can be efficiently refined: the work done in order to
+attain one Smolyak level $l$ is entirely recycled to go to the next.
+
+The sparsity and incremental refinement of the Smolyak approach, which are shown
+in \eref{smolyak-grid} and \eref{smolyak-incremental}, respectively, are
+remarkable properties by themselves, but they can be taken even further. To this
+end, let $\Delta\X_{-1} = \emptyset$,
+\[
+  \begin{split}
+    & \Delta\X_i = \X_i \setminus \X_{i - 1}, \text{ and } \\
+    & \Delta\X_{\vi} = \Delta\X_{i_1} \times \cdots \times \Delta\X_{i_n}.
+  \end{split}
+\]
+Then, \eref{smolyak-grid} can be rewritten as
+\[
+  \Y_l = \bigcup_{\vi \in \sparseindex{n}{l}} \Delta\X_{\vi} = \Y_{l - 1} \cup \bigcup_{\vi \in \Delta\sparseindex{n}{l}} \Delta\X_{\vi},
+\]
+which is analogous to \eref{smolyak-incremental}. It can be seen now that it is
+beneficial to the refinement to have $\X_{i - 1}$ be entirely included in $\X_i$
+since, in that case, the cardinality of $\Y_l \setminus \Y_{l - 1} =
+\bigcup_{\vi \in \Delta\sparseindex{n}{l}} \Delta\X_{\vi}$ derived from
+\eref{smolyak-grid-incremental} decreases. In words, the values of \f obtained
+on lower levels (lower $l$) can be reused to attain higher levels (higher $l$)
+if the grid grows without abandoning its previous structure. With this in mind,
+the rule used for generating successive sets of points $\{ \X_i \}_i$ should be
+chosen to be nested, that is, in such a way that $\X_i$ contains all nodes of
+$\X_{i - 1}$.
+
+The final step in this subsection is to rewrite \eref{smolyak-incremental} in a
+hierarchical form. To this end, we require the interpolants of higher levels to
+represent exactly the interpolants of lower levels. In one dimension, it means
+that
+\[
+  \tensor{1}{i - 1}(\f) = \tensor{n}{i}(\tensor{1}{i - 1}(\f)).
+\]
+The condition in \eref{tensor-exactness} can be satisfied by an appropriate
+choice of collocation nodes and basis functions, which will be discussed later.
+If \eref{tensor-exactness} holds, using \eref{tensor-1d} and
+\eref{tensor-delta-1d},
+\[
+  \Delta\tensor{1}{i}(\f) = \sum_{j \in \Delta\tensorindex{1}{i}} \left( \f(\x_{ij}) - \tensor{1}{i - 1}(\f)(\x_{ij}) \right) \, e_{ij}
+\]
+where $\Delta\tensorindex{1}{i} = \{ j \in \tensorindex{1}{i}: \x_{ij} \in
+\Delta\X_i \}$. The above sum is over $\Delta\X_i$ due to the fact that the
+difference in the parentheses is zero whenever $\x_{ij} \in \X_{i - 1}$ since
+$\X_{i - 1} \subset \X_i$.
+
+In multiple dimensions, using the Smolyak formula,
+\[
+  \Delta\tensor{n}{\vi}(\f) = \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \left( \f(\vx_{\vi\vj}) - \sparse{|\vi| - 1}(\f)(\vx_{\vi \vj}) \right) \, e_{\vi \vj}
+\]
+where $\Delta\tensorindex{n}{\vi} = \{ \vj \in \tensorindex{n}{\vi}:
+\vx_{\vi \vj} \in \Delta\X_{\vi} \}$. The delta
+\[
+  \Delta\f(\vx_{\vi \vj}) = \f(\vx_{\vi \vj}) - \sparse{n}{|\vi| - 1}(\f)(\vx_{\vi \vj})
+\]
+is called a hierarchical surplus. When increasing the interpolation level, this
+surplus is nothing but the difference between the actual value of \f at a new
+node and the approximation of this value computed by the interpolant constructed
+so far.
+
+The final formula for nonadaptive hierarchical interpolation is obtained by
+substituting \eref{tensor-delta} into \eref{smolyak-incremental}:
+\begin{align*}
+  \sparse{l}(\f) &= \sum_{\vi \in \sparseindex{n}{l}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj} \\
+                &= \sparse{n}{l - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{l}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj}
+\end{align*}
+where $\Delta\f(\vx_{\vi \vj})$ is computed according to \eref{surplus}.
+
+\subsection{Collocation Nodes}
+
+A sparse grid that is fully nested and, moreover, well disposed to adaptivity,
+as we shall see, can be constructed using the (one-dimensional) Newton--Cotes
+rule \cite{ma2009}. For each level, the rule is merely a set of equidistant
+nodes on $[0, 1]$.
+
+There are two types of the rule: closed and open. The only difference between
+the two is that the former includes the endpoints, that is, 0 and 1, while the
+latter does not. Now, in \sref{smolyak}, we postulated that the assumption in
+\eref{tensor-exactness} was needed in order to proceed. The closed rule
+satisfies this assumption, and it is the one used in the original version of
+local adaptivity presented in \cite{ma2009}. The open Newton--Cotes rule, on the
+other hand, violates the assumption close to the boundaries of the interval.
+However, we found that the open rule is a viable option since it performs well
+in practice, which was also noted in \cite{klimke2006}. In fact, we were able to
+obtain better results with the open rule and decided to present it here.
+
+The open Newton--Cotes rule of level $i \geq 0$ is
+\[
+  \X_i = \left\{ \x_{ij} = \frac{j + 1}{n_i + 1} \right\}_{j \in \tensorindex{1}{i}}
+\]
+where $\tensorindex{1}{i} = \left\{ i - 1 \right\}_{i = 1}^{n_i}$ and $n_i =
+2^{i + 1} - 1$. The first three levels of the rule are depicted in \fref{grid}.
+It can be seen that the number of nodes (in one dimension) grows as 1, 3, 7, 15,
+31, and so on, and that the rule is fully nested. In multiple dimensions, the
+nodes are formed as shown in \eref{collocation-nodes}.
+
+\subsection{Basis Functions}
+
+The basis functions that correspond the open Newton--Cotes rule described in
+\sref{grid} are the following piecewise linear functions. For $i = 0$ and $j =
+0$, we have that $e_{00}(\x) = 1$. For $i > 0$ and $j = 0$ (close to the left
+endpoint),
+\[
+  e_{i0}(\x) =
+  \begin{cases}
+    2 - \left( n_i + 1 \right) \x, & \text{if } \x < \frac{2}{n_i + 1}, \\
+    0, & \text{otherwise}.
+  \end{cases}
+\]
+For $i > 0$ and $j = n_i - 1$ (close to the right endpoint),
+\[
+  e_{i(n_i - 1)}(\x) =
+  \begin{cases}
+    \left( n_i + 1 \right) \x - n_i + 1, & \text{if } \x > \frac{n_i - 1}{n_i + 1}, \\
+    0, & \text{otherwise}.
+  \end{cases}
+\]
+In other cases,
+\[
+  e_{ij}(\x) =
+  \begin{cases}
+    1 - \left( n_i + 1 \right)|\x - \x_{ij}|, & \text{if } |\x - \x_{ij}| < \frac{1}{n_i + 1}, \\
+    0, & \text{otherwise}.
+  \end{cases}
+\]
+The basis functions corresponding to the first three levels of one-dimensional
+interpolation are depicted in \fref{basis}. In multiple dimensions, the basis
+functions are formed as shown in \eref{basis-functions}.
+
+Lastly, let us mention the volumes (integrals over the whole domain) of the
+basis functions denoted by $w_{ij}$; they will be needed in continuation.
+Namely, $w_{00} = 1$ and, for $i > 0$,
+\[
+  w_{ij} = \int_0^1 e_{ij}(\x) \, \d \x =
+  \begin{cases}
+    \frac{2}{n_i + 1}, & \text{if } j \in \{ 0, n_i - 1 \}, \\
+    \frac{1}{n_i + 1}, & \text{otherwise}.
+  \end{cases}
+\]
+In multiple dimensions, the volumes are products of the one-dimensional
+components, analogous to \eref{basis-function}.
+
+Imagine now a function that is nearly flat on the first half of $[0, 1]$ and
+rather irregular on the other. Under these circumstances, it is natural to
+expect that, in order to attain the same accuracy, the first half would require
+much fewer collocation nodes than the other one; recall \fref{motivation}.
+However, if we followed the construction procedure described so far, we would
+not be able to benefit from this peculiar behavior: we would treat both sides
+equally and would add all the nodes of each level. The solution to the above
+problem is to make the interpolation algorithm adaptive, which we shall discuss
+next.
+
+\subsection{Adaptivity}
+
+In order to make the algorithm adaptive, we first need to find a way to measure
+how good our approximation is at any point in the domain of \f. Then, when
+refining the interpolant, instead of evaluating the function at all possible
+nodes, we shall only choose those that are located in the regions with poor
+accuracy as indicated by the yet-to-be-found criterion.
+
+We already have a good foundation for building such a criterion. Recall
+\eref{surplus}. Hierarchical surpluses are natural indicators of the
+interpolation error: they are the difference between the values of the true
+function and those of an approximation at the nodes of the underlying sparse
+grid. Hence, they can be recycled in order to effectively identify
+``problematic'' regions. Specifically, we first assign a score to each node
+$\vx_{\vi \vj}$ or, equivalently, to each pair of level and order indices $(\vi,
+\vj)$:
+\[
+  s_{\vi \vj} = \left| \Delta\f(\vx_{\vi \vj}) w_{\vi \vj} \right|
+\]
+where $\Delta\f(\vx_{\vi \vj})$ and $w_{\vi\vj}$ are given by \eref{surplus} and
+\eref{volume}, respectively, and this score is then used in order to guide the
+algorithm as we shall explain in the rest of this subsection.
+
+The Smolyak construction in \eref{smolyak-hierarchical} is rewritten as follows:
+\[
+  \interpolant{n}{l}(\f) = \interpolant{n}{l - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{l}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj}.
+\]
+The different with respect to \eref{smolyak-hierarchical} is that $l \geq 0$ is
+no longer the Smolyak level (see \eref{smolyak-original}) but a more abstract
+interpolation step, and $\interpolant{n}{l}$ is the interpolant at that step. As
+always, $\interpolant{n}{-1} = 0$, and the definition of $\Delta\f$ given in
+\eref{surplus} is adjusted accordingly. From now on, all index sets will be
+generally subsets of their full-fledged counterparts defined in \sref{smolyak}.
+
+Each $\interpolant{n}{l}$ is characterized by a set of level indices
+$\sparseindex{n}{l}$, and each $\vi \in \sparseindex{n}{l}$ by a set of order
+indices $\Delta\tensorindex{n}{\vi}$. At each interpolation step $l \geq 0$, a
+single index $\vi_l$ is chosen from $\sparseindex{n}{l - 1}$ with
+$\sparseindex{n}{-1} = \{ \v{0} \}$. The chosen index then gives birth to
+$\Delta\sparseindex{n}{l}$ and $\{ \Delta\tensorindex{n}{\vi} \}_{\vi \in
+\Delta\sparseindex{n}{l}}$, which shape the increment in the right-hand side of
+\eref{approximation}.
+
+The set $\Delta\sparseindex{n}{l}$ contains the so-called admissible forward
+neighbors of $\vi_l$. Let us now parse the previous sentence. First, the forward
+neighbors of an index \vi are given by
+\[
+  \left\{ \vi + \v{1}_k: k = 1, \dots, n \right\}
+\]
+where $\v{1}_k$ is a vector whose elements are zero except for element $k$ equal
+to unity. Next, an index \vi is admissible if its inclusion into the index set
+$\sparseindex{n}{l}$ in question keeps the set admissible. Finally,
+$\sparseindex{n}{l}$ is admissible if it satisfies the following condition
+\cite{klimke2006}:
+\[
+  \vi - \v{1}_k \in \sparseindex{n}{l}, \text{ for $\vi \in \sparseindex{n}{l}$ and $k = 1, \dots, n$,}
+\]
+where, naturally, the cases with $i_k = 0$ need no check.
+
+Now, how is $\vi_l$ chosen from $\sparseindex{n}{l - 1}$ at each iteration of
+\eref{approximation}? First of all, each index can be obviously picked at most
+once. The rest is resolved by prioritizing the candidates. It is reasonable to
+assign a priority to a level index $\vi$ based on the scores of the order
+indices associated with it, that is, on the scores of $\tensorindex{n}{\vi}$. We
+compute the priority as the average score:
+\[
+  s_{\vi} = \frac{1}{\cardinality{\Delta\tensorindex{n}{\vi}}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} s_{\vi \vj}
+\]
+Consequently, the answer to the above question is that, at each step $l$, the
+index \vi with the highest $s_{\vi}$ gets promoted to $\vi_l$.
+
+Let us now turn to the content of $\Delta\tensorindex{n}{\vi}$ where $\vi =
+\vi_l + \v{1}_k$ for a fixed $k$. It also contains admissible forward neighbors,
+but they are order indices, and their construction is drastically different from
+the one in \eref{forward-level-neighbors}. Concretely, these indices are
+identified by inspecting the backward neighborhood of \vi (analogous to
+\eref{forward-level-neighbors}). For each backward neighbor $\hat{\vi} = \vi -
+\v{1}_{\hat{k}}$ and each $\vj \in \Delta\tensorindex{n}{\hat{\vi}}$, we begin
+by checking the following condition: $s_{\hat{\vi} \vj} \geq \epsilon_s$ where
+$\epsilon_s$ is a user-defined constant, which we shall refer to as the score
+error. If the condition holds, the forward neighbors of \vj in dimension $k$ are
+added to $\Delta\tensorindex{n}{\vi}$. This procedure is illustrated in
+\fref{grid} for the open Newton--Cotes rule (see \sref{grid}). The arrows
+emerging from a node connect the node with its forward neighbors. It can be seen
+that each node has two forward neighbors (for each dimension); their order
+indices are
+\[
+  (j_1, \dots, 2 j_k, \dots, j_n) \text{ and } (j_1, \dots, 2 j_k + 2, \dots, j_n).
+\]
+The above refinement procedure is repeated for each index $\vi \in
+\Delta\sparseindex{n}{l}$ with respect to each dimension $k = 1, \dots, n$.
+
+The final question is the stopping condition of the approximation process in
+\eref{approximation}. Apart from the natural constraints on the maximum number
+of function evaluations and the maximum allowed Smolyak level $l$ in
+\eref{smolyak-original}, we rely on the following criterion. Assume that we are
+given two additional constants: $\epsilon_a$ and $\epsilon_r$ referred to as the
+absolute and relative error, respective. Then, the process is terminated as soon
+as
+\[
+  \max_{(\vi, \vj)} \, |\Delta\f(\vx_{\vi \vj})| \leq \max \left\{ \epsilon_a, \epsilon_r (f_\text{max} - f_\text{min}) \right\}
+\]
+where $f_\text{min}$ and $f_\text{max}$ are the minimum and maximum observed
+value of \f, respectively, and the left-hand side is the maximum surplus whose
+level index has not been refined yet (considered as $\vi_l$ at some step $l$ in
+\eref{approximation}). The above criterion is a sound way to curtail the process
+as it is based on the actual progress.
+
+The adaptivity presented in this subsection is referred to as hybrid as it
+combines features of global and local adaptivity; the combination was proposed
+in \cite{jakeman2012}. Local adaptivity, which has already been sufficiently
+motivated, is due to \cite{ma2009}, and it operates on the level of individual
+nodes. Global adaptivity is due to \cite{klimke2006}, and it operates on the
+level of individual dimensions. The intuition behind global adaptivity is that,
+in general, the input variables manifest themselves (impact \f) differently, and
+the interpolation algorithm is likely to benefit by prioritizing those variables
+that are the most influential.
+
+To summarize, we have obtained an efficient algorithm for adaptive hierarchical
+interpolation in multiple dimensions. The main equation is \eref{approximation}
+where $\Delta\f$, $\vx_{\vi \vj}$, and $e_{\vi \vj}$ are the ones given in
+\sref{smolyak}, \sref{grid}, and \sref{basis}, respectively, and the
+interpolation procedure is undertaken according to the rules given in
+\sref{adaptivity}. Now we discuss the implementation.
+
+\subsection{Implementation}
+
+The life cycle of interpolation has roughly two stages: construction and usage.
+The construction stage invokes \f at a set of collocation nodes and produces
+certain artifacts. The usage stage estimates the values of \f at a set of
+arbitrary points by manipulating the artifacts. In this subsection, we shall
+look at the pseudocodes of the two stages. The purpose is to give the big
+picture. All the details can be found online \cite{sources}.
+
+Let us first make a general note. We found it beneficial to the clarity and ease
+of implementation to collapse the two sums in \eref{approximation} into one.
+This requires storing a level index $\vi = (i_k)_{k = 1}^n$ and an order index
+$\vj = (j_k)_{k = 1}^n$ for each interpolation element. It is also advantageous
+to encode each pair $(i_k, j_k)$ as a single unsigned integer, which, in
+particular, eliminates excessive memory usage. In multiple dimensions, this
+results in a single vector $\v{\iota} = (\iota_k)_{k = 1}^n$, which we simply
+call an index. The encoding that we utilize is as follows: $\iota_k = i_k \lor
+(j_k \ll n_\text{bits})$ where $\lor$ and $\ll$ are the bitwise \up{OR} and
+logical left shift, respectively, and $n_\text{bits}$ is the number of bits
+reserved for storing Smolyak levels (see \eref{smolyak-original}), which can be
+adjusted according to the maximum permitted deepness of interpolation.
+
+The pseudocode of the construction stage is given in \aref{construct} called
+\texttt{Construct}. The \texttt{target} input is a function $\f$ to be
+approximated. The \texttt{surrogate} output is a structure containing the
+artifacts of interpolation, which are a set of tuples $\{ (\v{\iota}_k,
+\Delta\f(\vx_{\v{\iota}_k}) \}_k$, giving a comprehensive description of an
+interpolant. The routine works as follows.
+
+\begin{itemize}
+
+\item[2:] Each iteration is an interpolation step in \eref{approximation}. It
+has a state captured by a structure denoted by \texttt{s}. The \texttt{strategy}
+object represents an adaptation strategy utilized and works as described in
+\sref{adaptivity}. The \texttt{First} method of \texttt{strategy} returns the
+initial state of the first step so that the \texttt{indices} field of \texttt{s}
+is initialized with the indices of that step. The body of the loop populates the
+rest of the fields of \texttt{s} so that \texttt{strategy.Next} can adequately
+produce the initial state of the next iteration. The process terminates when a
+stopping condition is satisfied, in which case \texttt{Next} returns a null
+state.
+
+\item[3:] The \texttt{grid} object represents the interpolation grid utilized
+(see \sref{grid}), and its \texttt{Compute} method converts the step's indices
+into the coordinates of the corresponding collocation nodes, that is, $\{
+\v{\iota}_k \}_k$ into $\{ \vx_{\v{\iota}_k} \}_k$.
+
+\item[4:] \texttt{Invoke} evaluates \texttt{target} at the collocation nodes.
+This is by far the most time consuming function of the algorithm as
+\texttt{target} is generally expensive to evaluate. This function is also a
+prominent candidate for parallelization since the algorithm does not impose any
+evaluation order.
+
+\item[5:] \texttt{Evaluate} exercises the interpolant constructed so far at the
+collocation nodes, approximating the values obtained on line~4. This function
+will be discussed separately.
+
+\item[6:] \texttt{Subtract} computes the difference between the true and
+approximated values of \texttt{target}, which yields the step's hierarchical
+surpluses $\{ \Delta\f(\vx_{\v{\iota}_k}) \}_k$, similar to \eref{surplus}.
+
+\item[7:] \texttt{strategy.Score} calculates the scores of the new collocation
+nodes based on their surpluses; see \eref{score}.
+
+\item[8:] \texttt{Append} improves the interpolant by extending it with the
+indices and surpluses of the current iteration.
+
+\end{itemize}
+
+We now turn to the usage stage of an interpolant. The pseudocode is given in
+\aref{evaluate} called \texttt{Evaluate}. This algorithm is also involved in
+\aref{construct}; see line~5. Let us make a couple of observations regarding
+\texttt{Evaluate}.
+
+\begin{itemize}
+
+\item[4:] The inner loop is an unfolded version of \eref{approximation} (there
+is no separation between individual interpolation steps taken).
+
+\item[5:] The \texttt{basis} object represents the interpolation basis utilized
+(see \sref{basis}), and its \texttt{Compute} method evaluates a single
+(multidimensional) basis function at a single point.
+
+\end{itemize}
+
+It is worth noting that the \texttt{basis}, \texttt{grid}, and \texttt{strategy}
+objects conform to certain interfaces and can be easily swapped out. This makes
+the two algorithms very general and reusable with different configurations. In
+particular, the adaptation strategy can be fine-tuned for each particular
+problem.
+
+To recapitulate, we have presented the key component of our framework for
+probabilistic analysis of electronic systems: an efficient approach to
+multidimensional interpolation. The overall technique has been consolidated in
+\aref{construct} and \ref{alg:evaluate}.
+
+\section{Analysis}
+
+In \sref{modeling}, we formalized the uncertainty affecting electronic systems
+and discussed several aspects of such systems along with metrics \g, which the
+designer is interested in evaluating. In \sref{interpolation}, we obtained an
+efficient interpolation algorithm for approximating hypothetical
+multidimensional functions \f. We shall now amalgamate the ideas developed in
+the aforementioned two sections.
+
+Given an electronic system dependent on a number of uncertain parameters $\vu:
+\Omega \to \real^\nu$, the goal is to analyze a metric \g representing a certain
+aspect of the system. For instance, \vu can correspond to the execution times of
+the tasks, and \g can correspond the total energy consumed by the processing
+elements, as we exemplify in \sref{time} and \sref{power}. The goal is attained
+as follows; recall \fref{example}.
+
+1) The parameterization of \g is changed from \vu to random variables $\vz:
+\Omega \to [0, 1]^\nz$ via a suitable transformation $\transform$; this stage is
+described in \sref{parameters}. 2) An interpolant of the resulting composition
+$\g \circ \transform$ is constructed by treating the composition as a
+deterministic function \f of \vz; this stage is detailed in
+\sref{interpolation}. 3) An estimation of the probability distribution of \g is
+undertaken in the usual sampling-based manner but relying solely on the
+constructed interpolant; \g is no longer involved. This last stage boils down to
+drawing independent samples from $F_{\vz}$ and evaluating the interpolant
+$\interpolant{n}{l}(\f) \equiv \interpolant{n}{l}(\g \circ \transform)$ at those
+points. Having collected samples of \g, other statistics about \g, such as
+probabilities of particular events, can be straightforwardly estimated. We do
+not discuss this estimation stage any further as it is standard.
+
+There are two aspects concerning the usage of the proposed framework that we
+would like to cover in what follows.
+
+\subsection{Expectation and Variance}
+
+Since the expected value and variance, which are defined in \eref{expectation}
+and \eref{variance}, respectively, usually draw particular attention, we would
+like to elaborate on them separately.
+
+As shown in \sref{parameters}, \g can be reparameterized in terms of independent
+variables that are uniformly distributed on $[0, 1]^\nz$. This means that the
+probability density function of \vz simply equals to one. Therefore, using
+\eref{expectation} and \eref{approximation}, we have
+\[
+  \expectation{\g} \approx \expectation{\interpolant{n}{l}(\f)} = \int_{[0, 1]^\nz} \interpolant{n}{l}(\f)(\vz) \, \d\vz = \sum_{\vi \in \sparseindex{n}{l}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) w_{\vi \vj}
+\]
+where
+\[
+  w_{\vi \vj} = \int_{[0, 1]^\nz} e_{\vi \vj}(\vz) \d\vz = \prod_{k = 1}^\nz \int_0^1 e_{i_k j_k}(\z_k) \d\z_k = \prod_{k = 1}^\nz w_{i_k j_k}.
+\]
+In the above equation, $w_{ij}$ is as shown in \eref{volume}. Consequently, we
+have obtained an analytical formula for the expected value of \g, which does not
+require any additional sampling.
+
+Regarding the variance of \g, it can be seen in \eref{variance} that the
+variance can be assembled from two components: the expected value of \g, which
+we already have, and the expected value of $\g^2$, which we are missing. The
+solution is to let $\h = (\g, \g^2)$ be the metric instead of \g. Then the
+expected values of both \g and $\g^2$ will be available in analytical forms, and
+the variance of \g can be computed using \eref{variance}. This approach can be
+generalized to probabilistic moments of higher orders.
+
+\subsection{Multiple Outputs}
+
+The careful reader has noted a problem with the calculation of variance in the
+previous subsection: \h is vector valued. More generally, the metric \g in
+\sref{modeling} and the function \f in \sref{interpolation} have been depicted
+as having one-dimensional codomains. This, however, has been done only for the
+sake of clarity. All the mathematics and pseudocodes stay the same for
+vector-valued functions. The only except is that, since a surplus
+$\Delta\f(\vx_{\vi \vj})$ naturally inherits the output dimensionality of \f,
+the operations that involve $\Delta\f(\vx_{\vi \vj})$ should be adequately
+adjusted. If the outputs are on different scales and/or have different accuracy
+requirements, one might want to have different $\epsilon_a$ and $\epsilon_r$ in
+\eref{stopping-condition} for different outputs. In that case, one also needs to
+device a more sensible strategy for scoring collocation nodes in \eref{score}
+such as rescaling individual outputs and then calculating the uniform norm
+$\norm[\infty]{\cdot}$ or $\L{2}$ norm $\norm[2]{\cdot}$. Our code
+\cite{sources} has been written with multiple outputs in mind.
+
+To summarize, once an interpolant of \g has been constructed, the distribution
+of \g is estimated using versatile sampling methods applied to the interpolant.
+The framework extends naturally to metrics with multiple outputs, and it
+provides analytical formulae for expectations and variances.
+
+Let us remind that the evaluation of \g is an extensive operation. Our technique
+is designed to keep this expense as low as possible by choosing the evaluation
+points adaptively, which is unlike traditional sampling methods. Moreover, in
+contrast to \up{PC} expansions and similar techniques, the proposed framework is
+well suited for the nonsmooth response surfaces.
+
+\section{Experiments}
+
+In this section, we evaluate the performance of our framework. Our
+implementation is open source and can be found at \cite{sources}, which also
+includes the experimental setup along with configuration files and input data.
+The experiments discussed below are conducted on a \up{GNU}/Linux machine
+equipped with 16 processors Intel Xeon E5520 2.27~\up{GH}z and 24~\up{GB} of
+\up{RAM}.
+
+We shall address $3 \times 2 \times 3 = 18$ uncertainty-quantification problems.
+Specifically, we shall consider three platform sizes \np: 2, 4, and 8 processing
+elements; two application sizes \nt: 10 and 20 tasks; and three metrics \g: the
+end-to-end delay, total energy consumption, and maximum temperature defined in
+\eref{end-to-end-delay}, \eref{total-energy}, and \eref{maximum-temperature},
+respectively. At this point, it might be helpful to recall the example in
+\fref{example}.
+
+\subsection{Configuration}
+
+A platform with \np processing elements and an application with \nt tasks are
+generated randomly by the \up{TGFF} tool \cite{dick1998}. The tool generates \np
+tables and a directed acyclic graph with \nt nodes. Each table corresponds to a
+processing element, and it describes certain properties of the tasks when they
+are mapped to that particular processing element. Namely, each table assigns two
+numbers to each task: a reference execution time, chosen uniformly between 10
+and 50~ms, and a power consumption, chosen uniformly between 5 and 25~W. The
+graph captures data dependencies between the tasks. The application is scheduled
+using a list scheduler \cite{adam1974}. The mapping of the application is fixed
+and obtained by scheduling the tasks based on their reference execution times
+and assigning them to the earliest available processing elements (a shared ready
+list).
+
+The construction of thermal \up{RC} circuits needed for temperature analysis is
+delegated to the HotSpot tool \cite{skadron2003}. The floorplan of each platform
+is a regular grid wherein each processing element occupies $2 \times
+2~\text{mm}^2$ on the die. The output of the tool is a pair of a thermal
+capacitance matrix $\m{C}$ and a thermal conductance $\m{G}$ matrix used in
+\eref{thermal-system}. The leakage modeling is based on a linear fit to a data
+set of \up{SPICE} simulations of a series of \up{CMOS} invertors
+\cite{ukhov2012, liu2007}; see also \cite{ukhov2014}. The time step of power and
+temperature profiles is constant and equal to one microsecond; see \sref{power}
+and \sref{temperature}.
+
+The uncertain parameters \vu introduced in \sref{problem} are the execution
+times of the tasks; see \sref{time}. All other parameters are deterministic.
+Targeting the practical scenario described in \sref{parameters}, the marginal
+distributions and correlation matrix of \vu are assumed to be available. Without
+loss of generality, the marginal of $\u_i$ is a four-parametric beta
+distribution $\text{Beta}(\alpha_i, \beta_i, a_i, b_i)$ where $\alpha_i$ and
+$\beta_i$ are the shape parameters, and $a_i$ and $b_i$ are the endpoints of the
+support. The left $a_i$ and right $b_i$ endpoint are set to 80\% and 120\%,
+respectively, of the reference execution time generated by the \up{TGFF} tool as
+described earlier. The parameter $\alpha_i$ and $\beta_i$ are set to two and
+five, respectively, for all tasks, which skews the distribution toward the left
+endpoint. The execution times of the tasks are correlated based on the structure
+of the graph produced by the \up{TGFF} tool: the closer task $i$ and task $j$
+are in the graph as measured by the number of edges between vertex $i$ and
+vertex $j$, the stronger $\u_i$ and $\u_j$ are correlated. The model-order
+reduction parameter $\eta$ in \eref{reduction} (\sref{parameters}) is set to
+0.9, which results in $\nz = 2$ and 3 preserved variables for applications with
+$\nt = 10$ and 20 tasks, respectively.
+
+The configuration of the interpolation algorithm (the collocation nodes, basis
+functions, and adaptation strategy with stopping conditions) is as described in
+\sref{interpolation}. The parameters $\epsilon_a$, $\epsilon_r$, and
+$\epsilon_s$ are around $10^3$, $10^2$, and $10^4$, respectively, depending on
+the problem; the exact values can be found at \cite{sources}, which, again,
+contains all other details too.
+
+The performance of our framework with respect to each problem is assessed as
+follows. First, we obtain the ``true'' probability distribution of the metric in
+question \g by sampling \g directly and extensively. Direct sampling means that
+samples are drawn from \g itself (not from a surrogate), and that there is no
+any intermediate model-order reduction (see \sref{parameters}). Second, we
+construct an interpolant for \g and estimate \g's distribution by sampling the
+interpolant. In both cases, we draw $10^5$ samples; let us remind, however, that
+the cost of sampling the interpolant is practically negligible. Third, we
+perform another round of direct sampling of \g, but this time we draw as many
+samples as many times the metric was evaluated during the interpolation process.
+In each of the three cases, the sampling is undertaken in accordance with a
+Sobol sequence, which is a quasi-random low-discrepancy sequence featuring much
+better convergence properties than those of the classical Monte-Carlo (\up{MC})
+sampling \cite{joe2008}.
+
+As a result, we obtain three estimates of \g's distribution: reference (the one
+considered true), proposed (the one interpolation powered), and direct (the one
+equal in terms of the number of \g's evaluations to the proposed solution). The
+last two are compared with the first one. For comparing the proximity between
+two distributions, we use the well-known Kolmogorov--Smirnov (\up{KS}) statistic
+\cite{rao2002}, which is the supremum over the distance (pointwise) between two
+empirical distribution functions and, hence, is a rather unforgiving error
+indicator.
+
+\subsection{Discussion}
+
+The results of all 18 uncertainty-quantification problems are given in
+\fref{results} as a 6-by-3 grid of plots, one plot per problem. The three
+columns correspond to the three metrics at hand: the end-to-end delay (left),
+total energy (middle), and maximum temperature (right). The three pairs of rows
+correspond to the three platform sizes: 2 (top), 4 (middle), and 8 (bottom)
+processing elements. The rows alternate between the two application sizes: 10
+(odd) and 20 (even) tasks.
+
+The horizontal axis of each plot shows the number of points, that is,
+evaluations of the metric \g, and the vertical one shows the \up{KS} statistic
+on a logarithmic scale. Each plot has two lines. The solid line represents our
+technique. The circles on this line correspond to the steps of the interpolation
+process given in \eref{approximation}. They show how the \up{KS} statistic
+computed with respect to the reference solution changes as the interpolation
+process takes steps (and increases the number of collocation nodes) until the
+stopping condition is satisfied (\sref{adaptivity}). Note that only a subset of
+the actual steps is displayed in order to make the figure legible. Synchronously
+with the solid line (that is, for the same numbers of $\g$'s evaluations), the
+dashed line shows the error of direct sampling, which, as before, is computed
+with respect to the reference solution.
+
+Let us first describe one particular problem shown in \fref{results}. Consider,
+for instance, the one labeled with $\bigstar$. It can be seen that, at the very
+beginning, our solution and the solution of direct sampling are poor. The
+\up{KS} statistic tells us that there are substantial mismatches between the
+estimates and the reference solution. However, as the interpolant is being
+adaptively refined, our solution approaches rapidly the reference one and, by
+the end of the interpolation process, leaves the solution of na\"{i}ve sampling
+approximately an order of magnitude behind.
+
+Studying \fref{results}, one can make a number of observations. First and
+foremost, our interpolation-powered approach (solid lines) to probabilistic
+analysis outperforms direct sampling (dashed lines) in all the cases. This means
+that, given a fixed budget of the computation time---the probability
+distributions delivered by our framework are much closer to the true ones than
+those delivered by sampling $\g$ directly, despite the fact that the latter
+relies on Sobol sequences, which are a sophisticated sampling strategy. Since
+direct sampling methods try to cover the probability space impartially,
+\fref{results} is a salient illustration of the difference between being
+adaptive and nonadaptive.
+
+It can also be seen in \fref{results} that, as the number of evaluations
+increases, the solutions computed by our technique approach the exact ones. The
+error of our framework decreases generally steeper than the one of direct
+sampling. The decrease, however, tends to plateau toward the end of the
+interpolation process (when the stopping condition is satisfied). This behavior
+can be explained by the following two reasons. First, the algorithm has been
+instructed to satiate certain accuracy requirements ($\epsilon_a$, $\epsilon_r$,
+and $\epsilon_s$), and it reasonably does not do more than what has been
+requested. Second, since the model-order reduction mechanism is enabled in the
+case of interpolation, the metric being interpolated is not \g, strictly
+speaking; it is a lower-dimensional representation of \g, which already implies
+an information loss. Therefore, there is a limit on the accuracy that can be
+achieved, which depends on the amount of reduction.
+
+The message of the above observations is that the designer of an electronic
+system can benefit substantially in terms of accuracy per computation time by
+switching from direct sampling to the proposed technique. If the designer's
+current workhorse is the classical \up{MC} sampling, the switch might lead to
+even more dramatic savings than those shown in \fref{results}. Needless to
+mention that the gain is especially prominent in situations where the analysis
+needs to be performed many times such as when it resides in a design-space
+exploration loop.
+
+\begin{remark}
+The wall-clock time taken by the experiments is not reported in this paper
+because this time is irrelevant: since the evaluation of \g is time consuming
+(see \sref{problem}), the number of \g's evaluations is the most apposite
+expense indicator. For the curious reader, however, let us give an example by
+considering the problem labeled with $\clubsuit$ in \fref{results}. Obtaining a
+reference solution with $10^5$ simulations in parallel on 16 processors took us
+around two hours. Constructing an interpolant with 383 collocation nodes took
+around 30 seconds (this is also the time of direct sampling with 383 simulations
+of \g). Evaluating the interpolant $10^5$ times took less than a second. The
+relative computation cost of sampling an interpolant readily diminishes as the
+complexity of \g increases; contrast it with direct sampling, whose cost grows
+proportional to \g's evaluation time.
+\end{remark}
+
+\subsection{Real-life Example}
+
+Last but not least, we investigate the viability of deploying the proposed
+framework in a real environment. It means that we need to couple the framework
+with a battle-proven simulator, which is used in both academia and industry, and
+let it simulate a real application running on a real platform. Before we
+proceed, we would like to remind that all the implementation and configuration
+details including the infrastructure developed for this example can be found at
+\cite{sources}.
+
+The scenario that we consider is the same as the one depicted in \fref{example}
+except for the fact that an industrial-standard simulator is put in place of the
+``black box'' on the left side, and that the metric of interest \g is now the
+total energy. Unlike the previous examples, there is no true solution to compare
+with due to the prohibitive expense of the simulator, which is exactly why our
+framework is needed in such cases.
+
+The simulator of choice is the well-known and widely used combination of Sniper
+\cite{carlson2011} and McPAT \cite{li2009}. The architecture that we simulate is
+Intel's Nehalem-based Gainestown series. Sniper is distributed with a
+configuration file for this architecture, and we use it without any changes. The
+platform is configured to have three \up{CPU}s sharing one \up{L3} cache.
+
+The application that has been chosen for simulation is \up{VIPS}, which is an
+image-processing piece of software taken from the \up{PARSEC} benchmark suite
+\cite{bienia2011}. In this scenario, \up{VIPS} applies a fixed set of operations
+to a given image. The width and height of the image to process are considered as
+the uncertain parameters \vu (see \sref{problem}), which are assumed to be
+distributed uniformly within certain ranges.
+
+The real-life deployment has fulfilled our expectations. The interpolation
+process successfully finished and delivered a surrogate after 78 invocations of
+the simulator. Each invocation took 40 minutes on average. The probability
+distribution of the total energy was then estimated by sampling the constructed
+surrogate $10^5$ times. These many samples would take around 6 months to obtain
+on our machine if we sampled the simulator directly in parallel on 16
+processors; using the proposed technique, the whole procedure took approximately
+9 hours.
 
 \section{Conclusion}
 
-She sells seashells on the seashore.
+In this paper, we have presented a framework for probabilistic analysis of
+electronic systems. Given a description of the probability distribution of the
+uncertain parameters present in the system under consideration and a simulator
+of a metric of interest dependent on the parameters, the framework prescribes
+the steps that need to be taken in order to computationally efficiently obtain
+the probability distribution of the metric.
+
+The proposed approach is powered by hierarchical interpolation following a
+hybrid adaptation strategy. The adaptivity makes the framework particularly
+suited for problems with idiosyncratic behaviors and steep response surfaces,
+which arise in electronic systems due to their digital nature.
+
+The performance of our framework has been assessed by comparing it with the
+performance of an advanced sampling technique. The experimental results have
+shown that, for a fixed budget of evaluations of the metric, our approach
+achieves higher accuracy compared to direct simulations.
+
+Finally, we would like to emphasize that, even though the framework has been
+exemplified by considering a specific source of uncertainty and specific
+metrics, it is general and can be successfully applied in many other settings.

@@ -162,6 +162,7 @@
 \newcommand{\E}{\math{\mathcal{E}}}
 \newcommand{\F}{\math{\mathcal{F}}}
 \newcommand{\X}{\math{\mathcal{X}}}
+\newcommand{\Y}{\math{\mathcal{Y}}}
 
 %
 % Probability theory
@@ -227,15 +228,22 @@
 \renewcommand{\lq}{\l{q}}
 \newcommand{\nq}{\n{q}}
 
-\newcommand{\indices}[1]{\mathcal{I}_{#1}}
-\newcommand{\denseindex}[2]{\mathcal{I}^{#1}_{#2}}
 \newcommand{\sparseindex}[2]{\mathcal{J}^{#1}_{#2}}
+\newcommand{\tensorindex}[2]{\mathcal{I}^{#1}_{#2}}
 
 \makeatletter
 \def\quadrature#1#2{\@ifnextchar{\bgroup}{\quadraturethree{#1}{#2}}{\quadraturetwo{#1}{#2}}}
 \def\quadraturethree#1#2#3{\mathcal{Q}^{#1}_{#2}\left(#3\right)}
 \def\quadraturetwo#1#2{\mathcal{Q}^{#1}_{#2}}
 \makeatother
+
+%
+% Interpolation
+%
+
+\newcommand{\interpolant}[2]{\mathcal{A}^{#1}_{#2}}
+\newcommand{\sparse}[2]{\mathcal{S}^{#1}_{#2}}
+\newcommand{\tensor}[2]{\mathcal{T}^{#1}_{#2}}
 
 %
 % Uncertainty
