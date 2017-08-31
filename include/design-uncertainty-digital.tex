@@ -20,32 +20,26 @@ workload that the system under consideration is supposed to process.
 \section{Our Solution}
 \slab{interpolant-solution}
 
-Our work brings the following major contribution: we develop an efficient
-framework for probabilistic analysis of electronic systems that is
-straightforward to use and is applicable to a wide range of
-uncertainty-quantification problems.
+We develop a framework for probabilistic analysis of computer systems that is
+efficient in quantifying the deteriorating impact of digital sources of
+uncertainty on a design, and---as it is also the case with the framework
+presented in \cref{design-uncertainty-analog}---that is straightforward to use
+in practice. The effectiveness of our approach is due to the powerful
+approximation engine that the framework features. Specifically, we make use of
+the hierarchical interpolation with hybrid adaptivity developed in
+\cite{klimke2006, ma2009, jakeman2012}, which enables tackling diverse design
+problems while keeping the associated computational costs low. The usage of the
+framework is streamlined because it has the same low entrance requirements as
+sampling techniques: one only has to be able to evaluate the quantity given a
+set of deterministic parameters. Moreover, the framework can be utilized in
+scenarios with limited knowledge of the joint probability distribution of the
+uncertain parameters, which are common in practice.
 
-The usage of our framework is streamlined because it has the same low entrance
-requirements as sampling techniques: one only has to be able to evaluate the
-metric given a set of deterministic parameters. Moreover, the framework can be
-utilized in scenarios with limited knowledge of the joint probability
-distribution of the uncertain parameters, which are common in practice (to be
-elaborated on in \sref{parameters}).
-
-The scope of our framework is wide because the framework features a powerful
-approximation engine. We make use of the hierarchical interpolation with hybrid
-adaptivity developed in \cite{jakeman2012, klimke2006, ma2009}, which enables us
-to tackle diverse design problems while keeping the associated computation costs
-low.
-
-To the best of our knowledge, our framework is the first one to address
-systematically and efficiently nonsmooth problems in the context of
-probabilistic analysis of electronic systems. The importance of the
-characteristic is motivated in \sref{introduction}.
-
-In addition to the aforementioned contribution, we open-source our
-implementation \cite{sources}. The code base also includes the whole
-experimental setup described in \sref{experiments}.
+To the best of our knowledge, in the context of probabilistic analysis of
+computer systems, nonsmooth problems have not been systematically and
+efficiently addressed yet. However, such problems are inherent to the digital
+world, which computer systems are denizens of, as we discuss in
+\sref{interpolant-example}.
 
 As noted earlier, making use of a sampling method is a compelling approach to
 uncertainty quantification. We would readily apply such a method to study our
@@ -966,6 +960,10 @@ end-to-end delay, total energy consumption, and maximum temperature defined in
 \eref{end-to-end-delay}, \eref{total-energy}, and \eref{maximum-temperature},
 respectively. At this point, it might be helpful to recall the example in
 \fref{example}.
+
+In addition to the aforementioned contribution, we open-source our
+implementation \cite{sources}. The code base also includes the whole
+experimental setup described in \sref{experiments}.
 
 \subsection{Configuration}
 
