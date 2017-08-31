@@ -54,17 +54,11 @@ sufficient to consider just one random variable per location with an adequate
 distribution and adequate correlations with the other locations of interest.
 \end{remark}
 
-A description of \vu is an input to our analysis. A proper way to describe a set
-of random variables is to specify their joint probability distribution function.
-In practice, however, such exhaustive information is often unavailable, in
-particular, due to the high dimensionality in the presence of prominent
-dependencies inherent to the considered problem. A more realistic assumption,
-which we make here, is the knowledge of the marginal distributions and
-correlation matrix of \vu. Denote by $\{ F_i \}_{i = 1}^\nu$ and
-$\correlation{\vu} \in \real^{\nu \times \nu}$ the marginal distribution
-functions and correlation matrix of the uncertain parameters \vu in,
-respectively. Note that the number of distinct marginals is only two since \np
-components of \vu correspond to the same process parameter.
+Based on \sref{chaos-problem-formulation}, the parameters \vu are assumed to be
+given as a set of marginal distributions and a correlation matrix denoted by $\{
+F_i \}_{i = 1}^\nu$ and $\correlation{\vu}$, respectively. Note that the number
+of distinct marginals is only two since \np components of \vu correspond to the
+same process parameter.
 
 Both considered process parameters, the effective channel length and gate oxide
 thickness, correspond to Euclidean distances; they take values on bounded
