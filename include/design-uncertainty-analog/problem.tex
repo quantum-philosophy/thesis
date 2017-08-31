@@ -1,22 +1,23 @@
-Let $(\Omega, \F, \probability)$ be a probability space as defined in
-\sref{probability-theory} and assume the same system model as the one described
-in \sref{system-model}. The system depends on a number of process parameters
-that are uncertain at the design stage. Once the manufacturing process yields a
-particular outcome, the considered process parameters take certain values, which
-can and are likely to vary across each fabricated chip, and stay unchanged
-thereafter. This variability leads to deviations of power from the nominal
-values and, therefore, to deviations of temperature from the one corresponding
-to the nominal power consumption.
+Assume the system model given in \sref{system-model}. Suppose that the system
+depends on a number of process parameters that are uncertain at the design
+stage. Once the manufacturing process yields a particular outcome, the
+considered process parameters take certain values, which can and are likely to
+vary across each fabricated chip, and stay unchanged thereafter. This
+variability leads to deviations of power from the nominal values and, therefore,
+to deviations of temperature from the one corresponding to the nominal power
+consumption.
 
 Each process parameter is a characteristic of a single transistor---consider,
 for instance, the effective channel length---and, therefore, each device in the
 electrical circuit at hand can potentially have a different value of this
 parameter since, in general, the variability due to process variation is not
 uniform. Consequently, each process parameter can be viewed as a random process
-$\x: \Omega \times \real^2 \to \real$ defined on a two-dimensional plane. Since
-our work is system-level oriented, the random processes are discretized, and
-each processing element is modeled with a finite number of random variables.
-Then the uncertain parameters of the problem under consideration are defined as
+$\x: \Omega \times \real^2 \to \real$ defined on a probability space $(\Omega,
+\F, \probability)$---which, in turn, is defined in
+\sref{probability-theory}---and a two-dimensional plane. Since our work is
+system-level oriented, the random processes are discretized, and each processing
+element is modeled with a finite number of random variables. Then the uncertain
+parameters of the problem under consideration are defined as
 \[
   \vu = (\u_i)_{i = 1}^\nu: \Omega \to \real^\nu
 \]

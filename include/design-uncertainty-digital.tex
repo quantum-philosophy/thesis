@@ -148,6 +148,36 @@ number of times the quantity needs to be evaluated in order to achieve a certain
 accuracy level. The magnitude of the reduction depends on the problem, and it
 can be substantial when the problem is well disposed to adaptation.
 
+\section{Problem Formulation}
+
+Consider a computer system composed of two major components: a platform and an
+application. The platform is a collection of heterogeneous processing elements
+as defined in \sref{system-model}, and the application is a collection of
+interdependent tasks. The designer is interested in studying a quantity \g that
+characterizes the system under consideration from a certain perspective.
+Examples of \g include the execution delay of the application or a specific
+task, energy consumption of the platform or a specific processing element, and
+maximum temperature of the platform or a specific processing element.
+
+The quantity of interest \g depends on a set of parameters \vu that are
+uncertain at the design stage. Examples of \vu include the amount of data that
+the application needs to process, execution times of the tasks, and properties
+of the environment. The parameters \vu are given as a random vector $\vu: \Omega
+\to \real^\nu$---which is defined on a suitable probability space $(\Omega, \F,
+\probability)$ as in \sref{probability-theory}---with an arbitrary but known
+distribution whose \ac{CDF} is denoted by $F$.
+
+The dependency of \g on \vu implies that \g is random to the designer. For a
+given outcome of \vu, however, the evaluation of \g is purely deterministic.
+This operation is typically undertaken by an adequate simulator of the system at
+hand, and it is assumed to be doable but computationally expensive.
+
+Our objective is to develop an efficient framework for estimating the
+probability distribution of the quantity of interest \g dependent on the
+uncertain parameters \vu. The framework is required to be able to handle
+nondifferentiable and even discontinuous dependencies between \g and \vu as they
+constitute an important class of problems for computer-system design.
+
 \section{Prior Work}
 
 Sampling methods would be a reasonable solution to probabilistic analysis of
@@ -269,35 +299,6 @@ An $n$-variate distribution can be expressed as a set of $n$ marginal
 copula is a uniform distribution function on $[0, 1]^n$ (referred to as the
 $n$-dimensional unit hypercube) that captures the dependencies between the $n$
 individual variables.
-
-\section{Problem Formulation}
-
-Consider an electronic system composed of two major components: a platform and
-an application. The platform is a collection of heterogeneous processing
-elements, and the application is a collection of interdependent tasks.
-
-The designer is interested in evaluating a metric \g that characterizes the
-electronic system under consideration from a certain perspective. Examples of \g
-include the execution delay of the application or a task, energy consumption of
-the platform or a processing element, and maximum temperature of the platform or
-a processing element.
-
-The metric \g depends on a set of parameters \vu that are uncertain at the
-design stage. Examples of \vu include the amount of data the application needs
-to process, execution times of the tasks, and properties of the environment.
-
-The parameters \vu are given as a random vector $\vu = (\u_i)_{i = 1}^\nu$ with
-an arbitrary but known distribution $F_{\vu}$. The dependency of \g on \vu,
-written as $\g(\vu)$, implies that \g is random to the designer. For a given
-outcome of \vu, however, the evaluation of \g is purely deterministic. This
-operation is typically undertaken by an adequate simulator of the system at
-hand, and it is assumed to be doable but computationally expensive.
-
-Our objective is to develop an efficient framework for estimating the
-probability distribution of the metric of interest \g dependent on the uncertain
-parameters \vu. The framework is required to be able to handle nondifferentiable
-and even discontinuous dependencies between \g and \vu as they constitute an
-important class of problems for electronic-system design.
 
 \section{Our Solution}
 
