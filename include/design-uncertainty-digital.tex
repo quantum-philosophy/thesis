@@ -75,12 +75,14 @@ experimental results are given in \sref{interpolant-results}. Finally,
 \section{Motivational Example}
 \slab{interpolant-example}
 
-The uncertainties present in computer systems originate from both the physical
-world and the virtual one. An example of a physical source of uncertainty is
-process variation \cite{srivastava2010}, which the topic of
-\cref{analysis-uncertainty-analog} and \cref{design-uncertainty-analog} and is
-central to many lines of research. An example of a virtual source of uncertainty
-is workload. To elaborate, the characteristics of the codes running on modern
+Depending on their origins, the uncertainties present in computer systems can be
+classified as analog or digital---in order to build intuition, these two
+categories can also be called physical and virtual, respectively. An example of
+an analog source of uncertainty is process variation since it originates from
+the imperfection of the manufacturing process, which the topic of
+\cref{analysis-uncertainty-analog}, \cref{design-uncertainty-analog}, and many
+other lines of research. An example of a digital source of uncertainty is
+workload. To elaborate, the characteristics of the codes running on modern
 devices change from one activation to another depending on the environment and
 input data. This source of uncertainty has not been deprived of attention
 either, especially in the real-time community \cite{quinton2012, diaz2002,
@@ -88,12 +90,12 @@ santinelli2011, tanasa2015}. Regardless of the origin, such phenomena as the
 ones mentioned above render the behavior of a computer system nondeterministic
 to the designer.
 
-Due to its nature, the variability coming from the physical world is typically
+Due to its nature, the variability coming from the analog world is typically
 smooth, well behaved. In such cases, uncertainty quantification based on
 \acf{PC} expansions \cite{xiu2010} and other approximation techniques making use
 of global polynomials generally work well, which is demonstrated in
 \cref{design-uncertainty-analog}. On the other hand, the variability coming from
-the virtual world has often steep gradients and favors nondifferentiability and
+the digital world has often steep gradients and favors nondifferentiability and
 even discontinuity. In such cases, \ac{PC} expansions and similar techniques
 fail: they require extremely many evaluations of the studied quantity in order
 to deliver an acceptable level of accuracy and, consequently, are not worth it.
@@ -203,7 +205,7 @@ time-invariant systems. A stochastic collocation \cite{xiu2010} approach to
 static steady-state temperature analysis is given in \cite{lee2013}, which
 relies on global interpolation using Newton polynomials.
 
-Let us now turn to what we refer to as virtual sources of uncertainty. In this
+Let us now turn to what we refer to as digital sources of uncertainty. In this
 context, timing analysis has drawn the major attention \cite{quinton2012}. A
 seminal work on response time analysis of periodic tasks with random execution
 times on uniprocessor systems is reported in \cite{diaz2002}. A novel analytical
