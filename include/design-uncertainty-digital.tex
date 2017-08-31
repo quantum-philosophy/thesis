@@ -277,33 +277,6 @@ In addition to the aforementioned contribution, we open-source our
 implementation \cite{sources}. The code base also includes the whole
 experimental setup described in \sref{experiments}.
 
-\section{Preliminaries}
-
-Let $(\Omega, \F, \probability)$ be a probability space where $\Omega$ is a set
-of outcomes, $\F \subseteq 2^\Omega$ is a $\sigma$-algebra, and $\probability:
-\F \to [0, 1]$ is a probability measure \cite{durrett2010}. A random variable \h
-defined on $(\Omega, \F, \probability)$ is an \F-measurable function $\h: \Omega
-\to \real$. A random variable is uniquely characterized by its distribution
-function defined by $F_\h(z) = \probability{\omega \in \Omega: \h(\omega) \leq
-z}$, written as $\h \sim F_\h$. The expected value and variance of \h are given
-by
-\begin{align*}
-  & \expectation{\h} = \int_\Omega \h(\omega) \, \d\probability(\omega) = \int_\real z \, \d F_\h(z) \text{ and} \\
-  & \variance{\h} = \expectation{\h^2} - (\expectation{\h})^2, \text{ respectively.}
-\end{align*}
-
-A random vector $\vh = (\h_i)_{i = 1}^n$ is a vector whose elements are random
-variables. A random vector is fully characterized by its distribution function
-$F_{\vh}$, written as $\vh \sim F_{\vh}$. This function is referred to as a
-joint or multivariate distribution function, emphasizing the fact that the
-variables work together.
-
-An $n$-variate distribution can be expressed as a set of $n$ marginal
-(univariate) distributions and an $n$-dimensional copula \cite{nelsen2006}. The
-copula is a uniform distribution function on $[0, 1]^n$ (referred to as the
-$n$-dimensional unit hypercube) that captures the dependencies between the $n$
-individual variables.
-
 \section{Our Solution}
 
 As noted earlier, making use of a sampling method is a compelling approach to
