@@ -1,0 +1,67 @@
+Probabilistic analysis of computer systems is an extensive and diverse area,
+which is expanding with an accelerating pace. The rapid growth is instigated by
+the fact that computer systems naturally become more sophisticated and refined,
+and that they penetrate deeper into everyday life. Hence, the impact of
+uncertainty inevitably becomes more prominent and entails more severe
+consequences, necessitating an adequate treatment. Therefore, the designer of a
+computer system is obliged to account for the presence of uncertainty.
+
+In order to account for uncertainty, one has to quantify it first. As discussed
+in \cref{design-uncertainty-analog}, in this setting, the designer is typically
+interested in evaluating a certain quantity whose complete knowledge would be
+highly profitable for the design at hand but cannot be attained since the
+quantity depends a number of parameters that are inherently uncertain at design
+time. For instance, such a quantity could be the maximum temperature of a system
+whose thermal behavior depends on the runtime workload, which is unknown at
+design time.
+
+Uncertainty quantification \cite{maitre2010} is a broad area. The techniques for
+uncertainty quantification can deliver radically different pieces of information
+about the quantity under consideration. It can be seen in the previous chapters
+that we are primarily interested in probability distributions rather than, for
+instance, corner cases, and we follow this trend in this chapter as well.
+Designing for the worst case leads often to a poor solution as the system under
+consideration might easily end up being too conservative, overdesigned
+\cite{quinton2012}.
+
+As we note in \sref{chaos-prior}, when probability distributions and uncertainty
+quantification in general are concerned, sampling methods are of great use. The
+classical \acf{MC} sampling, quasi-\ac{MC} sampling, and Latin hypercube
+sampling are examples of such methods \cite{asmussen2007}. Compared to other
+techniques for probabilistic analysis, they are straightforward to apply. The
+system at hand is treated as an opaque object, and one only has to evaluate this
+object a number of times in order to start to draw conclusions about the
+system's behavior. The major problem with sampling, however, is in sampling: one
+should be able to obtain sufficient many realizations of the quantity of
+interest in order to accurately estimate the needed statistics about this
+quantity \cite{diaz-emparanza2002}. When the subject under analysis is
+computationally expensive to evaluate, sampling methods are rendered slow and
+often unfeasible.
+
+Similar to \cref{design-uncertainty-analog}, here we propose a design-time
+system-level framework for the analysis of computer systems that are dependent
+on uncertain parameters. At it is the case with sampling methods, our technique
+treats the system at hand as a ``black box'' and, therefore, is straightforward
+to apply since no handcrafting is required, and existing codes need no change.
+Hence, the quantities that the framework is able to tackle are diverse. Examples
+include those concerned with timing-, power-, and temperature-related
+characteristics of elaborate applications running on heterogeneous platforms.
+
+In contrast to \cref{design-uncertainty-analog} and sampling methods, the
+framework presented in this chapter explores and exploits the nature of the
+problem---that is, the way the quantity of interest depends on the uncertain
+parameters---by exercising the aforementioned ``black box'' at a set of points
+chosen adaptively. The adaptivity that we leverage is hybrid \cite{jakeman2012}:
+it tries to pick up both global (that is, on the level of individual dimensions
+\cite{klimke2006}) and, more importantly, local (that is, on the level on
+individual points \cite{ma2009}) variations. This means that the framework is
+able to benefit from any particularities that might be present in the stochastic
+space, that is, in the space of the uncertain parameters.
+
+The remainder of the chapter is organized as follows. The adaptivity is the
+capital feature of our technique, and we motivate and illustrate it in the next
+section, \sref{interpolant-example}. The problem formulation is given in
+\sref{interpolant-problem}. In \sref{interpolant-prior}, the prior work is
+discussed. Our solution is outlined in \sref{interpolant-solution}. The
+experimental results are given in \sref{interpolant-results}. Finally,
+\sref{interpolant-conclusion} concludes the chapter.

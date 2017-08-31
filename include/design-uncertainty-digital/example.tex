@@ -1,0 +1,76 @@
+Depending on their origins, the uncertainties present in computer systems can be
+classified as analog or digital---in order to build intuition, these two
+categories can also be called physical and virtual, respectively. An example of
+an analog source of uncertainty is process variation since it originates from
+the imperfection of the manufacturing process, which the topic of
+\cref{analysis-uncertainty-analog}, \cref{design-uncertainty-analog}, and many
+other lines of research. An example of a digital source of uncertainty is
+workload. To elaborate, the characteristics of the codes running on modern
+devices change from one activation to another depending on the environment and
+input data. This source of uncertainty has not been deprived of attention
+either, especially in the real-time community \cite{quinton2012, diaz2002,
+santinelli2011, tanasa2015}. Regardless of the origin, such phenomena as the
+ones mentioned above render the behavior of a computer system nondeterministic
+to the designer.
+
+Due to its nature, the variability coming from the analog world is typically
+smooth, well behaved. In such cases, uncertainty quantification based on
+\acf{PC} expansions \cite{xiu2010} and other approximation techniques making use
+of global polynomials generally work well, which is demonstrated in
+\cref{design-uncertainty-analog}. On the other hand, the variability coming from
+the digital world has often steep gradients and favors nondifferentiability and
+even discontinuity. In such cases, \ac{PC} expansions and similar techniques
+fail: they require extremely many evaluations of the studied quantity in order
+to deliver an acceptable level of accuracy and, consequently, are not worth it.
+
+\inputfigure{interpolant-example}
+In order to illustrate this concern, let us consider an example. Suppose that
+our system has only one processing element, and it is running an application
+with only one task. Suppose further that the task has two branches and takes
+either one depending on the input data. Assume that one branch takes 0.1~s to
+execute and has probability 0.6, and the other branch takes 1~s and has
+probability 0.4. Our goal is to find the distribution of the end-to-end delay of
+the application. In this example, the quantity of interest is the end-to-end
+delay, and it coincides with the execution time of the task; hence, we already
+know the answer. Let us pretend we do not and try to obtain it by other means.
+
+Suppose the above scenario is modeled by a uniformly distributed random variable
+$\u: \Omega \to [0, 1]$: the execution time of the task (the end-to-end delay of
+the application) is 0.1~s if $\u \in [0, 0.6]$, and it is 1~s if $\u \in (0.6,
+1]$. The response in this case is a step function, which is illustrated by the
+yellow line in \fref{interpolant-example}.
+
+First, we try to quantify the end-to-end delay by constructing and subsequently
+sampling a \ac{PC} expansion founded on the Legendre polynomial basis
+\cite{xiu2010}; see \sref{polynomial-chaos}. The orange line in
+\fref{interpolant-example} shows a \ac{PC} expansion of level nine ($\lc = \lq =
+9$), which uses 10 points ($\nq = 10$). It can be seen that the approximation is
+poor---not to mention negative execution times---which means that the follow-up
+sampling will also yield a poor approximation of the true distribution. The
+observed oscillating behavior is the well-known Gibbs phenomenon stemming from
+the discontinuity of the response. Regardless of the number of points spent, the
+oscillations will never go away completely.
+
+Let us now investigate how the framework developed in this chapter solves the
+same problem. For the purpose of the experiment, our technique is constrained to
+make use of the same number of points as the \ac{PC} expansion does. The result
+is the blue curve in \fref{interpolant-example}, and the adaptively chosen
+points are plotted on the horizontal axis. It can be seen that the approximation
+is good, and, in fact, it would be indistinguishable from the true response with
+a few additional points. One can note that the adaptive procedure started to
+concentrate interpolation points at the jump and left the insipid regions on
+both sides of the jump with no particular attention. Having constructed such a
+representation, one can proceed to the calculation of the probability
+distribution of the quantity of interest, which, in general, is done via
+sampling followed by such techniques as kernel density estimation. The crucial
+point to note is that this follow-up sampling does not involve the original
+system in any way, which implies that it costs practically nothing in terms of
+the computation time.
+
+The example discussed above illustrates the fact that the proposed framework is
+well suited for nonsmooth response surfaces. More generally, the adaptivity
+featured by our technique allows for a reduction of the costs associated with
+probabilistic analysis of the quantity under consideration, as measured by the
+number of times the quantity needs to be evaluated in order to achieve a certain
+accuracy level. The magnitude of the reduction depends on the problem, and it
+can be substantial when the problem is well disposed to adaptation.
