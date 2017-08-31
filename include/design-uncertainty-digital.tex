@@ -50,21 +50,109 @@ invocations of the quantity \g: only a few evaluations of \g are needed, and the
 rest of probabilistic analysis is powered by the constructed interpolant, which,
 in contrast to \g, has a negligible cost.
 
-Let us adumbrate the steps involved in the solution process. Recall that \g is
-parameterized by the uncertain parameters \vu, and these variables are the only
-source of randomness. \one~The quantity \g is reparameterized in terms of an
-auxiliary random vector \vz extracted from \vu; the necessity of this stage will
-become clear later on. \two~An interpolant of \g is constructed by considering
-\g as a deterministic function of \vz and evaluating \g at a small set of
-carefully chosen points. \three~The probability distribution of \g is then
-estimated by applying an arbitrary sampling method to the constructed
-interpolant of \g.
+Let us adumbrate the stages of the solution process. They reflect the ones
+depicted in \fref{chaos-overview}. At Stage~1, the quantity of interest \g and
+the uncertain parameters \vu are decided upon by the designer. At Stage~2, \g is
+reparameterized in terms of an auxiliary random vector \vz extracted from \vu.
+At Stage~3, an interpolant of \g is constructed by considering \g as a
+deterministic function of \vz and evaluating \g at a small set of carefully
+chosen points. At Stage~4, the constructed interpolant of \g is post-processed
+in order to calculate the desired statistics about \g. In particular, the
+probability distribution of \g is estimated by applying an arbitrary sampling
+method to the interpolant.
 
-The first two of the above steps should be undertaken with a great care as
-interpolation of multivariate functions is a challenging task. This aspect will
-be discussed in detail in \sref{modeling} and \sref{interpolation}. However,
-before we proceed to those sections, we would like to give an illustrative
-example.
+The first stage is problem specific, and it is to be elaborated on in
+\sref{interpolant-application}. In what follow, we proceed directly to the
+second stage, which together with the third should be approached with a great
+care since interpolation of multivariate functions is a challenging undertaking.
+
+\section{Probability Transformation}
+
+The foremost step of our framework is to change the parameterization of the
+problem from the random vector $\vu = (\u_i)_{i = 1}^\nu \sim F_{\vu}$ to an
+auxiliary random vector $\vz = (\z_i)_{i = 1}^\nz \sim F_{\vz}$ such that: 1)
+the support of $F_{\vz}$ is the unit hypercube $[0, 1]^\nz$, and 2) $\nz \leq
+\nu$ has the smallest value needed to retain the desired level of accuracy. The
+first is standardization, which is done primarily for convenience. The second is
+model-order reduction, which identifies and eliminates excessive complexity and,
+hence, speeds up the solution process. The reduction is possible whenever there
+are dependencies between $(\u_i)_{i = 1}^\nu$, in which case one can find such
+$(\z_i)_{i = 1}^\nz$, $\nz < \nu$, that each $\u_i$ can be recovered from
+$(\z_i)_{i = 1}^\nz$. We shall denote the overall transformation by $\vu =
+\transform{\vz}$ where
+\[
+  \transform: \real^\nu \to [0, 1]^\nz.
+\]
+For any point $\vz \in [0, 1]^\nz$, we are now able to compute the corresponding
+\vu and, consequently, the metric \g as $(\g \circ \transform)(\vz) =
+\g(\transform(\vz)) = \g(\vu)$; recall \sref{problem} and see \fref{example}.
+
+Let us consider an example of $\transform$ in order to understand the concept
+better. To this end, we begin by assuming that the distribution of $\vu =
+(\u_i)_{i = 1}^\nu$, $F_{\vu}$, is given as a set of marginal distribution
+functions $\{ F_{\u_i} \}_{i = 1}^\nu$ and a copula \cite{nelsen2006} (see also
+\sref{preliminaries}). Furthermore, the copula is assumed to be a Gaussian
+copula whose correlation matrix is $\correlation{\vu} \in \real^{\nu \times
+\nu}$.
+
+\begin{remark}
+A set of marginals and a copula entirely characterize the joint distribution of
+\vu, that is, $F_{\vu}$. However, we consider this distribution as an
+approximation rather than as the true one. The knowledge of the true joint would
+be an impractical assumption to make. A more realistic assumption is the
+availability of the marginals and correlation matrix of \vu. In general, these
+two pieces are not sufficient to recover the joint of \vu; however, the joint
+can be approximated well by accompanying the available marginals by a Gaussian
+copula constructed based on the available correlation matrix; see \cite{liu1986}
+and also \cite{ukhov2014}. Hence, a set of marginals and a Gaussian copula are
+practical inputs to probabilistic analysis.
+\end{remark}
+
+The number of variables, which is so far \nu, has a significant impact on the
+complexity of the problem at hand. Therefore, an important component of our
+framework is model-order reduction, which we shall base on the discrete \acf{KL}
+decomposition, also known as the principal component analysis. We proceed as
+follows. Since any correlation matrix is real and symmetric, $\correlation{\vu}$
+admits the eigendecomposition: $\correlation{\vu} = \m{V} \m{\Lambda} \m{V}^T$
+where $\m{V} \in \real^{\nu \times \nu}$ is an orthogonal matrix whose columns
+are the eigenvectors of $\correlation{\vu}$, and $\m{\Lambda} =
+\diagonal{\lambda_i}_{i = 1}^\nu$ is a diagonal matrix whose diagonal elements
+are the eigenvalues of $\correlation{\vu}$. The eigenvalues $(\lambda_i)_{i =
+1}^\nu$ correspond to the variances of the corresponding components revealed by
+the decomposition. The model-order reduction boils down to selecting those major
+components whose cumulative contributions to the total variance is above a
+certain threshold. Formally, assuming that $(\lambda_i)_{i = 1}^\nu$ are sorted
+in the descending order and given a threshold $\eta \in (0, 1]$ specifying the
+fraction of the total variance to be preserved, we identify the smallest \nz
+such that
+\[
+  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^\nu \lambda_i} \geq \eta.
+\]
+Denote by $\tilde{\m{V}} \in \real^{\nu \times \nz}$ and $\tilde{\m{\Lambda}}
+\in\real^{\nz \times \nz}$ the matrices obtained by truncating $\m{V}$ and
+$\m{\Lambda}$, respectively, to preserve only the first \nz components where \nz
+is as shown above.
+
+Now, the transformation $\transform$ in \eref{transformation} is
+\[
+  \vu = F_{\vu}^{-1} \left( \Phi\left( \tilde{\m{V}} \tilde{\m{\Lambda}}^\frac{1}{2} \, \Phi^{-1}(\vz) \right) \right)
+\]
+where the random variables $\vz = (\z_i)_{i = 1}^\nz$ are independent and
+uniformly distributed on $[0, 1]^\nz$; $\Phi$ and $\Phi^{-1}$ are the
+distribution function of the standard Gaussian distribution and its inverse,
+respectively, which are applied elementwise; and $F_{\vu}^{-1} = F_{\u_1}^{-1}
+\times \cdots \times F_{\u_\nz}^{-1}$ is the Cartesian product of the inverse
+marginal distributions of \vu, which are applied to the corresponding element of
+the vector yielded by $\Phi$. In the absence of correlations,
+\eref{transformation-concrete} is simply $\vu = F_{\vu}^{-1}(\vz)$, and no
+model-order reduction is possible ($\nu = \nz$).
+
+To summarize, we have found such a transformation $\transform$ and the
+corresponding random vector $\vz \sim F_{\vz}$ that: 1) $F_{\vz}$ is supported
+by $[0, 1]^\nz$, and 2) \vz has the smallest number of dimensions \nz needed to
+preserve $\eta$ portion of the variance. Let us emphasize that this $\transform$
+is an example; the framework works with any $\transform$ that yields $\vz \sim
+F_{\vz}$ for some \nz.
 
 \section{Surrogate Construction}
 
@@ -654,6 +742,7 @@ contrast to \up{PC} expansions and similar techniques, the proposed framework is
 well suited for the nonsmooth response surfaces.
 
 \section{Illustrative Application}
+\slab{interpolant-application}
 
 The agenda for this section is as follows. In \sref{parameters}, the uncertain
 parameters \vu are transformed into a form suitable for the subsequent
@@ -667,94 +756,6 @@ understood that the essence of \g is problem specific. In practice, \g stands
 for an adequate simulator of the system under consideration. The modeling
 capabilities of this simulator are naturally inherited by the proposed
 framework.
-
-\subsection{Uncertainty Parameters}
-
-The foremost step of our framework is to change the parameterization of the
-problem from the random vector $\vu = (\u_i)_{i = 1}^\nu \sim F_{\vu}$ to an
-auxiliary random vector $\vz = (\z_i)_{i = 1}^\nz \sim F_{\vz}$ such that: 1)
-the support of $F_{\vz}$ is the unit hypercube $[0, 1]^\nz$, and 2) $\nz \leq
-\nu$ has the smallest value needed to retain the desired level of accuracy. The
-first is standardization, which is done primarily for convenience. The second is
-model-order reduction, which identifies and eliminates excessive complexity and,
-hence, speeds up the solution process. The reduction is possible whenever there
-are dependencies between $(\u_i)_{i = 1}^\nu$, in which case one can find such
-$(\z_i)_{i = 1}^\nz$, $\nz < \nu$, that each $\u_i$ can be recovered from
-$(\z_i)_{i = 1}^\nz$. We shall denote the overall transformation by $\vu =
-\transform{\vz}$ where
-\[
-  \transform: \real^\nu \to [0, 1]^\nz.
-\]
-For any point $\vz \in [0, 1]^\nz$, we are now able to compute the corresponding
-\vu and, consequently, the metric \g as $(\g \circ \transform)(\vz) =
-\g(\transform(\vz)) = \g(\vu)$; recall \sref{problem} and see \fref{example}.
-
-Let us consider an example of $\transform$ in order to understand the concept
-better. To this end, we begin by assuming that the distribution of $\vu =
-(\u_i)_{i = 1}^\nu$, $F_{\vu}$, is given as a set of marginal distribution
-functions $\{ F_{\u_i} \}_{i = 1}^\nu$ and a copula \cite{nelsen2006} (see also
-\sref{preliminaries}). Furthermore, the copula is assumed to be a Gaussian
-copula whose correlation matrix is $\correlation{\vu} \in \real^{\nu \times
-\nu}$.
-
-\begin{remark}
-A set of marginals and a copula entirely characterize the joint distribution of
-\vu, that is, $F_{\vu}$. However, we consider this distribution as an
-approximation rather than as the true one. The knowledge of the true joint would
-be an impractical assumption to make. A more realistic assumption is the
-availability of the marginals and correlation matrix of \vu. In general, these
-two pieces are not sufficient to recover the joint of \vu; however, the joint
-can be approximated well by accompanying the available marginals by a Gaussian
-copula constructed based on the available correlation matrix; see \cite{liu1986}
-and also \cite{ukhov2014}. Hence, a set of marginals and a Gaussian copula are
-practical inputs to probabilistic analysis.
-\end{remark}
-
-The number of variables, which is so far \nu, has a significant impact on the
-complexity of the problem at hand. Therefore, an important component of our
-framework is model-order reduction, which we shall base on the discrete \acf{KL}
-decomposition, also known as the principal component analysis. We proceed as
-follows. Since any correlation matrix is real and symmetric, $\correlation{\vu}$
-admits the eigendecomposition: $\correlation{\vu} = \m{V} \m{\Lambda} \m{V}^T$
-where $\m{V} \in \real^{\nu \times \nu}$ is an orthogonal matrix whose columns
-are the eigenvectors of $\correlation{\vu}$, and $\m{\Lambda} =
-\diagonal{\lambda_i}_{i = 1}^\nu$ is a diagonal matrix whose diagonal elements
-are the eigenvalues of $\correlation{\vu}$. The eigenvalues $(\lambda_i)_{i =
-1}^\nu$ correspond to the variances of the corresponding components revealed by
-the decomposition. The model-order reduction boils down to selecting those major
-components whose cumulative contributions to the total variance is above a
-certain threshold. Formally, assuming that $(\lambda_i)_{i = 1}^\nu$ are sorted
-in the descending order and given a threshold $\eta \in (0, 1]$ specifying the
-fraction of the total variance to be preserved, we identify the smallest \nz
-such that
-\[
-  \frac{\sum_{i = 1}^\nz \lambda_i}{\sum_{i = 1}^\nu \lambda_i} \geq \eta.
-\]
-Denote by $\tilde{\m{V}} \in \real^{\nu \times \nz}$ and $\tilde{\m{\Lambda}}
-\in\real^{\nz \times \nz}$ the matrices obtained by truncating $\m{V}$ and
-$\m{\Lambda}$, respectively, to preserve only the first \nz components where \nz
-is as shown above.
-
-Now, the transformation $\transform$ in \eref{transformation} is
-\[
-  \vu = F_{\vu}^{-1} \left( \Phi\left( \tilde{\m{V}} \tilde{\m{\Lambda}}^\frac{1}{2} \, \Phi^{-1}(\vz) \right) \right)
-\]
-where the random variables $\vz = (\z_i)_{i = 1}^\nz$ are independent and
-uniformly distributed on $[0, 1]^\nz$; $\Phi$ and $\Phi^{-1}$ are the
-distribution function of the standard Gaussian distribution and its inverse,
-respectively, which are applied elementwise; and $F_{\vu}^{-1} = F_{\u_1}^{-1}
-\times \cdots \times F_{\u_\nz}^{-1}$ is the Cartesian product of the inverse
-marginal distributions of \vu, which are applied to the corresponding element of
-the vector yielded by $\Phi$. In the absence of correlations,
-\eref{transformation-concrete} is simply $\vu = F_{\vu}^{-1}(\vz)$, and no
-model-order reduction is possible ($\nu = \nz$).
-
-To summarize, we have found such a transformation $\transform$ and the
-corresponding random vector $\vz \sim F_{\vz}$ that: 1) $F_{\vz}$ is supported
-by $[0, 1]^\nz$, and 2) \vz has the smallest number of dimensions \nz needed to
-preserve $\eta$ portion of the variance. Let us emphasize that this $\transform$
-is an example; the framework works with any $\transform$ that yields $\vz \sim
-F_{\vz}$ for some \nz.
 
 \subsection{Application Timing}
 
