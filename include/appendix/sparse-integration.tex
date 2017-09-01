@@ -63,15 +63,16 @@ drastic saving of the computation time. Define $\Delta_0 = \quadrature{1}{0}$
 and $\Delta_i = \quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then
 Smolyak's approximating formula is
 \begin{equation} \elab{integration-smolyak}
-  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \Delta_{i_1} \otimes \cdots \otimes \Delta_{i_n}.
+  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \Delta_{i_1} \otimes \cdots \otimes \Delta_{i_n}
 \end{equation}
-In the original (isotropic) formulation of the Smolyak algorithm,
+where $\vi \in \natural^n$ is an index (a multi-index). In the original
+(isotropic) formulation of the Smolyak algorithm,
 \begin{equation} \elab{index-total-order-isotropic}
   \sparseindex{n}{\lq} = \left\{ \vi \in \natural^n: \norm[1]{\vi} \leq \lq \right\}
 \end{equation}
-where $\norm[1]{\cdot}$ stands for the Manhattan norm. The multi-index set
-$\sparseindex{n}{\lq}$ is called a total-order multi-index set since it
-constrains polynomials by their total order \cite{eldred2008, beck2011}, and its
+where $\norm[1]{\cdot}$ stands for the Manhattan norm. The index set
+$\sparseindex{n}{\lq}$ is called a total-order index set since it constrains
+polynomials by their total order \cite{eldred2008, beck2011}, and its
 cardinality can be calculated as follows:
 \begin{equation} \elab{index-total-order-isotropic-length}
   \nq = \cardinality{\sparseindex{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.

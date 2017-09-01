@@ -98,9 +98,9 @@ following series (see Stage~3 in \fref{chaos-overview}):
   \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
 \end{equation}
 where $\lc \in \natural$ is the level of the expansion; $\vi = (i_k) \in
-\natural^\nz$ is a multi-index; $\sparseindex{\nz}{\lc}$ is a multi-index set;
-and $\{ \psi_{\vi} \}$ are \nz-variate orthonormal polynomials of orders
-specified by the corresponding elements of \vi.
+\natural^\nz$ is an index; $\sparseindex{\nz}{\lc}$ is an index set; and $\{
+\psi_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ are \nz-variate orthonormal
+polynomials of orders specified by the corresponding elements of \vi.
 
 It can be seen that the foremost step toward a polynomial expansion is the
 choice of a suitable polynomial basis, which is typically made based on the
@@ -129,13 +129,13 @@ corresponding points and weights, respectively. The operator
 $\quadrature{\nz}{\lq}$ is constructed by means of the isotropic Smolyak
 algorithm \cite{smolyak1963} as shown in \eref{integration-smolyak}. The
 important aspect to note about \eref{integration-smolyak} is the structure of
-the operator, namely, the multi-index index set $\sparseindex{\nz}{\lq}$, which
-we discuss now.
+the operator, namely, the index set $\sparseindex{\nz}{\lq}$, which we discuss
+in what follows.
 
 The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
 one in \eref{index-total-order-isotropic}, which is called an isotropic
-total-order multi-index set. \emph{Isotropic} refers to constraining all
-dimensions identically, and \emph{total-order} refers to the criterion used for
+total-order index set. \emph{Isotropic} refers to constraining all dimensions
+identically, and \emph{total-order} refers to the criterion used for
 constraining each dimension. Since $\psi_{\vi}$ is a polynomial of total order
 at most \lc, and \g is approximated by such a polynomial, the integrand in
 \eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. Then
@@ -144,15 +144,15 @@ total order up to $2 \lc$ \cite{eldred2008}. In the case of Gaussian quadratures
 discussed in \sref{sparse-integration}, a quadrature of level \lq is exact for
 polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
 this particular and very common case, it is sufficient to keep \lc and \lq
-equal. More generally, the multi-index sets $\sparseindex{\nz}{\lc}$ in
-\eref{chaos-expansion} and $\sparseindex{\nz}{\lq}$ in \eref{chaos-coefficient}
-should be synchronized.
+equal. More generally, the index set $\sparseindex{\nz}{\lc}$ in
+\eref{chaos-expansion} and the one in $\sparseindex{\nz}{\lq}$ in
+\eref{chaos-coefficient} should be synchronized.
 
 An important generalization of the isotropic Smolyak algorithm in
 \eref{integration-smolyak} is the anisotropic Smolyak algorithm
 \cite{nobile2008}. The main difference between the isotropic and anisotropic
 versions lies in the content of $\sparseindex{\nz}{\lq}$. An anisotropic
-total-order multi-index set is defined as follows:
+total-order index set is defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
   \sparseindex{\nz}{\lq} = \left\{ \vi \in \natural^\nz: \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
 \end{equation}
@@ -161,7 +161,7 @@ is a vector assigning importance weights to the dimensions, and
 $\innerproduct{\cdot}{\cdot}$ is the standard inner product in $\real^\nz$.
 Equation \eref{index-total-order-anisotropic} plugged into
 \eref{integration-smolyak} results in a sparse grid that is exact for the
-polynomial subspace obtained using the same multi-index set.
+polynomial subspace that is obtained using the same index set.
 
 The above approach allows one to exploit the highly anisotropic behavior that is
 inherent in many practical problems \cite{nobile2008}. It provides a fine
@@ -194,16 +194,16 @@ show next.
 \inputalgorithm{chaos-expansion}
 Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of
 $\sparseindex{\nz}{\lc}$, which is also the number of polynomial terms or,
-equivalently, coefficients in \eref{chaos-expansion}. Assume that the
-multi-index set $\sparseindex{\nz}{\lc}$ is given a certain ordering so that one
-can refer to its elements using an ordinary index $i = \range{1}{\nc}$. Now, let
+equivalently, coefficients in \eref{chaos-expansion}. Assume that the index set
+$\sparseindex{\nz}{\lc}$ is given a certain ordering so that one can refer to
+its elements using an ordinary index $i = \range{1}{\nc}$. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
-  \Pi = (\psi_{\vi_i}(\vx_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
+  \Pi = (\psi_i(\vx_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
 \end{equation}
 The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
-multi-index $i$ evaluated at quadrature point $j$ and multiplied by quadrature
-weight $j$. The matrix $\Pi$ is referred to as the projection matrix. Using
-$\Pi$, the coefficients $\{ \hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in
+index $i$ evaluated at quadrature point $j$ and multiplied by quadrature weight
+$j$. The matrix $\Pi$ is referred to as the projection matrix. Using $\Pi$, the
+coefficients $\{ \hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in
 \eref{chaos-expansion} can now be trivially computed as
 \begin{equation} \elab{chaos-coefficients}
   \hat{\vg} = \Pi \, \vg
@@ -224,12 +224,12 @@ characterization of a quantity of interest, we construct a polynomial expansion
 of this quantity as shown in \eref{chaos-expansion}. The coefficients of this
 expansion are found by means of a suitable multivariate quadrature as shown in
 \eref{chaos-coefficient}. The quadrature is constructed via the Smolyak formula
-given in \eref{integration-smolyak}. The multi-index set used in both
+given in \eref{integration-smolyak}. The index set used in both
 \eref{chaos-expansion} and \eref{integration-smolyak} is the one given in
 \eref{index-total-order-anisotropic} where the anisotropic weights can be set
 according to \eref{chaos-anisotropic-weight}. For computational efficiency, the
-projection matrix in \eref{chaos-projection-matrix} is to be calculated once and
-used thereafter.
+projection matrix in \eref{chaos-projection-matrix} is to be calculated only
+once and used thereafter.
 
 \subsection{Post-Processing}
 \slab{chaos-post-processing}
