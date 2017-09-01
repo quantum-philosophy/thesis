@@ -2,19 +2,29 @@ In numerical integration, the integral of a function $\g: \real \to \real$
 \[
   I = \int_\real \g(\x) \d \x
 \]
-is approximated by a summation of the function's values computed at prescribed
-points $\{ \hat{\x}_i \}_{i = 1}^\nq \subset \real$ and multiplied by prescribed
-weights $\{ w_i \}_{i = 1}^\nq \subset \real$, which we denote as the following
-operator:
+is approximated as
 \[
-  I \approx \quadrature{1}{\lq}{\g} = \sum_{i = 1}^\nq \g(\hat{\x}_i) w_i.
+  I \approx \quadrature{1}{i}{\g} = \sum_{j \in \tensorindex{1}{i}} \g(\hat{\x}_j) w_j,
 \]
-Such a pair of a set of points and a set of weights is called a quadrature rule.
-In the notation $\quadrature{1}{\lq}$, the superscript $1$ indicates that it is
-a one-dimensional rule, and the subscript $\lq \in \natural$ gives the level of
-the rule, which is its index in the corresponding family of rules with
-increasing precision. \emph{Precision} refers to the maximum total order of
-polynomials that the rule integrates exactly \cite{heiss2008}.
+which is a summation of the function's values computed at prescribed points and
+multiplied by prescribed weights. Such a pair of a set of points and a set of
+weights is called a quadrature rule. In the notation $\quadrature{1}{i}$, the
+superscript $1$ indicates that it is a one-dimensional rule, and the subscript
+$i \in \natural$ gives the level of the rule, which is its index in the
+corresponding family of rules with increasing precision. \emph{Precision} refers
+to the maximum total order of polynomials that the rule integrates exactly
+\cite{heiss2008}. In the above formula,
+\[
+  \begin{split}
+    & \X^1_i = \{ \hat{\x}_j: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
+    & \W^1_i = \{ w_j: j \in \tensorindex{1}{i} \} \subset \real
+  \end{split}
+\]
+are the points and weights, respectively, and
+\[
+  \tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i} \subset \natural
+\]
+is a set indexing the first two sets where $n_i$ denotes its cardinality.
 
 Similarly, in multiple dimensions, the integral of a function $\g: \real^n \to
 \real$
@@ -22,53 +32,68 @@ Similarly, in multiple dimensions, the integral of a function $\g: \real^n \to
   I = \int_{\real^n} \g(\vx) \d \vx
 \]
 is approximated as
-\begin{equation} \elab{quadrature-summation}
-  I \approx \quadrature{n}{\lq}{\g} = \sum_{i = 1}^\nq \g(\hv{\x}_i) w_i
-\end{equation}
-where $\{ \hv{\x}_i \}_{i = 1}^\nq \subset \real^n$ and $\{ w_i \}_{i = 1}^\nq
-\subset \real$. The number of points \nq of the integration grid---and the
-number of weights---depends on both $n$ and \lq.
+\[
+  I \approx \quadrature{n}{\vi}{\g} = \sum_{\vj \in \tensorindex{n}{\vi}} \g(\hv{\x}_{\vj}) w_{\vj}
+\]
+where
+\[
+  \begin{split}
+    & \X^n_{\vi} = \{ \hv{\x}_{\vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
+    & \W^n_{\vi} = \{ w_{\vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real. \\
+  \end{split}
+\]
+and the points and weights, respectively, and $\tensorindex{n}{\vi} \subset
+\natural^n$ is an index set with a cardinality $n_{\vi}$, which dependents on
+both $n$ and \vi.
 
-The foundation of an $n$-dimensional rule $\quadrature{n}{\lq}$ is a set of
+The foundation of an $n$-dimensional rule $\quadrature{n}{\vi}$ is a set of
 one-dimensional counterparts of various levels. The most straightforward
-construction of such a rule is the tensor product of $n$ copies of
-$\quadrature{1}{\lq}$ as follows:
+construction of such a rule is the full tensor product denoted by
 \begin{equation} \elab{integration-tensor}
-  \quadrature{n}{\lq} = \bigotimes_{i = 1}^n \quadrature{1}{\lq},
+  \quadrature{n}{\vi} = \bigotimes_{k = 1}^n \quadrature{1}{i_k},
 \end{equation}
-which is referred to as the full tensor product. If $\quadrature{1}{\lq}$ has
-\nq points, $\quadrature{n}{\lq}$ has $n_\mathrm{q}^n$ points, that is, the
-growth of the number of points is exponential. In low dimensions, the grows is
-manageable; however, in high dimensions, the situation changes dramatically as
-the number of points produced by this approach can easily explode. For instance
-\cite{heiss2008}, if a one-dimensional rule has only 4 points, that is, $\nq =
-4$, then in 10 stochastic dimensions, that is, $n = 10$, the number of
-multivariate points becomes $\nq = 4^{10} = 1~048~576$, which is not affordable.
-Moreover, it can be shown that most of the points obtained in this way do not
-contribute to the asymptotic accuracy and, hence, are a waste of time. In
-particular, if the integrand under consideration is a polynomial whose total
-order is constrained according to a certain strategy, the full tensor product
-cannot take this information into account. Consequently, a different
-construction technique should be utilized in the case of high-dimensional
-problems.
+in which case
+\[
+  \begin{split}
+    & \tensorindex{n}{\vi} = \tensorindex{1}{i_1} \times \cdots \times \tensorindex{1}{i_n} \text{ and} \\
+    & n_{\vi} = \cardinality{\tensorindex{n}{\vi}} = \prod_{k = 1}^n n_{i_k}.
+  \end{split}
+\]
+It can be seen that, in this case, the growth of the number of points with
+respect to the number of dimensions is exponential. In low dimensions, the grows
+is manageable; however, in high dimensions, the situation changes dramatically
+as the number of points produced by this approach can easily explode. For
+instance \cite{heiss2008}, if each one-dimensional rules has only 4 points, that
+is, $n_i = 4$, then in 10 stochastic dimensions, that is, $n = 10$, the number
+of multivariate points becomes $n_{\vi} = 4^{10} = 1~048~576$, which is by far
+not affordable. Moreover, it can be shown that most of the points obtained in
+this way do not contribute to the asymptotic accuracy and, therefore, are a
+waste of time. In particular, if the integrand under consideration is a
+polynomial whose total order is constrained according to a certain strategy, the
+full tensor product cannot take this information into account. Consequently, a
+different construction technique should be utilized in the case of
+high-dimensional integration problems.
 
 An alternative construction is the Smolyak algorithm \cite{smolyak1963}; see
 also \cite{eldred2008, heiss2008, maitre2010}. The algorithm combines a range of
-one-dimensional rules in such a way that $\quadrature{n}{\lq}$ is tailored to be
-exact only for a specific polynomial subspace. The result is a sparse
-integration grid, which allows for a significantly reduction of the number of
-points and, thus, of the subsequent work. For instance, in the example given
-earlier, the number of points would only be $\nq = 1~581$, which would entail a
-drastic saving of the computation time. Define $\Delta_0 = \quadrature{1}{0}$
-and $\Delta_i = \quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then
-Smolyak's approximating formula is
+one-dimensional rules in such a way that the integration grid is tailored to be
+exact only for a specific polynomial subspace. The result is a sparse grid,
+which allows for a significantly reduction of the number of points and, thus, of
+the subsequent work. For instance, in the example given earlier, the number of
+points would only be $n_{\vi} = 1~581$, which would entail a drastic saving of
+the computation time. Define $\Delta_0 = \quadrature{1}{0}$ and $\Delta_i =
+\quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then Smolyak's
+formula of level \lq is
 \begin{equation} \elab{integration-smolyak}
-  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \bigotimes_{k = 1}^n \Delta_{i_k}
+  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \bigotimes_{k = 1}^n \Delta_{i_k},
 \end{equation}
-where $\vi \in \natural^n$ is an index (a multi-index). In the original
-(isotropic) formulation of the Smolyak algorithm,
+in which case
+\begin{equation} \elab{quadrature-summation}
+  I \approx \quadrature{n}{\lq}{\g} = \sum_{\vi \in \sparseindex{n}{\lq}} \g(\hv{\x}_{\vi}) w_{\vi}.
+\end{equation}
+In the original (isotropic) formulation of the Smolyak algorithm,
 \begin{equation} \elab{index-total-order-isotropic}
-  \sparseindex{n}{\lq} = \left\{ \vi \in \natural^n: \norm[1]{\vi} \leq \lq \right\}
+  \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \norm[1]{\vi} \leq \lq \right\}
 \end{equation}
 where $\norm[1]{\cdot}$ stands for the Manhattan norm. The index set
 $\sparseindex{n}{\lq}$ is called a total-order index set since it constrains
@@ -78,13 +103,12 @@ cardinality can be calculated as follows:
   \nq = \cardinality{\sparseindex{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
 \end{equation}
 It can be seen that the construction in \eref{integration-smolyak} is a
-summation of cherry-picked tensor products of one-dimensional rules; this
-formula is well suited for grasping the structure of the resulting sparse grid.
-Note also that, although we use the same notation in \eref{integration-tensor}
-and \eref{integration-smolyak}, the two constructions are generally different;
-the latter reduces to the former if we let
+summation of cherry-picked tensor products of one-dimensional quadrature rules;
+this formula is well suited for grasping the structure of the resulting sparse
+integration grid. Note also that \eref{integration-smolyak} reduces to
+\eref{integration-tensor} if we let
 \[
-  \sparseindex{n}{\lq} = \left\{ \vi \in \natural^n: \max_{k = 1}^n i_k \leq \lq \right\}.
+  \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \max_{k = 1}^n i_k \leq \lq \right\}.
 \]
 
 Consider now the following more general integral:
