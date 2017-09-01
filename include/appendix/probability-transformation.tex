@@ -22,8 +22,8 @@ principal component analysis \cite{hastie2013}. It transforms potentially
 correlated random variables---which, without loss of generality, are assumed to
 be centered---into linearly uncorrelated random variables. Conversely, it allows
 one to transition from a random vector $\vx_1$ with $n_1$ linearly uncorrelated
-components into a random vector $\vx_2$ with a prescribed correlation structure.
-Specifically, the relationship between the two vectors is
+components into an $n_1$-dimensional random vector $\vx_2$ with a prescribed
+correlation structure. Specifically, the relationship between the two vectors is
 \begin{equation} \elab{karhunen-loeve}
   \vx_2 = \transform_2(\vx_1) = \m{U} \m{\Lambda}^\frac{1}{2} \vx_1
 \end{equation}
@@ -66,11 +66,11 @@ and the only available information about $\vx_2$ is the marginal distributions
 $\{ F_{2i} \}_{i = 1}^{n_2}$ and correlation matrix $\correlation{\vx_2}$, which
 are not sufficient to recover the joint distribution in general. The goal is to
 transform $\vx_1$ into such a random vector that has the same marginal
-distributions and correlation matrix as $\vx_2$ and, thereby, approximates
+distributions and correlation matrix as $\vx_2$ does and, thereby, approximates
 $\vx_2$ as closely as possible.
 
 Making use of the first two transformations outlined above, we obtain a
-potential solution, which we loosely denote as follows:
+potential solution, which is loosely denoted as follows:
 \begin{equation} \elab{probability-transformation}
   \vx_2 \approx \transform_3(\vx_1) = (\transform_1 \circ \transform_2 \circ \transform_1)(\vx_1).
 \end{equation}
