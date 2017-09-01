@@ -94,193 +94,22 @@ which is to be discussed in \sref{interpolant-application}.
 \section{Surrogate Construction}
 
 In this section, we present the algorithm that constitutes the core of the
-proposed framework for probabilistic analysis of electronic systems. It
-corresponds to the third box from the left in \fref{example}. The algorithm
-features a sparse-grid structure, hierarchical construction, and hybrid
-adaptivity. The benefits of these features are interconnected and can be
-summarized as follows: the ability to efficiently tackle multidimensional
-problems, the ability to perform gradual refinement of the approximation with a
-natural error control, and the ability to make the refinement fine-grained and,
-therefore, gain further efficiency. The mathematics presented in
-\sref{tensor}--\ref{sec:adaptivity} is a distilled version of the one developed
-in \cite{jakeman2012, klimke2006, ma2009}.
+proposed framework for probabilistic analysis of computer systems. The algorithm
+features a sparse structure, hierarchical construction, and hybrid adaptivity.
+The benefits of these features are interconnected and can be summarized as
+follows: the ability to efficiently tackle multidimensional problems, the
+ability to perform gradual refinement of the approximation with a natural error
+control, and the ability to make the refinement fine-grained and, therefore,
+gain further efficiency.
+
+The mathematics presented here is a distilled version of the one developed in
+\cite{klimke2006, ma2009, jakeman2012}.
 
 Let \f be a function that we would like to approximate; the connection between
 \f and \g will be explained in \sref{analysis}. The function is assumed to be in
 $\continuous([0, 1]^n)$, the space of continuous functions in the unit hypercube
 $[0, 1]^n$. The assumption is a formality and does not impose any restrictions
 in practice.
-
-\subsection{Tensor Product}
-
-In one dimension ($n = 1$), \f is approximated by virtue of the following
-interpolation formula:
-\[
-  \tensor{i}(\f) = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) \, e_{ij}
-\]
-where $i \geq 0$ signifies the level of interpolation; $\X_i = \{ \x_{ij} \}_{j
-\in \tensorindex{1}{i}} \subset [0, 1]$ are the collocation nodes; $\E_i = \{
-e_{ij} \}_{j \in \tensorindex{1}{i}} \subset \continuous([0, 1])$ are the basis
-functions; and $\tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i}$ is an index set
-enumerating (starting from zero) the nodes and functions of level $i$. The
-subscript $j \in \tensorindex{1}{i}$ is referred to as the order of a node or
-function. The choice of $\X_i$ and $\E_i$ is important and will be discussed
-thoroughly later on.
-
-In multiple dimensions ($n > 1$), \f is approximated by the tensor product of
-$n$ one-dimensional interpolants:
-\[
-  \tensor{\vi}(\f)
-  = \left( \bigotimes_{k = 1}^n \tensor{1}{i_k} \right)(\f)
-  = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) \, e_{\vi \vj}
-\]
-where $\vi = (i_k)_{k = 1}^n$ and $\vj = (j_k)_{k = 1}^n$ are (multi-)indices
-specifying levels and orders, respectively, for each of the dimensions, and
-$\tensorindex{n}{\vi} = \tensorindex{n}{i_1} \times \cdots \times
-\tensorindex{n}{i_n}$ is an index set obtained by computing the Cartesian
-product of one-dimensional index sets. In the above formula,
-\begin{align*}
-  \X_{\vi} &= \X_{i_1} \times \cdots \times \X_{i_n} \\
-           &= \left\{ \vx_{\vi \vj} = (x_{i_k j_k})_{k = 1}^n \right\}_{\vj \in \tensorindex{n}{\vi}} \subset [0, 1]^n
-\end{align*}
-and
-\[
-  \E_{\vi}
-  = \bigotimes_{k = 1}^n \E_{i_k}
-  = \left\{ e_{\vi \vj} = \bigotimes_{k = 1}^n e_{i_k j_k} \right\}_{\vj \in \tensorindex{n}{\vi}} \subset \continuous([0, 1]^n)
-\]
-are the collocation nodes and basis functions, respectively, corresponding to
-index \vi. In \eref{basis-functions}, for any $\vx \in [0, 1]^n$,
-\[
-  e_{\vi \vj}(\vx)
-  = \left( \bigotimes_{k = 1}^n e_{i_k j_k} \right)(\vx)
-  = \prod_{k = 1}^n e_{i_k j_k}(x_k).
-\]
-Finally, the cardinality of $\tensorindex{n}{\vi}$ is as follows:
-\[
-  n_{\vi}
-  = \cardinality{\tensorindex{n}{\vi}}
-  = \prod_{k = 1}^n \cardinality{\tensorindex{n}{i_k}}
-  = \prod_{k = 1}^n n_{i_k}.
-\]
-Equation \eref{tensor-cardinality} elucidates the prohibitive expense of the
-tensor-product construction shown in \eref{tensor-nd} for multidimensional
-problems: the number of nodes grows exponentially as $n$ increases. However,
-\eref{tensor-nd} serves well as a building block for more efficient algorithms,
-which we discuss next.
-
-\subsection{Smolyak Algorithm}
-
-One of the central algorithms in the field of multidimensional integration and
-interpolation is the Smolyak algorithm \cite{smolyak1963}. Intuitively speaking,
-the algorithm takes a number of small tensor-product structures and composes
-them in such a way that the resulting grid has a drastically reduced number of
-nodes while preserving the approximating power of the full tensor-product
-construction for the classes of functions that one is typically interested in
-integrating or interpolating \cite{klimke2006}.
-
-The Smolyak interpolant for \f is as follows:
-\[
-  \sparse{n}{l}(\f) = \sum_{\l - n + 1 \leq |\vi| \leq l} (-1)^{l - |\vi|} \, {n - 1 \choose l - |\vi|} \, \tensor{n}{\vi}(\f)
-\]
-where $l \geq 0$ is the index of the interpolation step, which we shall refer to
-as the Smolyak level, and $|\vi| = i_1 + \dots + i_n$. It can be seen that the
-algorithm is indeed just a peculiar composition of cherry-picked tensor
-products. However, the formula has an implication of paramount importance. The
-function \f needs to be evaluated only at the nodes of the grid underpinning
-\eref{smolyak-original}:
-\[
-  \Y_l = \bigcup_{l - n + 1 \leq |\vi| \leq l} \X_{\vi}.
-\]
-The cardinality of the above set does not have a general closed-form formula;
-however, it can be several orders of magnitude smaller than the one of the full
-tensor product given in \eref{tensor-cardinality}, which depends on the
-dimensionality of the problem at hand and the one-dimensional rules utilized
-(\sref{tensor}).
-
-A better intuition about the properties of the Smolyak construction can be
-obtained by rewriting \eref{smolyak-original} in an incremental form. To this
-end, let $\Delta\tensor{n}{-1}(\f) = 0$,
-\begin{align*}
-  & \Delta\tensor{n}{i}(\f) = (\tensor{n}{i} - \tensor{n}{i - 1})(\f), \text{ and} \\
-  & \Delta\tensor{n}{\vi}(\f) = \left( \bigotimes_{k = 1}^n \Delta\tensor{n}{i_k} \right)(\f).
-\end{align*}
-Then, \eref{smolyak-original} is identical to
-\[
-  \sparse{n}{l}(\f)
-  = \sum_{\vi \in \sparseindex{n}{l}} \Delta\tensor{n}{\vi}(\f)
-  = \sparse{n}{l - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{l}} \Delta\tensor{n}{\vi}(\f)
-\]
-where $\sparse{n}{-1}(\f) = 0$, and we let $\sparseindex{n}{l} = \{ \vi: |\vi|
-\leq l \}$ and $\Delta\sparseindex{n}{l} = \{ \vi: |\vi| = l \}$. It can be seen
-that a Smolyak interpolant can be efficiently refined: the work done in order to
-attain one Smolyak level $l$ is entirely recycled to go to the next.
-
-The sparsity and incremental refinement of the Smolyak approach, which are shown
-in \eref{smolyak-grid} and \eref{smolyak-incremental}, respectively, are
-remarkable properties by themselves, but they can be taken even further. To this
-end, let $\Delta\X_{-1} = \emptyset$,
-\[
-  \begin{split}
-    & \Delta\X_i = \X_i \setminus \X_{i - 1}, \text{ and } \\
-    & \Delta\X_{\vi} = \Delta\X_{i_1} \times \cdots \times \Delta\X_{i_n}.
-  \end{split}
-\]
-Then, \eref{smolyak-grid} can be rewritten as
-\[
-  \Y_l = \bigcup_{\vi \in \sparseindex{n}{l}} \Delta\X_{\vi} = \Y_{l - 1} \cup \bigcup_{\vi \in \Delta\sparseindex{n}{l}} \Delta\X_{\vi},
-\]
-which is analogous to \eref{smolyak-incremental}. It can be seen now that it is
-beneficial to the refinement to have $\X_{i - 1}$ be entirely included in $\X_i$
-since, in that case, the cardinality of $\Y_l \setminus \Y_{l - 1} =
-\bigcup_{\vi \in \Delta\sparseindex{n}{l}} \Delta\X_{\vi}$ derived from
-\eref{smolyak-grid-incremental} decreases. In words, the values of \f obtained
-on lower levels (lower $l$) can be reused to attain higher levels (higher $l$)
-if the grid grows without abandoning its previous structure. With this in mind,
-the rule used for generating successive sets of points $\{ \X_i \}_i$ should be
-chosen to be nested, that is, in such a way that $\X_i$ contains all nodes of
-$\X_{i - 1}$.
-
-The final step in this subsection is to rewrite \eref{smolyak-incremental} in a
-hierarchical form. To this end, we require the interpolants of higher levels to
-represent exactly the interpolants of lower levels. In one dimension, it means
-that
-\[
-  \tensor{1}{i - 1}(\f) = \tensor{n}{i}(\tensor{1}{i - 1}(\f)).
-\]
-The condition in \eref{tensor-exactness} can be satisfied by an appropriate
-choice of collocation nodes and basis functions, which will be discussed later.
-If \eref{tensor-exactness} holds, using \eref{tensor-1d} and
-\eref{tensor-delta-1d},
-\[
-  \Delta\tensor{1}{i}(\f) = \sum_{j \in \Delta\tensorindex{1}{i}} \left( \f(\x_{ij}) - \tensor{1}{i - 1}(\f)(\x_{ij}) \right) \, e_{ij}
-\]
-where $\Delta\tensorindex{1}{i} = \{ j \in \tensorindex{1}{i}: \x_{ij} \in
-\Delta\X_i \}$. The above sum is over $\Delta\X_i$ due to the fact that the
-difference in the parentheses is zero whenever $\x_{ij} \in \X_{i - 1}$ since
-$\X_{i - 1} \subset \X_i$.
-
-In multiple dimensions, using the Smolyak formula,
-\[
-  \Delta\tensor{n}{\vi}(\f) = \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \left( \f(\vx_{\vi\vj}) - \sparse{|\vi| - 1}(\f)(\vx_{\vi \vj}) \right) \, e_{\vi \vj}
-\]
-where $\Delta\tensorindex{n}{\vi} = \{ \vj \in \tensorindex{n}{\vi}:
-\vx_{\vi \vj} \in \Delta\X_{\vi} \}$. The delta
-\[
-  \Delta\f(\vx_{\vi \vj}) = \f(\vx_{\vi \vj}) - \sparse{n}{|\vi| - 1}(\f)(\vx_{\vi \vj})
-\]
-is called a hierarchical surplus. When increasing the interpolation level, this
-surplus is nothing but the difference between the actual value of \f at a new
-node and the approximation of this value computed by the interpolant constructed
-so far.
-
-The final formula for nonadaptive hierarchical interpolation is obtained by
-substituting \eref{tensor-delta} into \eref{smolyak-incremental}:
-\begin{align*}
-  \sparse{l}(\f) &= \sum_{\vi \in \sparseindex{n}{l}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj} \\
-                &= \sparse{n}{l - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{l}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj}
-\end{align*}
-where $\Delta\f(\vx_{\vi \vj})$ is computed according to \eref{surplus}.
 
 \subsection{Collocation Nodes}
 

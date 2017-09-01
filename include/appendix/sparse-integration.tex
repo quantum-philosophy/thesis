@@ -35,7 +35,8 @@ is approximated as
 \[
   I \approx \quadrature{n}{\vi}{\g} = \sum_{\vj \in \tensorindex{n}{\vi}} \g(\vx_{\vi \vj}) w_{\vi \vj}
 \]
-where
+where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
+(multi-)indices. Further,
 \[
   \begin{split}
     & \X^n_{\vi} = \{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
@@ -53,12 +54,16 @@ construction of such a rule is the full tensor product denoted by
   \quadrature{n}{\vi} = \bigotimes_{k = 1}^n \quadrature{1}{i_k},
 \end{equation}
 in which case
-\[
+\begin{equation} \elab{quadrature-index-tensor}
   \begin{split}
-    & \tensorindex{n}{\vi} = \tensorindex{1}{i_1} \times \cdots \times \tensorindex{1}{i_n} \text{ and} \\
-    & n_{\vi} = \cardinality{\tensorindex{n}{\vi}} = \prod_{k = 1}^n n_{i_k}.
+    & \tensorindex{n}{\vi}
+    = \tensorindex{1}{i_1} \times \cdots \times \tensorindex{1}{i_n} \text{ and} \\
+    & n_{\vi}
+    = \cardinality{\tensorindex{n}{\vi}}
+    = \prod_{k = 1}^n \cardinality{\tensorindex{n}{i_k}}
+    = \prod_{k = 1}^n n_{i_k}.
   \end{split}
-\]
+\end{equation}
 It can be seen that, in this case, the growth of the number of points with
 respect to the number of dimensions is exponential. In low dimensions, the grows
 is manageable; however, in high dimensions, the situation changes dramatically
@@ -74,16 +79,19 @@ full tensor product cannot take this information into account. Consequently, a
 different construction technique should be utilized in the case of
 high-dimensional integration problems.
 
-An alternative construction is the Smolyak algorithm \cite{smolyak1963}; see
-also \cite{eldred2008, heiss2008, maitre2010}. The algorithm combines a range of
-one-dimensional rules in such a way that the integration grid is tailored to be
-exact only for a specific polynomial subspace. The result is a sparse grid,
-which allows for a significantly reduction of the number of points and, thus, of
-the subsequent work. For instance, in the example given earlier, the number of
-points would only be $n_{\vi} = 1~581$, which would entail a drastic saving of
-the computation time. Define $\Delta_0 = \quadrature{1}{0}$ and $\Delta_i =
-\quadrature{1}{i} - \quadrature{1}{i - 1}$ for $i \geq 1$. Then Smolyak's
-formula of level \lq is
+An alternative construction of a multidimensional integration grid is the
+Smolyak algorithm \cite{smolyak1963}, which is one of the central algorithms in
+the field of not only integration but also interpolation, which we elaborate on
+in \sref{sparse-interpolation}; see also \cite{eldred2008, heiss2008,
+maitre2010}. In the context of integration, the algorithm combines a range of
+one-dimensional rules in such a way that the resulting integration grid is
+tailored to be exact only for a specific polynomial subspace. This grid is
+called a sparse grid, and it allows for a significantly reduction of the number
+of points and, thus, of the subsequent work. For instance, in the example given
+earlier, the number of points would only be $n_{\vi} = 1~581$, which would
+entail a drastic saving of the computation time. Define $\Delta_0 =
+\quadrature{1}{0}$ and $\Delta_i = \quadrature{1}{i} - \quadrature{1}{i - 1}$
+for $i \geq 1$. Then Smolyak's formula of level \lq is
 \begin{equation} \elab{integration-smolyak}
   \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \bigotimes_{k = 1}^n \Delta_{i_k},
 \end{equation}
