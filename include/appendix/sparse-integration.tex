@@ -40,12 +40,12 @@ where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
 \[
   \begin{split}
     & \X^n_{\vi} = \{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
-    & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real. \\
+    & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real
   \end{split}
 \]
 and the points and weights, respectively, and $\tensorindex{n}{\vi} \subset
-\natural^n$ is an index set with a cardinality $n_{\vi}$, which dependents on
-both $n$ and \vi.
+\natural^n$ is an index set whose cardinality dependents on both $n$ and \vi and
+is denoted by $n_{\vi}$.
 
 The foundation of an $n$-dimensional rule $\quadrature{n}{\vi}$ is a set of
 one-dimensional counterparts of various levels. The most straightforward
@@ -79,23 +79,28 @@ full tensor product cannot take this information into account. Consequently, a
 different construction technique should be utilized in the case of
 high-dimensional integration problems.
 
-An alternative construction of a multidimensional integration grid is the
-Smolyak algorithm \cite{smolyak1963}, which is one of the central algorithms in
-the field of not only integration but also interpolation, which we elaborate on
-in \sref{sparse-interpolation}; see also \cite{eldred2008, heiss2008,
-maitre2010}. In the context of integration, the algorithm combines a range of
-one-dimensional rules in such a way that the resulting integration grid is
-tailored to be exact only for a specific polynomial subspace. This grid is
-called a sparse grid, and it allows for a significantly reduction of the number
-of points and, thus, of the subsequent work. For instance, in the example given
-earlier, the number of points would only be $n_{\vi} = 1~581$, which would
-entail a drastic saving of the computation time. Define $\Delta_0 =
-\quadrature{1}{0}$ and $\Delta_i = \quadrature{1}{i} - \quadrature{1}{i - 1}$
-for $i \geq 1$. Then Smolyak's formula of level \lq is
+An alternative construction is the Smolyak algorithm \cite{smolyak1963}; see
+also \cite{klimke2006, eldred2008, heiss2008, maitre2010}. The algorithm is a
+central technique in the field of not only integration but also interpolation;
+the latter is elaborated on in \sref{sparse-interpolation}. In the context of
+integration, the algorithm combines a range of one-dimensional rules in such a
+way that the resulting grid is tailored to be exact only for a certain
+polynomial subspace. Such grids are called sparse grids, and they allow for a
+significantly reduction of the number of points and, thus, of the subsequent
+work. For instance, in the example given earlier, the number of points would
+only be $n_{\vi} = 1~581$, which is a drastic saving of the computation time.
+
+To begin with, define
+\begin{align*}
+  & \quadrature{1}{-1} = 0, \\
+  & \Delta\quadrature{1}{i} = \quadrature{1}{i} - \quadrature{1}{i - 1}, \text{ and} \\
+  & \Delta\quadrature{n}{\vi} = \bigotimes_{k = 1}^n \Delta\quadrature{1}{i_k}.
+\end{align*}
+Then Smolyak's formula of level \lq is as follows:
 \begin{equation} \elab{integration-smolyak}
-  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \bigotimes_{k = 1}^n \Delta_{i_k},
+  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \Delta\quadrature{n}{\vi},
 \end{equation}
-in which case
+and the corresponding approximation is written as
 \begin{equation} \elab{quadrature-summation}
   I \approx \quadrature{n}{\lq}{\g} = \sum_{\vi \in \sparseindex{n}{\lq}} \g(\vx_{\vi}) w_{\vi}.
 \end{equation}
