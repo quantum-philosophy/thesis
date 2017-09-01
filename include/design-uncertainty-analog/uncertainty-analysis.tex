@@ -124,14 +124,14 @@ utilized. The result is
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
   = \sum_{\vj \in \sparseindex{\nz}{\lq}} \g(\transform{\vx_{\vj}}) \psi_{\vi}(\vx_{\vj}) w_{\vj}
 \end{equation}
-where $\lq \in \natural$ is the level of the quadrature; $\{ \vx_{\vj} \}
-\subset \real^\nz$ and $\{ w_{\vj} \} \subset \real$ are the corresponding
-points and weights, respectively; and $\cardinality{\sparseindex{\nz}{\lq}}$ is
-denoted by \nq. The operator $\quadrature{\nz}{\lq}$ is constructed by means of
-the Smolyak algorithm \cite{smolyak1963} as shown in \eref{integration-smolyak}.
-The important aspect to note about \eref{integration-smolyak} is the structure
-of the operator, namely, the index set $\sparseindex{\nz}{\lq}$, which we
-discuss in what follows.
+where $\lq \in \natural$ is the level of the quadrature, and $\{ \vx_{\vj}: \vj
+\in \sparseindex{\nz}{\lq} \} \subset \real^\nz$ and $\{ w_{\vj}: \vj \in
+\sparseindex{\nz}{\lq}  \} \subset \real$ are the corresponding points and
+weights, respectively. The operator $\quadrature{\nz}{\lq}$ is constructed by
+means of the Smolyak algorithm \cite{smolyak1963} as shown in
+\eref{integration-smolyak}. The important aspect to note about
+\eref{integration-smolyak} is the structure of the operator, namely, the index
+set $\sparseindex{\nz}{\lq}$, which we discuss in what follows.
 
 The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
 one in \eref{index-total-order-isotropic}, which is called an isotropic
@@ -194,10 +194,13 @@ show next.
 
 \inputalgorithm{chaos-expansion}
 Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of
-$\sparseindex{\nz}{\lc}$, which is also the number of polynomial terms or,
-equivalently, coefficients in \eref{chaos-expansion}. Assume that the index set
+$\sparseindex{\nz}{\lc}$, which is the number of polynomial terms and
+coefficients in \eref{chaos-expansion}. Let also $\nq =
+\cardinality{\sparseindex{\nz}{\lq}}$ be the cardinality of
+$\sparseindex{\nz}{\lq}$, which is the number of quadrature points and weights
+in \eref{chaos-coefficient}. Furthermore, assume that the index set
 $\sparseindex{\nz}{\lc}$ as well as $\sparseindex{\nz}{\lq}$ are given certain
-orderings so that one can refer to their elements using ordinary
+orderings so that one is able to refer to their elements using ordinary
 (one-dimensional) indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$,
 respectively. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
