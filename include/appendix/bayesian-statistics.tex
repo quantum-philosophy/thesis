@@ -5,16 +5,16 @@ describes the relation between \u and \h; and \three~prior beliefs about what \u
 should be. A natural solution is Bayes' theorem \cite{gelman2013}, which is as
 follows:
 \begin{equation} \elab{bayes-theorem}
-  p(\u | H) \propto p(H | \u) p(\u)
+  p(\u | H) \propto p(H | \u) p(\u).
 \end{equation}
-where $p$ denotes a probability density function. In \eref{bayes-theorem}, $p(H
-| \u)$ is known as the likelihood function, which accommodates the data model
-and yields the probability of observing the data set $H$ given the parameters
-\u; $p(\u)$ is called the prior of \u, which represents our knowledge on \u
-prior to any observations; and $p(\u | H)$ is known as the posterior of \u given
-$H$. The last is an exhaustive solution to our problem: having constructed $p(\u
-| H)$, all the needed information about \u can be trivially estimated by drawing
-samples from this posterior.
+In this case, $p$ denotes a \ac{PDF}; $p(H | \u)$ is known as the likelihood
+function, which accommodates the data model and yields the probability of
+observing the data set $H$ given the parameters \u; $p(\u)$ is called the prior
+of \u, which represents our knowledge about \u prior to any observations; and
+$p(\u | H)$ is known as the posterior of \u given the data set $H$. The last is
+an exhaustive solution to our problem: having constructed $p(\u | H)$, all the
+needed information about \u can be trivially estimated by drawing samples from
+this posterior.
 
 The posterior distribution does not typically belong to any of the common
 families of probability distributions, which is primarily due to the data model
