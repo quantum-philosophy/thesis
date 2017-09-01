@@ -4,7 +4,7 @@ In numerical integration, the integral of a function $\g: \real \to \real$
 \]
 is approximated as
 \[
-  I \approx \quadrature{1}{i}{\g} = \sum_{j \in \tensorindex{1}{i}} \g(\hat{\x}_j) w_j,
+  I \approx \quadrature{1}{i}{\g} = \sum_{j \in \tensorindex{1}{i}} \g(\x_j) w_j,
 \]
 which is a summation of the function's values computed at prescribed points and
 multiplied by prescribed weights. Such a pair of a set of points and a set of
@@ -16,7 +16,7 @@ to the maximum total order of polynomials that the rule integrates exactly
 \cite{heiss2008}. In the above formula,
 \[
   \begin{split}
-    & \X^1_i = \{ \hat{\x}_j: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
+    & \X^1_i = \{ \x_j: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
     & \W^1_i = \{ w_j: j \in \tensorindex{1}{i} \} \subset \real
   \end{split}
 \]
@@ -25,9 +25,8 @@ are the points and weights, respectively, and
   \tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i} \subset \natural
 \]
 is a set indexing the first two sets where $n_i$ denotes its cardinality. Note
-that, even though the level is not indicated in the notation $\hat{x}_j$ and
-$w_j$, points and weights that belong to different levels are generally
-different.
+that, even though the level is not indicated in the notation $\x_j$ and $w_j$,
+points and weights that belong to different levels are generally different.
 
 Similarly, in multiple dimensions, the integral of a function $\g: \real^n \to
 \real$
@@ -36,12 +35,12 @@ Similarly, in multiple dimensions, the integral of a function $\g: \real^n \to
 \]
 is approximated as
 \[
-  I \approx \quadrature{n}{\vi}{\g} = \sum_{\vj \in \tensorindex{n}{\vi}} \g(\hv{\x}_{\vj}) w_{\vj}
+  I \approx \quadrature{n}{\vi}{\g} = \sum_{\vj \in \tensorindex{n}{\vi}} \g(\vx_{\vj}) w_{\vj}
 \]
 where
 \[
   \begin{split}
-    & \X^n_{\vi} = \{ \hv{\x}_{\vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
+    & \X^n_{\vi} = \{ \vx_{\vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
     & \W^n_{\vi} = \{ w_{\vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real. \\
   \end{split}
 \]
@@ -92,7 +91,7 @@ formula of level \lq is
 \end{equation}
 in which case
 \begin{equation} \elab{quadrature-summation}
-  I \approx \quadrature{n}{\lq}{\g} = \sum_{\vi \in \sparseindex{n}{\lq}} \g(\hv{\x}_{\vi}) w_{\vi}.
+  I \approx \quadrature{n}{\lq}{\g} = \sum_{\vi \in \sparseindex{n}{\lq}} \g(\vx_{\vi}) w_{\vi}.
 \end{equation}
 In the original (isotropic) formulation of the Smolyak algorithm,
 \begin{equation} \elab{index-total-order-isotropic}
