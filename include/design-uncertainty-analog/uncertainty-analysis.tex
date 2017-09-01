@@ -121,16 +121,17 @@ described in \sref{sparse-integration}. Specifically, an adequate
 \nz-dimensional points accompanied by a set of scalar weights---is to be
 utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
-  \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}} = \sum_{i = 1}^\nq \g(\transform{\vx_i}) \psi_{\vi}(\vx_i) w_i
+  \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
+  = \sum_{\vj \in \sparseindex{\nz}{\lq}} \g(\transform{\vx_{\vj}}) \psi_{\vi}(\vx_{\vj}) w_{\vj}
 \end{equation}
-where $\lq \in \natural$ is the level of the quadrature, and $\{ \vx_i \}_{i =
-1}^\nq \subset \real^\nz$ and $\{ w_i \}_{i = 1}^\nq \subset \real$ are the
-corresponding points and weights, respectively. The operator
-$\quadrature{\nz}{\lq}$ is constructed by means of the isotropic Smolyak
-algorithm \cite{smolyak1963} as shown in \eref{integration-smolyak}. The
-important aspect to note about \eref{integration-smolyak} is the structure of
-the operator, namely, the index set $\sparseindex{\nz}{\lq}$, which we discuss
-in what follows.
+where $\lq \in \natural$ is the level of the quadrature; $\{ \vx_{\vj} \}
+\subset \real^\nz$ and $\{ w_{\vj} \} \subset \real$ are the corresponding
+points and weights, respectively; and $\cardinality{\sparseindex{\nz}{\lq}}$ is
+denoted by \nq. The operator $\quadrature{\nz}{\lq}$ is constructed by means of
+the Smolyak algorithm \cite{smolyak1963} as shown in \eref{integration-smolyak}.
+The important aspect to note about \eref{integration-smolyak} is the structure
+of the operator, namely, the index set $\sparseindex{\nz}{\lq}$, which we
+discuss in what follows.
 
 The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
 one in \eref{index-total-order-isotropic}, which is called an isotropic
@@ -154,7 +155,7 @@ An important generalization of the isotropic Smolyak algorithm in
 versions lies in the content of $\sparseindex{\nz}{\lq}$. An anisotropic
 total-order index set is defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
-  \sparseindex{\nz}{\lq} = \left\{ \vi \in \natural^\nz: \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
+  \sparseindex{\nz}{\lq} = \left\{ \vi: \vi \in \natural^\nz, \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
 \end{equation}
 where $\v{c} = (c_i) \in \real^\nz$ with $c_i \geq 0$ for $i = \range{1}{\nz}$
 is a vector assigning importance weights to the dimensions, and
@@ -195,8 +196,10 @@ show next.
 Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of
 $\sparseindex{\nz}{\lc}$, which is also the number of polynomial terms or,
 equivalently, coefficients in \eref{chaos-expansion}. Assume that the index set
-$\sparseindex{\nz}{\lc}$ is given a certain ordering so that one can refer to
-its elements using an ordinary index $i = \range{1}{\nc}$. Now, let
+$\sparseindex{\nz}{\lc}$ as well as $\sparseindex{\nz}{\lq}$ are given certain
+orderings so that one can refer to their elements using ordinary
+(one-dimensional) indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$,
+respectively. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
   \Pi = (\psi_i(\vx_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
 \end{equation}
