@@ -116,7 +116,7 @@ Gaussian distributions.
 As shown in \eref{chaos-inner-product} and \eref{chaos-projection}, each
 coefficient $\hat{\g}_{\vi}$ is an \nz-dimensional integral of the product of \g
 and $\psi_{\vi}$. In general, this integral should be computed numerically as
-described in \sref{numerical-integration}. Specifically, an adequate
+described in \sref{sparse-integration}. Specifically, an adequate
 \nz-dimensional quadrature rule $\quadrature{\nz}{\lq}$---which is a set of
 \nz-dimensional points accompanied by a set of scalar weights---is to be
 utilized. The result is
@@ -141,8 +141,8 @@ at most \lc, and \g is approximated by such a polynomial, the integrand in
 \eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. Then
 one usually constructs such a quadrature rule that is exact for polynomials of
 total order up to $2 \lc$ \cite{eldred2008}. In the case of Gaussian quadratures
-discussed in \sref{numerical-integration}, a quadrature of level \lq is exact
-for polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
+discussed in \sref{sparse-integration}, a quadrature of level \lq is exact for
+polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
 this particular and very common case, it is sufficient to keep \lc and \lq
 equal. More generally, the multi-index sets $\sparseindex{\nz}{\lc}$ in
 \eref{chaos-expansion} and $\sparseindex{\nz}{\lq}$ in \eref{chaos-coefficient}
