@@ -130,23 +130,23 @@ and depicted in \fref{chaos-overview}.
 
 At Stage~2 in \fref{chaos-overview}, \vu should be preprocessed in order to
 extract a vector of mutually independent random variables denoted by \vz.
-Following the guidance given in \sref{chaos-probability-transformation}, the
-most suitable transformation for the ongoing scenario is the one given in
+Following the guidance given in \sref{chaos-transformation}, the most suitable
+transformation for the ongoing scenario is the one given in
 \eref{probability-transformation}, which we denote here by $\transform$; see
 \eref{chaos-transformation}.
 
 Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
 directly impacts the computational cost of \ac{PC} expansions, which is
-elaborated on in \sref{chaos-surrogate-construction}, one should consider a
-possibility for model order reduction before constructing \ac{PC} expansions. To
-this end, the model order reduction described in
-\sref{probability-transformation} is an essential part of and assumed to be
-active in the above transformation. The reduce dimensionality is denoted by \nz.
+elaborated on in \sref{chaos-construction}, one should consider a possibility
+for model order reduction before constructing \ac{PC} expansions. To this end,
+the model order reduction described in \sref{probability-transformation} is an
+essential part of and assumed to be active in the above transformation. The
+reduce dimensionality is denoted by \nz.
 
 The marginal distributions of \vz can be arbitrary as long as one can construct
-a suitable polynomial basis as described in \sref{chaos-surrogate-construction}.
-We let \vz have beta distributions, staying in the same family of distributions
-with \vu.
+a suitable polynomial basis as described in \sref{chaos-construction}. We let
+\vz have beta distributions, staying in the same family of distributions with
+\vu.
 
 \subsection{Surrogate Construction}
 
@@ -193,14 +193,14 @@ in \eref{chaos-recurrence}, which subsequently yield the coefficients of
 temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in \sref{polynomial-chaos},
 these computations involve multidimensional integration with respect to the
 distribution of \vz, which should be done numerically using a quadrature rule;
-recall \sref{chaos-surrogate-construction}. When beta distributions are
-concerned, the natural choice is the Gauss--Jacobi quadrature; see
-\sref{sparse-integration}. Then, using \eref{quadrature-summation}, the
-coefficient are computed as shown in \eref{chaos-coefficient}. It is important
-to note that \lq should be chosen in such a way that the rule is exact for
-polynomials of a total order up to $2 \lc$, that is, twice the level of \ac{PC}
-expansions, which can be seen in \eref{chaos-projection} \cite{eldred2008}.
-Therefore, $\lq \geq \lc + 1$ as the quadrature is Gaussian.
+recall \sref{chaos-construction}. When beta distributions are concerned, the
+natural choice is the Gauss--Jacobi quadrature; see \sref{sparse-integration}.
+Then, using \eref{quadrature-summation}, the coefficient are computed as shown
+in \eref{chaos-coefficient}. It is important to note that \lq should be chosen
+in such a way that the rule is exact for polynomials of a total order up to $2
+\lc$, that is, twice the level of \ac{PC} expansions, which can be seen in
+\eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as the
+quadrature is Gaussian.
 
 To summarize, we have completed four out of five stages of the proposed
 framework depicted in \fref{chaos-overview}. The result is a light surrogate for
