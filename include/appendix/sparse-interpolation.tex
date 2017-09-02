@@ -28,10 +28,10 @@ on the unit hypercube $[0, 1]^n$. The function is approximated as
 \]
 where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
 (multi-)indices specifying levels and orders, respectively. In the case,
-\begin{align*}
-  & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \\
-  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n)
-\end{align*}
+\begin{align}
+  & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \elab{interpolant-tensor-grid} \\
+  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \nonumber
+\end{align}
 are the collocation nodes and basis functions, respectively, and
 $\tensorindex{n}{\vi} \subset \natural^n$ is an index set whose cardinality
 depends on both $n$ and \vi and is denoted by $n_{\vi}$.
@@ -112,9 +112,9 @@ the nodes in $\X^1_{i - 1}$.
 The final step is to rewrite \eref{interpolant-sparse-incremental} in its
 hierarchical form. To this end, we require interpolants of higher levels to
 represent exactly interpolants of lower levels. In one dimension, it means that
-\[
+\begin{equation} \elab{interpolant-tensor-exactness}
   \interpolant{1}{i - 1}(\g) = \interpolant{1}{i}(\interpolant{1}{i - 1}(\g)).
-\]
+\end{equation}
 The above condition can be satisfied by an appropriate choice of collocation
 nodes and basis functions. Assuming that it holds and using
 \eref{interpolant-tensor-1d} and \eref{interpolant-tensor-delta-1d},

@@ -113,11 +113,11 @@ this assumption is a formality and is not limiting in practice. As shown in
 hierarchical interpolant:
 \[
   \g \approx \interpolant{\nz}{\ls}(\g)
-  = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta\g(\vz_{\vi \vj}) e_{\vi \vj}
+  = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj}
 \]
 where $\ls \in \natural$ is the level of the interpolant; $\interpolant{\nz}{-1}
-= 0$; $\{ \vz_{\vi \vj} \}$ and $\{ e_{\vi \vj} \}$ are collocation nodes and
-basis functions, respectively; $\Delta\g(\vz_{\vi \vj})$ is a hierarchical
+= 0$; $\{ \vx_{\vi \vj} \}$ and $\{ e_{\vi \vj} \}$ are collocation nodes and
+basis functions, respectively; $\Delta\g(\vx_{\vi \vj})$ is a hierarchical
 surplus defined in \eref{interpolant-sparse-surplus}; and
 $\Delta\sparseindex{\nz}{\ls}$ and $\Delta\tensorindex{\nz}{\vi}$ are index sets
 defined in \eref{interpolant-sparse-index-delta} and
@@ -129,31 +129,40 @@ Let us now turn to the choice of collocation nodes and basis functions.
 
 \subsection{Collocation Nodes}
 
-A sparse grid that is fully nested and, moreover, well disposed to adaptivity,
-as we shall see, can be constructed using the (one-dimensional) Newton--Cotes
-rule \cite{ma2009}. For each level, the rule is merely a set of equidistant
+As explained in \sref{sparse-interpolation}, the integration grid should
+preferably be fully nested in order to gain additional computational efficiency.
+Such a grid can be constructed using the family of Newton--Cotes rules
+\cite{ma2009}, which, moreover, is well disposed to adaptivity as we shall see
+later on. In one dimension, a Newton--Cotes rule is merely a set of equidistant
 nodes on $[0, 1]$.
 
-There are two types of the rule: closed and open. The only difference between
-the two is that the former includes the endpoints, that is, 0 and 1, while the
-latter does not. Now, in \sref{smolyak}, we postulated that the assumption in
-\eref{tensor-exactness} was needed in order to proceed. The closed rule
-satisfies this assumption, and it is the one used in the original version of
-local adaptivity presented in \cite{ma2009}. The open Newton--Cotes rule, on the
-other hand, violates the assumption close to the boundaries of the interval.
-However, we found that the open rule is a viable option since it performs well
-in practice, which was also noted in \cite{klimke2006}. In fact, we were able to
-obtain better results with the open rule and decided to present it here.
+There are two types of Newton--Cotes rules: closed and open. The only difference
+between the two is that the former includes the endpoints, that is, 0 and 1,
+while the latter does not. Now, in \sref{sparse-interpolation}, we postulate
+that the condition in \eref{interpolant-tensor-exactness} has to be fulfilled in
+order to proceed. The closed type satisfies this condition, and it is the one
+used in the original version of local adaptivity presented in \cite{ma2009}. The
+open type, on the other hand, does not fulfill the condition close to the
+boundaries of the interval. However, according to our experience, open
+Newton--Cotes rules are a viable option since they performs well in practice,
+which is also noted in \cite{klimke2006}. In fact, we are able to obtain better
+results with open rules and, therefore, present them here.
 
-The open Newton--Cotes rule of level $i \geq 0$ is
+\inputfigure{interpolant-grid}
+The open Newton--Cotes rule of level $i \in \natural$ is
 \[
-  \X_i = \left\{ \x_{ij} = \frac{j + 1}{n_i + 1} \right\}_{j \in \tensorindex{1}{i}}
+  \X^1_i = \left\{ \x_{ij}: j \in \tensorindex{1}{i} \right\}
 \]
-where $\tensorindex{1}{i} = \left\{ i - 1 \right\}_{i = 1}^{n_i}$ and $n_i =
-2^{i + 1} - 1$. The first three levels of the rule are depicted in \fref{grid}.
-It can be seen that the number of nodes (in one dimension) grows as 1, 3, 7, 15,
-31, and so on, and that the rule is fully nested. In multiple dimensions, the
-nodes are formed as shown in \eref{collocation-nodes}.
+where
+\begin{align*}
+  & \x_{ij} = \frac{j + 1}{n_i + 1}, \\
+  & \tensorindex{1}{i} = \left\{ i - 1 \right\}_{i = 1}^{n_i}, \text{ and} \\
+  & n_i = 2^{i + 1} - 1.
+\end{align*}
+The first three levels of this rule are depicted in \fref{interpolant-grid}. It
+can be seen that the number of nodes grows as 1, 3, 7, 15, 31, and so on, and
+that the rule is fully nested. In multiple dimensions, the nodes are formed as
+shown in \eref{interpolant-tensor-grid}.
 
 \subsection{Basis Functions}
 
