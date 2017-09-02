@@ -67,6 +67,7 @@ second stage, which together with the third should be approached with a great
 care since interpolation of multivariate functions is a challenging undertaking.
 
 \section{Probability Transformation}
+\slab{interpolant-transformation}
 
 The foremost step of our framework is to change the parameterization of the
 problem from the random vector $\vu: \Omega \to \real^\nu$ to an auxiliary
@@ -92,6 +93,7 @@ it is the one in \eref{probability-transformation} used throughout the thesis,
 which is to be discussed in \sref{interpolant-application}.
 
 \section{Surrogate Construction}
+\slab{interpolant-construction}
 
 In this section, we present the algorithm that constitutes the core of the
 framework proposed in this chapter. The algorithm features a sparse structure,
@@ -109,12 +111,12 @@ development in \cite{klimke2006, ma2009, jakeman2012}.
 Consider \g as a function of \vz as shown in the previous section. Let \g be in
 $\continuous([0, 1]^\nz)$, the space of continuous functions on $[0, 1]^\nz$;
 this assumption is a formality and is not limiting in practice. As shown in
-\eref{interpolant-sparse}, \g can be approximated using the following
+\sref{sparse-interpolation}, \g can be approximated using the following
 hierarchical interpolant:
-\[
+\begin{equation} \elab{interpolant-sparse}
   \g \approx \interpolant{\nz}{\ls}(\g)
   = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj}
-\]
+\end{equation}
 where $\ls \in \natural$ is the level of the interpolant; $\interpolant{\nz}{-1}
 = 0$; $\{ \vx_{\vi \vj} \}$ and $\{ e_{\vi \vj} \}$ are collocation nodes and
 basis functions, respectively; $\Delta\g(\vx_{\vi \vj})$ is a hierarchical
@@ -128,6 +130,7 @@ index, and $\vj \in \natural^\nz$ is referred to as an order index.
 Let us now turn to the choice of collocation nodes and basis functions.
 
 \subsection{Collocation Nodes}
+\slab{interpolant-grid}
 
 \inputfigure{interpolant-grid}
 As explained in \sref{sparse-interpolation}, the integration grid should
@@ -165,6 +168,7 @@ fully nested. In multiple dimensions, the nodes are formed as shown in
 \eref{interpolant-tensor-grid} and \eref{quadrature-tensor-index}.
 
 \subsection{Basis Functions}
+\slab{interpolant-basis}
 
 \inputfigure{interpolant-basis}
 The basis functions that correspond to open Newton--Cotes rules are the
@@ -173,15 +177,15 @@ $e_{00}(\x) = 1$. For $i > 0$ and $j = 0$ (close to the left endpoint),
 \[
   e_{i0}(\x) =
   \begin{cases}
-    2 - \left( n_i + 1 \right) \x, & \text{if } \x < \frac{2}{n_i + 1}, \\
+    2 - \left(n_i + 1\right) \x, & \text{if } \x < \frac{2}{n_i + 1}, \\
     0, & \text{otherwise}.
   \end{cases}
 \]
 For $i > 0$ and $j = n_i - 1$ (close to the right endpoint),
 \[
-  e_{i(n_i - 1)}(\x) =
+  e_{i, n_i - 1}(\x) =
   \begin{cases}
-    \left( n_i + 1 \right) \x - n_i + 1, & \text{if } \x > \frac{n_i - 1}{n_i + 1}, \\
+    \left(n_i + 1\right) \x - n_i + 1, & \text{if } \x > \frac{n_i - 1}{n_i + 1}, \\
     0, & \text{otherwise}.
   \end{cases}
 \]
@@ -189,7 +193,7 @@ In other cases,
 \[
   e_{ij}(\x) =
   \begin{cases}
-    1 - \left( n_i + 1 \right)|\x - \x_{ij}|, & \text{if } |\x - \x_{ij}| < \frac{1}{n_i + 1}, \\
+    1 - \left(n_i + 1\right)|\x - \x_{ij}|, & \text{if } |\x - \x_{ij}| < \frac{1}{n_i + 1}, \\
     0, & \text{otherwise}.
   \end{cases}
 \]
@@ -201,150 +205,155 @@ the basis functions are formed as shown in \eref{interpolant-tensor-basis} and
 Lastly, let us calculate the volumes (integrals over the whole domain) of the
 basis functions, which we denote by $w_{ij}$; they will be needed in the
 continuation. We have that $w_{00} = 1$ and, for $i > 0$,
-\[
-  w_{ij} = \int_0^1 e_{ij}(\x) \, \d \x =
+\begin{equation} \elab{interpolant-basis-volume}
+  w_{ij} = \int_0^1 e_{ij}(\x) \d \x =
   \begin{cases}
     \frac{2}{n_i + 1}, & \text{if } j \in \{ 0, n_i - 1 \}, \\
     \frac{1}{n_i + 1}, & \text{otherwise}.
   \end{cases}
-\]
+\end{equation}
 In multiple dimensions, the volumes of basis functions are products of
 their one-dimensional counterparts shown above.
 
 Imagine now a function that is nearly flat on the first half of $[0, 1]$ and
 rather irregular on the other. Under these circumstances, it is natural to
-expect that, in order to attain the same accuracy, the first half would require
-much fewer collocation nodes than the other one; recall \fref{motivation}.
-However, if we followed the construction procedure described so far, we would
-not be able to benefit from this peculiar behavior: we would treat both sides
-equally and would add all the nodes of each level. The solution to the above
-problem is to make the interpolation algorithm adaptive, which we shall discuss
-next.
+expect that, in order to attain the same accuracy, the first half should require
+much fewer collocation nodes than the other one; recall
+\fref{interpolant-example}. However, if we followed the usual construction
+procedure described in \sref{sparse-interpolation}, we would not be able to
+benefit from this idiosyncrasy: both sides would be treated equally, and all the
+nodes of each level would be added. The solution to the above problem is to make
+the interpolation algorithm adaptive, which we discuss next.
 
-\subsection{Adaptivity}
+\subsection{Hybrid Adaptivity}
+\slab{interpolant-adaptivity}
 
-In order to make the algorithm adaptive, we first need to find a way to measure
-how good our approximation is at any point in the domain of \f. Then, when
-refining the interpolant, instead of evaluating the function at all possible
-nodes, we shall only choose those that are located in the regions with poor
-accuracy as indicated by the yet-to-be-found criterion.
+In order to make the algorithm adaptive, we first need to decide on a measure of
+how good the constructed interpolant $\interpolant{\nz}{\ls}(\g)$ is at any
+given point in $[0, 1]^\nz$. Then, when refining the interpolant, instead of
+evaluating the quantity of interest at all possible nodes, we shall choose only
+those that are located in the regions with poor accuracy as indicated by the
+yet-to-be-found criterion.
 
-We already have a good foundation for building such a criterion. Recall
-\eref{surplus}. Hierarchical surpluses are natural indicators of the
-interpolation error: they are the difference between the values of the true
-function and those of an approximation at the nodes of the underlying sparse
-grid. Hence, they can be recycled in order to effectively identify
-``problematic'' regions. Specifically, we first assign a score to each node
-$\vx_{\vi \vj}$ or, equivalently, to each pair of level and order indices $(\vi,
-\vj)$:
+We already have a good foundation for building such a criterion. Specifically,
+hierarchical surpluses given in \eref{interpolant-sparse-surplus} are natural
+indicators of the interpolation error: they are the difference between the
+values of the true function and those of an approximation at the nodes of the
+underlying sparse grid. Hence, surpluses can be recycled in order to effectively
+identify problematic regions. We proceed as follows. First a score is assigned
+to each node $\vx_{\vi \vj}$ or, equivalently, to each pair of level and order
+indices $(\vi, \vj)$ as follows:
 \[
-  s_{\vi \vj} = \left| \Delta\f(\vx_{\vi \vj}) w_{\vi \vj} \right|
+  s_{\vi \vj} = \absolute{\Delta\g(\vx_{\vi \vj}) w_{\vi \vj}}
 \]
-where $\Delta\f(\vx_{\vi \vj})$ and $w_{\vi\vj}$ are given by \eref{surplus} and
-\eref{volume}, respectively, and this score is then used in order to guide the
-algorithm as we shall explain in the rest of this subsection.
+where $\Delta\f(\vx_{\vi \vj})$ and $w_{\vi\vj}$ are given by
+\eref{interpolant-sparse-surplus} and \eref{interpolant-basis-volume},
+respectively. Then this score is used in order to guide the algorithm as we
+explain now.
 
-The Smolyak construction in \eref{smolyak-hierarchical} is rewritten as follows:
+The formula in \eref{interpolant-sparse} is reinterpreted as follows. The number
+\ls in \eref{interpolant-sparse} no longer represents the current interpolation
+level but rather the current interpolation step, and $\interpolant{\nz}{\ls}$ is
+the interpolant at that step. From now on, all index sets are generally subsets
+of their full-fledged counterparts defined in \sref{sparse-interpolation}. Each
+$\interpolant{\nz}{\ls}$ is characterized by a set of level indices
+$\sparseindex{\nz}{\ls}$, and each $\vi \in \sparseindex{\nz}{\ls}$ is
+characterized by a set of order indices $\Delta\tensorindex{\nz}{\vi}$. At each
+interpolation step $\ls \in \natural$, a single index denoted by $\vi_{\ls}$ is
+chosen from $\sparseindex{\nz}{\ls - 1}$ starting from $\sparseindex{\nz}{-1} =
+\{ \v{0} \}$. The chosen index subsequently gives birth to
+$\Delta\sparseindex{\nz}{\ls}$ and $\{ \Delta\tensorindex{\nz}{\vi}: \vi \in
+\Delta\sparseindex{\nz}{\ls} \}$, which form the increment given on the
+right-hand side of \eref{interpolant-sparse}.
+
+The level index set $\Delta\sparseindex{\nz}{\ls}$ contains the so-called
+admissible forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of
+an index \vi are given by
 \[
-  \interpolant{n}{l}(\f) = \interpolant{n}{l - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{l}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj}.
+  \{ \vi + \v{1}_k \}_{k = 1}^\nz
 \]
-The different with respect to \eref{smolyak-hierarchical} is that $l \geq 0$ is
-no longer the Smolyak level (see \eref{smolyak-original}) but a more abstract
-interpolation step, and $\interpolant{n}{l}$ is the interpolant at that step. As
-always, $\interpolant{n}{-1} = 0$, and the definition of $\Delta\f$ given in
-\eref{surplus} is adjusted accordingly. From now on, all index sets will be
-generally subsets of their full-fledged counterparts defined in \sref{smolyak}.
-
-Each $\interpolant{n}{l}$ is characterized by a set of level indices
-$\sparseindex{n}{l}$, and each $\vi \in \sparseindex{n}{l}$ by a set of order
-indices $\Delta\tensorindex{n}{\vi}$. At each interpolation step $l \geq 0$, a
-single index $\vi_l$ is chosen from $\sparseindex{n}{l - 1}$ with
-$\sparseindex{n}{-1} = \{ \v{0} \}$. The chosen index then gives birth to
-$\Delta\sparseindex{n}{l}$ and $\{ \Delta\tensorindex{n}{\vi} \}_{\vi \in
-\Delta\sparseindex{n}{l}}$, which shape the increment in the right-hand side of
-\eref{approximation}.
-
-The set $\Delta\sparseindex{n}{l}$ contains the so-called admissible forward
-neighbors of $\vi_l$. Let us now parse the previous sentence. First, the forward
-neighbors of an index \vi are given by
+where $\v{1}_k \in \{ 0, 1 \}^\nz$ is a vector whose elements are zero except
+for element $k$ equal to unity. Further, an index \vi is called admissible if
+its inclusion into the index set $\sparseindex{\nz}{\ls}$ in question keeps the
+set admissible. Finally, $\sparseindex{\nz}{\ls}$ is admissible if it satisfies
+the following condition \cite{klimke2006}:
 \[
-  \left\{ \vi + \v{1}_k: k = 1, \dots, n \right\}
+  \vi - \v{1}_k \in \sparseindex{\nz}{\ls}
 \]
-where $\v{1}_k$ is a vector whose elements are zero except for element $k$ equal
-to unity. Next, an index \vi is admissible if its inclusion into the index set
-$\sparseindex{n}{l}$ in question keeps the set admissible. Finally,
-$\sparseindex{n}{l}$ is admissible if it satisfies the following condition
-\cite{klimke2006}:
-\[
-  \vi - \v{1}_k \in \sparseindex{n}{l}, \text{ for $\vi \in \sparseindex{n}{l}$ and $k = 1, \dots, n$,}
-\]
-where, naturally, the cases with $i_k = 0$ need no check.
+for $\vi \in \sparseindex{\nz}{\ls}$ and $k = 1, \dots, \nz$ where the cases
+with $i_k = 0$ need no check.
 
-Now, how is $\vi_l$ chosen from $\sparseindex{n}{l - 1}$ at each iteration of
-\eref{approximation}? First of all, each index can be obviously picked at most
-once. The rest is resolved by prioritizing the candidates. It is reasonable to
-assign a priority to a level index $\vi$ based on the scores of the order
-indices associated with it, that is, on the scores of $\tensorindex{n}{\vi}$. We
-compute the priority as the average score:
+Let us now turn to the content of $\Delta\tensorindex{\nz}{\vi}$ where $\vi =
+\vi_{\ls} + \v{1}_k$ for some $k$. It also contains admissible forward
+neighbors; however, they are order indices, and their construction is different
+from the one used in the case of $\Delta\sparseindex{\nz}{\ls}$. Concretely,
+these indices are identified by inspecting the backward neighborhood of
+\vi---analogous to the forward one but in the opposite direction. For each
+backward neighbor $\vi - \v{1}_l$ and each $\vj \in \Delta\tensorindex{n}{\vi -
+\v{1}_l}$, we check first the condition
 \[
-  s_{\vi} = \frac{1}{\cardinality{\Delta\tensorindex{n}{\vi}}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} s_{\vi \vj}
+  s_{\vi - \v{1}_l, \vj} \geq \error{s}
 \]
-Consequently, the answer to the above question is that, at each step $l$, the
-index \vi with the highest $s_{\vi}$ gets promoted to $\vi_l$.
+where \error{s} is a user-defined constant referred to as the score error. If
+the condition holds, the forward neighbors of \vj in dimension $k$ are added to
+$\Delta\tensorindex{\nz}{\vi}$. This procedure is illustrated in
+\fref{interpolant-grid} for open Newton--Cotes rules in one dimension. The
+arrows emerging from a node connect the node with its forward neighbors. In
+general, each node has two forward neighbors in each dimension. The order
+indices of these nodes are
+\begin{align*}
+  & (j_1, \dots, 2 j_k \phantom{{} + 2}, \dots, j_{\nz}) \text{ and} \\
+  & (j_1, \dots, 2 j_k + 2,              \dots, j_{\nz}).
+\end{align*}
+The above refinement procedure is to be undertaken for each level index $\vi \in
+\Delta\sparseindex{\nz}{\ls}$ with respect to each dimension $k =
+\range{1}{\nz}$.
 
-Let us now turn to the content of $\Delta\tensorindex{n}{\vi}$ where $\vi =
-\vi_l + \v{1}_k$ for a fixed $k$. It also contains admissible forward neighbors,
-but they are order indices, and their construction is drastically different from
-the one in \eref{forward-level-neighbors}. Concretely, these indices are
-identified by inspecting the backward neighborhood of \vi (analogous to
-\eref{forward-level-neighbors}). For each backward neighbor $\hat{\vi} = \vi -
-\v{1}_{\hat{k}}$ and each $\vj \in \Delta\tensorindex{n}{\hat{\vi}}$, we begin
-by checking the following condition: $s_{\hat{\vi} \vj} \geq \epsilon_s$ where
-$\epsilon_s$ is a user-defined constant, which we shall refer to as the score
-error. If the condition holds, the forward neighbors of \vj in dimension $k$ are
-added to $\Delta\tensorindex{n}{\vi}$. This procedure is illustrated in
-\fref{grid} for the open Newton--Cotes rule (see \sref{grid}). The arrows
-emerging from a node connect the node with its forward neighbors. It can be seen
-that each node has two forward neighbors (for each dimension); their order
-indices are
+The choice of $\vi_{\ls}$ from $\sparseindex{\nz}{\ls - 1}$ at each step \ls of
+\eref{interpolant-sparse} is made as follows. First of all, each index can be
+picked at most once. The rest is resolved by prioritizing the candidates. It is
+reasonable to assign a priority to a level index \vi based on the scores of the
+order indices associated with this level index, that is, based on the scores of
+$\tensorindex{\nz}{\vi}$. The priority can be computed as the average score
 \[
-  (j_1, \dots, 2 j_k, \dots, j_n) \text{ and } (j_1, \dots, 2 j_k + 2, \dots, j_n).
+  s_{\vi} = \frac{1}{\cardinality{\Delta\tensorindex{\nz}{\vi}}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} s_{\vi \vj}
 \]
-The above refinement procedure is repeated for each index $\vi \in
-\Delta\sparseindex{n}{l}$ with respect to each dimension $k = 1, \dots, n$.
+Thus, at each step \ls, the index \vi with the highest $s_{\vi}$ is promoted to
+$\vi_{\ls}$.
 
-The final question is the stopping condition of the approximation process in
-\eref{approximation}. Apart from the natural constraints on the maximum number
-of function evaluations and the maximum allowed Smolyak level $l$ in
-\eref{smolyak-original}, we rely on the following criterion. Assume that we are
-given two additional constants: $\epsilon_a$ and $\epsilon_r$ referred to as the
-absolute and relative error, respective. Then, the process is terminated as soon
-as
+The final question to answer is the stopping condition of the approximation
+process in \eref{interpolant-sparse}. Apart from the natural constraints on the
+maximum number of function evaluations and the maximum interpolation level (the
+original \ls in \sref{sparse-interpolation}), we rely on the following
+criterion. Assume there are two additional constants: \error{a} and \error{r},
+which are referred to as the absolute and relative error, respective. Then the
+process is terminated as soon as
 \[
-  \max_{(\vi, \vj)} \, |\Delta\f(\vx_{\vi \vj})| \leq \max \left\{ \epsilon_a, \epsilon_r (f_\text{max} - f_\text{min}) \right\}
+  \max_{(\vi, \vj)} \absolute{\Delta\g(\vx_{\vi \vj})} \leq \max \left\{ \error{a}, \error{r} (\g_\maximum - \g_\minimum) \right\}
 \]
-where $f_\text{min}$ and $f_\text{max}$ are the minimum and maximum observed
-value of \f, respectively, and the left-hand side is the maximum surplus whose
-level index has not been refined yet (considered as $\vi_l$ at some step $l$ in
-\eref{approximation}). The above criterion is a sound way to curtail the process
-as it is based on the actual progress.
+where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed value
+of \g, respectively, and the left-hand side is the maximum surplus whose level
+index has not been refined yet (considered as $\vi_{\ls}$ at some step \ls). The
+above criterion is adequate for curtailing the process since it is based on the
+actual progress.
 
-The adaptivity presented in this subsection is referred to as hybrid as it
+The adaptivity presented in this subsection is referred to as hybrid since it
 combines features of global and local adaptivity; the combination was proposed
 in \cite{jakeman2012}. Local adaptivity, which has already been sufficiently
 motivated, is due to \cite{ma2009}, and it operates on the level of individual
 nodes. Global adaptivity is due to \cite{klimke2006}, and it operates on the
 level of individual dimensions. The intuition behind global adaptivity is that,
-in general, the input variables manifest themselves (impact \f) differently, and
+in general, the input variables manifest themselves (impact \g) differently, and
 the interpolation algorithm is likely to benefit by prioritizing those variables
 that are the most influential.
 
 To summarize, we have obtained an efficient algorithm for adaptive hierarchical
-interpolation in multiple dimensions. The main equation is \eref{approximation}
-where $\Delta\f$, $\vx_{\vi \vj}$, and $e_{\vi \vj}$ are the ones given in
-\sref{smolyak}, \sref{grid}, and \sref{basis}, respectively, and the
-interpolation procedure is undertaken according to the rules given in
-\sref{adaptivity}. Now we discuss the implementation.
+interpolation in multiple dimensions. The main equation is
+\eref{interpolant-sparse} where $\Delta\g$, $\vx_{\vi \vj}$, and $e_{\vi \vj}$
+are the ones given in \sref{sparse-interpolation}, \sref{interpolant-grid}, and
+\sref{interpolant-basis}, respectively, and the interpolation is undertaken
+according to the rules given in \sref{interpolant-adaptivity}. Now we discuss
+the implementation.
 
 \subsection{Implementation}
 
