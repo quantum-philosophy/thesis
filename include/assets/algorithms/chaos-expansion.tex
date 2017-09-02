@@ -6,8 +6,8 @@
     \Require{Algorithm G} \Comment{the subroutine evaluating $\g$}
     \Ensure{$\hat{\vg} \in \real^\nc$}
     \vspace{0.5em}
-    \For{$i \gets 1 \textrm{ to } \nq$} \Comment{for each quadrature point $\vz_i$}
-      \Let{$\vu$}{$\transform{\vz_i}$}
+    \For{$i \gets 1 \textrm{ to } \nq$} \Comment{for each quadrature point $\vx_i$}
+      \Let{$\vu$}{$\transform{\vx_i}$}
       \Let{$\vg(i)$}{call Algorithm G for $\vu$}
     \EndFor
     \Let{$\hat{\vg}$}{$\Pi \, \vg$}

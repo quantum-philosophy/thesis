@@ -204,7 +204,7 @@ orderings so that one is able to refer to their elements using ordinary
 (one-dimensional) indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$,
 respectively. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
-  \Pi = (\psi_i(\vz_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
+  \Pi = (\psi_i(\vx_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
 \end{equation}
 The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
 index $i$ evaluated at quadrature point $j$ and multiplied by quadrature weight
@@ -217,7 +217,7 @@ coefficients $\{ \hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in
 where
 \begin{align*}
   & \hat{\vg} = (\hat{\g}_i)_{i = 1}^\nc \text{ and} \\
-  & \vg = (\g(\transform{\vz_i}))_{i = 1}^\nq.
+  & \vg = (\g(\transform{\vx_i}))_{i = 1}^\nq.
 \end{align*}
 It can be seen that this formula is a matrix version of
 \eref{chaos-coefficient}. The matrix $\Pi$ is the one that should be precomputed
