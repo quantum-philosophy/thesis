@@ -359,6 +359,7 @@ respectively, and \n{\mathrm{bits}} is the number of bits reserved for storing
 level indices, which can be adjusted according to the maximum permitted depth of
 interpolation.
 
+\inputalgorithm{interpolant-construction}
 The pseudocode of the construction stage is given in \aref{construct} called
 \texttt{Construct}. The \texttt{target} input is a function $\f$ to be
 approximated. The \texttt{surrogate} output is a structure containing the
@@ -406,6 +407,7 @@ indices and surpluses of the current iteration.
 
 \end{itemize}
 
+\inputalgorithm{interpolant-evaluation}
 We now turn to the usage stage of an interpolant. The pseudocode is given in
 \aref{evaluate} called \texttt{Evaluate}. This algorithm is also involved in
 \aref{construct}; see line~5. Let us make a couple of observations regarding
