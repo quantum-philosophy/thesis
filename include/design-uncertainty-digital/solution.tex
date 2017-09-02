@@ -327,33 +327,37 @@ that are the most influential.
 
 To summarize, we have obtained an efficient algorithm for adaptive hierarchical
 interpolation in multiple dimensions. The main equation is
-\eref{interpolant-sparse} where $\Delta\g$, $\vx_{\vi \vj}$, and $e_{\vi \vj}$
-are the ones given in \sref{sparse-interpolation}, \sref{interpolant-grid}, and
-\sref{interpolant-basis}, respectively, and the interpolation is undertaken
-according to the rules given in \sref{interpolant-adaptivity}. Now we discuss
-the implementation.
+\eref{interpolant-sparse} where $\Delta\g(\vx_{\vi \vj})$, $\vx_{\vi \vj}$, and
+$e_{\vi \vj}$ are the ones given in \eref{interpolant-sparse-surplus},
+\sref{interpolant-grid}, and \sref{interpolant-basis}, respectively, and the
+interpolation is undertaken according to the rules given in
+\sref{interpolant-adaptivity}. Now we discuss the implementation.
 
 \subsection{Implementation}
 
 The life cycle of interpolation has roughly two stages: construction and usage.
-The construction stage invokes \f at a set of collocation nodes and produces
-certain artifacts. The usage stage estimates the values of \f at a set of
-arbitrary points by manipulating the artifacts. In this subsection, we shall
-look at the pseudocodes of the two stages. The purpose is to give the big
-picture.
+The construction stage invokes \g at a set of collocation nodes and produces
+certain artifacts. The usage stage estimates the values of \g at a set of
+arbitrary points by manipulating the artifacts. In this subsection, we provide
+the pseudocodes of the two stages in order to give the big picture of the
+technique.
 
-Let us first make a general note. We found it beneficial to the clarity and ease
-of implementation to collapse the two sums in \eref{approximation} into one.
-This requires storing a level index $\vi = (i_k)_{k = 1}^n$ and an order index
-$\vj = (j_k)_{k = 1}^n$ for each interpolation element. It is also advantageous
-to encode each pair $(i_k, j_k)$ as a single unsigned integer, which, in
-particular, eliminates excessive memory usage. In multiple dimensions, this
-results in a single vector $\v{\iota} = (\iota_k)_{k = 1}^n$, which we simply
-call an index. The encoding that we utilize is as follows: $\iota_k = i_k \lor
-(j_k \ll n_\text{bits})$ where $\lor$ and $\ll$ are the bitwise \up{OR} and
-logical left shift, respectively, and $n_\text{bits}$ is the number of bits
-reserved for storing Smolyak levels (see \eref{smolyak-original}), which can be
-adjusted according to the maximum permitted deepness of interpolation.
+Let us first make a general note. According to our experience, it is beneficial
+to the clarity and ease of implementation to collapse the two sums in
+\eref{interpolant-sparse} into one. This requires storing a level index $\vi =
+(i_k) \in \natural^\nz$ and an order index $\vj = (j_k) \in \natural^\nz$ for
+each interpolation element. It is also advantageous to encode each pair $(i_k,
+j_k)$ as a single unsigned integer, which, in particular, eliminates excessive
+memory usage. In multiple dimensions, this results in a vector $\v{\iota} =
+(\iota_k) \in \natural^\nz$, which we simply call an index. Our encoding is as
+follows:
+\[
+  \iota_k = i_k \lor (j_k \ll \n{\mathrm{bits}})
+\]
+where $\lor$ and $\ll$ are the bitwise \up{OR} and logical left shift,
+respectively, and \n{\mathrm{bits}} is the number of bits reserved for storing
+level indices, which can be adjusted according to the maximum permitted depth of
+interpolation.
 
 The pseudocode of the construction stage is given in \aref{construct} called
 \texttt{Construct}. The \texttt{target} input is a function $\f$ to be
