@@ -192,7 +192,7 @@ then reused as needed. In particular, the construction in \eref{chaos-expansion}
 can be reduced to one matrix multiplication with a precomputed matrix, which we
 show next.
 
-\inputalgorithm{chaos-expansion}
+\inputalgorithm{chaos-construction}
 Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of
 $\sparseindex{\nz}{\lc}$, which is the number of polynomial terms and
 coefficients in \eref{chaos-expansion}. Let also $\nq =
@@ -222,8 +222,8 @@ where
 It can be seen that this formula is a matrix version of
 \eref{chaos-coefficient}. The matrix $\Pi$ is the one that should be precomputed
 and stored for future use. The pseudocode of the expansion procedure is given in
-\aref{chaos-expansion} where Algorithm~G stands for the routine that calculates
-\g for a given \vu, which is problem specific.
+\aref{chaos-construction} where Algorithm~G stands for the routine that
+calculates \g for a given \vu, which is problem specific.
 
 Let us summarize this subsection. In order to give a probabilistic
 characterization of a quantity of interest, we construct a polynomial expansion
@@ -293,9 +293,9 @@ the standpoint of the number of outputs. In this case, it is considered as a row
 vector with an appropriate number of elements. Then all the operations with
 respect to \g, such as those in \eref{chaos-expansion},
 \eref{chaos-coefficient}, and \eref{chaos-moments}, should be undertaken
-element-wise. In \eref{chaos-coefficients} and \aref{chaos-expansion}, \vg and
-$\hat{\vg}$ are treated as matrices with \nc rows, and $\g_i$ as a row vector.
-The output of Algorithm~G in \aref{chaos-expansion} is assumed to be
+element-wise. In \eref{chaos-coefficients} and \aref{chaos-construction}, \vg
+and $\hat{\vg}$ are treated as matrices with \nc rows, and $\g_i$ as a row
+vector. The output of Algorithm~G in \aref{chaos-construction} is assumed to be
 automatically reshaped into a row vector.
 \end{remark}
 
