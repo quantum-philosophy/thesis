@@ -280,7 +280,7 @@ the following condition \cite{klimke2006}:
 \[
   \vi - \v{1}_k \in \sparseindex{\nz}{\ls}
 \]
-for $\vi \in \sparseindex{\nz}{\ls}$ and $k = 1, \dots, \nz$ where the cases
+for $\vi \in \sparseindex{\nz}{\ls}$ and $k = \range{1}{\nz}$ where the cases
 with $i_k = 0$ need no check.
 
 Let us now turn to the content of $\Delta\tensorindex{\nz}{\vi}$ where $\vi =
@@ -636,7 +636,7 @@ Let the vector $\vp(t) = (\p_i(t))_{i = 1}^\np$ capture the total power
 consumption of the system at time $t$. This vector is related to the dynamic
 power introduced above as follows:
 \[
-  \p_i(t) = \sum_{j = 1}^\nt \p^\dynamic_{ij} \: \delta_{ij} (t) + \p^\static_i(t), \text{ for $i = 1, \dots, \np$},
+  \p_i(t) = \sum_{j = 1}^\nt \p^\dynamic_{ij} \: \delta_{ij} (t) + \p^\static_i(t), \text{ for $i = \range{1}{\np}$},
 \]
 where $\delta_{ij}(t)$ is an indicator function (outputs either zero or one) of
 the event that processing element $i$ executes task $j$ at time $t$, and
