@@ -146,12 +146,10 @@ approximation of this value computed by the interpolant constructed so far.
 The final formula for (nonadaptive) hierarchical interpolation is obtained by
 substituting \eref{interpolant-tensor-delta} into
 \eref{interpolant-sparse-incremental}. The result is
-\[
-  \begin{split}
-    \interpolant{n}{\ls}(\g)
-    &= \sum_{\vi \in \sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj} \\
-    &= \interpolant{n}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj}
-  \end{split}
-\]
+\begin{align*}
+  \interpolant{n}{\ls}(\g)
+  &= \sum_{\vi \in \sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj} \\
+  &= \interpolant{n}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj}
+\end{align*}
 where $\Delta\g(\vx_{\vi \vj})$ is computed according to
 \eref{interpolant-sparse-surplus}.
