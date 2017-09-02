@@ -22,10 +22,12 @@ is analyzed in order to obtain the desired characteristics of the quantity \g.
 \subsection{Problem Formulation}
 \slab{chaos-formulation}
 
-The problem formulation is problem specific; therefore, Stage~1 will be
-discussed in the subsequent sections where we start to apply our methodology to
-particular problems. However, there is one reoccurring aspect about the
-specification of the uncertain parameters \vu that is worth highlighting.
+The problem formulation is problem specific. Therefore, the discussion on
+Stage~1 is postponed until we start to apply our methodology to particular
+problems, and here we operate on unspecified \g and \vu. For convenience, \g is
+also assumed to take values in $\real$, which is be generalized to $\real^n$
+later on. Lastly, there is one reoccurring aspect about \vu that is worth
+highlighting now.
 
 A description of \vu is an input to our analysis. A proper way to describe a set
 of random variables is to specify their joint distribution function. This can be
@@ -84,16 +86,14 @@ as a part of the \ac{KL} decomposition, which is also covered in
 \subsection{Surrogate Construction}
 \slab{chaos-surrogate-construction}
 
-Let $\g: \Omega \to \real$ be a quantity of interest dependent on \vu. For
-convenience, \g is assumed to be one-dimensional, which will be generalized
-later on. In order to give a computationally efficient probabilistic
-characterization of \g, we utilize a nonintrusive spectral decomposition based
-on orthogonal polynomials. The corresponding mathematical foundation is outlined
-in \sref{polynomial-chaos}.
+In order to give a computationally efficient probabilistic characterization of
+\g, we utilize a nonintrusive spectral decomposition based on orthogonal
+polynomials. The corresponding mathematical foundation is given in
+\sref{polynomial-chaos}.
 
 Assume that \g as a function of \vu belongs to $\L{2}(\Omega, \F,
-\probability)$; see \sref{probability-theory}. Then \g can be expanded into the
-following series (see Stage~3 in \fref{chaos-overview}):
+\probability)$; see \sref{probability-theory}. Then, at Stage~3 in
+\fref{chaos-overview}, \g is expanded into the following series:
 \begin{equation} \elab{chaos-expansion}
   \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
 \end{equation}
