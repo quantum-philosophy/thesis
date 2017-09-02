@@ -94,22 +94,38 @@ which is to be discussed in \sref{interpolant-application}.
 \section{Surrogate Construction}
 
 In this section, we present the algorithm that constitutes the core of the
-proposed framework for probabilistic analysis of computer systems. The algorithm
-features a sparse structure, hierarchical construction, and hybrid adaptivity.
-The benefits of these features are interconnected and can be summarized as
-follows: the ability to efficiently tackle multidimensional problems, the
-ability to perform gradual refinement of the approximation with a natural error
-control, and the ability to make the refinement fine-grained and, therefore,
-gain further efficiency.
+framework proposed in this chapter. The algorithm features a sparse structure,
+hierarchical construction, and hybrid adaptivity. The benefits of these features
+are interconnected and can be summarized as follows: the ability to efficiently
+tackle multidimensional problems, the ability to perform gradual refinement of
+the approximation with a natural error control, and the ability to make the
+refinement fine-grained and, therefore, gain further efficiency.
 
-The mathematics presented here is a distilled version of the one developed in
-\cite{klimke2006, ma2009, jakeman2012}.
+Hierarchical interpolation is introduced in \sref{sparse-interpolation}, and
+here we rely heavily on the results given in that section. The mathematics
+presented in \sref{sparse-interpolation} as well as here is based on the
+development in \cite{klimke2006, ma2009, jakeman2012}.
 
-Let \f be a function that we would like to approximate; the connection between
-\f and \g will be explained in \sref{analysis}. The function is assumed to be in
-$\continuous([0, 1]^n)$, the space of continuous functions in the unit hypercube
-$[0, 1]^n$. The assumption is a formality and does not impose any restrictions
-in practice.
+Consider \g as a function of \vz as shown in the previous section. Let \g be in
+$\continuous([0, 1]^\nz)$, the space of continuous functions on $[0, 1]^\nz$;
+this assumption is a formality and is not limiting in practice. As shown in
+\eref{interpolant-sparse}, \g can be approximated using the following
+hierarchical interpolant:
+\[
+  \g \approx \interpolant{\nz}{\ls}(\g)
+  = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta\g(\vz_{\vi \vj}) e_{\vi \vj}
+\]
+where $\ls \in \natural$ is the level of the interpolant; $\interpolant{\nz}{-1}
+= 0$; $\{ \vz_{\vi \vj} \}$ and $\{ e_{\vi \vj} \}$ are collocation nodes and
+basis functions, respectively; $\Delta\g(\vz_{\vi \vj})$ is a hierarchical
+surplus defined in \eref{interpolant-sparse-surplus}; and
+$\Delta\sparseindex{\nz}{\ls}$ and $\Delta\tensorindex{\nz}{\vi}$ are index sets
+defined in \eref{interpolant-sparse-index-delta} and
+\eref{interpolant-tensor-index-delta}, respectively. In this context of
+hierarchical interpolation, $\vi \in \natural^\nz$ is referred to as a level
+index, and $\vj \in \natural^\nz$ is referred to as an order index.
+
+Let us now turn to the choice of collocation nodes and basis functions.
 
 \subsection{Collocation Nodes}
 
@@ -327,7 +343,7 @@ The construction stage invokes \f at a set of collocation nodes and produces
 certain artifacts. The usage stage estimates the values of \f at a set of
 arbitrary points by manipulating the artifacts. In this subsection, we shall
 look at the pseudocodes of the two stages. The purpose is to give the big
-picture. All the details can be found online \cite{sources}.
+picture.
 
 Let us first make a general note. We found it beneficial to the clarity and ease
 of implementation to collapse the two sums in \eref{approximation} into one.
@@ -351,7 +367,7 @@ interpolant. The routine works as follows.
 
 \begin{itemize}
 
-\item[2:] Each iteration is an interpolation step in \eref{approximation}. It
+\item[L2:] Each iteration is an interpolation step in \eref{approximation}. It
 has a state captured by a structure denoted by \texttt{s}. The \texttt{strategy}
 object represents an adaptation strategy utilized and works as described in
 \sref{adaptivity}. The \texttt{First} method of \texttt{strategy} returns the
@@ -362,18 +378,18 @@ produce the initial state of the next iteration. The process terminates when a
 stopping condition is satisfied, in which case \texttt{Next} returns a null
 state.
 
-\item[3:] The \texttt{grid} object represents the interpolation grid utilized
+\item[L3:] The \texttt{grid} object represents the interpolation grid utilized
 (see \sref{grid}), and its \texttt{Compute} method converts the step's indices
 into the coordinates of the corresponding collocation nodes, that is, $\{
 \v{\iota}_k \}_k$ into $\{ \vx_{\v{\iota}_k} \}_k$.
 
-\item[4:] \texttt{Invoke} evaluates \texttt{target} at the collocation nodes.
+\item[L4:] \texttt{Invoke} evaluates \texttt{target} at the collocation nodes.
 This is by far the most time consuming function of the algorithm as
 \texttt{target} is generally expensive to evaluate. This function is also a
 prominent candidate for parallelization since the algorithm does not impose any
 evaluation order.
 
-\item[5:] \texttt{Evaluate} exercises the interpolant constructed so far at the
+\item[L5:] \texttt{Evaluate} exercises the interpolant constructed so far at the
 collocation nodes, approximating the values obtained on line~4. This function
 will be discussed separately.
 
@@ -381,10 +397,10 @@ will be discussed separately.
 approximated values of \texttt{target}, which yields the step's hierarchical
 surpluses $\{ \Delta\f(\vx_{\v{\iota}_k}) \}_k$, similar to \eref{surplus}.
 
-\item[7:] \texttt{strategy.Score} calculates the scores of the new collocation
+\item[L7:] \texttt{strategy.Score} calculates the scores of the new collocation
 nodes based on their surpluses; see \eref{score}.
 
-\item[8:] \texttt{Append} improves the interpolant by extending it with the
+\item[L8:] \texttt{Append} improves the interpolant by extending it with the
 indices and surpluses of the current iteration.
 
 \end{itemize}
@@ -396,10 +412,10 @@ We now turn to the usage stage of an interpolant. The pseudocode is given in
 
 \begin{itemize}
 
-\item[4:] The inner loop is an unfolded version of \eref{approximation} (there
+\item[L4:] The inner loop is an unfolded version of \eref{approximation} (there
 is no separation between individual interpolation steps taken).
 
-\item[5:] The \texttt{basis} object represents the interpolation basis utilized
+\item[L5:] The \texttt{basis} object represents the interpolation basis utilized
 (see \sref{basis}), and its \texttt{Compute} method evaluates a single
 (multidimensional) basis function at a single point.
 
