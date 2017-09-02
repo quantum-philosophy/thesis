@@ -122,16 +122,16 @@ described in \sref{sparse-integration}. Specifically, an adequate
 utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
-  = \sum_{\vj \in \sparseindex{\nz}{\lq}} \g(\transform{\vx_{\vj}}) \psi_{\vi}(\vx_{\vj}) w_{\vj}
+  = \sum_{\vj \in \sparseindex{\nz}{\lq}} \g(\transform{\vz_{\vj}}) \psi_{\vi}(\vz_{\vj}) w_{\vj}
 \end{equation}
-where $\lq \in \natural$ is the level of the quadrature, and $\{ \vx_{\vj}: \vj
+where $\lq \in \natural$ is the level of the quadrature, and $\{ \vz_{\vj}: \vj
 \in \sparseindex{\nz}{\lq} \} \subset \real^\nz$ and $\{ w_{\vj}: \vj \in
 \sparseindex{\nz}{\lq}  \} \subset \real$ are the corresponding points and
 weights, respectively. The operator $\quadrature{\nz}{\lq}$ is constructed by
 means of the Smolyak algorithm \cite{smolyak1963} as shown in
-\eref{integration-smolyak}. The important aspect to note about
-\eref{integration-smolyak} is the structure of the operator, namely, the index
-set $\sparseindex{\nz}{\lq}$, which we discuss in what follows.
+\eref{quadrature-sparse}. The important aspect to note about
+\eref{quadrature-sparse} is the structure of the operator, namely, the index set
+$\sparseindex{\nz}{\lq}$, which we discuss in what follows.
 
 The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
 one in \eref{index-total-order-isotropic}, which is called an isotropic
@@ -150,10 +150,10 @@ equal. More generally, the index set $\sparseindex{\nz}{\lc}$ in
 \eref{chaos-coefficient} should be synchronized.
 
 An important generalization of the isotropic Smolyak algorithm in
-\eref{integration-smolyak} is the anisotropic Smolyak algorithm
-\cite{nobile2008}. The main difference between the isotropic and anisotropic
-versions lies in the content of $\sparseindex{\nz}{\lq}$. An anisotropic
-total-order index set is defined as follows:
+\eref{quadrature-sparse} is the anisotropic Smolyak algorithm \cite{nobile2008}.
+The main difference between the isotropic and anisotropic versions lies in the
+content of $\sparseindex{\nz}{\lq}$. An anisotropic total-order index set is
+defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
   \sparseindex{\nz}{\lq} = \left\{ \vi: \vi \in \natural^\nz, \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
 \end{equation}
@@ -161,7 +161,7 @@ where $\v{c} = (c_i) \in \real^\nz$ with $c_i \geq 0$ for $i = \range{1}{\nz}$
 is a vector assigning importance weights to the dimensions, and
 $\innerproduct{\cdot}{\cdot}$ is the standard inner product in $\real^\nz$.
 Equation \eref{index-total-order-anisotropic} plugged into
-\eref{integration-smolyak} results in a sparse grid that is exact for the
+\eref{quadrature-sparse} results in a sparse grid that is exact for the
 polynomial subspace that is obtained using the same index set.
 
 The above approach allows one to exploit the highly anisotropic behavior that is
@@ -230,8 +230,8 @@ characterization of a quantity of interest, we construct a polynomial expansion
 of this quantity as shown in \eref{chaos-expansion}. The coefficients of this
 expansion are found by means of a suitable multivariate quadrature as shown in
 \eref{chaos-coefficient}. The quadrature is constructed via the Smolyak formula
-given in \eref{integration-smolyak}. The index set used in both
-\eref{chaos-expansion} and \eref{integration-smolyak} is the one given in
+given in \eref{quadrature-sparse}. The index set used in both
+\eref{chaos-expansion} and \eref{quadrature-sparse} is the one given in
 \eref{index-total-order-anisotropic} where the anisotropic weights can be set
 according to \eref{chaos-anisotropic-weight}. For computational efficiency, the
 projection matrix in \eref{chaos-projection-matrix} is to be calculated only

@@ -50,7 +50,7 @@ is denoted by $n_{\vi}$.
 The foundation of an $n$-dimensional rule $\quadrature{n}{\vi}$ is a set of
 one-dimensional counterparts of various levels. The most straightforward
 construction of such a rule is the full tensor product denoted by
-\begin{equation} \elab{integration-tensor}
+\begin{equation} \elab{quadrature-tensor}
   \quadrature{n}{\vi} = \bigotimes_{k = 1}^n \quadrature{1}{i_k},
 \end{equation}
 in which case
@@ -97,7 +97,7 @@ To begin with, define
   & \Delta\quadrature{n}{\vi} = \bigotimes_{k = 1}^n \Delta\quadrature{1}{i_k}.
 \end{align*}
 Then Smolyak's formula of level \lq is as follows:
-\begin{equation} \elab{integration-smolyak}
+\begin{equation} \elab{quadrature-sparse}
   \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \Delta\quadrature{n}{\vi},
 \end{equation}
 and the corresponding approximation is written as
@@ -118,11 +118,11 @@ cardinality can be calculated as follows:
 \begin{equation} \elab{index-total-order-isotropic-length}
   \nq = \cardinality{\sparseindex{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
 \end{equation}
-It can be seen that the construction in \eref{integration-smolyak} is a
-summation of cherry-picked tensor products of one-dimensional quadrature rules;
-this formula is well suited for grasping the structure of the resulting sparse
-integration grid. Note also that \eref{integration-smolyak} reduces to
-\eref{integration-tensor} if we let
+It can be seen that the construction in \eref{quadrature-sparse} is a summation
+of cherry-picked tensor products of one-dimensional quadrature rules; this
+formula is well suited for grasping the structure of the resulting sparse
+integration grid. Note also that \eref{quadrature-sparse} reduces to
+\eref{quadrature-tensor} if we let
 \[
   \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \max_{k = 1}^n i_k \leq \lq \right\}.
 \]
