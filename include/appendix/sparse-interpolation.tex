@@ -30,7 +30,7 @@ where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
 (multi-)indices specifying levels and orders, respectively. In the case,
 \begin{align}
   & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \elab{interpolant-tensor-grid} \\
-  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \nonumber
+  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \elab{interpolant-tensor-basis}
 \end{align}
 are the collocation nodes and basis functions, respectively, and
 $\tensorindex{n}{\vi} \subset \natural^n$ is an index set whose cardinality
@@ -43,7 +43,7 @@ follows:
   \interpolant{n}{\vi} = \bigotimes_{k = 1}^n \interpolant{1}{i_k},
 \end{equation}
 in which case $\tensorindex{n}{\vi}$ is the same as the one in
-\eref{quadrature-index-tensor}, and
+\eref{quadrature-tensor-index}, and
 \[
   e_{\vi \vj}(\vx) = \prod_{k = 1}^n e_{i_k j_k}(x_k)
 \]

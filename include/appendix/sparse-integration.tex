@@ -14,12 +14,10 @@ $i \in \natural$ gives the level of the rule, which is its index in the
 corresponding family of rules with increasing precision. \emph{Precision} refers
 to the maximum total order of polynomials that the rule integrates exactly
 \cite{heiss2008}. In the above formula,
-\[
-  \begin{split}
-    & \X^1_i = \{ \x_{ij}: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
-    & \W^1_i = \{ w_{ij}: j \in \tensorindex{1}{i} \} \subset \real
-  \end{split}
-\]
+\begin{align*}
+  & \X^1_i = \{ \x_{ij}: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
+  & \W^1_i = \{ w_{ij}: j \in \tensorindex{1}{i} \} \subset \real
+\end{align*}
 are the points and weights, respectively, and
 \[
   \tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i} \subset \natural
@@ -37,12 +35,10 @@ is approximated as
 \]
 where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
 (multi-)indices. Further,
-\[
-  \begin{split}
-    & \X^n_{\vi} = \{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
-    & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real
-  \end{split}
-\]
+\begin{align*}
+  & \X^n_{\vi} = \{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
+  & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real
+\end{align*}
 and the points and weights, respectively, and $\tensorindex{n}{\vi} \subset
 \natural^n$ is an index set whose cardinality dependents on both $n$ and \vi and
 is denoted by $n_{\vi}$.
@@ -54,16 +50,14 @@ construction of such a rule is the full tensor product denoted by
   \quadrature{n}{\vi} = \bigotimes_{k = 1}^n \quadrature{1}{i_k},
 \end{equation}
 in which case
-\begin{equation} \elab{quadrature-index-tensor}
-  \begin{split}
-    & \tensorindex{n}{\vi}
-    = \tensorindex{1}{i_1} \times \cdots \times \tensorindex{1}{i_n} \text{ and} \\
-    & n_{\vi}
-    = \cardinality{\tensorindex{n}{\vi}}
-    = \prod_{k = 1}^n \cardinality{\tensorindex{n}{i_k}}
-    = \prod_{k = 1}^n n_{i_k}.
-  \end{split}
-\end{equation}
+\begin{align}
+  & \tensorindex{n}{\vi}
+  = \tensorindex{1}{i_1} \times \cdots \times \tensorindex{1}{i_n} \text{ and} \elab{quadrature-tensor-index} \\
+  & n_{\vi}
+  = \cardinality{\tensorindex{n}{\vi}}
+  = \prod_{k = 1}^n \cardinality{\tensorindex{n}{i_k}}
+  = \prod_{k = 1}^n n_{i_k}. \nonumber
+\end{align}
 It can be seen that, in this case, the growth of the number of points with
 respect to the number of dimensions is exponential. In low dimensions, the grows
 is manageable; however, in high dimensions, the situation changes dramatically
