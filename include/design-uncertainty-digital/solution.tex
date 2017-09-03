@@ -85,24 +85,30 @@ here we rely heavily on the results given in that section. The mathematics
 presented in \sref{sparse-interpolation} as well as here is based on the
 development in \cite{klimke2006, ma2009, jakeman2012}.
 
-Consider \g as a function of \vz as shown in the previous section. Let \g be in
-$\continuous([0, 1]^\nz)$, the space of continuous functions on $[0, 1]^\nz$;
-this assumption is a formality and is not limiting in practice. As shown in
-\sref{sparse-interpolation}, \g can be approximated using the following
-hierarchical interpolant:
+Let \g as a function of \vz via $\transform$ be in $\continuous([0, 1]^\nz)$,
+the space of continuous functions on $[0, 1]^\nz$; this assumption is not
+limiting in practice. As shown in \sref{sparse-interpolation}, \g can be
+approximated using the following hierarchical interpolant:
 \begin{equation} \elab{interpolant-sparse}
   \g \approx \interpolant{\nz}{\ls}(\g)
-  = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj}
-\end{equation}
-where $\ls \in \natural$ is the level of the interpolant; $\interpolant{\nz}{-1}
-= 0$; $\{ \vx_{\vi \vj} \}$ and $\{ e_{\vi \vj} \}$ are collocation nodes and
-basis functions, respectively; $\Delta\g(\vx_{\vi \vj})$ is a hierarchical
-surplus defined in \eref{interpolant-sparse-surplus}; and
-$\Delta\sparseindex{\nz}{\ls}$ and $\Delta\tensorindex{\nz}{\vi}$ are index sets
-defined in \eref{interpolant-sparse-index-delta} and
-\eref{interpolant-tensor-index-delta}, respectively. In this context of
-hierarchical interpolation, $\vi \in \natural^\nz$ is referred to as a level
-index, and $\vj \in \natural^\nz$ is referred to as an order index.
+  = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}}
+  \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) e_{\vi \vj} \end{equation}
+where $\vi \in \natural^\nz$ is referred to as a level index; $\vj \in
+\natural^\nz$ is referred to as an order index; $\{ \vx_{\vi \vj} \}$ and $\{
+e_{\vi \vj} \}$ are collocation nodes and basis functions, respectively; $\{
+\Delta(\g \circ \transform)(\vx_{\vi \vj}) \}$ are hierarchical surpluses
+defined in \eref{interpolant-sparse-surplus}; and $\Delta\sparseindex{\nz}{\ls}$
+and $\Delta\tensorindex{\nz}{\vi}$ are index sets defined in
+\eref{interpolant-sparse-index-delta} and \eref{interpolant-tensor-index-delta},
+respectively.
+
+Due to the reason to be discussed in \sref{interpolant-adaptivity}, the
+interpretation of \eref{interpolant-sparse} is different from the one used in
+\sref{sparse-interpolation}. Specifically, $\ls \in \natural$ no longer
+represents the current interpolation level but rather the current interpolation
+step, and $\interpolant{\nz}{\ls}$ is the interpolant at that step. From now on,
+all index sets are generally subsets of their full-fledged counterparts defined
+in \sref{sparse-interpolation}.
 
 Let us now turn to the choice of collocation nodes and basis functions.
 
@@ -221,19 +227,14 @@ identify problematic regions. We proceed as follows. First a score is assigned
 to each node $\vx_{\vi \vj}$ or, equivalently, to each pair of level and order
 indices $(\vi, \vj)$ as follows:
 \[
-  s_{\vi \vj} = \absolute{\Delta\g(\vx_{\vi \vj}) w_{\vi \vj}}
+  s_{\vi \vj} = \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj}) w_{\vi \vj}}
 \]
-where $\Delta\f(\vx_{\vi \vj})$ and $w_{\vi\vj}$ are given by
+where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ and $w_{\vi\vj}$ are given by
 \eref{interpolant-sparse-surplus} and \eref{interpolant-basis-volume},
 respectively. Then this score is used in order to guide the algorithm as we
 explain now.
 
-The formula in \eref{interpolant-sparse} is reinterpreted as follows. The number
-\ls in \eref{interpolant-sparse} no longer represents the current interpolation
-level but rather the current interpolation step, and $\interpolant{\nz}{\ls}$ is
-the interpolant at that step. From now on, all index sets are generally subsets
-of their full-fledged counterparts defined in \sref{sparse-interpolation}. Each
-$\interpolant{\nz}{\ls}$ is characterized by a set of level indices
+Each $\interpolant{\nz}{\ls}$ is characterized by a set of level indices
 $\sparseindex{\nz}{\ls}$, and each $\vi \in \sparseindex{\nz}{\ls}$ is
 characterized by a set of order indices $\Delta\tensorindex{\nz}{\vi}$. At each
 interpolation step $\ls \in \natural$, a single index denoted by $\vi_{\ls}$ is
@@ -306,7 +307,7 @@ criterion. Assume there are two additional constants: \error{a} and \error{r},
 which are referred to as the absolute and relative error, respective. Then the
 process is terminated as soon as
 \[
-  \max_{(\vi, \vj)} \absolute{\Delta\g(\vx_{\vi \vj})} \leq \max \left\{ \error{a}, \error{r} (\g_\maximum - \g_\minimum) \right\}
+  \max_{\vi \vj} \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj})} \leq \max \left\{ \error{a}, \error{r} (\g_\maximum - \g_\minimum) \right\}
 \]
 where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed value
 of \g, respectively, and the left-hand side is the maximum surplus whose level
@@ -326,11 +327,12 @@ that are the most influential.
 
 To summarize, we have obtained an efficient algorithm for adaptive hierarchical
 interpolation in multiple dimensions. The main equation is
-\eref{interpolant-sparse} where $\Delta\g(\vx_{\vi \vj})$, $\vx_{\vi \vj}$, and
-$e_{\vi \vj}$ are the ones given in \eref{interpolant-sparse-surplus},
-\sref{interpolant-grid}, and \sref{interpolant-basis}, respectively, and the
-interpolation is undertaken according to the rules given in
-\sref{interpolant-adaptivity}. Now we discuss the implementation.
+\eref{interpolant-sparse} where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$,
+$\vx_{\vi \vj}$, and $e_{\vi \vj}$ are the ones given in
+\eref{interpolant-sparse-surplus}, \sref{interpolant-grid}, and
+\sref{interpolant-basis}, respectively, and the interpolation is undertaken
+according to the rules given in \sref{interpolant-adaptivity}. Now we discuss
+the implementation.
 
 \subsection{Implementation}
 
@@ -359,77 +361,74 @@ level indices, which can be adjusted according to the maximum permitted depth of
 interpolation.
 
 \inputalgorithm{interpolant-construction}
-The pseudocode of the construction stage is given in \aref{construct} called
-\texttt{Construct}. The \texttt{target} input is a function $\f$ to be
-approximated. The \texttt{surrogate} output is a structure containing the
-artifacts of interpolation, which are a set of tuples $\{ (\v{\iota}_k,
-\Delta\f(\vx_{\v{\iota}_k}) \}_k$, giving a comprehensive description of an
-interpolant. The routine works as follows.
+The pseudocode of the construction stage is given in
+\aref{interpolant-construction}. The input is a subroutine called Algorithm~G
+that evaluates $\g \circ \transform$. The output is a structure
+\texttt{interpolant} that contains artifacts of interpolation. These artifacts
+are a set of tuples $\{ (\v{\iota}_k, \Delta\g(\vx_{\v{\iota}_k})) \}$, which is
+a comprehensive description of a hierarchical interpolant. The pseudocode works
+as follows.
 
-\begin{itemize}
+Line 1: Each iteration of the loop corresponds to an interpolation step \ls in
+\eref{interpolant-sparse}. The progress is captured by a structure
+\texttt{state}. The \texttt{strategy} object represents the adaptation strategy
+utilized, and it operates in accordance with \sref{interpolant-adaptivity}. The
+\texttt{Continue?} method of \texttt{strategy} checks if any of the stopping
+conditions is satisfied, in which case the process is terminated.
 
-\item[L2:] Each iteration is an interpolation step in \eref{approximation}. It
-has a state captured by a structure denoted by \texttt{s}. The \texttt{strategy}
-object represents an adaptation strategy utilized and works as described in
-\sref{adaptivity}. The \texttt{First} method of \texttt{strategy} returns the
-initial state of the first step so that the \texttt{indices} field of \texttt{s}
-is initialized with the indices of that step. The body of the loop populates the
-rest of the fields of \texttt{s} so that \texttt{strategy.Next} can adequately
-produce the initial state of the next iteration. The process terminates when a
-stopping condition is satisfied, in which case \texttt{Next} returns a null
-state.
+Line 2: The \texttt{Next} method of \texttt{strategy} consumes the previous
+state and returns the initial state of the ongoing interpolation step. In
+particular, it populates the \texttt{indices} field of \texttt{state} with the
+indices of the step. The rest of the loop's body populates the rest of
+\texttt{state}'s fields so that \texttt{strategy} can adequately execute its
+functions at the beginning of the next iteration.
 
-\item[L3:] The \texttt{grid} object represents the interpolation grid utilized
-(see \sref{grid}), and its \texttt{Compute} method converts the step's indices
-into the coordinates of the corresponding collocation nodes, that is, $\{
-\v{\iota}_k \}_k$ into $\{ \vx_{\v{\iota}_k} \}_k$.
+Line 3: The \texttt{grid} object represents the utilized interpolation grid, and
+its \texttt{Compute} method calculates the collocation nodes that correspond to
+given indices, that is, $\{ \vx_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k \}$;
+see \sref{interpolant-grid} for more detail.
 
-\item[L4:] \texttt{Invoke} evaluates \texttt{target} at the collocation nodes.
-This is by far the most time consuming function of the algorithm as
-\texttt{target} is generally expensive to evaluate. This function is also a
-prominent candidate for parallelization since the algorithm does not impose any
-evaluation order.
+Line 4: Algorithm~G evaluates $\g \circ \transform$ at the collocation nodes.
+This is by far the most time consuming operation of the algorithm as \g is
+generally expensive to execute. This operation is also a prominent candidate for
+parallelization since the algorithm does not impose any particular evaluation
+order.
 
-\item[L5:] \texttt{Evaluate} exercises the interpolant constructed so far at the
-collocation nodes, approximating the values obtained on line~4. This function
-will be discussed separately.
+Line 5: \aref{interpolant-evaluation} is a subroutine that exercises the
+interpolant constructed so far at the collocation nodes and, thereby,
+approximates the values obtained on line~4. This algorithm is to be discussed
+separately.
 
-\item[6:] \texttt{Subtract} computes the difference between the true and
-approximated values of \texttt{target}, which yields the step's hierarchical
-surpluses $\{ \Delta\f(\vx_{\v{\iota}_k}) \}_k$, similar to \eref{surplus}.
+Line 6: The \texttt{Subtract} subroutine computes the difference between the
+actual and approximated values of \g, which yields the hierarchical surpluses
+$\{ \Delta(\g \circ \transform)(\vx_{\v{\iota}_k}) \}$ of the current
+interpolation step.
 
-\item[L7:] \texttt{strategy.Score} calculates the scores of the new collocation
-nodes based on their surpluses; see \eref{score}.
+Line 7: The \texttt{Score} method of \texttt{strategy} calculates the scores of
+the new collocation nodes based on their surpluses as described in
+\sref{interpolant-adaptivity}.
 
-\item[L8:] \texttt{Append} improves the interpolant by extending it with the
-indices and surpluses of the current iteration.
-
-\end{itemize}
+Line 8: The \texttt{Append} method of \texttt{interpolant} refines the
+interpolant by extending it with the indices and surpluses of the undertaken
+iteration.
 
 \inputalgorithm{interpolant-evaluation}
 We now turn to the usage stage of an interpolant. The pseudocode is given in
-\aref{evaluate} called \texttt{Evaluate}. This algorithm is also involved in
-\aref{construct}; see line~5. Let us make a couple of observations regarding
-\texttt{Evaluate}.
+\aref{interpolant-evaluation}. This subroutine is also involved in
+\aref{interpolant-construction}; see line~5. Let us make a couple of
+observations regarding this subroutine.
 
-\begin{itemize}
+Line 3: The inner loop corresponds to an unfolded version of
+\eref{interpolant-sparse}; that is, there is no separation into the individual
+interpolation steps taken.
 
-\item[L4:] The inner loop is an unfolded version of \eref{approximation} (there
-is no separation between individual interpolation steps taken).
+Line 4: The \texttt{basis} object represents the utilized interpolation basis,
+and its \texttt{Compute} method evaluates the basis functions that correspond to
+given indices, that is, $\{ e_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k \}$, at
+arbitrary points; see \sref{interpolant-basis}.
 
-\item[L5:] The \texttt{basis} object represents the interpolation basis utilized
-(see \sref{basis}), and its \texttt{Compute} method evaluates a single
-(multidimensional) basis function at a single point.
-
-\end{itemize}
-
-It is worth noting that the \texttt{basis}, \texttt{grid}, and \texttt{strategy}
+It is worth noting that the \texttt{strategy}, \texttt{grid}, and \texttt{basis}
 objects conform to certain interfaces and can be easily swapped out. This makes
 the two algorithms very general and reusable with different configurations. In
 particular, the adaptation strategy can be fine-tuned for each particular
 problem.
-
-To recapitulate, we have presented the key component of our framework for
-probabilistic analysis of electronic systems: an efficient approach to
-multidimensional interpolation. The overall technique has been consolidated in
-\aref{construct} and \ref{alg:evaluate}.

@@ -8,7 +8,7 @@
       \Let{state}{strategy.Next(state)}
       \Let{state.nodes}{grid.Compute(state.indices)}
       \Let{state.values}{Algorithm~G(state.nodes)}
-      \Let{state.estimates}{Evaluate(interpolant, state.nodes)}
+      \Let{state.estimates}{\aref{interpolant-evaluation}(interpolant, state.nodes)}
       \Let{state.surpluses}{Subtract(state.values, state.estimates)}
       \Let{state.scores}{strategy.Score(state.surpluses)}
       \State interpolant.Append(state.indices, state.surpluses)
