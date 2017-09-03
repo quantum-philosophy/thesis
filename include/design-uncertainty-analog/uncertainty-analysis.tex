@@ -62,7 +62,11 @@ a transformation by
   \vu = \transform{\vz}
 \end{equation}
 where $\vz: \Omega \to \real^\nz$ is a random vector with \nz independent
-components.
+components, and $\transform: \real^\nz \to \real^\nu$. The quantity of interest
+\g can now be computed as
+\[
+  \g(\vu) = (\g \circ \transform)(\vz) = \g(\transform(\vz)).
+\]
 
 Correlated random variables can be transformed into linearly uncorrelated ones
 via the \ac{KL} decomposition given in \eref{karhunen-loeve}. In addition, if
@@ -122,7 +126,7 @@ described in \sref{sparse-integration}. Specifically, an adequate
 utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
-  = \sum_{\vj \in \sparseindex{\nz}{\lq}} \g(\transform{\vz_{\vj}}) \psi_{\vi}(\vz_{\vj}) w_{\vj}
+  = \sum_{\vj \in \sparseindex{\nz}{\lq}} (\g \circ \transform)(\vz_{\vj}) \psi_{\vi}(\vz_{\vj}) w_{\vj}
 \end{equation}
 where $\lq \in \natural$ is the level of the quadrature, and $\{ \vz_{\vj}: \vj
 \in \sparseindex{\nz}{\lq} \} \subset \real^\nz$ and $\{ w_{\vj}: \vj \in
