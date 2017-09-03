@@ -69,7 +69,7 @@ Then the Smolyak algorithm of level \ls is
 \begin{equation} \elab{interpolant-sparse-incremental}
   \interpolant{n}{\ls}
   = \sum_{\vi \in \sparseindex{n}{\ls}} \Delta\interpolant{n}{\vi}
-  = \sparse{n}{\ls - 1} + \sum_{\vi \in \Delta\sparseindex{n}{\ls}} \Delta\interpolant{n}{\vi}
+  = \interpolant{n}{\ls - 1} + \sum_{\vi \in \Delta\sparseindex{n}{\ls}} \Delta\interpolant{n}{\vi}
 \end{equation}
 where
 \begin{align}
