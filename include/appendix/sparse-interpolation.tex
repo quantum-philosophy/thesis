@@ -1,8 +1,8 @@
-Let $\g: [0, 1] \to \real$ be a function in $\continuous([0, 1])$, the space of
+Let $\f: [0, 1] \to \real$ be a function in $\continuous([0, 1])$, the space of
 continuous functions defined on the unit interval $[0, 1]$. The function is
 approximated by virtue of the following interpolation formula:
 \begin{equation} \elab{interpolant-tensor-1d}
-  \g \approx \interpolant{1}{i}(\g) = \sum_{j \in \tensorindex{1}{i}} \g(\x_{ij}) e_{ij}.
+  \f \approx \interpolant{1}{i}(\f) = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) e_{ij}.
 \end{equation}
 In the notation $\interpolant{1}{i}$, the superscript 1 indicates the
 dimensionality, and the subscript $i \in \natural$ signifies the level of the
@@ -19,12 +19,12 @@ is a set indexing the first two where $n_i$ denotes its cardinality. In this
 context, the subscript $j \in \tensorindex{1}{i}$ is referred to as the order of
 a node or function.
 
-Let us now turn to the multidimensional case. Let $\g: [0, 1]^n \to \real$ be a
+Let us now turn to the multidimensional case. Let $\f: [0, 1]^n \to \real$ be a
 function in $\continuous([0, 1]^n)$, the space of continuous functions defined
 on the unit hypercube $[0, 1]^n$. The function is approximated as
 \[
-  \g \approx \interpolant{n}{\vi}(\g)
-  = \sum_{\vj \in \tensorindex{n}{\vi}} \g(\vx_{\vi \vj}) e_{\vi \vj}
+  \f \approx \interpolant{n}{\vi}(\f)
+  = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) e_{\vi \vj}
 \]
 where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
 (multi-)indices specifying levels and orders, respectively. In the case,
@@ -103,7 +103,7 @@ in that case, the cardinality of
   \X^n_{\ls} \setminus \X^n_{\ls - 1} = \bigcup_{\vi \in \Delta\sparseindex{n}{\ls}} \Delta\X^n_{\vi}
 \]
 derived from \eref{interpolant-sparse-grid} decreases. In words, the values of
-\g obtained on lower levels can be reused in order to attain higher levels if
+\f obtained on lower levels can be reused in order to attain higher levels if
 the grid grows without discarding its previous structure. With this aspect in
 mind, the rule used for generating successive sets of points $\{ \X^1_i \}_i$
 should be chosen to be nested, that is, in such a way that $\X^1_i$ contains all
@@ -113,13 +113,13 @@ The final step is to rewrite \eref{interpolant-sparse-incremental} in its
 hierarchical form. To this end, we require interpolants of higher levels to
 represent exactly interpolants of lower levels. In one dimension, it means that
 \begin{equation} \elab{interpolant-tensor-exactness}
-  \interpolant{1}{i - 1}(\g) = \interpolant{1}{i}(\interpolant{1}{i - 1}(\g)).
+  \interpolant{1}{i - 1}(\f) = \interpolant{1}{i}(\interpolant{1}{i - 1}(\f)).
 \end{equation}
 The above condition can be satisfied by an appropriate choice of collocation
 nodes and basis functions. Assuming that it holds and using
 \eref{interpolant-tensor-1d} and \eref{interpolant-tensor-delta-1d},
 \[
-  \Delta\interpolant{1}{i}(\g) = \sum_{j \in \Delta\tensorindex{1}{i}} \left(\g(\x_{ij}) - \interpolant{1}{i - 1}(\g)(\x_{ij})\right) e_{ij}
+  \Delta\interpolant{1}{i}(\f) = \sum_{j \in \Delta\tensorindex{1}{i}} \left(\f(\x_{ij}) - \interpolant{1}{i - 1}(\f)(\x_{ij})\right) e_{ij}
 \]
 where
 \[
@@ -129,7 +129,7 @@ The above summation is over $\Delta\X^1_i$ due to the fact that the difference
 in the parentheses is zero when $\x_{ij} \in \X^1_{i - 1}$ since $\X^1_{i - 1}
 \subset \X^1_i$. In multiple dimensions,
 \begin{equation} \elab{interpolant-tensor-delta}
-  \Delta\interpolant{n}{\vi}(\g) = \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \left(\g(\vx_{\vi \vj}) - \interpolant{n}{\norm[1]{\vi} - 1}(\g)(\vx_{\vi \vj})\right) e_{\vi \vj}
+  \Delta\interpolant{n}{\vi}(\f) = \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \left(\f(\vx_{\vi \vj}) - \interpolant{n}{\norm[1]{\vi} - 1}(\f)(\vx_{\vi \vj})\right) e_{\vi \vj}
 \end{equation}
 where
 \begin{equation} \elab{interpolant-tensor-index-delta}
@@ -137,19 +137,19 @@ where
 \end{equation}
 The delta
 \begin{equation} \elab{interpolant-sparse-surplus}
-  \Delta\g(\vx_{\vi \vj}) = \g(\vx_{\vi \vj}) - \interpolant{n}{\norm[1]{\vi} - 1}(\g)(\vx_{\vi \vj})
+  \Delta\f(\vx_{\vi \vj}) = \f(\vx_{\vi \vj}) - \interpolant{n}{\norm[1]{\vi} - 1}(\f)(\vx_{\vi \vj})
 \end{equation}
 is called a hierarchical surplus. When increasing the interpolation level, this
-surplus is the difference between the actual value of \g at a new node and the
+surplus is the difference between the actual value of \f at a new node and the
 approximation of this value computed by the interpolant constructed so far.
 
 The final formula for (nonadaptive) hierarchical interpolation is obtained by
 substituting \eref{interpolant-tensor-delta} into
 \eref{interpolant-sparse-incremental}. The result is
 \begin{align*}
-  \interpolant{n}{\ls}(\g)
-  &= \sum_{\vi \in \sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj} \\
-  &= \interpolant{n}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\g(\vx_{\vi \vj}) e_{\vi \vj}
+  \interpolant{n}{\ls}(\f)
+  &= \sum_{\vi \in \sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj} \\
+  &= \interpolant{n}{\ls - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj}
 \end{align*}
-where $\Delta\g(\vx_{\vi \vj})$ is computed according to
+where $\Delta\f(\vx_{\vi \vj})$ is computed according to
 \eref{interpolant-sparse-surplus}.

@@ -61,31 +61,31 @@ the Cameron--Martin theorem,
 \]
 which is known as the Wiener chaos decomposition.
 
-The Wiener chaos decomposition implies that any $\g \in \L{2}(\Omega, \F,
+The Wiener chaos decomposition implies that any $\f \in \L{2}(\Omega, \F,
 \probability)$ admits an expansion with respect to the polynomial basis, which
 is denoted by
 \[
-  \g = \sum_{\vi \in \natural^n} \hat{g}_{\vi} \psi_{\vi}
+  \f = \sum_{\vi \in \natural^n} \hat{\f}_{\vi} \psi_{\vi}
 \]
 where the equality should be understood in mean square. The coefficients $\{
-\hat{g}_{\vi} \}$ of this spectral decomposition are found by multiplying both
+\hat{\f}_{\vi} \}$ of this spectral decomposition are found by multiplying both
 sides of the equation by $\psi_{\vi}$ and making use of
 \eref{chaos-orthogonality}, which results in
 \begin{equation} \elab{chaos-projection}
-  \hat{g}_{\vi} = \innerproduct{\g}{\psi_{\vi}}
+  \hat{\f}_{\vi} = \innerproduct{\\f}{\psi_{\vi}}
 \end{equation}
 This operation is referred to as a spectral projection.
 
 In practice, the infinite expansion is truncated, which we denote as
 \[
-  \g \approx \chaos{n}{\lc}{\g} = \sum_{\vi \in \sparseindex{n}{\lc}} \hat{g}_{\vi} \psi_{\vi}.
+  \f \approx \chaos{n}{\lc}{\f} = \sum_{\vi \in \sparseindex{n}{\lc}} \hat{\f}_{\vi} \psi_{\vi}.
 \]
 In the notation $\chaos{n}{\lc}$, the superscript $n$ indicates the
 dimensionality of the vector space, and the subscript \lc indicates the level of
-the truncated expansion. This truncated expansion converges in mean square to \g
+the truncated expansion. This truncated expansion converges in mean square to \f
 as $\lc \to \infty$, that is,
 \[
-  \g = \lim_{\lc \to \infty} \chaos{n}{\lc}{\g}.
+  \f = \lim_{\lc \to \infty} \chaos{n}{\lc}{\f}.
 \]
 
 The Wiener chaos decomposition is often referred to as the classical \acf{PC}
