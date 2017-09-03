@@ -1,0 +1,21 @@
+The foremost step of our framework is to change the parameterization of the
+problem from the random vector $\vu: \Omega \to \real^\nu$ to an auxiliary
+random vector $\vz: \Omega \to \real^\nz$ such that \one~the support of the
+\ac{PDF} of \vz is the unit hypercube $[0, 1]^\nz$, and \two~$\nz \leq \nu$ has
+the smallest value that is needed to retain the desired level of accuracy. The
+first is standardization, which is done primarily for convenience. The second is
+model order reduction, which identifies and eliminates excessive complexity and,
+hence, speeds up the subsequent solution process. The overall transformation is
+denoted by
+\[
+  \vu = \transform{\vz}
+\]
+where $\transform: [0, 1]^\nz \to \real^\nu$. The quantity of interest \g can
+now be computed as
+\[
+  \g(\vu) = (\g \circ \transform)(\vz) = \g(\transform(\vz)).
+\]
+
+The attentive reader might already have a suitable candidate for $\transform$;
+it is the one in \eref{probability-transformation} used throughout the thesis,
+which is to be discussed in \sref{interpolant-application}.
