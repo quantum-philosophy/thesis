@@ -1,0 +1,253 @@
+The agenda for this section is as follows. In \sref{parameters}, the uncertain
+parameters \vu are transformed into a form suitable for the subsequent
+calculations. This stage is an essential part of our framework, and it is
+denoted by $\transform$ in \fref{example}. The rest of the subsections,
+\sref{time}--\ref{sec:temperature}, serve a strictly illustrative purpose. They
+exemplify the leftmost box in \fref{example} in order to give the reader a
+better intuition about the utility of the framework. The subsections introduce a
+number of models and a number of metrics \g; however, it should be well
+understood that the essence of \g is problem specific. In practice, \g stands
+for an adequate simulator of the system under consideration. The modeling
+capabilities of this simulator are naturally inherited by the proposed
+framework.
+
+\subsection{Probability Transformation}
+
+Let us consider an example of $\transform$ in order to understand the concept
+better. Assume that \vu is specified by a set of marginal distribution functions
+$\{ F_i \}_{i = 1}^\nu$ and a Gaussian copula whose correlation matrix is
+$\correlation{\vu}$; such a copula can be constructed as it is outlined in
+\sref{chaos-formulation}. The transformation $\transform$ is
+\[
+  \vu = F^{-1} \left(\Phi\left(\m{U} \tm{\Lambda}^\frac{1}{2} \Phi^{-1}(\vz)\right)\right)
+\]
+where the random variables $\vz: \Omega \to \real^\nz$ are independent and
+uniformly distributed on $[0, 1]^\nz$; $\Phi$ and $\Phi^{-1}$ are the
+distribution function of the standard Gaussian distribution and its inverse,
+respectively, which are applied element-wise; and $F_{\vu}^{-1} = F_{\u_1}^{-1}
+\times \cdots \times F_{\u_\nz}^{-1}$ is the Cartesian product of the inverse
+marginal distributions of \vu, which are applied to the corresponding element of
+the vector yielded by $\Phi$. In the absence of correlations,
+\eref{transformation-concrete} is simply $\vu = F_{\vu}^{-1}(\vz)$, and no
+model-order reduction is possible ($\nu = \nz$).
+
+To summarize, we have found such a transformation $\transform$ and the
+corresponding random vector $\vz \sim F_{\vz}$ that: 1) $F_{\vz}$ is supported
+by $[0, 1]^\nz$, and 2) \vz has the smallest number of dimensions \nz needed to
+preserve $\eta$ portion of the variance. Let us emphasize that this $\transform$
+is an example; the framework works with any $\transform$ that yields $\vz \sim
+F_{\vz}$ for some \nz.
+
+\subsection{Application Timing}
+
+Suppose the application is given as a directed acyclic graph. The vertices
+represent tasks, and the edges data dependency between these tasks. Suppose
+further that a static cyclic scheduling policy is utilized. Note, however, these
+assumptions are orthogonal to our framework: the framework can be applied to any
+application model and any scheduling policy.
+
+Each task has a start and a finish time. For task $i$, denote these two time
+moments by $b_i$ and $d_i$, respectively, and let $\v{b} = (b_i)_{i = 1}^\nt$
+and $\v{d} = (d_i)_{i = 1}^\nt$. Other timing characteristics of the application
+can be derived from $(\v{b}, \v{d})$. An example is the end-to-end delay, which
+is the difference between the finish time of the latest task and the start time
+of the earliest task:
+\[
+  \text{End-to-end delay} = \max_{i = 1}^\nt \, d_i - \min_{i = 1}^\nt \, b_i.
+\]
+
+Suppose the execution times of the tasks depend on \vu (see \sref{problem}).
+Then the tuple $(\v{b}, \v{d})$ depends on \vu. Then the end-to-end delay given
+in \eref{end-to-end-delay} depends on \vu and is a potential metric \g; it is
+used in \fref{example}. Note that this \g is nondifferentiable as the $\max$ and
+$\min$ functions are such. Hence, \g is nonsmooth, which renders \up{PC}
+expansions and similar techniques inadequate for this problem, as illustrated in
+\sref{introduction}.
+
+\begin{remark}
+In general, the behavior of \g with respect to continuity, differentiability,
+and smoothness cannot be inferred from the behavior of \vu. Even when the
+parameters are perfectly behaved, \g can still and likely will exhibit
+nondifferentiability or even discontinuity, which depends on how \g works
+internally. For example, as shown in \cite{tanasa2015}, even if execution times
+of tasks are continuous, due to the actual scheduling policy, end-to-end delays
+are very often discontinuous.
+\end{remark}
+
+\subsection{Power Consumption}
+
+Denote the number of processing elements present on the platform by \np. Let the
+dynamic power consumed by task $j$ when running on processing element $i$ be
+fixed during the execution of the task and denote this dynamic power by
+$\p^\dynamic_{ij}$. The fact that $\p^\dynamic_{ij}$ is constant might seem
+restrictive. However, one should keep in mind that it is an example. Our
+framework does not have such a restriction. Even in this simple model, the
+modeling accuracy can be substantially improved by representing large tasks as
+sequences of smaller tasks.
+
+Let the vector $\vp(t) = (\p_i(t))_{i = 1}^\np$ capture the total power
+consumption of the system at time $t$. This vector is related to the dynamic
+power introduced above as follows:
+\[
+  \p_i(t) = \sum_{j = 1}^\nt \p^\dynamic_{ij} \: \delta_{ij} (t) + \p^\static_i(t), \text{ for $i = \range{1}{\np}$},
+\]
+where $\delta_{ij}(t)$ is an indicator function (outputs either zero or one) of
+the event that processing element $i$ executes task $j$ at time $t$, and
+$\p^\static_i(t)$ is the static power consumed by processing element $j$ at time
+$t$. The last component depends on time because the leakage power and
+temperature are interdependent \cite{liu2007}, and temperature changes over time
+(see the next subsection).
+
+Given a set of \ns points on the timeline $\{ t_i \}_{i = 1}^\ns$, \eref{power}
+can be used to construct a power profile of the system as follows:
+\[
+  \mp = (\p_i(t_j))_{i = 1, j = 1}^{\np, \ns} \in \real^{\np \times \ns}.
+\]
+The above is a matrix where row $i$ captures the power consumed by processing
+element $i$ at the \ns time moments.
+
+The total energy consumed by the system during an application run can be
+computed by integrating \eref{power} over the time span of the
+application---which is demarcated by the minuend and subtrahend in
+\eref{end-to-end-delay}---and the corresponding integral can be estimated using
+the power profile as follows:
+\[
+  \text{Total energy} = \sum_{i = 1}^\np \int \p_i(t) \, \d t \approx \sum_{i = 1}^\np \sum_{j = 1}^\ns \p_i(t_j) \, \Delta t_j
+\]
+where $\Delta t_j$ is either $t_j - t_{j - 1}$ or $t_{j + 1} - t_j$, depending
+on how power values are encoded in \mp. The assumption that \eref{total-energy}
+is based on is that each $\Delta t_i$ is sufficiently small so that the power
+consumed within the interval does not change significantly.
+
+Since the tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption of the
+system depends on \vu too. Consequently, the total energy given in
+\eref{total-energy} depends on \vu and is a candidate for \g. Note that
+\rref{smoothness} applies in this context to the full extent.
+
+\subsection{Heat Dissipation}
+
+Based on the specification of the platform including its thermal package, an
+equivalent thermal \up{RC} circuit is constructed \cite{skadron2004}. The
+circuit comprises \nn thermal nodes, and its structure depends on the intended
+level of granularity, which impacts the resulting accuracy. For clarity, we
+assume that each processing element is mapped onto one corresponding node, and
+the thermal package is represented as a set of additional nodes.
+
+The thermal dynamics of the system are modeled using the following system of
+differential-algebraic equations \cite{ukhov2014, ukhov2012}:
+\begin{subnumcases}{}
+  \m{C} \frac{\d\vs(t)}{\d t} + \m{G} \vs(t) = \m{M} \vp(t) \\
+  \vq(t) = \m{M}^T \vs(t) + \vq_\ambient
+\end{subnumcases}
+The coefficients $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in \real^{\nn
+\times \nn}$ are a diagonal matrix of thermal capacitance and a symmetric,
+positive-definite matrix of thermal conductance, respectively. The vectors
+$\vp(t) \in \real^\np$,  $\vq(t) \in \real^\np$, and $\vs(t) \in \real^\nn$
+correspond the system's power, temperature, and internal state at time $t$,
+respectively. The vector $\vq_\ambient \in \real^\np$ contains the ambient
+temperature. The matrix $\m{M} \in \real^{\nn \times \np}$ is a mapping that
+distributes the power consumption of the processing elements across the thermal
+nodes; without loss of generality, $\m{M}$ is a rectangular diagonal matrix
+whose diagonal elements are equal to one.
+
+Given a set of \ns points on the timeline $\{ t_i \}_{i = 1}^\ns$,
+\eref{thermal-system} can be used to compute a temperature profile of the system
+as follows:
+\[
+  \mq = (\q_i(t_j))_{i = 1, j = 1}^{\np, \ns} \in \real^{\np \times \ns}.
+\]
+Then the maximum temperature of the system can be estimated using the
+temperature profile as follows:
+\[
+  \text{Max temperature} = \max_{i = 1}^\np \, \sup_{t} \, \q_i(t) \approx \max_{i = 1}^\np \max_{j = 1}^\ns \, \q_i(t_j).
+\]
+
+Since the power consumption of the system is affected by \vu (see \sref{power}),
+the system's temperature is affected by \vu as well. Therefore, the temperature
+in \eref{maximum-temperature} can be considered as a metric \g. Note that, due
+to the maximization involved, the metric is nondifferentiable and, hence, cannot
+be adequately addressed using polynomial approximations, specially taking into
+account the concern in \rref{smoothness}.
+
+To sum up, we have discussed the transformation that needs to be applied to \vu
+prior to the interpolation of \g. We have also covered three aspects of
+electronic systems, namely, timing, power, and temperature, and introduced a
+number of metrics associated with them; we shall come back to these metrics in
+the section on experimental results, \sref{experiments}.
+
+\subsection{Example}
+
+In \sref{modeling}, we formalized the uncertainty affecting electronic systems
+and discussed several aspects of such systems along with metrics \g, which the
+designer is interested in evaluating. In \sref{interpolation}, we obtained an
+efficient interpolation algorithm for approximating hypothetical
+multidimensional functions \f. We shall now amalgamate the ideas developed in
+the aforementioned two sections.
+
+Given an electronic system dependent on a number of uncertain parameters $\vu:
+\Omega \to \real^\nu$, the goal is to analyze a metric \g representing a certain
+aspect of the system. For instance, \vu can correspond to the execution times of
+the tasks, and \g can correspond the total energy consumed by the processing
+elements, as we exemplify in \sref{time} and \sref{power}. The goal is attained
+as follows; recall \fref{example}.
+
+1) The parameterization of \g is changed from \vu to random variables $\vz:
+\Omega \to [0, 1]^\nz$ via a suitable transformation $\transform$; this stage is
+described in \sref{parameters}. 2) An interpolant of the resulting composition
+$\g \circ \transform$ is constructed by treating the composition as a
+deterministic function \f of \vz; this stage is detailed in
+\sref{interpolation}. 3) An estimation of the probability distribution of \g is
+undertaken in the usual sampling-based manner but relying solely on the
+constructed interpolant; \g is no longer involved. This last stage boils down to
+drawing independent samples from $F_{\vz}$ and evaluating the interpolant
+$\interpolant{n}{l}(\f) \equiv \interpolant{n}{l}(\g \circ \transform)$ at those
+points. Having collected samples of \g, other statistics about \g, such as
+probabilities of particular events, can be straightforwardly estimated. We do
+not discuss this estimation stage any further as it is standard.
+
+There are two aspects concerning the usage of the proposed framework that we
+would like to cover in what follows.
+
+In this section, we apply our framework to a small problem in order to get a
+better understanding of the workflow of the framework. A detailed description of
+our experimental setup is given in \sref{configuration}; here we give only the
+bare minimum.
+
+The addressed problem is depicted in \fref{example}. We consider a platform with
+two processing elements, PE1 and PE2, and an application with four tasks,
+T1--T4. The data dependencies between T1--T4 and their mapping onto PE1 and PE2
+can be seen in \fref{example}. The metric \g is the end-to-end delay of the
+application. The uncertain parameters \vu are the execution times of T2 and T4
+denoted by $\u_1$ and $\u_2$, respectively.
+
+The leftmost box in \fref{example} represents a simulator of the system at hand,
+and it could involve such tools as Sniper \cite{carlson2011}. It takes an
+assignment of the execution times of T2 and T3, $\u_1$ and $\u_2$, and outputs
+the calculated end-to-end delay \g. The second box corresponds to the
+reparameterization mentioned in \sref{solution} (to be discussed in
+\sref{parameters}). It converts the auxiliary variables $\z_1$ and $\z_2$ into
+$\u_1$ and $\u_2$ in accordance with $\u_1$ and $\u_2$'s joint distribution. The
+third box is our interpolation engine (to be discussed in \sref{interpolation}).
+Using a number of strategic invocations of the simulator, the interpolation
+engine yields a light surrogate for the simulator; the surrogate corresponds to
+the slim box with rounded corners. Having obtained such a surrogate, one
+proceeds to sampling extensively the surrogate via a sampling method of choice
+(the rightmost box). The surrogate takes $\z_1$ and $\z_2$ and returns an
+approximation of \g at that point. Recall that the computational cost of this
+extensive sampling is negligible as \g is not involved. The samples are then
+used to compute an estimate of the distribution of \g.
+
+In the graph on the right-hand side of \fref{example}, the blue line shows the
+probability density function of \g computed by applying kernel density
+estimation to the samples obtained from our surrogate. The yellow line (barely
+visible behind the blue line) shows the true density of \g; its calculation is
+explained in \sref{experiments}. It can be seen that our solution closely
+matches the exact one. In addition, the orange line shows the estimation that
+one would get if one sampled \g directly 156 times and used only those samples
+in order to calculate the density of \g. We see that, for the same budget of
+simulations, the solution delivered by our framework is substantially closer to
+the true one than the one delivered by na\"{i}ve sampling.
+
+At this point, we are ready to present to the proposed framework. We begin by
+elaborating on the modeling of uncertain parameters and metrics of interest. We
+shall then proceed to the interpolation engine (\sref{interpolation}).
