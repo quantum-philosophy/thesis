@@ -9,27 +9,27 @@ capabilities of this simulator are naturally inherited by our technique.
 
 Assume the system, power, and temperature models given in \sref{system-model},
 \sref{power-model}, \sref{temperature-model}, respectively. Assume also the
-application model given in \sref{thermal-cycling-problem} except for its
-periodicity. Each task has a start and a finish time. For task $i =
-\range{1}{\nt}$, denote these two time moments by $b_i$ and $d_i$, respectively.
-Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} = (d_i)_{i = 1}^\nt$. Then other
-timing characteristics of the application in question can be derived from
-$(\v{b}, \v{d})$. For example, the end-to-end delay---which is the difference
-between the finish time of the latest task and the start time of the earliest
-task---is as follows:
+application model given in \sref{thermal-cycling-problem} except for the
+requirement about being periodic.
+
+Let us first discuss timing. Each task of the application in question has a
+start and a finish time. For task $i$, denote these two time moments by $b_i$
+and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} =
+(d_i)_{i = 1}^\nt$. Then other timing characteristics of the application can be
+derived from $(\v{b}, \v{d})$. For example, the end-to-end delay---which is the
+difference between the finish time of the latest task and the start time of the
+earliest task---is as follows:
 \begin{equation} \elab{interpolant-delay}
   \text{End-to-end delay}
   = \max_{i = 1}^\nt d_i - \min_{i = 1}^\nt b_i.
 \end{equation}
-
-Suppose the execution times of the tasks depend on \vu; see
-\sref{interpolant-problem}. Then the tuple $(\v{b}, \v{d})$ and, hence, the
-end-to-end delay in \eref{interpolant-delay} given above depend on \vu. This
-delay is a quantity \g that is potentially of interest to the designer. Note
-that this \g is nondifferentiable since the $\max$ and $\min$ functions are
-such. Hence, \g is nonsmooth, which renders \up{PC} expansions and similar
-techniques inadequate for this problem, as illustrated in
-\sref{interpolant-example}.
+Suppose now that the execution times of the tasks depend on \vu; see
+\sref{interpolant-problem}. Then the tuple $(\v{b}, \v{d})$ and, consequently,
+the end-to-end delay in \eref{interpolant-delay} depend on \vu. This delay is a
+potential quantity of interest \g. Note that this \g is nondifferentiable since
+the $\max$ and $\min$ functions are such. Therefore, \g is nonsmooth, which
+renders \up{PC} expansions and similar techniques inadequate for this problem,
+which is elaborated on in \sref{interpolant-example}.
 
 \begin{remark} \rlab{interpolant-nonsmoothness}
 In general, the behavior of \g with respect to continuity, differentiability,
@@ -40,31 +40,14 @@ shown in \cite{tanasa2015}, even if execution times of tasks are continuous, due
 to the actual scheduling policy, end-to-end delays are very often discontinuous.
 \end{remark}
 
-Let us move on to power. Denote by $\p_{\dynamic, ij}$ the dynamic power
-consumed by processing element $i$ when it is executing task $j$. Assume that
-this power is constant during the task's execution; note that this simple model
-can be improved by representing large tasks as sequences of smaller tasks. Then
-the power model given in \eref{power-model} can be rewritten as follows:
-\[
-  \p_i(t) = \sum_{j = 1}^\nt \p_{\dynamic, ij} \delta_{ij} (t) + \p_{\static, i}(t)
-\]
-for $i = \range{1}{\np}$ where $\delta_{ij}(t)$ is the indicator function of the
-event that processing element $i$ is running task $j$ at time $t$, and
-$\p^\static_i(t)$ is the static power consumed by processing element $j$ at time
-$t$. The last component depends on time since temperature changes over time, and
-power and temperature are interdependent, which is discussed in
-\sref{power-model} and \sref{power-temperature-interplay}. The total energy
-consumed by the system during an application run can be computed by integrating
-the above equation over the time span of the application---which is demarcated
-by the minuend and subtrahend in \eref{interpolant-delay}---and this integral
-can be estimated using a power profile \mp as follows:
+Let us move on to power. The total energy consumed by the system during an
+application run can be estimated using a power profile \mp as follows:
 \begin{equation} \elab{interpolant-energy}
   \text{Total energy}
   = \sum_{i = 1}^\np \int \p_i(t) \d t
   \approx \dt \norm[1]{\mp}
 \end{equation}
 where \dt is the sampling interval, which is assumed to be sufficiently small.
-
 Since the tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption depends
 on \vu as well. Consequently, the total energy given in
 \eref{interpolant-energy} depends on \vu and is a candidate for \g.
@@ -77,7 +60,6 @@ estimated using a temperature profile \mq as follows:
   = \max_{i = 1}^\np \sup_{t} \q_i(t)
   \approx \norm[\infty]{\mq}
 \end{equation}
-
 Since the power consumption of the system is affected by \vu, the heat
 dissipation is affected by \vu as well. Therefore, the temperature in
 \eref{interpolant-temperature} is a potential quantity of interest \g. Note
