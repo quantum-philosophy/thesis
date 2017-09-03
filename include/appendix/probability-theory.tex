@@ -15,9 +15,11 @@ The expectation of \x is given by
 \]
 If $\expectation{\x} = 0$, \x is called centered. The variance of \x is given
 by
-\[
-  \variance{\x} = \expectation{(\x - \expectation{\x})^2}.
-\]
+\begin{equation} \elab{variance}
+  \variance{\x}
+  = \expectation{(\x - \expectation{\x})^2}
+  = \expectation{\x^2} - (\expectation{\x})^2.
+\end{equation}
 If $\expectation{\x} = 0$ and $\variance{\x} = 1$, \x is called standardized.
 
 The above quantities are well defined only when the corresponding integrals are
