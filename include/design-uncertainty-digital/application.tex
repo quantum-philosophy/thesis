@@ -1,15 +1,94 @@
-The agenda for this section is as follows. In \sref{parameters}, the uncertain
-parameters \vu are transformed into a form suitable for the subsequent
-calculations. This stage is an essential part of our framework, and it is
-denoted by $\transform$ in \fref{example}. The rest of the subsections,
-\sref{time}--\ref{sec:temperature}, serve a strictly illustrative purpose. They
-exemplify the leftmost box in \fref{example} in order to give the reader a
-better intuition about the utility of the framework. The subsections introduce a
-number of models and a number of metrics \g; however, it should be well
-understood that the essence of \g is problem specific. In practice, \g stands
-for an adequate simulator of the system under consideration. The modeling
-capabilities of this simulator are naturally inherited by the proposed
-framework.
+The agenda for this section is as follows. First, we introduce a number of
+quantities of interest \g in order to illustrate the broad applicability of the
+proposed framework and, thereby, give the reader a better intuition about the
+utility of the framework. It should be understood that, in practice, \g stands
+for an adequate simulator of the system under consideration, and the modeling
+capabilities of this simulator are naturally inherited by our technique.
+
+\subsection{Problem Formulation}
+
+Assume the system, power, and temperature models given in \sref{system-model},
+\sref{power-model}, \sref{temperature-model}, respectively. Assume also the
+application model given in \sref{thermal-cycling-problem} except for its
+periodicity. Each task has a start and a finish time. For task $i =
+\range{1}{\nt}$, denote these two time moments by $b_i$ and $d_i$, respectively.
+Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} = (d_i)_{i = 1}^\nt$. Then other
+timing characteristics of the application in question can be derived from
+$(\v{b}, \v{d})$. For example, the end-to-end delay---which is the difference
+between the finish time of the latest task and the start time of the earliest
+task---is as follows:
+\begin{equation} \elab{interpolant-delay}
+  \text{End-to-end delay}
+  = \max_{i = 1}^\nt d_i - \min_{i = 1}^\nt b_i.
+\end{equation}
+
+Suppose the execution times of the tasks depend on \vu; see
+\sref{interpolant-problem}. Then the tuple $(\v{b}, \v{d})$ and, hence, the
+end-to-end delay in \eref{interpolant-delay} given above depend on \vu. This
+delay is a quantity \g that is potentially of interest to the designer. Note
+that this \g is nondifferentiable since the $\max$ and $\min$ functions are
+such. Hence, \g is nonsmooth, which renders \up{PC} expansions and similar
+techniques inadequate for this problem, as illustrated in
+\sref{interpolant-example}.
+
+\begin{remark} \rlab{interpolant-nonsmoothness}
+In general, the behavior of \g with respect to continuity, differentiability,
+and smoothness cannot be inferred from the behavior of \vu. Even when the
+parameters behave perfectly, \g might still exhibit nondifferentiability or even
+discontinuity, which depends on how \g functions internally. For example, as
+shown in \cite{tanasa2015}, even if execution times of tasks are continuous, due
+to the actual scheduling policy, end-to-end delays are very often discontinuous.
+\end{remark}
+
+Let us move on to power. Denote by $\p_{\dynamic, ij}$ the dynamic power
+consumed by processing element $i$ when it is executing task $j$. Assume that
+this power is constant during the task's execution; note that this simple model
+can be improved by representing large tasks as sequences of smaller tasks. Then
+the power model given in \eref{power-model} can be rewritten as follows:
+\[
+  \p_i(t) = \sum_{j = 1}^\nt \p_{\dynamic, ij} \delta_{ij} (t) + \p_{\static, i}(t)
+\]
+for $i = \range{1}{\np}$ where $\delta_{ij}(t)$ is the indicator function of the
+event that processing element $i$ is running task $j$ at time $t$, and
+$\p^\static_i(t)$ is the static power consumed by processing element $j$ at time
+$t$. The last component depends on time since temperature changes over time, and
+power and temperature are interdependent, which is discussed in
+\sref{power-model} and \sref{power-temperature-interplay}. The total energy
+consumed by the system during an application run can be computed by integrating
+the above equation over the time span of the application---which is demarcated
+by the minuend and subtrahend in \eref{interpolant-delay}---and this integral
+can be estimated using a power profile \mp as follows:
+\begin{equation} \elab{interpolant-energy}
+  \text{Total energy}
+  = \sum_{i = 1}^\np \int \p_i(t) \d t
+  \approx \dt \norm[1]{\mp}
+\end{equation}
+where \dt is the sampling interval, which is assumed to be sufficiently small.
+
+Since the tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption depends
+on \vu as well. Consequently, the total energy given in
+\eref{interpolant-energy} depends on \vu and is a candidate for \g.
+\rref{interpolant-nonsmoothness} applies in this context to the full extent.
+
+Let us now turn to temperature. The maximum temperature of the system can be
+estimated using a temperature profile \mq as follows:
+\begin{equation} \elab{interpolant-temperature}
+  \text{Maximum temperature}
+  = \max_{i = 1}^\np \sup_{t} \q_i(t)
+  \approx \norm[\infty]{\mq}
+\end{equation}
+
+Since the power consumption of the system is affected by \vu, the heat
+dissipation is affected by \vu as well. Therefore, the temperature in
+\eref{interpolant-temperature} is a potential quantity of interest \g. Note
+that, due to the maximization involved, the quantity is nondifferentiable and,
+hence, cannot be adequately addressed using polynomial approximations; recall
+also the concern in \rref{interpolant-nonsmoothness}.
+
+To summarize, we have covered three aspects of computer systems, namely, timing,
+power, and temperature, and introduced a number of quantities that the designer
+is typically interested in. These quantities are to be discussed further in the
+section on experimental results, \sref{interpolant-results}.
 
 \subsection{Probability Transformation}
 
@@ -37,143 +116,6 @@ by $[0, 1]^\nz$, and 2) \vz has the smallest number of dimensions \nz needed to
 preserve $\eta$ portion of the variance. Let us emphasize that this $\transform$
 is an example; the framework works with any $\transform$ that yields $\vz \sim
 F_{\vz}$ for some \nz.
-
-\subsection{Application Timing}
-
-Suppose the application is given as a directed acyclic graph. The vertices
-represent tasks, and the edges data dependency between these tasks. Suppose
-further that a static cyclic scheduling policy is utilized. Note, however, these
-assumptions are orthogonal to our framework: the framework can be applied to any
-application model and any scheduling policy.
-
-Each task has a start and a finish time. For task $i$, denote these two time
-moments by $b_i$ and $d_i$, respectively, and let $\v{b} = (b_i)_{i = 1}^\nt$
-and $\v{d} = (d_i)_{i = 1}^\nt$. Other timing characteristics of the application
-can be derived from $(\v{b}, \v{d})$. An example is the end-to-end delay, which
-is the difference between the finish time of the latest task and the start time
-of the earliest task:
-\[
-  \text{End-to-end delay} = \max_{i = 1}^\nt \, d_i - \min_{i = 1}^\nt \, b_i.
-\]
-
-Suppose the execution times of the tasks depend on \vu (see \sref{problem}).
-Then the tuple $(\v{b}, \v{d})$ depends on \vu. Then the end-to-end delay given
-in \eref{end-to-end-delay} depends on \vu and is a potential metric \g; it is
-used in \fref{example}. Note that this \g is nondifferentiable as the $\max$ and
-$\min$ functions are such. Hence, \g is nonsmooth, which renders \up{PC}
-expansions and similar techniques inadequate for this problem, as illustrated in
-\sref{introduction}.
-
-\begin{remark}
-In general, the behavior of \g with respect to continuity, differentiability,
-and smoothness cannot be inferred from the behavior of \vu. Even when the
-parameters are perfectly behaved, \g can still and likely will exhibit
-nondifferentiability or even discontinuity, which depends on how \g works
-internally. For example, as shown in \cite{tanasa2015}, even if execution times
-of tasks are continuous, due to the actual scheduling policy, end-to-end delays
-are very often discontinuous.
-\end{remark}
-
-\subsection{Power Consumption}
-
-Denote the number of processing elements present on the platform by \np. Let the
-dynamic power consumed by task $j$ when running on processing element $i$ be
-fixed during the execution of the task and denote this dynamic power by
-$\p^\dynamic_{ij}$. The fact that $\p^\dynamic_{ij}$ is constant might seem
-restrictive. However, one should keep in mind that it is an example. Our
-framework does not have such a restriction. Even in this simple model, the
-modeling accuracy can be substantially improved by representing large tasks as
-sequences of smaller tasks.
-
-Let the vector $\vp(t) = (\p_i(t))_{i = 1}^\np$ capture the total power
-consumption of the system at time $t$. This vector is related to the dynamic
-power introduced above as follows:
-\[
-  \p_i(t) = \sum_{j = 1}^\nt \p^\dynamic_{ij} \: \delta_{ij} (t) + \p^\static_i(t), \text{ for $i = \range{1}{\np}$},
-\]
-where $\delta_{ij}(t)$ is an indicator function (outputs either zero or one) of
-the event that processing element $i$ executes task $j$ at time $t$, and
-$\p^\static_i(t)$ is the static power consumed by processing element $j$ at time
-$t$. The last component depends on time because the leakage power and
-temperature are interdependent \cite{liu2007}, and temperature changes over time
-(see the next subsection).
-
-Given a set of \ns points on the timeline $\{ t_i \}_{i = 1}^\ns$, \eref{power}
-can be used to construct a power profile of the system as follows:
-\[
-  \mp = (\p_i(t_j))_{i = 1, j = 1}^{\np, \ns} \in \real^{\np \times \ns}.
-\]
-The above is a matrix where row $i$ captures the power consumed by processing
-element $i$ at the \ns time moments.
-
-The total energy consumed by the system during an application run can be
-computed by integrating \eref{power} over the time span of the
-application---which is demarcated by the minuend and subtrahend in
-\eref{end-to-end-delay}---and the corresponding integral can be estimated using
-the power profile as follows:
-\[
-  \text{Total energy} = \sum_{i = 1}^\np \int \p_i(t) \, \d t \approx \sum_{i = 1}^\np \sum_{j = 1}^\ns \p_i(t_j) \, \Delta t_j
-\]
-where $\Delta t_j$ is either $t_j - t_{j - 1}$ or $t_{j + 1} - t_j$, depending
-on how power values are encoded in \mp. The assumption that \eref{total-energy}
-is based on is that each $\Delta t_i$ is sufficiently small so that the power
-consumed within the interval does not change significantly.
-
-Since the tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption of the
-system depends on \vu too. Consequently, the total energy given in
-\eref{total-energy} depends on \vu and is a candidate for \g. Note that
-\rref{smoothness} applies in this context to the full extent.
-
-\subsection{Heat Dissipation}
-
-Based on the specification of the platform including its thermal package, an
-equivalent thermal \up{RC} circuit is constructed \cite{skadron2004}. The
-circuit comprises \nn thermal nodes, and its structure depends on the intended
-level of granularity, which impacts the resulting accuracy. For clarity, we
-assume that each processing element is mapped onto one corresponding node, and
-the thermal package is represented as a set of additional nodes.
-
-The thermal dynamics of the system are modeled using the following system of
-differential-algebraic equations \cite{ukhov2014, ukhov2012}:
-\begin{subnumcases}{}
-  \m{C} \frac{\d\vs(t)}{\d t} + \m{G} \vs(t) = \m{M} \vp(t) \\
-  \vq(t) = \m{M}^T \vs(t) + \vq_\ambient
-\end{subnumcases}
-The coefficients $\m{C} \in \real^{\nn \times \nn}$ and $\m{G} \in \real^{\nn
-\times \nn}$ are a diagonal matrix of thermal capacitance and a symmetric,
-positive-definite matrix of thermal conductance, respectively. The vectors
-$\vp(t) \in \real^\np$,  $\vq(t) \in \real^\np$, and $\vs(t) \in \real^\nn$
-correspond the system's power, temperature, and internal state at time $t$,
-respectively. The vector $\vq_\ambient \in \real^\np$ contains the ambient
-temperature. The matrix $\m{M} \in \real^{\nn \times \np}$ is a mapping that
-distributes the power consumption of the processing elements across the thermal
-nodes; without loss of generality, $\m{M}$ is a rectangular diagonal matrix
-whose diagonal elements are equal to one.
-
-Given a set of \ns points on the timeline $\{ t_i \}_{i = 1}^\ns$,
-\eref{thermal-system} can be used to compute a temperature profile of the system
-as follows:
-\[
-  \mq = (\q_i(t_j))_{i = 1, j = 1}^{\np, \ns} \in \real^{\np \times \ns}.
-\]
-Then the maximum temperature of the system can be estimated using the
-temperature profile as follows:
-\[
-  \text{Max temperature} = \max_{i = 1}^\np \, \sup_{t} \, \q_i(t) \approx \max_{i = 1}^\np \max_{j = 1}^\ns \, \q_i(t_j).
-\]
-
-Since the power consumption of the system is affected by \vu (see \sref{power}),
-the system's temperature is affected by \vu as well. Therefore, the temperature
-in \eref{maximum-temperature} can be considered as a metric \g. Note that, due
-to the maximization involved, the metric is nondifferentiable and, hence, cannot
-be adequately addressed using polynomial approximations, specially taking into
-account the concern in \rref{smoothness}.
-
-To sum up, we have discussed the transformation that needs to be applied to \vu
-prior to the interpolation of \g. We have also covered three aspects of
-electronic systems, namely, timing, power, and temperature, and introduced a
-number of metrics associated with them; we shall come back to these metrics in
-the section on experimental results, \sref{experiments}.
 
 \subsection{Example}
 
