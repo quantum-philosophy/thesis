@@ -1,18 +1,18 @@
 \begin{algorithm}[t]
-  \caption{Construction of a hierarchical interpolant of a function.}
+  \caption{Construction of a hierarchical interpolant.}
   \alab{interpolant-construction}
   \begin{algorithmic}[1]
-    \Require{target} \Comment{a function to interpolate}
-    \Ensure{surrogate} \Comment{an interpolant}
-    \Let{surrogate}{New()}
-    \For{s $\gets$ strategy.First(); s $\neq$ nil; s $\gets$ strategy.Next(s)}
-      \Let{s.nodes}{grid.Compute(s.indices)}
-      \Let{s.values}{Invoke(target, s.nodes)}
-      \Let{s.estimates}{Evaluate(surrogate, s.nodes)}
-      \Let{s.surpluses}{Subtract(s.values, s.estimates)}
-      \Let{s.scores}{strategy.Score(s.surpluses)}
-      \State Append(surrogate, s.indices, s.surpluses)
-    \EndFor
-    \State return surrogate
+    \Require{Algorithm~G} \Comment{a subroutine evaluating $\g \circ \transform$}
+    \Ensure{interpolant}
+    \While{strategy.Continue?(state)}
+      \Let{state}{strategy.Next(state)}
+      \Let{state.nodes}{grid.Compute(state.indices)}
+      \Let{state.values}{Algorithm~G(state.nodes)}
+      \Let{state.estimates}{Evaluate(interpolant, state.nodes)}
+      \Let{state.surpluses}{Subtract(state.values, state.estimates)}
+      \Let{state.scores}{strategy.Score(state.surpluses)}
+      \State interpolant.Append(state.indices, state.surpluses)
+    \EndWhile
+    \State \Return interpolant
   \end{algorithmic}
 \end{algorithm}

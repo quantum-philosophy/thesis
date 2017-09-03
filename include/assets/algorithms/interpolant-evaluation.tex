@@ -1,18 +1,17 @@
 \begin{algorithm}[t]
-  \caption{Evaluation of a hierarchical interpolant at a set of points.}
+  \caption{Evaluation of a hierarchical interpolant.}
   \alab{interpolant-evaluation}
   \begin{algorithmic}[1]
-    \Require{surrogate, points} \Comment{an interpolant and points}
+    \Require{interpolant, points}
     \Ensure{estimates} \Comment{approximated values}
-    \Let{estimates}{New()}
     \For{point in points}
       \Let{estimate}{0}
-      \For{(index, surplus) in surrogate}
+      \For{(index, surplus) in interpolant}
         \Let{weight}{basis.Compute(index, point)}
         \Let{estimate}{$\text{estimate} + \text{surplus} \times \text{weight}$}
       \EndFor
-      \State Append(estimates, estimate)
+      \State estimates.Append(estimate)
     \EndFor
-    \State return estimates
+    \State \Return estimates
   \end{algorithmic}
 \end{algorithm}

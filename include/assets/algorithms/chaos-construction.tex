@@ -2,15 +2,12 @@
   \caption{Construction of a polynomial chaos expansion.}
   \alab{chaos-construction}
   \begin{algorithmic}[1]
-    \vspace{0.4em}
-    \Require{Algorithm G} \Comment{the subroutine evaluating $\g$}
+    \Require{Algorithm~G} \Comment{a subroutine evaluating $\g \circ \transform$}
     \Ensure{$\hat{\vg} \in \real^\nc$}
-    \vspace{0.5em}
     \For{$i \gets 1 \text{ to } \nq$} \Comment{for each quadrature point $\vx_i$}
-      \Let{$\vu$}{$\transform{\vx_i}$}
-      \Let{$\vg(i)$}{call Algorithm G for $\vu$}
+      \Let{$\vg(i)$}{Algorithm~G($\vx_i$)}
     \EndFor
-    \Let{$\hat{\vg}$}{$\Pi \, \vg$}
-    \vspace{0.4em}
+    \Let{$\hat{\vg}$}{$\Pi \vg$}
+    \State \Return $\hat{\vg}$
   \end{algorithmic}
 \end{algorithm}

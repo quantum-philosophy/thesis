@@ -2,10 +2,8 @@
   \caption{Calculation of a dynamic steady-state temperature profile.}
   \alab{dynamic-steady-state}
   \begin{algorithmic}[1]
-    \vspace{0.4em}
     \Require{$\mp \in \real^{\np \times \ns}$}
     \Ensure{$\mq \in \real^{\np \times \ns}$}
-    \vspace{0.5em}
     \Let{$\m{V}$}{$\m{F} \mp$} \Comment{an auxiliary variable}
     \Let{$\v{w}$}{$\m{V}(:, 1)$} \Comment{an auxiliary variable}
     \For{$i \gets 2 \text{ to } \ns$}
@@ -16,6 +14,6 @@
       \Let{$\m{S}(:, i)$}{$\m{E} \m{S}(:, i - 1) + \m{V}(:, i - 1)$}
     \EndFor
     \Let{$\mq$}{$\transpose{\m{B}} \m{S} + \mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
-    \vspace{0.4em}
+    \State \Return $\mq$
   \end{algorithmic}
 \end{algorithm}

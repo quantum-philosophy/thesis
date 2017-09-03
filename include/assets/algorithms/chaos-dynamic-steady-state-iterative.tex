@@ -1,19 +1,17 @@
 \begin{algorithm}[t]
   \caption{
-    Calculation of a dynamic steady-state power or temperature profile for an
+    Calculation of a dynamic steady-state power and temperature profile for an
     outcome of the uncertain parameters.
   }
   \alab{chaos-dynamic-steady-state-iterative}
   \begin{algorithmic}[1]
-    \vspace{0.4em}
     \Require{$\vu \in \real^\nu$}
-    \Ensure{$\mq \in \real^{\np \times \ns}$ or $\mp \in \real^{\np \times \ns}$}
-    \vspace{0.5em}
+    \Ensure{$\mp \in \real^{\np \times \ns}$, $\mq \in \real^{\np \times \ns}$}
     \Let{$\mq$}{$\mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
     \Repeat
       \Let{$\mp$}{$\f(\vu, \mq)$} \Comment{for all time steps at once}
-      \Let{$\mq$}{call \aref{dynamic-steady-state} for $\mp$}
+      \Let{$\mq$}{\aref{dynamic-steady-state}($\mp$)}
     \Until{a stopping condition is satisfied}
-    \vspace{0.4em}
+    \State \Return $\mp$, $\mq$
   \end{algorithmic}
 \end{algorithm}

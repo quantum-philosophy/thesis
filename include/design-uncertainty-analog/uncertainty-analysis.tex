@@ -212,18 +212,18 @@ $j$. The matrix $\Pi$ is referred to as the projection matrix. Using $\Pi$, the
 coefficients $\{ \hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in
 \eref{chaos-expansion} can now be trivially computed as
 \begin{equation} \elab{chaos-coefficients}
-  \hat{\vg} = \Pi \, \vg
+  \hat{\vg} = \Pi \vg
 \end{equation}
 where
 \begin{align*}
   & \hat{\vg} = (\hat{\g}_i)_{i = 1}^\nc \text{ and} \\
-  & \vg = (\g(\transform{\vx_i}))_{i = 1}^\nq.
+  & \vg = ((\g \circ \transform)(\vx_i))_{i = 1}^\nq.
 \end{align*}
 It can be seen that this formula is a matrix version of
 \eref{chaos-coefficient}. The matrix $\Pi$ is the one that should be precomputed
 and stored for future use. The pseudocode of the expansion procedure is given in
-\aref{chaos-construction} where Algorithm~G stands for the routine that
-calculates \g for a given \vu, which is problem specific.
+\aref{chaos-construction} where Algorithm~G stands for a subroutine that
+calculates $\g \circ \transform$ for a given \vz, which is problem specific.
 
 Let us summarize this subsection. In order to give a probabilistic
 characterization of a quantity of interest, we construct a polynomial expansion
