@@ -4,7 +4,8 @@ In numerical integration, the integral of a function $\f: \real \to \real$
 \]
 is approximated as
 \[
-  I \approx \quadrature{1}{i}{\f} = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) w_{ij},
+  I \approx \quadrature{1}{i}{\f}
+  = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) w_{ij},
 \]
 which is a summation of the function's values computed at prescribed points and
 multiplied by prescribed weights. Such a pair of a set of points and a set of
@@ -31,7 +32,8 @@ Similarly, in multiple dimensions, the integral of a function $\f: \real^n \to
 \]
 is approximated as
 \[
-  I \approx \quadrature{n}{\vi}{\f} = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) w_{\vi \vj}
+  I \approx \quadrature{n}{\vi}{\f}
+  = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) w_{\vi \vj}
 \]
 where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
 (multi-)indices. Further,
@@ -96,7 +98,8 @@ Then Smolyak's formula of level \lq is as follows:
 \end{equation}
 and the corresponding approximation is written as
 \begin{equation} \elab{quadrature-summation}
-  I \approx \quadrature{n}{\lq}{\f} = \sum_{\vi \in \sparseindex{n}{\lq}} \f(\vx_{\vi}) w_{\vi}.
+  I \approx \quadrature{n}{\lq}{\f}
+  = \sum_{\vi \in \sparseindex{n}{\lq}} \f(\vx_{\vi}) w_{\vi}.
 \end{equation}
 Note that, even though the level \lq is not indicated in the notation
 $\vx_{\vi}$ and $w_{\vi}$, points and weights that belong to different levels

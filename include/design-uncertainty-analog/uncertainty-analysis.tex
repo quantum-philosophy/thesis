@@ -99,7 +99,8 @@ Assume that \g as a function of \vu belongs to $\L{2}(\Omega, \F,
 \probability)$; see \sref{probability-theory}. Then, at Stage~3 in
 \fref{chaos-overview}, \g is expanded into the following series:
 \begin{equation} \elab{chaos-expansion}
-  \g \approx \chaos{\nz}{\lc}{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
+  \g \approx \chaos{\nz}{\lc}{\g}
+  = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
 \end{equation}
 where $\lc \in \natural$ is the level of the expansion; $\vi = (i_k) \in
 \natural^\nz$ is an index; $\sparseindex{\nz}{\lc}$ is an index set; and $\{
@@ -282,7 +283,8 @@ be estimated by means of \ac{MC} sampling applied to \eref{chaos-expansion}. The
 procedure can be better understood by rewriting \eref{chaos-expansion}, which is
 given in terms of operators, as follows:
 \[
-  \g \approx \chaos{\nz}{\lc}{\g}(\vz) = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}(\vz).
+  \g \approx \chaos{\nz}{\lc}{\g}(\vz)
+  = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}(\vz).
 \]
 Here the aforementioned operators are applied to an outcome of \vz drawn from
 the corresponding distribution. Consequently, in this case, each sample is a
