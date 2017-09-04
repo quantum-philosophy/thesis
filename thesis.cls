@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/08/26 Thesis]
+\ProvidesClass{thesis}[2017/09/04 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -51,7 +51,7 @@
 \newfontfamily{\headingfont}[]{KorolevLiU Medium}
 
 \setmainfont{MillerText}[
-  BoldFont="MillerText-Roman",
+  BoldFont="MillerText-Bold",
   ItalicFont="MillerText-Italic",
   SmallCapsFont="MillerText-RomanSC",
 ]

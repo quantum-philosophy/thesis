@@ -9,7 +9,7 @@ the typefaces provided by MacTeX, the following typefaces have to be installed:
 
 * [Input Mono][input] (Narrow),
 * [Korolev LiU][korolev] (Medium), and
-* [Miller Text][miller] (Roman, Roman Small Caps, and Italic).
+* [Miller Text][miller] (Bold, Italic, Roman, and Roman Small Caps).
 
 In case any of the aforementioned typefaces are not available, they can be
 replaced in `thesis.cls`, which, however, is likely to destroy the layout of the
