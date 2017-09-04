@@ -9,24 +9,25 @@ capabilities of this simulator are naturally inherited by our technique.
 
 Assume the system, power, and temperature models given in \sref{system-model},
 \sref{power-model}, \sref{temperature-model}, respectively. Assume also the
-application model given in \sref{thermal-cycling-problem} except for the
+application model utilized in \sref{thermal-cycling-problem} except for the
 requirement about being periodic.
 
 Let us first discuss timing. Each task of the application in question has a
-start and a finish time. For task $i$, denote these two time moments by $b_i$
-and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} =
-(d_i)_{i = 1}^\nt$. Then other timing characteristics of the application can be
-derived from $(\v{b}, \v{d})$. For example, the end-to-end delay---which is the
+start time and a finish time, which are denoted by $b_i$ and $d_i$,
+respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} = (d_i)_{i =
+1}^\nt$. Then other timing characteristics of the application can be derived
+from $(\v{b}, \v{d})$. For example, the end-to-end delay---which is the
 difference between the finish time of the latest task and the start time of the
 earliest task---is as follows:
 \begin{equation} \elab{interpolant-delay}
   \text{End-to-end delay}
   = \max_{i = 1}^\nt d_i - \min_{i = 1}^\nt b_i.
 \end{equation}
-Suppose now that the execution times of the tasks depend on \vu; see
-\sref{interpolant-problem}. Then the tuple $(\v{b}, \v{d})$ and, consequently,
-the end-to-end delay in \eref{interpolant-delay} depend on \vu. This delay is a
-potential quantity of interest \g. Note that this \g is nondifferentiable since
+Suppose now that the execution times of the tasks depend on the uncertain
+parameters \vu; see \sref{interpolant-problem}. Then the tuple $(\v{b}, \v{d})$
+depends on \vu. Hence, the end-to-end delay given in \eref{interpolant-delay}
+does so too, and it constitutes an example of a quantity \g that the designer
+might be interested in studying. Note that this \g is nondifferentiable since
 the $\max$ and $\min$ functions are such. Therefore, \g is nonsmooth, which
 renders \up{PC} expansions and similar techniques inadequate for this problem,
 which is elaborated on in \sref{interpolant-example}.
@@ -47,9 +48,10 @@ application run can be estimated using a power profile \mp as follows:
   = \sum_{i = 1}^\np \int \p_i(t) \d t
   \approx \dt \norm[1]{\mp}
 \end{equation}
-where \dt is the sampling interval, which is assumed to be sufficiently small.
-Since the tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption depends
-on \vu as well. Consequently, the total energy given in
+where $\p_i$ stands for the power consumption of processing element $i$, and \dt
+is the sampling interval, which is assumed to be sufficiently small. Since the
+tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption of the system is
+dependent on \vu as well. Consequently, the total energy given in
 \eref{interpolant-energy} depends on \vu and is a candidate for \g.
 \rref{interpolant-nonsmoothness} applies in this context to the full extent.
 
@@ -69,8 +71,8 @@ also the concern in \rref{interpolant-nonsmoothness}.
 
 To summarize, we have covered three aspects of computer systems, namely, timing,
 power, and temperature, and introduced a number of quantities that the designer
-is typically interested in. These quantities are to be discussed further in the
-section on experimental results, \sref{interpolant-results}.
+is typically interested in analyzing. These quantities are to be discussed
+further in the section on experimental results, \sref{interpolant-results}.
 
 \subsection{Probability Transformation}
 
