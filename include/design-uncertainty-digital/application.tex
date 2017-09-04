@@ -76,30 +76,22 @@ further in the section on experimental results, \sref{interpolant-results}.
 
 \subsection{Probability Transformation}
 
-Let us consider an example of $\transform$ in order to understand the concept
-better. Assume that \vu is specified by a set of marginal distribution functions
-$\{ F_i \}_{i = 1}^\nu$ and a Gaussian copula whose correlation matrix is
-$\correlation{\vu}$; such a copula can be constructed as it is outlined in
-\sref{chaos-formulation}. The transformation $\transform$ is
-\[
-  \vu = F^{-1} \left(\Phi\left(\m{U} \tm{\Lambda}^\frac{1}{2} \Phi^{-1}(\vz)\right)\right)
-\]
-where the random variables $\vz: \Omega \to \real^\nz$ are independent and
-uniformly distributed on $[0, 1]^\nz$; $\Phi$ and $\Phi^{-1}$ are the
-distribution function of the standard Gaussian distribution and its inverse,
-respectively, which are applied element-wise; and $F_{\vu}^{-1} = F_{\u_1}^{-1}
-\times \cdots \times F_{\u_\nz}^{-1}$ is the Cartesian product of the inverse
-marginal distributions of \vu, which are applied to the corresponding element of
-the vector yielded by $\Phi$. In the absence of correlations,
-\eref{transformation-concrete} is simply $\vu = F_{\vu}^{-1}(\vz)$, and no
-model-order reduction is possible ($\nu = \nz$).
+At Stage~2 of our workflow outlined in \sref{interpolant-solution}, a suitable
+$\transform$ needed in \eref{interpolant-transformation} is to be decided upon.
+In this example, we base $\transform$ on the one shown in
+\eref{probability-transformation} and reduce $\vu: \Omega \to \real^\nu$ to
+$\vz: \Omega \to [0, 1]^\nz$ so that the latter is uniformly distributed. In
+this case, the rightmost $\transform_1$ in \eref{probability-transformation} is
+simpler than what it is according to its original definition since the marginal
+distributions of \vz are already uniform. It should be understood that the
+model-order-reduction functionality of \eref{probability-transformation} is
+engaged; it eliminates redundant stochastic dimensions and, therefore, assists
+the subsequent interpolation process.
 
-To summarize, we have found such a transformation $\transform$ and the
-corresponding random vector $\vz \sim F_{\vz}$ that: 1) $F_{\vz}$ is supported
-by $[0, 1]^\nz$, and 2) \vz has the smallest number of dimensions \nz needed to
-preserve $\eta$ portion of the variance. Let us emphasize that this $\transform$
-is an example; the framework works with any $\transform$ that yields $\vz \sim
-F_{\vz}$ for some \nz.
+The chosen $\transform$ makes \vz conform to the requirements listed in
+\sref{interpolant-transformation}. Namely, the codomain of \vz is $[0, 1]^\nz$,
+and it has the smallest number of dimensions that are needed to preserve the
+desired level of accuracy.
 
 \subsection{Example}
 
