@@ -10,14 +10,15 @@ where \no is the number of drawn samples. This means that an additional decimal
 point of accuracy requires hundred times more samples. Each such sample implies
 a complete realization of the whole system, which renders \ac{MC}-based methods
 slow and often unfeasible since the needed number of simulations can be
-extremely large \cite{diaz-emparanza2002}. There are other sampling techniques
-that have better convergence rates than the one of the classical \ac{MC}
-sampling such as quasi-\ac{MC} sampling; however, due to additional
-restrictions, their applicability is often limited \cite{xiu2010}.
+extremely large \cite{diaz-emparanza2002}. There are other sampling techniques,
+such as quasi-\ac{MC} sampling, that have better convergence rates than the one
+of the classical \ac{MC} sampling. However, these rates are still relatively
+low, and the corresponding techniques often bring additional restrictions, which
+limit their applicability in practice \cite{xiu2010}.
 
 In order to overcome the limitations of deterministic techniques and, at the
 same time, to eliminate or, at least, mitigate the computational costs
-associated with \ac{MC} sampling, a number of stochastic techniques have been
+associated with direct sampling, a number of stochastic techniques have been
 introduced, which we elaborate on in what follows. We are particularly
 interested in power and temperature and, therefore, shape the exposition
 accordingly. Since the static component of the total power dissipation is
