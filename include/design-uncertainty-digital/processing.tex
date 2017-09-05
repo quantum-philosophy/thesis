@@ -1,19 +1,28 @@
-At Stage~4 of our framework, the constructed hierarchical interpolant
-$\interpolant{\nz}{\ls}(\g)$ of the quantity of interest \g is to be processed
-according to the designer's needs. The post-processing here is similar to the
-one described in \sref{chaos-processing}. Namely, the analysis of \g is carried
-out on $\interpolant{\nz}{\ls}(\g)$ instead without ever invoking \g. Since
-$\interpolant{\nz}{\ls}(\g)$ is a lightweight representation of the heavy \g,
-the analysis has a negligible computational cost. In particular, the
-distribution of \g can be efficiently estimating by applying a sampling method
-of choice.
+At Stage~4 of the proposed framework, the constructed hierarchical interpolant
+$\interpolant{\nz}{\ls}(\g)$ of the quantity of interest \g is processed
+according to the designer's needs. The post-processing in this chapter is
+similar to the one described in \sref{chaos-processing}. Namely, the
+probabilistic analysis of \g is carried out on $\interpolant{\nz}{\ls}(\g)$
+instead, and \g is never invoked again. Since $\interpolant{\nz}{\ls}(\g)$ is a
+lightweight representation of the heavy \g, the analysis has a negligible
+computational cost.
 
-The expectation and variance of \g can be computed without sampling as follows.
-Using an adequate $\transform$ discussed in \sref{interpolant-transformation},
-\g can be reparameterized in terms of independent variables that are uniformly
-distributed on $[0, 1]^\nz$. This means that the density function of \vz equals
-unity. Therefore, using \eref{interpolant-sparse}, we have the following
-analytical expression for the expectation:
+In particular, the distribution of \g can be efficiently estimating via a
+sampling method of choice. In this case, one draws independent samples from the
+distribution of \vz and evaluates $\interpolant{\nz}{\ls}(\g)$ at those points
+in accordance with \aref{interpolant-evaluation}. Having collected a large
+enough set of samples denoted by $G$, the density of \g can be estimated by
+employing such techniques as kernel density estimation. Having $G$ at one's
+disposal, other statistics about \g, such as probabilities of various events,
+can be straightforwardly estimated.
+
+In addition, the expectation and variance of \g can be computed without
+sampling. Using an adequate $\transform$ discussed in
+\sref{interpolant-transformation}, \g can be reparameterized in terms of
+independent variables that are uniformly distributed on $[0, 1]^\nz$. This means
+that the density function of \vz equals unity. Therefore, using
+\eref{interpolant-sparse}, we have the following analytical expression for the
+expectation:
 \[
   \expectation{\g} \approx \expectation{\interpolant{\nz}{\ls}(\g)}
   = \int_{[0, 1]^\nz} \interpolant{\nz}{\ls}(\g)(\vz) \d \vz
