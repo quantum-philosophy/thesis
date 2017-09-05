@@ -8,6 +8,7 @@ the proposed framework. For concreteness, throughout this section, the framework
 is applied to a particular problem involving one of the introduced quantities.
 
 \subsection{Problem Formulation}
+\slab{interpolant-formulation}
 
 Assume the system, power, and temperature models given in \sref{system-model},
 \sref{power-model}, \sref{temperature-model}, respectively. Assume also the
@@ -79,15 +80,17 @@ further in the section on experimental results, \sref{interpolant-results}.
 
 \inputfigure{interpolant-application}
 Let us also employ one of the introduced quantities in order to have a concrete
-example to work with in this section. The addressed problem is depicted on the
-left-hand side of \fref{interpolant-application}; a detailed description of the
-assumed experimental setup is to be given in \sref{interpolant-results}. We
-consider a platform with two processing elements, PE1 and PE2, and an
+example to work with in this section. The setup that we are about to describe
+will be detailed, extended, and scaled up in the experiments reported in
+\sref{interpolant-results}. The problem addressed in this section is depicted on
+the left-hand side of \fref{interpolant-application}. We consider a
+heterogeneous platform with two processing elements, PE1 and PE2, and an
 application with four tasks, T1--T4. The data dependencies between the tasks and
 their mapping onto the processing elements can be seen in
-\fref{interpolant-application}. The quantity \g is the end-to-end delay of the
-application defined in \eref{interpolant-delay}. The uncertain parameters \vu
-are the execution times of T2 and T4 denoted by $\u_1$ and $\u_2$, respectively.
+\fref{interpolant-application}. The quantity of interest \g is the end-to-end
+delay of the application defined in \eref{interpolant-delay}. The uncertain
+parameters \vu are the execution times of T2 and T4 denoted by $\u_1$ and
+$\u_2$, respectively.
 
 The leftmost component in \fref{interpolant-application} is a ``black box''
 capable of evaluating \g given \vu. More specifically, it takes an assignment of
@@ -96,6 +99,15 @@ end-to-end delay of the application \g. In practice, this evaluation often
 involves an adequate simulator of the system under consideration such as Sniper
 \cite{carlson2011}, in which case the modeling capabilities of this simulator
 are naturally inherited by our technique.
+
+Targeting the practical scenario described in \sref{chaos-formulation}, the
+marginal distributions and correlation matrix of \vu are assumed to be
+available. Without loss of generality, each marginal is a four-parametric beta
+distribution as shown in \eref{beta-distribution}. The execution times are
+assumed to be correlated based on the dependencies between them defined by the
+structure of the corresponding graph: the closer task $i$ and task $j$ are in
+the graph as measured by the number of edges between vertex $i$ and vertex $j$,
+the stronger $\u_i$ and $\u_j$ are correlated.
 
 \subsection{Probability Transformation}
 
