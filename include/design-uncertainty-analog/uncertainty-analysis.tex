@@ -278,9 +278,10 @@ that the \ac{PC} decomposition provides analytical formulae for these
 probabilistic moments, and that they are solely based on the coefficients of the
 expansion.
 
-The \ac{CDF} and \ac{PDF} of \g as well as probabilities of various events can
-be estimated by means of \ac{MC} sampling applied to \eref{chaos-expansion}. The
-procedure can be better understood by rewriting \eref{chaos-expansion}, which is
+The \ac{CDF} and \ac{PDF} of \g  can be estimated by virtue of a sampling method
+applied to \eref{chaos-expansion}, which is typically followed by kernel density
+estimation \cite{hastie2013} or a similar technique. The sampling in this
+context can be better understood by rewriting \eref{chaos-expansion}, which is
 given in terms of operators, as follows:
 \[
   \g \approx \chaos{\nz}{\lc}{\g}(\vz)
@@ -288,8 +289,9 @@ given in terms of operators, as follows:
 \]
 Here the aforementioned operators are applied to an outcome of \vz drawn from
 the corresponding distribution. Consequently, in this case, each sample is a
-trivial evaluation of a polynomial, and, hence, \ac{MC} sampling is
-computationally cheap. Furthermore, global and local sensitivity analysis of
+trivial evaluation of a polynomial, and, hence, sampling methods are
+computationally cheap. Furthermore, probabilities of various events can be
+estimated in a similar way, and global and local sensitivity analysis of
 deterministic and stochastic quantities can be readily conducted on the
 expansion.
 
