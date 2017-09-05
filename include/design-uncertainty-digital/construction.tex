@@ -274,11 +274,10 @@ Let us first make a general note. According to our experience, it is beneficial
 to the clarity and ease of implementation to collapse the two sums in
 \eref{interpolant-sparse} into one. This requires storing a level index $\vi =
 (i_k) \in \natural^\nz$ and an order index $\vj = (j_k) \in \natural^\nz$ for
-each interpolation element. It is also advantageous to encode each pair $(i_k,
+each interpolation point. It is also advantageous to encode each pair $(i_k,
 j_k)$ as a single unsigned integer, which, in particular, eliminates excessive
 memory usage. In multiple dimensions, this results in a vector $\v{\iota} =
-(\iota_k) \in \natural^\nz$, which we simply call an index. Our encoding is as
-follows:
+(\iota_k) \in \natural^\nz$, which we call simply an index. Our encoding is
 \[
   \iota_k = i_k \lor (j_k \ll \n{\mathrm{bits}})
 \]
