@@ -89,79 +89,67 @@ their mapping onto the processing elements can be seen in
 application defined in \eref{interpolant-delay}. The uncertain parameters \vu
 are the execution times of T2 and T4 denoted by $\u_1$ and $\u_2$, respectively.
 
+The leftmost component in \fref{interpolant-application} is a ``black box''
+capable of evaluating \g given \vu. More specifically, it takes an assignment of
+the execution times of T2 and T4, $\u_1$ and $\u_2$, and outputs the calculated
+end-to-end delay of the application \g. In practice, this evaluation often
+involves an adequate simulator of the system under consideration such as Sniper
+\cite{carlson2011}, in which case the modeling capabilities of this simulator
+are naturally inherited by our technique.
+
 \subsection{Probability Transformation}
 
 At Stage~2 of our workflow outlined in \sref{interpolant-solution}, a suitable
-$\transform$ needed in \eref{interpolant-transformation} and depicted in
-\fref{interpolant-application} is to be decided upon. In this example, we base
-$\transform$ on the one shown in \eref{probability-transformation} and reduce
-$\vu: \Omega \to \real^\nu$ to $\vz: \Omega \to [0, 1]^\nz$ so that the latter
-is uniformly distributed. In this case, the rightmost $\transform_1$ in
-\eref{probability-transformation} is simpler than what it is according to its
-original definition since the marginal distributions of \vz are already uniform.
-It should be understood that the model-order-reduction functionality of
-\eref{probability-transformation} is engaged; it eliminates redundant stochastic
-dimensions and, therefore, assists the subsequent interpolation process.
+$\transform$ needed in \eref{interpolant-transformation} is to be decided upon.
+In this example, we base $\transform$ on the one shown in
+\eref{probability-transformation} and reduce $\vu: \Omega \to \real^\nu$ to
+$\vz: \Omega \to [0, 1]^\nz$ so that the latter is uniformly distributed. In
+this case, the rightmost $\transform_1$ in \eref{probability-transformation} is
+simpler than what it is according to its original definition since the marginal
+distributions of \vz are already uniform. It should be understood that the
+model-order-reduction functionality of \eref{probability-transformation} is
+engaged; it eliminates redundant stochastic dimensions and, therefore, assists
+the subsequent interpolation process.
 
-The chosen $\transform$ makes \vz conform to the requirements listed in
-\sref{interpolant-transformation}. Namely, the codomain of \vz is $[0, 1]^\nz$,
-and it has the smallest number of dimensions that are needed to preserve the
-desired level of accuracy.
+Note that the chosen $\transform$ makes \vz conform to the requirements listed
+in \sref{interpolant-transformation}. Namely, the codomain of \vz is $[0,
+1]^\nz$, and it has the smallest number of dimensions that are needed to
+preserve the desired level of accuracy.
+
+The transformation is also depicted in \fref{interpolant-application}; see the
+small box to the right of the ``black box'' described earlier. In this
+particular example, the dimensionality is found to be the same before and after
+$\transform$. The depicted component takes an assignment of the auxiliary
+variables $\z_1$ and $\z_2$ and outputs the execution times $\u_1$ and $\u_2$ in
+accordance with their joint distribution.
+
+In what follows, we proceed directly to discussing Stage~4 since Stage~3, which
+is given in the middle of \fref{interpolant-application}, is standard: using a
+number of strategic invocations of the simulator, it yields a light surrogate
+for the simulator; in \fref{interpolant-application}, this surrogate corresponds
+to the small rounded rectangle.
 
 \subsection{Post-Processing}
 
-The post-processing stage of the framework, Stage~4, is what.
-
-The leftmost box in \fref{interpolant-application} represents a ``black-box''
-simulator of the system at hand, and it could involve such tools as Sniper
-\cite{carlson2011}. It is worth noting that \g often involves a simulator of a
-certain aspect of the system at hand, in which case the modeling capabilities of
-this simulator are naturally inherited by our technique. It takes an assignment
-of the execution times of T2 and T3, $\u_1$ and $\u_2$, and outputs the
-calculated end-to-end delay \g. The second box corresponds to the
-reparameterization mentioned in \sref{solution} (to be discussed in
-\sref{parameters}). It converts the auxiliary variables $\z_1$ and $\z_2$ into
-$\u_1$ and $\u_2$ in accordance with $\u_1$ and $\u_2$'s joint distribution. The
-third box is our interpolation engine (to be discussed in \sref{interpolation}).
-Using a number of strategic invocations of the simulator, the interpolation
-engine yields a light surrogate for the simulator; the surrogate corresponds to
-the slim box with rounded corners. Having obtained such a surrogate, one
-proceeds to sampling extensively the surrogate via a sampling method of choice
-(the rightmost box). The surrogate takes $\z_1$ and $\z_2$ and returns an
-approximation of \g at that point. Recall that the computational cost of this
-extensive sampling is negligible as \g is not involved. The samples are then
-used to compute an estimate of the distribution of \g.
+Having constructed an interpolant of \g, the designer proceeds to working
+extensively with this interpolant, which is Stage~4 of the presented framework.
+For concreteness, assume that the designer is interested in the distribution of
+\g, in which case the interpolant is to be extensively sampled; it is denoted by
+the rightmost box in \fref{interpolant-application}. Then the interpolant
+displayed in the figure corresponds roughly to \aref{interpolant-evaluation}: it
+takes $\z_1$ and $\z_2$ and returns an approximation of \g at that point. Recall
+that the computational cost of this extensive sampling is negligible as \g is
+not involved. The collected samples, which we denote by $G$, are then used to
+compute an estimate of the distribution of \g.
 
 \inputfigure{interpolant-density}
-In the graph shown in \fref{interpolant-density}, the blue line shows the
-probability density function of \g computed by applying kernel density
-estimation to the samples obtained from our surrogate. The yellow line (barely
-visible behind the blue line) shows the true density of \g; its calculation is
-explained in \sref{experiments}. It can be seen that our solution closely
-matches the exact one. In addition, the orange line shows the estimation that
-one would get if one sampled \g directly 156 times and used only those samples
-in order to calculate the density of \g. We see that, for the same budget of
-simulations, the solution delivered by our framework is substantially closer to
-the true one than the one delivered by na\"{i}ve sampling.
-
-At this point, we are ready to present to the proposed framework. We begin by
-elaborating on the modeling of uncertain parameters and metrics of interest. We
-shall then proceed to the interpolation engine (\sref{interpolation}).
-
-Let us recapitulate our workflow. First, a problem is formulated: given a
-computer system dependent on specific uncertain parameters \vu, quantify the
-impact of the uncertainty on a specific aspect of the system \g. Second, the
-parameterization of \g is changed from \vu to random variables \vz via a
-suitable transformation $\transform$; this stage is described in
-\sref{interpolant-transformation}. Third, an interpolant of the resulting
-composition $\g \circ \transform$ is constructed; this stage is detailed in
-\sref{interpolant-construction}. Fourth, an estimation of the probability
-distribution of \g is undertaken in the usual sampling-based manner but relying
-solely on the constructed interpolant; \g is no longer involved.
-
-This last stage boils down to drawing independent samples from $F_{\vz}$ and
-evaluating the interpolant $\interpolant{n}{l}(\f) \equiv \interpolant{n}{l}(\g
-\circ \transform)$ at those points. Having collected samples of \g, other
-statistics about \g, such as probabilities of particular events, can be
-straightforwardly estimated. We do not discuss this estimation stage any further
-as it is standard.
+\fref{interpolant-density} depicts the result. To elaborate, the blue line shows
+the \ac{PDF} of \g computed by applying kernel density estimation to $G$
+obtained from the interpolant. The yellow line---which is barely visible behind
+the blue line---shows the true density of \g; its calculation is explained in
+\sref{interpolant-results}. It can be seen that our solution closely matches the
+exact one. In addition, the orange line shows the estimate that one would get if
+one sampled \g directly consuming the same number of \g's evaluations as the one
+consumed by our framework. We see that, given the same budget, the solution
+delivered by our technique is substantially closer to the true one than the one
+delivered by naïve sampling.
