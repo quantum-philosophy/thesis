@@ -1,9 +1,11 @@
-The agenda for this section is as follows. First, we introduce a number of
-quantities of interest \g in order to illustrate the broad applicability of the
-proposed framework and, thereby, give the reader a better intuition about the
-utility of the framework. It should be understood that, in practice, \g stands
-for an adequate simulator of the system under consideration, and the modeling
-capabilities of this simulator are naturally inherited by our technique.
+The agenda for this section is as follows. First, we exemplify Stage~1 of our
+framework by introducing a number of quantities of interest \g, which illustrate
+the broad applicability of the framework and, thereby, give the reader a better
+intuition about its utility. Second, we turn to Stage~2 and highlight a
+transformation $\transform$ that is the one to use in the majority of cases.
+Third, we transition directly to Stage~4 and illustrate a potential output of
+the proposed framework. For concreteness, throughout this section, the framework
+is applied to a particular problem involving one of the introduced quantities.
 
 \subsection{Problem Formulation}
 
@@ -12,13 +14,13 @@ Assume the system, power, and temperature models given in \sref{system-model},
 application model utilized in \sref{thermal-cycling-problem} except for the
 requirement about being periodic.
 
-Let us first discuss timing. Each task of the application in question has a
-start time and a finish time, which are denoted by $b_i$ and $d_i$,
-respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} = (d_i)_{i =
-1}^\nt$. Then other timing characteristics of the application can be derived
-from $(\v{b}, \v{d})$. For example, the end-to-end delay---which is the
-difference between the finish time of the latest task and the start time of the
-earliest task---is as follows:
+Let us first touch upon the timing aspects of the system in question. Each task
+of the application has a start time and a finish time, which are denoted by
+$b_i$ and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} =
+(d_i)_{i = 1}^\nt$. Then other timing characteristics can be derived from
+$(\v{b}, \v{d})$. For example, the end-to-end delay of the application---which
+is the difference between the finish time of the latest task and the start time
+of the earliest task---is as follows:
 \begin{equation} \elab{interpolant-delay}
   \text{End-to-end delay}
   = \max_{i = 1}^\nt d_i - \min_{i = 1}^\nt b_i.
@@ -62,8 +64,9 @@ estimated using a temperature profile \mq as follows:
   = \max_{i = 1}^\np \sup_{t} \q_i(t)
   \approx \norm[\infty]{\mq}
 \end{equation}
-Since the power consumption of the system is affected by \vu, the heat
-dissipation is affected by \vu as well. Therefore, the temperature in
+where $\q_i$ stands for the heat dissipation of processing element $i$. Since
+the power consumption of the system is affected by \vu, the heat dissipation is
+affected by \vu as well. Therefore, the maximum temperature in
 \eref{interpolant-temperature} is a potential quantity of interest \g. Note
 that, due to the maximization involved, the quantity is nondifferentiable and,
 hence, cannot be adequately addressed using polynomial approximations; recall
@@ -74,74 +77,48 @@ power, and temperature, and introduced a number of quantities that the designer
 is typically interested in analyzing. These quantities are to be discussed
 further in the section on experimental results, \sref{interpolant-results}.
 
+\inputfigure{interpolant-application}
+Let us also employ one of the introduced quantities in order to have a concrete
+example to work with in this section. The addressed problem is depicted on the
+left-hand side of \fref{interpolant-application}; a detailed description of the
+assumed experimental setup is to be given in \sref{interpolant-results}. We
+consider a platform with two processing elements, PE1 and PE2, and an
+application with four tasks, T1--T4. The data dependencies between the tasks and
+their mapping onto the processing elements can be seen in
+\fref{interpolant-application}. The quantity \g is the end-to-end delay of the
+application defined in \eref{interpolant-delay}. The uncertain parameters \vu
+are the execution times of T2 and T4 denoted by $\u_1$ and $\u_2$, respectively.
+
 \subsection{Probability Transformation}
 
 At Stage~2 of our workflow outlined in \sref{interpolant-solution}, a suitable
-$\transform$ needed in \eref{interpolant-transformation} is to be decided upon.
-In this example, we base $\transform$ on the one shown in
-\eref{probability-transformation} and reduce $\vu: \Omega \to \real^\nu$ to
-$\vz: \Omega \to [0, 1]^\nz$ so that the latter is uniformly distributed. In
-this case, the rightmost $\transform_1$ in \eref{probability-transformation} is
-simpler than what it is according to its original definition since the marginal
-distributions of \vz are already uniform. It should be understood that the
-model-order-reduction functionality of \eref{probability-transformation} is
-engaged; it eliminates redundant stochastic dimensions and, therefore, assists
-the subsequent interpolation process.
+$\transform$ needed in \eref{interpolant-transformation} and depicted in
+\fref{interpolant-application} is to be decided upon. In this example, we base
+$\transform$ on the one shown in \eref{probability-transformation} and reduce
+$\vu: \Omega \to \real^\nu$ to $\vz: \Omega \to [0, 1]^\nz$ so that the latter
+is uniformly distributed. In this case, the rightmost $\transform_1$ in
+\eref{probability-transformation} is simpler than what it is according to its
+original definition since the marginal distributions of \vz are already uniform.
+It should be understood that the model-order-reduction functionality of
+\eref{probability-transformation} is engaged; it eliminates redundant stochastic
+dimensions and, therefore, assists the subsequent interpolation process.
 
 The chosen $\transform$ makes \vz conform to the requirements listed in
 \sref{interpolant-transformation}. Namely, the codomain of \vz is $[0, 1]^\nz$,
 and it has the smallest number of dimensions that are needed to preserve the
 desired level of accuracy.
 
-\subsection{Example}
+\subsection{Post-Processing}
 
-In \sref{modeling}, we formalized the uncertainty affecting electronic systems
-and discussed several aspects of such systems along with metrics \g, which the
-designer is interested in evaluating. In \sref{interpolation}, we obtained an
-efficient interpolation algorithm for approximating hypothetical
-multidimensional functions \f. We shall now amalgamate the ideas developed in
-the aforementioned two sections.
+The post-processing stage of the framework, Stage~4, is what.
 
-Given an electronic system dependent on a number of uncertain parameters $\vu:
-\Omega \to \real^\nu$, the goal is to analyze a metric \g representing a certain
-aspect of the system. For instance, \vu can correspond to the execution times of
-the tasks, and \g can correspond the total energy consumed by the processing
-elements, as we exemplify in \sref{time} and \sref{power}. The goal is attained
-as follows; recall \fref{example}.
-
-1) The parameterization of \g is changed from \vu to random variables $\vz:
-\Omega \to [0, 1]^\nz$ via a suitable transformation $\transform$; this stage is
-described in \sref{parameters}. 2) An interpolant of the resulting composition
-$\g \circ \transform$ is constructed by treating the composition as a
-deterministic function \f of \vz; this stage is detailed in
-\sref{interpolation}. 3) An estimation of the probability distribution of \g is
-undertaken in the usual sampling-based manner but relying solely on the
-constructed interpolant; \g is no longer involved. This last stage boils down to
-drawing independent samples from $F_{\vz}$ and evaluating the interpolant
-$\interpolant{n}{l}(\f) \equiv \interpolant{n}{l}(\g \circ \transform)$ at those
-points. Having collected samples of \g, other statistics about \g, such as
-probabilities of particular events, can be straightforwardly estimated. We do
-not discuss this estimation stage any further as it is standard.
-
-There are two aspects concerning the usage of the proposed framework that we
-would like to cover in what follows.
-
-In this section, we apply our framework to a small problem in order to get a
-better understanding of the workflow of the framework. A detailed description of
-our experimental setup is given in \sref{configuration}; here we give only the
-bare minimum.
-
-The addressed problem is depicted in \fref{example}. We consider a platform with
-two processing elements, PE1 and PE2, and an application with four tasks,
-T1--T4. The data dependencies between T1--T4 and their mapping onto PE1 and PE2
-can be seen in \fref{example}. The metric \g is the end-to-end delay of the
-application. The uncertain parameters \vu are the execution times of T2 and T4
-denoted by $\u_1$ and $\u_2$, respectively.
-
-The leftmost box in \fref{example} represents a simulator of the system at hand,
-and it could involve such tools as Sniper \cite{carlson2011}. It takes an
-assignment of the execution times of T2 and T3, $\u_1$ and $\u_2$, and outputs
-the calculated end-to-end delay \g. The second box corresponds to the
+The leftmost box in \fref{interpolant-application} represents a ``black-box''
+simulator of the system at hand, and it could involve such tools as Sniper
+\cite{carlson2011}. It is worth noting that \g often involves a simulator of a
+certain aspect of the system at hand, in which case the modeling capabilities of
+this simulator are naturally inherited by our technique. It takes an assignment
+of the execution times of T2 and T3, $\u_1$ and $\u_2$, and outputs the
+calculated end-to-end delay \g. The second box corresponds to the
 reparameterization mentioned in \sref{solution} (to be discussed in
 \sref{parameters}). It converts the auxiliary variables $\z_1$ and $\z_2$ into
 $\u_1$ and $\u_2$ in accordance with $\u_1$ and $\u_2$'s joint distribution. The
@@ -170,3 +147,21 @@ the true one than the one delivered by na\"{i}ve sampling.
 At this point, we are ready to present to the proposed framework. We begin by
 elaborating on the modeling of uncertain parameters and metrics of interest. We
 shall then proceed to the interpolation engine (\sref{interpolation}).
+
+Let us recapitulate our workflow. First, a problem is formulated: given a
+computer system dependent on specific uncertain parameters \vu, quantify the
+impact of the uncertainty on a specific aspect of the system \g. Second, the
+parameterization of \g is changed from \vu to random variables \vz via a
+suitable transformation $\transform$; this stage is described in
+\sref{interpolant-transformation}. Third, an interpolant of the resulting
+composition $\g \circ \transform$ is constructed; this stage is detailed in
+\sref{interpolant-construction}. Fourth, an estimation of the probability
+distribution of \g is undertaken in the usual sampling-based manner but relying
+solely on the constructed interpolant; \g is no longer involved.
+
+This last stage boils down to drawing independent samples from $F_{\vz}$ and
+evaluating the interpolant $\interpolant{n}{l}(\f) \equiv \interpolant{n}{l}(\g
+\circ \transform)$ at those points. Having collected samples of \g, other
+statistics about \g, such as probabilities of particular events, can be
+straightforwardly estimated. We do not discuss this estimation stage any further
+as it is standard.
