@@ -3,9 +3,9 @@ classified as analog or digital---in order to build intuition, these two
 categories can also be called physical and virtual, respectively. An example of
 an analog source of uncertainty is process variation since it originates from
 the imperfection of the fabrication process, which the topic of
-\cref{uncertainty-analog-fabrication}, \cref{design-uncertainty-analog}, and
-many other lines of research. An example of a digital source of uncertainty is
-workload. To elaborate, the characteristics of the codes running on modern
+\cref{uncertainty-analog-fabrication}, \cref{uncertainty-analog-development},
+and many other lines of research. An example of a digital source of uncertainty
+is workload. To elaborate, the characteristics of the codes running on modern
 computer systems change from one activation to another depending on the
 environment and input data. This source of uncertainty has not been deprived of
 attention either, especially in the real-time community \cite{diaz2002,
@@ -17,9 +17,9 @@ Due to its nature, the variability coming from the analog world is typically
 smooth, well behaved. In such cases, uncertainty quantification based on
 \acf{PC} expansions \cite{xiu2010} and other approximation techniques making use
 of global polynomials generally work well, which is demonstrated in
-\cref{design-uncertainty-analog}. On the other hand, the variability coming from
-the digital world has often steep gradients and favors nondifferentiability and
-even discontinuity. In such cases, \ac{PC} expansions and similar techniques
+\cref{uncertainty-analog-development}. On the other hand, the variability coming
+from the digital world has often steep gradients and favors nondifferentiability
+and even discontinuity. In such cases, \ac{PC} expansions and similar techniques
 fail: they require extremely many evaluations of the studied quantity in order
 to deliver an acceptable level of accuracy and, consequently, are not worth it.
 

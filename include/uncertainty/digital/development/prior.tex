@@ -5,7 +5,7 @@ associated with direct sampling, a number of techniques have been introduced.
 
 Let us first discuss physical sources of uncertainty. Since process variation is
 the most prominent example in this case, our work in
-\cref{design-uncertainty-analog}---which leverages \ac{PC} expansions
+\cref{uncertainty-analog-development}---which leverages \ac{PC} expansions
 \cite{xiu2010} introduced in \sref{polynomial-chaos}---is very much relevant in
 this regard, and the discussion here is a brief recapitulation of the one in
 \sref{chaos-prior}. Circuit-level timing and power analysis under process
@@ -28,16 +28,16 @@ resource needed by that task flow; the approach is based on real-time calculus
 and applicable to computer systems.
 
 Studying the literature on probabilistic analysis of computer systems related to
-\cref{design-uncertainty-analog} and this chapter, one can note a pronounced
-trend: the generality and straightforwardness of sampling methods tend to be
-lost. To elaborate, a technique typically \one~requires restrictive assumptions
-to be fulfilled such as the absence of correlation, \two~is tailored to one
-concrete quantity of interest such as the response time, and \three~requires
-substantial effort in order to be deployed. However, one should keep in mind
-what is practical. First of all, although additional assumptions might make the
-mathematics analytically solvable, they often do not hold in reality and
-oversimplify the model. An exact analytical solution might also be extremely
-complex, requiring a lot of computational resources upon evaluation.
+\cref{uncertainty-analog-development} and this chapter, one can note a
+pronounced trend: the generality and straightforwardness of sampling methods
+tend to be lost. To elaborate, a technique typically \one~requires restrictive
+assumptions to be fulfilled such as the absence of correlation, \two~is tailored
+to one concrete quantity of interest such as the response time, and
+\three~requires substantial effort in order to be deployed. However, one should
+keep in mind what is practical. First of all, although additional assumptions
+might make the mathematics analytically solvable, they often do not hold in
+reality and oversimplify the model. An exact analytical solution might also be
+extremely complex, requiring a lot of computational resources upon evaluation.
 Furthermore, it is often the case that there has been developed a robust
 simulator evaluating the quantity under consideration for the deterministic
 scenario. Switching to probabilistic analysis based on analytical approaches
@@ -46,7 +46,7 @@ scratch, which is wasteful.
 
 Some of the techniques mentioned earlier, in fact, preserve the generality and
 straightforwardness of sampling methods. An example is our uncertainty analysis
-presented in \cref{design-uncertainty-analog}. The reason is that our
+presented in \cref{uncertainty-analog-development}. The reason is that our
 construction of \ac{PC} expansions is undertaken by means of nonintrusive
 spectral projections \cite{xiu2010}, which, similar to sampling methods, do not
 need to look inside the ``black box.'' However, as motivated in
@@ -55,7 +55,7 @@ approximation based on polynomials. The convergence of, for instance, \ac{PC}
 expansions deteriorates substantially in such cases, requiring partitioning the
 stochastic space in order to alleviate the problem. Therefore, it is not
 straightforward to apply such techniques as the one given in
-\cref{design-uncertainty-analog} in the context of digital sources of
+\cref{uncertainty-analog-development} in the context of digital sources of
 uncertainty exhibiting nonsmoothness.
 
 To the best of our knowledge, in the context of probabilistic analysis of

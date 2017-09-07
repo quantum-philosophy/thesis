@@ -55,13 +55,13 @@ conditions---follows closely the description given in
 10\textsuperscript{4}, respectively, depending on the problem.
 
 The performance of our framework with respect to each problem is assessed as
-follows. First, as in \cref{design-uncertainty-analog}, the true probability
-distribution of the quantity in question \g is estimated by sampling \g directly
-and extensively. Direct sampling means that there is no any intermediate
-representation or any intermediate model order reduction involved. Second, we
-construct an interpolant for \g and estimate \g's distribution by sampling this
-interpolant, which is discussed in \sref{interpolant-construction} and
-\sref{interpolant-processing}. In both cases, we draw 10\textsuperscript{5}
+follows. First, as in \cref{uncertainty-analog-development}, the true
+probability distribution of the quantity in question \g is estimated by sampling
+\g directly and extensively. Direct sampling means that there is no any
+intermediate representation or any intermediate model order reduction involved.
+Second, we construct an interpolant for \g and estimate \g's distribution by
+sampling this interpolant, which is discussed in \sref{interpolant-construction}
+and \sref{interpolant-processing}. In both cases, we draw 10\textsuperscript{5}
 samples; let us remind, however, that, unlike the cost of direct sampling, the
 cost of sampling the interpolant is practically negligible. Third, we perform
 another round of direct sampling. This time we draw as many samples as many
