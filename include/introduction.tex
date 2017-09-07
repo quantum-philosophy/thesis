@@ -1,25 +1,51 @@
 Computer systems are omnipresent and omniscient. They penetrate deep into
 everyday life and are unsettlingly indispensable and increasingly intelligent at
-the tasks entrusted to them. It is then understandable that the design of
-computer systems is an acutely difficult and vastly far-reaching process.
+the tasks entrusted to them. It is then understandable that analysis and design
+of computer systems are acutely difficult and vastly far-reaching endeavors.
 
 One major concern of the designer of a computer system is the presence of
-uncertainty, which, in many cases, is inherent and inevitable. A prominent
-source of uncertainty is process variation: the process parameters of fabricated
-nanoscale devices deviate from their nominal values since the contemporary
-fabrication process cannot be controlled precisely down to the level of
-individual atoms. Another source is performance variation: the performance of
-electronic systems degrades over time due to natural or accelerated wear. Yet
-another and arguably the most consequential source of uncertainty is workload
-variation: the actual runtime workload that the system at hand will be exposed
-to in a production environment is rarely, if ever, known in advance.
+uncertainty, which, in many cases, is inherent and inevitable. Uncertainty can
+be due to different phenomena; it can originate from different sources. From one
+of many perspectives, uncertainty in computer systems can be broadly classified
+into two categories: analog and digital, which---in order to build the reader's
+intuition---can also be referred to as physical and virtual, respectively.
 
-The aforementioned uncertainty in computer systems leads to degradation of the
-quality and efficiency of service in the best case and to severe faults or burnt
-silicon in the worst-case scenario. Therefore, it is crucial to acknowledge and
-analyze uncertainty and to mitigate its deteriorating consequences by designing
-computer systems in such a way that they are well aware of uncertainty and well
-equipped with mechanisms to effectively and efficiently tackle it.
+A prominent example of an analog source of uncertainty is process variation
+\cite{srivastava2010}. In this case, uncertainty originates from the
+imperfection of the contemporary fabrication process. Namely, the process
+parameters of fabricated nanoscale devices deviate from their nominal values as
+the fabrication process cannot be controlled precisely down to the level of
+individual atoms. Process variation is a topic of many lines of research; see,
+for instance, \cite{bhardwaj2006, bhardwaj2008, chandra2010, juan2012, lee2013}.
+
+Another example of an analog source of uncertainty that we would like to mention
+is what we refer to as performance variation. In this case, the uncertainty is
+due to the performance of electrical circuits degrading over time due to natural
+or accelerated wear \cite{jedec2016}, which typically ends in a permanent fault
+and, hence, limits the lifetime of the system at hand. The degradation is
+nonuniform, and the lifetime is unknown in advance. Performance uncertainty has
+been extensively studied as well; see, for instance, \cite{coskun2006,
+huang2009b, das2014c}.
+
+A prominent example of a digital source of uncertainty is workload. In this
+case, the uncertainty is due to the varying characteristics of codes running on
+computer systems. To elaborate, from one activation to another, the same piece
+of deterministic software can exhibit drastically different behaviors depending
+on the environment and input data, and neither the environment nor input data
+that the system under development will be exposed to is exhaustively known in
+advance. Workload uncertainty is arguably the most consequential type of
+uncertainty and, thus, has not been deprived of attention, especially in the
+real-time community; see, for instance, \cite{diaz2002, santinelli2011,
+quinton2012, tanasa2015}.
+
+Such phenomena as the ones mentioned above render the behavior of a computer
+system nondeterministic to the designer of this system. The presence of
+uncertainty leads to degradation of the quality and efficiency of service in the
+best case and to severe faults or burnt silicon in the worst-case scenario.
+Consequently, it is crucial to acknowledge and analyze uncertainty in computer
+systems and to mitigate its deteriorating consequences by designing these
+systems in such a way that they are well aware of uncertainty and well equipped
+with mechanisms to effectively and efficiently tackle it.
 
 \section{Overview}
 
