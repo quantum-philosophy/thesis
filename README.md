@@ -12,8 +12,8 @@ the typefaces provided by MacTeX, the following typefaces have to be installed:
 * [Miller Text][miller] (Bold, Italic, Roman, and Roman Small Caps).
 
 In case any of the aforementioned typefaces are not available, they can be
-replaced in `thesis.cls`, which, however, is likely to destroy the layout of the
-thesis.
+replaced in [`thesis.cls`](thesis.cls), which, however, is likely to destroy the
+layout of the thesis.
 
 ## Compilation
 
