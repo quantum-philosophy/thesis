@@ -1,6 +1,7 @@
 # Thesis
 
-The repository contains a PhD thesis in computer science.
+The repository contains a PhD thesis in computer science. The current version
+can be found [here][thesis].
 
 ## Requirements
 
@@ -24,6 +25,8 @@ latexmk -xelatex thesis.tex
 ## Copyright
 
 © 2017 Ivan Ukhov
+
+[thesis]: https://IvanUkhov.github.io/thesis/thesis.pdf
 
 [input]: http://input.fontbureau.com/
 [korolev]: https://liu.se/en/
