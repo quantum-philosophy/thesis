@@ -1,1 +1,54 @@
-She sells seashells on the seashore.
+Modern computer systems are complex, and they operate in complex environments
+and perform complex tasks. Design as well as analysis of such systems are
+already highly challenging endeavors; however, their difficulty is considerably
+escalated by the inevitable uncertainty associated with computer systems.
+
+The objective of this thesis has been to assist the designer by providing the
+tools that would allow the designer to effectively and efficiently characterize
+uncertainty and take it into account. To this end, we have developed a number of
+system-level techniques for analyzing and designing with three classes of
+uncertainty, namely, process, performance, and workload uncertainty.
+
+In \cref{certainty-development}, we have elaborated on the Utopian deterministic
+scenario, which has served as an adequate starting point for the developments in
+the subsequent chapters. We have refined transient power and temperature
+analysis and proposed a novel approach to dynamic steady-state analysis. The
+latter has been applied it in the context of reliability optimization,
+constituting our first attempt at mitigating the consequences of performance
+variation.
+
+In \cref{uncertainty-analog-fabrication}, we have considered the variability of
+process parameters across silicon wafers induced by process variation and
+presented a versatile statistical framework for inferring this variability by
+means of indirect, incomplete, and noisy measurements such as readings from
+thermal sensors.
+
+In \cref{uncertainty-analog-development}, we have presented a probabilistic
+technique for studying diverse system-level quantities of interest deteriorated
+by process variation. Examples include transient and dynamic steady-state power
+and temperature profiles of the system under consideration as well as its
+maximal temperature and total energy consumption. The approach has been applied
+to reliability optimization operating on stochastic quantities. In this context,
+reliability analysis has been enhanced in order to account for the impact of
+process uncertainty, making the treatment of performance uncertainty more
+comprehensive.
+
+In \cref{uncertainty-digital-development}, we have developed another technique
+for probabilistic analysis of system-level quantities that are of interest to
+the designer. In this case, we have striven to give a computationally efficient
+and adequate characterization of the variability that originates from digital
+sources of uncertainty such as the runtime workload, which tends to be less
+regular than the one originating from analog sources of uncertainty such as the
+fabrication process.
+
+In \cref{uncertainty-digital-management}, we have considered the mitigation of
+workload uncertainty at runtime in the context of resource management.
+Specifically, we have performed an investigation of the utility of advanced
+prediction techniques for fine-grained long-range forecasting of the resource
+usage in computer clusters.
+
+In \cref{uncertainty-digital-research}, we have developed an efficient
+infrastructure for data synthesis in order to facilitate further research in the
+direction of intelligent resource management by making it tractable to
+experiment with the highly promising but data-demanding state-of-the-art
+techniques for workload prediction.
