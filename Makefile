@@ -17,4 +17,14 @@ clean:
 	rm -f {,**/}*.toc
 	rm -f {,**/}*.xdv
 
-.PHONY: all clean
+publish:
+	latexmk -xelatex thesis.tex
+	mv thesis.pdf thesis.pdf_
+	git checkout gh-pages
+	mv thesis.pdf_ thesis.pdf
+	git add thesis.pdf
+	git commit --amend --message 'Update the thesis'
+	git push --force
+	git checkout master
+
+.PHONY: all clean publish
