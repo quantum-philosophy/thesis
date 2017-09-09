@@ -73,10 +73,10 @@ convergence properties than those of the classical \ac{MC} sampling
 reference (the one considered true), proposed (the one based on interpolation),
 and direct (the one equal in terms of the number of \g's evaluations to the
 proposed solution). The last two are compared with the first one. For computing
-the proximity between two distributions, we use the well-known
-Kolmogorov--Smirnov (\up{KS}) statistic \cite{rao2002}, which is the supremum
-over the distance (pointwise) between two empirical distribution functions and,
-hence, is a rather unforgiving error indicator.
+the proximity between two distributions, we use the well-known \ac{KS} statistic
+\cite{rao2002}, which is the supremum over the distance (pointwise) between two
+empirical distribution functions and, hence, is a rather unforgiving error
+indicator.
 
 \inputfigure{interpolant-results-delay}
 \inputfigure{interpolant-results-energy}
@@ -88,10 +88,10 @@ respectively. Each figure contains six plots arranged in a three-by-two grid.
 The three rows of the grid correspond to the three platform sizes, and the two
 columns correspond to the two application sizes. The horizontal axis of each
 plot shows the number of points, that is, the number of evaluations of \g, and
-the vertical one shows the \up{KS} statistic on a logarithmic scale. Each plot
+the vertical one shows the \ac{KS} statistic on a logarithmic scale. Each plot
 has two lines. The blue line represents our technique. The circles on this line
 correspond to the steps of the interpolation process shown in
-\eref{interpolant-sparse}. They illustrate how the \up{KS} statistic computed
+\eref{interpolant-sparse}. They illustrate how the \ac{KS} statistic computed
 with respect to the reference solution changes as the interpolation process
 takes steps (and adds more and more collocation nodes into the interpolant)
 until a stopping condition is satisfied. Note that only a subset of the actual
@@ -103,7 +103,7 @@ calculated with respect to the reference solution.
 We begin by describing one particular problem shown in the figures. Consider,
 for instance, the one labeled with $\bigstar$ in
 \fref{interpolant-results-energy}. It can be seen that, at the very beginning,
-our solution and the solution delivered by direct sampling are poor. The \up{KS}
+our solution and the solution delivered by direct sampling are poor. The \ac{KS}
 statistic tells us that there are substantial mismatches between the estimates
 and the reference solution. However, as the interpolant is being adaptively
 refined, our solution approaches rapidly the reference one and, by the end of
