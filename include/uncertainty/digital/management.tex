@@ -36,29 +36,30 @@ advancements in machine learning can give to the design of resource managers of
 computer systems.
 
 \inputfigure{network-example}
-In this chapter, we set out to conduct one such body of research. More
-specifically, we study the resource usage in a large computer cluster and aim to
-predict this usage multiple steps ahead at the level of individual tasks
-executed in the cluster. To this end, we intend to use recurrent neural networks
+In this chapter, we conduct one such body of research. More specifically, we
+study the resource usage in a large system of computers and aim to predict this
+usage multiple steps ahead at the level of individual tasks executed by the
+machines. To this end, we intend to use recurrent neural networks
 \cite{goodfellow2016}.
 
-An example of the aforementioned prediction is given in \fref{network-example}
-where the \up{CPU} usage of a task running on a machine in the cluster is
-depicted three times (the solid-red-to-solid-blue lines). The three cases
-correspond to three different time moments (the black circles) as viewed by the
-resource manager of the cluster. The solid red lines represent the history of
-the usage, which is known to the manager, while the solid blue lines represent
-the future usage, which is unknown to the manager. The latter is what we are to
-predict for each task of interest and several steps ahead. In
+In order to give a better intuition about the considered scenario,
+\fref{network-example} illustrates how the aforementioned prediction is supposed
+to work. In this example, the \up{CPU} usage (the solid-red-to-solid-blue lines)
+of a single task running on a single computer is depicted three times. The three
+cases correspond to three different time moments (the black circles) as viewed
+by the resource manager of the system. The solid red lines represent the history
+of the usage, which is known to the manager, while the solid blue lines
+represent the future usage, which is unknown to the manager. The latter is what
+we are to predict for each task of interest and several steps ahead. In
 \fref{network-example}, our potential predictions up to four steps ahead are
 depicted by a set of dashed blue lines.
 
 Such detailed (since for individual tasks) and foresighted (since multiple steps
 ahead) information about the future resource usage as the one depicted in
 \fref{network-example} can be of great help to the resource manager of the
-cluster. For instance, knowing the future resource usage of the tasks that are
-currently being executed in the cluster, the manager can more intelligently
-decide which of the cluster's machines the next incoming task should be
+system. For instance, having at its disposal the information about the future
+resource usage of the tasks that are currently being executed, the manager can
+more intelligently decide which machine the next incoming task should be
 delegated to.
 
 We proceed as follows. In \sref{network-problem}, the problem that we address is
