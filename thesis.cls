@@ -38,6 +38,8 @@
 \setmainlanguage{english}
 \setotherlanguages{swedish}
 
+\linespread{1.05}
+
 \clubpenalty=10000
 \widowpenalty=10000
 \raggedbottom
