@@ -3,7 +3,6 @@
 %
 
 \usepackage[hyperref,maxnames=42,sortcites,sorting=none]{biblatex}
-
 \uspunctuation
 
 %
@@ -21,16 +20,6 @@
 \stepcounter{subsection}
 \subsection*{\arabic{chapter}.\arabic{section}.\arabic{subsection}\hspace{1ex}{#1}}
 }
-
-%
-% Contents
-%
-
-\newcommand{\one}{(i)\xspace}
-\newcommand{\two}{(ii)\xspace}
-\newcommand{\three}{(iii)\xspace}
-\newcommand{\four}{(iv)\xspace}
-\newcommand{\five}{(v)\xspace}
 
 %
 % Abbreviations
@@ -77,6 +66,16 @@
 
 \newcommand{\tlab}[1]{\label{table:#1}}
 \renewcommand{\tref}[1]{Table~\ref{table:#1}}
+
+%
+% Shortcuts
+%
+
+\newcommand{\one}{(i)\xspace}
+\newcommand{\two}{(ii)\xspace}
+\newcommand{\three}{(iii)\xspace}
+\newcommand{\four}{(iv)\xspace}
+\newcommand{\five}{(v)\xspace}
 
 %
 % Algorithms
