@@ -26,8 +26,6 @@
 % Contents
 %
 
-\newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
-
 \newcommand{\one}{(i)\xspace}
 \newcommand{\two}{(ii)\xspace}
 \newcommand{\three}{(iii)\xspace}
@@ -38,7 +36,9 @@
 % Abbreviations
 %
 
-\usepackage[acronym,toc]{glossaries}
+\newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
+
+\usepackage[acronym]{glossaries}
 
 \newacronym{CDF}{\up{CDF}}{cumulative distribution function}
 \newacronym{KL}{\up{KL}}{Karhunen--Loève}
