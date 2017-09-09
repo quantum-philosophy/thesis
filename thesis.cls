@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/09/04 Thesis]
+\ProvidesClass{thesis}[2017/09/09 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -29,7 +29,6 @@
 \createvariable{publicationseries}
 \createvariable{publicationyear}
 
-\gdef\@abbreviations{\input{include/abbreviations}}
 \gdef\@abstractenglish{\input{include/abstract/english}}
 \gdef\@abstractswedish{\input{include/abstract/swedish}}
 \gdef\@acknowledgments{\input{include/acknowledgments}}
@@ -220,11 +219,6 @@
     \renewcommand{\contentsname}{Table of Contents}
     \tableofcontents
     \relax
-    \clearpage
-  }
-  {
-    \@abbreviations
-    \addcontentsline{toc}{chapter}{List of Abbreviations}
     \clearpage
   }
   {

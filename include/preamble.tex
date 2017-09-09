@@ -26,8 +26,6 @@
 % Contents
 %
 
-\usepackage{acronym}
-
 \newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
 
 \newcommand{\one}{(i)\xspace}
@@ -35,6 +33,23 @@
 \newcommand{\three}{(iii)\xspace}
 \newcommand{\four}{(iv)\xspace}
 \newcommand{\five}{(v)\xspace}
+
+%
+% Abbreviations
+%
+
+\usepackage[acronym,toc]{glossaries}
+
+\newacronym{CDF}{\up{CDF}}{cumulative distribution function}
+\newacronym{KL}{\up{KL}}{Karhunen--Loève}
+\newacronym{MC}{\up{MC}}{Monte Carlo}
+\newacronym{MTTF}{\up{MTTF}}{mean time to failure}
+\newacronym{NRMSE}{\up{NRMSE}}{normalized root-mean-square error}
+\newacronym{PC}{\up{PC}}{polynomial chaos}
+\newacronym{PDF}{\up{PDF}}{probability density function}
+
+\newcommand{\acp}[1]{\glspl{#1}}
+\newcommand{\ac}[1]{\gls{#1}}
 
 %
 % References

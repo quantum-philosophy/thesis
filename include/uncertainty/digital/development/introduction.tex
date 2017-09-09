@@ -26,17 +26,16 @@ consideration might easily end up being too conservative, overdesigned
 
 As we note in \sref{chaos-prior}, when probability distributions and uncertainty
 quantification in general are concerned, sampling methods are of great use. The
-classical \acf{MC} sampling, quasi-\ac{MC} sampling, and Latin hypercube
-sampling are examples of such methods \cite{asmussen2007}. Compared to other
-techniques for probabilistic analysis, they are straightforward to apply. The
-system at hand is treated as an opaque object, and one only has to evaluate this
-object a number of times in order to start to draw conclusions about the
-system's behavior. The major problem with sampling, however, is in sampling: one
-should be able to obtain sufficient many realizations of the quantity of
-interest in order to accurately estimate the needed statistics about this
-quantity \cite{diaz-emparanza2002}. When the subject under analysis is
-computationally expensive to evaluate, sampling methods are rendered slow and
-often unfeasible.
+classical \ac{MC} sampling, quasi-\ac{MC} sampling, and Latin hypercube sampling
+are examples of such methods \cite{asmussen2007}. Compared to other techniques
+for probabilistic analysis, they are straightforward to apply. The system at
+hand is treated as an opaque object, and one only has to evaluate this object a
+number of times in order to start to draw conclusions about the system's
+behavior. The major problem with sampling, however, is in sampling: one should
+be able to obtain sufficient many realizations of the quantity of interest in
+order to accurately estimate the needed statistics about this quantity
+\cite{diaz-emparanza2002}. When the subject under analysis is computationally
+expensive to evaluate, sampling methods are rendered slow and often unfeasible.
 
 Similar to \cref{uncertainty-analog-development}, here we propose a design-time
 system-level framework for the analysis of computer systems that are dependent

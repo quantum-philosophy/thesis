@@ -64,22 +64,22 @@ We also inspect the impact of the correlation patterns between the local random
 variables $\{ u_{\local, i} \}_{i = 1}^\np$; recall
 \sref{chaos-transient-application}. More specifically, apart from \lc and \no,
 we change the balance between the two correlation functions shown in
-\eref{inference-correlation}, that is, the squared-exponential $k_\SE$ and
-Ornstein--Uhlenbeck $k_\OU$ kernels, which is controlled by the weight
+\eref{inference-correlation}, that is, the squared-exponential kernel $k_\SE$
+and the Ornstein--Uhlenbeck kernel $k_\OU$, which is controlled by the weight
 coefficient $w \in [0, 1]$.
 
-The \ac{PC} and \ac{MC} methods are compared by means of three metrics. The
-first two are the \acfp{NRMSE} of the expectation and variance of the computed
-stochastic temperature profiles. The third metric is the mean of the \acp{NRMSE}
-of the empirical \acf{PDF} of temperature constructed at each time step for each
-processing element. The error metrics are denoted by \error{\expectation},
-\error{\variance}, and \error{f}, respectively. The metrics \error{\expectation}
-and \error{\variance} are straightforward to interpret, and they are calculated
-using the analytical expressions in \eref{chaos-moments}. The metric \error{f}
-is a strong indicator of the quality of the distributions estimated by our
-framework, and it is computed by sampling the constructed \ac{PC} expansions. In
-contrast to the \ac{MC} approach, this sampling has a negligible overhead as we
-note in \sref{chaos-processing}.
+The \ac{PC} and \ac{MC} methods are compared by means of three error metrics.
+The first two are the \acp{NRMSE} of the expectation and variance of the
+computed temperature profiles. The third metric is the mean of the \acp{NRMSE}
+of the empirical \ac{PDF} of temperature constructed at each time step for each
+processing element. The metrics are denoted by \error{\expectation},
+\error{\variance}, and \error{f}, respectively. The first two are
+straightforward to interpret, and they are calculated using the analytical
+expressions in \eref{chaos-moments}. The third one is a strong indicator of the
+quality of the distributions estimated by our framework, and it is computed by
+sampling the constructed \ac{PC} expansions. In contrast to the \ac{MC}
+approach, this sampling has a negligible overhead as noted in
+\sref{chaos-processing}.
 
 \inputtable{chaos-transient-accuracy}
 The considered values of \lc, \no, and $w$ are in the sets $\{ i \}_{i = 1}^7$,
