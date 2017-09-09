@@ -1,11 +1,10 @@
-Any symmetric matrix $\m{X} \in \real^{n \times n}$ admits the
-eigendecomposition \cite{press2007}, which, in this particular case, takes the
-following form:
+Any symmetric matrix $\mx \in \real^{n \times n}$ admits the eigendecomposition
+\cite{press2007}, which, in this particular case, takes the following form:
 \begin{equation} \elab{eigendecomposition}
-  \m{X} = \m{U} \m{\Lambda} \transpose{\m{U}}
+  \mx = \m{U} \m{\Lambda} \transpose{\m{U}}
 \end{equation}
 where $\m{U} \in \real^{n \times n}$ is an orthogonal matrix of the eigenvectors
-of $\m{X}$, and
+of \mx, and
 \[
   \m{\Lambda} = \diagonal{\lambda_1}{\lambda_n} = \left(
     \begin{array}{lll}
@@ -15,4 +14,4 @@ of $\m{X}$, and
     \end{array}
   \right) \in \real^{n \times n}
 \]
-is a diagonal matrix of the eigenvalues of $\m{X}$.
+is a diagonal matrix of the eigenvalues of \mx.
