@@ -1,80 +1,122 @@
-In order to facilitate the development of intelligent resource managers of
-computer clusters, we investigate the utility of the state-of-the-art neural
-networks for the purpose of fine-grained long-range prediction of the resource
-usage in one such cluster. We consider a large data set of real-life traces and
-describe in detail our workflow, starting from making the data accessible for
-learning and finishing by predicting the resource usage of individual tasks
-multiple steps ahead. The experimental results indicate that such fine-grained
-traces as the ones considered possess a certain structure, and that this
-structure can be extracted by advanced machine-learning techniques and
-subsequently utilized for making informed predictions.
+In the previous chapters, we have been primarily concerned with making
+uncertainty-aware decisions at design- and fabrication-time, that is, during
+various development and manufacturing stages of a computer system. In this
+chapter, we elaborate on making such decisions at runtime and, more
+specifically, on resource management in the present of workload uncertainty.
 
-\section{Introduction and Motivation}
+\section{Introduction}
 
 Resource management is of great importance. It is the activity that, if
 adequately executed, enables one to exploit optimally the full potential of the
 computer system at hand. However, there is typically very little control over
 the production environment. In particular, the actual workload that the system
-will have to process at runtime is rarely known in advance. Therefore, efficient
-resource management is a difficult endeavor, which has to cope with inherent
-uncertainty.
+will have to process at runtime is rarely, if ever, known in advance. Therefore,
+resource management has to cope with inherent workload uncertainty.
 
-Uncertainty can be mitigated by predicting the future and acting accordingly,
-which is what proactive resource managers thrive on. However, accurate and
-useful prediction is not an easy task either. Modern computer systems are
-elaborate, and their resource managers require elaborate forecasting mechanisms.
-
-Forecasting traditionally falls within the scope of machine learning
+Workload uncertainty can be mitigated at runtime by predicting the future and
+acting accordingly, which is what proactive resource managers thrive on.
+However, accurate and useful prediction is not an easy task. Computer systems
+are elaborate, and their resource managers require elaborate forecasting
+mechanisms, which traditionally fall in the scope of machine learning
 \cite{hastie2013}. Machine learning has recently received a great amount of due
 attention due the renaissance in neural networks \cite{goodfellow2016}, which
 seemingly effortlessly superseded the then state-of-the-art techniques for
 modeling and prediction.
 
-We posit that modern neural networks constitute a highly promising assistant for
-resource management. Despite the fact that resource management has already seen
-a number of applications of neural networks---which we shall touch upon in
-\sref{literature}---the research in this direction has been limited. In
+Modern neural networks constitute a highly promising assistant for resource
+management. Despite the fact that resource management has already seen a number
+of applications of neural networks---which we touch upon in
+\sref{network-prior}---the research in this direction has been limited. In
 particular, only primitive architectures of neural networks have been
 considered, and they have been applied to relatively simple problems. This state
 of affairs is unfortunate provided that neural networks have been nearly
 revolutionary in other disciplines. Therefore, we feel strongly that more
 research should be conducted in order to investigate the aid that the recent
-advancements in the field of machine learning can give to the design of resource
-managers of computer systems.
+advancements in machine learning can give to the design of resource managers of
+computer systems.
 
-In this paper, we set out to conduct one such body of research. More
+\inputfigure{network-example}
+In this chapter, we set out to conduct one such body of research. More
 specifically, we study the resource usage in a large computer cluster and aim to
 predict this usage multiple steps ahead at the level of individual tasks
 executed in the cluster. To this end, we intend to use recurrent neural networks
 \cite{goodfellow2016}.
 
-Consider the example given in \fref{example} where the \up{CPU} usage of a task
-running on a machine in the cluster is depicted three times (the
-solid-red-to-solid-blue lines). The three cases correspond to three different
-time moments (the black dots) as viewed by the resource manager of the cluster.
-The solid red lines represent the history of the usage, which is known to the
-manager, while the solid blue lines represent the future usage, which is unknown
-to the manager. The latter is what we are to predict in this work for each task
-of interest and several steps ahead. In \fref{example}, our potential
-predictions up to four steps ahead are depicted by a set of dashed blue lines.
+An example of the aforementioned prediction is given in \fref{network-example}
+where the \up{CPU} usage of a task running on a machine in the cluster is
+depicted three times (the solid-red-to-solid-blue lines). The three cases
+correspond to three different time moments (the black circles) as viewed by the
+resource manager of the cluster. The solid red lines represent the history of
+the usage, which is known to the manager, while the solid blue lines represent
+the future usage, which is unknown to the manager. The latter is what we are to
+predict for each task of interest and several steps ahead. In
+\fref{network-example}, our potential predictions up to four steps ahead are
+depicted by a set of dashed blue lines.
 
-Such detailed (for individual tasks) and foresighted (multiple steps ahead)
-information about the future resource usage as the one depicted in
-\fref{example} can be of great help to the resource manager. For instance,
-knowing the future resource usage of the tasks that are currently being executed
-in the cluster, the manager can more intelligently decide which of the cluster's
-machines the next incoming task should be delegated to.
+Such detailed (since for individual tasks) and foresighted (since multiple steps
+ahead) information about the future resource usage as the one depicted in
+\fref{network-example} can be of great help to the resource manager of the
+cluster. For instance, knowing the future resource usage of the tasks that are
+currently being executed in the cluster, the manager can more intelligently
+decide which of the cluster's machines the next incoming task should be
+delegated to.
 
-The remainder of the paper is organized as follows. Section~\ref{sec:literature}
-provides an overview of the prior work and summarizes our contributions. In
-\sref{problem}, the problem that we address is formulated. Our pipeline for data
-processing is presented in \sref{data}, and our predictive model in
-\sref{model}. The key operational aspects of our workflow are described in
-\sref{learning}. The experimental results are reported and discussed in
-\sref{result}. Lastly, \sref{conclusion} provides a number of concluding
-remarks.
+We proceed as follows. In \sref{network-problem}, the problem that we address is
+formulated. \sref{network-prior} provides an overview of the prior work in this
+context. In \sref{network-solution}, we present our solution. The experimental
+results are reported and discussed in \sref{network-results}. Lastly,
+\sref{network-conclusion} concludes the chapter.
 
-\section{Prior Work and Our Contributions}
+\section{Problem Formulation}
+\slab{network-problem}
+
+Consider a cluster of machines that is serving a stream of tasks which are
+distributed across the cluster by a resource manager. Each task consumes certain
+resources during its execution; examples include the \up{CPU} and memory usage
+over time. The cluster has an adequate monitoring facility deployed so that the
+resource usage of the tasks is at one's disposal.
+
+The resource-usage trace of task $i$ is defined as a sequence of equally spaced
+$d$-dimensional measurements in time, which we shall represent as the following
+tensor of size $l_i \times d$:
+\[
+  x_i = \left(x_{i0}, \dots, x_{ik}, \dots, x_{i,l_i - 1}\right)
+\]
+where $x_{ik}$ is the measurement taken at time $t_{ik}$, and $l_i$ denotes the
+length of the sequence. Such a sequence is called fine-grained data as it
+contains multiple measurements over the execution of the task as opposed to
+having only one aggregative measurement such as the average or maximum value.
+
+Consider now task $i$ and suppose that the current time is $t_{ik}$; an
+illustration for $k \in \{2, 3, 4\}$ is given in \fref{example}. This means that
+$x_{i0}, \dots, x_{ik}$ are known. Given these previous values, our goal is to
+estimate its next $h$ values, which we shall denote by $\hat{x}_{i,k + 1},
+\dots, \hat{x}_{i,k + h}$; in \fref{example}, $h = 4$. Such an estimation is
+called a long-range prediction as it provides multiple future values as opposed
+to only one. This operation is to be performed for each active task of interest
+at any time moment of interest.
+
+In order to attain the objective, we reside to learning from historical data.
+Specifically, it is assumed first that there is a data set of resource-usage
+traces available, and that these past resource-usage traces are representative
+of the future ones:
+\[
+  X = \{ x_i: i = 0, \dots, n - 1 \}
+\]
+where $n$ is the total number of traces, and $x_i$ is as in \eref{trace}. We
+apply machine learning to the data in order to construct an adequate model
+offline, and this model is then used in order to make predictions at runtime. We
+specifically aim at investigating the utility of the state-of-the-art in machine
+learning; to this end, we use recurrent neural networks \cite{goodfellow2016}.
+
+It should be understood that, in order for learning to be possible, the
+resource-usage traces that we consider have to have a certain structure that
+could be extracted and used for intelligent prediction. An important question is
+whether real-life traces of this kind, at all, exhibit such a structure.
+Investigating this question is part of our objective in this work.
+
+\section{Prior Work}
+\slab{network-prior}
 
 Let us have a look at a number of studies that leverage various techniques from
 the field of machine learning in order to facilitate resource management in
@@ -144,52 +186,8 @@ prediction at the level of individual tasks executed in the cluster and multiple
 steps ahead, providing the resource manager with more detailed and foresighted
 information and allowing for more elaborate management of the cluster.
 
-\section{Problem and Solution}
-
-Consider a cluster of machines that is serving a stream of tasks which are
-distributed across the cluster by a resource manager. Each task consumes certain
-resources during its execution; examples include the \up{CPU} and memory usage
-over time. The cluster has an adequate monitoring facility deployed so that the
-resource usage of the tasks is at one's disposal.
-
-The resource-usage trace of task $i$ is defined as a sequence of equally spaced
-$d$-dimensional measurements in time, which we shall represent as the following
-tensor of size $l_i \times d$:
-\[
-  x_i = \left(x_{i0}, \dots, x_{ik}, \dots, x_{i,l_i - 1}\right)
-\]
-where $x_{ik}$ is the measurement taken at time $t_{ik}$, and $l_i$ denotes the
-length of the sequence. Such a sequence is called fine-grained data as it
-contains multiple measurements over the execution of the task as opposed to
-having only one aggregative measurement such as the average or maximum value.
-
-Consider now task $i$ and suppose that the current time is $t_{ik}$; an
-illustration for $k \in \{2, 3, 4\}$ is given in \fref{example}. This means that
-$x_{i0}, \dots, x_{ik}$ are known. Given these previous values, our goal is to
-estimate its next $h$ values, which we shall denote by $\hat{x}_{i,k + 1},
-\dots, \hat{x}_{i,k + h}$; in \fref{example}, $h = 4$. Such an estimation is
-called a long-range prediction as it provides multiple future values as opposed
-to only one. This operation is to be performed for each active task of interest
-at any time moment of interest.
-
-In order to attain the objective, we reside to learning from historical data.
-Specifically, it is assumed first that there is a data set of resource-usage
-traces available, and that these past resource-usage traces are representative
-of the future ones:
-\[
-  X = \{ x_i: i = 0, \dots, n - 1 \}
-\]
-where $n$ is the total number of traces, and $x_i$ is as in \eref{trace}. We
-apply machine learning to the data in order to construct an adequate model
-offline, and this model is then used in order to make predictions at runtime. We
-specifically aim at investigating the utility of the state-of-the-art in machine
-learning; to this end, we use recurrent neural networks \cite{goodfellow2016}.
-
-It should be understood that, in order for learning to be possible, the
-resource-usage traces that we consider have to have a certain structure that
-could be extracted and used for intelligent prediction. An important question is
-whether real-life traces of this kind, at all, exhibit such a structure.
-Investigating this question is part of our objective in this work.
+\section{Our Solution}
+\slab{network-solution}
 
 Let us now adumbrate our workflow, which is illustrated in \fref{workflow}.
 Given raw resource-usage traces, we first (pre)process them in order to make
@@ -202,7 +200,7 @@ learning one in \sref{learning}; the latter can also be seen on the right of
 obtained model is supposed to be used by the resource manager of the computer
 system at hand at runtime.
 
-\section{Data Processing}
+\subsection{Data Processing}
 
 Before we describe our data-processing pipeline, let us first give a brief
 introduction to the considered data set: the Google cluster-usage traces
@@ -227,8 +225,6 @@ contains a single file with measurements over a certain time window. Such a
 format is inconvenient and inefficient to work with, which is what we address in
 this section. Consider now the three leftmost boxes in \fref{workflow}.
 
-\subsection{Grouping}
-
 At the first stage, the data from the 500 archives are distributed into separate
 databases so that each such database contains all the data points that belong to
 a particular job, resulting in as many databases as there are jobs. In order to
@@ -236,16 +232,12 @@ reduce the space requirements, only the used columns of the table are preserved.
 In our experiments, these columns are the start time stamp, job \up{ID}, task
 \up{ID}, and average \up{CPU} usage.
 
-\subsection{Indexing}
-
 At the second stage, an index of the traces is created in order to be able to
 efficiently navigate the catalog of the databases created at the previous stage.
 Each record in the index contains metadata about a single task, the most
 important of which are the task ID and the path to the corresponding database.
 We also include the length of the trace in question into the index in order to
 be able to efficiently filter the traces by their lengths.
-
-\subsection{Selection}
 
 At the last stage of our pipeline, a subset of the resource-usage traces is
 selected using the index according to the needs of a particular training session
@@ -274,7 +266,7 @@ the beginning of each training epoch.
 
 Now we are ready to make use of the processed data.
 
-\section{Modeling}
+\subsection{Modeling}
 
 As mentioned in \sref{introduction} and \sref{problem}, a part of our goal is to
 assess the applicability of the latest advancements in neural networks
@@ -290,16 +282,12 @@ in order to make the figure legible. In the following subsections, we shall
 describe each part in detail. A number of important operational aspects of the
 model will be covered in the next section, \sref{learning}.
 
-\subsection{Input and Output}
-
 The input to the model is a single $d$-dimensional data point, which can be seen
 on the left-hand side of \fref{model}. Similarly, the output is a single
 $d$-dimensional data point, which is depicted on the right-hand side of
 \fref{model}. The input $x_{ik}$ is the value of the resource usage of an
 individual task at step $k$, and the output $\hat{x}_{i,k + 1}$ is a
 one-step-ahead prediction of the usage.
-
-\subsection{Recurrent Layers}
 
 The core of the model is formed by a number of recurrent layers, which are also
 called cells. They are shown as a group of blue boxes in \fref{model}. The
@@ -320,8 +308,6 @@ In addition, during training, each cell is enhanced by a dropout mechanism
 \cite{zaremba2014}, which gives control over the regularization of the model and
 is to prevent potential overfitting \cite{hastie2013}. We let $p$ be the
 probability of dropping an output of a cell.
-
-\subsection{Regression Layer}
 
 The output of the last cell is typically a large tensor, which is proportional
 in size to the number of units in the cell. Each entry of such a tensor can be
@@ -339,7 +325,7 @@ the model is capable of efficiently taking into account the entire past of the
 resource-usage trace under consideration when making predictions. Let us now
 discuss how the model is supposed to be used.
 
-\section{Learning}
+\subsection{Learning}
 
 As mentioned in \sref{introduction} and \sref{problem}, a part of our goal is to
 assess the applicability of the latest advancements in neural networks
@@ -355,16 +341,12 @@ in order to make the figure legible. In the following subsections, we shall
 describe each part in detail. A number of important operational aspects of the
 model will be covered in the next section, \sref{learning}.
 
-\subsection{Input and Output}
-
 The input to the model is a single $d$-dimensional data point, which can be seen
 on the left-hand side of \fref{model}. Similarly, the output is a single
 $d$-dimensional data point, which is depicted on the right-hand side of
 \fref{model}. The input $x_{ik}$ is the value of the resource usage of an
 individual task at step $k$, and the output $\hat{x}_{i,k + 1}$ is a
 one-step-ahead prediction of the usage.
-
-\subsection{Recurrent Layers}
 
 The core of the model is formed by a number of recurrent layers, which are also
 called cells. They are shown as a group of blue boxes in \fref{model}. The
@@ -385,8 +367,6 @@ In addition, during training, each cell is enhanced by a dropout mechanism
 \cite{zaremba2014}, which gives control over the regularization of the model and
 is to prevent potential overfitting \cite{hastie2013}. We let $p$ be the
 probability of dropping an output of a cell.
-
-\subsection{Regression Layer}
 
 The output of the last cell is typically a large tensor, which is proportional
 in size to the number of units in the cell. Each entry of such a tensor can be
@@ -405,6 +385,7 @@ resource-usage trace under consideration when making predictions. Let us now
 discuss how the model is supposed to be used.
 
 \section{Experimental Results}
+\slab{network-results}
 
 The infrastructure developed for the experiments presented below is open source
 and available online at \cite{eslab2017b}. The implementation is based on
@@ -413,7 +394,7 @@ machine equipped with 8 \up{CPU}s Intel Core i7-3770 3.4~\up{GH}z, 16~\up{GB} of
 \up{RAM}, and an \up{HDD} of 500~\up{GB}. The machine has no modern \up{GPU}s;
 therefore, the reported results have an immense room for improvement.
 
-\subsection{Data Processing}
+\hiddensubsection{Data Processing}
 
 Recall that the considered data set is the Google cluster-usage traces
 \cite{reiss2011} described in \sref{data}. In the experiments, we focus on one
@@ -439,7 +420,7 @@ disk these many traces take approximately four hours. Recall that this operation
 has to be repeated only when the selection criteria change, which happens rarely
 in practice.
 
-\subsection{Learning}
+\hiddensubsection{Learning}
 
 The training stage (see \sref{training} and recall \fref{workflow}) is
 configured as follows. Ten buckets or, equivalently, queues are used according
@@ -512,6 +493,7 @@ moments. This observation indicates that a certain structure does exist, and
 that it can be identified and utilized in order to make educated predictions.
 
 \section{Conclusion}
+\slab{network-conclusion}
 
 We have presented our experience of working with the state-of-the-art recurrent
 neural networks in the context of fine-grained long-range prediction of the
@@ -527,3 +509,14 @@ machine-learning techniques and subsequently utilized for making educated
 predictions. This information can be of use to such a crucial component as the
 resource manager of the computer cluster in question, allowing the manager to
 more intelligently orchestrate the cluster.
+
+In order to facilitate the development of intelligent resource managers of
+computer clusters, we investigate the utility of the state-of-the-art neural
+networks for the purpose of fine-grained long-range prediction of the resource
+usage in one such cluster. We consider a large data set of real-life traces and
+describe in detail our workflow, starting from making the data accessible for
+learning and finishing by predicting the resource usage of individual tasks
+multiple steps ahead. The experimental results indicate that such fine-grained
+traces as the ones considered possess a certain structure, and that this
+structure can be extracted by advanced machine-learning techniques and
+subsequently utilized for making informed predictions.
