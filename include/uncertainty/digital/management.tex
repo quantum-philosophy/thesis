@@ -71,50 +71,32 @@ results are reported and discussed in \sref{network-results}. Lastly,
 \section{Problem Formulation}
 \slab{network-problem}
 
-Consider a cluster of machines that is serving a stream of tasks which are
-distributed across the cluster by a resource manager. Each task consumes certain
-resources during its execution; examples include the \up{CPU} and memory usage
-over time. The cluster has an adequate monitoring facility deployed so that the
-resource usage of the tasks is at one's disposal.
+Consider a large system of computers that is serving a stream of tasks which are
+distributed across the individual machines of the system by a resource manager.
+Each task consumes certain resources during its execution such as \up{CPU} and
+memory. The system is assumed to have an adequate monitoring facility deployed
+so that the resource usage of the tasks is at one's disposal.
 
-The resource-usage trace of task $i$ is defined as a sequence of equally spaced
-$d$-dimensional measurements in time, which we shall represent as the following
-tensor of size $l_i \times d$:
+The resource-usage trace of task $i$ is defined as a sequence of $n$-dimensional
+measurements equally spaced in time, which we represent as the following matrix
+of size $l_i \times n$:
 \[
-  x_i = \left(x_{i0}, \dots, x_{ik}, \dots, x_{i,l_i - 1}\right)
+  \mx_i = (\vx_{ij})_{j = 1}^{l_i}
 \]
-where $x_{ik}$ is the measurement taken at time $t_{ik}$, and $l_i$ denotes the
-length of the sequence. Such a sequence is called fine-grained data as it
-contains multiple measurements over the execution of the task as opposed to
-having only one aggregative measurement such as the average or maximum value.
+where $\vx_{ij} \in \real^n$ is the measurement taken at time $t_{ij}$, and
+$l_i$ denotes the length of the sequence. Such a sequence is called fine-grained
+data as it contains multiple measurements over the execution of the task as
+opposed to having only one aggregative measurement such as the average or
+maximum value.
 
-Consider now task $i$ and suppose that the current time is $t_{ik}$; an
-illustration for $k \in \{2, 3, 4\}$ is given in \fref{example}. This means that
-$x_{i0}, \dots, x_{ik}$ are known. Given these previous values, our goal is to
-estimate its next $h$ values, which we shall denote by $\hat{x}_{i,k + 1},
-\dots, \hat{x}_{i,k + h}$; in \fref{example}, $h = 4$. Such an estimation is
-called a long-range prediction as it provides multiple future values as opposed
-to only one. This operation is to be performed for each active task of interest
-at any time moment of interest.
-
-In order to attain the objective, we reside to learning from historical data.
-Specifically, it is assumed first that there is a data set of resource-usage
-traces available, and that these past resource-usage traces are representative
-of the future ones:
-\[
-  X = \{ x_i: i = 0, \dots, n - 1 \}
-\]
-where $n$ is the total number of traces, and $x_i$ is as in \eref{trace}. We
-apply machine learning to the data in order to construct an adequate model
-offline, and this model is then used in order to make predictions at runtime. We
-specifically aim at investigating the utility of the state-of-the-art in machine
-learning; to this end, we use recurrent neural networks \cite{goodfellow2016}.
-
-It should be understood that, in order for learning to be possible, the
-resource-usage traces that we consider have to have a certain structure that
-could be extracted and used for intelligent prediction. An important question is
-whether real-life traces of this kind, at all, exhibit such a structure.
-Investigating this question is part of our objective in this work.
+Consider now task $i$ and suppose that the current time is $t_{ij}$; an
+illustration for $j \in \{3, 4, 5\}$ is given in \fref{network-example}. This
+means that $\range{x_{i1}}{x_{ij}}$ are known. Given these previous values, our
+goal is to estimate its next $h$ values, which we denote by $\range{\hat{x}_{i,k
++ 1}}{\hat{x}_{i,k + h}}$; in \fref{network-example}, $h = 4$. Such an
+estimation is called a long-range prediction as it provides multiple future
+values as opposed to providing only one. The described operation is to be
+performed for each active task of interest at each time moment of interest.
 
 \section{Prior Work}
 \slab{network-prior}
@@ -189,6 +171,25 @@ information and allowing for more elaborate management of the cluster.
 
 \section{Our Solution}
 \slab{network-solution}
+
+In order to attain the objective established above, we reside to learning from
+historical data. Specifically, it is assumed first that there is a data set of
+resource-usage traces available, and that these past resource-usage traces are
+representative of the future ones:
+\[
+  X = \{ x_i: i = 0, \dots, n - 1 \}
+\]
+where $n$ is the total number of traces, and $x_i$ is as in \eref{trace}. We
+apply machine learning to the data in order to construct an adequate model
+offline, and this model is then used in order to make predictions at runtime. We
+specifically aim at investigating the utility of the state-of-the-art in machine
+learning; to this end, we use recurrent neural networks \cite{goodfellow2016}.
+
+It should be understood that, in order for learning to be possible, the
+resource-usage traces that we consider have to have a certain structure that
+could be extracted and used for intelligent prediction. An important question is
+whether real-life traces of this kind, at all, exhibit such a structure.
+Investigating this question is part of our objective in this work.
 
 Let us now adumbrate our workflow, which is illustrated in \fref{workflow}.
 Given raw resource-usage traces, we first (pre)process them in order to make
