@@ -310,7 +310,6 @@
 
 \newcommand{\dt}{\math{\Delta t}}
 \newcommand{\schedule}{\math{\mathcal{S}}}
-\newcommand{\spec}{\math{\mathcal{S}}}
 
 %
 % Platform
@@ -341,13 +340,8 @@
 % Temperature
 %
 
+\newcommand{\nk}[1]{\n{c, #1}}
 \newcommand{\nn}{\n{n}}
-
-\makeatletter
-\def\nk{\@ifnextchar{\bgroup}{\nkone}{\nkzero}}
-\def\nkone#1{\n{c, #1}}
-\def\nkzero{\n{c}}
-\makeatother
 
 \newcommand{\q}{q}
 \newcommand{\vq}{\math{\v{q}}}
