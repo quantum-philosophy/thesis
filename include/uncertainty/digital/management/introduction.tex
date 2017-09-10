@@ -1,0 +1,61 @@
+Resource management is of great importance. It is the activity that, if
+adequately executed, enables one to exploit optimally the full potential of the
+computer system at hand. However, there is typically very little control over
+the production environment. In particular, the actual workload that the system
+will have to process at runtime is rarely, if ever, known in advance. Therefore,
+resource management has to cope with inherent workload uncertainty.
+
+Workload uncertainty can be mitigated at runtime by predicting the future and
+acting accordingly, which is what proactive resource managers thrive on.
+However, accurate and useful prediction is not an easy task. Computer systems
+are elaborate, and their resource managers require elaborate forecasting
+mechanisms, which traditionally fall in the scope of machine learning
+\cite{hastie2013}. Machine learning has recently received a great amount of due
+attention due the renaissance in neural networks \cite{goodfellow2016}, which
+seemingly effortlessly superseded the then state-of-the-art techniques for
+modeling and prediction.
+
+Modern neural networks constitute a highly promising assistant for resource
+management. Despite the fact that resource management has already seen a number
+of applications of neural networks---which we touch upon in
+\sref{network-prior}---the research in this direction has been limited. In
+particular, only primitive architectures of neural networks have been
+considered, and they have been applied to relatively simple problems. This state
+of affairs is unfortunate provided that neural networks have been nearly
+revolutionary in other disciplines. Therefore, we feel strongly that more
+research should be conducted in order to investigate the aid that the recent
+advancements in machine learning can give to the design of resource managers of
+computer systems.
+
+\inputfigure{network-example}
+In this chapter, we conduct one such body of research. More specifically, we
+study the resource usage in a large system of computers and aim to predict this
+usage multiple steps ahead at the level of individual tasks executed by the
+machines. To this end, we intend to use recurrent neural networks
+\cite{goodfellow2016}.
+
+In order to give a better intuition about the considered scenario,
+\fref{network-example} illustrates how the aforementioned prediction is supposed
+to work. In this example, the \up{CPU} usage (the solid-red-to-solid-blue lines)
+of a single task running on a single computer is depicted three times. The three
+cases correspond to three different time moments (the black circles) as viewed
+by the resource manager of the system. The solid red lines represent the history
+of the usage, which is known to the manager, while the solid blue lines
+represent the future usage, which is unknown to the manager. The latter is what
+we are to predict for each task of interest and several steps ahead. In
+\fref{network-example}, our potential predictions up to four steps ahead are
+depicted by a set of dashed blue lines.
+
+Such detailed (since for individual tasks) and foresighted (since multiple steps
+ahead) information about the future resource usage as the one depicted in
+\fref{network-example} can be of great help to the resource manager of the
+system. For instance, having at its disposal the information about the future
+resource usage of the tasks that are currently being executed, the manager can
+more intelligently decide which machine the next incoming task should be
+delegated to.
+
+We proceed as follows. In \sref{network-problem}, the problem that we address is
+formulated. \sref{network-prior} provides an overview of the prior work in this
+context. In \sref{network-solution}, we present our solution. The experimental
+results are reported and discussed in \sref{network-results}. Lastly,
+\sref{network-conclusion} concludes the chapter.

@@ -1,0 +1,41 @@
+Consider a large system of computers that is serving a stream of tasks which are
+distributed across the individual machines of the system by a resource manager.
+Each task consumes certain resources---such as \up{CPU} and memory---during its
+execution. Each task $i$ is characterized by a resource-usage profile, which is
+a sequence of \ng-dimensional measurements taken with a certain sampling
+interval and captured by the following matrix of size $\ng \times \nsi{i}$:
+\begin{equation} \elab{network-trace}
+  \mg_i = (\vg_{ij})_{j = 1}^\nsi{i}
+\end{equation}
+where $\vg_{ij} \in \real^\ng$ is the measurement taken at time step $j$, and
+\nsi{i} denotes the length of the sequence. Such information is called
+fine grained as it contains multiple measurements over the execution of the task
+as opposed to having only one aggregate measurement such as the average or
+maximum value.
+
+Consider now task $i$ and suppose that the current time step is $j$; an
+illustration for $j \in \{3, 4, 5\}$ is given in \fref{network-example}. This
+means that $\range{\vg_{i1}}{\vg_{ij}}$ are known. Given these previous values,
+the goal is to estimate the next $h$ values of the sequence, which we denote by
+$\range{\hat{\vg}_{i,k + 1}}{\hat{\vg}_{i,k + h}}$; in \fref{network-example},
+$h = 4$. Such an estimation is called a long-range prediction as it provides
+multiple future values as opposed to providing only one. The described operation
+is to be performed for each active task of interest at each time moment of
+interest.
+
+In order to tackle the problem, one is to learn from historical data.
+Specifically, there is a data set of past profiles at one's disposal, which is
+denoted by
+\[
+  G = \left\{ \mg_i: i = \range{1}{\no} \right\}
+\]
+where \no is the total number of profiles, and $\mg_i$ is as in
+\eref{network-trace}. Such a data set can be straightforwardly collected
+provided that the system at hand has an adequate monitoring facility deployed,
+which is commonplace in practice.
+
+It should be understood that, in order for learning to be possible, the
+available resource-usage profiles have to have a certain structure that could be
+extracted and utilized for intelligent prediction. An important question is
+whether real-life profiles of this kind exhibit such a structure at all.
+Investigating this question is part of our objective in this chapter.

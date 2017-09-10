@@ -1,0 +1,51 @@
+Let us discuss a number of studies that leverage machine-learning techniques in
+order to facilitate resource management in computer systems.
+
+In \cite{coskun2008}, the subject of forecasting is temperature, and the
+objective is attained by means of an autoregressive moving-average model
+\cite{hastie2013}, resulting in an efficient thermal management strategy for
+multiprocessor systems. The work in \cite{kumar2010} enhances runtime thermal
+management by providing an on-chip temperature predictor based on feed-forward
+neural networks \cite{hastie2013}. The analysis and mitigation of the impact of
+process variation undertaken in \cite{juan2014} are facilitated by a linear
+regression model \cite{hastie2013} constructed based on measurements of the
+static power with the goal of predicting peak temperatures.
+
+Closer to the topic of this chapter, the work in \cite{dabbagh2015} is concerned
+with cloud data centers. The authors propose a framework for predicting the
+number of virtual-machine requests together with the required amount of \up{CPU}
+and memory. The framework makes use of k-means clustering \cite{hastie2013} for
+identifying different types of requests, and then it utilizes Wiener filters in
+order to estimate the aggregate workload with respect to each identified type.
+Similar to \cite{dabbagh2015}, the work in \cite{ismaeel2015} is focused on
+forecasting virtual-machine requests in cloud data centers and relies on k-means
+clustering as the first step. Unlike \cite{dabbagh2015}, the main workhorse in
+the case of \cite{ismaeel2015} is extreme learning machines, which are
+feed-forward neural networks mentioned earlier. An ensemble model
+\cite{hastie2013} is presented in \cite{cao2014} targeted at predicting the
+\up{CPU} usage in cloud environments. It relies on multiple models including an
+exponential smoothing, auto regressive, weighted nearest neighbors, and most
+similar pattern model. The final prediction is obtained by combing the
+predictions from the aforementioned individual models by means of a scoring
+algorithm.
+
+It can be seen that, in general, machine learning has been extensively utilized
+for aiding the design of resource managers of computer systems. However, as we
+note in \sref{network-introduction}, the most recent advancements in machine
+learning have not been sufficiently explored in this context yet. In particular,
+the utility of neural networks have been studied only marginally: feed-forward
+networks---which are used, for instance, in \cite{kumar2010, ismaeel2015}---are
+arguably the simplest and least powerful members of their rich, diverse family
+of techniques.
+
+In addition, note that the predictions delivered by \cite{cao2014, dabbagh2015,
+ismaeel2015} are coarse, aggregate. The corresponding techniques treat
+virtual-machine requests or computational resources as a fluid and predict the
+level of this fluid at the next time moment. It means that they are not capable
+of characterizing individual tasks. Such fine-grained information, however, can
+be of help for the resource manager of the computer system under consideration.
+
+To summarize, only primitive architectures of neural networks have been
+considered in the literature on resource management of computer systems, and
+only aggregate prediction has been undertaken so far. Consequently, there is a
+need for further exploration and development in this direction.
