@@ -74,31 +74,45 @@ results are reported and discussed in \sref{network-results}. Lastly,
 
 Consider a large system of computers that is serving a stream of tasks which are
 distributed across the individual machines of the system by a resource manager.
-Each task consumes certain resources during its execution such as \up{CPU} and
-memory. The system is assumed to have an adequate monitoring facility deployed
-so that the resource usage of the tasks is at one's disposal.
+Each task consumes certain resources---such as \up{CPU} and memory---during its
+execution. Each task $i$ is characterized by a resource-usage profile, which is
+a sequence of \ng-dimensional measurements taken with a certain sampling
+interval and captured by the following matrix of size $\ng \times \nsi{i}$:
+\begin{equation} \elab{network-trace}
+  \mg_i = (\vg_{ij})_{j = 1}^\nsi{i}
+\end{equation}
+where $\vg_{ij} \in \real^\ng$ is the measurement taken at time step $j$, and
+\nsi{i} denotes the length of the sequence. Such information is called
+fine grained as it contains multiple measurements over the execution of the task
+as opposed to having only one aggregate measurement such as the average or
+maximum value.
 
-The resource-usage trace of task $i$ is defined as a sequence of $n$-dimensional
-measurements equally spaced in time, which we represent as the following matrix
-of size $l_i \times n$:
-\[
-  \mx_i = (\vx_{ij})_{j = 1}^{l_i}
-\]
-where $\vx_{ij} \in \real^n$ is the measurement taken at time $t_{ij}$, and
-$l_i$ denotes the length of the sequence. Such a sequence is called fine-grained
-data as it contains multiple measurements over the execution of the task as
-opposed to having only one aggregate measurement such as the average or maximum
-value.
-
-Consider now task $i$ and suppose that the current time is $t_{ij}$; an
+Consider now task $i$ and suppose that the current time step is $j$; an
 illustration for $j \in \{3, 4, 5\}$ is given in \fref{network-example}. This
-means that $\range{\vx_{i1}}{\vx_{ij}}$ are known. Given these previous values,
-our goal is to estimate the next $h$ values of the sequence, which we denote by
-$\range{\hat{\vx}_{i,k + 1}}{\hat{\vx}_{i,k + h}}$; in \fref{network-example},
+means that $\range{\vg_{i1}}{\vg_{ij}}$ are known. Given these previous values,
+the goal is to estimate the next $h$ values of the sequence, which we denote by
+$\range{\hat{\vg}_{i,k + 1}}{\hat{\vg}_{i,k + h}}$; in \fref{network-example},
 $h = 4$. Such an estimation is called a long-range prediction as it provides
 multiple future values as opposed to providing only one. The described operation
 is to be performed for each active task of interest at each time moment of
 interest.
+
+In order to tackle the problem, one is to learn from historical data.
+Specifically, there is a data set of past profiles at one's disposal, which is
+denoted by
+\[
+  G = \left\{ \mg_i: i = \range{1}{\no} \right\}
+\]
+where \no is the total number of profiles, and $\mg_i$ is as in
+\eref{network-trace}. Such a data set can be straightforwardly collected
+provided that the system at hand has an adequate monitoring facility deployed,
+which is commonplace in practice.
+
+It should be understood that, in order for learning to be possible, the
+available resource-usage profiles have to have a certain structure that could be
+extracted and utilized for intelligent prediction. An important question is
+whether real-life profiles of this kind exhibit such a structure at all.
+Investigating this question is part of our objective in this chapter.
 
 \section{\priortitle}
 \slab{network-prior}
@@ -158,38 +172,20 @@ need for further exploration and development in this direction.
 \section{\solutiontitle}
 \slab{network-solution}
 
-Our work makes the following major contributions. \one~We develop a
-data-processing pipeline for working with large data sets that makes the data
-readily accessible for machine learning, and we apply it to a data set of real
-resource-usage traces collected in a large computer cluster. \two~We present a
-model for making fine-grained long-range prediction of the cluster's resource
-usage that relies on the state-of-the-art recurrent neural networks. \three~We
-open-source the whole infrastructure that we have developed for data processing
-and modeling \cite{sources}. To the best of our knowledge, we are the first to
-investigate the utility of recurrent neural networks for predicting the resource
-usage in a computer cluster. In addition, we are the first to address this
-prediction at the level of individual tasks executed in the cluster and multiple
-steps ahead, providing the resource manager with more detailed and foresighted
-information and allowing for more elaborate management of the cluster.
+In order to attain the objective established in \sref{network-problem}, we
+reside to learning from historical data.
 
-In order to attain the objective established above, we reside to learning from
-historical data. Specifically, it is assumed first that there is a data set of
-resource-usage traces available, and that these past resource-usage traces are
-representative of the future ones:
-\[
-  X = \{ x_i: i = 0, \dots, n - 1 \}
-\]
-where $n$ is the total number of traces, and $x_i$ is as in \eref{trace}. We
-apply machine learning to the data in order to construct an adequate model
-offline, and this model is then used in order to make predictions at runtime. We
-specifically aim at investigating the utility of the state-of-the-art in machine
-learning; to this end, we use recurrent neural networks \cite{goodfellow2016}.
+We apply machine learning to the available data in order to construct an
+adequate model offline, and this model is then used in order to make predictions
+at runtime, assisting the resource manager in accounting for workload
+uncertainty.
 
-It should be understood that, in order for learning to be possible, the
-resource-usage traces that we consider have to have a certain structure that
-could be extracted and used for intelligent prediction. An important question is
-whether real-life traces of this kind, at all, exhibit such a structure.
-Investigating this question is part of our objective in this work.
+First, we develop a data-processing pipeline for working with large data sets
+that makes the data readily accessible for machine learning. The pipeline is
+applied to a data set of real resource-usage traces collected in a large
+computer cluster. Second, we construct a model for making fine-grained
+long-range prediction of the system's resource usage that relies on the
+state-of-the-art recurrent neural networks \cite{goodfellow2016}.
 
 Let us now adumbrate our workflow, which is illustrated in \fref{workflow}.
 Given raw resource-usage traces, we first (pre)process them in order to make
@@ -201,6 +197,15 @@ learning one in \sref{learning}; the latter can also be seen on the right of
 \fref{workflow}. The above operations are to be undertaken offline while the
 obtained model is supposed to be used by the resource manager of the computer
 system at hand at runtime.
+
+To the best of our knowledge, we are the first to investigate the utility of
+recurrent neural networks for predicting the resource usage in a computer
+cluster.
+
+In addition, we are the first to address this prediction at the level of
+individual tasks executed in the cluster and multiple steps ahead, providing the
+resource manager with more detailed and foresighted information and allowing for
+more elaborate management of the cluster.
 
 \subsection{Data Processing}
 
