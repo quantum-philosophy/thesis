@@ -4,7 +4,7 @@ Each task consumes certain resources---such as \up{CPU} and memory---during its
 execution. Each task $i$ is characterized by a resource-usage profile, which is
 a sequence of \ng-dimensional measurements taken with a certain sampling
 interval and captured by the following matrix of size $\ng \times \nsi{i}$:
-\begin{equation} \elab{network-trace}
+\begin{equation} \elab{network-profile}
   \mg_i = (\vg_{ij})_{j = 1}^\nsi{i}
 \end{equation}
 where $\vg_{ij} \in \real^\ng$ is the measurement taken at time step $j$, and
@@ -26,11 +26,11 @@ interest.
 In order to tackle the problem, one is to learn from historical data.
 Specifically, there is a data set of past profiles at one's disposal, which is
 denoted by
-\[
+\begin{equation} \elab{network-dataset}
   G = \left\{ \mg_i: i = \range{1}{\no} \right\}
-\]
+\end{equation}
 where \no is the total number of profiles, and $\mg_i$ is as in
-\eref{network-trace}. Such a data set can be straightforwardly collected
+\eref{network-profile}. Such a data set can be straightforwardly collected
 provided that the system at hand has an adequate monitoring facility deployed,
 which is commonplace in practice.
 
