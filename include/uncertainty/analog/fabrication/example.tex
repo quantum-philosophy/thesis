@@ -48,21 +48,22 @@ number of locations on the wafer and to be corrupted by noise, which can be due
 to the imperfection of the measurement equipment utilized.
 
 Let us consider one particular \h that can be used to study the effective
-channel length \g; specifically, let \h be temperature (we elaborate further on
-this choice in \sref{inference-results}). We can then apply a fixed workload
----for instance, we can run the same application under the same conditions---to
-a few dies on the wafer and measure the corresponding temperature profiles.
-Since temperature does not require extra equipment to be deployed on the wafer
-and can be tracked using infrared cameras \cite{mesa-martinez2007} or built-in
+channel length \g. Specifically, let \h be temperature, which is to be discussed
+further in \sref{inference-results}. We can then apply a fixed workload---for
+instance, we can run the same application under the same conditions---to a few
+dies on the wafer and measure the corresponding temperature profiles. Since
+temperature does not require extra equipment to be deployed on the wafer and can
+be tracked using infrared cameras \cite{mesa-martinez2007} or built-in
 facilities of the dies, our approach can reduce the costs associated with the
 analysis of process variation. The results of our framework applied to a set of
 noisy temperature profiles measured for only 7\% of the dies are shown on the
 right-hand side of \fref{inference-example}, and the locations of the measured
-dies are depicted in \fref{inference-measured}. It can be seen that the two maps
-in \fref{inference-example} closely match each other, implying that the
-distribution of \g is reconstructed with a high level of accuracy.
+dies are depicted on the left-hand side of \fref{inference-application}. It can
+be seen that the two maps in \fref{inference-example} closely match each other,
+implying that the distribution of \g is reconstructed with a high level of
+accuracy.
 
-\inputfigure{inference-measured-defective}
+\inputfigure{inference-application}
 Another characteristic of the proposed framework is that probabilities of
 various events, for instance, $\probability{\g \geq \g_\minimum}$, can readily
 be estimated. This is important since, in reality, the true values are
@@ -70,13 +71,13 @@ unknown---otherwise, we would not need to infer them---and, therefore, we can
 rely on our decisions only up to a certain probability. We can then reformulate
 the decision rule given earlier as follows: \one~to keep the die if
 $\probability{\g \geq \g_\minimum}$ is larger than a certain threshold and
-\two~to recycle it otherwise. An illustration of following this rule is given in
-\fref{inference-defective} where $\g_\minimum$ is set to two standard deviations
-below the mean value of \g; the probability threshold of the first action is set
-to 0.9; the crosses mark both the true and inferred defective dies (they
-coincide); and the gradient from white to orange corresponds to the inferred
-probability of a die to be defective. It can be seen that the inference
-accurately detects faulty dies.
+\two~to recycle it otherwise. An illustration of following this rule is given on
+the right-hand side of \fref{inference-application} where $\g_\minimum$ is set
+to two standard deviations below the mean value of \g; the probability threshold
+of the first action is set to 0.9; the crosses mark both the true and inferred
+defective dies (they coincide); and the gradient from white to orange
+corresponds to the inferred probability of defect. It can be seen that the
+inference accurately detects the faulty dies.
 
 In addition, we can introduce a trade-off action between action \one and action
 \two as follows: \three~to expose the die to a thorough inspection (for
