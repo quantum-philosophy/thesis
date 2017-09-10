@@ -19,42 +19,34 @@ specifically, on resource management in the present of workload uncertainty.
 \section{\solutiontitle}
 \slab{network-solution}
 
-In order to attain the objective established in \sref{network-problem}, we
-reside to learning from historical data.
+In order to attain the objective established in \sref{network-problem}, an
+adequate model of the available data $G$ is constructed offline by means of
+machine learning, and this model is then used in order to make predictions at
+runtime, assisting the resource manager in accounting for workload uncertainty.
 
-We apply machine learning to the available data in order to construct an
-adequate model offline, and this model is then used in order to make predictions
-at runtime, assisting the resource manager in accounting for workload
-uncertainty.
+\inputfigure{network-overview}
+Let us now adumbrate our workflow, which is illustrated in
+\fref{network-overview}. Given raw resource-usage profiles, we first process
+them in order to make the data suitable for the subsequent computations. This
+part can be seen at the top of \fref{network-overview} and is explained in the
+next section, \sref{network-processing}. The processed profiles are then used in
+order to obtain an adequately configured predictive model. The modeling part is
+covered in \sref{network-model} while the learning one in
+\sref{network-learning}; the latter can also be seen at the bottom of
+\fref{network-overview}. The above operations are to be undertaken offline while
+the obtained model is supposed to be used by the resource manager of the
+computer system at hand at runtime.
 
-First, we develop a data-processing pipeline for working with large data sets
-that makes the data readily accessible for machine learning. The pipeline is
-applied to a data set of real resource-usage traces collected in a large
-computer cluster. Second, we construct a model for making fine-grained
-long-range prediction of the system's resource usage that relies on the
-state-of-the-art recurrent neural networks \cite{goodfellow2016}.
-
-Let us now adumbrate our workflow, which is illustrated in \fref{workflow}.
-Given raw resource-usage traces, we first (pre)process them in order to make
-these data suitable for the subsequent computations. This part is explained in
-the next section, \sref{data}, and can be seen on the left of \fref{workflow}.
-The processed traces are then used in order to obtain an adequately trained
-predictive model. The modeling part is covered in \sref{model} while the
-learning one in \sref{learning}; the latter can also be seen on the right of
-\fref{workflow}. The above operations are to be undertaken offline while the
-obtained model is supposed to be used by the resource manager of the computer
-system at hand at runtime.
-
-To the best of our knowledge, we are the first to investigate the utility of
-recurrent neural networks for predicting the resource usage in a computer
-cluster.
-
-In addition, we are the first to address this prediction at the level of
-individual tasks executed in the cluster and multiple steps ahead, providing the
-resource manager with more detailed and foresighted information and allowing for
-more elaborate management of the cluster.
+Before we proceed the model construction, we develop a data-processing
+pipeline for working with large data sets that makes the data readily accessible
+for machine learning. The pipeline is applied to a data set of real
+resource-usage traces collected in a large computer cluster. Second, we
+construct a model for making fine-grained long-range prediction of the system's
+resource usage that relies on the state-of-the-art recurrent neural networks
+\cite{goodfellow2016}.
 
 \subsection{Data Processing}
+\slab{network-processing}
 
 Before we describe our data-processing pipeline, let us first give a brief
 introduction to the considered data set: the Google cluster-usage traces
