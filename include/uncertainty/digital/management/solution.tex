@@ -54,9 +54,9 @@ As the second step (the middle orange box in \fref{network-overview}), an index
 of the profiles is created in order to be able to efficiently navigate the
 catalog of the databases created at the previous step. Each record in the index
 contains metadata about a single task, the most important of which are the task
-ID and the path to the corresponding database. We also include the length of the
-profile into the index in order to be able to efficiently filter the profiles by
-length.
+\up{ID} and the path to the corresponding database. We also include the length
+of the profile into the index in order to be able to efficiently filter the
+profiles by length.
 
 As the last step (the rightmost orange box in \fref{network-overview}), a subset
 of the resource-usage traces is selected using the index according to the needs
@@ -86,30 +86,28 @@ for shuffling the training data at the beginning of each training epoch.
 \subsection{Predictive Model}
 \slab{network-model}
 
-Second, we construct a model for making fine-grained long-range prediction of
-the system's resource usage that relies on the state-of-the-art recurrent neural
-networks \cite{goodfellow2016}.
+As emphasized in \sref{network-introduction} and \sref{network-problem}, our
+goal is to assess the applicability of the latest advancements in neural
+networks \cite{goodfellow2016} to fine-grained long-range prediction of the
+resource usage in computer systems. The architectures of neural networks are
+very diverse. However, since the data that we study are inherently sequential,
+it is natural to found our model on the basis of recurrent neural networks
+\cite{goodfellow2016}, which are designed for such cases.
 
-As mentioned in \sref{introduction} and \sref{problem}, a part of our goal is to
-assess the applicability of the latest advancements in neural networks
-\cite{goodfellow2016} to modeling and prediction of fine-grained resource-usage
-data. The architectures of neural networks are very diverse: one network can be
-nothing like another. Since the data that we study are inherently sequential, it
-is natural to found our model on the basis of recurrent neural networks
-\cite{goodfellow2016}, which are specifically designed for such cases.
+\inputfigure{network-model}
+A schematic representation of our model can be seen in \fref{network-model}.
+Note that many of the actual connections between the model's parts are
+simplified or not shown at all in order to make the figure legible. In what
+follows, we describe each part of the model in detail. A number of important
+operational aspects of the model are to be covered in the next subsection,
+\sref{network-learning}.
 
-A schematic representation of our model can be seen in \fref{model}; many of the
-actual connections between the model's parts are simplified or not shown at all
-in order to make the figure legible. In the following subsections, we shall
-describe each part in detail. A number of important operational aspects of the
-model will be covered in the next section, \sref{learning}.
-
-The input to the model is a single $d$-dimensional data point, which can be seen
-on the left-hand side of \fref{model}. Similarly, the output is a single
-$d$-dimensional data point, which is depicted on the right-hand side of
-\fref{model}. The input $x_{ik}$ is the value of the resource usage of an
-individual task at step $k$, and the output $\hat{x}_{i,k + 1}$ is a
-one-step-ahead prediction of the usage.
+The input to the model is a single \ng-dimensional data point, which can be seen
+on the left-hand side of \fref{network-model}. Similarly, the output is a single
+\ng-dimensional data point, which is depicted on the right-hand side of
+\fref{network-model}. The input $\vg_{ij}$ is the value of the resource usage of
+an individual task at step $j$, and the output $\hat{\vg}_{i,j + 1}$ is a
+one-step-ahead prediction of this usage.
 
 The core of the model is formed by a number of recurrent layers, which are also
 called cells. They are shown as a group of blue boxes in \fref{model}. The
