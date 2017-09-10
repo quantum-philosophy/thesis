@@ -27,7 +27,7 @@ our optimization objective and, in \sref{thermal-cycling-solution}, describe the
 optimization technique that we utilize in order to attain it. Lastly, the
 experimental results are reported in \sref{thermal-cycling-results}.
 
-\subsection{Motivational Example}
+\subsection{\exampletitle}
 \slab{thermal-cycling-example}
 
 \inputfigure{thermal-cycling-task-graph}
@@ -54,7 +54,7 @@ to take into consideration the number of temperature fluctuations as well as
 their characteristics. In order to acquire this information, dynamic
 steady-state temperature analysis has to be undertaken.
 
-\subsection{Problem Formulation}
+\subsection{\problemtitle}
 \slab{thermal-cycling-problem}
 
 A heterogeneous platform with \np processing elements is to execute a periodic
@@ -100,7 +100,7 @@ $\norm[\infty]{\cdot}$ denotes the uniform norm. The first constraint in
 second constraint enforces a maximum temperature $\q_\maximum$ on the resulting
 temperature profile \mq.
 
-\subsection{Proposed Solution}
+\subsection{\solutiontitle}
 \slab{thermal-cycling-solution}
 
 The optimization is undertaken using a genetic algorithm \cite{schmitz2004}. In
@@ -138,7 +138,7 @@ further processed. Otherwise, the \ac{MTTF} of each processing element is
 estimated according to \eref{thermal-cycling-mean-time}, and the fitness
 function in \eref{thermal-cycling-objective} is computed.
 
-\subsection{Experimental Results}
+\subsection{\resultstitle}
 \slab{thermal-cycling-results}
 
 In this subsection, we proceed to the optimization itself. We shall first
