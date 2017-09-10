@@ -5,6 +5,7 @@ chapter, we elaborate on making such decisions at runtime and, more
 specifically, on resource management in the present of workload uncertainty.
 
 \section{Introduction}
+\slab{network-introduction}
 
 Resource management is of great importance. It is the activity that, if
 adequately executed, enables one to exploit optimally the full potential of the
@@ -86,8 +87,8 @@ of size $l_i \times n$:
 where $\vx_{ij} \in \real^n$ is the measurement taken at time $t_{ij}$, and
 $l_i$ denotes the length of the sequence. Such a sequence is called fine-grained
 data as it contains multiple measurements over the execution of the task as
-opposed to having only one aggregative measurement such as the average or
-maximum value.
+opposed to having only one aggregate measurement such as the average or maximum
+value.
 
 Consider now task $i$ and suppose that the current time is $t_{ij}$; an
 illustration for $j \in \{3, 4, 5\}$ is given in \fref{network-example}. This
@@ -133,26 +134,29 @@ similar pattern model. The final prediction is obtained by combing the
 predictions from the aforementioned individual models by means of a scoring
 algorithm.
 
-It can be seen in the above that, in general, machine learning has been
-extensively utilized for aiding the design of resource managers of computer
-systems. However, as mentioned in \sref{introduction}, the most recent
-advancements in machine learning have not been sufficiently explored in this
-context yet. In particular, the utility of neural networks have been studied
-only marginally: feed-forward networks, as in \cite{kumar2010, ismaeel2015}, are
-arguably the simplest and least powerful members of their rich family.
+It can be seen that, in general, machine learning has been extensively utilized
+for aiding the design of resource managers of computer systems. However, as we
+note in \sref{network-introduction}, the most recent advancements in machine
+learning have not been sufficiently explored in this context yet. In particular,
+the utility of neural networks have been studied only marginally: feed-forward
+networks---which are used, for instance, in \cite{kumar2010, ismaeel2015}---are
+arguably the simplest and least powerful members of their rich, diverse family
+of techniques.
 
-In addition, note that the predictions delivered by \cite{dabbagh2015,
-ismaeel2015, cao2014} are coarse, aggregative. The corresponding techniques
-treat virtual-machine requests or computational resources as a fluid and predict
-the amount of this fluid that will arrive or be needed at the next time step. It
-means that the aforementioned techniques are not capable of characterizing
-individual tasks. Such fine-grained information, however, can be of help for the
-resource manager of the computer cluster under consideration.
+In addition, note that the predictions delivered by \cite{cao2014, dabbagh2015,
+ismaeel2015} are coarse, aggregate. The corresponding techniques treat
+virtual-machine requests or computational resources as a fluid and predict the
+level of this fluid at the next time moment. It means that they are not capable
+of characterizing individual tasks. Such fine-grained information, however, can
+be of help for the resource manager of the computer system under consideration.
 
-To conclude, only primitive architectures of neural networks have been
-considered in the literature on resource management, and only aggregative
-prediction has been addressed so far. Thus, there is a need for further
-exploration and development.
+To summarize, only primitive architectures of neural networks have been
+considered in the literature on resource management of computer systems, and
+only aggregate prediction has been undertaken so far. Consequently, there is a
+need for further exploration and development in this direction.
+
+\section{Proposed Solution}
+\slab{network-solution}
 
 Our work makes the following major contributions. \one~We develop a
 data-processing pipeline for working with large data sets that makes the data
@@ -167,9 +171,6 @@ usage in a computer cluster. In addition, we are the first to address this
 prediction at the level of individual tasks executed in the cluster and multiple
 steps ahead, providing the resource manager with more detailed and foresighted
 information and allowing for more elaborate management of the cluster.
-
-\section{Proposed Solution}
-\slab{network-solution}
 
 In order to attain the objective established above, we reside to learning from
 historical data. Specifically, it is assumed first that there is a data set of
