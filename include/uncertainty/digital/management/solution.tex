@@ -59,16 +59,17 @@ of the profile into the index in order to be able to efficiently filter the
 profiles by length.
 
 As the last step (the rightmost orange box in \fref{network-overview}), a subset
-of the resource-usage traces is selected using the index according to the needs
-of a particular training session (to be discussed in \sref{network-results}) and
-then stored on disk. Concretely, the traces are fetched from the databases and
-stored in the native format of the machine-learning library utilized; we refer
-to a file in such a format as a binary file. Instead of writing all the selected
-traces into one binary file, we distribute them across several files. Such a
-catalog of binary files is created for each of the three commonly considered
-parts \cite{hastie2013} of the data at hand: one is for training, one for
-validation, and one for testing; see also \fref{network-overview}. We denote
-these parts by $G_1$, $G_2$, and $G_3$, respectively.
+of the resource-usage profiles is selected using the index according to the
+needs of a particular training session (to be discussed in
+\sref{network-results}) and then stored on disk. Concretely, the profiles are
+fetched from the databases and stored in the native format of the
+machine-learning library utilized; we refer to a file in such a format as a
+binary file. Instead of writing all the selected profiles into one binary file,
+we distribute them across several files. Such a catalog of binary files is
+created for each of the three commonly considered parts \cite{hastie2013} of the
+data at hand: one is for training, one for validation, and one for testing; see
+also \fref{network-overview}. We denote these parts by $G_1$, $G_2$, and $G_3$,
+respectively.
 
 Lastly, it is common practice to standardize data before feeding them into a
 learning algorithm \cite{hastie2013}. In our case, it is done along with
@@ -110,40 +111,41 @@ an individual task at step $j$, and the output $\hat{\vg}_{i,j + 1}$ is a
 one-step-ahead prediction of this usage.
 
 The core of the model is formed by a number of recurrent layers, which are also
-called cells. They are shown as a group of blue boxes in \fref{model}. The
-network can be made as many layers deep as needed. Each cell is composed of a
-number of units, which are depicted by double circles in \fref{model}. We let
-$c$ and $u$ be the number of cells and units per cell, respectively.
+called cells. They are shown as a group of blue boxes in \fref{network-model}.
+The network can be made as many layers deep as needed. Each cell is composed of
+a number of units, which are depicted as double circles in \fref{network-model}.
+The number of cells and units per cell are denoted by \nc and \nu, respectively.
 
 A unit is the smallest processing elements. The key characteristics of a unit
 are that it has internal memory, and that it has access to its previous output,
 which makes it recurrent. There are different types of units; each one defines
-how a unit lets data flow through it and updates its memory. One notable type is
-called \up{LSTM} \cite{hochreiter1997}, which stands for \emph{long short-term
-memory}. It has been designed to overcome the problems of traditional recurrent
-networks---such as vanishing gradient when training---and it is now one of the
-most widely used types. The recurrent layers of our model are \up{LSTM} cells.
+how a unit lets data flow through it and updates its memory. One notable unit is
+the \ac{LSTM} unit \cite{hochreiter1997}. It has been designed to overcome the
+problems of traditional recurrent networks---such as vanishing gradient when
+training---and it is now one of the most widely used types. The recurrent layers
+of our model are \ac{LSTM} cells, cells composed of \ac{LSTM} units.
 
-In addition, during training, each cell is enhanced by a dropout mechanism
-\cite{zaremba2014}, which gives control over the regularization of the model and
-is to prevent potential overfitting \cite{hastie2013}. We let $p$ be the
-probability of dropping an output of a cell.
+In addition, each cell is enhanced by a dropout mechanism \cite{zaremba2014},
+which gives control over the regularization of the model and is to prevent
+potential overfitting \cite{hastie2013}. The mechanism is active only during
+training. For future reference, denote by $\rho_\drop$ the probability of
+dropping an output of a cell.
 
 The output of the last cell is typically a large tensor, which is proportional
 in size to the number of units in the cell. Each entry of such a tensor can be
 considered as a feature that the network has extracted and activated in
-accordance with the trace that is currently being fed into the model. The task
+accordance with the profile that is currently being fed into the model. The task
 now is to combine these features in order to produce a single prediction. To
 this end, we mount a regression layer on top of the last cell, which is depicted
-by a red box in \fref{model}. Unlike the recurrent layers in \sref{recurrent},
-which feature highly nonlinear transformations, this layer performs an affine
+by an orange box in \fref{network-model}. Unlike the recurrent layers, which
+feature highly nonlinear transformations, this layer performs an affine
 transformation.
 
 To summarize, we have described a predictive model that is composed of a number
-of \up{LSTM} cells and a linear regression layer. Due to its internal memory,
-the model is capable of efficiently taking into account the entire past of the
-resource-usage trace under consideration when making predictions. Let us now
-discuss how the model is supposed to be used.
+of \ac{LSTM} cells and a linear regression layer. Due to its internal memory,
+the presented model is capable of efficiently taking into account the entire
+past of the resource-usage profile under consideration when making predictions.
+Let us now discuss how the model is supposed to be used.
 
 \subsection{Learning Pipeline}
 \slab{network-learning}
@@ -195,9 +197,9 @@ considered as a feature that the network has extracted and activated in
 accordance with the trace that is currently being fed into the model. The task
 now is to combine these features in order to produce a single prediction. To
 this end, we mount a regression layer on top of the last cell, which is depicted
-by a red box in \fref{model}. Unlike the recurrent layers in \sref{recurrent},
-which feature highly nonlinear transformations, this layer performs an affine
-transformation.
+by an orange box in \fref{model}. Unlike the recurrent layers in
+\sref{recurrent}, which feature highly nonlinear transformations, this layer
+performs an affine transformation.
 
 To summarize, we have described a predictive model that is composed of a number
 of \up{LSTM} cells and a linear regression layer. Due to its internal memory,
