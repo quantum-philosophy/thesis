@@ -153,8 +153,8 @@ Let us now discuss how the model is supposed to be used.
 Recall that the output of the data pipeline described in \sref{network-data} is
 the data set $G$, which is split into three parts: $G_1$ is for training, $G_2$
 is for validation, and $G_3$ is for testing. We now elaborate on the operations
-that take place during these three stages, which are also displayed at the
-bottom of \fref{network-overview}.
+that take place during these three steps, which are also displayed at the bottom
+of \fref{network-overview}.
 
 Let us discuss training first. The model depicted in \sref{network-model} has a
 large number of parameters that have to be learned; they are primarily various
@@ -234,10 +234,10 @@ time spent or the number of training steps taken; in our experiments in
 
 Let us now turn to testing; see the rightmost blue box in
 \fref{network-overview}. After a trained model has been selected during the
-validation stage, it has to be assessed anew \cite{hastie2013}: one cannot aver
+validation step, it has to be assessed anew \cite{hastie2013}: one cannot aver
 that the error with respect to $G_2$ is a good estimate of the generalization
-error because the selection was biased---we deliberately chose the configuration
-that had the best performance on $G_2$.
+error due to the selection bias---we have deliberately chosen the configuration
+that has the best performance on $G_2$.
 
 In order to have an unbiased evaluation, the testing set $G_3$ is utilized.
 Similar to training and validation, the \ac{MSE} is considered as a measure of
