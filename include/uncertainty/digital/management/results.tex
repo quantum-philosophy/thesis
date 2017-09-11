@@ -68,10 +68,11 @@ have been cached on disk as a result of our data pipeline described in
 \sref{network-data}, individual training sessions do not have any overhead in
 this regard.
 
-The results of the validation stage are given in \tref{validation}, which shows
-the mean squared error (\up{MSE}) of the top 10 configurations of the
-hyperparameters as measured using $G_2$ ($0.1 \times 2 \times 10^6 = 2 \times
-10^5$ traces). The best trained model is found to have the following
+\inputtable{network-validation}
+The results of the validation stage are given in \tref{network-validation},
+which shows the mean squared error (\up{MSE}) of the top 10 configurations of
+the hyperparameters as measured using $G_2$ ($0.1 \times 2 \times 10^6 = 2
+\times 10^5$ traces). The best trained model is found to have the following
 hyperparameters: $c = 3$, $u = 1600$, and $p = 0$. In general, deeper and wider
 architectures tend to outperform shallower and narrower ones (the depth and
 breadth are measured by $c$ and $u$, respectively), which is expected. In these
