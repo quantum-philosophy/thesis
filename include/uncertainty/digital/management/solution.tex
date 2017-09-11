@@ -195,7 +195,7 @@ that are shorter than \nsi{r} with zeros and emits a tensor of size $\nb \times
 
 The loss function that we minimize during training is the \ac{MSE} of one-step
 predictions over the whole batch. The correct prediction for the very last time
-step, which goes beyond the time window of the traces in question, is assumed to
+step, which goes beyond the time window of the profiles in question, is assumed to
 be zero. For instance, $\hat{\vg}_{i, \nsi{i} + 1}$ in \fref{network-feed} has
 no $\vg_{i, \nsi{i} + 1}$ to be compared with, and this $\vg_{i, \nsi{i} + 1}$
 is assumed to be zero.
@@ -232,44 +232,45 @@ configuration is exercised. For instance, it can be the amount of wall-clock
 time spent or the number of training steps taken; in our experiments in
 \sref{network-results}, we use the latter.
 
-Let us now turn to testing. After a trained model has been selected during the
+Let us now turn to testing; see the rightmost blue box in
+\fref{network-overview}. After a trained model has been selected during the
 validation stage, it has to be assessed anew \cite{hastie2013}: one cannot aver
 that the error with respect to $G_2$ is a good estimate of the generalization
-error because the selection was biased (we deliberately chose the configuration
-that had the best performance on $G_2$).
+error because the selection was biased---we deliberately chose the configuration
+that had the best performance on $G_2$.
 
-In order to have an unbiased evaluation, the testing set $G_3$ is utilized. As
-it is with training and validation, the \ac{MSE} is considered as a quality
-metric, and the bucketing mechanism is used (see \sref{training}). However,
-unlike training and validation, the error is calculated in a more elaborate way
-as follows.
+In order to have an unbiased evaluation, the testing set $G_3$ is utilized.
+Similar to training and validation, the \ac{MSE} is considered as a measure of
+quality, and bucketing is utilized. However, unlike training and validation, the
+error is calculated in a more elaborate way. To elaborate, recall first that our
+objective is making long-range predictions of resource usage; see
+\sref{network-problem}. Note also that, in training and validation, we are only
+concerned with what happens one time step ahead. The reason is that we would
+like to have as high of a throughput as possible during training and validation
+since they are to be performed many times. Testing, on the other hand, is done
+only once, and it is during testing we make and subsequently assess
+multiple-step-ahead predictions.
 
-Recall first that our objective is making long-range predictions of resource
-usage (see \sref{problem}). Note also that, in \sref{training} and
-\sref{validation}, we are only concerned with what happens one time step ahead.
-The reason is that we would like to have as high throughput as possible since
-the training and validation operations are to be performed many times. Testing,
-on the other hand, is done only once, and it is during testing we make and
-assess multiple-step-ahead predictions.
+In order to calculate long-rage predictions, we use refeeding: at time step $j$,
+the predicted value $\hat{\vg}_{i,j + 1}$ of the resource usage of task $i$ is
+fed into the model as if it was the actual resource usage $\vg_{i,j + 1}$ at
+step $j + 1$, which is not yet known at step $j$. At this point, it might be
+helpful to consider the example given in \fref{network-example}. The process
+continues until all the desired $h$ future values are estimated. It is natural
+to expect that the more accurate the one-step-ahead prediction is, the more
+accurate the multiple-step-ahead one will be.
 
-In order to compute long-rage predictions, we use refeeding: at time step $k$,
-the predicted value $\hat{x}_{i,k + 1}$ is fed into the model as if it was the
-actual resource usage $x_{i,k + 1}$ at step $k + 1$, which is not yet known at
-step $k$. It might be helpful to consider the example given in \fref{example}.
-The process continues until all the desired $h$ future values are estimated. It
-is natural to expect that the more accurate the one-step-ahead prediction is,
-the more accurate the multiple-step-ahead one will be.
-
-There is more to it. Consider how a trained model will be used in practice.
-Potentially at each step $k$, one might want to predict the next $h$ values of
-the resource usage of task $i$, that is, $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k
-+ h}$. Therefore, in order to test the model properly, we have to sweep over all
-the time steps of the trace in question while making $h$ predictions at each
-step. An important aspect to note here is that the state of the model's memory
-should be saved before computing $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k + h}$
-at step $k$ and restored before feeding $x_{i,k + 1}$ in order to advance to
-step $k + 1$. The memory becomes contaminated when one feeds predictions instead
-of observations into the model.
+There is more to testing. Consider now how a trained model will be used in
+practice. Potentially at each step $j$, the resource manager might want to
+predict the next $h$ values of the resource usage of task $i$, that is,
+$\range{\hat{\vg}_{i,j + 1}}{\hat{\vg}_{i,j + h}}$. Therefore, in order to test
+the model properly, we have to sweep over all the time steps of the profiles in
+question while making $h$ predictions at each step. An important aspect to note
+is that the state of the model's memory should be saved before computing
+$\range{\hat{\vg}_{i,j + 1}}{\hat{\vg}_{i,j + h}}$ at step $j$ and restored
+before feeding $\vg_{i,j + 1}$ in order to advance to step $j + 1$. The memory
+becomes contaminated when one feeds predictions instead of observations into the
+model.
 
 At this point, the main aspects of our workflow, which is illustrated in
 \fref{network-overview}, have been discussed. The output of the workflow is a predictive
