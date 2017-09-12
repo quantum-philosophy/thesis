@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/09/09 Thesis]
+\ProvidesClass{thesis}[2017/09/12 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -145,22 +145,22 @@
 \renewcommand{\maketitle}{
   \center
   {
-    \footnotesize\centerline
-    \@publicationseries{}%\\
+    \small
+    \@publicationseries\\
     Dissertations, No. \@publicationnumber
   }\\[10em]
   {
-    \headingfont\Huge
+    \Huge\headingfont
     \@title
   }\\[4em]
   {
-    \headingfont\huge
+    \huge\headingfont
     \@author
   }\\
   \vfill
   \includegraphics[width=14em]{\@logotype}\\[2em]
   {
-    \footnotesize
+    \small
     Linköping University\\
     \@department\\
     \@division\\
