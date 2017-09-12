@@ -1,4 +1,4 @@
-A bird's eye view of the content of the thesis is as follows.
+A bird's eye view of the main chapters of the thesis is as follows.
 
 In \cref{certainty-development}, we consider techniques for deterministic
 system-level analysis of computer systems. These techniques do not take
@@ -6,44 +6,42 @@ uncertainty into account; however, they serve as a solid foundation for those
 that do. Our attention revolves primarily around power and temperature since
 they are of central importance for attaining robustness and energy efficiency.
 We develop an accurate and fast approach to dynamic steady-state temperature
-analysis of multiprocessor systems and apply it in the context of
-temperature-aware reliability optimization. Reliability optimization addresses
-performance uncertainty by definition; however, it falls in the scope of
+analysis of computer systems and apply it in the context of temperature-aware
+reliability optimization. Reliability optimization addresses performance
+uncertainty by definition; however, it falls in the scope of
 \cref{certainty-development} since the accompanying temperature-aware
 reliability analysis treats temperature as a deterministic quantity, which is
 suboptimal as we discuss in the subsequent chapters.
 
 In \cref{uncertainty-analog-fabrication}, we present our first technique that
 addresses uncertainty. Specifically, we develop an approach to analyzing the
-variability of process parameters that is induced by process variation, across
+variability of process parameters, which is induced by process variation, across
 silicon wafers by means of indirect and sparse measurements such as readings
 from thermal sensors.
 
 In \cref{uncertainty-analog-development}, we continue working with process
 uncertainty and present a technique that is applicable to studying diverse
 quantities with respect to process variation. In particular, the approach allows
-for progressively analyzing transient power and temperature profiles of
-multiprocessor systems. Other examples are the dynamic steady-state temperature
-profile and such critical metrics as the maximal temperature and energy
-consumption. They all can be analyzed from the probabilistic standpoint, and the
-utility of this virtue is illustrated by addressing a problem of design-space
-exploration with probabilistic constraints related to reliability. Unlike the
-reliability model given in \cref{certainty-development}, the one presented in
+for progressively analyzing transient power and temperature profiles of computer
+systems. Other examples are the dynamic steady-state profile and such critical
+metrics as the maximal temperature and energy consumption. They all can be
+analyzed from the probabilistic standpoint, and the utility of this virtue is
+illustrated by addressing a problem of design-space exploration with
+probabilistic constraints related to reliability. Unlike the reliability model
+utilized in \cref{certainty-development}, the one presented in
 \cref{uncertainty-analog-development} is well aware of process uncertainty and,
-hence, allows for a more adequate treatment of performance uncertainty.
+therefore, allows for a more adequate treatment of performance uncertainty.
 
 In \cref{uncertainty-digital-development}, we develop another system-level
-technique; this one, however, is efficient at tackling digital sources of
-uncertainty such as workload variation, which tend to be less regular than the
-analog ones including process variation. The proposed technique is exemplified
-by quantifying the effect that workload units with uncertain processing times
-have on the timing-, power-, and temperature-related characteristics of
-multiprocessor systems.
+technique. The tool specializes in tackling digital sources of uncertainty such
+as workload variation, which tend to be less regular than the analog ones
+including process variation. The proposed technique is exemplified by
+quantifying the effect that workload units with unknown processing times have on
+the timing-, power-, and temperature-related characteristics of the system under
+consideration.
 
 In \cref{uncertainty-digital-management}, we contemplate the future of runtime
 management of computer systems under workload variation. In this context, we
 perform an early investigation of the utility of advanced prediction techniques
 for fine-grained long-range forecasting of the resource usage in large computer
-system.
-
-In \cref{conclusion}, we conclude the thesis with a few final remarks.
+systems.
