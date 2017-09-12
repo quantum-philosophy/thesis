@@ -1,10 +1,10 @@
 Dynamic steady-state analysis addresses the shortcomings of static steady-state
 analysis in one particular but important context. It tackles the scenario where
-the power consumption follows a periodic pattern. In this case, after a
-sufficiently long time, the system will not reach a static steady state but
-instead a dynamic steady state: temperature will starts to exhibit a periodic
-patter following the periodic patter of power. Then the goal of the analysis is
-to find the periodic temperature profile \mq, called the dynamic steady-state
+power consumption follows a periodic pattern. In this case, after a sufficiently
+long time, the system does not reach a static steady state but instead a dynamic
+steady state where temperature starts to exhibit a periodic patter following the
+periodic patter of power. Then the goal of the analysis in question is to find
+the periodic temperature profile \mq, called the dynamic steady-state
 temperature profile, that corresponds to a given periodic power profile \mp.
 
 In the case of applications that exhibit periodic or close to periodic behavior,
@@ -63,11 +63,11 @@ solution, the actual dynamic steady-state temperature profile.
 Another crude but fast approximation of the profile is proposed in
 \cite{huang2009b}. It forgoes transient analysis all together and resides to
 static steady-state analysis instead. To elaborate, it is assumed that, in each
-time interval wherein the power consumption is constant, the system
-instantaneously reaches a static steady state. The result of this procedure is a
-stepwise temperature curve where each step corresponds to the steady-state
-temperature that would be reached if the corresponding power was applied for a
-sufficiently long time.
+time interval where the consumed power is constant, the system instantaneously
+reaches a static steady state. The result of this procedure is a stepwise
+temperature curve where each step corresponds to the steady-state temperature
+that would be reached if the corresponding power was applied for a sufficiently
+long period of time.
 
 \inputfigure{static-steady-state-example}
 An example of such an approximation along with the corresponding dynamic
