@@ -72,7 +72,7 @@
     \vspace{1em}
     \noindent\@abstractenglish
   \end{english}
-  \newpage
+  \cleardoublepage
   \begin{swedish}
     \centerline{\Large\textsc{Sammanfattning}}
     \vspace{1em}
@@ -188,7 +188,7 @@
   \pagenumbering{roman}
   {
     \maketitle
-    \newpage
+    \clearpage
   }
   {
     \makepermission
@@ -196,51 +196,43 @@
   }
   {
     \makededication
-    \cleartorecto
+    \cleardoublepage
   }
   {
     \pagestyle{plain}
     \phantomsection
     \addcontentsline{toc}{chapter}{Abstract}
-    \clearpage
-  }
-  {
-    \pagestyle{plain}
     \makeabstract
-    \clearpage
-    \newpage
+    \cleardoublepage
   }
   {
     \pagestyle{plain}
     \@acknowledgments
     \addcontentsline{toc}{chapter}{Acknowledgments}
-    \clearpage
+    \cleardoublepage
   }
   {
     \pagestyle{plain}
     \renewcommand{\contentsname}{Table of Contents}
     \tableofcontents
-    \relax
-    \clearpage
+    \cleardoublepage
   }
   {
     \listofalgorithms
     \addcontentsline{toc}{chapter}{List of Algorithms}
-    \clearpage
+    \cleardoublepage
   }
   {
     \pagestyle{plain}
     \listoffigures
-    \relax
-    \clearpage
+    \cleardoublepage
   }
   {
     \pagestyle{plain}
     \listoftables
-    \relax
-    \clearpage
+    \cleardoublepage
   }
-  \cleartorecto
+  \cleardoublepage
   \pagenumbering{arabic}
   \pagestyle{ruled}
 }
