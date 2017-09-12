@@ -34,15 +34,15 @@ equations, which is based on Fourier's law \cite{fourier2009}:
   \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
 \end{subnumcases}
 where $\vq \in \real^\np$, $\vq_\ambient \in \real^\np$, and $\vp \in \real^\np$
-are vectors of the operating temperature, ambient temperature, and power
-dissipation of the processing elements, respectively. Further, $\tvs \in
-\real^\nn$ represents the state of the thermal nodes, and $\m{C} \in \real^{\nn
-\times \nn}$ and $\m{G} \in \real^{\nn \times \nn}$ are a diagonal matrix of the
-thermal capacitance and a symmetric and positive-definite matrix of the thermal
-conductance, respectively. Lastly, $\tm{B} \in \real^{\nn \times \np}$ is a
-mapping between the processing elements and the thermal nodes, which, without
-loss of generality, is assumed to be a rectangular diagonal matrix whose
-diagonal elements are equal to unity.
+are the operating temperature, ambient temperature, and power consumption of the
+processing elements, respectively. Further, $\tvs \in \real^\nn$ represents the
+state of the thermal nodes, and $\m{C} \in \real^{\nn \times \nn}$ and $\m{G}
+\in \real^{\nn \times \nn}$ are a diagonal matrix of the thermal capacitance and
+a symmetric and positive-definite matrix of the thermal conductance,
+respectively. Lastly, $\tm{B} \in \real^{\nn \times \np}$ is a mapping between
+the processing elements and the thermal nodes, which, without loss of
+generality, is assumed to be a rectangular diagonal matrix whose diagonal
+elements are equal to unity.
 
 In general, the differential part in \eref{temperature-differential-original} is
 nonlinear due to the source term \vp since we do not make any assumptions about
