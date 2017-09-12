@@ -1,11 +1,11 @@
-Temperature analysis of electronic systems is chiefly based on the duality
-between the transfer of heat and the transfer of electric charge
-\cite{kreith2000}. The core idea is to construct a so-called thermal \up{RC}
-circuit for the system under consideration \cite{skadron2003}. Such a circuit is
-a collection of thermal nodes that are characterized by thermal capacitances and
-connected with each other via thermal resistances. The circuit is to capture the
-relevant physical structure and thermal properties of the system and, thereby,
-to model the system's thermal dynamics.
+Temperature analysis of computer systems is chiefly based on the duality between
+the transfer of heat and the transfer of electric charge \cite{kreith2000}. The
+core idea is to construct a so-called thermal \up{RC} circuit for the system
+under consideration \cite{skadron2003}. Such a circuit is a collection of
+thermal nodes that are characterized by thermal capacitances and connected with
+each other via thermal resistances. The circuit is to capture the relevant
+physical structure and thermal properties of the system and, thereby, to model
+the system's thermal dynamics.
 
 A thermal \up{RC} circuit can also be constructed at different levels of
 granularity, which primarily refers to the number thermal nodes, denoted by \nn,
@@ -25,10 +25,10 @@ described above is the one presented in \cite{huang2008}, and it is also the one
 that is used throughout this thesis unless stated otherwise.
 
 Suppose now that an adequate thermal \up{RC} circuit has been constructed for
-the considered electronic system. Regardless of the structure of the circuit,
-the thermal dynamics of the circuit and, therefore, the electronic system are
-governed by the following system of \nn differential and \np algebraic
-equations, which is based on Fourier's law \cite{fourier2009}:
+the considered computer system. Regardless of the structure of the circuit, the
+thermal dynamics of the circuit and, therefore, the computer system are governed
+by the following system of \nn differential and \np algebraic equations, which
+is based on Fourier's law \cite{fourier2009}:
 \begin{subnumcases}{\elab{temperature-model-original}}
   \m{C} \frac{\d \tvs(t)}{\d t} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
   \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
