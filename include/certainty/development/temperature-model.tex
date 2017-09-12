@@ -4,13 +4,15 @@ core idea is to construct a so-called thermal \up{RC} circuit for the system
 under consideration \cite{skadron2003}. Such a circuit is a collection of
 thermal nodes that are characterized by thermal capacitances and connected with
 each other via thermal resistances. The circuit is to capture the relevant
-physical structure and thermal properties of the system and, thereby, to model
-the system's thermal dynamics.
+physical structure and thermal properties of the system and, thereby, model the
+system's thermal dynamics.
 
-A thermal \up{RC} circuit can also be constructed at different levels of
-granularity, which primarily refers to the number thermal nodes, denoted by \nn,
-and their placement. It should be noted that the chosen granularity has a
-profound impact on the accuracy of the subsequent temperature analysis.
+Similar to the identification of processing elements described in
+\sref{system-model}, a thermal \up{RC} circuit can be constructed at different
+levels of granularity, which primarily refers to the number thermal nodes
+denoted by \nn and their placement. It should be noted that the chosen
+granularity has a considerable impact on the accuracy of the subsequent
+temperature analysis.
 
 \inputfigure{thermal-circuit}
 In order to give a better intuition about thermal \up{RC} circuits,
@@ -48,3 +50,9 @@ In general, the differential part in \eref{temperature-differential-original} is
 nonlinear due to the source term \vp since we do not make any assumptions about
 its structure; see the discussion in \sref{power-model}. Therefore, there is no
 closed-form solution to the system.
+
+Lastly, let us note that temperature analysis of computer systems has
+traditionally been considered as a computationally expensive operation. The long
+computation times can be severely limiting, especially when the analysis is to
+be performed many times for such purposes as design-space exploration.
+Therefore, there is always a need for developing more efficient techniques.
