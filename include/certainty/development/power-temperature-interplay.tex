@@ -23,7 +23,7 @@ threshold. In the case of dynamic steady-state analysis discussed in
 \sref{dynamic-steady-state-analysis}, the pseudocode of this technique is listed
 in \aref{dynamic-steady-state-iterative}. According to our experience, it
 usually takes 4--7 iterations until the uniform norm of the difference between
-two successive temperature profiles becomes lower than \celsius{0.5}.
+two successive temperature profiles becomes smaller than \celsius{0.5}.
 
 In the case of transient analysis, the above procedure can be also done on a
 step-by-step basis and even with only one iteration. Specifically, at each step
@@ -32,7 +32,7 @@ calculate the static power at the current temperature, add it to the dynamic
 power, and use the result for evaluating the next temperature. Hence, the
 recurrence in \eref{transient-state-recurrence} becomes
 \[
-  \vs_i = \m{E} \vs_{i - 1} + \m{F} (\vp_{\dynamic, i} + \vp_{\static, i}).
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} (\vp_{\dynamic, i} + \vp_{\static, i}(\vq_{i - 1})).
 \]
 for $i = \range{1}{\ns}$ where $\vp_{\static, i}$ is computed using $\vq_{i -
 1}$.
@@ -58,17 +58,17 @@ where
 and $\hm{G}$ has the same properties as $\m{G}$. Therefore, all the solutions
 that have been derived in this chapter remain perfectly valid. Moreover, as
 shown in \cite{liu2007}, despite of its simplicity, the approximation is
-relatively accurate, and, if it is needed, it can be improved by considering
-multiple linear segments.
+relatively accurate and, if needed, can be improved by considering multiple
+linear segments.
 
 In order to evaluate the linearization, we consider a number of hypothetical
 platforms with 2--32 processing elements and undertake dynamic steady-state
-temperature analysis. The calculations are performed with both the linearization
-and the exponential model in \eref{static-power}. For the former, the model is
-fitted using least squares \cite{press2007} targeted at range 40--\celsius{80}.
-For the latter, we use the iterative approach described earlier. The experiment
-shows that the \ac{NRMSE} is bounded by 2\%, indicating a good accuracy of the
-linear approximation.
+analysis. The calculations are performed with both the linearization and the
+full exponential model in \eref{static-power}. For the former, the model is
+fitted using least squares \cite{press2007} targeted at the range
+40--\celsius{80}. For the latter, we use the iterative approach described
+earlier. The experiment shows that the \ac{NRMSE} is bounded by 2\%, indicating
+an adequate accuracy of the linear approximation.
 
 It is important to note that, regardless of the approach utilized, both power
 and temperature are analyzed simultaneously as they are interdependent. One
