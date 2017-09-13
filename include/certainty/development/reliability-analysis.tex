@@ -26,10 +26,10 @@ processing elements that the system is composed of. Denote these individual
 lifetimes by $\{ \life_i: \Omega \to \real \}_{i = 1}^\np$. Each $\life_i$ is
 characterized by a physical model of wear \cite{jedec2016} that describes the
 stress that processing element $i$ is exposed to. Each $\life_i$ is also
-assigned an individual $R_i(\cdot | \vg)$ modeling the failures due to that
+assigned an individual $R_i(\cdot | \vg_i)$ modeling the failures due to that
 stress.
 
-The structure of $R(\cdot | \vg)$ with respect to $\{ R_i(\cdot | \vg) \}_{i =
+The structure of $R(\cdot | \vg)$ with respect to $\{ R_i(\cdot | \vg_i) \}_{i =
 1}^\np$ is problem specific, and it can be especially diverse in the context of
 fault-tolerant systems. Therefore, $R(\cdot | \vg)$ is to be devised by the
 designer of the system under consideration. To give an example, suppose that the
@@ -39,7 +39,7 @@ parameters gathered in \vg. In this scenario,
 \begin{equation} \elab{reliability-model}
   \begin{split}
     & \life = \min_{i = 1}^\np \life_i \text{ and} \\
-    & R(t | \vg) = \prod_{i = 1}^\np R_i(t | \vg).
+    & R(t | \vg) = \prod_{i = 1}^\np R_i(t | \vg_i).
   \end{split}
 \end{equation}
 
@@ -141,7 +141,7 @@ where \nk{ij} stands for the mean number of such cycles to failure.
 \begin{remark}
 A cycle detected by the rainflow counting method does not have to be formed by
 adjacent extrema; cycles can overlap. This feature makes the counting method
-very efficiently at mitigation of overestimation. A cycle can be a half cycle,
+very efficiently at mitigating overestimation. A cycle can be a half cycle,
 meaning that only an upward or downward swing is present in the time series,
 which is assumed to be adequately taken into account.
 \end{remark}
@@ -171,6 +171,6 @@ where \nk{ij} is as in \eref{thermal-cycling-mean-cycles}. Using
 
 In conclusion, it should be noted that the reliability model requires detailed
 information about the thermal cycles that the processing element is exposed to,
-which is the topic of the previous sections and, in particular, of
+which is the topic of the previous sections and, in particular,
 \sref{dynamic-steady-state-analysis} where dynamic steady-state temperature
 analysis is discussed.
