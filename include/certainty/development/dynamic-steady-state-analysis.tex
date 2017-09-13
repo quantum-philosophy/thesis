@@ -93,12 +93,12 @@ difficult and dangerous from the standpoint of design optimization.
 
 In this subsection, we are to formalize the problem of dynamic steady-state
 temperature analysis and to develop an exact and, moreover, computationally
-efficient solution to this problem, eliminating the issues of the
+efficient solution to this problem, which eliminates the issues of the
 state-of-the-art solutions discussed in the previous subsection.
 
 Consider the temperature model in \eref{temperature-model} and the corresponding
-recurrence in \eref{transient-state-recurrence}. The key characteristic of a
-dynamic steady state is as follows:
+recurrence in \eref{transient-state-recurrence}. The key condition of a dynamic
+steady state is as follows:
 \begin{equation} \elab{dynamic-steady-state-condition}
   \vs_0 = \vs_\ns.
 \end{equation}
@@ -162,13 +162,14 @@ to employ a sparse solver such as the unsymmetric multifrontal method
 \cite{davis2004}. The computational complexity of such solutions is $\bigo{n_s^3
 n_n^3}$ \cite{press2007} where $\nn$ is the number of nodes in the thermal
 \up{RC} circuit, and $\ns$ is the number of samples in the power profile. The
-problem here is that the system to solve can be extremely large, in particular
-due to $\ns$. In such cases, direct solvers are prohibitively slow and require
-an enormous amount of memory. Therefore, we do not discuss them any further.
+problem, however, is that the system to solve can be extremely large, which is
+primarily due to \ns. In such cases, direct solvers are prohibitively slow and
+require an enormous amount of memory. Therefore, we do not discuss them any
+further.
 
-Another potential approach is leveraging an iterative method for solving systems
+Another potential approach is leveraging iterative methods for solving systems
 of linear equations such as the Jacobi or Gauss--Seidel method \cite{press2007}.
-Such methods are designed to overcome problems of direct solvers, and,
+Such methods are designed to overcome the problems of direct solvers, and,
 consequently, they are applicable for very large systems. However, the most
 important issue with these methods is their convergence. In our experiments, we
 have not observed any advantages of using these methods compared to the other
@@ -176,16 +177,16 @@ considered techniques. Thus, they are excluded from the discussion.
 
 Yet another solution can be obtain by observing that $\mathbb{A}$ in
 \eref{dynamic-steady-state-system} is, in fact, a block Toeplitz matrix and,
-moreover, a block-circulant matrix, where each block row is rotated one block
+moreover, a block-circulant matrix, in which each block row is rotated one block
 element to the right relative to the preceding block row. This observation leads
 to a wide range of possible techniques for solving the system shown in
 \eref{dynamic-steady-state-system} such as the fast Fourier transform
 \cite{mazancourt1983}, which we discuss further in our experiments reported in
 \sref{dynamic-steady-state-results}.
 
-To summarize, the major problem with the aforementioned techniques is that
-\one~the sparseness of $\mathbb{A}$ is not taken into account, or \two~its
-specific structure is ignored, resulting in inefficient and, in some cases,
+The major problem with the aforementioned techniques is that \one~the sparseness
+of $\mathbb{A}$ is not taken into account, or \two~the specific structure of
+$\mathbb{A}$ is ignored, which results in inefficient and, in some cases,
 inaccurate computations. Let us now develop a solution that does not have these
 issues.
 
@@ -193,9 +194,9 @@ Have a careful look at the structure of $\mathbb{A}$ in
 \eref{dynamic-steady-state-system}. The nonzero elements are located only on the
 block diagonal, on the subdiagonal attached to the block diagonal, and on the
 superdiagonal in the top-right corner of the matrix. Linear systems with similar
-structures arise in boundary value problems for ordinary differential equations,
-and the typical technique to solve them is to form a so-called condensed
-equation or condensed system \cite{stoer2002} as follows.
+structures arise in boundary value problems of ordinary differential equations,
+and the technique to solve them is to form a so-called condensed equation or
+condensed system \cite{stoer2002} as we describe next.
 
 To begin with, let
 \[
@@ -212,7 +213,7 @@ leads to
   \vs_i = \m{E}^i \vs_0 + \v{w}_i
 \]
 for $i = \range{1}{\ns}$. In the above, $\v{w}_i$ is an auxiliary recurrence
-defined as
+defined by
 \begin{equation} \elab{dynamic-steady-state-auxiliary-recurrence}
   \v{w}_i = \m{E} \v{w}_{i - 1} + \v{v}_i
 \end{equation}
@@ -230,8 +231,8 @@ equations:
 \[
   (\m{I} - \m{E}^\ns) \vs_\ns = \v{w}_\ns.
 \]
-Since $\m{E}$ is the matrix exponential, which it can be seen in
-\eref{matrix-exponential}, the above system can be rewritten as follows:
+Since $\m{E}$ is the matrix exponential---which can be seen in
+\eref{matrix-exponential}---the above system can be rewritten as follows:
 \[
   (\m{I} - \m{U} e^{\m{\Lambda} \period} \transpose{\m{U}}) \vs_\ns = \v{w}_\ns
 \]
@@ -262,12 +263,12 @@ solution process is given in \aref{dynamic-steady-state}.
 It is worth noting that the auxiliary transformation presented in
 \sref{transient-state-solution} and the accompanying eigendecomposition in
 \eref{eigendecomposition} have substantially simplified the calculations
-associated with dynamic steady-state analysis. It should also be noted that the
+associated with dynamic steady-state analysis. Note also that the
 eigendecomposition along with $\m{E}$ and $\m{F}$ are computed only once for a
 particular thermal \up{RC} circuit and can be considered as given together with
-the circuit. In other words, these quantities stay when different power profiles
-are to be analyzed, which is particularly advantageous when an intensive
-design-space-exploration procedure is concerned.
+the circuit. In other words, these quantities stay the same when different power
+profiles are to be analyzed, which is particularly advantageous when an
+intensive design-space-exploration procedure is concerned.
 
 The computational complexity of the whole procedure is estimated to be
 \[
