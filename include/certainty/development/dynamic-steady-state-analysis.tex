@@ -285,21 +285,21 @@ analysis proposed in \sref{dynamic-steady-state-solution}. All the experiments
 are conducted on a \up{GNU}/Linux machine equipped with Intel Core i7
 3.4~\up{GH}z and 8~\up{GB} of \up{RAM}.
 
-The thermal \up{RC} circuits are considered by means of HotSpot
-\cite{skadron2003} with its default configuration, and they follow the principle
-described in \sref{temperature-model}. The sampling interval $\dt$ of power and
-temperature profiles is set to 1~ms.
+Thermal \up{RC} circuits are considered by means of HotSpot \cite{skadron2003}
+with its default configuration, and they follow the principle described in
+\sref{temperature-model}. The sampling interval $\dt$ of power and temperature
+profiles is set to 1~ms.
 
-We consider two alternative techniques for comparison purposes, namely, the one
-based on iterative transient analysis, which is mentioned in
-\sref{dynamic-steady-state-prior}, and the one based on the fast Fourier
-transform, which is mentioned in \sref{dynamic-steady-state-solution}, since
-they are comparable with our technique in terms of accuracy. In the case of
-transient analysis, we evaluate both the fast analytical solution described in
-\sref{transient-state-solution} and the one implemented in HotSpot, and the
-corresponding iterative calculation is undertaken until the \ac{NRMSE} relative
-to the dynamic steady-state temperature profile calculated by means of the
-proposed method (which is exact) is less than 1\%.
+For comparison purposes, we consider two alternative techniques, namely, the one
+based on iterative transient analysis---which is mentioned in
+\sref{dynamic-steady-state-prior}---and the one based on the fast Fourier
+transform---which is mentioned in \sref{dynamic-steady-state-solution}---since
+they are comparable with the proposed technique in terms of accuracy. In the
+case of transient analysis, we evaluate both the fast analytical solution
+described in \sref{transient-state-solution} and the one implemented in HotSpot,
+and the corresponding iterative calculation is undertaken until the \ac{NRMSE}
+relative to the dynamic steady-state temperature profile calculated by means of
+the proposed method (which is exact) is less than 1\%.
 
 \inputfigure{dynamic-steady-state-speed}
 First of all, we vary the period \period of power and temperature
