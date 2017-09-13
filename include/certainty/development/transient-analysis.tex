@@ -17,16 +17,16 @@ where
 \[
   \tm{A} = -\m{C}^{-1} \m{G}.
 \]
-We apply a solution technique taken from the family of exponential integrators,
-which have good stability properties; refer to \cite{hochbruck2010} for an
-overview. Multiplying both sides of the above system by $e^{- \tm{A} t}$ and
-noting that
+Now we apply a solution technique taken from the family of exponential
+integrators, which have good stability properties; refer to \cite{hochbruck2010}
+for an overview. Multiplying both sides of the above equation by $e^{- \tm{A}
+t}$ and noting that
 \[
   e^{-\tm{A} t} \frac{\d \tvs(t)}{\d t} = \frac{\d e^{-\tm{A} t} \tvs(t)}{\d t} + e^{-\tm{A} t} \tm{A} \tvs(t),
 \]
 we obtain
 \[
-  \tvs(t) = e^{\tm{A} t} \tvs(0) +  e^{\tm{A} t} \int_0^t e^{-\tm{A} s} \m{C}^{-1} \tm{B} \vp(s) \d s,
+  \tvs(t) = e^{\tm{A} t} \tvs(0) +  e^{\tm{A} t} \int_0^t e^{-\tm{A} \tau} \m{C}^{-1} \tm{B} \vp(\tau) \d \tau,
 \]
 which is the solution at time $t$ starting from the initial condition $\tvs(0)$
 at time 0. Suppose now that the power consumption of the processing elements
@@ -56,9 +56,9 @@ It should be noted that, in order to obtain the actual \mq, the recurrence
 should be followed by \eref{temperature-algebraic-original}, which involves two
 trivial algebraic operations.
 
-Similar to the observation is made in \cite{thiele2011}, our experiments show
-the approach to transient temperature analysis described above provides a
-significant performance improvement compared to iterative solutions to ordinary
+Similar to the observation made in \cite{thiele2011}, our experience shows that
+the approach to transient analysis described above provides a significant
+performance improvement compared to iterative solutions to systems of ordinary
 differential equations such as the Runge--Kutta fourth-order method
 \cite{press2007}. However, there is still room for improvement as we discuss in
 what follows.
