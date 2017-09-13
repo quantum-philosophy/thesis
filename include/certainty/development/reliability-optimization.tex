@@ -66,13 +66,14 @@ consumption; these are the characteristics that the task has when it is assigned
 to the processing element.
 
 Since we are orientated toward the design stage in this context, static
-scheduling is considered, which is a task that is typically done offline. The
-application is assumed to be scheduled using a static cyclic scheduler following
-the list scheduling policy \cite{adam1974}. The input to the scheduler is a
-mapping of the tasks onto the processing elements and a set of priorities of the
-tasks; other parameters are implicitly known to the scheduler. The schedule
-produces a vector specifying the starting times of the tasks. Both the mapping
-and starting times are referred to as a schedule, which we denote by \schedule.
+scheduling is considered, which is a task that is typically done offline.
+Specifically, the application is assumed to be scheduled using a static cyclic
+scheduler following the list scheduling policy \cite{adam1974}. The input to the
+scheduler is a mapping of the tasks onto the processing elements and a set of
+priorities of the tasks; other parameters are implicitly known to the scheduler.
+The schedule produces a vector specifying the starting times of the tasks. Both
+the mapping and starting times are referred to as a schedule, which we denote by
+\schedule.
 
 The time to failure of each processing element is modeled using the reliability
 model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
@@ -105,7 +106,7 @@ The optimization is undertaken using a genetic algorithm \cite{schmitz2004}. In
 this paradigm inspired by biology, a population of chromosomes, which represent
 candidate solutions, is carried through a number of generations in order to
 produce a chromosome with the best possible fitness, that is, a solution that
-maximizes the objective function. The fitness function in this case is
+maximizes the objective function. The fitness function can be seen in
 \eref{thermal-cycling-objective}.
 
 Each chromosome contains $2 \nt$ genes---twice the number of tasks---and it can
