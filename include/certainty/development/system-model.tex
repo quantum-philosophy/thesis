@@ -19,15 +19,15 @@ dissipation, respectively. A power profile is an $\np \times \ns$ matrix
 \]
 that contains \ns samples $\{ \vp_i \}_{i = 1}^\ns \subset \real^\np$ of the
 power consumption of the \np processing elements taken at \ns time moments $\{
-t_i \}_{i = 1}^\ns$ with a certain sampling interval \dt such that $\dt = t_i -
-t_{i - 1}$ for $i = \range{2}{\ns}$. The number \ns is called the number of
+t_i \}_{i = 1}^\ns$ with a certain sampling interval \dt such that $t_i - t_{i -
+1} = \dt$ for $i = \range{2}{\ns}$. The number \ns is called the number of
 steps. Similarly, a temperature profile is an $\np \times \ns$ matrix
 \begin{equation} \elab{temperature-profile}
   \mq
   = \left(\range{\vq_1}{\vq_\ns}\right)
   = \left(\range{\vq(t_1)}{\vq(t_\ns)}\right) \in \real^{\np \times \ns}
 \end{equation}
-that captures the heat dissipation of the processing elements over a number of
+that captures the heat dissipation of the processing elements at a number of
 equidistant time moments. Let us note that, even though the exact time frame and
 sampling interval of a power or a temperature profile are not included in the
-above notation, they are typically understood from the context.
+corresponding notation, they are understood from the context.
