@@ -2,14 +2,18 @@
 \newcommand{\scale}{\eta}
 \newcommand{\shape}{\beta}
 
+In this section, we turn our attention to temperature-aware reliability
+analysis.
+
 Let $(\Omega, \F, \probability)$ be a probability space as defined in
 \sref{probability-theory} and let $\life: \Omega \to \real$ be a random variable
 that represents the lifetime of the system at hand. The lifetime is the time
 until the system experiences a fault after which it no longer meets certain
-requirements. Let also $F(\cdot | \vg)$ be the distribution function of \life,
-which gives the probability of failure before a certain time moment, where \vg
-is a vector of parameters. The expectation $\expectation{\life}$ is called the
-\ac{MTTF}. Lastly, the complementary distribution function of \life is
+requirements. Let also $F(\cdot | \vg)$ be the distribution function of
+\life---which gives the probability of failure before a certain time
+moment---where \vg is a vector of parameters. The expectation
+$\expectation{\life}$ is called the \ac{MTTF}. Lastly, the complementary
+distribution function of \life is
 \[
   R(t | \vg) = 1 - F(t | \vg),
 \]
@@ -21,15 +25,17 @@ The lifetime \life of the system is a function of the lifetimes of the \np
 processing elements that the system is composed of. Denote these individual
 lifetimes by $\{ \life_i: \Omega \to \real \}_{i = 1}^\np$. Each $\life_i$ is
 characterized by a physical model of wear \cite{jedec2016} that describes the
-stress that the corresponding processing element is exposed to. Each $\life_i$
-is also assigned an individual reliability function $R_i(\cdot | \vg)$ modeling
-the failures due to that stress. The structure of $R(\cdot | \vg)$ with respect
-to $\{ R_i(\cdot | \vg) \}_{i = 1}^\np$ is problem specific, and it can be
-especially diverse in the context of fault-tolerant systems. Therefore, $R(\cdot
-| \vg)$ is to be specified by the designer of the system. To give an example,
-suppose that the failure of any of the \np processing elements makes the whole
-system fail, and that $\{ \life_i \}_{i = 1}^\np$ are conditionally independent
-given the parameters gathered in \vg. In this scenario,
+stress that processing element $i$ is exposed to. Each $\life_i$ is also
+assigned an individual $R_i(\cdot | \vg)$ modeling the failures due to that
+stress.
+
+The structure of $R(\cdot | \vg)$ with respect to $\{ R_i(\cdot | \vg) \}_{i =
+1}^\np$ is problem specific, and it can be especially diverse in the context of
+fault-tolerant systems. Therefore, $R(\cdot | \vg)$ is to be devised by the
+designer of the system under consideration. To give an example, suppose that the
+failure of any of the \np processing elements makes the whole system fail, and
+that $\{ \life_i \}_{i = 1}^\np$ are conditionally independent given the
+parameters gathered in \vg. In this scenario,
 \begin{equation} \elab{reliability-model}
   \begin{split}
     & \life = \min_{i = 1}^\np \life_i \text{ and} \\
