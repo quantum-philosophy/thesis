@@ -1,36 +1,36 @@
 Temperature analysis of computer systems is chiefly based on the duality between
 the transfer of heat and the transfer of electric charge \cite{kreith2000}. The
-core idea is to construct a so-called thermal \up{RC} circuit for the system
-under consideration \cite{skadron2003}. Such a circuit is a collection of
-thermal nodes that are characterized by thermal capacitances and connected with
-each other via thermal resistances. The circuit is to capture the relevant
-physical structure and thermal properties of the system and, thereby, model the
-system's thermal dynamics.
+core idea is to construct a thermal \up{RC} circuit for the system under
+consideration \cite{skadron2003}. Such a circuit is a collection of thermal
+nodes that are characterized by thermal capacitances and connected with each
+other via thermal resistances. The circuit is to capture the relevant physical
+structure and thermal properties of the system and, thereby, model the thermal
+dynamics of the system.
 
 Similar to the identification of processing elements described in
 \sref{system-model}, a thermal \up{RC} circuit can be constructed at different
-levels of granularity, which primarily refers to the number thermal nodes
-denoted by \nn and their placement. It should be noted that the chosen
-granularity has a considerable impact on the accuracy of the subsequent
-temperature analysis.
+levels of granularity, which primarily refers to the number of thermal nodes
+denoted by \nn and their placement. It should be duly noted that the chosen
+level of granularity impacts on the accuracy of the subsequent temperature
+analysis.
 
 \inputfigure{thermal-circuit}
 In order to give a better intuition about thermal \up{RC} circuits,
 \fref{thermal-circuit} depicts a simplified example of such a circuit
 constructed for a dual-core chip equipped with a thermal package composed of a
-thermal interface material, heat spreader, and heat sink. Each of the \np
-processing elements is represented by one thermal node, and the thermal
-interface material, heat spreader, and heat sink are captured by \np, $\np + 4$,
-and $\np + 8$ nodes, respectively. Therefore, $\nn = 4 \times \np + 12$. In this
-particular example, $\np = 2$ and $\nn = 20$. The construction principle
-described above is the one presented in \cite{huang2008}, and it is also the one
-that is used throughout this thesis unless stated otherwise.
+thermal interface material, heat spreader, and heat sink. Given \np processing
+elements, each one is represented by one thermal node, and the thermal interface
+material, heat spreader, and heat sink are captured by \np, $\np + 4$, and $\np
++ 8$ thermal nodes, respectively. Therefore, $\nn = 4 \times \np + 12$. In this
+particular example, since $\np = 2$, $\nn = 20$. The construction principle
+described in this paragraph is the one presented in \cite{huang2008}, and it is
+also the one that is implicitly assumed throughout this thesis.
 
 Suppose now that an adequate thermal \up{RC} circuit has been constructed for
 the considered computer system. Regardless of the structure of the circuit, the
-thermal dynamics of the circuit and, therefore, the computer system are governed
-by the following system of \nn differential and \np algebraic equations, which
-is based on Fourier's law \cite{fourier2009}:
+thermal dynamics of the circuit and, therefore, the computer system itself are
+governed by the following system of \nn differential and \np algebraic
+equations, which is based on Fourier's law \cite{fourier2009}:
 \begin{subnumcases}{\elab{temperature-model-original}}
   \m{C} \frac{\d \tvs(t)}{\d t} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
   \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
@@ -48,11 +48,11 @@ elements are equal to unity.
 
 In general, the differential part in \eref{temperature-differential-original} is
 nonlinear due to the source term \vp since we do not make any assumptions about
-its structure; see the discussion in \sref{power-model}. Therefore, there is no
-closed-form solution to the system.
+its structure; see also the discussion in \sref{power-model}. Therefore, there
+is no closed-form solution to the system.
 
-Lastly, let us note that, in general, temperature analysis of computer systems
-is considered to be a computationally expensive operation. The long computation
+Lastly, let us note that temperature analysis of computer systems is generally
+considered to be a computationally expensive operation. The long computation
 times can be severely limiting, especially when the analysis is to be performed
 many times for such purposes as design-space exploration. Consequently, there is
 always a need for developing more efficient techniques.
