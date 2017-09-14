@@ -1,10 +1,10 @@
 In this section, our objective is to build a flexible and computationally
 efficient technique for reliability analysis of computer systems affected by
 process variation. The development here is based on the general reliability
-model $R(\cdot | \vg)$ described in \sref{reliability-analysis}, which is not
-aware of process variation yet. In addition, by accounting for process
-uncertainty in reliability analysis, performance uncertainty introduced in
-\cref{introduction} can be more adequately mitigated.
+model $R(\cdot | \vg)$ described in \sref{reliability-model}, which is not aware
+of process variation yet. In addition, by accounting for process uncertainty in
+reliability analysis, performance uncertainty introduced in \cref{introduction}
+can be more adequately mitigated.
 
 \subsection{\problemtitle}
 
@@ -21,7 +21,7 @@ dramatically when those parameters deviate from their nominal values. Meanwhile,
 the state-of-the-art techniques for reliability analysis of computer systems
 lack a systematic treatment of process variation and, in particular, of the
 effect of process variation on temperature, which is also the case in
-\sref{reliability-analysis}.
+\sref{reliability-model}.
 
 Second, having established a reliability model $R(\cdot | \vg)$ of the system
 under consideration, the major portion of the associated computation time is
@@ -30,7 +30,7 @@ ascribed to the evaluation of the parameterization \vg rather than to the model
 estimates of the \ac{MTTF} of each processing element for a range of stress
 levels. Thus, \vg typically involves computationally intensive full-system
 simulations including power analysis paired with temperature analysis; see
-\sref{reliability-analysis}.
+\sref{reliability-model}.
 
 Guided by the aforementioned observations, we use \ac{PC} expansions in order to
 construct a light surrogate for \vg. It is worth emphasizing that $R(\cdot |
