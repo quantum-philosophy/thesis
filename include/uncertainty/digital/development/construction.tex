@@ -150,7 +150,7 @@ hierarchical surpluses given in \eref{interpolant-sparse-surplus} are natural
 indicators of the interpolation error: they are the difference between the
 values of the true function and those of an approximation at the nodes of the
 underlying sparse grid. Hence, surpluses can be recycled in order to effectively
-identify problematic regions. We proceed as follows. First a score is assigned
+identify problematic regions. We proceed as follows. First, a score is assigned
 to each node $\vx_{\vi \vj}$ or, equivalently, to each pair of level and order
 indices $(\vi, \vj)$ as follows:
 \begin{equation} \elab{interpolant-score}
@@ -195,7 +195,7 @@ from the one used in the case of $\Delta\sparseindex{\nz}{\ls}$. Concretely,
 these indices are identified by inspecting the backward neighborhood of
 \vi---analogous to the forward one but in the opposite direction. For each
 backward neighbor $\vi - \v{1}_l$ and each $\vj \in \Delta\tensorindex{n}{\vi -
-\v{1}_l}$, we check first the condition
+\v{1}_l}$, we first check the condition
 \[
   s_{\vi - \v{1}_l, \vj} \geq \error{s}
 \]
