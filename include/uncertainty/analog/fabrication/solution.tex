@@ -11,15 +11,15 @@ however, it does not have to be explicitly given: our framework treats \f as a
 
 As the first step, the designer using the framework is supposed to harvest a set
 of observations of \h at several locations on the wafer; recall
-\sref{inference-example}. Without loss of generality, we adhere to the following
-convention. Each die is one potential measurement site, and $\hnd < \nd$ denotes
-the number of those sites that are actually measured. Each site comprises \np
-measurement points, and there are \ns data instances taken at each point. For
-instance, in the example given in \sref{inference-example}, an observation at a
-site is a temperature profile $\mq \in \real^{\np \times \ns}$, which is a
-matrix capturing temperature of \np processing elements at \ns time moments as
-defined in \eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i =
-1}^{\hnd}$ the collected data where $\hh_i \in \real^{\np \times \ns}$ is an
+\sref{inference-motivation}. Without loss of generality, we adhere to the
+following convention. Each die is one potential measurement site, and $\hnd <
+\nd$ denotes the number of those sites that are actually measured. Each site
+comprises \np measurement points, and there are \ns data instances taken at each
+point. For instance, in the example given in \sref{inference-motivation}, an
+observation at a site is a temperature profile $\mq \in \real^{\np \times \ns}$,
+which is a matrix capturing temperature of \np processing elements at \ns time
+moments as defined in \eref{temperature-profile}. Denote by $H = \{ \hh_i \}_{i
+= 1}^{\hnd}$ the collected data where $\hh_i \in \real^{\np \times \ns}$ is an
 observation at a certain site. Lastly, it is assumed that the corresponding
 locations are recorded along with $H$.
 
@@ -40,7 +40,7 @@ The latter produces a collection of samples of the quantity of interest---such
 as the effective channel length---denoted by $G$, which is then processed at
 Stage~4 in order to estimate the desired characteristics of this quantity---such
 as the probability of the effective channel length to be smaller than a certain
-threshold; recall \sref{inference-example}. It can be seen in
+threshold; recall \sref{inference-motivation}. It can be seen in
 \fref{inference-overview} that Stage~2 and Stage~3 actively communicate with the
 two models on the right-hand side called the data and statistical models, which
 is what we elaborate on in the following two subsections.
@@ -63,8 +63,8 @@ such that the respective elements of \vh and \hvh correspond to the same
 locations on the wafer.
 
 In order to acquire a better understanding of the data model, let us return to
-the example given in \sref{inference-example}. In this case, \g stands for the
-effective channel length, and \h stands for the temperature profile
+the example given in \sref{inference-motivation}. In this case, \g stands for
+the effective channel length, and \h stands for the temperature profile
 corresponding to a fixed workload. The data model can be roughly divided into
 two transitions: \one~from the effective channel length \g to the static power
 $\p_\static$ and \two~from the static power $\p_\static$ to the corresponding
@@ -312,4 +312,4 @@ therefore, the reliability of estimates and decisions based on these data. Such
 an assessment can readily be undertaken using our framework since the delivered
 posterior contains all the needed information about the quantity of interest.
 This is especially helpful in decision-making as noted in
-\sref{inference-example}.
+\sref{inference-motivation}.
