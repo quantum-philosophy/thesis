@@ -140,35 +140,35 @@ function in \eref{thermal-cycling-objective} is computed.
 \subsection{\resultstitle}
 \slab{thermal-cycling-results}
 
-In this subsection, we proceed to the optimization itself. We shall first
+In this subsection, we proceed to the reliability optimization itself. We first
 consider a set of synthetic applications and then study a real-life one. The
 general experimental setup is the same as the one described in
 \sref{dynamic-steady-state-results}. All the configuration files used in the
 experiments are available online at \cite{eslab2012}.
 
-Heterogeneous platforms and periodic applications are generated randomly using
-the \up{TGFF} tool \cite{dick1998} in such a way that the execution times of
+Heterogeneous platforms and periodic applications are generated randomly by
+virtue of \up{TGFF} \cite{dick1998} in such a way that the execution times of
 tasks are uniformly distributed between 1 and 10~ms, and that the static power
 accounts for 30--60\% of the total power consumption. The area of a processing
-element is set to 4~mm\textsuperscript{2}. The modeling of the leakage power is
+element is set to 4~mm\textsuperscript{2}. The modeling of the static power is
 based on the linear approximation discussed in
 \sref{power-temperature-interplay}. The maximum-temperature constraint
 $\q_\maximum$ in \eref{thermal-cycling-constraints} is set to \celsius{100}. In
 \eref{thermal-cycling-mean-cycles}, the Coffin--Manson exponent $b_i$ is set to
 6, the activation energy $c_i$ to 0.5, and the elastic region $\Delta \q_{0,
-ij}$ to 0 \cite{jedec2016}; the coefficient of proportionality $a_i$ in
-\eref{thermal-cycling-mean-cycles} is irrelevant since we are concerned with
-relative improvements, which will be explained shortly.
+ij}$ to 0 \cite{jedec2016}; the value of the coefficient of proportionality
+$a_i$ in \eref{thermal-cycling-mean-cycles} is irrelevant since we are concerned
+with relative improvements, which is to be explicated shortly.
 
-The initial population of chromosomes is initialized partially randomly and
+The initial population of chromosomes is created partially randomly and
 partially based on a temperature-aware heuristic proposed in \cite{xie2006},
 which we refer to as the initial solution. The heuristic relies on spatial
 temperature variations and tries to minimize the maximum temperature while
-satisfying real-time constraints. This solution is also used to decide on the
-deadline constraint \period in \eref{thermal-cycling-constraints}: it is set to
-the duration of the initial schedule extended by 5\%. Furthermore, the initial
-solution serves as a baseline for evaluating the performance of the solutions
-delivered by our optimization procedure.
+satisfying real-time constraints. This initial solution is also used to decide
+on the deadline constraint \period in \eref{thermal-cycling-constraints}: it is
+set to the duration of the initial schedule extended by 5\%. Furthermore, the
+initial solution serves as a baseline for evaluating the performance of the
+solutions delivered by our optimization procedure.
 
 \inputtable{thermal-cycling-elements}
 In the first set of experiments, we change the number of processing elements \np
@@ -199,14 +199,16 @@ The experiments show that our optimization is able to effectively increase the
 approach to dynamic steady-state temperature analysis presented in
 \sref{dynamic-steady-state-solution}, which is at the heart of the optimization
 procedure. Due to its speed, the technique allows a large portion of the design
-space to be explored. In order to illustrate this, let us replace, inside the
-optimization framework, our method with \one~the one based on iterative
-transient analysis with HotSpot and \two~the one based on static steady-state
-analysis; see \sref{dynamic-steady-state-prior}. The goal is to compare the
-results in \tref{thermal-cycling-tasks} with the results produced by the two
-alternative methods when they are given the same amount of time as the one taken
-by our method. For each problem, the optimized \ac{MTTF} produced by either of
-the two approximate methods is re-evaluated by our exact method. The results are
+space to be explored.
+
+In order to illustrate the above aspect, let us replace, inside the optimization
+framework, our method with \one~the one based on iterative transient analysis
+with HotSpot and \two~the one based on static steady-state analysis; see
+\sref{dynamic-steady-state-prior}. The goal is to compare the results in
+\tref{thermal-cycling-tasks} with the results produced by the two alternative
+methods when they are given the same amount of time as the one taken by our
+method. For each problem, the optimized \ac{MTTF} produced by either of the two
+approximate methods is re-evaluated by our exact method. The results are
 summarized in \tref{thermal-cycling-methods} where \ac{MTTF}\textsubscript{i}
 and \ac{MTTF}\textsubscript{ii} stand for the two alternative methods,
 respectively. It can be seen that, for example, the lifetime of the platform
@@ -219,7 +221,7 @@ profiles, which means that this method allows for a very shallow exploration of
 the design space. In the case of static steady-state analysis, the reason is
 different: the method is fast but also very inaccurate as it is discussed and
 illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy drives the
-optimization towards solutions that turn out to be of low quality.
+optimization toward solutions that turn out to be of low quality.
 
 The experiments show that the impact of the optimization on energy consumption
 is insignificant. This is not surprising: the optimization searches toward
@@ -245,8 +247,8 @@ The deadline is set to 40~ms assuming 25 frames per second. The solution found
 by the proposed method improves the lifetime of the system by a factor of 23.59
 with a 5\% energy saving compared to the initial solution. The solutions found
 by undertaking the same optimization via the two alternative methods mentioned
-earlier are only 5.37 and 11.5 times better than the initial one, respectively.
+earlier are only 5.37 and 11.5 times better, respectively, than the initial one.
 
-To conclude, the experimental experiments have demonstrated the superiority of
-the proposed approach to dynamic steady-state temperature analysis in the
-context of reliability optimization compared to the state of the art.
+To conclude, the experimental results have demonstrated the superiority of the
+proposed approach to dynamic steady-state temperature analysis in the context of
+reliability optimization compared to the state of the art.
