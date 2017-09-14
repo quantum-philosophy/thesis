@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/09/12 Thesis]
+\ProvidesClass{thesis}[2017/09/14 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -66,17 +66,21 @@
   \addtocontents{lof}{\protect\addvspace{10pt}}%
   \addtocontents{lot}{\protect\addvspace{10pt}}}
 
-\newcommand{\makeabstract}{
+\newcommand{\makeabstractenglish}{
   \begin{english}
     \centerline{\Large\textsc{Abstract}}
     \vspace{1em}
-    \noindent\@abstractenglish
+    \noindent
+    \@abstractenglish
   \end{english}
-  \cleardoublepage
+}
+
+\newcommand{\makeabstractswedish}{
   \begin{swedish}
     \centerline{\Large\textsc{Sammanfattning}}
     \vspace{1em}
-    \noindent\@abstractswedish
+    \noindent
+    \@abstractswedish
   \end{swedish}
 }
 
@@ -199,20 +203,23 @@
     \cleardoublepage
   }
   {
-    \pagestyle{plain}
     \phantomsection
+    \makeabstractenglish
     \addcontentsline{toc}{chapter}{Abstract}
-    \makeabstract
     \cleardoublepage
   }
   {
-    \pagestyle{plain}
+    \phantomsection
+    \makeabstractswedish
+    \addcontentsline{toc}{chapter}{Sammanfattning}
+    \cleardoublepage
+  }
+  {
     \@acknowledgments
     \addcontentsline{toc}{chapter}{Acknowledgments}
     \cleardoublepage
   }
   {
-    \pagestyle{plain}
     \renewcommand{\contentsname}{Table of Contents}
     \tableofcontents
     \cleardoublepage
@@ -223,12 +230,10 @@
     \cleardoublepage
   }
   {
-    \pagestyle{plain}
     \listoffigures
     \cleardoublepage
   }
   {
-    \pagestyle{plain}
     \listoftables
     \cleardoublepage
   }
