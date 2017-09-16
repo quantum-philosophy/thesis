@@ -1,7 +1,7 @@
 # Thesis
 
-The repository contains a PhD thesis in computer science. The current version
-can be found [here][thesis].
+The repository contains a PhD thesis in computer science. The latest version can
+be found [here][thesis].
 
 ## Requirements
 
