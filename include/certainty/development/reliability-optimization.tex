@@ -55,12 +55,12 @@ steady-state temperature analysis has to be undertaken.
 \subsection{\problemtitle}
 \slab{thermal-cycling-problem}
 
-A heterogeneous platform with \np processing elements is to execute a periodic
-application with \nt tasks. The application is given as a directed acyclic graph
-whose vertices and edges correspond to the tasks and to data dependencies
-between these tasks, respectively; see \fref{thermal-cycling-task-graph} for an
-example. The period of the application is denoted by \period and assumed to be
-equal to the application's deadline. Furthermore, each pair of a task and a
+In addition to the description given in \sref{system-model}, the considered
+platform with \np processing elements is to execute a periodic application with
+\nt tasks. The application is given as a directed acyclic graph whose vertices
+and edges correspond to the tasks and to data dependencies between these tasks,
+respectively; see \fref{thermal-cycling-task-graph} for an example. The period
+of the application is denoted by \period. Furthermore, each pair of a task and a
 processing element is characterized by an execution time and a power
 consumption; these are the characteristics that the task has when it is assigned
 to the processing element.
@@ -88,16 +88,15 @@ such that
   \end{split}
 \end{align}
 In the above formulae, $\mean_i$ is the \ac{MTTF} of processing element $i$
-computed according to \eref{thermal-cycling-mean-time}; \period is the period of
-the application; and
+computed according to \eref{thermal-cycling-mean-time}, and
 \[
   Q(\schedule) = \norm[\infty]{\mq(\schedule)}
 \]
 where \mq is the dynamic steady-state temperature profile of the system, and
 $\norm[\infty]{\cdot}$ denotes the uniform norm. The first constraint in
-\eref{thermal-cycling-constraints} enforces a deadline on the schedule while the
-second constraint enforces a maximum temperature $\q_\maximum$ on the resulting
-temperature profile \mq.
+\eref{thermal-cycling-constraints} enforces a deadline $\period_\maximum$ on the
+schedule while the second constraint enforces a maximum temperature
+$\q_\maximum$ on the resulting temperature profile \mq.
 
 \subsection{\solutiontitle}
 \slab{thermal-cycling-solution}
