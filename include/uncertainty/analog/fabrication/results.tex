@@ -93,7 +93,7 @@ and sampling procedures are properly configured.
 In the following, we consider the above default configuration and alter only one
 parameter at a time, namely, the number of measurement sites \hnd, the number of
 measurement points per site \np, the number of data instances per point \ns, and
-the standard deviation of the measurement noise $\sigma_\epsilon$.
+the standard deviation of measurement noise $\sigma_\epsilon$.
 
 \hiddensubsection{Number of Measurement Sites}
 
@@ -159,11 +159,11 @@ samples can be accumulated in $H$, helping or misleading the inference. We can
 also conclude that a larger number of spatial measurements is more advantageous
 than a larger number of temporal measurements.
 
-\hiddensubsection{Deviation of the Measurement Noise}
+\hiddensubsection{Deviation of Measurement Noise}
 
 \inputtable{inference-noise}
-In this subsection, we vary the standard deviation of the measurement noise,
-which corrupts $H$. The considered cases are 0, 0.5, 1, and \celsius{2}
+In this subsection, we vary the standard deviation of measurement noise, which
+corrupts $H$. The considered cases are 0, 0.5, 1, and \celsius{2}
 \cite{mesa-martinez2007}. Note that the corresponding prior distribution in
 \eref{inference-prior} is kept unchanged. The results are given in
 \tref{inference-noise}. It can be observed that the sampling time is
