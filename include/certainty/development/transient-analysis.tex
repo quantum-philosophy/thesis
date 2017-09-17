@@ -71,9 +71,9 @@ they necessitate two computationally problematic operations: the matrix
 exponential and matrix inverse involving $\tm{A} \in \real^{\nn \times \nn}$,
 which is a generic matrix. It is preferable to have a symmetric matrix $\m{A}
 \in \real^{\nn \times \nn}$ when these operations are concerned since such a
-matrix admits the eigendecomposition given in \eref{eigendecomposition}. Having
-computer such a decomposition, the calculation of the matrix exponential and
-matrix inverse becomes trivial as follows:
+matrix admits the eigendecomposition, which can be seen in
+\eref{eigendecomposition}. Having computer such a decomposition, the calculation
+of the matrix exponential and matrix inverse becomes trivial as follows:
 \begin{align}
   & e^{\m{A} \dt}
   = \m{U} e^{\m{\Lambda} \dt} \transpose{\m{U}}
