@@ -45,9 +45,9 @@ In this subsection, we present a model that is frequently used for
 characterizing the lifetime $\life_i$ of a single processing element when it is
 exposed to repetitive temperature-induced stress \cite{huang2009b, xiang2010}.
 The considered scenario is that the system at hand is experiencing a periodic
-workload with a certain period denoted by \period. The corresponding temperature
-profile is then a dynamic steady-state temperature profile, which is discussed
-in \sref{dynamic-steady-state-analysis}.
+workload with a certain period, which is denoted by \period. The corresponding
+temperature profile is then a dynamic steady-state temperature profile, which is
+to be discussed in \sref{dynamic-steady-state-analysis}.
 
 The lifetime $\life_i$ is assumed to have a Weibull distribution as follows:
 \[
@@ -80,7 +80,7 @@ given by
 \end{remark}
 
 It is natural to expect that the usage conditions and, hence, the corresponding
-wear change over the period \period. Then the distribution of $\life_i$ should
+stress change over the period \period. Then the distribution of $\life_i$ should
 reflect this aspect, which is not yet prominent in \eref{weibull-distribution}.
 In order to take it into account, the period is split into \nk{i} time intervals
 $\{ \dt_{ij} \}_{j = 1}^{\nk{i}}$ so that the conditions that are relevant to
@@ -167,6 +167,6 @@ where \nk{ij} is as in \eref{thermal-cycling-mean-cycles}. Using
 
 In conclusion, it should be noted that the reliability model requires detailed
 information about the thermal cycles that the processing element is exposed to,
-which is the topic of the previous sections and, in particular,
+which is the topic of \cref{certainty-development} and, in particular,
 \sref{dynamic-steady-state-analysis} where dynamic steady-state temperature
-analysis is discussed.
+analysis is discussed in detail.
