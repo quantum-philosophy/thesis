@@ -1,0 +1,56 @@
+Computer systems are subject to uncertainty, which, in many cases, is inherent
+and inevitable. Uncertainty can be due to different phenomena; it can originate
+from different sources. From one of many perspectives, uncertainty can be
+broadly classified into analog and digital. Analog uncertainty emerges from the
+physical world while digital uncertainty emerges from the virtual, computer
+world. Let us explain this classification by giving three examples.
+
+\subsection{Process Variation}
+\slab{process-variation}
+
+A prominent example of analog uncertainty is the one stemming from process
+variation \cite{srivastava2010}. In this case, the source of uncertainty is the
+fabrication process. Specifically, the process parameters of fabricated
+nanoscale devices deviate from their nominal values since the contemporary
+fabrication process cannot be controlled precisely down to the level of
+individual atoms. This transistor-level variability then propagates to such
+crucial system-level characteristics of a computer system as power consumption
+and heat dissipation.
+
+\subsection{Performance Variation}
+\slab{performance-variation}
+
+Another example of analog uncertainty is the one originating from performance
+variation. In this case, uncertainty arises from natural or accelerated wear or
+fatigue \cite{jedec2016}, that is, from the performance of electrical circuits
+degrading over time. This physical degradation can cause a fatal fault and,
+hence, abruptly end the life of the system at hand. Since the degradation is a
+nonuniform and intricate process, the system's lifetime is uncertain to the
+designer.
+
+\subsection{Workload Variation}
+\slab{workload-variation}
+
+A salient example of digital uncertainty is the one emerging from workload
+variation. In this case, the source of uncertainty is the actual work that
+computer systems are instructed to perform. To elaborate, from one activation to
+another, the same piece of deterministic software can exhibit drastically
+different behaviors depending on the environment and input data, and neither the
+environment nor input data that the system under consideration will be exposed
+to at runtime is exhaustively known at early development stages.
+
+\conclusioncut
+In conclusion of this section, let us draw attention to the following aspect.
+Process variation has been a topic of many lines of research; see, for instance,
+\cite{bhardwaj2006, bhardwaj2008, chandra2010, juan2012, lee2013}. Similarly,
+performance uncertainty has extensively been studied in the literature; see, for
+instance, \cite{coskun2006, huang2009b, das2014c}. Workload uncertainty has not
+been deprived of due attention either, especially in the real-time community;
+see, for instance, \cite{diaz2002, santinelli2011, quinton2012, tanasa2015}.
+However, as we discuss in detail in the relevant parts of the thesis, certain
+problems have not been addressed yet, and the solutions to those that have are
+strictly restricted in use, which is frequently due the unrealistic assumptions
+that these solutions make.
+
+Having introduced and exemplified uncertainty in computer systems, we are ready
+to consolidate our motivation and solidify our objective.
