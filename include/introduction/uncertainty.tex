@@ -1,15 +1,20 @@
-In this thesis, we take the designer's perspective. Specifically, a certain
-aspect of the system under consideration is said to be uncertain if it is
-unknown or known only partially to the designer. We stay agnostic on the core
-reason behind this state of uncertainty: uncertainty can be aleatory as well as
+In this thesis, we take the designer's standpoint. Specifically, a certain
+aspect of the computer system under consideration is said to be uncertain if it
+is unknown to the designer of this system. We stay agnostic on the underlying
+reason behind this state of uncertainty: it can be aleatory as well as
 epistemic.
 
-Uncertainty in computer systems originates from different phenomena, and, in
-many cases, it is inherent and inevitable from the designer's standpoint. From
-one of many perspectives, uncertainty can be broadly classified into two
-categories: analog and digital. Analog uncertainty emerges from the physical
-world while digital uncertainty emerges from the virtual, computer world. Let us
-now consider three concrete examples that are of relevance to the thesis.
+The typical scenario is that the designer is interested in studying a certain
+quantity, referred to as the quantity of interest, whose complete knowledge
+would be highly beneficial to the design of the system but cannot be attained
+since the quantity depends parameters that are uncertain at design time.
+
+Uncertainty in computer systems can originate from different phenomena, and, in
+many cases, it is inherent and inevitable (from the designer's standpoint). From
+one of many perspectives, uncertainty can be classified into two categories:
+analog and digital. Analog uncertainty emerges from the physical world while
+digital uncertainty emerges from the virtual, computer world. Let us now
+consider three concrete examples that are of relevance to the thesis.
 
 \subsection{Process Variation}
 \slab{process-variation}
@@ -29,8 +34,8 @@ technological process such as the effective channel length and gate oxide
 thickness. As a result, the same workload applied to two seemingly identical
 dies can lead to two drastically different power profiles and, consequently, to
 two drastically different temperature profiles since power consumption and heat
-dissipation depend on the aforementioned quantities, which is discussed further
-in \sref{power-model}. This concern is especially exigent due to the
+dissipation depend on the aforementioned quantities, which is to be discussed
+further in \sref{power-model}. This concern is especially exigent due to the
 power-temperature interplay---which is also covered in \sref{power-model} as
 well as in \sref{power-temperature-interplay}---whose magnitude depends on
 process parameters.
