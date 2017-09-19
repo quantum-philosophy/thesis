@@ -1,26 +1,19 @@
-As emphasized in \sref{process-variation}, process variation is one of the major
-concerns of the designer of computer systems. A design that is exclusively based
-on deterministic techniques for power and temperature analysis is, in the
-context of current and future technologies, both inefficient and unreliable
-since the prominent presence of uncertainty due to process variation is
-disregarded. Under these circumstances, uncertainty quantification
-\cite{maitre2010} has evolved into an indispensable asset of uncertainty-aware
-design workflows in order to provide them with guaranties on the efficiency and
-robustness of products.
-
-In order to assist the designer, we develop a framework that allows the designer
-to propagate the uncertainty due to process variation through the system under
-development and, thereby, investigate and account for its impact on the system's
-behavior. In particular, it enables power and temperature analysis as well as
-reliability analysis to be undertaken in such a way that process variation is
-adequately considered. In the case of reliability analysis, for example, our
-framework delivers a reliability function---founded on the basis of
-well-established reliability models---with a computationally efficient
-stochastic parameterization. The proposed approach is exemplified considering a
-number of concrete problems. In particular, we analyze systems with periodic
-workloads that suffer from the thermal-cycling fatigue and construct and execute
-a design-space exploration procedure aimed to minimizing the expected energy
-consumption of the system under a number of probabilistic constraints.
+Process variation is a phenomenon that is important to take into consideration
+when developing computer systems, which is motivated in
+\sref{process-variation}. In order to assist the designer, we present a
+framework that allows the designer to propagate the uncertainty due to process
+variation through the system under development and, thereby, investigate and
+account for its impact on the system's behavior. In particular, it enables power
+and temperature analysis as well as reliability analysis to be undertaken in
+such a way that process variation is adequately considered. In the case of
+reliability analysis, for example, our framework delivers a reliability
+function---founded on the basis of well-established reliability models---with a
+computationally efficient stochastic parameterization. The proposed approach is
+exemplified considering a number of concrete problems. In particular, we analyze
+systems with periodic workloads that suffer from the thermal-cycling fatigue and
+construct and execute a design-space exploration procedure aimed to minimizing
+the expected energy consumption of the system under a number of probabilistic
+constraints.
 
 We proceed as follows. A motivational example is given in
 \sref{chaos-motivation}. The objective of our study is formulated in
