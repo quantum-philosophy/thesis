@@ -1,27 +1,12 @@
-Since the appearance of the first digital computers in 1940s, \ac{MC} sampling
-remains one of the most well-known and widely used methods for the analysis of
-stochastic systems. The reason for this popularity lies in the ease of
-implementation, in the independence of the stochastic dimensionality of the
-problem at hand, and in the fact that, by the law of large numbers
-\cite{durrett2010}, the quantities estimated using \ac{MC} sampling
-asymptotically approach the true values. The main problem with \ac{MC} sampling,
-however, is the low rate of convergence: the error decreases as $\no^{-1/2}$
-where \no is the number of drawn samples. This means that an additional decimal
-point of accuracy requires hundred times more samples. Each such sample implies
-a complete realization of the whole system, which renders \ac{MC}-based methods
-slow and often unfeasible since the needed number of simulations can be
-extremely large \cite{diaz-emparanza2002}. There are other sampling techniques,
-such as quasi-\ac{MC} sampling, that have better convergence rates than the one
-of the classical \ac{MC} sampling. However, these rates are still relatively
-low, and the corresponding techniques often bring additional restrictions, which
-limit their applicability in practice \cite{xiu2010}.
-
-In order to overcome the limitations of deterministic techniques and, at the
-same time, to eliminate or, at least, mitigate the computational costs
-associated with direct sampling, a number of stochastic techniques have been
-introduced, which we elaborate on in what follows. We are particularly
-interested in power and temperature and, therefore, shape the exposition
-accordingly. Since the static component of the total power dissipation is
+Uncertainty-unaware techniques are inadequate, and sampling methods---including
+\ac{MC} sampling---as a means of uncertainty quantification have high
+computational costs, which we elaborate on in \sref{motivation} and
+\sref{prior}, respectively. In order to overcome the limitations of
+deterministic approaches and, at the same time, to eliminate or at least
+mitigate the computational costs associated with direct sampling, a number of
+stochastic techniques have been introduced, which are discussed in what follows.
+We are particularly interested in power and temperature and, therefore, shape
+the exposition accordingly. Since the static component of power dissipation is
 influenced by process variation the most, which is due to the leakage current,
 the techniques discussed below primarily focus on the variability of this
 component.

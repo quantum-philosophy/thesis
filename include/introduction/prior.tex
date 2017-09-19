@@ -1,0 +1,42 @@
+Since the appearance of the first digital computers in 1940s, \ac{MC} sampling
+remains one of the most well-known and widely used methods for analyzing
+stochastic systems. In this case, the system at hand is treated as an opaque
+object, and one only has to evaluate this object a number of times in order to
+start to draw conclusions about the system's behavior. This straightforwardness
+of application is at the heart of the technique's popularity, but there are two
+other prominent reasons: the independence of the number of stochastic dimensions
+and the law of large numbers \cite{durrett2010} stating that the quantities
+estimated using \ac{MC} sampling asymptotically approach the true values.
+
+The major problem with sampling-based methods, however, is in sampling: one
+should be able to obtain sufficient many realizations of the quantity of
+interest in order to accurately estimate the needed statistics about this
+quantity, and the number of need samples can be considerably large
+\cite{diaz-emparanza2002}. In the case of \ac{MC} sampling, for instance, the
+error of estimation decreases as $\no^{-1/2}$ where \no is the number of drawn
+samples. This means that an additional decimal point of accuracy requires
+hundred times more samples. When the subject under analysis is computationally
+expensive---which is arguably the case with all nontrivial quantities as they
+typically involve a complete realization of the whole system---sampling methods
+are rendered slow and often unfeasible.
+
+There are sampling techniques that have better convergence rates than the
+aforementioned one of the classical \ac{MC} sampling. Examples of such
+techniques include quasi-\ac{MC} sampling and Latin hypercube sampling
+\cite{asmussen2007}. However, these rates are still relatively low, and the
+corresponding techniques often bring additional restrictions, which limit their
+applicability in practice \cite{xiu2010}.
+
+In order to circumvent the high computational costs of sampling methods and to
+cover other scenarios, a number of techniques for analysis and design of
+computer systems under uncertainty have been developed. Process variation has
+been a topic of many lines of research; see, for instance, \cite{bhardwaj2006,
+bhardwaj2008, chandra2010, juan2012, lee2013}. Similarly, performance
+uncertainty has extensively been studied in the literature; see, for instance,
+\cite{coskun2006, huang2009b, das2014c}. Workload uncertainty has not been
+deprived of due attention either, especially in the real-time community; see,
+for instance, \cite{diaz2002, santinelli2011, quinton2012, tanasa2015}. However,
+as we discuss in detail in the relevant parts of the thesis, certain problems
+have not been addressed yet, and the solutions to those that have been
+considered are strictly restricted in use, which is frequently due the
+unrealistic assumptions that these solutions make.
