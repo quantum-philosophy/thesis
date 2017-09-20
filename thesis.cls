@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/09/18 Thesis]
+\ProvidesClass{thesis}[2017/09/20 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -150,8 +150,7 @@
   \center
   {
     \small
-    \@publicationseries\\
-    Dissertations No. \@publicationnumber
+    \@publicationseries, No. \@publicationnumber
   }\\[10em]
   {
     \Huge\headingfont
