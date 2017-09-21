@@ -1,41 +1,41 @@
-In this section, we assess the proposed framework for the analysis of process
-variation. All the experiments are conducted on a \up{GNU}/Linux machine
-equipped with Intel Core i7 2.66~\up{GH}z and 8~\up{GB} of \up{RAM}. All the
-configuration files used in the experiments are available online at
-\cite{eslab2014a}.
+In this section, we assess the proposed framework for characterizing process
+variation presented in \sref{inference-solution}. All the experiments are
+conducted on a \up{GNU}/Linux machine equipped with Intel Core i7 2.66~\up{GH}z
+and 8~\up{GB} of \up{RAM}. All the configuration files used in the experiments
+are available online at \cite{eslab2014a}.
 
-Our goal here is to infer the effective channel length \g from temperature \h.
-Such a high-level parameter as temperature constitutes a challenging task for
-the inference of such a low-level parameter as the effective channel length,
-which implies a strong assessment of the proposed technique. The performance of
-our approach is expected to only increase when the auxiliary parameter \h
-resides closer to the target parameter \g with respect to the data model $\h =
-\f(\g)$. For instance, such a closer quantity \h can be the leakage current,
-which, however, might not always be the most preferable parameter to measure.
-Lastly, let us note that the chosen effective channel length is an important
-target as it is strongly affected by process variation and considerably impacts
-power consumption and heat dissipation \cite{chandrakasan2000, srivastava2010,
-juan2011, juan2012}. It also influences other process-related parameters such as
-the threshold voltage.
+Our goal is to infer the effective channel length \g from temperature \h. Such a
+high-level parameter as temperature constitutes a challenging task for the
+inference of such a low-level parameter as the effective channel length, which
+implies a strong assessment of the proposed technique. The performance of our
+approach is expected to only increase when the auxiliary parameter \h resides
+closer to the target parameter \g with respect to the data model $\h = \f(\g)$
+described in \sref{inference-data-model}. For instance, such a closer quantity
+\h can be the leakage current, which, however, might not always be the most
+preferable parameter to measure. Lastly, let us note that the chosen effective
+channel length is an important target as it is strongly affected by process
+variation and considerably impacts power consumption and heat dissipation
+\cite{chandrakasan2000, srivastava2010, juan2011, juan2012}. It also influences
+other process-related parameters such as the threshold voltage.
 
-We first describe the default configuration, which will be later adjusted
-according to the purpose of each particular experiment. We consider a
-45-nanometer technological process. The diameter of the wafer is 20 dies, and
-the total number of dies \nd is 316. The number of measured dies \hnd is 20, and
-these dies are chosen by an algorithm that strives for an even coverage of the
-wafer. The fabricated platform has four processing elements, and they are the
-points of taking measurements, that is, $\np = 4$. The floorplan of the platform
-is constructed in such a way that the processing elements form a regular grid.
-The dynamic power profiles involved in the experiments are based on simulations
-of applications generated randomly by \up{TGFF} \cite{dick1998}. The model of
-the static power parameterized by temperature and the effective channel length
-is constructed by fitting to \up{SPICE} simulations of reference electrical
+We first describe the default configuration, which is to be adjusted later on
+according to the purpose of each particular experiment. We consider a 45-nm
+technological process. The diameter of the wafer is 20 dies, and the total
+number of dies \nd is 316. The number of measured dies \hnd is 20, and these
+dies are chosen by an algorithm that strives for an even coverage of the wafer.
+The fabricated platform has four processing elements, and they are the points of
+taking measurements, that is, $\np = 4$. The floorplan of the platform is
+constructed in such a way that the processing elements form a regular grid. The
+dynamic power profiles involved in the experiments are based on simulations of
+applications generated randomly by \up{TGFF} \cite{dick1998}. The model of the
+static power parameterized by temperature and the effective channel length is
+constructed by fitting to \up{SPICE} simulations of reference electrical
 circuits composed of \up{BSIM4} devices \cite{bsim} configured according to the
-45-nm \up{PTM} \up{HP} model \cite{ptm}. The temperature calculations are done
-using the approach described in \sref{transient-state-solution}; the
-construction of thermal \up{RC} circuits is delegated to HotSpot
-\cite{skadron2003}. The sampling interval of power and temperature profiles is
-1~ms.
+45-nm \up{PTM} \up{HP} model \cite{ptm}. The construction of thermal \up{RC}
+circuits is delegated to HotSpot \cite{skadron2003}, and temperature
+calculations are undertaken via the approach described in
+\sref{transient-state-solution}. The sampling interval of power and temperature
+profiles is set to 1~ms.
 
 The input data set $H$ is obtained as follows: \one~draw a sample of \g from a
 Gaussian distribution with a mean of 17.5~nm, in accordance with the considered
