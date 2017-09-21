@@ -33,10 +33,10 @@ data-harvesting stage where the designer collects a set of observations of the
 quantity of measurement \h and, thereby, forms the data set $H$. At Stage~2, we
 undertake an optimization procedure that is to assist the sampling procedure at
 Stage~3. The latter produces a collection of samples of the quantity of interest
-\g, such as the effective channel length, denoted by $G$. This $G$ is then
-processed at Stage~4 in order to estimate the desired characteristics about \g
-such as the probability of the effective channel length being smaller than a
-certain threshold; recall \sref{inference-motivation}. It can be seen in
+\g, such as the effective channel length, denoted by $G$. This data set $G$ is
+then processed at Stage~4 in order to estimate the desired characteristics about
+\g such as the probability of \g being smaller than a certain threshold; recall
+the example in \sref{inference-motivation}. It can be seen in
 \fref{inference-overview} that Stage~2 and Stage~3 actively communicate with the
 two models on the right-hand side called the data model and statistical model,
 which is what we elaborate on in the following two subsections.
@@ -289,26 +289,26 @@ the parameterization $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$. The first portion of
 the drawn samples is typically discarded as being unrepresentative; this portion
 is known as the burn-in period. The preserved samples of \u are then passed
 through \eref{inference-reduction} in order to compute samples of \g, which are
-$\nd \np$-dimensional. Denote by $G$ the corresponding set of samples and let
+$\nd \np$-dimensional. Denote the corresponding set of samples by $G$ and let
 its cardinality be \no.
 
 \subsection{Post-Processing}
 \slab{inference-post-processing}
 
-At Stage~4 in \fref{inference-overview}, using the set of samples $G$, the
-designer computes the desired statistics about the quantity of interest such as
-the most probable value of the effective channel length at some location of
-interest and the probability of a certain area on the wafer to be defective.
-These computations are undertaken in the same way as it is done with \ac{MC}
-sampling. Specifically, they reduce to the estimation of expected values with
-respect to the posterior distribution of \u in \eref{inference-posterior}: in
-order to compute a quantity dependent on \g, one evaluates it for each $\vg_i$
-in $G$ and then takes the average value.
+At Stage~4 in \fref{inference-overview}, using $G$, the designer computes the
+desired statistics about the quantity of interest \g such as the most probable
+value of \g at some location on the wafer and the probability of a certain area
+on the wafer being defective. These computations are undertaken in the same way
+as it is typically done when \ac{MC} sampling is utilized. Specifically, they
+reduce to the estimation of expected values with respect to the posterior
+distribution of \u given in \eref{inference-posterior}: in order to calculate a
+certain quantity dependent on \g, one evaluates it for each sample in $G$ and
+then takes the average value.
 
 The strength of the Bayesian approach to inference starts to shine when one is
-also interested in assessing the trustworthiness of the measured data and,
-therefore, the reliability of estimates and decisions based on these data. Such
-an assessment can readily be undertaken using our framework since the delivered
-posterior contains all the needed information about the quantity of interest.
+interested in assessing the trustworthiness of the measured data and, therefore,
+the credibility of estimates and decisions based on these data. Such an
+assessment can readily be undertaken using our framework since the delivered
+posterior contains all the needed information about the quantity of interest \g.
 This is especially helpful in decision-making as noted in
 \sref{inference-motivation}.
