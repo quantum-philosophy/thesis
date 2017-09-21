@@ -87,24 +87,24 @@ corresponding temperature \h, which is a topic of \cref{certainty-development}.
 
 \inputfigure{inference-statistical-model}
 Once the wafer has been fabricated, the values of \g across the wafer are fixed;
-however, they remain unknown to us. In order to infer them, we employ the
-procedure developed in the current subsection, which can also be seen in
-\fref{inference-statistical-model}. The model consists of the five steps
+however, they remain unknown to the designer. In order to infer them, we employ
+the procedure developed in the current subsection, which can also be seen in
+\fref{inference-statistical-model}. The procedure consists of the five steps
 described below.
 
 Step~1 is to assign an adequate model to the unknown \g. We model \g as a
 Gaussian process \cite{rasmussen2006} since \one~it is flexible in capturing the
 correlation patterns induced by the fabrication process; \two~it is
-computationally efficient; and \three~Gaussian distributions are often natural
-and accurate models of uncertainty due to process variation \cite{reda2009,
-srivastava2010, juan2012}. We denote this as
+computationally efficient; and \three~Gaussian distributions are often adequate
+models of uncertainty due to process variation \cite{reda2009, srivastava2010,
+juan2012}. The model is denoted by
 \begin{equation} \elab{inference-prior-quantity}
   \g | \u_\g \sim \mathrm{Gaussian\ Process}(\mu, v)
 \end{equation}
 where $\mu: \real^2 \to \real$ and $v: \real^2 \times \real^2 \to \real$ are the
-mean and covariance functions of \g, respectively, which take locations on the
-wafer as arguments. The notation also indicates that \g depends on a set of
-parameters $\u_\g$, which we shall identify later on. Prior to taking any
+mean function and covariance function of \g, respectively, which take locations
+on the wafer as arguments. The notation also indicates that \g depends on a set
+of parameters $\u_\g$, which we shall identify later on. Prior to taking any
 measurements, \g is assumed to be spatially unbiased; therefore, we let $\mu$ be
 a single location-independent parameter $\mu_\g$, that is, $\mu(\v{r}) = \mu_\g$
 for any $\v{r} \in \real^2$. The covariance function $v$ is chosen to be the
@@ -128,16 +128,16 @@ $\ell_\OU > 0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$
 stands for the Euclidean distance. The choice of $v$ is based on the
 observations of the correlation structures induced by the fabrication process
 \cite{chandrakasan2000, cheng2011}. Specifically, $k_\SE$ imposes similarities
-between locations on the wafer that are close to each other, and $k_\OU$ imposes
-similarities between locations that are at the same distance from the center of
-the wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control the extend of these
+on locations that are close to each other on the wafer, and $k_\OU$ imposes
+similarities on locations that are at the same distance from the center of the
+wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control the extend of these
 similarities, that is, the range where the correlation between two locations is
 significant. Although all the above parameters of \g can be inferred from data,
-for simplicity, we focus on $\mu_\g$ and $\sigma_\g^2$. The rest of the
+for simplicity, we focus only on $\mu_\g$ and $\sigma_\g^2$. The rest of the
 parameters---namely, $w$, $\ell_\SE$, and $\ell_\OU$---are assumed to be
 determined prior to our analysis based on the knowledge of the correlation
-patterns typical for the production process utilized; see \cite{marzouk2009} and
-the references therein.
+patterns typical for the fabrication process considered; see \cite{marzouk2009}
+and the references therein.
 
 Step~2 is to make the above model of \g computationally tractable. The model is
 an infinite-dimensional object as it characterizes a continuum of locations. For
@@ -148,26 +148,29 @@ one is composed of the $\hnd \np$ points where the observations in $H$ are made
 the locations where the designer wishes to characterize \g. For simplicity,
 assume that the designer is interested in all the sites, which is $\nd \np$
 locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
-these locations. Second, the dimensionality is reduced further by performing the
-transformation in \eref{model-order-reduction} with respect to the correlation
-matrix of \vg computed via \eref{inference-covariance}. The result is
+these locations. Second, the dimensionality is reduced further via the
+model-order-reduction technique described in \sref{probability-transformation}.
+Concretely, we perform the transformation in \eref{model-order-reduction} with
+respect to the correlation matrix of \vg computed via
+\eref{inference-covariance}. The result is
 \begin{equation} \elab{inference-reduction}
   \vg = \mu_\g \v{1} + \sigma_\g \m{U} \tm{\Lambda}^\frac{1}{2} \vz
 \end{equation}
 where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
-\real^\nz$ independent random variables that obey the standard Gaussian
-distribution. The number \nz is the final dimensionality of the model of \g.
-Typically, $\nz \ll \nd \np$. The model is now ready for practical computations.
-In addition, the parameters $\u_\g$ in \eref{inference-prior-quantity} are now
-known, and they are $\u_\g = \{ \vz, \mu_\g, \sigma^2_\g \}$; see
-\fref{inference-statistical-model}.
+\real^\nz$ is a vector of independent random variables that obey the standard
+Gaussian distribution. The number \nz is the final dimensionality of the model
+of \g; typically, $\nz \ll \nd \np$. In addition, the parameters $\u_\g$ in
+\eref{inference-prior-quantity} are now known, and they are $\u_\g = \{ \vz,
+\mu_\g, \sigma^2_\g \}$; see \fref{inference-statistical-model}. The model is
+now ready for practical computations.
 
 Step~3 is to define a likelihood function, which is where the observed
 information is taken into account; see \sref{bayesian-statistics}. In our case,
 the observed information is the measurements $H$ stacked into \hvh as described
 in \sref{inference-data-model}. Since the measurement process is not perfect, we
-also take into consideration measurement noise. To this end, the observed \hvh
-is assumed to deviate from the data model prediction \vh as follows:
+also have to take into consideration measurement noise. To this end, the
+observed \hvh is assumed to deviate from the data model's prediction \vh as
+follows:
 \[
   \hvh = \vh + \v{\epsilon}
 \]
@@ -175,7 +178,7 @@ where $\v{\epsilon}$ is an $\hnd \np \ns$-dimensional vector of noise, which is
 typically assumed to be a white Gaussian noise \cite{rasmussen2006,
 marzouk2009}. Without loss of generality, the noise is assumed to be independent
 of \g and to have the same magnitude for all measurements. Hence, the model of
-the noise is
+the noise is as follows:
 \[
   \v{\epsilon} | \sigma^2_\epsilon \sim \mathrm{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
 \]
@@ -187,12 +190,12 @@ parameters of the inference are identified, and they are $\u = \u_\g \cup \{
   \hvh | \u \sim \mathrm{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
 \end{equation}
 The density function of this distribution is the likelihood $p(H | \u)$ of our
-statistical model, which is the first element of the posterior in
+statistical model, which is the first element of the posterior shown in
 \eref{bayes-theorem}.
 
 Step~4 is to decide on the second element of the posterior in
 \eref{bayes-theorem}, that is, on the prior $p(\u)$. We put the following priors
-on \u:
+on the parameters in \u:
 \begin{align} \elab{inference-prior}
   \begin{split}
     \vz               & \sim \mathrm{Gaussian}(\v{0}, \m{I}), \\
@@ -210,8 +213,8 @@ $\sigma^2_\epsilon$, respectively, and are set by the designer based on the
 prior knowledge of the technological process and measurement equipment employed.
 The parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
 this prior information. When the prior knowledge is weak, less specific priors
-can be considered \cite{gelman2013}. Taking the product of the densities of the
-priors in \eref{inference-prior}, we obtain $p(\u)$ in \eref{bayes-theorem}.
+can be considered \cite{gelman2013}. Finally, $p(\u)$ in \eref{bayes-theorem} is
+obtained by multiplying the densities of the priors in \eref{inference-prior}.
 
 Step~5 is to compile the posterior in \eref{bayes-theorem}. To this end, the
 likelihood function $p(H | \u)$, which is the density of the distribution in
@@ -222,7 +225,7 @@ density of the resulting posterior distribution is as follows:
   p(\u | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
 \end{equation}
 Provided that there is a way to draw samples from \eref{inference-posterior},
-the quantity of interest can be readily analyzed as we shall see in
+the quantity of interest \g can be readily analyzed as we shall see in
 \sref{inference-post-processing}. The problem, however, is that direct sampling
 of the posterior is difficult due to the data model involved in the likelihood
 function via \vh; see \eref{inference-likelihood}. In order to circumvent this
