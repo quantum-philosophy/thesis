@@ -11,15 +11,13 @@ example, \f can be a piece of code.
 
 Without loss of generality, we adhere to the following convention. Each die is a
 potential measurement site, and $\hnd < \nd$ denotes the number of those sites
-that are actually measured. Each measurement site comprises \np measurement
-points, and there are \ns data instances taken at each point. For instance, in
-the example given in \sref{inference-motivation}, an observation at a site is a
-temperature profile $\mq \in \real^{\np \times \ns}$, which is a matrix
-capturing temperature of \np processing elements at \ns time moments as defined
-in \eref{temperature-profile}. Denote by $H = \{ \hvh_i \}_{i = 1}^{\hnd}$ the
-collected data where $\hvh_i \in \real^{\np \times \ns}$ is an observation at a
-site. Lastly, it is assumed that the corresponding spacial locations are
-recorded along with $H$.
+that are actually measured. Each site comprises \np measurement points, and
+there are \ns data instances taken at each point. For instance, in the example
+given in \sref{inference-motivation}, an observation at a site is a temperature
+profile $\mq \in \real^{\np \times \ns}$, which is a matrix capturing
+temperature of \np processing elements at \ns time moments as defined in
+\eref{temperature-profile}. Denote by $H$ the collected data and assume that the
+corresponding locations are recorded along with $H$.
 
 It is worth noting that, if \f is the identity function, that is, $\h = \f(\g) =
 \g$, the proposed technique will primarily focus on the reconstruction of any
@@ -52,17 +50,17 @@ measurement \h as follows:
   \h = \f(\g).
 \]
 The function \f depends on the choice of \h and is specified by the designer.
-The model is utilized in order to predict the values of \h at the same
+The data model is utilized in order to predict the values of \h at the same
 measurement sites, at the same measurement points, and with the same number and
-meaning of data instances as the ones in $H$ from Stage~1. The resulting data
-are stacked into a single vector denoted by $\vh \in \real^{\hnd \np \ns}$. Let
-also $\hvh \in \real^{\hnd \np \ns}$ be a stacked version of the data in $H$
+meaning of data instances as the ones in $H$ obtained at Stage~1. The resulting
+data are stacked into a single vector denoted by $\vh \in \real^{\hnd \np \ns}$.
+Let also $\hvh \in \real^{\hnd \np \ns}$ be a stacked version of the data in $H$
 such that the respective elements of \vh and \hvh correspond to the same
 locations on the wafer.
 
 In order to acquire a better understanding of the data model, let us return to
 the example given in \sref{inference-motivation}. In this case, \g stands for
-the effective channel length, and \h stands for the temperature profile
+the effective channel length, and \h stands for the temperature profile \mq
 corresponding to a fixed workload. The data model can be roughly divided into
 two transitions: \one~from the effective channel length \g to the static power
 $\p_\static$ and \two~from the static power $\p_\static$ to the corresponding
@@ -81,9 +79,8 @@ the interdependence between power and temperature described in
 power $\p_\static$ with the dynamic power $\p_\dynamic$ that corresponds to the
 considered workload. The obtained total power along with the relevant
 temperature-related information---such as the floorplan and thermal parameters
-of the platform at hand---are fed to a thermal simulator in order to acquire the
-corresponding temperature \h, which is the topic of
-\cref{certainty-development}.
+of the platform at hand---are fed to a temperature model in order to acquire the
+corresponding temperature \h, which is a topic of \cref{certainty-development}.
 
 \subsection{Statistical Model}
 \slab{inference-statistical-model}
