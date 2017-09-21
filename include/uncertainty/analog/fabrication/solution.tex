@@ -261,14 +261,14 @@ rapidly. In the next subsection, the usage of $\u^*$ and $\m{J}$ is explicated.
 
 \subsection{Sampling Procedure}
 
-Let us turn to Stage~3 in \fref{inference-overview}. We have at our disposal
-$\u^*$ and $\m{J}$ from Stage~2 in order to construct an adequate proposal and
-utilize it for sampling. A commonly used proposal is a multivariate Gaussian
+Let us turn to Stage~3 in \fref{inference-overview}. In order to construct an
+adequate proposal and utilize it for sampling, we have at our disposal $\u^*$
+and $\m{J}$ from Stage~2. A commonly used proposal is a multivariate Gaussian
 distribution where the mean is the current location of the chain of samples
 started at $\u^*$, and the covariance matrix is the inverse of $\m{J}$
 \cite{gelman2013}. In order to speed up the sampling process, we would like to
-make use of parallelization. The aforementioned proposal, however, is purely
-sequential as the mean for the next sample draw is dependent on the previous
+make use of parallel computing. The aforementioned proposal, however, is purely
+sequential since the mean for the next sample draw is dependent on the previous
 sample. Therefore, we appeal to a variation of the Metropolis--Hastings
 algorithm known as the independence sampler \cite{gelman2013}. In this case, a
 typical choice of the proposal is a multivariate t-distribution independent of
@@ -281,15 +281,16 @@ number of degrees of freedom, and $\alpha$ is a tuning constant controlling the
 standard deviation of the proposal. Now sampling the proposal in
 \eref{inference-proposal} and evaluating the posterior in
 \eref{inference-posterior} can be done in parallel. The obtained samples can
-then be accepted or rejected subsequently as in the usual Metropolis--Hastings
-algorithm.
+then be accepted or rejected subsequently as it is done in the usual
+Metropolis--Hastings algorithm.
 
 Having completed the sampling procedure, we obtain a collection of samples of
-\u. The first portion of the drawn samples is typically discarded as being
-unrepresentative; this portion is known as the burn-in period. The preserved
-samples of $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$ are then passed through
-\eref{inference-reduction} in order to compute samples of \g, which we denote by
-$G = \{ \vg_i \}_{i = 1}^\no$ where $\vg_i \in \real^{\nd \np}$.
+the parameterization $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$. The first portion of
+the drawn samples is typically discarded as being unrepresentative; this portion
+is known as the burn-in period. The preserved samples of \u are then passed
+through \eref{inference-reduction} in order to compute samples of \g, which are
+$\nd \np$-dimensional. Denote by $G$ the corresponding set of samples and let
+its cardinality be \no.
 
 \subsection{Post-Processing}
 \slab{inference-post-processing}
