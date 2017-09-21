@@ -38,27 +38,27 @@ calculations are undertaken via the approach described in
 profiles is set to 1~ms.
 
 The input data set $H$ is obtained as follows: \one~draw a sample of \g from a
-Gaussian distribution with a mean of 17.5~nm, in accordance with the considered
-technological process \cite{ptm}, and a covariance function equal to
+Gaussian distribution with a mean of 17.5~nm (in accordance with the considered
+technological process \cite{ptm}) and a covariance function equal to
 \eref{inference-covariance} with a standard deviation of 2.25~nm; \two~perform
 one fine-grained temperature simulation per each of the \hnd dies selected for
-measurement; \three~shrink the obtained temperature profiles to keep only
+measurement; \three~thin the obtained temperature profiles so that each has only
 \ns---which is equal to 20 by default---evenly spaced moments of time; and
 \four~perturb the resulting data set using a white Gaussian noise with a
 standard deviation of \celsius{1}.
 
 Let us turn to the statistical model in \sref{inference-statistical-model} and
-summarize the intuition behind and our assignment of each parameter. In the
-covariance function in \eref{inference-covariance}, the weight parameter $w$ and
-the two length-scale parameters $\ell_\SE$ and $\ell_\OU$ should be set
+summarize the intuition behind and our assignment of the model's parameters. In
+the covariance function in \eref{inference-covariance}, the weight parameter $w$
+and the two length-scale parameters $\ell_\SE$ and $\ell_\OU$ should be set
 according to the correlation patterns typical for the fabrication process at
 hand \cite{chandrakasan2000, cheng2011}; we set $w$ to 0.7 and $\ell_\SE$ and
 $\ell_\OU$ to half the radius of the wafer. The threshold parameter $\eta$ of
-the model-order-reduction procedure given in \eref{karhunen-loeve} and utilized
+the model-order-reduction procedure shown in \eref{karhunen-loeve} and utilized
 in \eref{inference-reduction} should be set high enough to preserve a
 sufficiently large portion of the variance of the data and, thus, to keep the
 modeling sufficiently accurate; we set it to 0.99. The resulting dimensionality
-\nz of \vz in \eref{inference-reduction} is found to be 27--28. The parameters
+\nz of \vz in \eref{inference-reduction} is found to be 27 or 28. The parameters
 $\mu_0$ and $\tau_\g$ of the prior in \eref{inference-prior} are specific to the
 considered technological process; we set $\mu_0$ to 17.5~nm and $\tau_\g$ to
 2.25~nm. The parameters $\sigma_0$ and $\nu_\g$ in \eref{inference-prior}
@@ -75,10 +75,11 @@ $\alpha$ are tuning parameters, which are configured based on experiments; we
 set $\nu$ to 8 and $\alpha$ to 0.5. The number of sample draws is another tuning
 parameter, which we set to 10\textsuperscript{4}. The first half of these
 samples is ascribed to the burn-in period mentioned in
-\sref{bayesian-statistics}, and the second one populates $G$ with $\no = 5
-\times 10^3$ elements. For the optimization in \sref{inference-optimization}, we
-use the quasi-Newton algorithm \cite{press2007}. For parallel computations, we
-utilize four computational cores.
+\sref{bayesian-statistics}, and the second one constitutes $G$; in this case,
+$\no = 5 \times 10^3$. In the optimization described in
+\sref{inference-optimization}, we use the quasi-Newton algorithm
+\cite{press2007}. For parallel computations, we utilize four computational
+cores.
 
 In order to ensure that the experimental setup is adequate, we first perform a
 detailed inspection of the results obtained for one particular example with the
@@ -90,10 +91,10 @@ also investigate the behavior of the constructed Markov chains and the quality
 of the proposal distribution. All the observations suggest that the optimization
 and sampling procedures are properly configured.
 
-In the following, we consider the above default configuration and alter only one
-parameter at a time, namely, the number of measurement sites \hnd, the number of
-measurement points per site \np, the number of data instances per point \ns, and
-the standard deviation of measurement noise $\sigma_\epsilon$.
+In the following subsections, we consider the above configuration and alter only
+one parameter at a time. Specifically, we change the number of measurement sites
+\hnd, number of measurement points per site \np, number of data instances per
+point \ns, and standard deviation of measurement noise $\sigma_\epsilon$.
 
 \hiddensubsection{Number of Measurement Sites}
 
