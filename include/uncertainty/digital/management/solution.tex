@@ -128,8 +128,8 @@ of our model are \ac{LSTM} cells, cells composed of \ac{LSTM} units.
 In addition, each cell is enhanced by a dropout mechanism \cite{zaremba2014},
 which gives control over the regularization of the model and is to prevent
 potential overfitting \cite{hastie2013}. The mechanism is active only during
-training. For future reference, denote by $\rho_\drop$ the probability of
-dropping an output of a cell.
+training. For future reference, denote the probability of dropping an output of
+a cell by $\rho_\drop$.
 
 The output of the last cell is typically a large tensor, which is proportional
 in size to the number of units in the cell. Each entry of such a tensor can be
