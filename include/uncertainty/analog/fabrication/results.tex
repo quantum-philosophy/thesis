@@ -99,18 +99,18 @@ point \ns, and standard deviation of measurement noise $\sigma_\epsilon$.
 \hiddensubsection{Number of Measurement Sites}
 
 \inputtable{inference-sites}
-Let us vary the number of measured dies \hnd. The considered scenarios are 1,
-10, 20, 40, 80, and 160 dies. The obtained results can be seen in
+Let us vary the number of measured sites or dies \hnd. The considered scenarios
+are 1, 10, 20, 40, 80, and 160 dies. The obtained results are shown in
 \tref{inference-sites}. In this and the following tables, we report the
 optimization time and sampling time separately, which correspond to Stage~2 and
 Stage~3 in \fref{inference-overview}, respectively. In addition, the sampling
 time is given for two cases: sequential and parallel computing, which is
 followed by the total time and resulting error. The computation time of the
-post-processing stage, Stage~4 in \fref{inference-overview}, is not given as it
-is negligibly small. The sequential sampling time is the most representative
-indicator of the computational complexity of the proposed framework since the
-number of samples is always fixed, and there is no parallelization. Therefore,
-we refer to this value in most of the discussions given below.
+post-processing stage, Stage~4, is not given as it is negligibly small. The
+sequential sampling time is the most representative indicator of the
+computational complexity of the proposed framework since the number of samples
+is always fixed, and there is no parallelization. Therefore, we refer to this
+value in most of the discussions given below.
 
 In can be seen in \tref{inference-sites} that the more data the proposed
 framework needs to process, the longer the execution time becomes, which is
@@ -130,7 +130,7 @@ summarized in \tref{inference-points}. The computation time grows along with
 under the hood is bound to the number of processing elements: each processing
 element contributes four thermal nodes to the thermal \up{RC} circuit that
 temperature analysis is based on; recall \sref{temperature-model}. Hence,
-temperature analysis becomes more intensive. Nevertheless, even for large
+temperature analysis becomes more expensive. Nevertheless, even for large
 examples, taking into account the complexity of the inference procedure and the
 yielded accuracy, the timing is readily acceptable. An interesting observation
 can be made with respect to the \ac{NRMSE}: the error tends to decrease as \np
@@ -152,13 +152,13 @@ therefore, the ways they manifest themselves in the inference algorithm are also
 different, which explains the discordant timing shown in \tref{inference-points}
 and \tref{inference-instances}. The \ac{NRMSE} in \tref{inference-instances} has
 a decreasing trend; however, this trend is less steady than the ones noted
-before. The finding can be explained as follows. The distribution of the time
-moments in $H$ changes since these moments are kept evenly spaced across the
-time spans of the corresponding applications. Some time moments can be more
-informative than other time moments. Consequently, more or less representative
-samples can be accumulated in $H$, helping or misleading the inference. We can
-also conclude that a larger number of spatial measurements is more advantageous
-than a larger number of temporal measurements.
+before. The finding can be explained as follows. The temporal distribution of
+the time moments in $H$ changes since these moments are kept evenly spaced
+across the time spans of the corresponding applications. Some time moments can
+be more informative than other time moments. Consequently, more or less
+representative samples can be accumulated in $H$, helping or misleading the
+inference. We can also conclude that a larger number of spatial measurements is
+more advantageous than a larger number of temporal measurements.
 
 \hiddensubsection{Deviation of Measurement Noise}
 
@@ -170,7 +170,7 @@ corrupts $H$. The considered cases are 0, 0.5, 1, and \celsius{2}
 \tref{inference-noise}. It can be observed that the sampling time is
 approximately constant. However, we observe an increase in the optimization time
 when the noise level decreases, which can be ascribed to greater opportunities
-of perfection for the optimization procedure. A more important observation
+for perfection for the optimization procedure. A more important observation
 revealed by this experiment is that, in spite of the fact that the inference
 operates on indirect and incomplete data, a thoroughly calibrated piece of
 equipment can considerably improve the quality of prediction. However, even with
@@ -186,5 +186,5 @@ smaller than the time needed for drawing posterior samples. The situation
 changes when parallel computing is utilized. When four cores are working in
 parallel, the sampling time decreases by a factor of 3.81 on average, which
 indicates good parallelization properties of the chosen sampling strategy. The
-overall speedup ranges from 1.49 to 2.75 with the average value of 1.77, which
-can be pushed even further employing more computational cores.
+overall speedup ranges from 1.49 to 2.75 with an average value of 1.77, which
+can be pushed even further by employing more computational cores.
