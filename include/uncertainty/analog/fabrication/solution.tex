@@ -242,22 +242,22 @@ In this subsection, we describe the objective of Stage~2 in
 distribution are mild, it is often difficult to pick an efficient proposal, that
 is, such a proposal that would yield a good approximation with as few
 evaluations of the posterior and, thus, of the data model in
-\sref{inference-data-model} as possible. This choice is especially difficult for
+\sref{inference-data-model} as possible. This choice is especially difficult in
 high-dimensional problems, and our problem---which involves around 30 parameters
 as we shall see in \sref{inference-results}---is one them. Therefore, a careful
-construction of the proposal is an essential component of our framework.
+construction of the proposal is an essential component of the proposed
+framework.
 
-A common technique to construct a high-quality proposal is to optimize the
+A common technique for constructing a high-quality proposal is to optimize the
 posterior given in \eref{inference-posterior}. More specifically, we seek such a
 value $\u^*$ of \u that maximizes \eref{inference-posterior} and, hence, has the
-maximal posterior probability. In addition, we calculate the negative of the
+maximum posterior probability. In addition, we calculate the negative of the
 Hessian matrix at $\u^*$, which is called the observed information matrix and
 denoted by $\m{J}$; see the output of Stage~2 in \fref{inference-overview}.
-Using $\u^*$ and $\m{J}$, we can construct a proposal that would allow the
+Using $\u^*$ and $\m{J}$, we can construct such a proposal that allows the
 Metropolis--Hastings algorithm \one~to start producing samples directly from the
 desired regions of high probability and \two~to explore those regions more
-rapidly. In the next subsection, the exact usage of $\u^*$ and $\m{J}$ is
-explained.
+rapidly. In the next subsection, the usage of $\u^*$ and $\m{J}$ is explicated.
 
 \subsection{Sampling Procedure}
 
