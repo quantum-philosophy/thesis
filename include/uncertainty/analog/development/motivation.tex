@@ -1,26 +1,32 @@
 \inputfigure{chaos-example}
-Consider a quad-core architecture exposed to the uncertainty due to parameters
-that affect the leakage current. Assume first that these parameters have nominal
-values. We can then simulate the system under a certain workload and observe the
+Consider a quad-core architecture whose leakage current is uncertain to the
+designer due to its dependence on a number of process parameters affected by
+process variation. Assume first that these parameters have nominal values. We
+can then simulate the system under a certain workload and observe the
 corresponding temperature profile; the experimental setup is to be detailed in
 \sref{chaos-transient-application} and \sref{chaos-transient-results}. The
 result is depicted in \fref{chaos-example} by a blue line, which corresponds to
-the temperature of one of the processors. It can be seen that the temperature is
-always below \celsius{90}. Let us now assume a mild deviation of the parameters
-from the nominal values and simulate once again. The result is the orange line
-in \fref{chaos-example}; the maximum temperature is approaching \celsius{100}.
-Finally, we repeat the experiment considering a severe deviation of the
-parameters and observe the yellow line in \fref{chaos-example}; the maximum
-temperature is almost \celsius{110}. Suppose that the designer is tuning a
-solution constrained by a maximum temperature of \celsius{90} and is guided
-exclusively by the nominal parameters. In this case, even with mild deviations,
-the circuits might be burnt. Another path that the designer can take is to
-design the system for severe conditions. In this scenario, however, the system
-might easily become too conservative, overdesigned. Consequently, such
-uncertainty has to be addressed in order to pursue efficiency and robustness.
-Nevertheless, the majority of the literature related to power, temperature, and
-reliability analysis of computer systems ignores this important aspect; see, for
-instance, \cite{rao2009, rai2011, thiele2011}. This negligence is also present
-in the analysis and optimization described in \cref{certainty-development}, and
-the goal of this chapter is to eliminate it in the case of the uncertainty that
-is induced by process variation.
+the temperature of one of the processing elements. It can be seen that the
+temperature is always below \celsius{90}. Let us now assume a mild deviation of
+the process parameters from their nominal values and perform temperature
+analysis once again. The result is the orange line in \fref{chaos-example}; the
+maximum temperature is approaching \celsius{100}. Finally, we repeat the
+experiment considering a severe deviation of the parameters and observe the
+yellow line in \fref{chaos-example}; in this case, the maximum temperature is
+almost \celsius{110}.
+
+Suppose now that the designer is tuning a solution constrained by a maximum
+temperature of \celsius{90}, and that the designer is guided exclusively by the
+nominal values of the process parameters. In this scenario, even with mild
+deviations, the circuits might be burnt. Another path that the designer might
+take is to design the system for severe conditions. In this second scenario,
+however, the system might easily become too conservative, overdesigned.
+
+The conclusion is that the presence of uncertainty has to be adequately
+addressed in order to pursue efficiency and robustness. Nevertheless, the
+majority of the literature related to power, temperature, and reliability
+analysis of computer systems ignores this important aspect; see, for instance,
+\cite{rao2009, rai2011, thiele2011}. This negligence is also present in the
+analysis and optimization described in \cref{certainty-development}, and the
+goal of this chapter is to eliminate this concern in the case of analog
+uncertainty and, in particular, the one induced by process variation.
