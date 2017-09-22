@@ -1,8 +1,9 @@
 Assume the system model given in \sref{system-model}. Suppose that the system
 depends on a number of process parameters that are uncertain at the design
 stage. Once the fabrication process yields a particular outcome, the considered
-process parameters take certain values, which can and are likely to vary across
-each fabricated chip, and stay unchanged thereafter. This variability leads to
+process parameters take certain values and stay unchanged thereafter. However,
+these certain values are different for different fabricated chips, and they also
+vary within each fabricated chip. In particular, the variability leads to
 deviations of power from the nominal values and, therefore, to deviations of
 temperature from the one corresponding to the nominal power consumption.
 
@@ -10,32 +11,35 @@ Each process parameter is a characteristic of a single transistor---consider,
 for instance, the effective channel length---and, therefore, each device in the
 electrical circuit at hand can potentially have a different value of this
 parameter since, in general, the variability due to process variation is not
-uniform. Consequently, each process parameter can be viewed as a random process
-$\x: \Omega \times \real^2 \to \real$ defined on a probability space $(\Omega,
-\F, \probability)$---which, in turn, is defined in
-\sref{probability-theory}---and a two-dimensional plane. Since our work is
-system-level oriented, the random processes are discretized, and each processing
-element is modeled with a finite number of random variables. Then the uncertain
-parameters of the problem under consideration are defined as
+uniform. Consequently, the parameters can be modeled as a stochastic process
+\[
+  \u: \Omega \times \real^2 \to \real^\nu
+\]
+defined on a suitable probability space $(\Omega, \F, \probability)$ (see
+\sref{probability-theory}) and a two-dimensional plane and taking values in
+$\real^\nu$ where \nu is the number of the considered process parameters. Since
+our work is system-level oriented, the stochastic process is discretized, and
+each processing element is modeled with a finite set of random variables. Then
+the uncertain parameters of the problem under consideration are defined as
 \[
   \vu = (\u_i)_{i = 1}^\nu: \Omega \to \real^\nu
 \]
-so that all variables of all processing elements are collected into one random
-vector with \nu entries. Given this setting, our goal in this chapter is
-twofold.
+so that the individual random variables of the processing elements are collected
+into a single random vector where \nu is redefined to be the total number of
+these variables. Given this setting, our goal in this chapter is twofold.
 
 First, we are to develop a system-level framework for transient temperature
 (and, hence, power) analysis as well as dynamic steady-state analysis of
 computer systems where power consumption and heat dissipation are stochastic due
 to their dependency on the parameters \vu. The designer is required to specify
-\one~the probability distribution of \vu and \two~the dependency of the consumed
-power on \vu, which can be given as a ``black box.'' The framework is to provide
-the designer with the tools for analyzing the system under a given
+\one~the probability distribution of \vu and \two~the dependency of the system's
+power consumption on \vu, which can be given as a ``black box.'' The framework
+is to provide the designer with tools for analyzing the system under a given
 workload---without imposing constraints on the nature of this workload---and
-calculating the corresponding stochastic power \mp and temperature \mq profiles
-with a desired level of accuracy and at low computational costs.
+calculating the corresponding stochastic power \mp and stochastic temperature
+\mq profiles with a desired level of accuracy and at low computational costs.
 
 Second, taking into consideration the effect of process variation on power and
 temperature, we are to find the reliability function of the system and to
-develop a computationally efficient design-space exploration scheme exploiting
+develop a computationally efficient design-space-exploration scheme exploiting
 the proposed techniques for power, temperature, and reliability analysis.
