@@ -56,13 +56,13 @@ the true one. If the joint distribution is available, it should be used instead.
 \subsection{Probability Transformation}
 \slab{chaos-transformation}
 
-Independence is required by \ac{PC} expansions. In general, however, the \nu
+Independence is required by \ac{PC} expansions. In general, however, the
 individual variables in $\vu: \Omega \to \real^\nu$ are dependent. Therefore,
-our foremost task is to transform \vu into mutually independent random variables
-in order to fulfill the requirement; see Stage~2 in \fref{chaos-overview}. To
-this end, an adequate probability transformation should be undertaken depending
-on the available information; see \cite{eldred2008} for an overview. Denote such
-a transformation by
+our foremost task is to transform \vu into a vector with mutually independent
+components in order to fulfill the requirement; see Stage~2 in
+\fref{chaos-overview}. To this end, an adequate probability transformation
+should be undertaken depending on the available information; see
+\cite{eldred2008} for an overview. Denote such a transformation by
 \begin{equation} \elab{chaos-transformation}
   \vu = \transform{\vz}
 \end{equation}
@@ -74,22 +74,22 @@ components, and $\transform: \real^\nz \to \real^\nu$. The quantity of interest
 \]
 
 Correlated random variables can be transformed into linearly uncorrelated ones
-via the \ac{KL} decomposition given in \eref{karhunen-loeve}. In addition, if
-the correlated variables form a Gaussian vector, the uncorrelated ones are also
-mutually independent. In the general case (non-Gaussian), the most prominent
-solutions to attaining independence are the Rosenblatt transformation
+via the \ac{KL} decomposition described in \eref{karhunen-loeve}. In addition,
+if the correlated variables form a Gaussian vector, the uncorrelated ones are
+also mutually independent. In the general case (non-Gaussian), the most
+prominent solutions to attaining independence are the Rosenblatt transformation
 \cite{rosenblatt1952} and the Nataf transformation mentioned earlier.
 Rosenblatt's approach is suitable when the joint distribution function of \vu is
 known. However, as emphasized in \sref{chaos-formulation}, such information is
-rarely available; a set of marginal distributions and a correlation matrix are
+rarely available. A set of marginal distributions and a correlation matrix are
 more likely to be given, which are already sufficient for the Nataf
-transformation. See \sref{probability-transformation} for more detail.
+transformation; see \sref{probability-transformation} for more details.
 
 Apart from the extraction of the independent variables \vz, an essential
 operation at this stage is model order reduction since the number of stochastic
 dimensions---that is, the dimensionality of \vz---directly impacts the
 complexity of the rest of the computations. This operation is frequently treated
-as a part of the \ac{KL} decomposition, which is also covered in
+as a part of the \ac{KL} decomposition, and it is also elaborated on in
 \sref{probability-transformation}.
 
 \subsection{Surrogate Construction}
