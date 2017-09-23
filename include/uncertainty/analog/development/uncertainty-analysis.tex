@@ -95,22 +95,23 @@ as a part of the \ac{KL} decomposition, and it is also elaborated on in
 \subsection{Surrogate Construction}
 \slab{chaos-construction}
 
-In order to give a computationally efficient probabilistic characterization of
-\g, we utilize a nonintrusive spectral decomposition based on orthogonal
-polynomials. The corresponding mathematical foundation is given in
+In order to obtain a computationally efficient and convenient characterization
+of \g, we utilize the \ac{PC} decomposition with nonintrusive spectral
+projections. The corresponding mathematical foundation is given in
 \sref{polynomial-chaos}.
 
 Assume that \g as a function of \vu belongs to $\L{2}(\Omega, \F,
-\probability)$; see \sref{probability-theory}. Then, at Stage~3 in
-\fref{chaos-overview}, \g is expanded into the following series:
+\probability)$; see \sref{probability-theory}. Then \g is expanded into the
+following series at Stage~3 in \fref{chaos-overview}:
 \begin{equation} \elab{chaos-expansion}
   \g \approx \chaos{\nz}{\lc}{\g}
   = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
 \end{equation}
 where $\lc \in \natural$ is the level of the expansion; $\vi = (i_k) \in
-\natural^\nz$ is an index; $\sparseindex{\nz}{\lc}$ is an index set; and $\{
-\psi_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ are \nz-variate orthonormal
-polynomials of orders specified by the corresponding elements of \vi.
+\natural^\nz$ is an index (multi-index); $\sparseindex{\nz}{\lc}$ is an index
+set; and $\{ \psi_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ are \nz-variate
+orthonormal polynomials of orders specified by the corresponding elements of
+\vi.
 
 It can be seen that the foremost step toward a polynomial expansion is the
 choice of a suitable polynomial basis, which is typically made based on the
@@ -137,11 +138,10 @@ utilized. The result is
 where $\lq \in \natural$ is the level of the quadrature, and $\{ \vz_{\vj}: \vj
 \in \sparseindex{\nz}{\lq} \} \subset \real^\nz$ and $\{ w_{\vj}: \vj \in
 \sparseindex{\nz}{\lq}  \} \subset \real$ are the corresponding points and
-weights, respectively. The operator $\quadrature{\nz}{\lq}$ is constructed by
-means of the Smolyak algorithm \cite{smolyak1963} as shown in
-\eref{quadrature-sparse}. The important aspect to note about
-\eref{quadrature-sparse} is the structure of the operator, namely, the index set
-$\sparseindex{\nz}{\lq}$, which we discuss in what follows.
+weights, respectively. The operator $\quadrature{\nz}{\lq}$ is constructed via
+the Smolyak algorithm \cite{smolyak1963} as shown in \eref{quadrature-sparse}.
+An important aspect to discuss now is the content of $\sparseindex{\nz}{\lc}$
+and $\sparseindex{\nz}{\lq}$.
 
 The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
 one in \eref{index-total-order-isotropic}, which is called an isotropic
@@ -156,14 +156,14 @@ discussed in \sref{sparse-integration}, a quadrature of level \lq is exact for
 polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
 this particular and very common case, it is sufficient to keep \lc and \lq
 equal. More generally, the index set $\sparseindex{\nz}{\lc}$ in
-\eref{chaos-expansion} and the one in $\sparseindex{\nz}{\lq}$ in
+\eref{chaos-expansion} and the index set $\sparseindex{\nz}{\lq}$ in
 \eref{chaos-coefficient} should be synchronized.
 
 An important generalization of the isotropic Smolyak algorithm in
 \eref{quadrature-sparse} is the anisotropic Smolyak algorithm \cite{nobile2008}.
-The main difference between the isotropic and anisotropic versions lies in the
-content of $\sparseindex{\nz}{\lq}$. An anisotropic total-order index set is
-defined as follows:
+The difference between the isotropic and anisotropic versions lies in the
+content of $\sparseindex{\nz}{\lq}$. In particular, an anisotropic total-order
+index set is defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
   \sparseindex{\nz}{\lq} = \left\{ \vi: \vi \in \natural^\nz, \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
 \end{equation}
@@ -174,18 +174,18 @@ Equation \eref{index-total-order-anisotropic} plugged into
 \eref{quadrature-sparse} results in a sparse grid that is exact for the
 polynomial subspace that is obtained using the same index set.
 
-The above approach allows one to exploit the highly anisotropic behavior that is
-inherent in many practical problems \cite{nobile2008}. It provides a fine
-control over the computation time associated with the construction of \ac{PC}
-expansions: a carefully chosen importance vector $\v{c}$ in
+The above approach allows one to exploit anisotropic behaviors present in many
+practical problems \cite{nobile2008}. It provides a fine control over the
+computational cost associated with the construction of \ac{PC} expansions: a
+carefully chosen importance vector $\v{c}$ in
 \eref{index-total-order-anisotropic} can significantly reduce the number of
 polynomial terms in \eref{chaos-expansion} and the number of quadrature points
-needed in \eref{chaos-coefficient} in order to compute the coefficients of those
+in \eref{chaos-coefficient} needed for calculating the coefficients of those
 polynomial terms. Then the question is in the choice of $\v{c}$. When the
 \ac{KL} decomposition is utilized as a part of $\transform$ in
-\eref{chaos-transformation}, a viable option is to rely on the variance
-contributions of the dimensions given by $\{ \lambda_i \}_{i = 1}^\nu$ in
-\eref{karhunen-loeve}. Specifically, we let
+\eref{chaos-transformation}, a viable option in this regard is to rely on the
+variance contributions of the dimensions given by $\{ \lambda_i \}_{i = 1}^\nu$
+in \eref{karhunen-loeve}. Specifically, we let
 \begin{equation} \elab{chaos-anisotropic-weight}
   c_i = \left(\frac{\lambda_i}{\sum_{j = 1}^\nu \lambda_j}\right)^\gamma
 \end{equation}
@@ -214,20 +214,20 @@ orderings so that one is able to refer to their elements using ordinary
 (one-dimensional) indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$,
 respectively. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
-  \Pi = (\psi_i(\vx_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}
+  \Pi = (\psi_i(\vz_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}.
 \end{equation}
-The element on row $i$ and column $j$ of $\Pi$ is the polynomial identified by
-index $i$ evaluated at quadrature point $j$ and multiplied by quadrature weight
-$j$. The matrix $\Pi$ is referred to as the projection matrix. Using $\Pi$, the
-coefficients $\{ \hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in
-\eref{chaos-expansion} can now be trivially computed as
+The element of $\Pi$ on row $i$ and column $j$ is polynomial $i$ evaluated at
+quadrature point $j$ and multiplied by quadrature weight $j$. The matrix $\Pi$
+is referred to as the projection matrix. Using $\Pi$, the coefficients $\{
+\hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in \eref{chaos-expansion} can
+now be trivially computed as follows:
 \begin{equation} \elab{chaos-coefficients}
   \hat{\vg} = \Pi \vg
 \end{equation}
 where
 \begin{align*}
   & \hat{\vg} = (\hat{\g}_i)_{i = 1}^\nc \text{ and} \\
-  & \vg = ((\g \circ \transform)(\vx_i))_{i = 1}^\nq.
+  & \vg = ((\g \circ \transform)(\vz_i))_{i = 1}^\nq.
 \end{align*}
 It can be seen that this formula is a matrix version of
 \eref{chaos-coefficient}. The matrix $\Pi$ is the one that should be precomputed
@@ -236,16 +236,16 @@ and stored for future use. The pseudocode of the expansion procedure is given in
 calculates $\g \circ \transform$ for a given \vz, which is problem specific.
 
 Let us summarize this subsection. In order to give a probabilistic
-characterization of a quantity of interest, we construct a polynomial expansion
-of this quantity as shown in \eref{chaos-expansion}. The coefficients of this
-expansion are found by means of a suitable multivariate quadrature as shown in
-\eref{chaos-coefficient}. The quadrature is constructed via the Smolyak formula
-given in \eref{quadrature-sparse}. The index set used in both
+characterization of the quantity of interest \g, we construct a polynomial
+expansion of this quantity as shown in \eref{chaos-expansion}. The coefficients
+of this expansion are found by means of a suitable multivariate quadrature as
+shown in \eref{chaos-coefficient}. The quadrature is constructed via the Smolyak
+formula given in \eref{quadrature-sparse}. The index set used in both
 \eref{chaos-expansion} and \eref{quadrature-sparse} is the one given in
-\eref{index-total-order-anisotropic} where the anisotropic weights can be set
+\eref{index-total-order-anisotropic} where the anisotropic weights are set
 according to \eref{chaos-anisotropic-weight}. For computational efficiency, the
-projection matrix in \eref{chaos-projection-matrix} is to be calculated only
-once and used thereafter.
+projection matrix in \eref{chaos-projection-matrix} is to be calculated, stored,
+and used as shown in \aref{chaos-construction}.
 
 \subsection{Post-Processing}
 \slab{chaos-processing}
