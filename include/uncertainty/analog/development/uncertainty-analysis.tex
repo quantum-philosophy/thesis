@@ -100,7 +100,7 @@ of \g, we utilize the \ac{PC} decomposition with nonintrusive spectral
 projections. The corresponding mathematical foundation is given in
 \sref{polynomial-chaos}.
 
-Assume that \g as a function of \vu belongs to $\L{2}(\Omega, \F,
+Assume that \g as a function of \vz belongs to $\L{2}(\Omega, \F,
 \probability)$; see \sref{probability-theory}. Then \g is expanded into the
 following series at Stage~3 in \fref{chaos-overview}:
 \begin{equation} \elab{chaos-expansion}
@@ -250,17 +250,18 @@ and used as shown in \aref{chaos-construction}.
 \subsection{Post-Processing}
 \slab{chaos-processing}
 
-Due to the properties of \ac{PC} expansions---in particular, due to the mutual
-orthogonality of the basis functions discussed in \sref{polynomial-chaos}---the
-obtained polynomial representation allows for various statistics about \g to be
-estimated with little effort, which is the subject of Stage~4 in
-\fref{chaos-overview}. The reason behind the straightforwardness is that the
-function given in \eref{chaos-expansion} is nothing more than a polynomial;
-hence, it is easy to interpret and easy to evaluate.
+Due to the properties of the \ac{PC} decomposition---in particular, due to the
+orthogonality of the basis discussed in \sref{polynomial-chaos}---the obtained
+polynomial representation in \eref{chaos-expansion} allows for various
+statistics about \g to be estimated with little effort, which is the subject of
+Stage~4 in \fref{chaos-overview}. The reason that this estimation is
+straightforwardness is that the function given in \eref{chaos-expansion} is
+nothing more than a polynomial; hence, it is easy to interpret and easy to
+evaluate.
 
 Let us find, for example, the expectation and variance of \g. Since the first
-polynomial $\psi_{\v{0}}$ in a polynomial basis is unity by definition
-\cite{xiu2010},
+polynomial $\psi_{\v{0}}$ in a normalized polynomial basis is unity by
+definition \cite{xiu2010},
 \[
   \expectation{\psi_{\v{0}}} = 1.
 \]
@@ -278,10 +279,8 @@ expressions:
     & \variance{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc} \setminus \{ \v{0} \}} \hat{\g}_{\vi}^2,
   \end{split}
 \end{equation}
-respectively, the squaring should be understood element-wise. It can be seen
-that the \ac{PC} decomposition provides analytical formulae for these
-probabilistic moments, and that they are solely based on the coefficients of the
-expansion.
+respectively. It can be seen that the \ac{PC} decomposition provides analytical
+formulae, solely based on the coefficients, for these probabilistic moments.
 
 The \ac{CDF} and \ac{PDF} of \g  can be estimated by virtue of a sampling method
 applied to \eref{chaos-expansion}, which is typically followed by kernel density
@@ -289,7 +288,7 @@ estimation \cite{hastie2013} or a similar technique. The sampling in this
 context can be better understood by rewriting \eref{chaos-expansion}, which is
 given in terms of operators, as follows:
 \[
-  \g \approx \chaos{\nz}{\lc}{\g}(\vz)
+  (\g \circ \transform)(\vz) \approx \chaos{\nz}{\lc}{\g}(\vz)
   = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}(\vz).
 \]
 Here the aforementioned operators are applied to an outcome of \vz drawn from
@@ -312,6 +311,6 @@ vector. The output of Algorithm~G in \aref{chaos-construction} is assumed to be
 automatically reshaped into a row vector.
 \end{remark}
 
-In what follows, we apply the uncertainty analysis developed in this section to
-a number of concrete problems, namely, transient and dynamic steady-state
-temperature analysis and reliability analysis and optimization.
+In what follows, we apply the uncertainty analysis presented here to a number of
+concrete problems, namely, transient and dynamic steady-state power and
+temperature analysis as well as reliability analysis and optimization.
