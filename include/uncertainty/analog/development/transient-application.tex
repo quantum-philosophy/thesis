@@ -1,14 +1,14 @@
 In this section, we consider a particular application of the proposed approach
-to transient analysis given in \sref{chaos-transient-analysis} in order to
-illustrate how it is supposed to be used in practice. We begin by describing the
+to probabilistic transient analysis given in \sref{chaos-transient-analysis} in
+order to illustrate how it is used in practice. We begin by describing the
 considered scenario.
 
 \subsection{\problemtitle}
 
 At Stage~1 in \fref{chaos-overview}, the quantity of interest \g is the
-transient (temperature-aware) power and temperature profiles corresponding to a
-given workload. Let us now specify the parameters \vu that make \g uncertain to
-the designer.
+transient power and temperature profiles corresponding to a given workload. Let
+us now specify the parameters \vu that make \g uncertain to the designer of the
+system.
 
 As discussed in \sref{power-model}, the total dissipation of power is composed
 of two major parts: dynamic and static. The influence of process variation on
@@ -16,9 +16,9 @@ the dynamic power is known to be negligibly small \cite{srivastava2010}; on the
 other hand, the variability of the static power is substantial, in which the
 subthreshold leakage current contributes the most \cite{juan2011, juan2012}.
 Hence, we focus on the subthreshold leakage and, more specifically, on the
-effective channel length denoted by \u as it has the strongest influence on the
-leakage current and is severely deteriorated by process variation
-\cite{chandrakasan2000}. In particular, \u also affects the threshold voltage.
+effective channel length denoted by \u since it has the strongest influence on
+this leakage---it affects the threshold voltage as well---and is severely
+deteriorated by process variation \cite{chandrakasan2000}.
 
 \inputfigure{beta-gaussian}
 It is well known that the dispersion of the effective channel length around its
@@ -26,10 +26,10 @@ nominal value resembles the bell shape of Gaussian distributions. Therefore,
 such variations are often conveniently modeled using Gaussian random variables
 \cite{bhardwaj2006, ghanta2006, huang2009a, shen2009, chandra2010,
 srivastava2010, juan2011, juan2012, lee2013}. Due to both the underlying physics
-and demonstration purposes, we make a step further and bake into the model the
+and demonstration purposes, we make a step further and embed into the model the
 fact that the effective channel length---occupying the space between the drain
-and source of a transistor---cannot be arbitrarily large or take a negative
-value, which Gaussian distributions allow it to do. In other words, we require
+and source of a transistor---cannot be arbitrarily large or take negative
+values, which Gaussian distributions allow it to do. In other words, we require
 the model of \u to have a bounded support. With this in mind, we propose to
 model the effective channel length and other physically bounded parameters using
 the four-parametric family of beta distributions as
@@ -38,81 +38,73 @@ the four-parametric family of beta distributions as
 \end{equation}
 where $a$ and $b$ are the shape parameters, and $c$ and $d$ are the left and
 right bounds of the support, respectively. The parameters $a$ and $b$ can be
-chosen so that the typically found bell shape of the distribution is preserved.
-An illustration is given in \fref{beta-gaussian} where a beta distribution is
-fitted to the standard Gaussian distribution; alternatively, one can match
-probabilistic moments. It can be seen that the curves are nearly
-indistinguishable, but the beta one has a bounded support $[-4, 4]$, which can
-potentially lead to more realistic models.
+chosen so that the frequently observed bell shape is preserved. An illustration
+is given in \fref{beta-gaussian} where a beta distribution is fitted to the
+standard Gaussian distribution; alternatively, one can match probabilistic
+moments. It can be seen that the curves are nearly indistinguishable, but the
+beta one has a bounded support $[-4, 4]$, which can potentially lead to more
+realistic models.
 
 The variability of $u$ is split into global $u_\overall$ and local $u_\local$
 parts \cite{shen2009, chandra2010}. Without loss of generality, $u_\overall$ can
 be treated as a composition of independent inter-lot, inter-wafer, and inter-die
 variations; likewise, $u_\local$ can be treated as a composition of independent
 and dependent local variations. The variability $u_\overall$ is assumed to be
-shared by all the \np processing elements whereas each processing element has
-its own local parameter $u_{\local, i}$. Therefore, the effective channel length
-of processing element $i$ is modeled as follows:
+shared by all the \np processing elements whereas each processing element is
+assumed to have its own local parameter $u_{\local, i}$. Thus, the effective
+channel length of processing element $i$ is modeled as follows:
 \[
   u_i = u_\nominal + u_\overall + u_{\local, i}
 \]
-where $u_\nominal$ is the nominal value of the effective channel length. Hence,
-the uncertain parameters of the problem are
+where $u_\nominal$ is the nominal value of the effective channel length.
+Consequently, the uncertain parameters of the problem are
 \[
   \vu = (u_{\local, 1}, \dotsc, u_{\local, \np}, u_\overall): \Omega \to \real^{\np + 1}.
 \]
 
 Global variations are typically assumed to be uncorrelated with respect to the
-local ones. The latter, however, are known to have high spatial correlations.
-Similar to \cref{uncertainty-analog-fabrication}, these correlations are modeled
-here using the correlation function given in \eref{inference-correlation}. This
-choice is guided by the observations of the correlation structured induced by
-the fabrication process \cite{friedberg2005, chandrakasan2000, cheng2011}:
-$k_\SE$ imposes similarities between the spatial locations that are close to
-each other, and $k_\OU$ imposes similarities between the locations that are at
-the same distance from the center of the die; see also \cite{ghanem1991,
-ghanta2006, bhardwaj2008, huang2009a, lee2013}.
+local ones. Local variations, however, are known to have high spatial
+correlations. Similar to the treatment in \cref{uncertainty-analog-fabrication},
+we model these correlations using the composite correlation function given in
+\eref{inference-correlation}, which is inspired by the correlation patterns
+induced by the fabrication process \cite{friedberg2005, chandrakasan2000,
+cheng2011}. Specifically, the function in \eref{inference-correlation} imposes
+similarities between those locations on the die that are close to each other as
+well as between those locations that are at the same distance from the center of
+the die; see also \cite{ghanem1991, ghanta2006, bhardwaj2008, huang2009a,
+lee2013}.
 
 Although \eref{inference-correlation} captures certain features inherent to the
 fabrication process, it is still an idealization. In practice, it can be
 difficult to make a justifiable choice and tune such a formula, which is a
-prerequisite for the techniques that are discussed in \sref{chaos-prior} and
-based on the continuous \ac{KL} decomposition. A correlation matrix, on the
-other hand, can be readily estimated from measurements and, thus, is a more
-probable input to probabilistic analysis. Therefore, we use
-\eref{inference-correlation} with the only purpose of constructing a correlation
-matrix of $\{ u_{\local, i} \}_{i = 1}^\np$. For convenience, the resulting
-matrix is extended by one dimension in order to accommodate $u_\overall$ along
-with $\{ u_{\local, i} \}_{i = 1}^\np$. In this case, the correlation matrix
-obtains one additional nonzero diagonal element equal to unity; the result is
-the correlation matrix of \vu denoted by $\correlation{\vu}$.
+prerequisite for the techniques discussed in \sref{chaos-prior} that are based
+on the continuous \ac{KL} decomposition. A correlation matrix, on the other
+hand, can be readily estimated from measurements and, thus, is a more probable
+input to probabilistic analysis. Therefore, we use \eref{inference-correlation}
+with the only purpose of constructing a correlation matrix of $\{ u_{\local, i}
+\}_{i = 1}^\np$. For convenience, the resulting matrix is extended by one
+dimension in order to accommodate $u_\overall$ along with $\{ u_{\local, i}
+\}_{i = 1}^\np$. In this case, the correlation matrix obtains one additional
+nonzero diagonal element equal to unity; the result is the correlation matrix of
+\vu denoted by $\correlation{\vu}$.
 
 Let us now be more specific about the power model in \eref{chaos-power-model}.
-The equation is decomposed into the sum of the dynamic and static components
+In the ongoing scenario, \f can be rewritten as the following summation:
 \[
-  \f(t, \vq, \vu) = \f_\dynamic(t) + \f_\static(\vq, \vu)
+  \f(i, \vq, \vu) = \f_\dynamic(i) + \f_\static(\vq, \vu)
 \]
-where $\f_\dynamic: \real \to \real^\np$ and $\f_\static: \real^\np \times
-\real^\nu \to \real^\np$.
-
-\begin{remark}
-The function $f_\dynamic$ has no dependency on \vu as the influence of process
-variation on the dynamic power is known to be negligibly small
-\cite{srivastava2010}. On the other hand, the variability of the static power
-given by $f_\static$ is substantial and magnified by the power-temperature
-interplay discussed in \sref{power-temperature-interplay}.
-\end{remark}
-
-We assume that the desired workload is given as a dynamic power profile denoted
-by $\mp_\dynamic$. Similar to \sref{inference-results}, without loss of
-generality, the development of the static part is based on \up{SPICE}
-simulations of a reference electrical circuit composed of \up{BSIM4} devices
-\cite{bsim} configured according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}.
-Specifically, we use a series of \up{CMOS} invertors. The simulations are
-performed for a sufficiently wide fine-grained two-dimensional grid, the
-effective channel length and temperature, and the results are tabulated. An
-interpolation technique is then utilized whenever we need to evaluate the static
-power for a particular point within the range of the grid.
+where $\f_\dynamic: \natural[+] \to \real^\np$ and $\f_\static: \real^\np \times
+\real^\nu \to \real^\np$. Without loss of generality, the dynamic part
+$\f_\dynamic$ is assumed to be given as a dynamic power profile denoted by
+$\mp_\dynamic$. Similar to \sref{inference-results}, the modeling of the static
+part $\f_\static$ is based on \up{SPICE} simulations of a reference electrical
+circuit composed of \up{BSIM4} devices \cite{bsim} configured according to the
+45-nm \up{PTM} \up{HP} model \cite{ptm}; specifically, we use a series of
+\up{CMOS} invertors. The simulations are performed with respect to a
+sufficiently wide fine-grained two-dimensional grid---the effective channel
+length against temperature---and the results are tabulated. An interpolation
+technique is subsequently utilized when the static power is required to be
+calculated at a particular point within the range of the grid.
 
 Regarding temperature analysis, an adequate thermal \up{RC} circuit should be
 constructed. Given the specification of the platform---including the floorplan
@@ -120,9 +112,10 @@ of the die and the configuration of the thermal package---the circuit is
 constructed by HotSpot \cite{skadron2003} adhering to the structure described in
 \sref{temperature-model}.
 
-To conclude, the input to our analysis is composed of the marginal distributions
-of the uncertain parameters \vu, which are beta distributions, and the
-corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
+To conclude, in this section, we address the variability of the effective
+channel length. The input to our analysis is composed of the marginal
+distributions of the uncertain parameters \vu, which are beta distributions, and
+the corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
 other stages of our methodology discussed in \sref{chaos-uncertainty-analysis}
 and depicted in \fref{chaos-overview}.
 
