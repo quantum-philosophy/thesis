@@ -169,7 +169,7 @@ generated randomly using \up{TGFF} \cite{dick1998}. In
 and $\life_\minimum$ are found individually for each problem, ensuring that they
 make sense for the subsequent optimization. For instance, $\q_\maximum$ is found
 between 90 and \celsius{120}. Note, however, that these three parameters stay
-the same for both the stochastic and deterministic cases.
+the same for both the probabilistic and deterministic cases.
 
 The obtained results are reported in \tref{chaos-optimization-objective}. The
 most important message is in the last column where \emph{failure} refers to the
@@ -214,9 +214,9 @@ reasonable and affordable.
 
 Lastly, we perform an experiment targeted at investigating the impact of the
 lifetime constraint in \eref{chaos-optimization-constraints} on the reduction of
-the expected energy consumption. To this end, we run our stochastic optimization
-(all 50 problems) without the reliability constraint and compare the
-corresponding results with those obtained when the lifetime constraint is
+the expected energy consumption. To this end, we run our probabilistic
+optimization (all 50 problems) without the reliability constraint and compare
+the corresponding results with those obtained when the lifetime constraint is
 included. We observe that the expected energy consumption is higher when the
 constraint is taken into account; however, the difference vanishes when the
 complexity of the problem increases. On average, the cost of the lifetime

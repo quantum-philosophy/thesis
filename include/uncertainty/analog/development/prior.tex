@@ -3,10 +3,10 @@ techniques are inadequate, and sampling methods---including \ac{MC}
 sampling---as a means of uncertainty quantification have high computational
 expenses. In order to overcome the limitations of deterministic approaches and,
 at the same time, to eliminate or at least mitigate the computational costs
-associated with direct sampling, a number of stochastic techniques have been
-introduced, which are discussed in what follows. We are particularly interested
-in power and temperature and, therefore, shape the exposition accordingly. Since
-the static component of power consumption is influenced by process variation the
+associated with direct sampling, a number of probabilistic techniques have been
+introduced, which are discussed below. We are particularly interested in power
+and temperature and, therefore, shape the exposition accordingly. Since the
+static component of power consumption is influenced by process variation the
 most, which is mainly due to the leakage current, the techniques discussed below
 primarily focus on the variability of this component.
 
@@ -33,18 +33,18 @@ order to analyze the response of interconnect networks and power grids,
 respectively, under process variation.
 
 The last five of the aforementioned techniques, that is, \cite{bhardwaj2006,
-vrudhula2006, ghanta2006, bhardwaj2008, shen2009}, perform only stochastic power
-analysis and ignore the interdependence between power and temperature described
-in \sref{power-model}. The other ones are temperature-related approaches, but
-none of them attempts to tackle stochastic transient analysis and to compute the
-probability distributions of power and temperature that evolve over time.
-However, such transient curves are of practical importance. First, certain
-procedures cannot be undertaken without the knowledge of time-dependent
-variations; an example is reliability optimization based on the thermal-cycling
-fatigue, which is discussed in \sref{reliability-optimization}. Second, the
-static steady-state assumption considered, for instance, in \cite{huang2009a,
-juan2011, juan2012, lee2013} can rarely be justified since power is not
-invariant in reality.
+vrudhula2006, ghanta2006, bhardwaj2008, shen2009}, perform only probabilistic
+power analysis and ignore the interdependence between power and temperature
+described in \sref{power-model}. The other ones are temperature-related
+approaches, but none of them attempts to tackle probabilistic transient analysis
+and to compute the probability distributions of power and temperature that
+evolve over time. However, such transient curves are of practical importance.
+First, certain procedures cannot be undertaken without the knowledge of
+time-dependent variations; an example is reliability optimization based on the
+thermal-cycling fatigue, which is discussed in \sref{reliability-optimization}.
+Second, the static steady-state assumption considered, for instance, in
+\cite{huang2009a, juan2011, juan2012, lee2013} can rarely be justified since
+power is not invariant in reality.
 
 In addition, one frequently encounters the assumption that power and temperature
 follow \emph{a priori} known probability distributions; Gaussian and log-normal
@@ -69,8 +69,9 @@ literature related to temperature relies on static steady-state temperature
 analysis---which is inadequate in practice---and the other two types of
 temperature analysis, that is, transient analysis and dynamic steady-state
 analysis, are deprived of attention. To the best of our knowledge, they have not
-been studied in the literature from the stochastic perspective yet. However, as
-motivated earlier, their knowledge is of practical importance to the designer.
+been studied in the literature from the probabilistic perspective yet. However,
+as motivated earlier, their knowledge is of practical importance to the
+designer.
 
 Let us now discuss reliability analysis. Reliability analysis is probabilistic
 by nature. However, certain components of a reliability model can be treated as
@@ -100,13 +101,13 @@ discussed previously, this study is limited to static steady-state temperatures,
 and the presented reliability analysis is an analysis of maximum temperatures
 without any direct relation to the common failure mechanisms \cite{jedec2016}.
 
-To summarize, the prior techniques for stochastic power and temperature analysis
-are restricted in use due to one or several of the following traits: \one~based
-on \ac{MC} simulations (potentially slow) \cite{chandra2010}, \two~limited to
-power analysis \cite{bhardwaj2006, ghanta2006, vrudhula2006, bhardwaj2008,
-shen2009, chandra2010}, \three~ignoring the power-temperature interplay
-\cite{bhardwaj2006, ghanta2006, vrudhula2006, bhardwaj2008, huang2009a,
-shen2009}, \four~limited to the static steady-state temperature
+To summarize, the prior techniques for probabilistic power and temperature
+analysis are restricted in use due to one or several of the following traits:
+\one~based on \ac{MC} simulations (potentially slow) \cite{chandra2010},
+\two~limited to power analysis \cite{bhardwaj2006, ghanta2006, vrudhula2006,
+bhardwaj2008, shen2009, chandra2010}, \three~ignoring the power-temperature
+interplay \cite{bhardwaj2006, ghanta2006, vrudhula2006, bhardwaj2008,
+huang2009a, shen2009}, \four~limited to the static steady-state temperature
 \cite{huang2009a, juan2011, juan2012, lee2013}, \five~exclusive focus on the
 maximum temperature \cite{juan2011}, and \six~\emph{a priori} chosen
 distributions of power and temperature \cite{bhardwaj2006, srivastava2010,
