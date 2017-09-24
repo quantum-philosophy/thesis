@@ -58,12 +58,14 @@ last. Hence, the operations in \eref{chaos-recurrence-original} are to be
 performed on dependent random vectors with arbitrary distributions, which, in
 general, have no closed-form solutions.
 
-Let us now summarize Stage~1 depicted in \fref{chaos-overview}. In this section,
-the quantity of interest \g is the transient power and temperature
+Let us now summarize Stage~1 in \fref{chaos-overview}. In this section, the
+quantity of interest \g is the transient power and temperature
 profiles---denoted by \mp and \mq, respectively---that correspond to the
-workload specified by \f shown in \eref{chaos-power-model}. Regarding the
-uncertain parameters \vu, they are still left unspecified since the solution
-presented below is general with respect to \vu.
+workload specified by \f as shown in \eref{chaos-power-model}. Regarding the
+uncertain parameters \vu, they are left unspecified since the construction
+presented below is general with respect to \vu. We now proceed directly to
+Stage~3 as Stage~2 requires no additional attention in this case.
+
 
 \subsection{Surrogate Construction}
 
@@ -83,15 +85,15 @@ The expansion of $\vp_i$ in \eref{chaos-recurrence-original} computed via \f in
 where $\{ \psi_{\vj}: \real^\nz \to \real \}$ are the basis polynomials; $\{
 \hat{\vp}_{i \vj} \} \subset \real^\np$ are the corresponding coefficients; and
 the index set $\sparseindex{\nz}{\lc}$ is given by
-\eref{index-total-order-anisotropic}. It can be seen in
-\eref{chaos-recurrence-original} that, due to the linearity of the operations
-involved in the recurrence, $\vs_i$ attains a \ac{PC} expansion that has the
-same structure as the one of $\vp_i$, and the recurrence can be rewritten as
-follows:
+\eref{index-total-order-anisotropic}. Also, \rref{chaos-multidimensional-output}
+is worth recalling. It can be seen in \eref{chaos-recurrence-original} that, due
+to the linearity of the operations involved in the recurrence, $\vs_i$ attains a
+\ac{PC} expansion that has the same structure as the one of $\vp_i$, and the
+recurrence can be rewritten as follows:
 \[
   \chaos{\nz}{\lc}{\vs_i} = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}} + \m{F} \, \chaos{\nz}{\lc}{\vp_i}
 \]
-for $i = \range{1}{\ns}$. Consequently, there are two concurrent \ac{PC}
+for $i = \range{1}{\ns}$. Consequently, there are two interwoven \ac{PC}
 expansions: one is for power, and one is for temperature; the two expansions
 have the same polynomial basis but different coefficients. In order to
 understand the structure of the above formula better, let us spell it out as
@@ -99,27 +101,26 @@ understand the structure of the above formula better, let us spell it out as
   \sum_{\vj \in \sparseindex{\nz}{\lc}} \hat{\vs}_{i \vj} \psi_{\vj} =
   \sum_{\vj \in \sparseindex{\nz}{\lc}} \left(\m{E} \, \hat{\vs}_{i - 1, \vj} + \m{F} \, \hat{\vp}_{i \vj}\right) \psi_{\vj}.
 \]
-Multiplying the above equation by each polynomial from the basis and making use
-of the orthogonality property in \eref{chaos-orthogonality}, we obtain the
-following recurrence:
+Making use of the orthogonality property, which can be seen in
+\eref{chaos-orthogonality}, we obtain the following recurrence:
 \begin{equation} \elab{chaos-recurrence}
   \hat{\vs}_{i \vj} = \m{E} \hat{\vs}_{i - 1, \vj} + \m{F} \hat{\vp}_{i \vj}
 \end{equation}
-for $i = \range{1}{\ns}$ and $\vj \in \sparseindex{\nz}{\lc}$. Combining the
-recurrence with \eref{temperature-algebraic}, we obtain the coefficients of the
-\ac{PC} expansion of the temperature vector $\vq_i$. Lastly, the coefficients
-$\{ \hat{\vp}_{i \vj} \}$ are found using a quadrature rule
-$\quadrature{\nz}{\lq}$ as follows:
+for $i = \range{1}{\ns}$ and $\vj \in \sparseindex{\nz}{\lc}$. The coefficients
+$\{ \hat{\vp}_{i \vj} \}$ needed in this recurrence are found using a suitable
+quadrature rule $\quadrature{\nz}{\lq}$ as follows:
 \[
   \hat{\vp}_{i \vj} = \quadrature{\nz}{\lq}{\vp_i \psi_{\vj}}
 \]
 for $i = \range{1}{\ns}$ and $\vj \in \sparseindex{\nz}{\lc}$ where the
-operation should be understood element-wise, and it can be efficiently
-undertaken by virtue of a projection matrix in \eref{chaos-projection-matrix}.
-It is worth noting that, since power depends on temperature as discussed in
-\sref{power-model}, at each step of the recurrence in \eref{chaos-recurrence},
-the computation of $\hat{\vp}_{i \vj}$ via \f should be done with respect to the
-expansion of $\vq_{i - 1}$.
+operation is element-wise, and it can efficiently be undertaken by virtue of a
+projection matrix given in \eref{chaos-projection-matrix}. Lastly, combining
+\eref{chaos-recurrence} with \eref{temperature-algebraic}, we obtain the
+coefficients of the \ac{PC} expansion of the temperature vector $\vq_i$. Note
+that, since power depends on temperature as discussed in \sref{power-model}, at
+each step of the recurrence in \eref{chaos-recurrence}, the computation of
+$\hat{\vp}_{i \vj}$ via \f should be done with respect to the expansion of
+$\vq_{i - 1}$.
 
 The construction process of the stochastic power and temperature profiles is
 estimated to have the following time complexity per time step:
@@ -131,15 +132,15 @@ elements, polynomial terms, and quadrature points, respectively, and $\f(\np)$
 denotes the contribution of the power model in \eref{chaos-power-model}. The
 expression can be detailed further by expanding \nc and \nq. Assuming the
 isotropic total-order index set given in \eref{index-total-order-isotropic}, \nc
-is shown in \eref{index-total-order-isotropic-length}, which behaves as $\nz^\lc
-/ \lc!$ in the limit with respect to \nz. For quadratures based on the full
-tensor product in \eref{quadrature-tensor}, $\log(\nq) \propto \nz$, which means
-that the dependency of \nq on \nz is exponential. It can be seen that the theory
-of \ac{PC} expansions suffers from the curse of dimensionality \cite{eldred2008,
-xiu2010}: when \nz increases, the number of polynomial terms as well as the
-complexity of the corresponding coefficients exhibit a growth, which is
-exponential without special treatments. The problem does not have a general
-solution and is one of the central topics of many ongoing studies.
+is as shown in \eref{index-total-order-isotropic-length}, which behaves as
+$\nz^\lc / \lc!$ in the limit with respect to \nz. For quadratures based on the
+full tensor product given in \eref{quadrature-tensor}, $\log(\nq) \propto \nz$,
+which means that the dependency of \nq on \nz is exponential. It can be seen
+that the theory of \ac{PC} expansions suffers from the curse of dimensionality
+\cite{eldred2008, xiu2010}: when \nz increases, the number of polynomial terms
+as well as the complexity of the corresponding coefficients exhibit a growth,
+which is exponential without special treatments. The problem does not have a
+general solution and is one of the central topics of many ongoing studies.
 
 We mitigate the curse of dimensionality by \one~keeping the number of stochastic
 dimensions low via the model-order-reduction technique discussed in
@@ -152,24 +153,25 @@ Gaussian quadrature rules, $\log(\nq) \propto \log(\nz)$, which means that the
 dependency of \nq on \nz is only polynomial \cite{heiss2008}. Anisotropic
 constructions allow for further reduction.
 
-Let us summarize this subsection. Recall the stochastic recurrence in
-\eref{chaos-recurrence-original} where, in the presence of dependencies, an
-arbitrary functional $\vp_k$ of the uncertain parameters \vu and stochastic
-temperature $\vq_k$---which can be seen in \eref{chaos-power-model}---needs to
-be evaluated and combined with another random vector $\vs_k$. This recurrence in
+Let us summarize Stage~3 in \fref{chaos-overview}. Recall the stochastic
+recurrence in \eref{chaos-recurrence-original} where, in the presence of
+dependencies, an arbitrary functional $\vp_i$ of the stochastic temperature
+$\vq_i$ and the uncertain parameters \vu---which can be seen in
+\eref{chaos-power-model}---needs to be evaluated and combined with yet another
+random vector, namely, $\vs_i$. This recurrence in
 \eref{chaos-recurrence-original} has been replaced with a purely deterministic
-recurrence in \eref{chaos-recurrence}. More globally, the whole system including
-the heavy temperature model in \eref{temperature-model-original} has been
+recurrence in \eref{chaos-recurrence}. More generally, the whole system
+including the temperature model in \eref{temperature-model-original} has been
 substituted with a light surrogate defined by a set of polynomials $\{
-\psi_{\vj} \}$ in \vz, a set of coefficients $\{ \hat{\vp}_{i \vj} \}$ for
-power, and a set of coefficient $\{ \hat{\vq}_{i \vj} \}$ for temperature. These
-quantities constitute a stochastic power profile \mp and a stochastic
-temperature profile \mq, and these profiles are ready to be analyzed at each
-step of the process as discussed in \sref{chaos-processing}.
+\psi_{\vj} \}$, a set of coefficients $\{ \hat{\vp}_{i \vj} \}$ for power, and a
+set of coefficient $\{ \hat{\vq}_{i \vj} \}$ for temperature. These quantities
+constitute the desired stochastic power and temperature profiles, and these
+profiles are ready to be analyzed at each step of the process as discussed in
+\sref{chaos-processing}.
 
 Before we proceed, let us draw attention to the ease and generality of taking
-uncertainty into consideration using the proposed approach. The above
-description is delivered from any explicit formula of any particular uncertain
+process variation into consideration using the proposed approach. The above
+description is delivered from any explicit formula of any particular process
 parameter. In contrast, the solutions from the literature related to process
 variation are typically based on ad~hoc expressions and should be tailored by
 the designer for each new parameter individually; see, for instance,
