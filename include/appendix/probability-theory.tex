@@ -20,7 +20,9 @@ by
   = \expectation{(\x - \expectation{\x})^2}
   = \expectation{\x^2} - (\expectation{\x})^2.
 \end{equation}
-If $\expectation{\x} = 0$ and $\variance{\x} = 1$, \x is called standardized.
+If $\variance{\x} = 1$, \x is called normalized. If \x is both centered and
+normalized, that is, $\expectation{\x} = 0$ and $\variance{\x} = 1$, \x is
+called standardized.
 
 The above quantities are well defined only when the corresponding integrals are
 finite. An example of a vector space of random variables defined on $(\Omega,
@@ -86,8 +88,8 @@ that is, of
   \left(\frac{\x_i}{\sqrt{\variance{\x_i}}}\right)_{i = 1}^n.
 \]
 
-An $n$-variate distribution can be uniquely identified by a set of $n$ marginal
-distributions and an $n$-dimensional copula \cite{nelsen2006}. The copula is a
-uniform distribution function on $[0, 1]^n$ (referred to as the $n$-dimensional
-unit hypercube) that captures the dependencies between the $n$ individual
-variables.
+An $n$-dimensional random vector \vx can be uniquely characterized by a set of
+$n$ one-dimensional marginal distributions and an $n$-dimensional copula
+\cite{nelsen2006}. The copula is a uniform distribution function on $[0, 1]^n$
+that captures the dependencies between the $n$ individual variables contained in
+\vx.
