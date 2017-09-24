@@ -70,8 +70,8 @@ Stage~3 as Stage~2 requires no additional attention in this case.
 \subsection{Surrogate Construction}
 
 The goal now is to transform the recurrence in \eref{chaos-recurrence-original}
-in such a way that the distributions of power and temperature can be estimated
-efficiently. Based on the methodology presented in
+in such a way that the distributions of power and temperature can be efficiently
+estimated. Based on the methodology presented in
 \sref{chaos-uncertainty-analysis}, we construct a \ac{PC} surrogate for \f so
 that it can then be propagated through \eref{chaos-recurrence-original} in order
 to obtain an expansion for (temperature-aware) power and an expansion for
@@ -113,7 +113,7 @@ quadrature rule $\quadrature{\nz}{\lq}$ as follows:
   \hat{\vp}_{i \vj} = \quadrature{\nz}{\lq}{\vp_i \psi_{\vj}}
 \]
 for $i = \range{1}{\ns}$ and $\vj \in \sparseindex{\nz}{\lc}$ where the
-operation is element-wise, and it can efficiently be undertaken by virtue of a
+operation is element-wise, and it can be efficiently undertaken by virtue of a
 projection matrix given in \eref{chaos-projection-matrix}. Lastly, combining
 \eref{chaos-recurrence} with \eref{temperature-algebraic}, we obtain the
 coefficients of the \ac{PC} expansion of the temperature vector $\vq_i$. Note
