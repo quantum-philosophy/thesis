@@ -8,12 +8,12 @@ is approximated as
   = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) w_{ij},
 \]
 which is a summation of the function's values computed at prescribed points and
-multiplied by prescribed weights. Such a pair of a set of points and a set of
-weights is called a quadrature rule. In the notation $\quadrature{1}{i}$, the
-superscript $1$ indicates that it is a one-dimensional rule, and the subscript
-$i \in \natural$ gives the level of the rule, which is its index in the
-corresponding family of rules with increasing precision. \emph{Precision} refers
-to the maximum total order of polynomials that the rule integrates exactly
+multiplied by prescribed weights. Such a pair of points and weights is called a
+quadrature. In the notation $\quadrature{1}{i}$, the superscript $1$ indicates
+that it is a one-dimensional quadrature, and the subscript $i \in \natural$
+gives the level of the quadrature, which is its index in the corresponding
+family of quadratures with increasing precision. \emph{Precision} refers to the
+maximum total order of polynomials that the quadrature integrates exactly
 \cite{heiss2008}. In the above formula,
 \begin{align*}
   & \X^1_i = \{ \x_{ij}: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
@@ -42,12 +42,12 @@ where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
   & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real
 \end{align*}
 and the points and weights, respectively, and $\tensorindex{n}{\vi} \subset
-\natural^n$ is an index set whose cardinality dependents on both $n$ and \vi and
-is denoted by $n_{\vi}$.
+\natural^n$ is an index set. The cardinality of $\tensorindex{n}{\vi}$
+dependents on both $n$ and \vi and is denoted by $n_{\vi}$.
 
-The foundation of an $n$-dimensional rule $\quadrature{n}{\vi}$ is a set of
-one-dimensional counterparts of various levels. The most straightforward
-construction of such a rule is the full tensor product denoted by
+The foundation of an $n$-dimensional quadrature $\quadrature{n}{\vi}$ is a set
+of one-dimensional counterparts of various levels. The most straightforward
+construction of such a quadrature is the full tensor product
 \begin{equation} \elab{quadrature-tensor}
   \quadrature{n}{\vi} = \bigotimes_{k = 1}^n \quadrature{1}{i_k},
 \end{equation}
@@ -63,13 +63,15 @@ in which case
 It can be seen that, in this case, the growth of the number of points with
 respect to the number of dimensions is exponential. In low dimensions, the grows
 is manageable; however, in high dimensions, the situation changes dramatically
-as the number of points produced by this approach can easily explode. For
-instance \cite{heiss2008}, if each one-dimensional rules has only 4 points, that
-is, $n_i = 4$, then in 10 stochastic dimensions, that is, $n = 10$, the number
-of multivariate points becomes $n_{\vi} = 4^{10} = 1~048~576$, which is by far
-not affordable. Moreover, it can be shown that most of the points obtained in
-this way do not contribute to the asymptotic accuracy and, therefore, are a
-waste of time. In particular, if the integrand under consideration is a
+as the number of points produced by this approach can easily explode.
+
+To give an example \cite{heiss2008}, suppose that each one-dimensional
+quadrature has only four points, that is, $n_i = 4$. Then, in 10 stochastic
+dimensions, that is, when $n = 10$, the number of multivariate points becomes
+$n_{\vi} = 4^{10} = 1~048~576$, which is by far not affordable. Moreover, it can
+be shown that most of the points obtained by the full tensor produce do not
+contribute to the asymptotic accuracy and, therefore, are a waste of the
+computation time. In particular, if the integrand under consideration is a
 polynomial whose total order is constrained according to a certain strategy, the
 full tensor product cannot take this information into account. Consequently, a
 different construction technique should be utilized in the case of
@@ -79,12 +81,12 @@ An alternative construction is the Smolyak algorithm \cite{smolyak1963}; see
 also \cite{klimke2006, eldred2008, heiss2008, maitre2010}. The algorithm is a
 central technique in the field of not only integration but also interpolation;
 the latter is elaborated on in \sref{sparse-interpolation}. In the context of
-integration, the algorithm combines a range of one-dimensional rules in such a
-way that the resulting grid is tailored to be exact only for a certain
+integration, the algorithm combines a range of one-dimensional quadratures in
+such a way that the resulting grid is tailored to be exact only for a certain
 polynomial subspace. Such grids are called sparse grids, and they allow for a
-significantly reduction of the number of points and, thus, of the subsequent
-work. For instance, in the example given earlier, the number of points would
-only be $n_{\vi} = 1~581$, which is a drastic saving of the computation time.
+significant reduction of the number of points and, thus, the subsequent work.
+For instance, in the example given earlier, the number of points would only be
+$n_{\vi} = 1~581$, which is a drastic saving of the computation time.
 
 To begin with, define
 \begin{align*}
@@ -94,17 +96,16 @@ To begin with, define
 \end{align*}
 Then Smolyak's formula of level \lq is as follows:
 \begin{equation} \elab{quadrature-sparse}
-  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \Delta\quadrature{n}{\vi},
+  \quadrature{n}{\lq} = \bigoplus_{\vi \in \sparseindex{n}{\lq}} \Delta\quadrature{n}{\vi}.
 \end{equation}
-and the corresponding approximation is written as
+The corresponding approximation is written as
 \begin{equation} \elab{quadrature-summation}
   I \approx \quadrature{n}{\lq}{\f}
   = \sum_{\vi \in \sparseindex{n}{\lq}} \f(\vx_{\vi}) w_{\vi}.
 \end{equation}
-Note that, even though the level \lq is not indicated in the notation
-$\vx_{\vi}$ and $w_{\vi}$, points and weights that belong to different levels
-are generally different. In the original (isotropic) formulation of the Smolyak
-algorithm,
+Note that, even though the level \lq is not indicated in the notation of points
+and weights, points and weights that belong to different levels are generally
+different. In the original (isotropic) formulation of the Smolyak algorithm,
 \begin{equation} \elab{index-total-order-isotropic}
   \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \norm[1]{\vi} \leq \lq \right\}
 \end{equation}
@@ -116,8 +117,8 @@ cardinality can be calculated as follows:
   \nq = \cardinality{\sparseindex{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
 \end{equation}
 It can be seen that the construction in \eref{quadrature-sparse} is a summation
-of cherry-picked tensor products of one-dimensional quadrature rules; this
-formula is well suited for grasping the structure of the resulting sparse
+of a number of cherry-picked tensor products of one-dimensional quadratures;
+this formula is well suited for grasping the structure of the resulting sparse
 integration grid. Note also that \eref{quadrature-sparse} reduces to
 \eref{quadrature-tensor} if we let
 \[
@@ -130,18 +131,18 @@ Consider now the following more general integral:
 \]
 In this case, \f is integrated with respect to a measure $F: \real^n \to \real$
 \cite{durrett2010} that does not necessarily correspond to the usual Lebesgue
-measure, which is used in the earlier examples. Since integrating in this way is
-a very frequent operation, there are families of quadrature rules that are
-designed to automatically take this aspect into account for the most common
+measure, which is used in the earlier examples. Since integrating with a certain
+measure is a very frequent operation, there are families of quadratures that are
+designed to automatically take this aspect into account in the most common
 scenarios.
 
-We would like to highlight one broad family of quadrature rules known as
-Gaussian quadratures. In one dimension, the precision of a Gaussian quadrature
-with \nq points is $2 \nq - 1$ \cite{heiss2008} or, equivalently, $2 \lq + 1$
-since $\nq = \lq + 1$ in this case. In other words, a Gaussian quadrature with
-\nq points is exact for polynomials with orders up to $2 \nq - 1$ or $2 \lq +
-1$. It is a remarkable property of Gaussian quadratures, which makes such rules
+There is one broad family of quadratures that is worth highlighting: Gaussian
+quadratures. In one dimension, the precision of a Gaussian quadrature with \nq
+points is $2 \nq - 1$ \cite{heiss2008} or, equivalently, $2 \lq + 1$ since $\nq
+= \lq + 1$ in this case. In other words, a Gaussian quadrature with \nq points
+is exact for polynomials with orders up to $2 \nq - 1$ or $2 \lq + 1$. It is a
+remarkable property of Gaussian quadratures that makes such quadratures
 especially efficient.
 
-Lastly, it is worth emphasizing that quadrature rules are generally precomputed
+Lastly, it is also worth emphasizing that quadratures are generally precomputed
 and tabulated since they do not depend the function being integrated.
