@@ -1,6 +1,6 @@
 In this thesis, we take the designer's standpoint. Specifically, a certain
-aspect of the computer system under consideration is said to be uncertain if it
-is unknown to the designer of this system. We stay agnostic on the underlying
+aspect of the electronic system under consideration is said to be uncertain if
+it is unknown to the designer of this system. We stay agnostic on the underlying
 reason behind this state of uncertainty: it can be aleatory as well as
 epistemic.
 
@@ -9,12 +9,12 @@ quantity, referred to as the quantity of interest, whose complete knowledge
 would be highly beneficial to the design of the system but cannot be attained
 since the quantity depends parameters that are uncertain at design time.
 
-Uncertainty in computer systems can originate from different phenomena, and, in
-many cases, it is inherent and inevitable (from the designer's standpoint). From
-one of many perspectives, uncertainty can be classified into two categories:
-analog and digital. Analog uncertainty emerges from the physical world while
-digital uncertainty emerges from the virtual, computer world. Let us now
-consider three concrete examples that are of relevance to the thesis.
+Uncertainty in electronic systems can originate from different phenomena, and,
+in many cases, it is inherent and inevitable (from the designer's standpoint).
+From one of many perspectives, uncertainty can be classified into two
+categories: analog and digital. Analog uncertainty emerges from the physical
+world while digital uncertainty emerges from the virtual, computer world. Let us
+now consider three concrete examples that are of relevance to the thesis.
 
 \subsection{Process Variation}
 \slab{process-variation}
@@ -27,10 +27,10 @@ contemporary fabrication process cannot be controlled precisely down to the
 level of individual atoms.
 
 The aforementioned transistor-level variability propagates to such crucial
-system-level characteristics of a computer system as power consumption and heat
-dissipation and, thereby, makes them uncertain to the designer of the system.
-The propagation is due to process variation affecting the key parameters of a
-technological process such as the effective channel length and gate oxide
+system-level characteristics of an electronic system as power consumption and
+heat dissipation and, thereby, makes them uncertain to the designer of the
+system. The propagation is due to process variation affecting the key parameters
+of a technological process such as the effective channel length and gate oxide
 thickness. As a result, the same workload applied to two seemingly identical
 dies can lead to two drastically different power profiles and, consequently, to
 two drastically different temperature profiles since power consumption and heat
@@ -52,8 +52,8 @@ a nonuniform and intricate process, the system's lifetime is uncertain to the
 designer.
 
 There is one factor that it is worth highlighting in this context: temperature.
-Temperature has a profound impact on the lifetime of computer systems, which is
-well known and well studied \cite{jedec2016}. The failure mechanisms that are
+Temperature has a profound impact on the lifetime of electronic systems, which
+is well known and well studied \cite{jedec2016}. The failure mechanisms that are
 commonly considered---such as electromigration, time-dependent dielectric
 breakdown, and thermal cycling---are directly driven by temperature. One can
 also note a connection between process variation and performance variation. More
@@ -64,12 +64,12 @@ specifically, the former intensifies the latter via temperature.
 
 A salient example of digital uncertainty is the one emerging from workload
 variation. In this case, the source of uncertainty is the actual work that
-computer systems are instructed to perform. To elaborate, from one activation to
-another, the same piece of deterministic software can exhibit drastically
+electronic systems are instructed to perform. To elaborate, from one activation
+to another, the same piece of deterministic software can exhibit drastically
 different behaviors depending on the environment and input data, and neither the
 environment nor input data that the system under consideration will be exposed
 to at runtime is exhaustively known at early development stages.
 
 \conclusioncut
-Having introduced and exemplified uncertainty in computer systems, we are ready
-to consolidate our motivation and solidify our objective.
+Having introduced and exemplified uncertainty in electronic systems, we are
+ready to consolidate our motivation and solidify our objective.

@@ -174,7 +174,7 @@ the same for both the probabilistic and deterministic cases.
 The obtained results are reported in \tref{chaos-optimization-objective}. The
 most important message is in the last column where \emph{failure} refers to the
 ratio of the solutions produced by the deterministic optimization that, after
-being reevaluated using our probabilistic approach (that is, after taking
+being re-evaluated using our probabilistic approach (that is, after taking
 process variation into account), have been found to be violating the
 probabilistic constraints given in \eref{chaos-optimization-constraints}. To
 give an example, for the quad-core platform, 6 out of 10 schedules proposed by
@@ -188,19 +188,19 @@ difference between the acceptable one percent of burn and wear ($\rho_\burn =
 as high as 80\% in some cases, which is unacceptable.
 
 In addition, we take a close look at those few deterministic solutions that have
-passed the probabilistic reevaluation and observe that the reported reduction of
-the maximum temperature and energy consumption as well as the reported increase
-in the lifetime are overoptimistic. To elaborate, the predictions produced by
-the deterministic optimization, which neglects process variation, are compared
-with the expected values obtained when process variation is taken into account.
-The comparison shows that the expected energy and temperature are up to 5\%
-higher while the expected lifetime is up to 20\% shorter than the ones estimated
-by the deterministic approach. This aspect of the deterministic optimization can
-mislead the designer. Consequently, when studying those aspects of computer
-systems that are concerned with power, temperature, and reliability, the
-ignorance of the deteriorating effect of process variation can severely
-compromise the associated design decisions, making them less profitable in the
-best case and dangerous in the worst scenario.
+passed the probabilistic re-evaluation and observe that the reported reduction
+of the maximum temperature and energy consumption as well as the reported
+increase in the lifetime are overoptimistic. To elaborate, the predictions
+produced by the deterministic optimization, which neglects process variation,
+are compared with the expected values obtained when process variation is taken
+into account. The comparison shows that the expected energy and temperature are
+up to 5\% higher while the expected lifetime is up to 20\% shorter than the ones
+estimated by the deterministic approach. This aspect of the deterministic
+optimization can mislead the designer. Consequently, when studying those aspects
+of electronic systems that are concerned with power, temperature, and
+reliability, the ignorance of the deteriorating effect of process variation can
+severely compromise the associated design decisions, making them less profitable
+in the best case and dangerous in the worst scenario.
 
 Let us now comment on the optimization time shown in
 \tref{chaos-optimization-objective}. It can be seen that our implementation of
