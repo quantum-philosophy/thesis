@@ -43,9 +43,9 @@ technological process \cite{ptm}) and a covariance function equal to
 \eref{inference-covariance} with a standard deviation of 2.25~nm; \two~perform
 one fine-grained temperature simulation per each of the \hnd dies selected for
 measurement; \three~thin the obtained temperature profiles so that each has only
-\ns---which is equal to 20 by default---evenly spaced moments of time; and
-\four~perturb the resulting data set using a white Gaussian noise with a
-standard deviation of \celsius{1}.
+\ns---which is 20 by default---evenly spaced moments of time; and \four~perturb
+the resulting data set using a white Gaussian noise with a standard deviation of
+\celsius{1}.
 
 Let us turn to the statistical model in \sref{inference-statistical-model} and
 summarize the intuition behind and our assignment of the model's parameters. In
@@ -165,18 +165,18 @@ more advantageous than a larger number of temporal measurements.
 \inputtable{inference-noise}
 In this subsection, we vary the standard deviation of measurement noise, which
 corrupts $H$. The considered cases are 0, 0.5, 1, and \celsius{2}
-\cite{mesa-martinez2007}. Note that the corresponding prior distribution in
+\cite{mesa-martinez2007}. Note that the corresponding prior in
 \eref{inference-prior} is kept unchanged. The results are given in
 \tref{inference-noise}. It can be observed that the sampling time is
 approximately constant. However, we observe an increase in the optimization time
-when the noise level decreases, which can be ascribed to greater opportunities
-for perfection for the optimization procedure. A more important observation
-revealed by this experiment is that, in spite of the fact that the inference
-operates on indirect and incomplete data, a thoroughly calibrated piece of
-equipment can considerably improve the quality of prediction. However, even with
-a noise of \celsius{2}---meaning that measurements are dispersed over a wide
-band of \celsius{8} with a probability of more than 0.95---the \ac{NRMSE} is
-still only 4\%.
+when the level of noise decreases, which can be ascribed to greater
+opportunities for perfection for the optimization procedure. A more important
+observation revealed by this experiment is that, in spite of the fact that the
+inference operates on indirect and incomplete data, a thoroughly calibrated
+piece of equipment can considerably improve the quality of prediction. However,
+even with a noise of \celsius{2}---meaning that measurements are dispersed over
+a wide band of \celsius{8} with a probability of more than 0.95---the \ac{NRMSE}
+is still only 4\%.
 
 \hiddensubsection{Sequential and Parallel Sampling}
 

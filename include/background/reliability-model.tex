@@ -81,8 +81,8 @@ given by
 
 It is natural to expect that the usage conditions and, hence, the corresponding
 stress change over the period \period. Then the distribution of $\life_i$ should
-reflect this aspect, which is not yet prominent in \eref{weibull-distribution}.
-In order to take it into account, the period is split into \nk{i} time intervals
+reflect this aspect, which is not prominent in \eref{weibull-distribution}. In
+order to take it into account, the period is split into \nk{i} time intervals
 $\{ \dt_{ij} \}_{j = 1}^{\nk{i}}$ so that the conditions that are relevant to
 the model stay unchanged within each interval. Let
 \[
@@ -107,10 +107,10 @@ $\scale_i$ is rewritten as
 \[
   \scale_i = \frac{\sum_{j = 1}^{\nk{i}} \dt_{ij}}{\Gamma\left(1 + \frac{1}{\shape_i}\right) \sum_{j = 1}^{\nk{i}} \frac{\Delta t_{ij}}{\mean_{ij}}}.
 \]
-Note now that the reliability model in \eref{weibull-reliability} becomes fully
-specified as soon as $\dt_{ij}$ and $\mean_{ij}$ are identified for $j =
-\range{1}{\nk{i}}$. This part of the model depends on the particular failure
-mechanism considered, which we discuss next.
+Note now that the model in \eref{weibull-reliability} becomes fully specified as
+soon as $\dt_{ij}$ and $\mean_{ij}$ are identified for $j = \range{1}{\nk{i}}$.
+This part of the model depends on the particular failure mechanism considered,
+which we discuss next.
 
 \subsection{Thermal-Cycling Fatigue}
 \slab{thermal-cycling-fatigue}
@@ -159,8 +159,9 @@ reliability function is the one in \eref{weibull-reliability} with
 \begin{equation} \elab{thermal-cycling-scale}
   \scale_i = \frac{\sum_{j = 1}^{\nk{i}} \dt_{ij}}{\Gamma\left(1 + \frac{1}{\shape_i}\right) \sum_{j = 1}^{\nk{i}} \frac{1}{\nk{ij}}}
 \end{equation}
-where \nk{ij} is as in \eref{thermal-cycling-mean-cycles}. Using
-\eref{weibull-expectation}, the \ac{MTTF} of the processing element is
+where \nk{ij} is given in \eref{thermal-cycling-mean-cycles}. Using
+\eref{weibull-expectation}, the \ac{MTTF} of the processing element is as
+follows:
 \begin{equation} \elab{thermal-cycling-mean-time}
   \mean_i = \frac{\sum_{j = 1}^{\nk{i}} \dt_{ij}}{\sum_{j = 1}^{\nk{i}} \frac{1}{\nk{ij}}}.
 \end{equation}

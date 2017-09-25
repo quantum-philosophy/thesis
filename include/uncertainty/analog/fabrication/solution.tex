@@ -12,8 +12,8 @@ example, \f can be a piece of code.
 Without loss of generality, we adhere to the following convention. Each die is a
 potential measurement site, and $\hnd < \nd$ denotes the number of those sites
 that are actually measured. Each site comprises \np measurement points, and
-there are \ns data instances taken at each point. For instance, in the example
-given in \sref{inference-motivation}, an observation at a site is a temperature
+there are \ns data instances per each point. For instance, in the example given
+in \sref{inference-motivation}, an observation at a site is a temperature
 profile $\mq \in \real^{\np \times \ns}$, which is a matrix capturing
 temperature of \np processing elements at \ns time moments as defined in
 \eref{temperature-profile}. Denote the collected data by $H$ and assume that the
@@ -34,9 +34,9 @@ quantity of measurement \h and, thereby, forms the data set $H$. At Stage~2, we
 undertake an optimization procedure that is to assist the sampling procedure at
 Stage~3. The latter produces a collection of samples of the quantity of interest
 \g, such as the effective channel length, denoted by $G$. This data set $G$ is
-then processed at Stage~4 in order to estimate the desired characteristics about
-\g such as the probability of \g being smaller than a certain threshold; recall
-the example in \sref{inference-motivation}. It can be seen in
+then processed at Stage~4 in order to estimate the desired statistics about \g
+such as the probability of \g being smaller than a certain threshold; recall the
+example in \sref{inference-motivation}. It can be seen in
 \fref{inference-overview} that Stage~2 and Stage~3 actively communicate with the
 two models on the right-hand side called the data model and statistical model,
 which is what we elaborate on in the following two subsections.
@@ -148,11 +148,10 @@ one is composed of the $\hnd \np$ points where the observations in $H$ are made
 the locations where the designer wishes to characterize \g. For simplicity,
 assume that the designer is interested in all the sites, which is $\nd \np$
 locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
-these locations. Second, the dimensionality is reduced further via the
-model-order-reduction technique described in \xref{probability-transformation}.
-Concretely, we perform the transformation in \eref{model-order-reduction} with
-respect to the correlation matrix of \vg computed via
-\eref{inference-covariance}. The result is
+these locations. Second, the dimensionality is reduced further via the technique
+described in \xref{probability-transformation}. Concretely, we perform the
+transformation in \eref{model-order-reduction} with respect to the correlation
+matrix of \vg computed via \eref{inference-covariance}. The result is
 \begin{equation} \elab{inference-reduction}
   \vg = \mu_\g \v{1} + \sigma_\g \m{U} \tm{\Lambda}^\frac{1}{2} \vz
 \end{equation}
@@ -160,9 +159,9 @@ where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
 \real^\nz$ is a vector of independent random variables that obey the standard
 Gaussian distribution. The number \nz is the final dimensionality of the model
 of \g; typically, $\nz \ll \nd \np$. In addition, the parameters $\u_\g$ in
-\eref{inference-prior-quantity} are now known, and they are $\u_\g = \{ \vz,
-\mu_\g, \sigma^2_\g \}$; see \fref{inference-statistical-model}. The model is
-now ready for practical computations.
+\eref{inference-prior-quantity} are now known: $\u_\g = \{ \vz, \mu_\g,
+\sigma^2_\g \}$; see \fref{inference-statistical-model}. The model is now ready
+for practical computations.
 
 Step~3 is to define a likelihood function, which is where the observed
 information is taken into account; see \xref{bayesian-statistics}. In our case,
@@ -210,29 +209,30 @@ distributions, are a common choice for a Gaussian model whose mean and variance
 are unknown. The parameters $\mu_0$, $\tau^2_\g$, and $\tau^2_\epsilon$
 represent the presumable values of $\mu_u$, $\sigma^2_\g$, and
 $\sigma^2_\epsilon$, respectively, and are set by the designer based on the
-prior knowledge of the technological process and measurement equipment employed.
-The parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
-this prior information. When the prior knowledge is weak, less specific priors
-can be considered \cite{gelman2013}. Finally, $p(\u)$ in \eref{bayes-theorem} is
+prior knowledge of the technological process and measurement equipment. The
+parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
+this information. When the prior knowledge is weak, less specific priors can be
+considered \cite{gelman2013}. Finally, $p(\u)$ in \eref{bayes-theorem} is
 obtained by multiplying the densities of the priors in \eref{inference-prior}.
 
-Step~5 is to compile the posterior in \eref{bayes-theorem}. To this end, the
-likelihood function $p(H | \u)$, which is the density of the distribution in
-\eref{inference-likelihood}, and the prior $p(\u)$, which is the product of the
-densities of the distributions in \eref{inference-prior}, are put together. The
-density of the resulting posterior distribution is as follows:
+Step~5 is to calculate the posterior $p(\u | H)$ in \eref{bayes-theorem}. To
+this end, the likelihood function $p(H | \u)$, which is the density of the
+distribution shown in \eref{inference-likelihood}, and the prior $p(\u)$, which
+is the product of the densities of the distributions shown in
+\eref{inference-prior}, are put together. The density of the resulting posterior
+distribution is as follows:
 \begin{equation} \elab{inference-posterior}
   p(\u | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
 \end{equation}
-Provided that there is a way to draw samples from \eref{inference-posterior},
-the quantity of interest \g can be readily analyzed as we shall see in
-\sref{inference-post-processing}. The problem, however, is that direct sampling
-of the posterior is difficult due to the data model involved in the likelihood
-function via \vh; see \eref{inference-likelihood}. In order to circumvent this
-problem, we utilize the Metropolis--Hastings algorithm \cite{gelman2013}
-outlined in \xref{bayesian-statistics}, which operates on an auxiliary
-distribution called the proposal distribution. The construction of an adequate
-proposal is discussed next.
+Provided that there is a way to draw samples from \eref{inference-posterior}, \g
+can be readily analyzed as we shall see in \sref{inference-post-processing}. The
+problem, however, is that direct sampling of the posterior is difficult due to
+the data model involved in the likelihood function via \vh; see
+\eref{inference-likelihood}. In order to circumvent this problem, we utilize the
+Metropolis--Hastings algorithm \cite{gelman2013} outlined in
+\xref{bayesian-statistics}, which operates on an auxiliary distribution called
+the proposal distribution. The construction of an adequate proposal is discussed
+next.
 
 \subsection{Optimization Procedure}
 \slab{inference-optimization}
@@ -249,15 +249,15 @@ construction of the proposal is an essential component of the proposed
 framework.
 
 A common technique for constructing a high-quality proposal is to optimize the
-posterior given in \eref{inference-posterior}. More specifically, we seek such a
-value $\u^*$ of \u that maximizes \eref{inference-posterior} and, hence, has the
+posterior in \eref{inference-posterior}. Specifically, we seek such a value
+$\u^*$ of \u that maximizes \eref{inference-posterior} and, hence, has the
 maximum posterior probability. In addition, we calculate the negative of the
 Hessian matrix at $\u^*$, which is called the observed information matrix and
 denoted by $\m{J}$; see the output of Stage~2 in \fref{inference-overview}.
 Using $\u^*$ and $\m{J}$, we can construct such a proposal that allows the
 Metropolis--Hastings algorithm \one~to start producing samples directly from the
 desired regions of high probability and \two~to explore those regions more
-rapidly. In the next subsection, the usage of $\u^*$ and $\m{J}$ is explicated.
+rapidly. The usage of $\u^*$ and $\m{J}$ is explained next.
 
 \subsection{Sampling Procedure}
 
@@ -276,13 +276,13 @@ the current position of the chain as follows:
 \begin{equation} \elab{inference-proposal}
   \u \sim t_\nu(\u^*, \alpha^2 \m{J}^{-1})
 \end{equation}
-where $\u^*$ and $\m{J}$ are as in \sref{inference-optimization}, \nu is the
-number of degrees of freedom, and $\alpha$ is a tuning constant controlling the
+where $\u^*$ and $\m{J}$ are as in \sref{inference-optimization}; \nu is the
+number of degrees of freedom; and $\alpha$ is a tuning constant controlling the
 standard deviation of the proposal. Now sampling the proposal in
 \eref{inference-proposal} and evaluating the posterior in
-\eref{inference-posterior} can be done in parallel. The obtained samples can
-then be accepted or rejected subsequently as it is done in the usual
-Metropolis--Hastings algorithm.
+\eref{inference-posterior} can be done in parallel. The obtained samples are
+then accepted or rejected subsequently as in the usual Metropolis--Hastings
+algorithm.
 
 Having completed the sampling procedure, we obtain a collection of samples of
 the parameterization $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$. The first portion of

@@ -98,7 +98,7 @@ $\q_\maximum$ on the resulting temperature profile \mq.
 \subsection{\solutiontitle}
 \slab{thermal-cycling-solution}
 
-The optimization is undertaken using a genetic algorithm \cite{schmitz2004}. In
+The optimization is carried out via a genetic algorithm \cite{schmitz2004}. In
 this paradigm inspired by biology, a population of chromosomes, which represent
 candidate solutions, is carried through a number of generations in order to
 produce a chromosome with the best possible fitness, that is, a solution that
@@ -126,12 +126,13 @@ schedule \schedule. If the schedule violates the deadline constraint given in
 to the amount of violation and is not further processed. Otherwise, based on the
 parameters of the processing elements and tasks, a power profile \mp is
 constructed, and the corresponding temperature profile \mq is computed using our
-technique presented in \sref{dynamic-steady-state-solution}. If the profile
-violates the temperature constraint in \eref{thermal-cycling-constraints}, the
-chromosome is penalized proportionally to the amount of violation and is not
-further processed. Otherwise, the \ac{MTTF} of each processing element is
-estimated according to \eref{thermal-cycling-mean-time}, and the fitness
-function in \eref{thermal-cycling-objective} is computed.
+technique presented in \sref{dynamic-steady-state-solution}. If the temperature
+profile violates the temperature constraint given in
+\eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
+to the amount of violation and is not further processed. Otherwise, the
+\ac{MTTF} of each processing element is estimated according to
+\eref{thermal-cycling-mean-time}, and the fitness function shown in
+\eref{thermal-cycling-objective} is calculated.
 
 \subsection{\resultstitle}
 \slab{thermal-cycling-results}
@@ -148,13 +149,13 @@ tasks are uniformly distributed between 1 and 10~ms, and that the static power
 accounts for 30--60\% of the total power consumption. The area of a processing
 element is set to 4~mm\textsuperscript{2}. The modeling of the static power is
 based on the linear approximation discussed in
-\sref{power-temperature-interplay}. The maximum-temperature constraint
-$\q_\maximum$ in \eref{thermal-cycling-constraints} is set to \celsius{100}. In
+\sref{power-temperature-interplay}. The maximum temperature $\q_\maximum$ in
+\eref{thermal-cycling-constraints} is set to \celsius{100}. In
 \eref{thermal-cycling-mean-cycles}, the Coffin--Manson exponent $b_i$ is set to
 6, the activation energy $c_i$ to 0.5, and the elastic region $\Delta \q_{0,
-ij}$ to 0 \cite{jedec2016}; the value of the coefficient of proportionality
-$a_i$ in \eref{thermal-cycling-mean-cycles} is irrelevant since we are concerned
-with relative improvements, which is to be explicated shortly.
+ij}$ to 0 \cite{jedec2016}; the value of the coefficient $a_i$ in
+\eref{thermal-cycling-mean-cycles} is irrelevant since we are concerned with
+relative improvements, which is to be explicated shortly.
 
 The initial population of chromosomes is created partially randomly and
 partially based on a temperature-aware heuristic proposed in \cite{xie2006},
@@ -164,7 +165,7 @@ satisfying real-time constraints. This initial solution is also used to decide
 on the deadline constraint \period in \eref{thermal-cycling-constraints}: it is
 set to the duration of the initial schedule extended by 5\%. Furthermore, the
 initial solution serves as a baseline for evaluating the performance of the
-solutions delivered by our optimization procedure.
+solutions delivered by our optimization.
 
 \inputtable{thermal-cycling-elements}
 In the first set of experiments, we change the number of processing elements \np
