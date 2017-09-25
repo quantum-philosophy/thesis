@@ -185,13 +185,13 @@ The next step is to compute the coefficients of power $\{ \hat{\vp}_{i \vj} \}$
 in \eref{chaos-recurrence}, which subsequently yield the coefficients of
 temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in \sref{polynomial-chaos},
 these computations involve multidimensional integration with respect to the
-distribution of \vz, which should be done numerically using a quadrature rule;
-recall \sref{chaos-construction}. When beta distributions are concerned, the
-natural choice is the Gauss--Jacobi quadrature; see \sref{sparse-integration}.
-Then, using \eref{quadrature-summation}, the coefficient are computed as shown
-in \eref{chaos-coefficient}. It is important to note that \lq should be chosen
-in such a way that the rule is exact for polynomials of a total order up to $2
-\lc$, that is, twice the level of \ac{PC} expansions, which can be seen in
+distribution of \vz, which should be done numerically using a quadrature; recall
+\sref{chaos-construction}. When beta distributions are concerned, the natural
+choice is the Gauss--Jacobi quadrature; see \sref{sparse-integration}. Then,
+using \eref{quadrature-summation}, the coefficient are computed as shown in
+\eref{chaos-coefficient}. It is important to note that \lq should be chosen in
+such a way that the quadrature is exact for polynomials of a total order up to
+$2 \lc$, that is, twice the level of \ac{PC} expansions, which can be seen in
 \eref{chaos-projection} \cite{eldred2008}. Therefore, $\lq \geq \lc + 1$ as the
 quadrature is Gaussian.
 
