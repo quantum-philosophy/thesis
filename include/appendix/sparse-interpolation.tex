@@ -37,7 +37,7 @@ are the collocation nodes and basis functions, respectively, and
 $\tensorindex{n}{\vi} \subset \natural^n$ is an index set whose cardinality
 depends on both $n$ and \vi and is denoted by $n_{\vi}$.
 
-Similar to \sref{sparse-integration}, the construction of $\interpolant{n}{\vi}$
+Similar to \xref{sparse-integration}, the construction of $\interpolant{n}{\vi}$
 can be based on the full tensor product of $n$ one-dimensional interpolants as
 follows:
 \begin{equation} \elab{interpolant-tensor}
@@ -49,12 +49,12 @@ in which case $\tensorindex{n}{\vi}$ is the same as the one in
   e_{\vi \vj}(\vx) = \prod_{k = 1}^n e_{i_k j_k}(x_k)
 \]
 for any $\vx \in [0, 1]^n$. The main observation here is similar to the one made
-in \sref{sparse-integration}: the number of collocation nodes grows
+in \xref{sparse-integration}: the number of collocation nodes grows
 exponentially as the number of dimensions increases. Nevertheless,
 \eref{interpolant-tensor} serves well as a building block for a more efficient
 algorithm, which we discuss next.
 
-This algorithm is the Smolyak algorithm introduced in \sref{sparse-integration}.
+This algorithm is the Smolyak algorithm introduced in \xref{sparse-integration}.
 In this context, the algorithm combines a number of small tensor-product
 interpolants in such a way that the resulting interpolant preserves the
 approximating power of the full tensor product only for a certain polynomial

@@ -7,14 +7,14 @@ to efficiently tackle multidimensional problems, the ability to perform gradual
 refinement of the approximation with a natural error control, and the ability to
 make the refinement fine-grained and, therefore, gain further efficiency.
 
-Hierarchical interpolation is introduced in \sref{sparse-interpolation}, and
+Hierarchical interpolation is introduced in \xref{sparse-interpolation}, and
 here we rely heavily on the results given in that section. The mathematics
-presented in \sref{sparse-interpolation} as well as here is based on the
+presented in \xref{sparse-interpolation} as well as here is based on the
 development in \cite{klimke2006, ma2009, jakeman2012}.
 
 Let \g as a function of \vz via $\transform$ be in $\continuous([0, 1]^\nz)$,
 the space of continuous functions on $[0, 1]^\nz$; this assumption is not
-limiting in practice. As shown in \sref{sparse-interpolation}, \g can be
+limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
 approximated using the following hierarchical interpolant:
 \begin{equation} \elab{interpolant-sparse}
   \g \approx \interpolant{\nz}{\ls}(\g)
@@ -31,11 +31,11 @@ respectively.
 
 Due to the reason to be discussed in \sref{interpolant-adaptivity}, the
 interpretation of \eref{interpolant-sparse} is different from the one used in
-\sref{sparse-interpolation}. Specifically, $\ls \in \natural$ no longer
+\xref{sparse-interpolation}. Specifically, $\ls \in \natural$ no longer
 represents the current interpolation level but rather the current interpolation
 step, and $\interpolant{\nz}{\ls}(\g)$ is the interpolant at that step. From now
 on, all index sets are generally subsets of their full-fledged counterparts
-defined in \sref{sparse-interpolation}.
+defined in \xref{sparse-interpolation}.
 
 Let us now turn to the choice of collocation nodes and basis functions.
 
@@ -43,7 +43,7 @@ Let us now turn to the choice of collocation nodes and basis functions.
 \slab{interpolant-grid}
 
 \inputfigure{interpolant-grid}
-As explained in \sref{sparse-interpolation}, the integration grid should
+As explained in \xref{sparse-interpolation}, the integration grid should
 preferably be fully nested in order to gain additional computational efficiency.
 Such a grid can be constructed using the family of Newton--Cotes rules
 \cite{ma2009}, which, moreover, is well disposed to adaptivity as we shall see
@@ -52,7 +52,7 @@ nodes on $[0, 1]$.
 
 There are two types of Newton--Cotes rules: closed and open. The only difference
 between the two is that the former includes the endpoints, that is, 0 and 1,
-while the latter does not. Now, in \sref{sparse-interpolation}, we postulate
+while the latter does not. Now, in \xref{sparse-interpolation}, we postulate
 that the condition in \eref{interpolant-tensor-exactness} has to be fulfilled in
 order to proceed. The closed type satisfies this condition, and it is the one
 used in the original version of local adaptivity presented in \cite{ma2009}. The
@@ -130,7 +130,7 @@ rather irregular on the other. Under these circumstances, it is natural to
 expect that, in order to attain the same accuracy, the first half should require
 much fewer collocation nodes than the other one; recall
 \fref{interpolant-example}. However, if we followed the usual construction
-procedure described in \sref{sparse-interpolation}, we would not be able to
+procedure described in \xref{sparse-interpolation}, we would not be able to
 benefit from this idiosyncrasy: both sides would be treated equally, and all the
 nodes of each level would be added. The solution to the above problem is to make
 the interpolation algorithm adaptive, which we discuss next.
@@ -229,7 +229,7 @@ $\vi_{\ls}$.
 The final question to answer is the stopping condition of the approximation
 process in \eref{interpolant-sparse}. Apart from the natural constraints on the
 maximum number of function evaluations and the maximum interpolation level (the
-original \ls in \sref{sparse-interpolation}), we rely on the following
+original \ls in \xref{sparse-interpolation}), we rely on the following
 criterion. Assume there are two additional constants: \error{a} and \error{r},
 which are referred to as the absolute and relative error, respective. Then the
 process is terminated as soon as

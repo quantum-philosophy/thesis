@@ -1,7 +1,7 @@
 In order to achieve the established goal, we make use of indirect measurements.
 Specifically, instead of \g, we measure an auxiliary parameter \h, which we
 refer to as the quantity of measurement. The observations of \h are then
-processed via Bayesian inference introduced in \sref{bayesian-statistics} in
+processed via Bayesian inference introduced in \xref{bayesian-statistics} in
 order to derive the on-wafer distribution of \g. The quantity \h is chosen such
 that \one~\h is convenient and cheap to be measured; \two~\h depends on \g,
 which is signified by $\h = \f(\g)$; and \three~there is a way to compute \h
@@ -149,7 +149,7 @@ the locations where the designer wishes to characterize \g. For simplicity,
 assume that the designer is interested in all the sites, which is $\nd \np$
 locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
 these locations. Second, the dimensionality is reduced further via the
-model-order-reduction technique described in \sref{probability-transformation}.
+model-order-reduction technique described in \xref{probability-transformation}.
 Concretely, we perform the transformation in \eref{model-order-reduction} with
 respect to the correlation matrix of \vg computed via
 \eref{inference-covariance}. The result is
@@ -165,7 +165,7 @@ of \g; typically, $\nz \ll \nd \np$. In addition, the parameters $\u_\g$ in
 now ready for practical computations.
 
 Step~3 is to define a likelihood function, which is where the observed
-information is taken into account; see \sref{bayesian-statistics}. In our case,
+information is taken into account; see \xref{bayesian-statistics}. In our case,
 the observed information is the measurements $H$ stacked into \hvh as described
 in \sref{inference-data-model}. Since the measurement process is not perfect, we
 also have to take into consideration measurement noise. To this end, the
@@ -230,7 +230,7 @@ the quantity of interest \g can be readily analyzed as we shall see in
 of the posterior is difficult due to the data model involved in the likelihood
 function via \vh; see \eref{inference-likelihood}. In order to circumvent this
 problem, we utilize the Metropolis--Hastings algorithm \cite{gelman2013}
-outlined in \sref{bayesian-statistics}, which operates on an auxiliary
+outlined in \xref{bayesian-statistics}, which operates on an auxiliary
 distribution called the proposal distribution. The construction of an adequate
 proposal is discussed next.
 

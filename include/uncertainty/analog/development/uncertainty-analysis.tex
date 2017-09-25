@@ -31,7 +31,7 @@ is one reoccurring aspect about \vu that is worth discussing already here.
 
 A description of \vu supplied by the designer is an input to our probabilistic
 analysis. A proper way to describe a set of random variables is to specify their
-joint distribution function; see \sref{probability-theory}. In practice,
+joint distribution function; see \xref{probability-theory}. In practice,
 however, such exhaustive information is often unavailable, which is mainly due
 to the high dimensionality and intricate dependencies inherent to real-life
 problems.
@@ -41,11 +41,11 @@ F_i \}_{i = 1}^\nu$ and correlation matrix $\correlation{\vu}$ of \vu, which are
 not sufficient to reconstruct the joint distribution in general. However, the
 joint distribution can be approximated well by accompanying the available
 marginal distributions by a carefully constructed copula \cite{nelsen2006},
-which makes \vu fully specified; see \sref{probability-theory}. Specifically,
+which makes \vu fully specified; see \xref{probability-theory}. Specifically,
 one can construct a Gaussian copula---which is defined in terms of a correlation
 matrix (different from $\correlation{\vu}$)---based on the available correlation
 matrix via the Nataf transformation \cite{liu1986}; see
-\sref{probability-transformation}.
+\xref{probability-transformation}.
 
 Without loss of generality, we are target the above practical scenario in our
 experiments in this section and the next one. However, it should be understood
@@ -83,14 +83,14 @@ Rosenblatt's approach is suitable when the joint distribution function of \vu is
 known. However, as emphasized in \sref{chaos-formulation}, such information is
 rarely available. A set of marginal distributions and a correlation matrix are
 more likely to be given, which are already sufficient for the Nataf
-transformation; see \sref{probability-transformation} for more details.
+transformation; see \xref{probability-transformation} for more details.
 
 Apart from the extraction of the independent variables \vz, an essential
 operation at this stage is model order reduction since the number of stochastic
 dimensions---that is, the dimensionality of \vz---directly impacts the
 complexity of the rest of the computations. This operation is frequently treated
 as a part of the \ac{KL} decomposition, and it is also elaborated on in
-\sref{probability-transformation}.
+\xref{probability-transformation}.
 
 \subsection{Surrogate Construction}
 \slab{chaos-construction}
@@ -98,10 +98,10 @@ as a part of the \ac{KL} decomposition, and it is also elaborated on in
 In order to obtain a computationally efficient and convenient characterization
 of \g, we utilize the \ac{PC} decomposition with nonintrusive spectral
 projections. The corresponding mathematical foundation is given in
-\sref{polynomial-chaos}.
+\xref{polynomial-chaos}.
 
 Assume that \g as a function of \vz belongs to $\L{2}(\Omega, \F,
-\probability)$; see \sref{probability-theory}. Then \g is expanded into the
+\probability)$; see \xref{probability-theory}. Then \g is expanded into the
 following series at Stage~3 in \fref{chaos-overview}:
 \begin{equation} \elab{chaos-expansion}
   \g \approx \chaos{\nz}{\lc}{\g}
@@ -127,7 +127,7 @@ Gaussian distributions.
 As shown in \eref{chaos-inner-product} and \eref{chaos-projection}, each
 coefficient $\hat{\g}_{\vi}$ is an \nz-dimensional integral of the product of \g
 and $\psi_{\vi}$. In general, this integral should be computed numerically as
-described in \sref{sparse-integration}. Specifically, an adequate
+described in \xref{sparse-integration}. Specifically, an adequate
 \nz-dimensional quadrature $\quadrature{\nz}{\lq}$---which is a set of
 \nz-dimensional points accompanied by a set of scalar weights---is to be
 utilized. The result is
@@ -152,7 +152,7 @@ at most \lc, and \g is approximated by such a polynomial, the integrand in
 \eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. Then
 one usually constructs such a quadrature that is exact for polynomials of total
 order up to $2 \lc$ \cite{eldred2008}. In the case of Gaussian quadratures
-discussed in \sref{sparse-integration}, a quadrature of level \lq is exact for
+discussed in \xref{sparse-integration}, a quadrature of level \lq is exact for
 polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
 this particular and very common case, it is sufficient to keep \lc and \lq
 equal. More generally, the index set $\sparseindex{\nz}{\lc}$ in
@@ -250,7 +250,7 @@ and used as shown in \aref{chaos-construction}.
 \slab{chaos-processing}
 
 Due to the properties of the \ac{PC} decomposition---in particular, due to the
-orthogonality of the basis discussed in \sref{polynomial-chaos}---the obtained
+orthogonality of the basis discussed in \xref{polynomial-chaos}---the obtained
 polynomial representation in \eref{chaos-expansion} allows for various
 statistics about \g to be estimated with little effort, which is the subject of
 Stage~4 in \fref{chaos-overview}. The reason that this estimation is

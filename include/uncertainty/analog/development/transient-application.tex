@@ -132,7 +132,7 @@ Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
 directly impacts the computational cost of \ac{PC} expansions, which is
 elaborated on in \sref{chaos-construction}, one should consider a possibility
 for model order reduction before constructing \ac{PC} expansions. To this end,
-the model order reduction described in \sref{probability-transformation} is an
+the model order reduction described in \xref{probability-transformation} is an
 essential part of and assumed to be active in the above transformation. The
 reduce dimensionality is denoted by \nz.
 
@@ -183,11 +183,11 @@ coefficients.
 
 The next step is to compute the coefficients of power $\{ \hat{\vp}_{i \vj} \}$
 in \eref{chaos-recurrence}, which subsequently yield the coefficients of
-temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in \sref{polynomial-chaos},
+temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in \xref{polynomial-chaos},
 these computations involve multidimensional integration with respect to the
 distribution of \vz, which should be done numerically using a quadrature; recall
 \sref{chaos-construction}. When beta distributions are concerned, the natural
-choice is the Gauss--Jacobi quadrature; see \sref{sparse-integration}. Then,
+choice is the Gauss--Jacobi quadrature; see \xref{sparse-integration}. Then,
 using \eref{quadrature-summation}, the coefficient are computed as shown in
 \eref{chaos-coefficient}. It is important to note that \lq should be chosen in
 such a way that the quadrature is exact for polynomials of a total order up to

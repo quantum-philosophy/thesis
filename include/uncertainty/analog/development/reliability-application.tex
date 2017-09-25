@@ -95,19 +95,19 @@ $\transform$. Specifically, we use the one in \eref{probability-transformation},
 which also includes model order reduction. Unlike
 \sref{chaos-transient-application}, in this section, we let \vz obey the
 standard Gaussian distribution and, therefore, tailor $\transform$ accordingly;
-see \sref{probability-transformation}.
+see \xref{probability-transformation}.
 
 \subsection{Surrogate Construction}
 
 Since the expansion variables \vz are Gaussian, the polynomial basis considered
 at Stage~3 is to be composed of Hermite polynomials, which is the exact scenario
-described in \sref{polynomial-chaos}. The variables also tell us how to approach
+described in \xref{polynomial-chaos}. The variables also tell us how to approach
 numerical integration needed for the evaluation of the coefficients of \ac{PC}
 expansions: since we are interested in integrals with respect to the standard
 Gaussian measure, Gauss--Hermite quadratures \cite{maitre2010} are worth
 considering. These quadratures are especially efficient since they belong to the
 family of Gaussian quadratures and, thus, inherit their properties; see
-\sref{sparse-integration}.
+\xref{sparse-integration}.
 
 Lastly, let us illustrate of the Hermite basis. For a random vector $\vz: \Omega
 \to \real$ with one standard Gaussian variable ($\nz = 1$), a second-level
