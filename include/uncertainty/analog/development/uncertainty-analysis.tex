@@ -38,16 +38,15 @@ problems.
 
 A more realistic assumption is the knowledge of the marginal distributions $\{
 F_i \}_{i = 1}^\nu$ and correlation matrix $\correlation{\vu}$ of \vu, which are
-not sufficient to reconstruct the joint distribution in general. However, the
-joint distribution can be approximated well by accompanying the available
-marginal distributions by a carefully constructed copula \cite{nelsen2006},
-which makes \vu fully specified; see \xref{probability-theory}. Specifically,
-one can construct a Gaussian copula---which is defined in terms of a correlation
-matrix (different from $\correlation{\vu}$)---based on the available correlation
-matrix via the Nataf transformation \cite{liu1986}; see
-\xref{probability-transformation}.
+not sufficient to reconstruct the joint distribution in general. However, it can
+be approximated well by accompanying the available marginal distributions by a
+carefully constructed copula \cite{nelsen2006}, which makes \vu fully specified;
+see \xref{probability-theory}. Specifically, one constructs a Gaussian copula
+based on the available correlation matrix $\correlation{\vu}$ as a part of the
+Nataf transformation \cite{liu1986}; see \xref{probability-transformation}. This
+Gaussian copula is defined in terms of an auxiliary correlation matrix.
 
-Without loss of generality, we are target the above practical scenario in our
+Without loss of generality, we target the above practical scenario in our
 experiments in this section and the next one. However, it should be understood
 that, even though the marginal distributions and the above copula prescribe a
 joint distribution to \vu, this distribution is an approximation rather than as
@@ -79,11 +78,11 @@ if the correlated variables form a Gaussian vector, the uncorrelated ones are
 also mutually independent. In the general case (non-Gaussian), the most
 prominent solutions to attaining independence are the Rosenblatt transformation
 \cite{rosenblatt1952} and the Nataf transformation mentioned earlier.
-Rosenblatt's approach is suitable when the joint distribution function of \vu is
-known. However, as emphasized in \sref{chaos-formulation}, such information is
-rarely available. A set of marginal distributions and a correlation matrix are
-more likely to be given, which are already sufficient for the Nataf
-transformation; see \xref{probability-transformation} for more details.
+Rosenblatt's approach is suitable when the joint distribution of \vu is known.
+However, as emphasized in \sref{chaos-formulation}, such information is rarely
+available. A set of marginal distributions and a correlation matrix are more
+likely to be given, which are already sufficient for the Nataf transformation;
+see \xref{probability-transformation} for more details.
 
 Apart from the extraction of the independent variables \vz, an essential
 operation at this stage is model order reduction since the number of stochastic
@@ -135,8 +134,8 @@ utilized. The result is
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
   = \sum_{\vj \in \sparseindex{\nz}{\lq}} (\g \circ \transform)(\vz_{\vj}) \psi_{\vi}(\vz_{\vj}) w_{\vj}
 \end{equation}
-where $\lq \in \natural$ is the level of the quadrature, and $\{ \vz_{\vj}: \vj
-\in \sparseindex{\nz}{\lq} \} \subset \real^\nz$ and $\{ w_{\vj}: \vj \in
+where $\lq \in \natural$ is the quadrature's level, and $\{ \vz_{\vj}: \vj \in
+\sparseindex{\nz}{\lq} \} \subset \real^\nz$ and $\{ w_{\vj}: \vj \in
 \sparseindex{\nz}{\lq}  \} \subset \real$ are the corresponding points and
 weights, respectively. The operator $\quadrature{\nz}{\lq}$ is constructed via
 the Smolyak algorithm \cite{smolyak1963} as shown in \eref{quadrature-sparse}.
@@ -150,14 +149,16 @@ identically, and \emph{total-order} refers to the criterion used for
 constraining each dimension. Since $\psi_{\vi}$ is a polynomial of total order
 at most \lc, and \g is approximated by such a polynomial, the integrand in
 \eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. Then
-one usually constructs such a quadrature that is exact for polynomials of total
-order up to $2 \lc$ \cite{eldred2008}. In the case of Gaussian quadratures
-discussed in \xref{sparse-integration}, a quadrature of level \lq is exact for
-polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
-this particular and very common case, it is sufficient to keep \lc and \lq
-equal. More generally, the index set $\sparseindex{\nz}{\lc}$ in
-\eref{chaos-expansion} and the index set $\sparseindex{\nz}{\lq}$ in
-\eref{chaos-coefficient} should be synchronized.
+one typically constructs such a quadrature that is exact for polynomials of
+total order up to $2 \lc$ \cite{eldred2008}.
+
+In the case of Gaussian quadratures, which are introduced in
+\xref{sparse-integration}, a quadrature of level \lq is exact for polynomials of
+total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in this particular
+and very common case, it is sufficient to keep \lc and \lq equal. More
+generally, the content of the index set $\sparseindex{\nz}{\lc}$ in
+\eref{chaos-expansion} and the content of the index set $\sparseindex{\nz}{\lq}$
+in \eref{chaos-coefficient} should be synchronized.
 
 An important generalization of the isotropic Smolyak algorithm in
 \eref{quadrature-sparse} is the anisotropic Smolyak algorithm \cite{nobile2008}.
@@ -174,15 +175,15 @@ $\innerproduct{\cdot}{\cdot}$ is the standard inner product in $\real^\nz$.
 results in a sparse grid that is exact for the polynomial subspace that is
 obtained using the same index set.
 
-The above approach allows one to exploit anisotropic behaviors present in many
-practical problems \cite{nobile2008}. It provides a fine control over the
-computational cost associated with the construction of \ac{PC} expansions: a
+The above approach allows one to exploit anisotropic behaviors that are present
+in many practical problems \cite{nobile2008}. It provides a fine control over
+the computational cost associated with the construction of \ac{PC} expansions: a
 carefully chosen importance vector $\v{c}$ in
 \eref{index-total-order-anisotropic} can significantly reduce the number of
 polynomial terms in \eref{chaos-expansion} and the number of quadrature points
-in \eref{chaos-coefficient} needed for calculating the coefficients of those
-polynomial terms. Then the question is in the choice of $\v{c}$. When the
-\ac{KL} decomposition is utilized as a part of $\transform$ in
+in \eref{chaos-coefficient}, which are needed for calculating the coefficients
+of those polynomial terms. Then the question is in the choice of $\v{c}$. When
+the \ac{KL} decomposition is utilized as a part of $\transform$ in
 \eref{chaos-transformation}, a viable option in this regard is to rely on the
 variance contributions of the dimensions given by $\{ \lambda_i \}_{i = 1}^\nu$
 in \eref{karhunen-loeve}. Specifically, we let
@@ -230,9 +231,12 @@ where
 \end{align*}
 It can be seen that this formula is a matrix version of
 \eref{chaos-coefficient}. The matrix $\Pi$ is the one that should be precomputed
-and stored for future use. The pseudocode of the expansion procedure is given in
-\aref{chaos-construction} where Algorithm~G stands for a subroutine that
-calculates $\g \circ \transform$ for a given \vz, which is problem specific.
+and stored for future use.
+
+The pseudocode of a procedure that computes \ac{PC} expansions by leveraging the
+projection matrix $\Pi$ is given in \aref{chaos-construction} where Algorithm~G
+stands for a subroutine that calculates $\g \circ \transform$ for a given \vz,
+which is problem specific.
 
 Let us summarize this subsection. In order to give a probabilistic
 characterization of the quantity of interest \g, we construct a polynomial
@@ -243,20 +247,19 @@ formula given in \eref{quadrature-sparse}. The index set used in both
 \eref{chaos-expansion} and \eref{quadrature-sparse} is the one given in
 \eref{index-total-order-anisotropic} where the anisotropic weights are set
 according to \eref{chaos-anisotropic-weight}. For computational efficiency, the
-projection matrix in \eref{chaos-projection-matrix} is to be calculated, stored,
-and used as shown in \aref{chaos-construction}.
+projection matrix defined in \eref{chaos-projection-matrix} is to be calculated,
+stored, and used as illustrated in \aref{chaos-construction}.
 
 \subsection{Post-Processing}
 \slab{chaos-processing}
 
-Due to the properties of the \ac{PC} decomposition---in particular, due to the
+Due to the properties of the \ac{PC} decomposition---in particular, the
 orthogonality of the basis discussed in \xref{polynomial-chaos}---the obtained
 polynomial representation in \eref{chaos-expansion} allows for various
 statistics about \g to be estimated with little effort, which is the subject of
 Stage~4 in \fref{chaos-overview}. The reason that this estimation is
-straightforwardness is that the function given in \eref{chaos-expansion} is
-nothing more than a polynomial; hence, it is easy to interpret and easy to
-evaluate.
+straightforward is that the function given in \eref{chaos-expansion} is nothing
+more than a polynomial; hence, it is easy to interpret and easy to evaluate.
 
 Let us find, for example, the expectation and variance of \g. Since the first
 polynomial $\psi_{\v{0}}$ in a normalized polynomial basis is unity by
@@ -264,7 +267,7 @@ definition \cite{xiu2010},
 \[
   \expectation{\psi_{\v{0}}} = 1.
 \]
-Therefore, using the orthogonality property in \eref{chaos-orthogonality}, we
+Hence, using the orthogonality property in \eref{chaos-orthogonality}, we
 conclude that
 \[
   \expectation{\psi_{\vi}} = 0
@@ -281,11 +284,11 @@ expressions:
 respectively. It can be seen that the \ac{PC} decomposition provides analytical
 formulae, solely based on the coefficients, for these probabilistic moments.
 
-The \ac{CDF} and \ac{PDF} of \g  can be estimated by virtue of a sampling method
-applied to \eref{chaos-expansion}, which is typically followed by kernel density
-estimation \cite{hastie2013} or a similar technique. The sampling in this
-context can be better understood by rewriting \eref{chaos-expansion}, which is
-given in terms of operators, as follows:
+The \ac{CDF} and \ac{PDF} of \g can be estimated by a sampling method applied to
+\eref{chaos-expansion}, which is typically followed by kernel density estimation
+\cite{hastie2013} or a similar technique. The sampling in this context can be
+better understood by rewriting \eref{chaos-expansion}, which is given in terms
+of operators, as follows:
 \[
   (\g \circ \transform)(\vz) \approx \chaos{\nz}{\lc}{\g}(\vz)
   = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}(\vz).
@@ -299,15 +302,16 @@ deterministic and stochastic quantities can be readily conducted on the
 expansion.
 
 \begin{remark} \rlab{chaos-multidimensional-output}
-The development given here remains valid even when \g is multidimensional from
-the standpoint of the number of outputs. In this case, it is considered as a row
-vector with an appropriate number of elements. Then all the operations with
-respect to \g, such as those in \eref{chaos-expansion},
-\eref{chaos-coefficient}, and \eref{chaos-moments}, should be undertaken
-element-wise. In \eref{chaos-coefficients} and \aref{chaos-construction}, \vg
-and $\hat{\vg}$ are treated as matrices with \nc rows, and $\g_i$ as a row
-vector. The output of Algorithm~G in \aref{chaos-construction} is assumed to be
-automatically reshaped into a row vector.
+The development given in this section remains valid even when \g is a
+multidimensional quantity from the standpoint of the number of outputs. In this
+case, it is convenient to consider \g as a row vector with an appropriate number
+of elements. Then all the operations that involve \g---such as those given in
+\eref{chaos-expansion}, \eref{chaos-coefficient}, and
+\eref{chaos-moments}---should be undertaken element-wise. In
+\eref{chaos-coefficients} and \aref{chaos-construction}, \vg and $\hat{\vg}$ are
+treated as matrices with \nc rows, and $\g_i$ as a row vector. The output of
+Algorithm~G in \aref{chaos-construction} is assumed to be automatically reshaped
+into a row vector.
 \end{remark}
 
 In what follows, we apply the uncertainty analysis presented here to a number of
