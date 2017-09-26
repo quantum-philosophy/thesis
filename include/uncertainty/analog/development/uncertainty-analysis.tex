@@ -132,15 +132,17 @@ described in \xref{sparse-integration}. Specifically, an adequate
 utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
-  = \sum_{\vj \in \sparseindex{\nz}{\lq}} (\g \circ \transform)(\vz_{\vj}) \psi_{\vi}(\vz_{\vj}) w_{\vj}
+  = \sum_{j \in \tensorindex{\nz}{\lq}} (\g \circ \transform)(\vz_j) \psi_{\vi}(\vz_j) w_j
 \end{equation}
-where $\lq \in \natural$ is the quadrature's level, and $\{ \vz_{\vj}: \vj \in
-\sparseindex{\nz}{\lq} \} \subset \real^\nz$ and $\{ w_{\vj}: \vj \in
-\sparseindex{\nz}{\lq}  \} \subset \real$ are the corresponding points and
-weights, respectively. The operator $\quadrature{\nz}{\lq}$ is constructed via
-the Smolyak algorithm \cite{smolyak1963} as shown in \eref{quadrature-sparse}.
-An important aspect to discuss now is the content of $\sparseindex{\nz}{\lc}$
-and $\sparseindex{\nz}{\lq}$.
+where $\lq \in \natural$ is the quadrature's level, and $\{ \vz_j \} \subset
+\real^\nz$ and $\{ w_j  \} \subset \real$ are the corresponding points and
+weights, respectively, indexed by $\tensorindex{\nz}{\lq} \subset \natural$. The
+operator $\quadrature{\nz}{\lq}$ is constructed via the Smolyak algorithm
+\cite{smolyak1963} as shown in \eref{quadrature-sparse}. An important aspect to
+note about this construction is that it is a combination of a number of
+cherry-picked operators identified by a certain index set denoted by
+$\sparseindex{\nz}{\lq} \subset \natural^n$. Let us discuss the content of
+$\sparseindex{\nz}{\lc}$ and $\sparseindex{\nz}{\lq}$.
 
 The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
 one in \eref{index-total-order-isotropic}, which is called an isotropic
@@ -156,9 +158,11 @@ In the case of Gaussian quadratures, which are introduced in
 \xref{sparse-integration}, a quadrature of level \lq is exact for polynomials of
 total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in this particular
 and very common case, it is sufficient to keep \lc and \lq equal. More
-generally, the content of the index set $\sparseindex{\nz}{\lc}$ in
-\eref{chaos-expansion} and the content of the index set $\sparseindex{\nz}{\lq}$
-in \eref{chaos-coefficient} should be synchronized.
+generally, the content of the index set $\sparseindex{\nz}{\lc}$, which is used
+in \eref{chaos-expansion}, and the content of the index set
+$\sparseindex{\nz}{\lq}$, which implicitly decides on the content of
+$\tensorindex{\nz}{\lq}$ used in \eref{chaos-coefficient}, should be
+synchronized.
 
 An important generalization of the isotropic Smolyak algorithm in
 \eref{quadrature-sparse} is the anisotropic Smolyak algorithm \cite{nobile2008}.
@@ -206,13 +210,12 @@ to one matrix multiplication with a precomputed matrix, which we show next.
 Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of
 $\sparseindex{\nz}{\lc}$, which is the number of polynomial terms and
 coefficients in \eref{chaos-expansion}. Let also $\nq =
-\cardinality{\sparseindex{\nz}{\lq}}$ be the cardinality of
-$\sparseindex{\nz}{\lq}$, which is the number of quadrature points and weights
+\cardinality{\tensorindex{\nz}{\lq}}$ be the cardinality of
+$\tensorindex{\nz}{\lq}$, which is the number of quadrature points and weights
 in \eref{chaos-coefficient}. Furthermore, assume that the index set
-$\sparseindex{\nz}{\lc}$ as well as $\sparseindex{\nz}{\lq}$ are given certain
-orderings so that one is able to refer to their elements using ordinary
-(one-dimensional) indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$,
-respectively. Now, let
+$\sparseindex{\nz}{\lc}$ as well as $\tensorindex{\nz}{\lq}$ are given certain
+orderings so that one is able to refer to their elements using one-dimensional
+indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$, respectively. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
   \Pi = (\psi_i(\vz_j) w_j)_{i = 1, j = 1}^{i = \nc, j = \nq}.
 \end{equation}

@@ -5,9 +5,9 @@ variables, which we denote by $\vx: \Omega \to \real^n$. Since the variables are
 independent and standard, they form an orthonormal basis in $G$, and $G$ is
 $n$-dimensional. The variables induce a probability measure on $\real^n$, and
 the corresponding distribution function $F$ is standard Gaussian given by
-\[
+\begin{equation} \elab{gaussian-measure}
   \d F(\v{y}) = (2 \pi)^{-\frac{n}{2}} \exp\left(-\frac{\norm[2]{\v{y}}^2}{2}\right) \d \v{y}.
-\]
+\end{equation}
 Then the inner product in the vector space of functions over $G$ is defined as
 \begin{equation} \elab{chaos-inner-product}
   \innerproduct{g}{h} = \int_{\real^n} g(\v{y}) h(\v{y}) \d F(\v{y})
