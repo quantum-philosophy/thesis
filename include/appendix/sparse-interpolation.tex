@@ -14,7 +14,7 @@ interpolant. Further,
 \end{align*}
 are collocation nodes and basis functions, respectively, and
 \[
-  \tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i} \subset \natural
+  \tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i}
 \]
 is a set indexing the first two where $n_i$ denotes its cardinality. In this
 context, the subscript $j \in \tensorindex{1}{i}$ is referred to as the order of
@@ -74,8 +74,8 @@ Then the Smolyak algorithm of level \ls is
 \end{equation}
 where
 \begin{align}
-  & \sparseindex{n}{\ls} = \{ \vi: \norm[1]{\vi} \leq \ls \} \text{ and} \nonumber \\
-  & \Delta\sparseindex{n}{\ls} = \{ \vi: \norm[1]{\vi} = \ls \}. \elab{interpolant-sparse-index-delta}
+  & \sparseindex{n}{\ls} = \{ \vi: \vi \in \natural^n, \norm[1]{\vi} \leq \ls \} \text{ and} \nonumber \\
+  & \Delta\sparseindex{n}{\ls} = \{ \vi: \vi \in \natural^n, \norm[1]{\vi} = \ls \}. \elab{interpolant-sparse-index-delta}
 \end{align}
 It can be seen in \eref{interpolant-sparse-incremental} that a Smolyak
 interpolant can be efficiently refined: the work done in order to attain one
