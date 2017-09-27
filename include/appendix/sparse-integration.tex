@@ -18,8 +18,9 @@ formula,
   & \W^1_i = \{ w_{ij}: j \in \tensorindex{1}{i} \} \subset \real
 \end{align*}
 are the points and weights of the quadrature, respectively, and
-$\tensorindex{1}{i} \subset \natural$ is an index set, whose cardinality is
-denoted by $n_i = \cardinality{\tensorindex{1}{i}}$.
+$\tensorindex{1}{i} \subset \natural$ is an index set. The cardinality of
+$\tensorindex{1}{i}$ depends on $i$ and is denoted by $n_i =
+\cardinality{\tensorindex{1}{i}}$.
 
 The level $i$ is the index of the quadrature in the corresponding family of
 quadratures with increasing precision. \emph{Precision} refers to the maximum
@@ -138,8 +139,8 @@ Using \eref{quadrature-sparse}, the integral in question is approximated as
   = \sum_{j \in \tensorindex{n}{\lq}} \f(\vx_j) w_j.
 \end{equation}
 For convenience, the points and weights of $\quadrature{n}{\lq}$ are indexed
-using a single one-dimensional set $\tensorindex{n}{\lq} \subset \natural$ whose
-cardinality is denoted by \nq. Note that, even though the level \lq is not
+using a single one-dimensional set $\tensorindex{n}{\lq} \subset \natural$,
+whose cardinality is denoted by \nq. Note that, even though the level \lq is not
 indicated in the notation of points and weights, it should be understood that
 they are generally different for different levels.
 

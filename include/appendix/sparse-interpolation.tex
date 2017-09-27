@@ -13,12 +13,9 @@ interpolant. Further,
   & \E_i = \{ e_{ij}: j \in \tensorindex{1}{i} \} \subset \continuous([0, 1])
 \end{align*}
 are collocation nodes and basis functions, respectively, and
-\[
-  \tensorindex{1}{i} = \{ j - 1 \}_{j = 1}^{n_i}
-\]
-is a set indexing the first two where $n_i$ denotes its cardinality. In this
-context, the subscript $j \in \tensorindex{1}{i}$ is referred to as the order of
-a node or function.
+$\tensorindex{1}{i}$ is an index set. The cardinality of $\tensorindex{1}{i}$
+depends on $i$ and is denoted by $n_i$. In this context, the subscript $j \in
+\tensorindex{1}{i}$ is referred to as the order of a node or function.
 
 Let us now turn to the multidimensional case. Let $\f: [0, 1]^n \to \real$ be a
 function in $\continuous([0, 1]^n)$, the space of continuous functions defined
@@ -34,8 +31,8 @@ specifying levels and orders, respectively. In the case,
   & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \elab{interpolant-tensor-basis}
 \end{align}
 are the collocation nodes and basis functions, respectively, and
-$\tensorindex{n}{\vi} \subset \natural^n$ is an index set whose cardinality
-depends on both $n$ and \vi and is denoted by $n_{\vi}$.
+$\tensorindex{n}{\vi} \subset \natural^n$ is an index set. The cardinality of
+$\tensorindex{n}{\vi}$ depends on both $n$ and \vi and is denoted by $n_{\vi}$.
 
 Similar to \xref{sparse-integration}, the construction of $\interpolant{n}{\vi}$
 can be based on the full tensor product of $n$ one-dimensional interpolants as
