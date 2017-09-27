@@ -5,7 +5,7 @@ The technique allows one to transition from a random variable $\x_1$ with a
 distribution function $F_1$ to a random variable $\x_2$ with a distribution
 function $F_2$ as
 \[
-  \x_2 = \transform_1(\x_1) = (F_2^{-1} \circ F_1)(\x_1) = (F_2^{-1}(F_1(\x_1))
+  \x_2 = \transform_1(\x_1) = (F_2^{-1} \circ F_1)(\x_1) = F_2^{-1}(F_1(\x_1)
 \]
 where $F_2^{-1}$ is the inverse of $F_2$, and the equality should be understood
 in distribution. In order for $F_2^{-1}$ to exist, $F_2$ is assumed to be a
@@ -15,15 +15,15 @@ such a uniform random variable, we obtain a random variable distributed
 according to the target $F_2$.
 
 The second transformation $\transform_2$ is based on the eigendecomposition
-given in \eref{eigendecomposition} applied to \eref{correlation-matrix} or, more
-generally, to \eref{covariance-matrix}. The technique is known as the discrete
-\ac{KL} decomposition \cite{ghanem1991, xiu2010}, and it is closely related to
-principal component analysis \cite{hastie2013}. It transforms potentially
-correlated random variables---which, without loss of generality, are assumed to
-be centered---into linearly uncorrelated random variables. Conversely, it allows
-one to transition from a random vector $\vx_1$ with $n_1$ linearly uncorrelated
-components to an $n_1$-dimensional random vector $\vx_2$ with a prescribed
-correlation structure. Specifically, the relation between the two vectors is
+given in \eref{eigendecomposition} applied to \eref{correlation-matrix}. The
+technique is known as the discrete \ac{KL} decomposition \cite{ghanem1991,
+xiu2010}, and it is closely related to principal component analysis
+\cite{hastie2013}. It transforms potentially correlated random
+variables---which, without loss of generality, are assumed to be centered---into
+linearly uncorrelated random variables. Conversely, it allows one to transition
+from a random vector $\vx_1$ with $n_1$ linearly uncorrelated components to an
+$n_1$-dimensional random vector $\vx_2$ with a prescribed correlation structure.
+Specifically, the relation between the two vectors is as follows:
 \begin{equation} \elab{karhunen-loeve}
   \vx_2 = \transform_2(\vx_1) = \m{U} \m{\Lambda}^\frac{1}{2} \vx_1
 \end{equation}
@@ -51,8 +51,8 @@ reconstructed as follows:
 \begin{equation} \elab{model-order-reduction}
   \vx_2 \approx \transform_2(\vx_1) = \m{U} \tm{\Lambda}^\frac{1}{2} \vx_1.
 \end{equation}
-In the above formula, $\tm{\Lambda} \in \real^{n_2 \times n_1}$ is a truncated
-version of $\m{\Lambda} \in \real^{n_2 \times n_2}$ given in
+In this formula, $\tm{\Lambda} \in \real^{n_2 \times n_1}$ is a truncated
+version of $\m{\Lambda} \in \real^{n_2 \times n_2}$ in
 \eref{eigendecomposition}: the matrix contains only the first $n_1$ columns of
 $\m{\Lambda}$. When $\eta$ is sufficiently large, the dropped variables are
 considered insignificant, redundant.

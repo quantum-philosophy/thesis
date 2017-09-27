@@ -27,8 +27,8 @@ on the unit hypercube $[0, 1]^n$. The function is approximated as
   \f \approx \interpolant{n}{\vi}(\f)
   = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) e_{\vi \vj}
 \]
-where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
-(multi-)indices specifying levels and orders, respectively. In the case,
+where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are indices
+specifying levels and orders, respectively. In the case,
 \begin{align}
   & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \elab{interpolant-tensor-grid} \\
   & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \elab{interpolant-tensor-basis}
@@ -95,7 +95,7 @@ Then the collocation nodes of a Smolyak interpolant of level \ls are
 The above formula also shows how the collocation nodes of one level are related
 to the collocation nodes of the previous level. The sparsity and incremental
 refinement of the Smolyak approach are remarkable properties \emph{per se};
-however, they can be taken even further as we discuss next.
+however, the approach can be taken even further as we discuss next.
 
 It can be seen in \eref{interpolant-sparse-grid} that it is beneficial to the
 refinement to have that $\X^1_{i - 1}$ is entirely included in $\X^1_i$ since,
@@ -108,7 +108,7 @@ derived from \eref{interpolant-sparse-grid} decreases. In words, the values of
 the grid grows without discarding its previous structure. With this aspect in
 mind, the rule used for generating successive sets of points $\{ \X^1_i \}_i$
 should be chosen to be nested, that is, in such a way that $\X^1_i$ contains all
-the nodes in $\X^1_{i - 1}$.
+the nodes present in $\X^1_{i - 1}$.
 
 The final step is to rewrite \eref{interpolant-sparse-incremental} in its
 hierarchical form. To this end, we require interpolants of higher levels to
@@ -117,8 +117,9 @@ represent exactly interpolants of lower levels. In one dimension, it means that
   \interpolant{1}{i - 1}(\f) = \interpolant{1}{i}(\interpolant{1}{i - 1}(\f)).
 \end{equation}
 The above condition can be satisfied by an appropriate choice of collocation
-nodes and basis functions. Assuming that it holds and using
-\eref{interpolant-tensor-1d} and \eref{interpolant-tensor-delta-1d},
+nodes and basis functions. Assuming that \eref{interpolant-tensor-exactness}
+holds and using \eref{interpolant-tensor-1d} and
+\eref{interpolant-tensor-delta-1d},
 \[
   \Delta\interpolant{1}{i}(\f) = \sum_{j \in \Delta\tensorindex{1}{i}} \left(\f(\x_{ij}) - \interpolant{1}{i - 1}(\f)(\x_{ij})\right) e_{ij}
 \]

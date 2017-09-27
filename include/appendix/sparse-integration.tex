@@ -19,28 +19,26 @@ formula,
 \end{align*}
 are the points and weights of the quadrature, respectively, and
 $\tensorindex{1}{i} \subset \natural$ is an index set, whose cardinality is
-denoted by
-\[
-  n_i = \cardinality{\tensorindex{1}{i}}.
-\]
+denoted by $n_i = \cardinality{\tensorindex{1}{i}}$.
 
-The level $i$ is the quadrature's index in the corresponding family of
+The level $i$ is the index of the quadrature in the corresponding family of
 quadratures with increasing precision. \emph{Precision} refers to the maximum
-total order of polynomials that the quadrature integrates exactly
-\cite{heiss2008}. For instance, in the case of Gaussian quadratures, the
-precision of a quadrature with $n_i$ points is $2 n_i - 1$ \cite{heiss2008}. In
-other words, a Gaussian quadrature with $n_i$ points is exact for polynomials of
-order up to $2 n_i - 1$, which is a remarkable property of Gaussian quadratures
-that makes such quadratures especially efficient.
+order of polynomials that the quadrature integrates exactly \cite{heiss2008}. To
+give an example, consider Gaussian quadratures, which is a broad class of
+quadratures incorporating many families. The precision of a Gaussian quadrature
+with $n_i$ points is $2 n_i - 1$ \cite{heiss2008}. In other words, a Gaussian
+quadrature with $n_i$ points is exact for polynomials of order up to $2 n_i -
+1$. It is a remarkable property of Gaussian quadratures, which makes them
+especially efficient and, hence, popular.
 
 Different families of quadratures can have different relations between $n_i$ and
 $i$. Even in the scope of the same family, the integration grid can be made to
 grow differently with respect to $i$ in order to attain certain properties such
 as being nested. For our purposes, it is sufficient to mention one type of
 growth: the so-called slow linear growth. In this case, $n_i = i + 1$. Assuming
-the slow linear growth, the previous paragraph can be rephrased by stating that
-a Gaussian quadrature with $n_i$ points is exact for polynomials of order up to
-$2 i + 1$.
+the slow linear growth, the previous paragraph can be extended by stating that a
+Gaussian quadrature with $n_i$ points is exact for polynomials of order up to $2
+i + 1$.
 
 In multiple dimensions, the integral of a function $\f: \real^n \to \real$
 \[
@@ -51,15 +49,16 @@ is approximated as
   I \approx \quadrature{n}{\vi}{\f}
   = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) w_{\vi \vj}
 \]
-where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are
-(multi-)indices. Further,
+where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are indices.
+Further,
 \begin{align*}
   & \X^n_{\vi} = \{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
   & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real
 \end{align*}
 and the points and weights, respectively, and $\tensorindex{n}{\vi} \subset
 \natural^n$ is an index set. The cardinality of $\tensorindex{n}{\vi}$
-dependents on both $n$ and \vi and is denoted by $n_{\vi}$.
+dependents on both $n$ and \vi and is denoted by $n_{\vi} =
+\cardinality{\tensorindex{n}{\vi}}$.
 
 The foundation of an $n$-dimensional quadrature $\quadrature{n}{\vi}$ is a set
 of one-dimensional counterparts of various levels. The most straightforward
