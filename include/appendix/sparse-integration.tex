@@ -29,9 +29,9 @@ quadratures with increasing precision. \emph{Precision} refers to the maximum
 total order of polynomials that the quadrature integrates exactly
 \cite{heiss2008}. For instance, in the case of Gaussian quadratures, the
 precision of a quadrature with $n_i$ points is $2 n_i - 1$ \cite{heiss2008}. In
-other words, a Gaussian quadrature with $n_i$ points is exact for polynomials
-with orders up to $2 n_i - 1$, which is a remarkable property of Gaussian
-quadratures that makes such quadratures especially efficient.
+other words, a Gaussian quadrature with $n_i$ points is exact for polynomials of
+order up to $2 n_i - 1$, which is a remarkable property of Gaussian quadratures
+that makes such quadratures especially efficient.
 
 Different families of quadratures can have different relations between $n_i$ and
 $i$. Even in the scope of the same family, the integration grid can be made to
@@ -39,8 +39,8 @@ grow differently with respect to $i$ in order to attain certain properties such
 as being nested. For our purposes, it is sufficient to mention one type of
 growth: the so-called slow linear growth. In this case, $n_i = i + 1$. Assuming
 the slow linear growth, the previous paragraph can be rephrased by stating that
-a Gaussian quadrature with $n_i$ points is exact for polynomials for orders up
-to $2 i + 1$.
+a Gaussian quadrature with $n_i$ points is exact for polynomials of order up to
+$2 i + 1$.
 
 In multiple dimensions, the integral of a function $\f: \real^n \to \real$
 \[

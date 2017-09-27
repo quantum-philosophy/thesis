@@ -145,24 +145,25 @@ $\sparseindex{\nz}{\lq} \subset \natural^n$. Let us discuss the content of
 $\sparseindex{\nz}{\lc}$ and $\sparseindex{\nz}{\lq}$.
 
 The standard choice of $\sparseindex{\nz}{\lc}$ in \eref{chaos-expansion} is the
-one in \eref{index-total-order-isotropic}, which is called an isotropic
-total-order index set. \emph{Isotropic} refers to constraining all dimensions
-identically, and \emph{total-order} refers to the criterion used for
+isotropic total-order index set, which can be seen in
+\eref{index-total-order-isotropic}. \emph{Isotropic} refers to constraining all
+dimensions identically, and \emph{total-order} to the criterion used for
 constraining each dimension. Since $\psi_{\vi}$ is a polynomial of total order
 at most \lc, and \g is approximated by such a polynomial, the integrand in
-\eref{chaos-coefficient} is a polynomial of total order at most $2 \lc$. Then
-one typically constructs such a quadrature that is exact for polynomials of
-total order up to $2 \lc$ \cite{eldred2008}.
+\eref{chaos-coefficient} can be assumed to be a polynomial of total order at
+least $2 \lc$. With this in mind, one typically constructs such a quadrature
+that is exact for polynomials of total order up to at least $2 \lc$
+\cite{eldred2008}. More generally, the index set $\sparseindex{\nz}{\lc}$, which
+is used in \eref{chaos-expansion}, and the index set $\sparseindex{\nz}{\lq}$,
+which implicitly decides on the content of the index set
+$\tensorindex{\nz}{\lq}$ used in \eref{chaos-coefficient}, should be related as
+$\sparseindex{\nz}{\lc} \subseteq \sparseindex{\nz}{\lq}$.
 
-In the case of Gaussian quadratures, which are introduced in
-\xref{sparse-integration}, a quadrature of level \lq is exact for polynomials of
-total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in this particular
-and very common case, it is sufficient to keep \lc and \lq equal. More
-generally, the content of the index set $\sparseindex{\nz}{\lc}$, which is used
-in \eref{chaos-expansion}, and the content of the index set
-$\sparseindex{\nz}{\lq}$, which implicitly decides on the content of
-$\tensorindex{\nz}{\lq}$ used in \eref{chaos-coefficient}, should be
-synchronized.
+In the case of Gaussian quadratures---which is a potent class of quadratures
+introduced in \xref{sparse-integration}---a quadrature of level \lq is exact for
+polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
+this particular and very common case, an adequate quadrature can be constructed
+by ensuring that $\lq \geq \lc$.
 
 An important generalization of the isotropic Smolyak algorithm in
 \eref{quadrature-sparse} is the anisotropic Smolyak algorithm \cite{nobile2008}.
