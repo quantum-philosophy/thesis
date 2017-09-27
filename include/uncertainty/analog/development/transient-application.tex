@@ -63,16 +63,15 @@ Consequently, the uncertain parameters of the problem are
 \]
 
 Global variations are typically assumed to be uncorrelated with respect to the
-local ones. Local variations, however, are known to have high spatial
-correlations. Similar to the treatment in \cref{uncertainty-analog-fabrication},
-we model these correlations using the composite correlation function given in
+local ones. The latter, however, are known to have high spatial correlations.
+Similar to the treatment in \cref{uncertainty-analog-fabrication}, we model
+these correlations using the composite correlation function given in
 \eref{inference-correlation}, which is inspired by the correlation patterns
 induced by the fabrication process \cite{friedberg2005, chandrakasan2000,
-cheng2011}. Specifically, the function in \eref{inference-correlation} imposes
-similarities between those locations on the die that are close to each other as
-well as between those locations that are at the same distance from the center of
-the die; see also \cite{ghanem1991, ghanta2006, bhardwaj2008, huang2009a,
-lee2013}.
+cheng2011}. Specifically, the correlation function imposes similarities between
+those locations on the die that are close to each other as well as between those
+locations that are at the same distance from the center of the die; see also
+\cite{ghanem1991, ghanta2006, bhardwaj2008, huang2009a, lee2013}.
 
 Although \eref{inference-correlation} captures certain features inherent to the
 fabrication process, it is still an idealization. In practice, it can be
@@ -122,11 +121,10 @@ and depicted in \fref{chaos-overview}.
 \subsection{Probability Transformation}
 
 At Stage~2 in \fref{chaos-overview}, \vu should be preprocessed in order to
-extract a vector of mutually independent random variables denoted by \vz.
-Following the guidance given in \sref{chaos-transformation}, the most suitable
-transformation for the ongoing scenario is the one given in
-\eref{probability-transformation}, which we denote here by $\transform$; see
-\eref{chaos-transformation}.
+extract a vector of independent random variables denoted by \vz. Following the
+guidance given in \sref{chaos-transformation}, the most suitable transformation
+for the ongoing scenario is the one given in \eref{probability-transformation},
+which we denote here by $\transform$; see \eref{chaos-transformation}.
 
 Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
 directly impacts the computational cost of \ac{PC} expansions, which is
@@ -185,10 +183,11 @@ The next step is to compute the coefficients of power $\{ \hat{\vp}_{i \vj} \}$
 in \eref{chaos-recurrence}, which subsequently yield the coefficients of
 temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in \xref{polynomial-chaos},
 these computations involve multidimensional integration with respect to the
-distribution of \vz, which should be done numerically using a quadrature; recall
-\sref{chaos-construction}. When beta distributions are concerned, the natural
-choice is the Gauss--Jacobi quadrature; see \xref{sparse-integration}. Then,
-using \eref{quadrature-summation}, the coefficient are computed as shown in
+distribution of \vz, and they should be done numerically using a quadrature;
+recall \sref{chaos-construction}. When beta distributions are concerned, the
+natural choice is Gauss--Jacobi quadratures, which belong to the class of
+Gaussian quadratures; see \xref{sparse-integration}. Then, using
+\eref{quadrature-summation}, the coefficient are computed as shown in
 \eref{chaos-coefficient}. It is important to note that \lq should be chosen in
 such a way that the quadrature is exact for polynomials of total order up to at
 least $2 \lc$, that is, twice the level of \ac{PC} expansions, which is
@@ -198,21 +197,22 @@ quadrature is Gaussian.
 To summarize, we have completed four out of five stages of the proposed
 framework depicted in \fref{chaos-overview}. The result is a light surrogate for
 the entire system. At each time step, the surrogate is composed of two
-\np-valued polynomials---one is for power, and one is for temperature---which
-are defined in terms of \nz mutually independent random variables.
+\np-valued polynomials---one is for power, and the other one is for
+temperature---which are defined in terms of \nz mutually independent random
+variables.
 
 \subsection{Post-Processing}
 
 At Stage~4 in \fref{chaos-overview}, the constructed expansions are utilized in
-order to assist the designer by analyzing the impact of process variation on
-power- and temperature-related characteristics of the system. It can be seen in,
-for example, \eref{chaos-expansion-example} that the surrogate model has a
-negligibly small computational cost: for any outcome of \vz, one can easily
-compute the corresponding temperature by plugging this outcome into
-\eref{chaos-expansion-example}; the same applies to power. Hence, the
-representation can be trivially analyzed in order to retrieve various statistics
-about the system. Let us illustrate a few of them using the example in
-\eref{chaos-expansion-example}.
+order to assist the designer in analyzing the impact of process variation on
+power- and temperature-related characteristics of the system under development.
+Consider, for example, \eref{chaos-expansion-example}. It can be seen in that
+the surrogate model has a negligibly small computational cost: for any outcome
+of \vz, one can straightforwardly compute the corresponding temperature by
+plugging this outcome into \eref{chaos-expansion-example}; the same applies to
+power. Hence, the representation can be trivially analyzed in order to retrieve
+various statistics about the system. Let us illustrate a few of them using this
+example in \eref{chaos-expansion-example}.
 
 \inputfigure{chaos-example-power}
 \inputfigure{chaos-example-temperature}
