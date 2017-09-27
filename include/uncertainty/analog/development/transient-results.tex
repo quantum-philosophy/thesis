@@ -41,11 +41,12 @@ temperature, and the one in \cite{huang2009a} does not model the
 power-temperature interplay---a one-to-one comparison with our framework is not
 possible.
 
-For comparison purposes, we employ \ac{MC} sampling. The \ac{MC} approach is set
-up to preserve the whole variance of the problem, that is, there is no model
-order reduction applied, and to solve \eref{temperature-model-original} directly
-using the Runge--Kutta fourth- and fifth-order formulae combined (the
-Dormand--Prince method).
+For comparison purposes, we employ \ac{MC} sampling introduced in \sref{prior}.
+The \ac{MC} approach is set up to preserve the whole variance of the problem,
+which means that there is no model order reduction applied, and to solve the
+system in \eref{temperature-model-original} directly using the fourth- and
+fifth-order Runge--Kutta formulae combined (the Dormand--Prince method)
+\cite{press2007}.
 
 \hiddensubsection{Approximation Accuracy}
 
