@@ -25,20 +25,20 @@ experimental results are reported in \sref{thermal-cycling-results}.
 \subsection{\motivationtitle}
 \slab{thermal-cycling-motivation}
 
-\inputfigure{thermal-cycling-task-graph}
-\inputfigure{thermal-cycling-example}
+\inputfigure{utopia-task-graph}
+\inputfigure{utopia-cycling-example}
 We begin by giving a motivational example. Consider a periodic application with
 six tasks denoted by T1--T6 and a heterogeneous platform with two processing
 elements denoted by P1 and P2. The task graph of the application is given in
-\fref{thermal-cycling-task-graph} along with the execution times of the tasks
-for both processing elements. The period of the application is 60~ms. The first
+\fref{utopia-task-graph} along with the execution times of the tasks for both
+processing elements. The period of the application is 60~ms. The first
 alternative schedule and the resulting dynamic steady-state temperature profile
-are shown on the left-hand side of \fref{thermal-cycling-example} where the
+are shown on the left-hand side of \fref{utopia-cycling-example} where the
 height of a task represents its power consumption. It can be seen that P1 is
 experiencing three thermal cycles, that is, there are three intervals where
 temperature starts from a certain value, reaches an extremum, and then comes
 back. If we move T6 to P2, the number of cycles decreases to two, which can be
-seen in the middle of \fref{thermal-cycling-example}. If we also swap T2 and T4,
+seen in the middle of \fref{utopia-cycling-example}. If we also swap T2 and T4,
 the number of cycles of P1 drops to one, which is depicted on the right-hand
 side. According to the reliability model described in
 \sref{thermal-cycling-fatigue}, these two changes improve the lifetime of the
@@ -56,8 +56,8 @@ In addition to the description given in \sref{system-model}, the considered
 platform with \np processing elements is to execute a periodic application with
 \nt tasks. The application is given as a directed acyclic graph whose vertices
 and edges correspond to the tasks and to data dependencies between these tasks,
-respectively; see \fref{thermal-cycling-task-graph} for an example. The period
-of the application is denoted by \period. Furthermore, each pair of a task and a
+respectively; see \fref{utopia-task-graph} for an example. The period of the
+application is denoted by \period. Furthermore, each pair of a task and a
 processing element is characterized by an execution time and a power
 consumption; these are the characteristics that the task has when it is assigned
 to the processing element.
@@ -220,6 +220,7 @@ different: the method is fast but also very inaccurate as it is discussed and
 illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy drives the
 optimization toward solutions that turn out to be of low quality.
 
+\inputfigure{utopia-cycling-pareto}
 The experiments show that the impact of the optimization on energy consumption
 is insignificant. This is not surprising: the optimization searches toward
 low-temperature solutions, which are also implicitly the low-leakage ones. In
@@ -227,7 +228,7 @@ order to explore this further, let us perform a multi-objective optimization
 along the dimensions of energy and reliability, and let us use \up{NSGA-II}
 \cite{deb2002}. The resulting Pareto front averaged over 20 applications with 80
 tasks deployed on a quad-core platform is displayed in
-\fref{thermal-cycling-pareto}. It can be observed that the variation of the
+\fref{utopia-cycling-pareto}. It can be observed that the variation of the
 energy change is less than 2\%. This means that the solutions optimized for the
 \ac{MTTF} have an energy consumption that is almost identical to the one of the
 solutions optimized for energy. At the same time, the difference along the
@@ -235,7 +236,6 @@ solutions optimized for energy. At the same time, the difference along the
 aspect, the designer may end up with a significantly decreased \ac{MTTF} without
 any significant gain in terms of energy consumption.
 
-\inputfigure{thermal-cycling-pareto}
 Finally, we consider a real-life application, namely, an \up{MPEG-2} decoder
 \cite{ffmpeg}, which is assumed to be deployed on a dual-core platform. The
 decoder is analyzed and split into 34 tasks. The parameters of each task are
