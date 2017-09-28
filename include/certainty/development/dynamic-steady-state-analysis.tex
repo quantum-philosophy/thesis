@@ -39,7 +39,8 @@ xiang2010, thiele2011}. The simulator performs transient temperature analysis by
 solving \eref{temperature-model-original} numerically via the fourth-order
 Runge--Kutta method \cite{press2007}.
 
-\inputfigure{dynamic-steady-state-prior}
+\inputfigure{utopia-transient-error}
+\inputfigure{utopia-static-steady-state-error}
 The number of iterations required to reach the dynamic steady state depends on
 the thermal characteristics of the platform. In order to illustrate this aspect,
 consider an application with a period of 500~ms running on five hypothetical
@@ -47,7 +48,7 @@ platforms with processing-element areas of 1--25~mm\textsuperscript{2}. Let us
 simulate 50 successive periods of the application via HotSpot with its default
 settings and compare the resulting approximations in each period with the actual
 temperature profile using the \ac{NRMSE}. The comparison is shown in
-\fref{transient-state-error}. It can be observed that the number of successive
+\fref{utopia-transient-error}. It can be observed that the number of successive
 periods over which transient analysis has to be performed in order to achieve a
 satisfactory level of accuracy is significant for the majority of the
 configurations, which entails large computation times. For instance, for an area
@@ -80,9 +81,9 @@ thermal characteristics of the platform and on the application itself. In order
 to illustrate this, let us simulate five applications with periods of
 10--1000~ms running on five platforms with an area per processing element of
 1--25~mm\textsuperscript{2}. The errors are shown in
-\fref{static-steady-state-error}. It can be seen that, for example, for an area
-of 10~mm\textsuperscript{2} and a period of 100~ms, the \ac{NRMSE} of this
-approximation technique is close to 40\%.
+\fref{utopia-static-steady-state-error}. It can be seen that, for example, for
+an area of 10~mm\textsuperscript{2} and a period of 100~ms, the \ac{NRMSE} of
+this approximation technique is close to 40\%.
 
 To conclude, the state-of-the-art techniques for dynamic steady-state
 temperature analysis are slow and inaccurate. This state of affairs makes them
