@@ -14,8 +14,9 @@ interpolant. In the above formula,
 \end{align*}
 are collocation nodes and basis functions, respectively, and
 $\tensorindex{1}{i}$ is an index set. The cardinality of $\tensorindex{1}{i}$
-depends on $i$ and is denoted by $n_i$. In this context, the subscript $j \in
-\tensorindex{1}{i}$ is referred to as the order of a node or function.
+depends on $i$ and is denoted by $n_i = \cardinality{\tensorindex{1}{i}}$. In
+this context, the subscript $j \in \tensorindex{1}{i}$ is referred to as the
+order of a node or a function.
 
 Let us now turn to the multidimensional case. Let $\f: [0, 1]^n \to \real$ be a
 function in $\continuous([0, 1]^n)$, which is the space of continuous functions
@@ -30,9 +31,10 @@ specifying levels and orders, respectively. In the above formula,
   & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \elab{interpolant-tensor-grid} \\
   & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \elab{interpolant-tensor-basis}
 \end{align}
-are the collocation nodes and basis functions, respectively, and
-$\tensorindex{n}{\vi} \subset \natural^n$ is an index set. The cardinality of
-$\tensorindex{n}{\vi}$ depends on both $n$ and \vi and is denoted by $n_{\vi}$.
+are the nodes and functions, respectively, and $\tensorindex{n}{\vi} \subset
+\natural^n$ is an index set. The cardinality of $\tensorindex{n}{\vi}$ depends
+on both $n$ and \vi and is denoted by $n_{\vi} =
+\cardinality{\tensorindex{n}{\vi}}$.
 
 Similar to \xref{sparse-integration}, the construction of $\interpolant{n}{\vi}$
 can be based on the full tensor product of $n$ one-dimensional interpolants as
@@ -57,7 +59,7 @@ in such a way that the resulting interpolant preserves the approximating power
 of the full tensor product only for a certain polynomial subspace, which allows
 it to drastically reduce the number of collocation nodes.
 
-Let us present the algorithm in its hierarchical form. Define
+Define
 \begin{align}
   & \interpolant{1}{-1} = 0, \nonumber \\
   & \Delta\interpolant{1}{i} = \interpolant{1}{i} - \interpolant{1}{i - 1}, \text{ and} \elab{interpolant-tensor-delta-1d} \\
@@ -83,7 +85,7 @@ collocation nodes, define
   & \Delta\X^1_i = \X^1_i \setminus \X^1_{i - 1}, \text{ and } \\
   & \Delta\X^n_{\vi} = \Delta\X^1_{i_1} \times \cdots \times \Delta\X^1_{i_n}.
 \end{align*}
-Then the collocation nodes of a Smolyak interpolant of level \ls are
+Then the collocation nodes are as follows:
 \begin{equation} \elab{interpolant-sparse-grid}
   \X^n_{\ls}
   = \bigcup_{\vi \in \sparseindex{n}{\ls}} \Delta\X^n_{\vi}
@@ -107,8 +109,9 @@ mind, the rule used for generating successive sets of points $\{ \X^1_i \}_i$
 should be chosen to be nested, that is, in such a way that $\X^1_i$ contains all
 the nodes present in $\X^1_{i - 1}$.
 
-Now we require interpolants of higher levels to represent exactly interpolants
-of lower levels. In one dimension, it means that
+The last step is to rewrite \eref{interpolant-sparse-incremental} in a
+hierarchical form. To this end, we require interpolants of higher levels to
+represent exactly interpolants of lower levels. In one dimension, it means that
 \begin{equation} \elab{interpolant-tensor-exactness}
   \interpolant{1}{i - 1}(\f) = \interpolant{1}{i}(\interpolant{1}{i - 1}(\f)).
 \end{equation}

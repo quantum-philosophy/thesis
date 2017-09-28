@@ -124,11 +124,7 @@ beck2011}, and its cardinality can be calculated as follows:
 \begin{equation} \elab{index-total-order-isotropic-length}
   \cardinality{\sparseindex{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
 \end{equation}
-It can be seen that the construction in \eref{quadrature-sparse} is a summation
-of a number of cherry-picked tensor products of one-dimensional quadratures;
-this formula is well suited for grasping the structure of the resulting sparse
-integration grid. Note also that \eref{quadrature-sparse} reduces to
-\eref{quadrature-tensor} if we let
+Note that \eref{quadrature-sparse} reduces to \eref{quadrature-tensor} if we let
 \[
   \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \norm[\infty]{\vi} \leq \lq \right\}.
 \]
