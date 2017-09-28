@@ -121,23 +121,26 @@ and depicted in \fref{chaos-overview}.
 \subsection{Probability Transformation}
 
 At Stage~2 in \fref{chaos-overview}, \vu should be preprocessed in order to
-extract a vector of independent random variables denoted by \vz. Following the
-guidance given in \sref{chaos-transformation}, the most suitable transformation
-for the ongoing scenario is the one given in \eref{probability-transformation},
-which we denote here by $\transform$; see \eref{chaos-transformation}.
+extract a vector of mutually independent random variables \vz via a suitable
+transformation $\transform$; see \eref{chaos-transformation}. Following the
+guidance given in \sref{chaos-transformation}, the most apposite $\transform$
+for the ongoing scenario is the Nataf transformation. The whole procedure is
+described in detail in \xref{probability-transformation} and can be seen in
+\eref{probability-transformation}.
 
-Since the number of stochastic dimensions, which is $\nu = \np + 1$ for \vu,
-directly impacts the computational cost of \ac{PC} expansions, which is
-elaborated on in \sref{chaos-construction}, one should consider a possibility
-for model order reduction before constructing \ac{PC} expansions. To this end,
-the model order reduction described in \xref{probability-transformation} is an
-essential part of and assumed to be active in the above transformation. The
-reduce dimensionality is denoted by \nz.
+Using this specific $\transform$, one can prescribe arbitrary marginal
+distributions to \vz. There are no restrictions in this regard as long as one
+can subsequently construct a suitable polynomial basis as described in
+\sref{chaos-construction}. We let \vz have beta distributions, staying in the
+same family of distributions with \vu.
 
-The marginal distributions of \vz can be arbitrary as long as one can construct
-a suitable polynomial basis as described in \sref{chaos-construction}. We let
-\vz have beta distributions, staying in the same family of distributions with
-\vu.
+Since the number of stochastic dimensions, which is $\nu = \np + 1$ in the case
+of \vu, directly impacts the computational cost of \ac{PC} expansions, which is
+elaborated on in \sref{chaos-construction}, one should consider a possibility of
+model order reduction before constructing \ac{PC} expansions. Therefore, the
+reduction procedure described in \xref{probability-transformation} in connection
+with $\transform$ is assumed to be engaged in the transformation. The reduce
+dimensionality is denoted by \nz.
 
 \subsection{Surrogate Construction}
 
