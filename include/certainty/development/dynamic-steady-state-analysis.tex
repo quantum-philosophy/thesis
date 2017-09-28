@@ -70,17 +70,17 @@ stepwise temperature curve where each step corresponds to the static
 steady-state temperature that would be reached if the corresponding power was
 applied for a sufficiently long period of time.
 
-\inputfigure{static-steady-state-example}
+\inputfigure{utopia-static-steady-state-example}
 An example of such an approximation along with the corresponding dynamic
 steady-state temperature profile of an application with 10 tasks and a period of
-100~ms is given in \fref{static-steady-state-example}. The processing-element
-area is 25~mm\textsuperscript{2} in this case. The reduced accuracy of this
-technique is due to the mismatch between the actual temperature within each
-interval and the static steady-state temperature. The inaccuracy depends on the
-thermal characteristics of the platform and on the application itself. In order
-to illustrate this, let us simulate five applications with periods of
-10--1000~ms running on five platforms with an area per processing element of
-1--25~mm\textsuperscript{2}. The errors are shown in
+100~ms is given in \fref{utopia-static-steady-state-example}. The
+processing-element area is 25~mm\textsuperscript{2} in this case. The reduced
+accuracy of this technique is due to the mismatch between the actual temperature
+within each interval and the static steady-state temperature. The inaccuracy
+depends on the thermal characteristics of the platform and on the application
+itself. In order to illustrate this, let us simulate five applications with
+periods of 10--1000~ms running on five platforms with an area per processing
+element of 1--25~mm\textsuperscript{2}. The errors are shown in
 \fref{utopia-static-steady-state-error}. It can be seen that, for example, for
 an area of 10~mm\textsuperscript{2} and a period of 100~ms, the \ac{NRMSE} of
 this approximation technique is close to 40\%.
