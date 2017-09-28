@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/09/20 Thesis]
+\ProvidesClass{thesis}[2017/09/28 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -22,7 +22,6 @@
 
 \createvariable{department}
 \createvariable{divanumber}
-\createvariable{division}
 \createvariable{isbn}
 \createvariable{issn}
 \createvariable{publicationnumber}
@@ -164,10 +163,9 @@
   \includegraphics[width=14em]{\@logotype}\\[2em]
   {
     \small
-    Linköping University\\
     \@department\\
-    \@division\\
-    SE-581 83 Linköping, Sweden\\
+    Linköping University\\
+    SE-581\,83 Linköping, Sweden\\
     \vspace*{2em}
     Linköping \@publicationyear\\
   }
