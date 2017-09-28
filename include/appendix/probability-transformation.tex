@@ -16,10 +16,9 @@ according to the target $F_2$.
 
 The second transformation $\transform_2$ is based on the eigendecomposition
 given in \eref{eigendecomposition} applied to \eref{correlation-matrix}. The
-technique is known as the discrete \ac{KL} decomposition \cite{ghanem1991,
-xiu2010}, and it is closely related to principal component analysis
-\cite{hastie2013}. It transforms potentially correlated random
-variables---which, without loss of generality, are assumed to be centered---into
+technique is called the discrete \ac{KL} decomposition \cite{ghanem1991,
+xiu2010}, and it is also known as principal component analysis
+\cite{hastie2013}. It transforms potentially correlated random variables into
 linearly uncorrelated random variables. Conversely, it allows one to transition
 from a random vector $\vx_1$ with $n_1$ linearly uncorrelated components to an
 $n_1$-dimensional random vector $\vx_2$ with a prescribed correlation structure.
@@ -28,7 +27,7 @@ Specifically, the relation between the two vectors is as follows:
   \vx_2 = \transform_2(\vx_1) = \m{U} \m{\Lambda}^\frac{1}{2} \vx_1
 \end{equation}
 where the eigenvalues contained in $\m{\Lambda}$ correspond to the variances
-induced to the uncorrelated variables when the transition is taken. When $\vx_2$
+induced to the uncorrelated variables when the transition is made. When $\vx_2$
 obeys a multivariate Gaussian distribution, the individual variables in $\vx_1$
 follow the standard Gaussian distribution and are mutually independent, and vice
 versa.
@@ -70,7 +69,7 @@ distribution in general. The goal is to transform $\vx_1$ into such a random
 vector that has the same marginal distributions and correlation matrix as
 $\vx_2$ and, thereby, approximates $\vx_2$ as closely as possible.
 
-Making use of the first two transformations outlined above, we obtain a
+Making use of the first two transformations described above, we obtain a
 potential solution, which is loosely denoted as follows:
 \begin{equation} \elab{probability-transformation}
   \vx_2 \approx \transform_3(\vx_1) = (\transform_1 \circ \transform_2 \circ \transform_1)(\vx_1).

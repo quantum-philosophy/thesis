@@ -52,10 +52,10 @@ Other types of random variables such as discrete random variables are of little
 interest to this thesis, and, therefore, they are not covered here.
 
 Suppose now that there is a set of $n$ random variables $\{ \x_i \}_{i = 1}^n$.
-In order to impose an ordering, the variables are gathered in a vector $\vx =
+For convenience of treatment, the variables are gathered in a vector $\vx =
 (\x_i)_{i = 1}^n: \Omega \to \real^n$, which is called a random vector and can
 also be viewed as a single random variable taking values in $\real^n$. The
-variables obey a common distribution called a joint distribution, and the
+variables obey a common distribution called the joint distribution, and the
 distribution of any subset of the variables is called a marginal distribution.
 The individual variables are called mutually independent if their joint
 distribution function $F$ factorizes as follows:
@@ -81,15 +81,15 @@ covariance matrix is the correlation matrix
 \begin{equation} \elab{correlation-matrix}
   \correlation{\vx} = \diagonal{\covariance{\vx}}^{-\frac{1}{2}} \covariance{\vx} \diagonal{\covariance{\vx}}^{-\frac{1}{2}}
 \end{equation}
-where $\diagonal{\cdot}$ extracts the diagonal elements and yields a diagonal
-matrix. The correlation matrix is the covariance matrix of the normalized \vx,
-that is, of
+where $\diagonal{\cdot}$ extracts the diagonal elements of its argument and
+yields a diagonal matrix. It can be seen that the correlation matrix is the
+covariance matrix of a normalized version of \vx, that is, of
 \[
   \left(\frac{\x_i}{\sqrt{\variance{\x_i}}}\right)_{i = 1}^n.
 \]
 
-An $n$-dimensional random vector \vx can be uniquely characterized by a set of
-$n$ one-dimensional marginal distributions and an $n$-dimensional copula
-\cite{nelsen2006}. The copula is a uniform distribution function on $[0, 1]^n$
-that captures the dependencies between the $n$ individual variables contained in
-\vx.
+The joint distribution of $\vx: \Omega \to \real^n$ can be unambiguously
+specified by a set of $n$ one-dimensional marginal distributions and an
+$n$-dimensional copula \cite{nelsen2006}. The copula is a uniform distribution
+function on $[0, 1]^n$ that captures the dependencies between the $n$ individual
+variables contained in $\vx = (\x_i)$.

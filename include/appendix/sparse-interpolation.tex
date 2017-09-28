@@ -1,13 +1,13 @@
-Let $\f: [0, 1] \to \real$ be a function in $\continuous([0, 1])$, the space of
-continuous functions defined on the unit interval $[0, 1]$. The function is
-approximated by virtue of the following interpolation formula:
+Let $\f: [0, 1] \to \real$ be a function in $\continuous([0, 1])$, which is the
+space of continuous functions defined on $[0, 1]$. The function is approximated
+by virtue of the following interpolation formula:
 \begin{equation} \elab{interpolant-tensor-1d}
   \f \approx \interpolant{1}{i}(\f)
   = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) e_{ij}.
 \end{equation}
 In the notation $\interpolant{1}{i}$, the superscript 1 indicates the
-dimensionality, and the subscript $i \in \natural$ signifies the level of the
-interpolant. Further,
+dimensionality, and the subscript $i \in \natural$ indicates the level of the
+interpolant. In the above formula,
 \begin{align*}
   & \X_i = \{ \x_{ij}: j \in \tensorindex{1}{i} \} \subset [0, 1] \text{ and} \\
   & \E_i = \{ e_{ij}: j \in \tensorindex{1}{i} \} \subset \continuous([0, 1])
@@ -18,14 +18,14 @@ depends on $i$ and is denoted by $n_i$. In this context, the subscript $j \in
 \tensorindex{1}{i}$ is referred to as the order of a node or function.
 
 Let us now turn to the multidimensional case. Let $\f: [0, 1]^n \to \real$ be a
-function in $\continuous([0, 1]^n)$, the space of continuous functions defined
-on the unit hypercube $[0, 1]^n$. The function is approximated as
+function in $\continuous([0, 1]^n)$, which is the space of continuous functions
+defined on $[0, 1]^n$. The function is approximated as
 \[
   \f \approx \interpolant{n}{\vi}(\f)
   = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) e_{\vi \vj}
 \]
 where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are indices
-specifying levels and orders, respectively. In the case,
+specifying levels and orders, respectively. In the above formula,
 \begin{align}
   & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \elab{interpolant-tensor-grid} \\
   & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \elab{interpolant-tensor-basis}
@@ -52,16 +52,16 @@ exponentially as the number of dimensions increases. Nevertheless,
 algorithm, which we discuss next.
 
 This algorithm is the Smolyak algorithm introduced in \xref{sparse-integration}.
-In this context, the algorithm combines a number of small tensor-product
-interpolants in such a way that the resulting interpolant preserves the
-approximating power of the full tensor product only for a certain polynomial
-subspace, which allows it to drastically reduce the number of collocation nodes.
+In this context, the algorithm combines a number of one-dimensional interpolants
+in such a way that the resulting interpolant preserves the approximating power
+of the full tensor product only for a certain polynomial subspace, which allows
+it to drastically reduce the number of collocation nodes.
 
-Let us present the algorithm in its incremental form. Define
+Let us present the algorithm in its hierarchical form. Define
 \begin{align}
   & \interpolant{1}{-1} = 0, \nonumber \\
   & \Delta\interpolant{1}{i} = \interpolant{1}{i} - \interpolant{1}{i - 1}, \text{ and} \elab{interpolant-tensor-delta-1d} \\
-  & \Delta\interpolant{n}{\vi} = \bigotimes_{k = 1}^n \Delta\interpolant{n}{i_k}. \nonumber
+  & \Delta\interpolant{n}{\vi} = \bigotimes_{k = 1}^n \Delta\interpolant{1}{i_k}. \nonumber
 \end{align}
 Then the Smolyak algorithm of level \ls is
 \begin{equation} \elab{interpolant-sparse-incremental}
@@ -107,9 +107,8 @@ mind, the rule used for generating successive sets of points $\{ \X^1_i \}_i$
 should be chosen to be nested, that is, in such a way that $\X^1_i$ contains all
 the nodes present in $\X^1_{i - 1}$.
 
-The final step is to rewrite \eref{interpolant-sparse-incremental} in its
-hierarchical form. To this end, we require interpolants of higher levels to
-represent exactly interpolants of lower levels. In one dimension, it means that
+Now we require interpolants of higher levels to represent exactly interpolants
+of lower levels. In one dimension, it means that
 \begin{equation} \elab{interpolant-tensor-exactness}
   \interpolant{1}{i - 1}(\f) = \interpolant{1}{i}(\interpolant{1}{i - 1}(\f)).
 \end{equation}
@@ -128,15 +127,15 @@ The above summation is over $\Delta\X^1_i$ due to the fact that the difference
 in the parentheses is zero when $\x_{ij} \in \X^1_{i - 1}$ since $\X^1_{i - 1}
 \subset \X^1_i$. In multiple dimensions,
 \begin{equation} \elab{interpolant-tensor-delta}
-  \Delta\interpolant{n}{\vi}(\f) = \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \left(\f(\vx_{\vi \vj}) - \interpolant{n}{\norm[1]{\vi} - 1}(\f)(\vx_{\vi \vj})\right) e_{\vi \vj}
+  \Delta\interpolant{n}{\vi}(\f) = \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \left(\f(\vx_{\vi \vj}) - \interpolant{n}{\ls - 1}(\f)(\vx_{\vi \vj})\right) e_{\vi \vj}
 \end{equation}
-where
+where $\ls = \norm[1]{\vi}$ and
 \begin{equation} \elab{interpolant-tensor-index-delta}
   \Delta\tensorindex{n}{\vi} = \{ \vj: \vj \in \tensorindex{n}{\vi}, \vx_{\vi \vj} \in \Delta\X^n_{\vi} \}.
 \end{equation}
 The delta
 \begin{equation} \elab{interpolant-sparse-surplus}
-  \Delta\f(\vx_{\vi \vj}) = \f(\vx_{\vi \vj}) - \interpolant{n}{\norm[1]{\vi} - 1}(\f)(\vx_{\vi \vj})
+  \Delta\f(\vx_{\vi \vj}) = \f(\vx_{\vi \vj}) - \interpolant{n}{\ls - 1}(\f)(\vx_{\vi \vj})
 \end{equation}
 is called a hierarchical surplus. When increasing the interpolation level, this
 surplus is the difference between the actual value of \f at a new node and the
@@ -146,7 +145,7 @@ The final formula for (nonadaptive) hierarchical interpolation is obtained by
 substituting \eref{interpolant-tensor-delta} into
 \eref{interpolant-sparse-incremental}. The result is
 \begin{align*}
-  \interpolant{n}{\ls}(\f)
+  \f \approx \interpolant{n}{\ls}(\f)
   &= \sum_{\vi \in \sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj} \\
   &= \interpolant{n}{\ls - 1}(\f) + \sum_{\vi \in \Delta\sparseindex{n}{\ls}} \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \Delta\f(\vx_{\vi \vj}) e_{\vi \vj}
 \end{align*}

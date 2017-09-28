@@ -50,8 +50,8 @@ is approximated as
   I \approx \quadrature{n}{\vi}{\f}
   = \sum_{\vj \in \tensorindex{n}{\vi}} \f(\vx_{\vi \vj}) w_{\vi \vj}
 \]
-where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are indices.
-Further,
+where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$. In the
+above formula,
 \begin{align*}
   & \X^n_{\vi} = \{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
   & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real
@@ -73,7 +73,7 @@ in which case
   = \tensorindex{1}{i_1} \times \cdots \times \tensorindex{1}{i_n} \text{ and} \elab{quadrature-tensor-index} \\
   & n_{\vi}
   = \cardinality{\tensorindex{n}{\vi}}
-  = \prod_{k = 1}^n \cardinality{\tensorindex{n}{i_k}}
+  = \prod_{k = 1}^n \cardinality{\tensorindex{1}{i_k}}
   = \prod_{k = 1}^n n_{i_k}. \nonumber
 \end{align}
 It can be seen that, in this case, the growth of the number of points with
@@ -119,7 +119,7 @@ In the original (isotropic) formulation of the Smolyak algorithm,
   \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \norm[1]{\vi} \leq \lq \right\}
 \end{equation}
 where $\norm[1]{\cdot}$ stands for the Manhattan norm. The index set
-$\sparseindex{n}{\lq}$ is called a total-order index set \cite{eldred2008,
+$\sparseindex{n}{\lq}$ is called the total-order index set \cite{eldred2008,
 beck2011}, and its cardinality can be calculated as follows:
 \begin{equation} \elab{index-total-order-isotropic-length}
   \cardinality{\sparseindex{n}{\lq}} = {n + \lq \choose n} = \frac{(n + \lq)!}{n! \, \lq!}.
@@ -138,11 +138,11 @@ Using \eref{quadrature-sparse}, the integral in question is approximated as
   I \approx \quadrature{n}{\lq}{\f}
   = \sum_{j \in \tensorindex{n}{\lq}} \f(\vx_j) w_j.
 \end{equation}
-For convenience, the points and weights of $\quadrature{n}{\lq}$ are indexed
-using a single one-dimensional set $\tensorindex{n}{\lq} \subset \natural$,
-whose cardinality is denoted by \nq. Note that, even though the level \lq is not
-indicated in the notation of points and weights, it should be understood that
-they are generally different for different levels.
+Note that, for convenience, the points and weights of $\quadrature{n}{\lq}$ are
+indexed using a single one-dimensional set denoted by $\tensorindex{n}{\lq}
+\subset \natural$. Note also that, even though the level \lq is not indicated in
+the notation of points and weights, it should be understood that points and
+weight are generally different for different levels.
 
 Lastly, consider the following more general integral:
 \[
