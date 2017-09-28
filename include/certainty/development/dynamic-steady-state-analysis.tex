@@ -253,13 +253,13 @@ calculated when computing $\v{w}_\ns$. The last step of the solution is to
 compute the actual dynamic steady-state temperature profile \mq by applying
 \eref{temperature-algebraic}.
 
-\inputalgorithm{dynamic-steady-state}
+\inputalgorithm{utopia-dynamic-steady-state}
 It can be seen that the solution to the $\nn \ns \times \nn \ns$ system in
 \eref{dynamic-steady-state-system} has been reduced to the two trivial
 recurrences in \eref{dynamic-steady-state-recurrence} and
 \eref{dynamic-steady-state-auxiliary-recurrence} that traverse the \ns steps of
 the power profile \mp. The pseudocode of a potential implementation of the
-solution process is given in \aref{dynamic-steady-state}.
+solution process is given in \aref{utopia-dynamic-steady-state}.
 
 It is worth noting that the auxiliary transformation presented in
 \sref{transient-state-solution} and the accompanying eigendecomposition in

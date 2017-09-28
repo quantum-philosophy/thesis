@@ -2,7 +2,7 @@ So far the interdependence between power on temperature, which is drawn
 attention to in \sref{power-model}, has been ignored. In order to properly take
 it into account, several approaches can be employed as follows.
 
-\inputalgorithm{dynamic-steady-state-iterative}
+\inputalgorithm{utopia-dynamic-steady-state-iterative}
 The first approach is to calculate the power and temperature profiles several
 times in turns until the latter converges. In this case, we obtain a series of
 pairs of a power profile and a temperature profile
@@ -21,7 +21,7 @@ until a stopping condition is satisfied such as when the difference between two
 successive temperature profiles $\mq_{i - 1}$ and $\mq_i$ drops below a
 predefined threshold. In the case of dynamic steady-state analysis discussed in
 \sref{dynamic-steady-state-analysis}, the pseudocode of this technique is listed
-in \aref{dynamic-steady-state-iterative}. According to our experience, it
+in \aref{utopia-dynamic-steady-state-iterative}. According to our experience, it
 typically takes 4--7 iterations until the uniform norm of the difference between
 two successive temperature profiles becomes smaller than \celsius{0.5}.
 

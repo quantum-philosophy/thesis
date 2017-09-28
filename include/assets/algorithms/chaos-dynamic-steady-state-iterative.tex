@@ -10,7 +10,7 @@
     \Let{$\mq$}{$\mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
     \Repeat
       \Let{$\mp$}{$\f(\vu, \mq)$} \Comment{for all time steps at once}
-      \Let{$\mq$}{\aref{dynamic-steady-state}($\mp$)}
+      \Let{$\mq$}{\aref{utopia-dynamic-steady-state}($\mp$)}
     \Until{a stopping condition is satisfied}
     \State \Return $\mp$, $\mq$
   \end{algorithmic}
