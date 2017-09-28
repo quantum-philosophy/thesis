@@ -151,10 +151,10 @@ stochastic power and temperature profiles denoted by \mp and \mq, respectively.
 
 In the current scenario, the construction of \ac{PC} expansions is based on the
 Jacobi polynomial basis as it is preferable in situations involving
-beta-distributed parameters \cite{xiu2010}. To give an example, for a dual-core
-platform, that is, $\np = 2$, with two stochastic dimensions, that is, $\nz =
-2$, the second-level \ac{PC} expansion, that is, $\lc = 2$, of temperature at
-step $i$ is as follows:
+beta-distributed parameters \cite{xiu2010}. To give a concrete example, for a
+dual-core platform ($\np = 2$) with two stochastic dimensions ($\nz = 2$), the
+second-level \ac{PC} expansion ($\lc = 2$) of temperature at step $i$ is as
+follows:
 \begin{equation} \elab{chaos-expansion-example}
   \begin{split}
     \chaos{2}{2}{\vq_i}
@@ -184,18 +184,18 @@ coefficients.
 
 The next step is to compute the coefficients of power $\{ \hat{\vp}_{i \vj} \}$
 in \eref{chaos-recurrence}, which subsequently yield the coefficients of
-temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in \xref{polynomial-chaos},
-these computations involve multidimensional integration with respect to the
-distribution of \vz, and they should be done numerically using a quadrature;
-recall \sref{chaos-construction}. When beta distributions are concerned, the
-natural choice is Gauss--Jacobi quadratures, which belong to the class of
-Gaussian quadratures; see \xref{sparse-integration}. Then, using
-\eref{quadrature-summation}, the coefficient are computed as shown in
-\eref{chaos-coefficient}. It is important to note that \lq should be chosen in
-such a way that the quadrature is exact for polynomials of total order up to at
-least $2 \lc$, that is, twice the level of \ac{PC} expansions, which is
-motivated in \sref{chaos-construction}. Consequently, $\lq \geq \lc$ as the
-quadrature is Gaussian.
+temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in
+\sref{chaos-construction}, these computations involve multidimensional
+integration with respect to the distribution of \vz, and they should be
+performed numerically using an adequate quadrature $\quadrature{\nz}{\lq}$. When
+beta distributions are concerned, the natural choice is Gauss--Jacobi
+quadratures, which belong to the class of Gaussian quadratures introduced in
+\xref{sparse-integration}. Given $\quadrature{\nz}{\lq}$, the coefficient are
+computed as shown in \eref{chaos-coefficient}. It is important to note that \lq
+should be chosen in such a way that the quadrature is exact for polynomials of
+total order up to at least $2 \lc$, that is, twice the level of \ac{PC}
+expansions, which is motivated in \sref{chaos-construction}. Consequently, $\lq
+\geq \lc$ since the quadrature is Gaussian.
 
 To summarize, we have completed four out of five stages of the proposed
 framework depicted in \fref{chaos-overview}. The result is a light surrogate for
