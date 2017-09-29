@@ -42,7 +42,7 @@ Let us now turn to the choice of collocation nodes and basis functions.
 \subsection{Collocation Nodes}
 \slab{interpolant-grid}
 
-\inputfigure{interpolant-grid}
+\inputfigure{frame-grid}
 As explained in \xref{sparse-interpolation}, the integration grid should
 preferably be fully nested in order to gain additional computational efficiency.
 Such a grid can be constructed using the family of Newton--Cotes rules
@@ -72,15 +72,15 @@ where
   & \tensorindex{1}{i} = \left\{ i - 1 \right\}_{i = 1}^{n_i}, \text{ and} \\
   & n_i = 2^{i + 1} - 1.
 \end{align*}
-\fref{interpolant-grid} depicts the first three levels of this rule. It can be
-seen that the number of nodes grows as 1, 3, 7, and so on, and that the rule is
-fully nested. In multiple dimensions, the nodes are formed as shown in
+\fref{frame-grid} depicts the first three levels of this rule. It can be seen
+that the number of nodes grows as 1, 3, 7, and so on, and that the rule is fully
+nested. In multiple dimensions, the nodes are formed as shown in
 \eref{interpolant-tensor-grid} and \eref{quadrature-tensor-index}.
 
 \subsection{Basis Functions}
 \slab{interpolant-basis}
 
-\inputfigure{interpolant-basis}
+\inputfigure{frame-basis}
 The basis functions that correspond to open Newton--Cotes rules are the
 following piece-wise linear functions. For $i = 0$ and $j = 0$, we have that
 $e_{00}(\x) = 1$. For $i > 0$ and $j = 0$ (close to the left endpoint),
@@ -108,8 +108,8 @@ In other cases,
   \end{cases}
 \]
 The basis functions corresponding to the first three levels of one-dimensional
-interpolation are depicted in \fref{interpolant-basis}. In multiple dimensions,
-the basis functions are formed as shown in \eref{interpolant-tensor-basis} and
+interpolation are depicted in \fref{frame-basis}. In multiple dimensions, the
+basis functions are formed as shown in \eref{interpolant-tensor-basis} and
 \eref{quadrature-tensor-index}.
 
 Lastly, let us calculate the volumes (integrals over the whole domain) of the
@@ -128,12 +128,12 @@ their one-dimensional counterparts shown above.
 Imagine now a function that is nearly flat on the first half of $[0, 1]$ and
 rather irregular on the other. Under these circumstances, it is natural to
 expect that, in order to attain the same accuracy, the first half should require
-much fewer collocation nodes than the other one; recall
-\fref{interpolant-motivation}. However, if we followed the usual construction
-procedure described in \xref{sparse-interpolation}, we would not be able to
-benefit from this idiosyncrasy: both sides would be treated equally, and all the
-nodes of each level would be added. The solution to the above problem is to make
-the interpolation algorithm adaptive, which we discuss next.
+much fewer collocation nodes than the other one; recall \fref{frame-motivation}.
+However, if we followed the usual construction procedure described in
+\xref{sparse-interpolation}, we would not be able to benefit from this
+idiosyncrasy: both sides would be treated equally, and all the nodes of each
+level would be added. The solution to the above problem is to make the
+interpolation algorithm adaptive, which we discuss next.
 
 \subsection{Hybrid Adaptivity}
 \slab{interpolant-adaptivity}
@@ -202,10 +202,10 @@ backward neighbor $\vi - \v{1}_l$ and each $\vj \in \Delta\tensorindex{n}{\vi -
 where \error{s} is a user-defined constant referred to as the score error. If
 the condition holds, the forward neighbors of \vj in dimension $k$ are added to
 $\Delta\tensorindex{\nz}{\vi}$. This procedure is illustrated in
-\fref{interpolant-grid} for open Newton--Cotes rules in one dimension. The
-arrows emerging from a node connect the node with its forward neighbors. In
-general, each node has two forward neighbors in each dimension. The order
-indices of these nodes are
+\fref{frame-grid} for open Newton--Cotes rules in one dimension. The arrows
+emerging from a node connect the node with its forward neighbors. In general,
+each node has two forward neighbors in each dimension. The order indices of
+these nodes are
 \begin{align*}
   & (j_1, \dots, 2 j_k \phantom{{} + 2}, \dots, j_{\nz}) \text{ and} \\
   & (j_1, \dots, 2 j_k + 2,              \dots, j_{\nz}).
@@ -286,14 +286,13 @@ respectively, and \n{\mathrm{bits}} is the number of bits reserved for storing
 level indices, which can be adjusted according to the maximum permitted depth of
 interpolation.
 
-\inputalgorithm{interpolant-construction}
-The pseudocode of the construction stage is given in
-\aref{interpolant-construction}. The input is a subroutine called Algorithm~G
-that evaluates $\g \circ \transform$. The output is a structure
-\texttt{interpolant} that contains artifacts of interpolation. These artifacts
-are a set of tuples $\{ (\v{\iota}_k, \Delta\g(\vx_{\v{\iota}_k})) \}$, which is
-a comprehensive description of a hierarchical interpolant. The pseudocode works
-as follows.
+\inputalgorithm{frame-construction}
+The pseudocode of the construction stage is given in \aref{frame-construction}.
+The input is a subroutine called Algorithm~G that evaluates $\g \circ
+\transform$. The output is a structure \texttt{interpolant} that contains
+artifacts of interpolation. These artifacts are a set of tuples $\{
+(\v{\iota}_k, \Delta\g(\vx_{\v{\iota}_k})) \}$, which is a comprehensive
+description of a hierarchical interpolant. The pseudocode works as follows.
 
 Line 1: Each iteration of the loop corresponds to an interpolation step \ls in
 \eref{interpolant-sparse}. The progress is captured by a structure
@@ -320,10 +319,9 @@ generally expensive to execute. This operation is also a prominent candidate for
 parallelization since the algorithm does not impose any particular evaluation
 order.
 
-Line 5: \aref{interpolant-evaluation} is a subroutine that exercises the
-interpolant constructed so far at the collocation nodes and, thereby,
-approximates the values obtained on line~4. This algorithm is to be discussed
-separately.
+Line 5: \aref{frame-evaluation} is a subroutine that exercises the interpolant
+constructed so far at the collocation nodes and, thereby, approximates the
+values obtained on line~4. This algorithm is to be discussed separately.
 
 Line 6: The \texttt{Subtract} subroutine computes the difference between the
 actual and approximated values of \g, which yields the hierarchical surpluses
@@ -338,11 +336,11 @@ Line 8: The \texttt{Append} method of \texttt{interpolant} refines the
 interpolant by extending it with the indices and surpluses of the undertaken
 iteration.
 
-\inputalgorithm{interpolant-evaluation}
+\inputalgorithm{frame-evaluation}
 We now turn to the usage stage of an interpolant. The pseudocode is given in
-\aref{interpolant-evaluation}. This subroutine is also involved in
-\aref{interpolant-construction}; see line~5. Let us make a couple of
-observations regarding this subroutine.
+\aref{frame-evaluation}. This subroutine is also involved in
+\aref{frame-construction}; see line~5. Let us make a couple of observations
+regarding this subroutine.
 
 Line 3: The inner loop corresponds to an unfolded version of
 \eref{interpolant-sparse}; that is, there is no separation into the individual
@@ -362,5 +360,4 @@ problem.
 \conclusioncut
 To recapitulate, in this section, the approximation engine of our framework for
 probabilistic analysis of electronic systems has been presented. The technique
-is consolidated in \aref{interpolant-construction} and
-\aref{interpolant-evaluation}.
+is consolidated in \aref{frame-construction} and \aref{frame-evaluation}.

@@ -79,23 +79,22 @@ designer is typically interested in analyzing. These quantities are to be
 discussed further in the section on experimental results,
 \sref{interpolant-results}.
 
-\inputfigure{interpolant-application}
+\inputfigure{frame-application}
 Let us also employ one of the introduced quantities in order to have a concrete
 example to work with in this section. The setup that we are about to describe is
 to be detailed, extended, and scaled up in the experiments reported in
 \sref{interpolant-results}. The problem addressed in this section is depicted on
-the left-hand side of \fref{interpolant-application}. We consider a
-heterogeneous platform with two processing elements, PE1 and PE2, and an
-application with four tasks, T1--T4. The data dependencies between the tasks and
-their mapping onto the processing elements can be seen in
-\fref{interpolant-application}. The quantity of interest \g is the end-to-end
-delay of the application defined in \eref{interpolant-delay}. The uncertain
-parameters \vu are the execution times of T2 and T4 denoted by $\u_1$ and
-$\u_2$, respectively.
+the left-hand side of \fref{frame-application}. We consider a heterogeneous
+platform with two processing elements, PE1 and PE2, and an application with four
+tasks, T1--T4. The data dependencies between the tasks and their mapping onto
+the processing elements can be seen in \fref{frame-application}. The quantity of
+interest \g is the end-to-end delay of the application defined in
+\eref{interpolant-delay}. The uncertain parameters \vu are the execution times
+of T2 and T4 denoted by $\u_1$ and $\u_2$, respectively.
 
-The leftmost component in \fref{interpolant-application} is a ``black box''
-capable of evaluating \g given \vu. More specifically, it takes an assignment of
-the execution times of T2 and T4, $\u_1$ and $\u_2$, and outputs the calculated
+The leftmost component in \fref{frame-application} is a ``black box'' capable of
+evaluating \g given \vu. More specifically, it takes an assignment of the
+execution times of T2 and T4, $\u_1$ and $\u_2$, and outputs the calculated
 end-to-end delay of the application \g. In practice, this evaluation often
 involves an adequate simulator of the system under consideration such as Sniper
 \cite{carlson2011}, in which case the modeling capabilities of this simulator
@@ -129,18 +128,18 @@ in \sref{interpolant-transformation}. Namely, the codomain of \vz is $[0,
 1]^\nz$, and it has the smallest number of dimensions that are needed to
 preserve the desired level of accuracy.
 
-The transformation is also depicted in \fref{interpolant-application}; see the
-small box to the right of the ``black box'' described earlier. In this
-particular example, the dimensionality is found to be the same before and after
+The transformation is also depicted in \fref{frame-application}; see the small
+box to the right of the ``black box'' described earlier. In this particular
+example, the dimensionality is found to be the same before and after
 $\transform$. The depicted component takes an assignment of the auxiliary
 variables $\z_1$ and $\z_2$ and outputs the execution times $\u_1$ and $\u_2$ in
 accordance with their joint distribution.
 
 In what follows, we proceed directly to discussing Stage~4 since Stage~3, which
-is given in the middle of \fref{interpolant-application}, is standard: using a
-number of strategic invocations of the simulator, it yields a light surrogate
-for the simulator; in \fref{interpolant-application}, this surrogate corresponds
-to the small rounded rectangle.
+is given in the middle of \fref{frame-application}, is standard: using a number
+of strategic invocations of the simulator, it yields a light surrogate for the
+simulator; in \fref{frame-application}, this surrogate corresponds to the small
+rounded rectangle.
 
 \subsection{Post-Processing}
 
@@ -148,18 +147,18 @@ Having constructed an interpolant of \g, the designer proceeds to working
 extensively with this interpolant, which is Stage~4 of the presented framework.
 For concreteness, assume that the designer is interested in the distribution of
 \g, in which case the interpolant is to be extensively sampled; it is denoted by
-the rightmost box in \fref{interpolant-application}. Then the interpolant
-displayed in the figure corresponds roughly to \aref{interpolant-evaluation}: it
-takes $\z_1$ and $\z_2$ and returns an approximation of \g at that point. Recall
-that the computational cost of this extensive sampling is negligible as \g is
-not involved. The collected samples, which we denote by $G$, are then used to
+the rightmost box in \fref{frame-application}. Then the interpolant displayed in
+the figure corresponds roughly to \aref{frame-evaluation}: it takes $\z_1$ and
+$\z_2$ and returns an approximation of \g at that point. Recall that the
+computational cost of this extensive sampling is negligible as \g is not
+involved. The collected samples, which we denote by $G$, are then used to
 compute an estimate of the distribution of \g.
 
-\inputfigure{interpolant-density}
-\fref{interpolant-density} depicts the result. To elaborate, the blue line shows
-the \ac{PDF} of \g computed by applying kernel density estimation to $G$
-obtained from the interpolant. The yellow line---which is barely visible behind
-the blue line---shows the true density of \g; its calculation is explained in
+\inputfigure{frame-density}
+\fref{frame-density} depicts the result. To elaborate, the blue line shows the
+\ac{PDF} of \g computed by applying kernel density estimation to $G$ obtained
+from the interpolant. The yellow line---which is barely visible behind the blue
+line---shows the true density of \g; its calculation is explained in
 \sref{interpolant-results}. It can be seen that our solution closely matches the
 exact one. In addition, the orange line shows the estimate that one would get if
 one sampled \g directly consuming the same number of \g's evaluations as the one

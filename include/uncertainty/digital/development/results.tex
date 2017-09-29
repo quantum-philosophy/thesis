@@ -12,7 +12,7 @@ maximum temperature; the quantities of interest are defined in
 \eref{interpolant-temperature}, respectively. Therefore, we address 18
 uncertainty-quantification problems in total, which correspond to different
 combinations of \np, \nt, and \g. At this point, it might be helpful to recall
-the illustrative application depicted in \fref{interpolant-application}.
+the illustrative application depicted in \fref{frame-application}.
 
 Each problem is configured as follows. A platform with \np processing elements
 and an application with \nt tasks are generated randomly by \up{TGFF}
@@ -78,40 +78,38 @@ the proximity between two distributions, we use the well-known \ac{KS} statistic
 empirical distribution functions and, hence, is a rather unforgiving error
 indicator.
 
-\inputfigure{interpolant-error-delay}
-\inputfigure{interpolant-error-energy}
-\inputfigure{interpolant-error-temperature}
-The results are given in \fref{interpolant-error-delay},
-\fref{interpolant-error-energy}, and \fref{interpolant-error-temperature}, which
-correspond to the end-to-end delay, total energy, and maximum temperature,
-respectively. Each figure contains six plots arranged in a three-by-two grid.
-The three rows of the grid correspond to the three platform sizes, and the two
-columns correspond to the two application sizes. The horizontal axis of each
-plot shows the number of points, that is, the number of evaluations of \g, and
-the vertical one shows the \ac{KS} statistic on a logarithmic scale. Each plot
-has two lines. The blue line represents our technique. The circles on this line
-correspond to the steps of the interpolation process shown in
-\eref{interpolant-sparse}. They illustrate how the \ac{KS} statistic computed
-with respect to the reference solution changes as the interpolation process
-takes steps (and adds more and more collocation nodes into the interpolant)
-until a stopping condition is satisfied. Note that only a subset of the actual
-steps is displayed in order to make the figure legible. Synchronously with the
-blue line---that is, for the same numbers of evaluations of the quantity of
-interest---the orange line shows the error of direct sampling, which is also
-calculated with respect to the reference solution.
+\inputfigure{frame-error-delay}
+\inputfigure{frame-error-energy}
+\inputfigure{frame-error-temperature}
+The results are given in \fref{frame-error-delay}, \fref{frame-error-energy},
+and \fref{frame-error-temperature}, which correspond to the end-to-end delay,
+total energy, and maximum temperature, respectively. Each figure contains six
+plots arranged in a three-by-two grid. The three rows of the grid correspond to
+the three platform sizes, and the two columns correspond to the two application
+sizes. The horizontal axis of each plot shows the number of points, that is, the
+number of evaluations of \g, and the vertical one shows the \ac{KS} statistic on
+a logarithmic scale. Each plot has two lines. The blue line represents our
+technique. The circles on this line correspond to the steps of the interpolation
+process shown in \eref{interpolant-sparse}. They illustrate how the \ac{KS}
+statistic computed with respect to the reference solution changes as the
+interpolation process takes steps (and adds more and more collocation nodes into
+the interpolant) until a stopping condition is satisfied. Note that only a
+subset of the actual steps is displayed in order to make the figure legible.
+Synchronously with the blue line---that is, for the same numbers of evaluations
+of the quantity of interest---the orange line shows the error of direct
+sampling, which is also calculated with respect to the reference solution.
 
 We begin by describing one particular problem shown in the figures. Consider,
-for instance, the one labeled with $\bigstar$ in
-\fref{interpolant-error-energy}. It can be seen that, at the very beginning, our
-solution and the solution delivered by direct sampling are poor. The \ac{KS}
-statistic tells us that there are substantial mismatches between the estimates
-and the reference solution. However, as the interpolant is being adaptively
-refined, our solution approaches rapidly the reference one and, by the end of
-the interpolation process, leaves the solution of naïve sampling approximately
-an order of magnitude behind.
+for instance, the one labeled with $\bigstar$ in \fref{frame-error-energy}. It
+can be seen that, at the very beginning, our solution and the solution delivered
+by direct sampling are poor. The \ac{KS} statistic tells us that there are
+substantial mismatches between the estimates and the reference solution.
+However, as the interpolant is being adaptively refined, our solution approaches
+rapidly the reference one and, by the end of the interpolation process, leaves
+the solution of naïve sampling approximately an order of magnitude behind.
 
-Studying \fref{interpolant-error-delay}, \fref{interpolant-error-energy}, and
-\fref{interpolant-error-temperature}, one can make a number of observations. Our
+Studying \fref{frame-error-delay}, \fref{frame-error-energy}, and
+\fref{frame-error-temperature}, one can make a number of observations. Our
 interpolation-powered approach (blue lines) to probabilistic analysis
 outperforms direct sampling (orange lines) in all the cases. This means that,
 given a fixed budget of the computation time, the probability distributions
@@ -150,7 +148,7 @@ is irrelevant: since the evaluation of \g is time consuming (see
 \sref{interpolant-problem}), the number of \g's evaluations is the most apposite
 expense indicator. For the curious reader, however, let us give an example by
 considering the problem labeled with $\clubsuit$ in
-\fref{interpolant-error-temperature}. Obtaining a reference solution with
+\fref{frame-error-temperature}. Obtaining a reference solution with
 10\textsuperscript{5} simulations in parallel on 16 cores takes around two
 hours. Constructing an interpolant with 383 collocation nodes takes around 30
 seconds (this is also the time of direct sampling with 383 simulations of \g).
@@ -166,10 +164,10 @@ with a battle-proven simulator, used in both academia and industry, and then let
 this simulator evaluate a real application running on a real platform.
 
 The scenario that we consider is similar to the one depicted in
-\fref{interpolant-application}. In this case, an industrial-standard simulator
-is put in place of the ``black box'' on the left-hand side of the figure, and
-the quantity of interest \g is now the total energy. Unlike the synthetic
-examples discussed earlier, there is no true solution to compare with due to the
+\fref{frame-application}. In this case, an industrial-standard simulator is put
+in place of the ``black box'' on the left-hand side of the figure, and the
+quantity of interest \g is now the total energy. Unlike the synthetic examples
+discussed earlier, there is no true solution to compare with due to the
 prohibitive expense of running the simulator, which is exactly why our framework
 is needed in such cases.
 
