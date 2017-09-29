@@ -39,7 +39,7 @@ xiang2010, thiele2011}. The simulator performs transient temperature analysis by
 solving \eref{temperature-model-original} numerically via the fourth-order
 Runge--Kutta method \cite{press2007}.
 
-\inputfigure{utopia-transient-error}
+\inputfigure{utopia-iterative-transient-error}
 \inputfigure{utopia-static-steady-state-error}
 The number of iterations required to reach the dynamic steady state depends on
 the thermal characteristics of the platform. In order to illustrate this aspect,
@@ -48,9 +48,9 @@ platforms with processing-element areas of 1--25~mm\textsuperscript{2}. Let us
 simulate 50 successive periods of the application via HotSpot with its default
 settings and compare the resulting approximations in each period with the actual
 temperature profile using the \ac{NRMSE}. The comparison is shown in
-\fref{utopia-transient-error}. It can be observed that the number of successive
-periods over which transient analysis has to be performed in order to achieve a
-satisfactory level of accuracy is significant for the majority of the
+\fref{utopia-iterative-transient-error}. It can be observed that the number of
+successive periods over which transient analysis has to be performed in order to
+achieve a satisfactory level of accuracy is significant for the majority of the
 configurations, which entails large computation times. For instance, for an area
 of 9~mm\textsuperscript{2}, even after 15 iterations, the \ac{NRMSE} is still
 close to 20\%. Using the analytical approach to transient analysis presented in
