@@ -3,14 +3,14 @@
     Calculation of a dynamic steady-state power and temperature profile
     considering the power-temperature interplay
   }
-  \alab{utopia-dynamic-steady-state-iterative}
+  \alab{dream-dynamic-steady-state-iterative}
   \begin{algorithmic}[1]
     \Require{$\mp_\dynamic \in \real^{\np \times \ns}$}
     \Ensure{$\mp \in \real^{\np \times \ns}$, $\mq \in \real^{\np \times \ns}$}
     \Let{$\mq$}{$\mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
     \Repeat
       \Let{$\mp$}{$\mp_\dynamic + \mp_\static(\mq)$}
-      \Let{$\mq$}{\aref{utopia-dynamic-steady-state}($\mp$)}
+      \Let{$\mq$}{\aref{dream-dynamic-steady-state}($\mp$)}
     \Until{a stopping condition is satisfied}
     \State \Return $\mp$, $\mq$
   \end{algorithmic}

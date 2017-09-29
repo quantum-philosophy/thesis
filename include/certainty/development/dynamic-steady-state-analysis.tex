@@ -39,8 +39,8 @@ xiang2010, thiele2011}. The simulator performs transient temperature analysis by
 solving \eref{temperature-model-original} numerically via the fourth-order
 Runge--Kutta method \cite{press2007}.
 
-\inputfigure{utopia-iterative-transient-error}
-\inputfigure{utopia-static-steady-state-error}
+\inputfigure{dream-iterative-transient-error}
+\inputfigure{dream-static-steady-state-error}
 The number of iterations required to reach the dynamic steady state depends on
 the thermal characteristics of the platform. In order to illustrate this aspect,
 consider an application with a period of 500~ms running on five hypothetical
@@ -48,7 +48,7 @@ platforms with processing-element areas of 1--25~mm\textsuperscript{2}. Let us
 simulate 50 successive periods of the application via HotSpot with its default
 settings and compare the resulting approximations in each period with the actual
 temperature profile using the \ac{NRMSE}. The comparison is shown in
-\fref{utopia-iterative-transient-error}. It can be observed that the number of
+\fref{dream-iterative-transient-error}. It can be observed that the number of
 successive periods over which transient analysis has to be performed in order to
 achieve a satisfactory level of accuracy is significant for the majority of the
 configurations, which entails large computation times. For instance, for an area
@@ -70,10 +70,10 @@ stepwise temperature curve where each step corresponds to the static
 steady-state temperature that would be reached if the corresponding power was
 applied for a sufficiently long period of time.
 
-\inputfigure{utopia-static-steady-state-example}
+\inputfigure{dream-static-steady-state-example}
 An example of such an approximation along with the corresponding dynamic
 steady-state temperature profile of an application with 10 tasks and a period of
-100~ms is given in \fref{utopia-static-steady-state-example}. The
+100~ms is given in \fref{dream-static-steady-state-example}. The
 processing-element area is 25~mm\textsuperscript{2} in this case. The reduced
 accuracy of this technique is due to the mismatch between the actual temperature
 within each interval and the static steady-state temperature. The inaccuracy
@@ -81,9 +81,9 @@ depends on the thermal characteristics of the platform and on the application
 itself. In order to illustrate this, let us simulate five applications with
 periods of 10--1000~ms running on five platforms with an area per processing
 element of 1--25~mm\textsuperscript{2}. The errors are shown in
-\fref{utopia-static-steady-state-error}. It can be seen that, for example, for
-an area of 10~mm\textsuperscript{2} and a period of 100~ms, the \ac{NRMSE} of
-this approximation technique is close to 40\%.
+\fref{dream-static-steady-state-error}. It can be seen that, for example, for an
+area of 10~mm\textsuperscript{2} and a period of 100~ms, the \ac{NRMSE} of this
+approximation technique is close to 40\%.
 
 To conclude, the state-of-the-art techniques for dynamic steady-state
 temperature analysis are slow and inaccurate. This state of affairs makes them
@@ -253,13 +253,13 @@ calculated when computing $\v{w}_\ns$. The last step of the solution is to
 compute the actual dynamic steady-state temperature profile \mq by applying
 \eref{temperature-algebraic}.
 
-\inputalgorithm{utopia-dynamic-steady-state}
+\inputalgorithm{dream-dynamic-steady-state}
 It can be seen that the solution to the $\nn \ns \times \nn \ns$ system in
 \eref{dynamic-steady-state-system} has been reduced to the two trivial
 recurrences in \eref{dynamic-steady-state-recurrence} and
 \eref{dynamic-steady-state-auxiliary-recurrence} that traverse the \ns steps of
 the power profile \mp. The pseudocode of a potential implementation of the
-solution process is given in \aref{utopia-dynamic-steady-state}.
+solution process is given in \aref{dream-dynamic-steady-state}.
 
 It is worth noting that the auxiliary transformation presented in
 \sref{transient-state-solution} and the accompanying eigendecomposition in
@@ -302,20 +302,20 @@ and the corresponding iterative calculation is undertaken until the \ac{NRMSE}
 relative to the dynamic steady-state temperature profile calculated by means of
 the proposed method (which is exact) is less than 1\%.
 
-\inputfigure{utopia-dynamic-steady-state-speed-steps}
+\inputfigure{dream-dynamic-steady-state-speed-steps}
 First of all, we vary the period \period of power and temperature
 profiles---and, thereby, the number of samples \ns that they contain---while
 keeping the architecture fixed, which is a quad-core platform with a
 processing-element area of 4~mm\textsuperscript{2}. The results of this
-experiment are depicted in \fref{utopia-dynamic-steady-state-speed-steps} on a
+experiment are depicted in \fref{dream-dynamic-steady-state-speed-steps} on a
 semi-logarithmic scale. It can be seen that the proposed technique is 9--170
 times faster than iterative transient analysis with the analytical solution and
 roughly 5000 times faster than iterative transient analysis with HotSpot.
 
-\inputfigure{utopia-dynamic-steady-state-speed-elements}
+\inputfigure{dream-dynamic-steady-state-speed-elements}
 In the second experiment, we evaluate the scaling of our method with respect to
 the number of processing elements \np. The period is fixed to 500~ms, which
 results in 500 time steps. The obtained results are shown in
-\fref{utopia-dynamic-steady-state-speed-elements}. It can be observed that the
+\fref{dream-dynamic-steady-state-speed-elements}. It can be observed that the
 proposed technique provides a significant performance improvement relative to
 the alternative solutions.
