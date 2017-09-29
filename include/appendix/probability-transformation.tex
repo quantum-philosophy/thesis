@@ -14,15 +14,16 @@ variable with a uniform distribution on $[0, 1]$, and, by applying $F_2^{-1}$ to
 such a uniform random variable, we obtain a random variable distributed
 according to the target $F_2$.
 
-The second transformation $\transform_2$ is based on the eigendecomposition
-given in \eref{eigendecomposition} applied to \eref{correlation-matrix}. The
-technique is called the discrete \ac{KL} decomposition \cite{ghanem1991,
-xiu2010}, and it is also known as principal component analysis
-\cite{hastie2013}. It transforms potentially correlated random variables into
-linearly uncorrelated random variables. Conversely, it allows one to transition
-from a random vector $\vx_1$ with $n_1$ linearly uncorrelated components to an
-$n_1$-dimensional random vector $\vx_2$ with a prescribed correlation structure.
-Specifically, the relation between the two vectors is as follows:
+The second transformation $\transform_2$ uses the \ac{KL} decomposition
+\cite{ghanem1991, xiu2010} and, more specifically, its discrete version, which
+is also known as principal component analysis \cite{hastie2013}. The technique
+is based on the eigendecomposition given in \eref{eigendecomposition} applied to
+\eref{correlation-matrix}, and it transforms potentially correlated random
+variables into linearly uncorrelated ones. Conversely, the approach allows one
+to transition from a random vector $\vx_1$ with $n_1$ linearly uncorrelated
+components to an $n_1$-dimensional random vector $\vx_2$ with a prescribed
+correlation structure. Having obtained the decomposition in
+\eref{eigendecomposition}, the relation between the two vectors is as follows:
 \begin{equation} \elab{karhunen-loeve}
   \vx_2 = \transform_2(\vx_1) = \m{U} \m{\Lambda}^\frac{1}{2} \vx_1
 \end{equation}
