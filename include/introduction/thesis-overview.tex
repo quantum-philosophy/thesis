@@ -12,7 +12,7 @@ that do. Our attention revolves primarily around power and temperature since
 they are of central importance for attaining robustness and energy efficiency.
 We develop a novel approach to dynamic steady-state temperature analysis of
 electronic systems and apply it in the context of temperature-aware reliability
-optimization. Reliability optimization addresses performance uncertainty by
+optimization. Reliability optimization addresses condition uncertainty by
 definition; however, the above-mentioned one falls in the scope of this chapter
 since the accompanying reliability analysis treats temperature as a
 deterministic quantity, which is suboptimal as we discuss and tackle in the
@@ -38,16 +38,16 @@ illustrated by addressing a problem of design-space exploration with a set of
 probabilistic constraints related to reliability. Unlike the reliability model
 utilized in \cref{certainty-development}, the one presented in
 \cref{uncertainty-analog-development} is well aware of process uncertainty and,
-therefore, allows for a more adequate treatment of performance uncertainty.
+therefore, allows for a more adequate treatment of condition uncertainty.
 
 In \cref{uncertainty-digital-development}, we develop another system-level
 technique targeted at uncertainty. The tool makes use of adaptive hierarchical
-interpolation on sparse grids and specializes in tackling digital sources of
-uncertainty such as workload, which are typically less regular than the analog
-ones including process variation. The proposed technique is exemplified by
+interpolation on sparse grids and specializes in tackling workload variation and
+similar phenomena whose manifestation is less regular than the smooth,
+well-behaved one of process variation. The proposed technique is exemplified by
 quantifying the effect that workload units with unknown processing times have on
-the timing-, power-, and temperature-related characteristics of the system under
-consideration.
+the timing-, power-, and temperature-related characteristics of electronic
+systems.
 
 In \cref{uncertainty-digital-operation}, we elaborate on runtime management of
 electronic systems under workload variation. In this context, we perform an
