@@ -5,7 +5,7 @@ and temperature \cite{juan2012}. At the same time, \g is well known to be
 severely deteriorated by process variation \cite{chandrakasan2000,
 srivastava2010}. Therefore, the distribution of \g is not uniform across the
 wafer. For concreteness, let this distribution be the one depicted on the
-left-hand side of \fref{inference-example}. The gradient from blue to yellow
+left-hand side of \fref{bayes-example}. The gradient from blue to yellow
 represents the transition of \g from low to high values, and the scale is given
 in terms of the number of standard deviations away from the mean value; the
 exact experimental setup is to be described in detail in
@@ -20,7 +20,7 @@ process at early stages. Then the possible actions with respect to a single die
 on the wafer are \one~to keep the die if it conforms to the specification and
 \two~to recycle it otherwise.
 
-\inputfigure{inference-example}
+\inputfigure{bayes-example}
 In order to analyze the variability of the effective channel length \g across
 the wafer, one can remove the top layer of (and, consequently, destroy) the dies
 and measure \g directly. Alternatively, despite the fact that the knowledge of
@@ -61,13 +61,12 @@ be tracked using infrared cameras \cite{mesa-martinez2007} or built-in
 facilities of the dies, our approach can reduce the costs associated with the
 analysis of process variation. The results of our framework applied to a set of
 noisy temperature profiles measured at only 7\% of the dies are shown on the
-right-hand side of \fref{inference-example}, and the locations of the measured
-dies are depicted on the left-hand side of \fref{inference-application}. It can
-be seen that the two maps in \fref{inference-example} closely match each other,
-implying that the distribution of \g is reconstructed with a high level of
-accuracy.
+right-hand side of \fref{bayes-example}, and the locations of the measured dies
+are depicted on the left-hand side of \fref{bayes-application}. It can be seen
+that the two maps in \fref{bayes-example} closely match each other, implying
+that the distribution of \g is reconstructed with a high level of accuracy.
 
-\inputfigure{inference-application}
+\inputfigure{bayes-application}
 Another characteristic of the proposed framework is that probabilities of
 various events, for instance, $\probability{\g \geq \g_\minimum}$, can be
 readily estimated. This is important since, in reality, the true values are
@@ -76,9 +75,9 @@ rely on our decisions only up to a certain probability. We can then reformulate
 the decision rule given earlier as follows: \one~to keep the die if
 $\probability{\g \geq \g_\minimum}$ is larger than a certain threshold and
 \two~to recycle it otherwise. An illustration of following this rule is given on
-the right-hand side of \fref{inference-application} where $\g_\minimum$ is set
-to two standard deviations below the mean value of \g; the probability threshold
-of the first action is set to 0.9; the crosses mark both the true and inferred
+the right-hand side of \fref{bayes-application} where $\g_\minimum$ is set to
+two standard deviations below the mean value of \g; the probability threshold of
+the first action is set to 0.9; the crosses mark both the true and inferred
 defective dies (they coincide); and the gradient from white to orange
 corresponds to the inferred probability of defect. It can be seen that the
 inference accurately detects the faulty dies.
