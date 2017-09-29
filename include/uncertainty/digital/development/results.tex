@@ -78,12 +78,12 @@ the proximity between two distributions, we use the well-known \ac{KS} statistic
 empirical distribution functions and, hence, is a rather unforgiving error
 indicator.
 
-\inputfigure{interpolant-results-delay}
-\inputfigure{interpolant-results-energy}
-\inputfigure{interpolant-results-temperature}
-The results are given in \fref{interpolant-results-delay},
-\fref{interpolant-results-energy}, and \fref{interpolant-results-temperature},
-which correspond to the end-to-end delay, total energy, and maximum temperature,
+\inputfigure{interpolant-error-delay}
+\inputfigure{interpolant-error-energy}
+\inputfigure{interpolant-error-temperature}
+The results are given in \fref{interpolant-error-delay},
+\fref{interpolant-error-energy}, and \fref{interpolant-error-temperature}, which
+correspond to the end-to-end delay, total energy, and maximum temperature,
 respectively. Each figure contains six plots arranged in a three-by-two grid.
 The three rows of the grid correspond to the three platform sizes, and the two
 columns correspond to the two application sizes. The horizontal axis of each
@@ -102,24 +102,24 @@ calculated with respect to the reference solution.
 
 We begin by describing one particular problem shown in the figures. Consider,
 for instance, the one labeled with $\bigstar$ in
-\fref{interpolant-results-energy}. It can be seen that, at the very beginning,
-our solution and the solution delivered by direct sampling are poor. The \ac{KS}
+\fref{interpolant-error-energy}. It can be seen that, at the very beginning, our
+solution and the solution delivered by direct sampling are poor. The \ac{KS}
 statistic tells us that there are substantial mismatches between the estimates
 and the reference solution. However, as the interpolant is being adaptively
 refined, our solution approaches rapidly the reference one and, by the end of
 the interpolation process, leaves the solution of naïve sampling approximately
 an order of magnitude behind.
 
-Studying \fref{interpolant-results-delay}, \fref{interpolant-results-energy},
-and \fref{interpolant-results-temperature}, one can make a number of
-observations. Our interpolation-powered approach (blue lines) to probabilistic
-analysis outperforms direct sampling (orange lines) in all the cases. This means
-that, given a fixed budget of the computation time, the probability
-distributions delivered by our framework are closer to the true ones than those
-delivered by sampling \g directly, despite the fact that the latter relies on
-Sobol sequences, which are a sophisticated sampling strategy. Since direct
-sampling methods try to cover the probability space impartially, the figures are
-a salient illustration of the difference between being adaptive and nonadaptive.
+Studying \fref{interpolant-error-delay}, \fref{interpolant-error-energy}, and
+\fref{interpolant-error-temperature}, one can make a number of observations. Our
+interpolation-powered approach (blue lines) to probabilistic analysis
+outperforms direct sampling (orange lines) in all the cases. This means that,
+given a fixed budget of the computation time, the probability distributions
+delivered by our framework are closer to the true ones than those delivered by
+sampling \g directly, despite the fact that the latter relies on Sobol
+sequences, which are a sophisticated sampling strategy. Since direct sampling
+methods try to cover the probability space impartially, the figures are a
+salient illustration of the difference between being adaptive and nonadaptive.
 
 It can also be seen in the figures that, as the number of evaluations increases,
 the solutions computed by our technique approach the true ones. The error of our
@@ -150,7 +150,7 @@ is irrelevant: since the evaluation of \g is time consuming (see
 \sref{interpolant-problem}), the number of \g's evaluations is the most apposite
 expense indicator. For the curious reader, however, let us give an example by
 considering the problem labeled with $\clubsuit$ in
-\fref{interpolant-results-temperature}. Obtaining a reference solution with
+\fref{interpolant-error-temperature}. Obtaining a reference solution with
 10\textsuperscript{5} simulations in parallel on 16 cores takes around two
 hours. Constructing an interpolant with 383 collocation nodes takes around 30
 seconds (this is also the time of direct sampling with 383 simulations of \g).
