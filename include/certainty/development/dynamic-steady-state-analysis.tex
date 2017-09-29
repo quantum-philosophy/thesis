@@ -39,8 +39,7 @@ xiang2010, thiele2011}. The simulator performs transient temperature analysis by
 solving \eref{temperature-model-original} numerically via the fourth-order
 Runge--Kutta method \cite{press2007}.
 
-\inputfigure{dream-iterative-transient-error}
-\inputfigure{dream-static-steady-state-error}
+\inputfigure{dream-iterative-transient-accuracy}
 The number of iterations required to reach the dynamic steady state depends on
 the thermal characteristics of the platform. In order to illustrate this aspect,
 consider an application with a period of 500~ms running on five hypothetical
@@ -48,7 +47,7 @@ platforms with processing-element areas of 1--25~mm\textsuperscript{2}. Let us
 simulate 50 successive periods of the application via HotSpot with its default
 settings and compare the resulting approximations in each period with the actual
 temperature profile using the \ac{NRMSE}. The comparison is shown in
-\fref{dream-iterative-transient-error}. It can be observed that the number of
+\fref{dream-iterative-transient-accuracy}. It can be observed that the number of
 successive periods over which transient analysis has to be performed in order to
 achieve a satisfactory level of accuracy is significant for the majority of the
 configurations, which entails large computation times. For instance, for an area
@@ -71,6 +70,7 @@ steady-state temperature that would be reached if the corresponding power was
 applied for a sufficiently long period of time.
 
 \inputfigure{dream-static-steady-state-example}
+\inputfigure{dream-static-steady-state-accuracy}
 An example of such an approximation along with the corresponding dynamic
 steady-state temperature profile of an application with 10 tasks and a period of
 100~ms is given in \fref{dream-static-steady-state-example}. The
@@ -81,7 +81,7 @@ depends on the thermal characteristics of the platform and on the application
 itself. In order to illustrate this, let us simulate five applications with
 periods of 10--1000~ms running on five platforms with an area per processing
 element of 1--25~mm\textsuperscript{2}. The errors are shown in
-\fref{dream-static-steady-state-error}. It can be seen that, for example, for an
+\fref{dream-static-steady-state-accuracy}. It can be seen that, for example, for an
 area of 10~mm\textsuperscript{2} and a period of 100~ms, the \ac{NRMSE} of this
 approximation technique is close to 40\%.
 

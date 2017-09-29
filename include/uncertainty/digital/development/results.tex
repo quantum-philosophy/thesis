@@ -78,38 +78,39 @@ the proximity between two distributions, we use the well-known \ac{KS} statistic
 empirical distribution functions and, hence, is a rather unforgiving error
 indicator.
 
-\inputfigure{frame-error-delay}
-\inputfigure{frame-error-energy}
-\inputfigure{frame-error-temperature}
-The results are given in \fref{frame-error-delay}, \fref{frame-error-energy},
-and \fref{frame-error-temperature}, which correspond to the end-to-end delay,
-total energy, and maximum temperature, respectively. Each figure contains six
-plots arranged in a three-by-two grid. The three rows of the grid correspond to
-the three platform sizes, and the two columns correspond to the two application
-sizes. The horizontal axis of each plot shows the number of points, that is, the
-number of evaluations of \g, and the vertical one shows the \ac{KS} statistic on
-a logarithmic scale. Each plot has two lines. The blue line represents our
-technique. The circles on this line correspond to the steps of the interpolation
-process shown in \eref{interpolant-sparse}. They illustrate how the \ac{KS}
-statistic computed with respect to the reference solution changes as the
-interpolation process takes steps (and adds more and more collocation nodes into
-the interpolant) until a stopping condition is satisfied. Note that only a
-subset of the actual steps is displayed in order to make the figure legible.
-Synchronously with the blue line---that is, for the same numbers of evaluations
-of the quantity of interest---the orange line shows the error of direct
-sampling, which is also calculated with respect to the reference solution.
+\inputfigure{frame-accuracy-delay}
+\inputfigure{frame-accuracy-energy}
+\inputfigure{frame-accuracy-temperature}
+The results are given in \fref{frame-accuracy-delay},
+\fref{frame-accuracy-energy}, and \fref{frame-accuracy-temperature}, which
+correspond to the end-to-end delay, total energy, and maximum temperature,
+respectively. Each figure contains six plots arranged in a three-by-two grid.
+The three rows of the grid correspond to the three platform sizes, and the two
+columns correspond to the two application sizes. The horizontal axis of each
+plot shows the number of points, that is, the number of evaluations of \g, and
+the vertical one shows the \ac{KS} statistic on a logarithmic scale. Each plot
+has two lines. The blue line represents our technique. The circles on this line
+correspond to the steps of the interpolation process shown in
+\eref{interpolant-sparse}. They illustrate how the \ac{KS} statistic computed
+with respect to the reference solution changes as the interpolation process
+takes steps (and adds more and more collocation nodes into the interpolant)
+until a stopping condition is satisfied. Note that only a subset of the actual
+steps is displayed in order to make the figure legible. Synchronously with the
+blue line---that is, for the same numbers of evaluations of the quantity of
+interest---the orange line shows the error of direct sampling, which is also
+calculated with respect to the reference solution.
 
 We begin by describing one particular problem shown in the figures. Consider,
-for instance, the one labeled with $\bigstar$ in \fref{frame-error-energy}. It
-can be seen that, at the very beginning, our solution and the solution delivered
-by direct sampling are poor. The \ac{KS} statistic tells us that there are
-substantial mismatches between the estimates and the reference solution.
+for instance, the one labeled with $\bigstar$ in \fref{frame-accuracy-energy}.
+It can be seen that, at the very beginning, our solution and the solution
+delivered by direct sampling are poor. The \ac{KS} statistic tells us that there
+are substantial mismatches between the estimates and the reference solution.
 However, as the interpolant is being adaptively refined, our solution approaches
 rapidly the reference one and, by the end of the interpolation process, leaves
 the solution of naïve sampling approximately an order of magnitude behind.
 
-Studying \fref{frame-error-delay}, \fref{frame-error-energy}, and
-\fref{frame-error-temperature}, one can make a number of observations. Our
+Studying \fref{frame-accuracy-delay}, \fref{frame-accuracy-energy}, and
+\fref{frame-accuracy-temperature}, one can make a number of observations. Our
 interpolation-powered approach (blue lines) to probabilistic analysis
 outperforms direct sampling (orange lines) in all the cases. This means that,
 given a fixed budget of the computation time, the probability distributions
@@ -148,7 +149,7 @@ is irrelevant: since the evaluation of \g is time consuming (see
 \sref{interpolant-problem}), the number of \g's evaluations is the most apposite
 expense indicator. For the curious reader, however, let us give an example by
 considering the problem labeled with $\clubsuit$ in
-\fref{frame-error-temperature}. Obtaining a reference solution with
+\fref{frame-accuracy-temperature}. Obtaining a reference solution with
 10\textsuperscript{5} simulations in parallel on 16 cores takes around two
 hours. Constructing an interpolant with 383 collocation nodes takes around 30
 seconds (this is also the time of direct sampling with 383 simulations of \g).
