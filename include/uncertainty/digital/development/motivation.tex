@@ -12,7 +12,7 @@ and even discontinuity. In such cases, \ac{PC} expansions and similar techniques
 fail: they require extremely many evaluations of the studied quantity in order
 to deliver an acceptable level of accuracy and, consequently, are not worth it.
 
-\inputfigure{interpolant-example}
+\inputfigure{interpolant-motivation}
 In order to illustrate this concern, let us consider an example. Suppose that
 our system has only one processing element, and it is running an application
 with only one task. Suppose further that the task has two branches and takes
@@ -27,23 +27,23 @@ Suppose the above scenario is modeled by a uniformly distributed random variable
 $\u: \Omega \to [0, 1]$: the execution time of the task (the end-to-end delay of
 the application) is 0.1~s if $\u \in [0, 0.6]$, and it is 1~s if $\u \in (0.6,
 1]$. The response in this case is a step function, which is illustrated by the
-yellow line in \fref{interpolant-example}.
+yellow line in \fref{interpolant-motivation}.
 
 First, we try to quantify the end-to-end delay by constructing and subsequently
 sampling a \ac{PC} expansion founded on the Legendre polynomial basis
 \cite{xiu2010}; see \xref{polynomial-chaos}. The orange line in
-\fref{interpolant-example} shows a \ac{PC} expansion of level nine ($\lc = \lq =
-9$), which uses 10 points ($\nq = 10$). It can be seen that the approximation is
-poor---not to mention negative execution times---which means that the follow-up
-sampling will also yield a poor approximation of the true distribution. The
-observed oscillating behavior is the well-known Gibbs phenomenon stemming from
-the discontinuity of the response. Regardless of the number of points spent, the
-oscillations will never go away completely.
+\fref{interpolant-motivation} shows a \ac{PC} expansion of level nine ($\lc =
+\lq = 9$), which uses 10 points ($\nq = 10$). It can be seen that the
+approximation is poor---not to mention negative execution times---which means
+that the follow-up sampling will also yield a poor approximation of the true
+distribution. The observed oscillating behavior is the well-known Gibbs
+phenomenon stemming from the discontinuity of the response. Regardless of the
+number of points spent, the oscillations will never go away completely.
 
 Let us now investigate how the framework developed in this chapter solves the
 same problem. For the purpose of the experiment, our technique is constrained to
 make use of the same number of points as the \ac{PC} expansion does. The result
-is the blue curve in \fref{interpolant-example}, and the adaptively chosen
+is the blue curve in \fref{interpolant-motivation}, and the adaptively chosen
 points are plotted on the horizontal axis. It can be seen that the approximation
 is good, and, in fact, it would be indistinguishable from the true response with
 a few additional points. One can note that the adaptive procedure started to
