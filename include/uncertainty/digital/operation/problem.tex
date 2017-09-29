@@ -14,14 +14,14 @@ as opposed to having only one aggregate measurement such as the average or
 maximum value.
 
 Consider now task $i$ and suppose that the current time step is $j$; an
-illustration for $j \in \{3, 4, 5\}$ is given in \fref{network-example}. This
-means that $\range{\vg_{i1}}{\vg_{ij}}$ are known. Given these previous values,
-the goal is to estimate the next $h$ values of the sequence, which we denote by
-$\range{\hat{\vg}_{i,j + 1}}{\hat{\vg}_{i,j + h}}$; in \fref{network-example},
-$h = 4$. Such an estimation is called a long-range prediction as it provides
-multiple future values as opposed to providing only one. The described operation
-is to be performed for each active task of interest at each time moment of
-interest.
+illustration for $j \in \{3, 4, 5\}$ is given in \fref{network-application}.
+This means that $\range{\vg_{i1}}{\vg_{ij}}$ are known. Given these previous
+values, the goal is to estimate the next $h$ values of the sequence, which we
+denote by $\range{\hat{\vg}_{i,j + 1}}{\hat{\vg}_{i,j + h}}$; in
+\fref{network-application}, $h = 4$. Such an estimation is called a long-range
+prediction as it provides multiple future values as opposed to providing only
+one. The described operation is to be performed for each active task of interest
+at each time moment of interest.
 
 In order to tackle the problem, one is to learn from historical data.
 Specifically, there is a data set of past profiles at one's disposal, which is

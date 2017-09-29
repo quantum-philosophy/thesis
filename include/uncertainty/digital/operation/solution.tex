@@ -255,7 +255,7 @@ In order to calculate long-rage predictions, we use refeeding: at time step $j$,
 the predicted value $\hat{\vg}_{i,j + 1}$ of the resource usage of task $i$ is
 fed into the model as if it was the actual resource usage $\vg_{i,j + 1}$ at
 step $j + 1$, which is not yet known at step $j$. At this point, it might be
-helpful to consider the example given in \fref{network-example}. The process
+helpful to consider the example given in \fref{network-application}. The process
 continues until all the desired $h$ future values are estimated. It is natural
 to expect that the more accurate the one-step-ahead prediction is, the more
 accurate the multiple-step-ahead one becomes.
