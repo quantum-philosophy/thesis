@@ -1,31 +1,24 @@
-Sampling methods would be a reasonable solution to probabilistic analysis of
-electronic systems if electronic systems were inexpensive (with respect to the
-computation time) to simulate. In order to eliminate or reduce the costs
-associated with direct sampling, a number of techniques have been introduced.
+As we note in \sref{prior}, sampling methods would be a reasonable solution to
+probabilistic analysis of electronic systems if these systems were
+computationally inexpensive to evaluate. In order to eliminate or reduce the
+costs associated with direct sampling, a number of techniques have been
+introduced.
 
-Let us first discuss physical sources of uncertainty. Since process variation is
-the most prominent example in this case, our work in
-\cref{uncertainty-analog-development}---which leverages \ac{PC} expansions
-\cite{xiu2010} introduced in \xref{polynomial-chaos}---is very much relevant in
-this regard, and the discussion here is a brief recapitulation of the one in
-\sref{chaos-prior}. Circuit-level timing and power analysis under process
-variation are undertaken in \cite{bhardwaj2008} by means of \ac{PC} expansions.
-The work in \cite{juan2012} models static steady-state temperature and accounts
-for process variation by leveraging the linearity of Gaussian distributions and
-time-invariant systems. A stochastic collocation \cite{xiu2010} approach to
-static steady-state temperature analysis is given in \cite{lee2013}, which
-relies on global interpolation using Newton polynomials.
+We begin by noting that our work presented in
+\cref{uncertainty-analog-development} and, therefore, the prior studies
+described in \sref{chaos-prior} are of relevance in this section. However, since
+the corresponding techniques are designed for tackling process variation, we do
+not discuss them further, which is motivated in \sref{frame-motivation}.
 
-Let us now turn to what we refer to as digital sources of uncertainty. In this
-context, timing analysis has drawn the major attention \cite{quinton2012}. A
-seminal work on response time analysis of periodic tasks with random execution
-times on uniprocessor systems is reported in \cite{diaz2002}. A novel analytical
-solution to this problem is given in \cite{tanasa2015}, which makes milder
-assumptions and allows for addressing larger, previously unsolvable problems.
-The framework proposed in \cite{santinelli2011} facilitates task scheduling by
-providing probabilistic bounds on the resource given to a task flow and the
-resource needed by that task flow; the approach is based on real-time calculus
-and applicable to electronic systems.
+In the case of the uncertainty stemming from workload, timing analysis has drawn
+the major attention \cite{quinton2012}. A seminal work on response time analysis
+of periodic tasks with random execution times on uniprocessor systems is
+reported in \cite{diaz2002}. A novel analytical solution to this problem is
+given in \cite{tanasa2015}, which makes milder assumptions and allows for
+addressing larger, previously unsolvable problems. The framework proposed in
+\cite{santinelli2011} uses real-time calculus in order to facilitate task
+scheduling by providing probabilistic bounds on the resource given to a task
+flow and the resource needed by that task flow.
 
 Studying the literature on probabilistic analysis of electronic systems related
 to \cref{uncertainty-analog-development} and this chapter, one can note a
@@ -45,23 +38,23 @@ means discarding this battle-tested code and implementing something else from
 scratch, which is wasteful.
 
 Some of the techniques mentioned earlier, in fact, preserve the generality and
-straightforwardness of sampling methods. An example is our uncertainty analysis
-presented in \cref{uncertainty-analog-development}. The reason is that our
-construction of \ac{PC} expansions is undertaken by means of nonintrusive
-spectral projections \cite{xiu2010}, which, similar to sampling methods, do not
-need to look inside the ``black box.'' However, as motivated in
+straightforwardness of sampling methods. An example is our probabilistic
+framework presented in \cref{uncertainty-analog-development}. The reason is that
+the construction of \ac{PC} expansions in the framework is undertaken by means
+of nonintrusive spectral projections \cite{xiu2010}, which, similar to sampling
+methods, do not need to look inside the ``black box.'' However, as motivated in
 \sref{frame-motivation}, nonsmoothness is a serious problem for global
-approximation based on polynomials. The convergence of, for instance, \ac{PC}
-expansions deteriorates substantially in such cases, requiring partitioning the
-stochastic space in order to alleviate the problem. Therefore, it is not
-straightforward to apply such techniques as the one given in
-\cref{uncertainty-analog-development} in the context of digital sources of
-uncertainty exhibiting nonsmoothness.
+approximation based on polynomials. In particular, the convergence rate of
+\ac{PC} expansions deteriorates substantially in such cases, requiring
+partitioning the stochastic space in order to alleviate the problem. Therefore,
+it is not straightforward to apply such techniques as the one given in
+\cref{uncertainty-analog-development} to sources of uncertainty that exhibit
+nonsmoothness.
 
 To the best of our knowledge, in the context of probabilistic analysis of
 electronic systems, nonsmooth problems have not been systematically and
 efficiently addressed yet. However, such problems are inherent to the digital
-world, which electronic systems are denizens of, as we discuss in
+world, which electronic systems are denizens of as discussed in
 \sref{frame-motivation}.
 
 To conclude, the available techniques for probabilistic analysis of electronic
