@@ -8,7 +8,7 @@ the proposed framework. For concreteness, throughout this section, the framework
 is applied to a particular problem involving one of the introduced quantities.
 
 \subsection{\problemtitle}
-\slab{interpolant-formulation}
+\slab{frame-formulation}
 
 Assume the system, power, and temperature models given in \sref{system-model},
 \sref{power-model}, \sref{temperature-model}, respectively. Assume also the
@@ -22,20 +22,20 @@ $b_i$ and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} =
 $(\v{b}, \v{d})$. For example, the end-to-end delay of the application---which
 is the difference between the finish time of the latest task and the start time
 of the earliest task---is as follows:
-\begin{equation} \elab{interpolant-delay}
+\begin{equation} \elab{frame-delay}
   \text{End-to-end delay}
   = \max_{i = 1}^\nt d_i - \min_{i = 1}^\nt b_i.
 \end{equation}
 Suppose now that the execution times of the tasks depend on the uncertain
-parameters \vu; see \sref{interpolant-problem}. Then the tuple $(\v{b}, \v{d})$
-depends on \vu. Hence, the end-to-end delay given in \eref{interpolant-delay}
-does so too, and it constitutes an example of a quantity \g that the designer
-might be interested in studying. Note that this \g is nondifferentiable since
-the $\max$ and $\min$ functions are such. Therefore, \g is nonsmooth, which
-renders \up{PC} expansions and similar techniques inadequate for this problem,
-which is elaborated on in \sref{interpolant-motivation}.
+parameters \vu; see \sref{frame-problem}. Then the tuple $(\v{b}, \v{d})$
+depends on \vu. Hence, the end-to-end delay given in \eref{frame-delay} does so
+too, and it constitutes an example of a quantity \g that the designer might be
+interested in studying. Note that this \g is nondifferentiable since the $\max$
+and $\min$ functions are such. Therefore, \g is nonsmooth, which renders \up{PC}
+expansions and similar techniques inadequate for this problem, which is
+elaborated on in \sref{frame-motivation}.
 
-\begin{remark} \rlab{interpolant-nonsmoothness}
+\begin{remark} \rlab{frame-nonsmoothness}
 In general, the behavior of \g with respect to continuity, differentiability,
 and smoothness cannot be inferred from the behavior of \vu. Even when the
 parameters behave perfectly, \g might still exhibit nondifferentiability or even
@@ -46,7 +46,7 @@ to the actual scheduling policy, end-to-end delays are very often discontinuous.
 
 Let us move on to power. The total energy consumed by the system during an
 application run can be estimated using a power profile \mp as follows:
-\begin{equation} \elab{interpolant-energy}
+\begin{equation} \elab{frame-energy}
   \text{Total energy}
   = \sum_{i = 1}^\np \int \p_i(t) \d t
   \approx \dt \norm[1]{\mp}
@@ -55,12 +55,12 @@ where $\p_i$ stands for the power consumption of processing element $i$, and \dt
 is the sampling interval, which is assumed to be sufficiently small. Since the
 tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption of the system is
 dependent on \vu as well. Consequently, the total energy given in
-\eref{interpolant-energy} depends on \vu and is a candidate for \g.
-\rref{interpolant-nonsmoothness} applies in this context to the full extent.
+\eref{frame-energy} depends on \vu and is a candidate for \g.
+\rref{frame-nonsmoothness} applies in this context to the full extent.
 
 Let us now turn to temperature. The maximum temperature of the system can be
 estimated using a temperature profile \mq as follows:
-\begin{equation} \elab{interpolant-temperature}
+\begin{equation} \elab{frame-temperature}
   \text{Maximum temperature}
   = \max_{i = 1}^\np \sup_{t} \q_i(t)
   \approx \norm[\infty]{\mq}
@@ -68,29 +68,28 @@ estimated using a temperature profile \mq as follows:
 where $\q_i$ stands for the heat dissipation of processing element $i$. Since
 the power consumption of the system is affected by \vu, its heat dissipation is
 affected by \vu as well. Therefore, the maximum temperature in
-\eref{interpolant-temperature} is a potential quantity of interest \g. Note
-that, due to the maximization involved, the quantity is nondifferentiable and,
-hence, cannot be adequately addressed using polynomial approximations; recall
-also the concern in \rref{interpolant-nonsmoothness}.
+\eref{frame-temperature} is a potential quantity of interest \g. Note that, due
+to the maximization involved, the quantity is nondifferentiable and, hence,
+cannot be adequately addressed using polynomial approximations; recall also the
+concern in \rref{frame-nonsmoothness}.
 
 To summarize, we have covered three aspects of electronic systems, namely,
 timing, power, and temperature, and introduced a number of quantities that the
 designer is typically interested in analyzing. These quantities are to be
-discussed further in the section on experimental results,
-\sref{interpolant-results}.
+discussed further in the section on experimental results, \sref{frame-results}.
 
 \inputfigure{frame-application}
 Let us also employ one of the introduced quantities in order to have a concrete
 example to work with in this section. The setup that we are about to describe is
 to be detailed, extended, and scaled up in the experiments reported in
-\sref{interpolant-results}. The problem addressed in this section is depicted on
-the left-hand side of \fref{frame-application}. We consider a heterogeneous
-platform with two processing elements, PE1 and PE2, and an application with four
-tasks, T1--T4. The data dependencies between the tasks and their mapping onto
-the processing elements can be seen in \fref{frame-application}. The quantity of
+\sref{frame-results}. The problem addressed in this section is depicted on the
+left-hand side of \fref{frame-application}. We consider a heterogeneous platform
+with two processing elements, PE1 and PE2, and an application with four tasks,
+T1--T4. The data dependencies between the tasks and their mapping onto the
+processing elements can be seen in \fref{frame-application}. The quantity of
 interest \g is the end-to-end delay of the application defined in
-\eref{interpolant-delay}. The uncertain parameters \vu are the execution times
-of T2 and T4 denoted by $\u_1$ and $\u_2$, respectively.
+\eref{frame-delay}. The uncertain parameters \vu are the execution times of T2
+and T4 denoted by $\u_1$ and $\u_2$, respectively.
 
 The leftmost component in \fref{frame-application} is a ``black box'' capable of
 evaluating \g given \vu. More specifically, it takes an assignment of the
@@ -111,9 +110,9 @@ the stronger $\u_i$ and $\u_j$ are correlated.
 
 \subsection{Probability Transformation}
 
-At Stage~2 of our workflow outlined in \sref{interpolant-solution}, a suitable
-$\transform$ needed in \eref{interpolant-transformation} is to be decided upon.
-In this example, we base $\transform$ on the one shown in
+At Stage~2 of our workflow outlined in \sref{frame-solution}, a suitable
+$\transform$ needed in \eref{frame-transformation} is to be decided upon. In
+this example, we base $\transform$ on the one shown in
 \eref{probability-transformation} and reduce $\vu: \Omega \to \real^\nu$ to
 $\vz: \Omega \to [0, 1]^\nz$ so that the latter is uniformly distributed. In
 this case, the rightmost $\transform_1$ in \eref{probability-transformation} is
@@ -124,9 +123,9 @@ engaged; it eliminates redundant stochastic dimensions and, therefore, assists
 the subsequent interpolation process.
 
 Note that the chosen $\transform$ makes \vz conform to the requirements listed
-in \sref{interpolant-transformation}. Namely, the codomain of \vz is $[0,
-1]^\nz$, and it has the smallest number of dimensions that are needed to
-preserve the desired level of accuracy.
+in \sref{frame-transformation}. Namely, the codomain of \vz is $[0, 1]^\nz$, and
+it has the smallest number of dimensions that are needed to preserve the desired
+level of accuracy.
 
 The transformation is also depicted in \fref{frame-application}; see the small
 box to the right of the ``black box'' described earlier. In this particular
@@ -159,9 +158,9 @@ compute an estimate of the distribution of \g.
 \ac{PDF} of \g computed by applying kernel density estimation to $G$ obtained
 from the interpolant. The yellow line---which is barely visible behind the blue
 line---shows the true density of \g; its calculation is explained in
-\sref{interpolant-results}. It can be seen that our solution closely matches the
-exact one. In addition, the orange line shows the estimate that one would get if
-one sampled \g directly consuming the same number of \g's evaluations as the one
+\sref{frame-results}. It can be seen that our solution closely matches the exact
+one. In addition, the orange line shows the estimate that one would get if one
+sampled \g directly consuming the same number of \g's evaluations as the one
 consumed by our framework. We see that, given the same budget, the solution
 delivered by our technique is substantially closer to the true one than the one
 delivered by naïve sampling.

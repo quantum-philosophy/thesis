@@ -16,7 +16,7 @@ Let \g as a function of \vz via $\transform$ be in $\continuous([0, 1]^\nz)$,
 the space of continuous functions on $[0, 1]^\nz$; this assumption is not
 limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
 approximated using the following hierarchical interpolant:
-\begin{equation} \elab{interpolant-sparse}
+\begin{equation} \elab{frame-sparse}
   \g \approx \interpolant{\nz}{\ls}(\g)
   = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}}
   \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) e_{\vi \vj} \end{equation}
@@ -29,8 +29,8 @@ and $\Delta\tensorindex{\nz}{\vi}$ are index sets defined in
 \eref{interpolant-sparse-index-delta} and \eref{interpolant-tensor-index-delta},
 respectively.
 
-Due to the reason to be discussed in \sref{interpolant-adaptivity}, the
-interpretation of \eref{interpolant-sparse} is different from the one used in
+Due to the reason to be discussed in \sref{frame-adaptivity}, the interpretation
+of \eref{frame-sparse} is different from the one used in
 \xref{sparse-interpolation}. Specifically, $\ls \in \natural$ no longer
 represents the current interpolation level but rather the current interpolation
 step, and $\interpolant{\nz}{\ls}(\g)$ is the interpolant at that step. From now
@@ -40,7 +40,7 @@ defined in \xref{sparse-interpolation}.
 Let us now turn to the choice of collocation nodes and basis functions.
 
 \subsection{Collocation Nodes}
-\slab{interpolant-grid}
+\slab{frame-grid}
 
 \inputfigure{frame-grid}
 As explained in \xref{sparse-interpolation}, the integration grid should
@@ -78,7 +78,7 @@ nested. In multiple dimensions, the nodes are formed as shown in
 \eref{interpolant-tensor-grid} and \eref{quadrature-tensor-index}.
 
 \subsection{Basis Functions}
-\slab{interpolant-basis}
+\slab{frame-basis}
 
 \inputfigure{frame-basis}
 The basis functions that correspond to open Newton--Cotes rules are the
@@ -115,7 +115,7 @@ basis functions are formed as shown in \eref{interpolant-tensor-basis} and
 Lastly, let us calculate the volumes (integrals over the whole domain) of the
 basis functions, which we denote by $w_{ij}$; they will be needed in the
 continuation. We have that $w_{00} = 1$ and, for $i > 0$,
-\begin{equation} \elab{interpolant-basis-volume}
+\begin{equation} \elab{frame-basis-volume}
   w_{ij} = \int_0^1 e_{ij}(\x) \d \x =
   \begin{cases}
     \frac{2}{n_i + 1}, & \text{if } j \in \{ 0, n_i - 1 \}, \\
@@ -136,7 +136,7 @@ level would be added. The solution to the above problem is to make the
 interpolation algorithm adaptive, which we discuss next.
 
 \subsection{Hybrid Adaptivity}
-\slab{interpolant-adaptivity}
+\slab{frame-adaptivity}
 
 In order to make the algorithm adaptive, we first need to decide on a measure of
 how good the constructed interpolant $\interpolant{\nz}{\ls}(\g)$ is at any
@@ -153,13 +153,12 @@ underlying sparse grid. Hence, surpluses can be recycled in order to effectively
 identify problematic regions. We proceed as follows. First, a score is assigned
 to each node $\vx_{\vi \vj}$ or, equivalently, to each pair of level and order
 indices $(\vi, \vj)$ as follows:
-\begin{equation} \elab{interpolant-score}
+\begin{equation} \elab{frame-score}
   s_{\vi \vj} = \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj}) w_{\vi \vj}}
 \end{equation}
 where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ and $w_{\vi\vj}$ are given by
-\eref{interpolant-sparse-surplus} and \eref{interpolant-basis-volume},
-respectively. Then this score is used in order to guide the algorithm as we
-explain now.
+\eref{interpolant-sparse-surplus} and \eref{frame-basis-volume}, respectively.
+Then this score is used in order to guide the algorithm as we explain now.
 
 Each $\interpolant{\nz}{\ls}$ is characterized by a set of level indices
 $\sparseindex{\nz}{\ls}$, and each $\vi \in \sparseindex{\nz}{\ls}$ is
@@ -169,7 +168,7 @@ chosen from $\sparseindex{\nz}{\ls - 1}$ starting from $\sparseindex{\nz}{-1} =
 \{ \v{0} \}$. The chosen index subsequently gives birth to
 $\Delta\sparseindex{\nz}{\ls}$ and $\{ \Delta\tensorindex{\nz}{\vi}: \vi \in
 \Delta\sparseindex{\nz}{\ls} \}$, which form the increment given on the
-right-hand side of \eref{interpolant-sparse}.
+right-hand side of \eref{frame-sparse}.
 
 The level index set $\Delta\sparseindex{\nz}{\ls}$ contains the so-called
 admissible forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of
@@ -215,8 +214,8 @@ The above refinement procedure is to be undertaken for each level index $\vi \in
 \range{1}{\nz}$.
 
 The choice of $\vi_{\ls}$ from $\sparseindex{\nz}{\ls - 1}$ at each step \ls of
-\eref{interpolant-sparse} is made as follows. First of all, each index can be
-picked at most once. The rest is resolved by prioritizing the candidates. It is
+\eref{frame-sparse} is made as follows. First of all, each index can be picked
+at most once. The rest is resolved by prioritizing the candidates. It is
 reasonable to assign a priority to a level index \vi based on the scores of the
 order indices associated with this level index, that is, based on the scores of
 $\tensorindex{\nz}{\vi}$. The priority can be computed as the average score
@@ -227,13 +226,13 @@ Thus, at each step \ls, the index \vi with the highest $s_{\vi}$ is promoted to
 $\vi_{\ls}$.
 
 The final question to answer is the stopping condition of the approximation
-process in \eref{interpolant-sparse}. Apart from the natural constraints on the
+process in \eref{frame-sparse}. Apart from the natural constraints on the
 maximum number of function evaluations and the maximum interpolation level (the
 original \ls in \xref{sparse-interpolation}), we rely on the following
 criterion. Assume there are two additional constants: \error{a} and \error{r},
 which are referred to as the absolute and relative error, respective. Then the
 process is terminated as soon as
-\begin{equation} \elab{interpolant-stop}
+\begin{equation} \elab{frame-stop}
   \max_{\vi \vj} \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj})} \leq \max \left\{ \error{a}, \error{r} (\g_\maximum - \g_\minimum) \right\}
 \end{equation}
 where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed value
@@ -253,13 +252,12 @@ the interpolation algorithm is likely to benefit by prioritizing those variables
 that are the most influential.
 
 To summarize, we have obtained an efficient algorithm for adaptive hierarchical
-interpolation in multiple dimensions. The main equation is
-\eref{interpolant-sparse} where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$,
-$\vx_{\vi \vj}$, and $e_{\vi \vj}$ are the ones given in
-\eref{interpolant-sparse-surplus}, \sref{interpolant-grid}, and
-\sref{interpolant-basis}, respectively, and the interpolation is undertaken
-according to the rules given in \sref{interpolant-adaptivity}. Now we discuss
-the implementation.
+interpolation in multiple dimensions. The main equation is \eref{frame-sparse}
+where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$, $\vx_{\vi \vj}$, and $e_{\vi
+\vj}$ are the ones given in \eref{interpolant-sparse-surplus},
+\sref{frame-grid}, and \sref{frame-basis}, respectively, and the interpolation
+is undertaken according to the rules given in \sref{frame-adaptivity}. Now we
+discuss the implementation.
 
 \subsection{Implementation}
 
@@ -272,12 +270,12 @@ technique.
 
 Let us first make a general note. According to our experience, it is beneficial
 to the clarity and ease of implementation to collapse the two sums in
-\eref{interpolant-sparse} into one. This requires storing a level index $\vi =
-(i_k) \in \natural^\nz$ and an order index $\vj = (j_k) \in \natural^\nz$ for
-each interpolation point. It is also advantageous to encode each pair $(i_k,
-j_k)$ as a single unsigned integer, which, in particular, eliminates excessive
-memory usage. In multiple dimensions, this results in a vector $\v{\iota} =
-(\iota_k) \in \natural^\nz$, which we simply call an index. Our encoding is
+\eref{frame-sparse} into one. This requires storing a level index $\vi = (i_k)
+\in \natural^\nz$ and an order index $\vj = (j_k) \in \natural^\nz$ for each
+interpolation point. It is also advantageous to encode each pair $(i_k, j_k)$ as
+a single unsigned integer, which, in particular, eliminates excessive memory
+usage. In multiple dimensions, this results in a vector $\v{\iota} = (\iota_k)
+\in \natural^\nz$, which we simply call an index. Our encoding is
 \[
   \iota_k = i_k \lor (j_k \ll \n{\mathrm{bits}})
 \]
@@ -295,11 +293,11 @@ artifacts of interpolation. These artifacts are a set of tuples $\{
 description of a hierarchical interpolant. The pseudocode works as follows.
 
 Line 1: Each iteration of the loop corresponds to an interpolation step \ls in
-\eref{interpolant-sparse}. The progress is captured by a structure
-\texttt{state}. The \texttt{strategy} object represents the adaptation strategy
-utilized, and it operates in accordance with \sref{interpolant-adaptivity}. The
-\texttt{Continue?} method of \texttt{strategy} checks if any of the stopping
-conditions is satisfied, in which case the process is terminated.
+\eref{frame-sparse}. The progress is captured by a structure \texttt{state}. The
+\texttt{strategy} object represents the adaptation strategy utilized, and it
+operates in accordance with \sref{frame-adaptivity}. The \texttt{Continue?}
+method of \texttt{strategy} checks if any of the stopping conditions is
+satisfied, in which case the process is terminated.
 
 Line 2: The \texttt{Next} method of \texttt{strategy} consumes the previous
 state and returns the initial state of the ongoing interpolation step. In
@@ -311,7 +309,7 @@ functions at the beginning of the next iteration.
 Line 3: The \texttt{grid} object represents the utilized interpolation grid, and
 its \texttt{Compute} method calculates the collocation nodes that correspond to
 given indices, that is, $\{ \vx_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k \}$;
-see \sref{interpolant-grid} for more details.
+see \sref{frame-grid} for more details.
 
 Line 4: Algorithm~G evaluates $\g \circ \transform$ at the collocation nodes.
 This is by far the most time consuming operation of the algorithm as \g is
@@ -330,7 +328,7 @@ interpolation step.
 
 Line 7: The \texttt{Score} method of \texttt{strategy} calculates the scores of
 the new collocation nodes based on their surpluses as described in
-\sref{interpolant-adaptivity}.
+\sref{frame-adaptivity}.
 
 Line 8: The \texttt{Append} method of \texttt{interpolant} refines the
 interpolant by extending it with the indices and surpluses of the undertaken
@@ -343,13 +341,13 @@ We now turn to the usage stage of an interpolant. The pseudocode is given in
 regarding this subroutine.
 
 Line 3: The inner loop corresponds to an unfolded version of
-\eref{interpolant-sparse}; that is, there is no separation into the individual
+\eref{frame-sparse}; that is, there is no separation into the individual
 interpolation steps taken.
 
 Line 4: The \texttt{basis} object represents the utilized interpolation basis,
 and its \texttt{Compute} method evaluates the basis functions that correspond to
 given indices, that is, $\{ e_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k \}$, at
-arbitrary points; see \sref{interpolant-basis}.
+arbitrary points; see \sref{frame-basis}.
 
 It is worth noting that the \texttt{strategy}, \texttt{grid}, and \texttt{basis}
 objects conform to certain interfaces and can be easily swapped out. This makes

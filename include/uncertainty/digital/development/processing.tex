@@ -18,11 +18,10 @@ can be straightforwardly estimated.
 
 In addition, the expectation and variance of \g can be computed without
 sampling. Using an adequate $\transform$ discussed in
-\sref{interpolant-transformation}, \g can be reparameterized in terms of
-independent variables that are uniformly distributed on $[0, 1]^\nz$. This means
-that the density function of \vz equals unity. Therefore, using
-\eref{interpolant-sparse}, we have the following analytical expression for the
-expectation:
+\sref{frame-transformation}, \g can be reparameterized in terms of independent
+variables that are uniformly distributed on $[0, 1]^\nz$. This means that the
+density function of \vz equals unity. Therefore, using \eref{frame-sparse}, we
+have the following analytical expression for the expectation:
 \[
   \expectation{\g} \approx \expectation{\interpolant{\nz}{\ls}(\g)}
   = \int_{[0, 1]^\nz} \interpolant{\nz}{\ls}(\g)(\vz) \d \vz
@@ -36,7 +35,7 @@ where
   = \prod_{k = 1}^\nz w_{i_k j_k}.
 \]
 In the above equation, $w_{ij}$ is calculated as shown in
-\eref{interpolant-basis-volume}.
+\eref{frame-basis-volume}.
 
 Regarding the variance, it can be seen in \eref{variance} that $\variance{\g}$
 can be assembled from two components: the expectation of \g, which we already
@@ -50,19 +49,19 @@ The careful reader might have noted a problem with the calculation of
 $\variance{\g}$ presented above: \h is vector valued. More generally, \g has
 been depicted so far as having a one-dimensional codomain. The proposed
 framework, however, does not have such a limitation as explained in
-\rref{interpolant-multidimensional-output}.
+\rref{frame-multidimensional-output}.
 
-\begin{remark} \rlab{interpolant-multidimensional-output}
+\begin{remark} \rlab{frame-multidimensional-output}
 All the mathematics and pseudocodes stay the same for vector-valued quantities.
 The only difference is that, since a surplus $\Delta(\g \circ
 \transform)(\vx_{\vi \vj})$ naturally inherits the output dimensionality of \g,
 the operations that involve $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ should
 be adequately adjusted. If the outputs are on different scales or have different
 accuracy requirements, one might want to have different \error{a} and \error{r}
-in \eref{interpolant-stop} for different outputs. In that case, one also needs
-to revisit \eref{interpolant-score} and devise a more sensible strategy for
-scoring collocation nodes such as rescaling individual outputs and then
-calculating $\norm[2]{\cdot}$ or $\norm[\infty]{\cdot}$.
+in \eref{frame-stop} for different outputs. In that case, one also needs to
+revisit \eref{frame-score} and devise a more sensible strategy for scoring
+collocation nodes such as rescaling individual outputs and then calculating
+$\norm[2]{\cdot}$ or $\norm[\infty]{\cdot}$.
 \end{remark}
 
 To summarize, once an interpolant of \g has been constructed, the distribution
