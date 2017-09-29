@@ -13,9 +13,9 @@ Without loss of generality, we adhere to the following convention. Each die is a
 potential measurement site, and $\hnd < \nd$ denotes the number of those sites
 that are actually measured. Each site comprises \np measurement points, and
 there are \ns data instances per each point. For instance, in the example given
-in \sref{inference-motivation}, an observation at a site is a temperature
-profile $\mq \in \real^{\np \times \ns}$, which is a matrix capturing
-temperature of \np processing elements at \ns time moments as defined in
+in \sref{bayes-motivation}, an observation at a site is a temperature profile
+$\mq \in \real^{\np \times \ns}$, which is a matrix capturing temperature of \np
+processing elements at \ns time moments as defined in
 \eref{temperature-profile}. Denote the collected data by $H$ and assume that the
 corresponding locations are recorded along with $H$.
 
@@ -36,13 +36,13 @@ Stage~3. The latter produces a collection of samples of the quantity of interest
 \g, such as the effective channel length, denoted by $G$. This data set $G$ is
 then processed at Stage~4 in order to estimate the desired statistics about \g
 such as the probability of \g being smaller than a certain threshold; recall the
-example in \sref{inference-motivation}. It can be seen in \fref{bayes-overview}
-that Stage~2 and Stage~3 actively communicate with the two models on the
-right-hand side called the data model and statistical model, which is what we
-elaborate on in the following two subsections.
+example in \sref{bayes-motivation}. It can be seen in \fref{bayes-overview} that
+Stage~2 and Stage~3 actively communicate with the two models on the right-hand
+side called the data model and statistical model, which is what we elaborate on
+in the following two subsections.
 
 \subsection{Data Model}
-\slab{inference-data-model}
+\slab{bayes-data-model}
 
 The data model relates the quantity of interest \g with the quantity of
 measurement \h as follows:
@@ -59,8 +59,8 @@ such that the respective elements of \vh and \hvh correspond to the same
 locations on the wafer.
 
 In order to acquire a better understanding of the data model, let us return to
-the example given in \sref{inference-motivation}. In this case, \g stands for
-the effective channel length, and \h stands for the temperature profile \mq
+the example given in \sref{bayes-motivation}. In this case, \g stands for the
+effective channel length, and \h stands for the temperature profile \mq
 corresponding to a fixed workload. The data model can be roughly divided into
 two transitions: \one~from the effective channel length \g to the static power
 $\p_\static$ and \two~from the static power $\p_\static$ to the corresponding
@@ -83,7 +83,7 @@ of the platform at hand---are fed to a temperature model in order to acquire the
 corresponding temperature \h, which is a topic of \cref{certainty-development}.
 
 \subsection{Statistical Model}
-\slab{inference-statistical-model}
+\slab{bayes-statistical-model}
 
 \inputfigure{bayes-statistical-model}
 Once the wafer has been fabricated, the values of \g across the wafer are fixed;
@@ -98,7 +98,7 @@ correlation patterns induced by the fabrication process; \two~it is
 computationally efficient; and \three~Gaussian distributions are often adequate
 models of the uncertainty due to process variation \cite{reda2009,
 srivastava2010, juan2012}. The model is denoted by
-\begin{equation} \elab{inference-prior-quantity}
+\begin{equation} \elab{bayes-prior-quantity}
   \g | \u_\g \sim \mathrm{Gaussian\ Process}(\mu, v)
 \end{equation}
 where $\mu: \real^2 \to \real$ and $v: \real^2 \times \real^2 \to \real$ are the
@@ -109,11 +109,11 @@ measurements, \g is assumed to be spatially unbiased; therefore, we let $\mu$ be
 a single location-independent parameter $\mu_\g$, that is, $\mu(\v{r}) = \mu_\g$
 for any $\v{r} \in \real^2$. The covariance function $v$ is chosen to be the
 following:
-\begin{equation} \elab{inference-covariance}
+\begin{equation} \elab{bayes-covariance}
   v(\v{r}_1, \v{r}_2) = \sigma_\g^2 \, k(\v{r}_1, \v{r}_2)
 \end{equation}
 for $\v{r}_1 \in \real^2$ and $\v{r}_2 \in \real^2$ where
-\begin{equation} \elab{inference-correlation}
+\begin{equation} \elab{bayes-correlation}
   k(\v{r}_1, \v{r}_2) = w \, k_\SE(\v{r}_1, \v{r}_2) + (1 - w) k_\OU(\v{r}_1, \v{r}_2)
 \end{equation}
 is the correlation function, and
@@ -151,22 +151,22 @@ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
 these locations. Second, the dimensionality is reduced further via the technique
 described in \xref{probability-transformation}. Concretely, we perform the
 transformation in \eref{model-order-reduction} with respect to the correlation
-matrix of \vg computed via \eref{inference-covariance}. The result is
-\begin{equation} \elab{inference-reduction}
+matrix of \vg computed via \eref{bayes-covariance}. The result is
+\begin{equation} \elab{bayes-reduction}
   \vg = \mu_\g \v{1} + \sigma_\g \m{U} \tm{\Lambda}^\frac{1}{2} \vz
 \end{equation}
 where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
 \real^\nz$ is a vector of independent random variables that obey the standard
 Gaussian distribution. The number \nz is the final dimensionality of the model
 of \g; typically, $\nz \ll \nd \np$. In addition, the parameters $\u_\g$ in
-\eref{inference-prior-quantity} are now known: $\u_\g = \{ \vz, \mu_\g,
-\sigma^2_\g \}$; see \fref{bayes-statistical-model}. The model is now ready for
-practical computations.
+\eref{bayes-prior-quantity} are now known: $\u_\g = \{ \vz, \mu_\g, \sigma^2_\g
+\}$; see \fref{bayes-statistical-model}. The model is now ready for practical
+computations.
 
 Step~3 is to define a likelihood function, which is where the observed
 information is taken into account; see \xref{bayesian-statistics}. In our case,
 the observed information is the measurements $H$ stacked into \hvh as described
-in \sref{inference-data-model}. Since the measurement process is not perfect, we
+in \sref{bayes-data-model}. Since the measurement process is not perfect, we
 also have to take into consideration measurement noise. To this end, the
 observed \hvh is assumed to deviate from the data model's prediction \vh as
 follows:
@@ -185,7 +185,7 @@ where $\sigma^2_\epsilon$ is the variance of the noise. At this point, all the
 parameters of the inference are identified, and they are $\u = \u_\g \cup \{
 \sigma_\epsilon^2 \} = \{ \vz, \mu_\g, \sigma_\g^2, \sigma_\epsilon^2 \}$; see
 \fref{bayes-statistical-model}. Taking the above into account, we obtain
-\begin{equation} \elab{inference-likelihood}
+\begin{equation} \elab{bayes-likelihood}
   \hvh | \u \sim \mathrm{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
 \end{equation}
 The density function of this distribution is the likelihood $p(H | \u)$ of our
@@ -195,7 +195,7 @@ statistical model, which is the first element of the posterior shown in
 Step~4 is to decide on the second element of the posterior in
 \eref{bayes-theorem}, that is, on the prior $p(\u)$. We put the following priors
 on the parameters in \u:
-\begin{align} \elab{inference-prior}
+\begin{align} \elab{bayes-prior}
   \begin{split}
     \vz               & \sim \mathrm{Gaussian}(\v{0}, \m{I}), \\
     \mu_\g            & \sim \mathrm{Gaussian}(\mu_0, \sigma^2_0), \\
@@ -203,7 +203,7 @@ on the parameters in \u:
     \sigma^2_\epsilon & \sim \mathrm{Scaled\ Inverse\ } \chi^2(\nu_\epsilon, \tau^2_\epsilon).
   \end{split}
 \end{align}
-The prior of \vz is due to the decomposition in \eref{inference-reduction}. The
+The prior of \vz is due to the decomposition in \eref{bayes-reduction}. The
 other three priors, that is, a Gaussian and two scaled inverse chi-squared
 distributions, are a common choice for a Gaussian model whose mean and variance
 are unknown. The parameters $\mu_0$, $\tau^2_\g$, and $\tau^2_\epsilon$
@@ -213,50 +213,50 @@ prior knowledge of the technological process and measurement equipment. The
 parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
 this information. When the prior knowledge is weak, less specific priors can be
 considered \cite{gelman2013}. Finally, $p(\u)$ in \eref{bayes-theorem} is
-obtained by multiplying the densities of the priors in \eref{inference-prior}.
+obtained by multiplying the densities of the priors in \eref{bayes-prior}.
 
 Step~5 is to calculate the posterior $p(\u | H)$ in \eref{bayes-theorem}. To
 this end, the likelihood function $p(H | \u)$, which is the density of the
-distribution shown in \eref{inference-likelihood}, and the prior $p(\u)$, which
-is the product of the densities of the distributions shown in
-\eref{inference-prior}, are put together. The density of the resulting posterior
-distribution is as follows:
-\begin{equation} \elab{inference-posterior}
+distribution shown in \eref{bayes-likelihood}, and the prior $p(\u)$, which is
+the product of the densities of the distributions shown in \eref{bayes-prior},
+are put together. The density of the resulting posterior distribution is as
+follows:
+\begin{equation} \elab{bayes-posterior}
   p(\u | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
 \end{equation}
-Provided that there is a way to draw samples from \eref{inference-posterior}, \g
-can be readily analyzed as we shall see in \sref{inference-post-processing}. The
+Provided that there is a way to draw samples from \eref{bayes-posterior}, \g can
+be readily analyzed as we shall see in \sref{bayes-post-processing}. The
 problem, however, is that direct sampling of the posterior is difficult due to
 the data model involved in the likelihood function via \vh; see
-\eref{inference-likelihood}. In order to circumvent this problem, we utilize the
+\eref{bayes-likelihood}. In order to circumvent this problem, we utilize the
 Metropolis--Hastings algorithm \cite{gelman2013} outlined in
 \xref{bayesian-statistics}, which operates on an auxiliary distribution called
 the proposal distribution. The construction of an adequate proposal is discussed
 next.
 
 \subsection{Optimization Procedure}
-\slab{inference-optimization}
+\slab{bayes-optimization}
 
 In this subsection, we describe the objective of Stage~2 in
 \fref{bayes-overview}. Although the requirements for the proposal distribution
 are mild, it is often difficult to pick an efficient proposal, that is, such a
 proposal that would yield a good approximation with as few evaluations of the
-posterior and, thus, of the data model in \sref{inference-data-model} as
-possible. This choice is especially difficult in high-dimensional problems, and
-our problem---which involves around 30 parameters as we shall see in
-\sref{inference-results}---is one them. Therefore, a careful construction of the
+posterior and, thus, of the data model in \sref{bayes-data-model} as possible.
+This choice is especially difficult in high-dimensional problems, and our
+problem---which involves around 30 parameters as we shall see in
+\sref{bayes-results}---is one them. Therefore, a careful construction of the
 proposal is an essential component of the proposed framework.
 
 A common technique for constructing a high-quality proposal is to optimize the
-posterior in \eref{inference-posterior}. Specifically, we seek such a value
-$\u^*$ of \u that maximizes \eref{inference-posterior} and, hence, has the
-maximum posterior probability. In addition, we calculate the negative of the
-Hessian matrix at $\u^*$, which is called the observed information matrix and
-denoted by $\m{J}$; see the output of Stage~2 in \fref{bayes-overview}. Using
-$\u^*$ and $\m{J}$, we can construct such a proposal that allows the
-Metropolis--Hastings algorithm \one~to start producing samples directly from the
-desired regions of high probability and \two~to explore those regions more
-rapidly. The usage of $\u^*$ and $\m{J}$ is explained next.
+posterior in \eref{bayes-posterior}. Specifically, we seek such a value $\u^*$
+of \u that maximizes \eref{bayes-posterior} and, hence, has the maximum
+posterior probability. In addition, we calculate the negative of the Hessian
+matrix at $\u^*$, which is called the observed information matrix and denoted by
+$\m{J}$; see the output of Stage~2 in \fref{bayes-overview}. Using $\u^*$ and
+$\m{J}$, we can construct such a proposal that allows the Metropolis--Hastings
+algorithm \one~to start producing samples directly from the desired regions of
+high probability and \two~to explore those regions more rapidly. The usage of
+$\u^*$ and $\m{J}$ is explained next.
 
 \subsection{Sampling Procedure}
 
@@ -272,27 +272,26 @@ sample. Therefore, we appeal to a variation of the Metropolis--Hastings
 algorithm known as the independence sampler \cite{gelman2013}. In this case, a
 typical choice of the proposal is a multivariate t-distribution independent of
 the current position of the chain as follows:
-\begin{equation} \elab{inference-proposal}
+\begin{equation} \elab{bayes-proposal}
   \u \sim t_\nu(\u^*, \alpha^2 \m{J}^{-1})
 \end{equation}
-where $\u^*$ and $\m{J}$ are as in \sref{inference-optimization}; \nu is the
-number of degrees of freedom; and $\alpha$ is a tuning constant controlling the
+where $\u^*$ and $\m{J}$ are as in \sref{bayes-optimization}; \nu is the number
+of degrees of freedom; and $\alpha$ is a tuning constant controlling the
 standard deviation of the proposal. Now sampling the proposal in
-\eref{inference-proposal} and evaluating the posterior in
-\eref{inference-posterior} can be done in parallel. The obtained samples are
-then accepted or rejected subsequently as in the usual Metropolis--Hastings
-algorithm.
+\eref{bayes-proposal} and evaluating the posterior in \eref{bayes-posterior} can
+be done in parallel. The obtained samples are then accepted or rejected
+subsequently as in the usual Metropolis--Hastings algorithm.
 
 Having completed the sampling procedure, we obtain a collection of samples of
 the parameterization $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$. The first portion of
 the drawn samples is typically discarded as being unrepresentative; this portion
 is known as the burn-in period. The preserved samples of \u are then passed
-through \eref{inference-reduction} in order to compute samples of \g, which are
-$\nd \np$-dimensional. Denote the corresponding set of samples by $G$ and let
-its cardinality be \no.
+through \eref{bayes-reduction} in order to compute samples of \g, which are $\nd
+\np$-dimensional. Denote the corresponding set of samples by $G$ and let its
+cardinality be \no.
 
 \subsection{Post-Processing}
-\slab{inference-post-processing}
+\slab{bayes-post-processing}
 
 At Stage~4 in \fref{bayes-overview}, using $G$, the designer computes the
 desired statistics about the quantity of interest \g such as the most probable
@@ -300,7 +299,7 @@ value of \g at some location on the wafer and the probability of a certain area
 on the wafer being defective. These computations are undertaken in the same way
 as it is typically done when \ac{MC} sampling is utilized. Specifically, they
 reduce to the estimation of expected values with respect to the posterior
-distribution of \u given in \eref{inference-posterior}: in order to calculate a
+distribution of \u given in \eref{bayes-posterior}: in order to calculate a
 certain quantity dependent on \g, one evaluates it for each sample in $G$ and
 then takes the average value.
 
@@ -310,4 +309,4 @@ the credibility of estimates and decisions based on these data. Such an
 assessment can be readily undertaken using our framework since the delivered
 posterior contains all the needed information about the quantity of interest \g.
 This is especially helpful in decision-making as noted in
-\sref{inference-motivation}.
+\sref{bayes-motivation}.

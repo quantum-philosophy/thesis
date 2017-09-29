@@ -9,9 +9,9 @@ adjusted according to the purpose of each particular experiment in what follows.
 We consider a 45-nm technological process. The effective channel length is
 assumed to have a nominal value of 17.5~nm \cite{ptm} and a standard deviation
 of 2.25~nm where the global and local variations are equally weighted. The
-correlation matrices are computed according to \eref{inference-correlation}
-where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the
-size of the square die. In the model-order-reduction technique described in
+correlation matrices are computed according to \eref{bayes-correlation} where
+the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size
+of the square die. In the model-order-reduction technique described in
 \xref{probability-transformation}, the threshold parameter $\eta$ is set to
 0.99, which preserves 99\% of the variance of the data. Dynamic power profiles
 involved in the experiments are based on simulations of applications randomly
@@ -63,8 +63,8 @@ We also inspect the impact of the correlation patterns between the local random
 variables $\{ u_{\local, i} \}_{i = 1}^\np$; recall
 \sref{chaos-transient-application}. More specifically, apart from \lc and \no,
 we change the balance between the two correlation functions shown in
-\eref{inference-correlation}, that is, the squared-exponential kernel $k_\SE$
-and the Ornstein--Uhlenbeck kernel $k_\OU$, which is controlled by the weight
+\eref{bayes-correlation}, that is, the squared-exponential kernel $k_\SE$ and
+the Ornstein--Uhlenbeck kernel $k_\OU$, which is controlled by the weight
 coefficient $w \in [0, 1]$.
 
 The \ac{PC} and \ac{MC} methods are compared by means of three error metrics.
@@ -156,7 +156,7 @@ The above conclusions with respect to the results reported in
 results reported in \tref{chaos-transient-accuracy-0} ($w = 0$) and
 \tref{chaos-transient-accuracy-1} ($w = 1$). The only difference is that the
 average error rates are lower when either of the two correlation kernels shown
-in \eref{inference-correlation} dominates. In particular, according to
+in \eref{bayes-correlation} dominates. In particular, according to
 \error{\variance}, the case with $w = 1$, which is reported in
 \tref{chaos-transient-accuracy-1} and corresponds to $k_\SE$, stands out to be
 the least error prone.

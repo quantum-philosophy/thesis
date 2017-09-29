@@ -1,8 +1,8 @@
 In this section, we assess the proposed framework for characterizing process
-variation presented in \sref{inference-solution}. All the experiments are
-conducted on a \up{GNU}/Linux machine equipped with Intel Core i7 2.66~\up{GH}z
-and 8~\up{GB} of \up{RAM}. All the configuration files used in the experiments
-are available online at \cite{eslab2014a}.
+variation presented in \sref{bayes-solution}. All the experiments are conducted
+on a \up{GNU}/Linux machine equipped with Intel Core i7 2.66~\up{GH}z and
+8~\up{GB} of \up{RAM}. All the configuration files used in the experiments are
+available online at \cite{eslab2014a}.
 
 Our goal is to infer the effective channel length \g from temperature \h. Such a
 high-level parameter as temperature constitutes a challenging task for the
@@ -10,8 +10,8 @@ inference of such a low-level parameter as the effective channel length, which
 implies a strong assessment of the proposed technique. The performance of our
 approach is expected to only increase when the auxiliary parameter \h resides
 closer to the target parameter \g with respect to the data model $\h = \f(\g)$
-described in \sref{inference-data-model}. For instance, such a closer quantity
-\h can be the leakage current, which, however, might not always be the most
+described in \sref{bayes-data-model}. For instance, such a closer quantity \h
+can be the leakage current, which, however, might not always be the most
 preferable parameter to measure. Lastly, let us note that the chosen effective
 channel length is an important target as it is strongly affected by process
 variation and considerably impacts power consumption and heat dissipation
@@ -40,46 +40,44 @@ profiles is set to 1~ms.
 The input data set $H$ is obtained as follows: \one~draw a sample of \g from a
 Gaussian distribution with a mean of 17.5~nm (in accordance with the considered
 technological process \cite{ptm}) and a covariance function equal to
-\eref{inference-covariance} with a standard deviation of 2.25~nm; \two~perform
-one fine-grained temperature simulation per each of the \hnd dies selected for
+\eref{bayes-covariance} with a standard deviation of 2.25~nm; \two~perform one
+fine-grained temperature simulation per each of the \hnd dies selected for
 measurement; \three~thin the obtained temperature profiles so that each has only
 \ns---which is 20 by default---evenly spaced moments of time; and \four~perturb
 the resulting data set using a white Gaussian noise with a standard deviation of
 \celsius{1}.
 
-Let us turn to the statistical model in \sref{inference-statistical-model} and
+Let us turn to the statistical model in \sref{bayes-statistical-model} and
 summarize the intuition behind and our assignment of the model's parameters. In
-the covariance function in \eref{inference-covariance}, the weight parameter $w$
-and the two length-scale parameters $\ell_\SE$ and $\ell_\OU$ should be set
+the covariance function in \eref{bayes-covariance}, the weight parameter $w$ and
+the two length-scale parameters $\ell_\SE$ and $\ell_\OU$ should be set
 according to the correlation patterns typical for the fabrication process at
 hand \cite{chandrakasan2000, cheng2011}; we set $w$ to 0.7 and $\ell_\SE$ and
 $\ell_\OU$ to half the radius of the wafer. The threshold parameter $\eta$ of
 the model-order-reduction procedure shown in \eref{karhunen-loeve} and utilized
-in \eref{inference-reduction} should be set high enough to preserve a
-sufficiently large portion of the variance of the data and, thus, to keep the
-modeling sufficiently accurate; we set it to 0.99. The resulting dimensionality
-\nz of \vz in \eref{inference-reduction} is found to be 27 or 28. The parameters
-$\mu_0$ and $\tau_\g$ of the prior in \eref{inference-prior} are specific to the
-considered technological process; we set $\mu_0$ to 17.5~nm and $\tau_\g$ to
-2.25~nm. The parameters $\sigma_0$ and $\nu_\g$ in \eref{inference-prior}
-determine the precision of the information about $\mu_0$ and $\tau_\g$ and are
-set according to the beliefs of the designer; we set $\sigma_0$ to 0.45~nm and
-$\nu_\g$ to 10. The latter can be thought of as the number of imaginary
-observations that the choice of $\tau_\g$ is based on. The parameter
-$\tau_\epsilon$ in \eref{inference-prior} represents the precision of the
-equipment utilized for collecting $H$ and can be found in the technical
-specification of that equipment; we set $\tau_\epsilon$ to \celsius{1}. The
-parameter $\nu_\epsilon$ in \eref{inference-prior} has the same interpretation
-as $\nu_\g$; we set it to 10 as well. In \eref{inference-proposal}, $\nu$ and
-$\alpha$ are tuning parameters, which are configured based on experiments; we
-set $\nu$ to 8 and $\alpha$ to 0.5. The number of sample draws is another tuning
-parameter, which we set to 10\textsuperscript{4}. The first half of these
-samples is ascribed to the burn-in period mentioned in
+in \eref{bayes-reduction} should be set high enough to preserve a sufficiently
+large portion of the variance of the data and, thus, to keep the modeling
+sufficiently accurate; we set it to 0.99. The resulting dimensionality \nz of
+\vz in \eref{bayes-reduction} is found to be 27 or 28. The parameters $\mu_0$
+and $\tau_\g$ of the prior in \eref{bayes-prior} are specific to the considered
+technological process; we set $\mu_0$ to 17.5~nm and $\tau_\g$ to 2.25~nm. The
+parameters $\sigma_0$ and $\nu_\g$ in \eref{bayes-prior} determine the precision
+of the information about $\mu_0$ and $\tau_\g$ and are set according to the
+beliefs of the designer; we set $\sigma_0$ to 0.45~nm and $\nu_\g$ to 10. The
+latter can be thought of as the number of imaginary observations that the choice
+of $\tau_\g$ is based on. The parameter $\tau_\epsilon$ in \eref{bayes-prior}
+represents the precision of the equipment utilized for collecting $H$ and can be
+found in the technical specification of that equipment; we set $\tau_\epsilon$
+to \celsius{1}. The parameter $\nu_\epsilon$ in \eref{bayes-prior} has the same
+interpretation as $\nu_\g$; we set it to 10 as well. In \eref{bayes-proposal},
+$\nu$ and $\alpha$ are tuning parameters, which are configured based on
+experiments; we set $\nu$ to 8 and $\alpha$ to 0.5. The number of sample draws
+is another tuning parameter, which we set to 10\textsuperscript{4}. The first
+half of these samples is ascribed to the burn-in period mentioned in
 \xref{bayesian-statistics}, and the second one constitutes $G$; in this case,
 $\no = 5 \times 10^3$. In the optimization described in
-\sref{inference-optimization}, we use the quasi-Newton algorithm
-\cite{press2007}. For parallel computations, we utilize four computational
-cores.
+\sref{bayes-optimization}, we use the quasi-Newton algorithm \cite{press2007}.
+For parallel computations, we utilize four computational cores.
 
 In order to ensure that the experimental setup is adequate, we first perform a
 detailed inspection of the results obtained for one particular example with the
@@ -166,7 +164,7 @@ than a larger number of temporal measurements.
 In this subsection, we vary the standard deviation of measurement noise, which
 corrupts $H$. The considered cases are 0, 0.5, 1, and \celsius{2}
 \cite{mesa-martinez2007}. Note that the corresponding prior in
-\eref{inference-prior} is kept unchanged. The results are given in
+\eref{bayes-prior} is kept unchanged. The results are given in
 \tref{bayes-noise}. It can be observed that the sampling time is approximately
 constant. However, we observe an increase in the optimization time when the
 level of noise decreases, which can be ascribed to greater opportunities for
