@@ -1,16 +1,13 @@
-Recall that, depending on its origin, uncertainty in electronic systems can be
-broadly classified as analog or digital, which we elaborate on in
-\sref{uncertainty}.
-
-Due to its nature, the variability coming from the analog world is typically
-smooth, well behaved. In such cases, uncertainty quantification based on \ac{PC}
-expansions \cite{xiu2010} and other approximation techniques making use of
-global polynomials generally work well, which is demonstrated in
-\cref{uncertainty-analog-development}. On the other hand, the variability coming
-from the digital world often has steep gradients and favors nondifferentiability
-and even discontinuity. In such cases, \ac{PC} expansions and similar techniques
-fail: they require extremely many evaluations of the studied quantity in order
-to deliver an acceptable level of accuracy and, consequently, are not worth it.
+Due to its analog, physical nature, the variability coming from process
+variation is typically smooth, well behaved. In such cases, uncertainty
+quantification based on \ac{PC} expansions \cite{xiu2010} and other
+approximation techniques making use of global polynomials generally work well,
+which is demonstrated in \cref{uncertainty-analog-development}. On the other
+hand, the variability coming from the digital world often has steep gradients
+and favors nondifferentiability and even discontinuity. In such cases, \ac{PC}
+expansions and similar techniques fail: they require extremely many evaluations
+of the studied quantity in order to deliver an acceptable level of accuracy and,
+consequently, are not worth it.
 
 \inputfigure{frame-motivation}
 In order to illustrate this concern, let us consider an example. Suppose that
