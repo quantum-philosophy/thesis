@@ -3,18 +3,18 @@ Our workflow is illustrated in \fref{brain-overview}. First, we note that the
 available data generally need to be processed prior to learning since they are
 likely to be given in a format that is not efficient or convenient for the
 subsequent calculations. With this in mind, our foremost task is to extract $G$
-in \eref{network-dataset} from given raw data. This processing part can be seen
-at the top of \fref{brain-overview} and is explained in \sref{network-data}.
-Next, the resulting profiles are used in order to obtain an adequately trained
-predictive model. The modeling part is covered in \sref{network-model} while the
-learning part is explained in \sref{network-learning}; the latter can also be
-seen at the bottom of \fref{brain-overview}. The above operations are to be
+in \eref{brain-dataset} from given raw data. This processing part can be seen at
+the top of \fref{brain-overview} and is explained in \sref{brain-data}. Next,
+the resulting profiles are used in order to obtain an adequately trained
+predictive model. The modeling part is covered in \sref{brain-model} while the
+learning part is explained in \sref{brain-learning}; the latter can also be seen
+at the bottom of \fref{brain-overview}. The above operations are to be
 undertaken offline while the trained model is supposed to be used by the
 resource manager at runtime in order to make predictions and take account of
 workload uncertainty.
 
 \subsection{Data Pipeline}
-\slab{network-data}
+\slab{brain-data}
 
 In this subsection, we describe our pipeline for working with large data sets
 that makes the data readily accessible for machine-learning undertakings. In
@@ -60,16 +60,15 @@ length.
 
 As the last step (the rightmost orange box in \fref{brain-overview}), a subset
 of the resource-usage profiles is selected using the index according to the
-needs of a particular training session (to be discussed in
-\sref{network-results}) and then stored on disk. Concretely, the profiles are
-fetched from the databases and stored in the native format of the
-machine-learning library utilized; we refer to a file in such a format as a
-binary file. Instead of writing all the selected profiles into one binary file,
-we distribute them across several files. Such a catalog of binary files is
-created for each of the three commonly considered parts \cite{hastie2013} of the
-data at hand: one is for training, one is for validation, and one is for
-testing. We denote these parts by $G_1$, $G_2$, and $G_3$, respectively; see
-also \fref{brain-overview}.
+needs of a particular training session (to be discussed in \sref{brain-results})
+and then stored on disk. Concretely, the profiles are fetched from the databases
+and stored in the native format of the machine-learning library utilized; we
+refer to a file in such a format as a binary file. Instead of writing all the
+selected profiles into one binary file, we distribute them across several files.
+Such a catalog of binary files is created for each of the three commonly
+considered parts \cite{hastie2013} of the data at hand: one is for training, one
+is for validation, and one is for testing. We denote these parts by $G_1$,
+$G_2$, and $G_3$, respectively; see also \fref{brain-overview}.
 
 Lastly, it is common practice to standardize data before feeding them into a
 learning algorithm \cite{hastie2013}. In our case, it is done along with
@@ -85,14 +84,14 @@ indexing steps stay the same. The presence of multiple binary files also allows
 for shuffling the training data at the beginning of each training epoch.
 
 \subsection{Predictive Model}
-\slab{network-model}
+\slab{brain-model}
 
-As emphasized in \sref{network-introduction} and \sref{network-problem}, our
-goal is to assess the applicability of the latest advancements in neural
-networks \cite{goodfellow2016} to fine-grained long-range prediction of the
-resource usage in computer systems. The architectures of neural networks are
-very diverse. However, since the data that we study are inherently sequential,
-it is natural to found our model on the basis of recurrent neural networks
+As emphasized in \sref{brain-introduction} and \sref{brain-problem}, our goal is
+to assess the applicability of the latest advancements in neural networks
+\cite{goodfellow2016} to fine-grained long-range prediction of the resource
+usage in computer systems. The architectures of neural networks are very
+diverse. However, since the data that we study are inherently sequential, it is
+natural to found our model on the basis of recurrent neural networks
 \cite{goodfellow2016}, which are designed for such cases.
 
 \inputfigure{brain-model}
@@ -101,7 +100,7 @@ that many of the actual connections between the model's parts are simplified or
 not shown at all in order to make the figure legible. In what follows, we
 describe each part of the model in detail. A number of important operational
 aspects of the model are to be covered in the next subsection,
-\sref{network-learning}.
+\sref{brain-learning}.
 
 The input to the model is a single \ng-dimensional data point, which can be seen
 on the left-hand side of \fref{brain-model}. Similarly, the output is a single
@@ -148,15 +147,15 @@ past of the resource-usage profile under consideration when making predictions.
 Let us now discuss how the model is supposed to be used.
 
 \subsection{Learning Pipeline}
-\slab{network-learning}
+\slab{brain-learning}
 
-Recall that the output of the data pipeline described in \sref{network-data} is
+Recall that the output of the data pipeline described in \sref{brain-data} is
 the data set $G$, which is split into three parts: $G_1$ is for training, $G_2$
 is for validation, and $G_3$ is for testing. We now elaborate on the operations
 that take place during these three steps, which are also displayed at the bottom
 of \fref{brain-overview}.
 
-Let us discuss training first. The model depicted in \sref{network-model} has a
+Let us discuss training first. The model depicted in \sref{brain-model} has a
 large number of parameters that have to be learned; they are primarily various
 weights and biases inside the layers. For this purpose, $G_1$ is utilized. The
 training is undertaken via backpropagation through time using stochastic
@@ -167,7 +166,7 @@ to be discussed first.
 \inputfigure{brain-feed}
 The first concerns the way a single profile is fed into the model. To begin
 with, the internal memory of the model is nullified. Next, note that each
-profile---which can be seen in \eref{network-profile}---has multiple data points
+profile---which can be seen in \eref{brain-profile}---has multiple data points
 ($\nsi{i} > 1$), and that two profiles generally have different lengths
 ($\nsi{i} \neq \nsi{j}$) since the execution times of two tasks are likely to
 differ. With this in mind, all the points of a profile are fed in one pass using
@@ -201,7 +200,7 @@ is assumed to be zero.
 
 Let us now discuss validation, which corresponds to the middle blue box in
 \fref{brain-overview}. As it is the case with arguably any nontrivial model, the
-one presented in \sref{network-model} has a number of hyperparameters. Examples
+one presented in \sref{brain-model} has a number of hyperparameters. Examples
 include the number of cells \nc, number of units per cell \nu, and probability
 of dropout $\rho_\drop$. Unlike ordinary parameters---which are to be optimized
 during training as discussed earlier---hyperparameters are to be set prior to
@@ -229,7 +228,7 @@ overtly inadequate configurations of hyperparameters. In this context,
 \emph{resources} refers a user-defined measure of how extensively a
 configuration is exercised. For instance, it can be the amount of wall-clock
 time spent or the number of training steps taken; in our experiments in
-\sref{network-results}, we use the latter.
+\sref{brain-results}, we use the latter.
 
 Let us now turn to testing; see the rightmost blue box in \fref{brain-overview}.
 After a trained model has been selected during the validation step, it has to be
@@ -243,7 +242,7 @@ Similar to training and validation, the \ac{MSE} is considered as a measure of
 quality, and bucketing is utilized. However, unlike training and validation, the
 error is calculated in a more elaborate way. To elaborate, recall first that our
 objective is making long-range predictions of resource usage; see
-\sref{network-problem}. Note also that, in training and validation, we are only
+\sref{brain-problem}. Note also that, in training and validation, we are only
 concerned with what happens one time step ahead. The reason is that we would
 like to have as high of a throughput as possible during training and validation
 since they are to be performed many times. Testing, on the other hand, is done

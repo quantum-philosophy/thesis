@@ -1,7 +1,7 @@
 In this section, we evaluate the performance of our approach to mitigating
 workload uncertainty at runtime, which is the tool for making fine-grained
 long-range predictions of the resource usage in a computer system described in
-\sref{network-solution}. All the experiments are conducted on a \up{GNU}/Linux
+\sref{brain-solution}. All the experiments are conducted on a \up{GNU}/Linux
 machine equipped with 8 processors Intel Core i7-3770 3.4~\up{GH}z, 24~\up{GB}
 of \up{RAM}, and an \up{HDD} of 500~\up{GB}. The machine has no modern
 \up{GPU}s, and, therefore, there is an immense room for improvement. All the
@@ -11,31 +11,31 @@ available online at \cite{eslab2017b}.
 \hiddensubsection{Data Pipeline}
 
 Recall that the considered data set is the Google cluster-usage traces
-\cite{reiss2011} introduced in \sref{network-data}. Without loss of generality,
-we focus on the consumption of one particular resource, namely, \up{CPU};
-thus, $\ng = 1$ in \eref{network-profile}. In this regard, the data set provides
-two apposite pieces of information: the average and maximum \up{CPU} usage over
+\cite{reiss2011} introduced in \sref{brain-data}. Without loss of generality, we
+focus on the consumption of one particular resource, namely, \up{CPU}; thus,
+$\ng = 1$ in \eref{brain-profile}. In this regard, the data set provides two
+apposite pieces of information: the average and maximum \up{CPU} usage over
 five-minute intervals; we extract the former.
 
 The grouping and indexing steps of our data pipeline---described in
-\sref{network-data} and depicted in \fref{brain-overview}---take approximately
-57 hours to finish (no parallelism). Since they have to be done only once, their
+\sref{brain-data} and depicted in \fref{brain-overview}---take approximately 57
+hours to finish (no parallelism). Since they have to be done only once, their
 computational cost can be safely considered negligible. Regarding the selection
 step, we filter those resource-usage profiles that contain 5--50 data points;
-consequently, $\nsi{i} \in [5, 50]$ in \eref{network-profile}. Such profiles
+consequently, $\nsi{i} \in [5, 50]$ in \eref{brain-profile}. Such profiles
 constitute around 74\% of the total number of profiles (around 18 out of 24
 million). We experiment with a random subset of two million profiles, which is
 around 11\% of the 5--50 resource-usage profiles; hence, $\no = 2 \times 10^6$
-in \eref{network-dataset}. The data sets $G_1$, $G_2$, and $G_3$ constitute
-70\%, 10\%, and 20\% of $G$, respectively. Fetching and storing on disk these
-many profiles take approximately four hours. Recall that this operation has to
-be repeated only when the selection criteria change, which happens rarely.
+in \eref{brain-dataset}. The data sets $G_1$, $G_2$, and $G_3$ constitute 70\%,
+10\%, and 20\% of $G$, respectively. Fetching and storing on disk these many
+profiles take approximately four hours. Recall that this operation has to be
+repeated only when the selection criteria change, which happens rarely.
 
 \hiddensubsection{Learning Pipeline}
 
 The machine-learning library that is used for constructing, training,
-validating, and testing the model described in \sref{network-model} is
-TensorFlow \cite{abadi2015}.
+validating, and testing the model described in \sref{brain-model} is TensorFlow
+\cite{abadi2015}.
 
 The training step (see the leftmost blue box in \fref{brain-overview}) is
 configured as follows. Ten buckets or queues are used according to the following
@@ -51,11 +51,11 @@ Let us now discuss the validation step, which is the middle blue box in
 \fref{brain-overview}. The considered hyperparameters are the number of cells
 \nc (the blue boxes in \fref{brain-model}), number of units per cell \nu (the
 double circles in \fref{brain-model}), and probability of dropout $\rho_\drop$
-introduced in \sref{network-model}. More concretely, we let $\nc \in \{ 1, 2, 3,
+introduced in \sref{brain-model}. More concretely, we let $\nc \in \{ 1, 2, 3,
 4, 5 \}$, $\nu \in \{ 100, 200, 400, 800, 1600 \}$, and $\rho_\drop \in \{ 0,
 0.25, 0.5 \}$, which yields 75 different combinations in total. The candidates
 are explored by means of the Hyperband algorithm introduced in
-\sref{network-learning} with its default settings. The maximum budget for one
+\sref{brain-learning} with its default settings. The maximum budget for one
 configuration is set to four training epochs, which correspond to $4 \times 0.7
 \times 2 \times 10^6 = 5.6 \times 10^6$ resource-usage profiles or $5.6 \times
 10^6 \div 64 = 87~500$ training steps.
@@ -65,8 +65,8 @@ takes approximately 15 days to finish. During this process, we run up to four
 training sessions in parallel, which typically keeps all the eight cores busy.
 It should be noted that, since the training, validation, and testing data sets
 have been cached on disk as a result of our data pipeline described in
-\sref{network-data}, individual training sessions do not have any overhead in
-this regard.
+\sref{brain-data}, individual training sessions do not have any overhead in this
+regard.
 
 \inputtable{brain-validation}
 The results of the validation step are reported in \tref{brain-validation}. The
@@ -91,7 +91,7 @@ After the validation step, the best trained model is taken to the testing step
 \times 10^6 = 4 \times 10^5$ profiles). The model is extensively assessed by
 predicting the resource usage of individual tasks multiple steps ahead at each
 step of the profiles in $G_3$. In this experiment, we predict four steps into
-the future; hence, $h = 4$ in \sref{network-problem}. This elaborate sequential
+the future; hence, $h = 4$ in \sref{brain-problem}. This elaborate sequential
 testing procedure takes around 18 hours.
 
 In order to assess the accuracy of our model better, we employ an alternative
