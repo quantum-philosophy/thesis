@@ -27,7 +27,7 @@ research should be conducted in order to investigate the aid that the recent
 advancements in machine learning can give to the design of resource managers of
 computer systems.
 
-\inputfigure{network-application}
+\inputfigure{brain-application}
 In this chapter, we conduct one such body of research. More specifically, we
 study the resource usage in a large system of computers and aim to predict this
 usage multiple steps ahead at the level of individual tasks executed by the
@@ -35,7 +35,7 @@ machines. To this end, we intend to use recurrent neural networks
 \cite{goodfellow2016}.
 
 In order to give a better intuition about the considered scenario,
-\fref{network-application} illustrates how the aforementioned prediction is
+\fref{brain-application} illustrates how the aforementioned prediction is
 supposed to work. In this example, the \up{CPU} usage (the solid lines) of a
 single task running on a single computer is depicted three times. The three
 cases correspond to three different time moments (the black circles) as viewed
@@ -43,12 +43,12 @@ by the resource manager of the system. The solid orange lines represent the
 history of the usage, which is known to the manager, while the solid blue lines
 represent the future usage, which is unknown to the manager. The latter is what
 we are to predict for each task of interest and several steps ahead. In
-\fref{network-application}, our potential predictions up to four steps ahead are
+\fref{brain-application}, our potential predictions up to four steps ahead are
 depicted as a set of dashed blue lines.
 
 Such detailed (since for individual tasks) and foresighted (since multiple steps
 ahead) information about the future resource usage as the one depicted in
-\fref{network-application} can be of great help to the resource manager of the
+\fref{brain-application} can be of great help to the resource manager of the
 system. For instance, having at its disposal the information about the future
 resource usage of the tasks that are currently being executed, the manager can
 more intelligently decide which machine the next incoming task should be

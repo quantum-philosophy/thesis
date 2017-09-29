@@ -18,7 +18,7 @@ two apposite pieces of information: the average and maximum \up{CPU} usage over
 five-minute intervals; we extract the former.
 
 The grouping and indexing steps of our data pipeline---described in
-\sref{network-data} and depicted in \fref{network-overview}---take approximately
+\sref{network-data} and depicted in \fref{brain-overview}---take approximately
 57 hours to finish (no parallelism). Since they have to be done only once, their
 computational cost can be safely considered negligible. Regarding the selection
 step, we filter those resource-usage profiles that contain 5--50 data points;
@@ -37,7 +37,7 @@ The machine-learning library that is used for constructing, training,
 validating, and testing the model described in \sref{network-model} is
 TensorFlow \cite{abadi2015}.
 
-The training step (see the leftmost blue box in \fref{network-overview}) is
+The training step (see the leftmost blue box in \fref{brain-overview}) is
 configured as follows. Ten buckets or queues are used according to the following
 rule:
 \[
@@ -48,9 +48,9 @@ minimizing the loss function is Adam \cite{kingma2014}, which is an adaptive
 technique. The algorithm is applied with its default, recommended settings.
 
 Let us now discuss the validation step, which is the middle blue box in
-\fref{network-overview}. The considered hyperparameters are the number of cells
-\nc (the blue boxes in \fref{network-model}), number of units per cell \nu (the
-double circles in \fref{network-model}), and probability of dropout $\rho_\drop$
+\fref{brain-overview}. The considered hyperparameters are the number of cells
+\nc (the blue boxes in \fref{brain-model}), number of units per cell \nu (the
+double circles in \fref{brain-model}), and probability of dropout $\rho_\drop$
 introduced in \sref{network-model}. More concretely, we let $\nc \in \{ 1, 2, 3,
 4, 5 \}$, $\nu \in \{ 100, 200, 400, 800, 1600 \}$, and $\rho_\drop \in \{ 0,
 0.25, 0.5 \}$, which yields 75 different combinations in total. The candidates
@@ -68,26 +68,26 @@ have been cached on disk as a result of our data pipeline described in
 \sref{network-data}, individual training sessions do not have any overhead in
 this regard.
 
-\inputtable{network-validation}
-The results of the validation step are reported in \tref{network-validation}.
-The table shows the \ac{MSE} of the top 10 configurations of the hyperparameters
-as measured using $G_2$ ($0.1 \times 2 \times 10^6 = 2 \times 10^5$ profiles).
-The best trained predictive model is found to have the following
-hyperparameters: $\nc = 3$, $\nu = 1600$, and $\rho_\drop = 0$. In general,
-deeper and wider architectures tend to outperform shallower and narrower
-ones---the depth and breadth are measured by \nc and \nu, respectively---which
-is expected. In these experiments, the dropout mechanism does not have much
-impact on the resulting accuracy, which could be due to the amount of training
-data being enough for regularizing the model.
+\inputtable{brain-validation}
+The results of the validation step are reported in \tref{brain-validation}. The
+table shows the \ac{MSE} of the top 10 configurations of the hyperparameters as
+measured using $G_2$ ($0.1 \times 2 \times 10^6 = 2 \times 10^5$ profiles). The
+best trained predictive model is found to have the following hyperparameters:
+$\nc = 3$, $\nu = 1600$, and $\rho_\drop = 0$. In general, deeper and wider
+architectures tend to outperform shallower and narrower ones---the depth and
+breadth are measured by \nc and \nu, respectively---which is expected. In these
+experiments, the dropout mechanism does not have much impact on the resulting
+accuracy, which could be due to the amount of training data being enough for
+regularizing the model.
 
-\tref{network-validation} also shows an estimate of the memory required by each
+\tref{brain-validation} also shows an estimate of the memory required by each
 configuration, including the model's trainable parameters and internal state. It
 can be seen that, if the memory usage is a concern, one could trade a small
 decrease in accuracy for a considerable memory saving. For example, the fourth
 best configuration requires 75\% less memory than the first one.
 
 After the validation step, the best trained model is taken to the testing step
-(see \fref{network-overview}), which is undertaken using $G_3$ ($0.2 \times 2
+(see \fref{brain-overview}), which is undertaken using $G_3$ ($0.2 \times 2
 \times 10^6 = 4 \times 10^5$ profiles). The model is extensively assessed by
 predicting the resource usage of individual tasks multiple steps ahead at each
 step of the profiles in $G_3$. In this experiment, we predict four steps into
@@ -101,13 +101,13 @@ today plus an optional random offset, which we set to zero. In other words, the
 next value of a resource-usage profile is estimated to be the current one, which
 results in four identical predictions at each time step.
 
-\inputfigure{network-testing}
-The results of the testing step can be seen in \fref{network-testing}, which
-shows the \ac{MSE} of our model (the blue line) as well as the one of the
-reference model (the orange line) with respect to $G_3$. The magnitude of our
-model's errors suggests that the amount of regularity present in the data is not
+\inputfigure{brain-testing}
+The results of the testing step can be seen in \fref{brain-testing}, which shows
+the \ac{MSE} of our model (the blue line) as well as the one of the reference
+model (the orange line) with respect to $G_3$. The magnitude of our model's
+errors suggests that the amount of regularity present in the data is not
 sufficient to make the resource-usage predictions highly accurate. Nevertheless,
-it can also be seen in \fref{network-testing} that, relative to the reference
+it can also be seen in \fref{brain-testing} that, relative to the reference
 model, our model provides an error reduction of approximately 47\% at each of
 the four future time moments. This observation indicates that a certain
 structure does exist, and that it can be identified and utilized in order to
