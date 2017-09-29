@@ -217,20 +217,20 @@ power. Hence, the representation can be trivially analyzed in order to retrieve
 various statistics about the system. Let us illustrate a few of them using this
 example in \eref{chaos-expansion-example}.
 
-\inputfigure{chaos-example-power}
-\inputfigure{chaos-example-temperature}
+\inputfigure{chaos-application-power}
+\inputfigure{chaos-application-temperature}
 Assume that the dynamic power profile $\mp_\dynamic$ is the one shown in
-\fref{chaos-example-power}. Having constructed a surrogate with respect to this
-profile, we can calculate, for instance, the expectation and variance of the
-temperature that the system has at a certain time moment, which is a trivial
+\fref{chaos-application-power}. Having constructed a surrogate with respect to
+this profile, we can calculate, for instance, the expectation and variance of
+the temperature that the system has at a certain time moment, which is a trivial
 operation given the formulae in \eref{chaos-moments}. For the whole time span of
-$\mp_\dynamic$, these quantities are plotted in \fref{chaos-example-temperature}
-where the dashed lines correspond to one standard deviation above the
-corresponding expectations. The displayed curves closely match those obtained
-via \ac{MC} sampling with $\no = 10^4$ samples; however, our method takes less
-than a second while \ac{MC} sampling takes more than a day as we shall see in
-\sref{chaos-transient-results}. In addition, the \ac{PDF} of the temperature at
-that time moment can also be estimated. This operation is undertaken by sampling
-the surrogate, in which case we might obtain curves similar to those shown
-\fref{chaos-example-density}, which is a part of a different example given in
-\sref{chaos-transient-results}.
+$\mp_\dynamic$, these quantities are plotted in
+\fref{chaos-application-temperature} where the dashed lines correspond to one
+standard deviation above the corresponding expectations. The displayed curves
+closely match those obtained via \ac{MC} sampling with $\no = 10^4$ samples;
+however, our method takes less than a second while \ac{MC} sampling takes more
+than a day as we shall see in \sref{chaos-transient-results}. In addition, the
+\ac{PDF} of the temperature at that time moment can also be estimated. This
+operation is undertaken by sampling the surrogate, in which case we might obtain
+curves similar to those shown \fref{chaos-application-density}, which is a part
+of a different example given in \sref{chaos-transient-results}.
