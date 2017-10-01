@@ -35,11 +35,11 @@ than 1\%, which typically requires 3--5 iterations.
 
 \hiddensubsection{Approximation Accuracy}
 
-Our goal here is to study the accuracy of the proposed solutions. To this end,
-in this subsection, we consider the quantity of interest given in
-\eref{chaos-optimization-quantity} in isolation. This quantity plays the key
-role in the subsequent optimization since the optimization objective and
-constraints depend on it as discussed previously.
+Our first goal is to evaluate the accuracy of our solutions. To this end, in
+this subsection, the quantity of interest given in
+\eref{chaos-optimization-quantity} is considered in isolation. This quantity
+plays the key role in the subsequent optimization since the optimization
+objective and constraints depend on it as discussed previously.
 
 We compare our performance with the performance of \ac{MC} sampling applied to
 \eref{chaos-optimization-quantity}. The operations performed by the
@@ -84,8 +84,8 @@ for the rest of the experiments.
 \hiddensubsection{Computational Speed}
 
 \inputtable{chaos-optimization-speed}
-Our objective is now to assess the speed of the proposed solutions by
-considering the same setup as the one outlined in the previous subsection.
+Our goal now is to assess the speed of the proposed solutions. To this end, we
+consider the same setup as the one outlined in the previous subsection.
 \tref{chaos-optimization-speed} displays the time needed to perform one
 characterization of \vg for the number of processing elements \np ranging from 2
 to 32. Note that, in this experiment, no parallel computing is utilized. It can
@@ -111,9 +111,9 @@ Another important quantity displayed in \tref{chaos-optimization-speed} is the
 number of quadrature points \nq. This number is the main indicator of the
 computational complexity of our probabilistic analysis: it equals to the number
 of times Algorithm~G in \aref{chaos-construction} is to be executed in order to
-construct a polynomial expansion of the quantity of interest \g, which, in this
-case, is given in \eref{chaos-optimization-quantity}. It can be seen that \nq is
-very low. In order to substantiate this, the last column of
+construct a \ac{PC} expansion of the quantity of interest \g, which, in this
+case, is the one in \eref{chaos-optimization-quantity}. It can be seen that \nq
+is very low. In order to substantiate this, the last column of
 \tref{chaos-optimization-speed} shows the speedup of our approach with respect
 to 10\textsuperscript{4} \ac{MC} samples. Our solution is faster by
 approximately 100--200 times while delivering highly accurate results as
@@ -121,11 +121,11 @@ discussed earlier. It should be noted that the comparison has been drawn based
 on the number of evaluation points rather than on the actual time since the
 relative cost of other computations is negligible.
 
-To conclude, the proposed solutions to dynamic steady-state analysis and
-reliability analysis under process variation have been assessed using the
-composite quantity in \eref{chaos-optimization-quantity}. The results shown in
-\tref{chaos-optimization-accuracy} and \tref{chaos-optimization-speed} allow us
-to conclude that our approach is both accurate and computationally efficient.
+To summarize, the proposed framework for probabilistic analysis of electronic
+systems under process variation has been assessed using the composite quantity
+given in \eref{chaos-optimization-quantity}. The results shown in
+\tref{chaos-optimization-accuracy} and \tref{chaos-optimization-speed} indicate
+that our approach is both accurate and computationally efficient.
 
 \hiddensubsection{Optimization Effectiveness}
 
@@ -161,15 +161,16 @@ and
 \end{align*}
 
 We consider 5 platforms with the number of processing elements \np taking values
-in $\{ 2^i \}_{i = 1}^5$ and 10 applications with the number of tasks $\nt = 20
-\np$; thus, there are 50 problems in total. The platforms and applications are
-generated randomly using \up{TGFF} \cite{dick1998}. In
+in $\{ 2^i \}_{i = 1}^5$ and 10 applications with the number of tasks \nt equal
+to $20 \, \np$; therefore, there are 50 problems in total. The platforms and
+applications are generated randomly using \up{TGFF} \cite{dick1998}. In
 \eref{chaos-optimization-constraints}, $\rho_\burn$ and $\rho_\wear$ are set to
-0.01. Due to the diversity of the problems, $\period_\maximum$, $\q_\maximum$,
-and $\life_\minimum$ are found individually for each problem, ensuring that they
-make sense for the subsequent optimization. For instance, $\q_\maximum$ is found
-between 90 and \celsius{120}. Note, however, that these three parameters stay
-the same for both the probabilistic and deterministic cases.
+0.01. Due to the diversity of the addressed problems, $\period_\maximum$,
+$\q_\maximum$, and $\life_\minimum$ are found individually for each problem in
+order to ensure that their values are sensible to the subsequent optimization
+procedure. For instance, $\q_\maximum$ ranges from 90 to \celsius{120} depending
+on the problem. Note, however, that these three parameters stay the same in both
+the probabilistic and deterministic cases.
 
 The obtained results are reported in \tref{chaos-optimization-objective}. The
 most important message is in the last column where \emph{failure} refers to the
@@ -221,5 +222,5 @@ included. We observe that the expected energy consumption is higher when the
 constraint is taken into account; however, the difference vanishes when the
 complexity of the problem increases. On average, the cost of the lifetime
 constraint is below 5\% in terms of the expected energy consumption. Without the
-constraint, however, no (probabilistic) guarantees on the lifetime of the
-considered systems can be given.
+constraint, however, no (probabilistic) guarantees on the system's lifetime can
+be given.
