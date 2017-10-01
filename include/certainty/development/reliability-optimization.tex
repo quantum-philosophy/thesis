@@ -25,13 +25,13 @@ experimental results are reported in \sref{thermal-cycling-results}.
 \subsection{\motivationtitle}
 \slab{thermal-cycling-motivation}
 
-\inputfigure{dream-task-graph}
+\inputfigure{dream-motivation-graph}
 \inputfigure{dream-cycling-motivation}
 We begin by giving a motivational example. Consider a periodic application with
 six tasks denoted by T1--T6 and a heterogeneous platform with two processing
 elements denoted by PE1 and PE2. The task graph of the application is given in
-\fref{dream-task-graph} along with the execution times of the tasks for both
-processing elements. The period of the application is 60~ms. The first
+\fref{dream-motivation-graph} along with the execution times of the tasks for
+both processing elements. The period of the application is 60~ms. The first
 alternative schedule and the resulting dynamic steady-state temperature profile
 are shown on the left-hand side of \fref{dream-cycling-motivation} where the
 height of a task represents its power consumption. It can be seen that PE1 is
@@ -56,8 +56,8 @@ In addition to the description given in \sref{system-model}, the considered
 platform with \np processing elements is to execute a periodic application with
 \nt tasks. The application is given as a directed acyclic graph whose vertices
 and edges correspond to the tasks and to data dependencies between these tasks,
-respectively; see \fref{dream-task-graph} for an example. The period of the
-application is denoted by \period. Furthermore, each pair of a task and a
+respectively; see \fref{dream-motivation-graph} for an example. The period of
+the application is denoted by \period. Furthermore, each pair of a task and a
 processing element is characterized by an execution time and a power
 consumption; these are the characteristics that the task has when it is assigned
 to the processing element.
