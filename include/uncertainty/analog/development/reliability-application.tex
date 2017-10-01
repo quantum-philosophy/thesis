@@ -7,51 +7,52 @@ of our technique given in the next section, \sref{chaos-reliability-results}.
 
 \subsection{\problemtitle}
 
-Assume that the structure of the reliability model is the one shown in
+Assume that the structure of the reliability model is the one in
 \eref{reliability-model} where each individual reliability function $R_i$ is the
-one given in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for
-$i = \range{1}{\np}$. During each iteration, the temperature of processing
-element $i$ exhibits \nk{i} cycles. Each cycle generally has different
-characteristics and, therefore, causes different damage. This aspect is taken
-into account by adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The
-shape parameter $\beta_i$ is known to be indifferent to temperature. For
-simplicity, let us also assume that $\beta_i$ does not depend on process
-parameters, and that $\beta_i = \beta$ for $i = \range{1}{\np}$.
+one in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for $i =
+\range{1}{\np}$. During each iteration, the temperature of processing element
+$i$ exhibits \nk{i} cycles. Each cycle generally has different characteristics
+and, therefore, causes different damage. This aspect is taken into account by
+adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The shape parameter
+$\beta_i$ is known to be indifferent to temperature. For simplicity, assume that
+$\beta_i$ also does not depend on process parameters, and that $\beta_i = \beta$
+for $i = \range{1}{\np}$.
 
 Under the above assumptions, \rref{weibull-homogeneity} applies, and the
-lifetime $\life: \Omega \to \real$ of the system has a Weibull distribution as
-follows:
+lifetime $\life: \Omega \to \real$ of the electronic system has a Weibull
+distribution as follows:
 \[
   \life | (\eta, \beta) \sim \mathrm{Weibull}(\eta, \beta)
 \]
 where $\eta$ is as in \rref{weibull-homogeneity} combined with
-\eref{thermal-cycling-scale}. Even though the model has two parameters, $\eta$
-and $\beta$, only $\eta$ is uncertain. Therefore, we treat the model as having
-only one parameter, $\eta$, and $\beta$ is assumed to be implicitly given.
+\eref{thermal-cycling-scale}. Even though the model has two parameters, only
+$\eta$ is uncertain. Therefore, we treat the model as parameterized by only
+$\eta$, and $\beta$ is assumed to be implicitly given.
 
-In the case of reliability analysis without any accompanying optimization, one
-can proceed to constructing a \ac{PC} expansion of $\eta$. Having obtained a
-lightweight surrogate for $\eta$, the system's reliability can be studied from
-various perspectives. In the current scenario, however, the quantity of interest
-\g is the one given in \eref{chaos-optimization-quantity} since it allows for
-evaluating the objective function and constraints defined in
-\eref{chaos-optimization-objective} and \eref{chaos-optimization-constraints},
-respectively. In \eref{chaos-optimization-quantity}, the component denoted by
-\life stands for the parameterization of the reliability model, and,
-consequently, it is equal to $\eta$ in the example developed in this section.
+In the case of reliability analysis without any accompanying exploration of the
+design space, one can proceed to constructing a \ac{PC} expansion of $\eta$.
+Having obtained a lightweight surrogate for $\eta$, the reliability of the
+system can be studied from various perspectives under process variation. In the
+current scenario, however, the quantity of interest \g is the one given in
+\eref{chaos-optimization-quantity} since it allows for evaluating the objective
+function and constraints defined in \eref{chaos-optimization-objective} and
+\eref{chaos-optimization-constraints}, respectively. In
+\eref{chaos-optimization-quantity}, the component denoted by \life stands for
+the parameterization of the reliability model, and, consequently, it is equal to
+$\eta$ in the example developed in this section.
 
-Let us not turn our attention to the uncertain parameters \vu. We focus on two
-crucial process parameters, namely, on the effective channel length and
-gate oxide thickness. Consequently, each processing element is ascribed two
+Let us now turn our attention to the uncertain parameters \vu of the addressed
+problem. We focus on two crucial process parameters: on the effective channel
+length and gate oxide thickness. Thus, each processing element is ascribed two
 random variables corresponding to the two process parameters, which means that
-$\nu = 2 \np$ in this example; see also \sref{chaos-problem}.
+$\nu = 2 \np$ in the current example; see also \sref{chaos-problem}.
 
 \begin{remark}
 The variability of a process parameter at a spatial location can be split into
 several parts such as inter-lot, inter-wafer, inter-die, and intra-die; see, for
 instance, \cite{juan2012}. However, from the mathematical point of view, it is
 sufficient to consider just one random variable per location with an adequate
-distribution and adequate correlations with the other locations of interest.
+distribution and correlation with respect to the other locations of interest.
 \end{remark}
 
 Based on \sref{chaos-formulation}, the parameters \vu are assumed to be given as
@@ -78,12 +79,12 @@ configured according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}. The
 simulations are performed on a fine-grained and sufficiently broad
 three-dimensional grid comprising the effective channel length, gate oxide
 thickness, and temperature; the results are tabulated. An interpolation
-algorithm is then utilized whenever the static power has to be evaluated for a
+algorithm is then utilized when the static power is to be evaluated for a
 particular point within the range of the grid. The output of this model is
 scaled up to account for about 40\% of the total power consumption
-\cite{liu2007}. Regarding temperature modeling, the thermal \up{RC} circuit used
-for dynamic steady-state analysis is constructed via HotSpot \cite{skadron2003}
-as described in \sref{temperature-model}.
+\cite{liu2007}. Regarding temperature, the thermal \up{RC} circuit used for
+dynamic steady-state analysis is constructed via HotSpot \cite{skadron2003} as
+described in \sref{temperature-model}.
 
 At this point, the two outputs of Stage~1 are now specified.
 
