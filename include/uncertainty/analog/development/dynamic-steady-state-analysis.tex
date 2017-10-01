@@ -52,22 +52,25 @@ Therefore, the output of Stage~1 in \fref{chaos-overview} is
 
 \subsection{Surrogate Construction}
 
-At Stage~3 in \fref{chaos-overview}, relying on the output of Stage~2, the
-procedure delineated in \sref{chaos-construction} is applied to
-\aref{chaos-dynamic-steady-state-iterative} from Stage~1. The algorithm computes
-\mp or \mq for a given \vu and returns it in a suitable format.
+At Stage~3 in \fref{chaos-overview}, the procedure delineated in
+\sref{chaos-construction} is applied to
+\aref{chaos-dynamic-steady-state-iterative} from Stage~1 with respect to the
+output of Stage~2,. The algorithm computes \mp or \mq for a given \vu and
+returns it in a suitable format.
 
-Following \rref{chaos-multidimensional-output} regarding the treatment of
-vector-valued quantities, \g is treated as an $\np \ns$-element row vector, in
-which case each coefficient $\hat{\g}_{\vi}$ in \eref{chaos-expansion} is also
-such a vector. The projection matrix in \eref{chaos-projection-matrix} and,
-consequently, \aref{chaos-construction} should be interpreted as follows: \vg is
-an $\nq \times \np \ns$ matrix whose row $i$ is the temperature or power profile
-computed at point $i$ of the quadrature in \eref{chaos-coefficient} and reshaped
-into a row vector. Similarly, $\hat{\vg}$ should be understood as an $\nc \times
-\np \ns$ matrix whose row $i$ is coefficient $i$ of the expansion in
-\eref{chaos-expansion}; recall that an ordering is assumed to be imposed on the
-index set.
+Following \rref{chaos-multidimensional-output} concerning vector-valued
+quantities, \g is treated as an $\np \ns$-element row vector, in which case each
+coefficient $\hat{\g}_{\vi}$ in \eref{chaos-expansion} is also such a vector.
+The projection matrix in \eref{chaos-projection-matrix} and, consequently,
+\aref{chaos-construction} should be interpreted accordingly: \vg is an $\nq
+\times \np \ns$ matrix whose row $j$ is the dynamic steady-state temperature or
+power profile computed at point $j$ of the quadrature in
+\eref{chaos-coefficient} and reshaped into a row vector. Similarly, $\hat{\vg}$
+should be understood as an $\nc \times \np \ns$ matrix whose row $i$ is
+coefficient $i$ of the expansion in \eref{chaos-expansion}. Recall that an
+ordering is assumed to be imposed on quadrature points as well as polynomial
+terms.
 
-The constructed expansion can now be post-processed as needed, which is already
-the topic of Stage~4 in \fref{chaos-overview}; see \sref{chaos-processing}
+The constructed expansion can now be post-processed as required, which is
+already the topic of Stage~4 in \fref{chaos-overview}; see
+\sref{chaos-processing}
