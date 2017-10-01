@@ -1,17 +1,17 @@
 \inputfigure{brain-overview}
-Our workflow is illustrated in \fref{brain-overview}. First, we note that the
-available data generally need to be processed prior to learning since they are
-likely to be given in a format that is not efficient or convenient for the
-subsequent calculations. With this in mind, our foremost task is to extract $G$
-in \eref{brain-dataset} from given raw data. This processing part can be seen at
-the top of \fref{brain-overview} and is explained in \sref{brain-data}. Next,
-the resulting profiles are used in order to obtain an adequately trained
-predictive model. The modeling part is covered in \sref{brain-model} while the
-learning part is explained in \sref{brain-learning}; the latter can also be seen
-at the bottom of \fref{brain-overview}. The above operations are to be
-undertaken offline while the trained model is supposed to be used by the
-resource manager at runtime in order to make predictions and take account of
-workload uncertainty.
+Our workflow for resource-usage prediction is illustrated in
+\fref{brain-overview}. First, we note that the available data generally need to
+be processed prior to learning since they are likely to be given in a format
+that is not efficient or convenient to the subsequent calculations. With this in
+mind, our foremost task is to extract $G$ defined in \eref{brain-dataset} from
+given raw data. This processing part can be seen at the top of
+\fref{brain-overview} and is explained in \sref{brain-data}. Next, the resulting
+profiles are utilized in order to obtain an adequately trained predictive model.
+The modeling part is covered in \sref{brain-model} while the learning part is
+explained in \sref{brain-learning}; the latter can also be seen at the bottom of
+\fref{brain-overview}. The above operations are to be undertaken offline while
+the trained model is supposed to be used by the resource manager at runtime in
+order to make predictions and, thereby, take workload uncertainty into account.
 
 \subsection{Data Pipeline}
 \slab{brain-data}

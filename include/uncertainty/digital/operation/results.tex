@@ -22,14 +22,14 @@ The grouping and indexing steps of our data pipeline---described in
 hours to finish (no parallelism). Since they have to be done only once, their
 computational cost can be safely considered negligible. Regarding the selection
 step, we filter those resource-usage profiles that contain 5--50 data points;
-consequently, $\nsi{i} \in [5, 50]$ in \eref{brain-profile}. Such profiles
-constitute around 74\% of the total number of profiles (around 18 out of 24
-million). We experiment with a random subset of two million profiles, which is
-around 11\% of the 5--50 resource-usage profiles; hence, $\no = 2 \times 10^6$
-in \eref{brain-dataset}. The data sets $G_1$, $G_2$, and $G_3$ constitute 70\%,
+hence, $\nsi{i} \in [5, 50]$ in \eref{brain-profile}. Such profiles constitute
+around 74\% of the total number of profiles (around 18 out of 24 million). We
+experiment with a random subset of two million profiles, which is around 11\% of
+the 5--50 resource-usage profiles; hence, $\no = 2 \times 10^6$ in
+\eref{brain-dataset}. The data sets $G_1$, $G_2$, and $G_3$ constitute 70\%,
 10\%, and 20\% of $G$, respectively. Fetching and storing on disk these many
-profiles take approximately four hours. Recall that this operation has to be
-repeated only when the selection criteria change, which happens rarely.
+profiles take around four hours. Recall that this operation has to be repeated
+only when the selection criteria change, which happens rarely.
 
 \hiddensubsection{Learning Pipeline}
 
