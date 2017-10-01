@@ -220,7 +220,7 @@ method is fast but also very inaccurate as it is discussed and illustrated in
 \sref{dynamic-steady-state-prior}. The inaccuracy drives the optimization toward
 solutions that turn out to be of low quality.
 
-\inputfigure{dream-cycling-pareto}
+\inputfigure{dream-optimization-multiobjective}
 The experiments show that the impact of the optimization on energy consumption
 is insignificant. This is not surprising: the optimization searches toward
 low-temperature solutions, which are also implicitly the low-leakage ones. In
@@ -228,11 +228,11 @@ order to explore this further, let us perform a multi-objective optimization
 along the dimensions of energy and reliability, and let us use \up{NSGA-II}
 \cite{deb2002}. The resulting Pareto front averaged over 20 applications with 80
 tasks deployed on a quad-core platform is displayed in
-\fref{dream-cycling-pareto}. It can be observed that the variation of the energy
-change is less than 2\%. This means that the solutions optimized for the
-\ac{MTTF} have an energy consumption that is almost identical to the one of the
-solutions optimized for energy. At the same time, the difference along the
-\ac{MTTF} dimension is huge. This means that, by ignoring the reliability
+\fref{dream-optimization-multiobjective}. It can be observed that the variation
+of the energy change is less than 2\%. This means that the solutions optimized
+for the \ac{MTTF} have an energy consumption that is almost identical to the one
+of the solutions optimized for energy. At the same time, the difference along
+the \ac{MTTF} dimension is huge. This means that, by ignoring the reliability
 aspect, the designer may end up with a significantly decreased \ac{MTTF} without
 any significant gain in terms of energy consumption.
 
