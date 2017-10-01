@@ -21,7 +21,7 @@ sampling. Using an adequate $\transform$ discussed in
 \sref{frame-transformation}, \g can be reparameterized in terms of independent
 variables that are uniformly distributed on $[0, 1]^\nz$. This means that the
 density function of \vz equals unity. Therefore, using \eref{frame-sparse}, we
-have the following analytical expression for the expectation:
+have the following analytical expression:
 \[
   \expectation{\g} \approx \expectation{\interpolant{\nz}{\ls}(\g)}
   = \int_{[0, 1]^\nz} \interpolant{\nz}{\ls}(\g)(\vz) \d \vz
@@ -37,13 +37,13 @@ where
 In the above equation, $w_{ij}$ is calculated as shown in
 \eref{frame-basis-volume}.
 
-Regarding the variance, it can be seen in \eref{variance} that $\variance{\g}$
-can be assembled from two components: the expectation of \g, which we already
-have, and the expectation of $\g^2$, which is missing. The solution is to let
-$\h = (\g, \g^2)$ be the quantity of interest instead of \g. Then the
-expectations of both \g and $\g^2$ become available in analytical forms, and
-$\variance{\g}$ can be computed using \eref{variance}. This approach can be
-generalized to probabilistic moments of higher orders.
+Regarding the variance, observe in \eref{variance} that $\variance{\g}$ can be
+assembled from two components: the expectation of \g, which we already have, and
+the expectation of $\g^2$, which is missing. The solution is to let $\h = (\g,
+\g^2)$ be the quantity of interest instead of \g. Then the expectations of both
+\g and $\g^2$ become available in analytical forms, and $\variance{\g}$ can be
+computed using \eref{variance}. This approach can be generalized to
+probabilistic moments of higher orders.
 
 The careful reader might have noted a problem with the calculation of
 $\variance{\g}$ presented above: \h is vector valued. More generally, \g has
@@ -52,11 +52,10 @@ framework, however, does not have such a limitation as explained in
 \rref{frame-multidimensional-output}.
 
 \begin{remark} \rlab{frame-multidimensional-output}
-All the mathematics and pseudocodes stay the same for vector-valued quantities.
-The only difference is that, since a surplus $\Delta(\g \circ
-\transform)(\vx_{\vi \vj})$ naturally inherits the output dimensionality of \g,
-the operations that involve $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ should
-be adequately adjusted. If the outputs are on different scales or have different
+The mathematics and pseudocodes stay unchanged for vector-valued quantities. The
+only difference is that, since hierarchical surpluses naturally inherit the
+output dimensionality of \g, the operations that involve them should be
+adequately adjusted. If the outputs are on different scales or have different
 accuracy requirements, one might want to have different \error{a} and \error{r}
 in \eref{frame-stop} for different outputs. In that case, one also needs to
 revisit \eref{frame-score} and devise a more sensible strategy for scoring

@@ -5,14 +5,13 @@ source code, configuration files, and input data used in the experiments are
 available online at \cite{eslab2017a}.
 
 We consider three platform sizes \np, two application sizes \nt, and three
-quantities of interest \g. More specifically, \np is in $\{ 2, 4, 8 \}$, \nt is
-in $\{ 10, 20 \}$, and \g is the end-to-end delay, total energy consumption, or
+quantities of interest \g. Specifically, \np is in $\{ 2, 4, 8 \}$, \nt is in
+$\{ 10, 20 \}$, and \g is the end-to-end delay, total energy consumption, or
 maximum temperature; the quantities of interest are defined in
 \eref{frame-delay}, \eref{frame-energy}, and \eref{frame-temperature},
-respectively. Therefore, we address 18 uncertainty-quantification problems in
-total, which correspond to different combinations of \np, \nt, and \g. At this
-point, it might be helpful to recall the illustrative application depicted in
-\fref{frame-application}.
+respectively. Therefore, we address 18 problems in total, which correspond to
+different combinations of \np, \nt, and \g. At this point, it might be helpful
+to recall the illustrative application depicted in \fref{frame-application}.
 
 Each problem is configured as follows. A platform with \np processing elements
 and an application with \nt tasks are generated randomly by \up{TGFF}
@@ -34,8 +33,8 @@ of the static power is based on a linear fit to a data set of \up{SPICE}
 simulations of a series of \up{CMOS} invertors. The sampling interval of power
 and temperature profiles is equal to 1~ms.
 
-The uncertain parameters \vu of the system are the execution times of the tasks,
-and their marginal distributions and correlation matrix are as described in
+The uncertain parameters \vu are the execution times of the tasks, and their
+marginal distributions and correlation matrix are as described in
 \sref{frame-formulation}; all other parameters are deterministic. Regarding the
 marginal distributions---which are beta distributions as shown in
 \eref{beta-distribution}---the left $c$ and right $d$ endpoints of their
@@ -56,11 +55,11 @@ respectively, depending on the problem.
 
 The performance of our framework with respect to each problem is assessed as
 follows. First, as in \cref{uncertainty-analog-development}, the true
-probability distribution of the quantity in question \g is estimated by sampling
-\g directly and extensively. Direct sampling means that there is no any
-intermediate representation or any intermediate model order reduction involved.
-Second, we construct an interpolant for \g and estimate \g's distribution by
-sampling this interpolant, which is discussed in \sref{frame-construction} and
+probability distribution of \g is estimated by sampling \g directly and
+extensively. Direct sampling means that there is no any intermediate
+representation or any intermediate model order reduction involved. Second, we
+construct an interpolant for \g and estimate \g's distribution by sampling this
+interpolant, which is discussed in \sref{frame-construction} and
 \sref{frame-processing}. In both cases, we draw 10\textsuperscript{5} samples;
 let us remind, however, that, unlike the cost of direct sampling, the cost of
 sampling the interpolant is practically negligible. Third, we perform another
@@ -92,12 +91,12 @@ has two lines. The blue line represents our technique. The circles on this line
 correspond to the steps of the interpolation process shown in
 \eref{frame-sparse}. They illustrate how the \ac{KS} statistic computed with
 respect to the reference solution changes as the interpolation process takes
-steps (and adds more and more collocation nodes into the interpolant) until a
-stopping condition is satisfied. Note that only a subset of the actual steps is
-displayed in order to make the figure legible. Synchronously with the blue
-line---that is, for the same numbers of evaluations of the quantity of
-interest---the orange line shows the error of direct sampling, which is also
-calculated with respect to the reference solution.
+steps (and adds more and more nodes into the interpolant) until a stopping
+condition is satisfied. Note that only a subset of the actual steps is displayed
+in order to make the figure legible. Synchronously with the blue line---that is,
+for the same numbers of evaluations of the quantity of interest---the orange
+line shows the error of direct sampling, which is also calculated with respect
+to the reference solution.
 
 We begin by describing one particular problem shown in the figures. Consider,
 for instance, the one labeled with $\bigstar$ in \fref{frame-accuracy-energy}.

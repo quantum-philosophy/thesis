@@ -102,11 +102,11 @@ are naturally inherited by our technique.
 Targeting the practical scenario described in \sref{chaos-formulation}, the
 marginal distributions and correlation matrix of \vu are assumed to be
 available. Without loss of generality, each marginal is a four-parametric beta
-distribution as shown in \eref{beta-distribution}. The execution times are
-assumed to be correlated based on the dependencies between them defined by the
-structure of the corresponding graph: the closer task $i$ and task $j$ are in
-the graph as measured by the number of edges between vertex $i$ and vertex $j$,
-the stronger $\u_i$ and $\u_j$ are correlated.
+distribution shown in \eref{beta-distribution}. The execution times are assumed
+to be correlated based on the dependencies between them defined by the structure
+of the task graph: the closer task $i$ and task $j$ are in the graph as measured
+by the number of edges between vertex $i$ and vertex $j$, the stronger $\u_i$
+and $\u_j$ are correlated.
 
 \subsection{Probability Transformation}
 
@@ -120,7 +120,7 @@ simpler than what it is according to its original definition since the marginal
 distributions of \vz are already uniform. It should be understood that the
 model-order-reduction functionality of \eref{probability-transformation} is
 engaged; it eliminates redundant stochastic dimensions and, therefore, assists
-the subsequent interpolation process.
+the subsequent interpolation.
 
 Note that the chosen $\transform$ makes \vz conform to the requirements listed
 in \sref{frame-transformation}. Namely, the codomain of \vz is $[0, 1]^\nz$, and
