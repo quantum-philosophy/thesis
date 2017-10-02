@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/09/29 Thesis]
+\ProvidesClass{thesis}[2017/10/02 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -152,22 +152,23 @@
     \@publicationseries, No. \@publicationnumber
   }\\[10em]
   {
-    \Huge\headingfont
+    \headingfont
+    \Huge
     \@title
   }\\[4em]
   {
-    \huge\headingfont
+    \headingfont
+    \huge
     \@author
-  }\\
+  }
   \vfill
   \includegraphics[width=14em]{\@university}\\[2em]
   {
     \small
     \@department\\
     Linköping University\\
-    SE-581\,83 Linköping, Sweden\\
-    \vspace*{2em}
-    Linköping \@publicationyear\\
+    SE-581\,83 Linköping, Sweden\\[2em]
+    Linköping \@publicationyear
   }
 }
 
