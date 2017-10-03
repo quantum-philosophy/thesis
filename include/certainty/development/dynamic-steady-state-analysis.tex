@@ -258,8 +258,24 @@ It can be seen that the solution to the $\nn \ns \times \nn \ns$ system in
 \eref{dynamic-steady-state-system} has been reduced to the two trivial
 recurrences in \eref{dynamic-steady-state-recurrence} and
 \eref{dynamic-steady-state-auxiliary-recurrence} that traverse the \ns steps of
-the power profile \mp. The pseudocode of a potential implementation of the
-solution process is given in \aref{dream-dynamic-steady-state}.
+the power profile \mp. The pseudocode of this solution is given in
+\aref{dream-dynamic-steady-state}, and its key aspects are as follows.
+
+Line~2--5: \eref{dynamic-steady-state-auxiliary-recurrence} is recursively
+evaluated for all time steps of the input power profile \mp in order to
+calculate the auxiliary vector $\v{w}_\ns$.
+
+Line~6: The calculated $\v{w}_\ns$ is utilized in order to compute the final (or
+initial) state vector $\vs_\ns$. This vector is stored in an $\nn \times \ns$
+matrix denoted by $\m{S}$. Note that, for convenience, $\vs_\ns$ is stored in
+the first column of $\m{S}$.
+
+Line~7--9: Using $\vs_\ns$ or, equivalently, $\vs_0$,
+\eref{dynamic-steady-state-recurrence} is recursively evaluated in order to
+calculate the remaining state vectors, that is, $\{ \vs_i \}_{i = 1}^{\ns - 1}$.
+
+Line 10: \eref{temperature-algebraic} is applied in order to compute the desired
+\mq.
 
 It is worth noting that the auxiliary transformation presented in
 \sref{transient-state-solution} and the accompanying eigendecomposition in
