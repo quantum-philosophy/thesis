@@ -22,12 +22,12 @@ estimated by drawing samples from this posterior.
 
 In practice, the posterior distribution is unlikely to belong to any of the
 common families of probability distributions, which is in part due to the data
-model involved in the likelihood function, and, therefore, the sampling
-procedure is not straightforward. In order to circumvent this difficulty, one
-usually relies on Markov chain Monte Carlo sampling \cite{gelman2013}. In this
-case, an ergodic Markov chain with the stationary distribution equal to the
-target posterior distribution is constructed and then utilized for exploring the
-probability space.
+model involved in the likelihood function; therefore, the sampling procedure is
+not straightforward. In order to circumvent this difficulty, one usually relies
+on Markov chain Monte Carlo sampling \cite{gelman2013}. In this case, an ergodic
+Markov chain with the stationary distribution equal to the target posterior
+distribution is constructed and then utilized for exploring the probability
+space.
 
 A popular technique in this regard is the Metropolis--Hastings algorithm
 \cite{gelman2013} where the chain is constructed via sampling from a
