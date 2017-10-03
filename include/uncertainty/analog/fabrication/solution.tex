@@ -12,12 +12,12 @@ example, \f can be a piece of code.
 Without loss of generality, we adhere to the following convention. Each die is a
 potential measurement site, and $\hnd < \nd$ denotes the number of those sites
 that are actually measured. Each site comprises \np measurement points, and
-there are \ns data instances per each point. For instance, in the example given
-in \sref{bayes-motivation}, an observation at a site is a temperature profile
-$\mq \in \real^{\np \times \ns}$, which is a matrix capturing temperature of \np
-processing elements at \ns time moments as defined in
-\eref{temperature-profile}. Denote the collected data by $H$ and assume that the
-corresponding locations are recorded along with $H$.
+there are \ns data instances per point. For instance, in the example given in
+\sref{bayes-motivation}, an observation at a site is a temperature profile \mq,
+which is a matrix capturing temperature of \np processing elements at \ns time
+moments as defined in \eref{temperature-profile}. Denote the collected data by
+$H$ and assume that the locations of the measurement points are recorded along
+with $H$.
 
 It is worth noting that, if \f is the identity function, that is, $\h = \f(\g) =
 \g$, the proposed technique will primarily focus on the reconstruction of any
@@ -45,8 +45,8 @@ denoted by $G$. This data set $G$ is then processed at Stage~4 in order to
 estimate the desired statistics about \g such as the probability of \g being
 smaller than a certain threshold; recall the example in \sref{bayes-motivation}.
 It can be seen in \fref{bayes-overview} that Stage~2 and Stage~3 actively
-communicate with the two models on the right-hand side called the data model and
-statistical model, which is what we elaborate on in the following two
+communicate with the two models on the right-hand side, called the data model
+and statistical model, which is what we elaborate on in the following two
 subsections.
 
 \subsection{Data Model}
@@ -82,13 +82,13 @@ model of the static power can be constructed via a fitting procedure applied to
 a data set of \up{SPICE} simulations of reference electrical circuits. The only
 requirement to such a model is that it should be parameterized by \g. In
 addition, it can also be parameterized by temperature in order to take account
-of the interdependence between power and temperature described in
-\sref{power-model}. The second transition is made by combining the static power
-$\p_\static$ with the dynamic power $\p_\dynamic$ that corresponds to the
-considered workload. The obtained total power along with the relevant
-temperature-related information---such as the floorplan and thermal parameters
-of the platform at hand---are fed to a temperature model in order to acquire the
-corresponding temperature \h, which is a topic of \cref{certainty-development}.
+of the power-temperature interdependence described in \sref{power-model}. The
+second transition is made by combining the static power $\p_\static$ with the
+dynamic power $\p_\dynamic$ that corresponds to the considered workload. The
+obtained total power along with the relevant temperature-related
+information---such as the floorplan and thermal parameters of the platform at
+hand---are fed to a temperature simulator in order to acquire the corresponding
+temperature \h, which is discussed in detail in \cref{certainty-development}.
 
 \subsection{Statistical Model}
 \slab{bayes-statistical-model}
@@ -96,8 +96,8 @@ corresponding temperature \h, which is a topic of \cref{certainty-development}.
 \inputfigure{bayes-statistical-model}
 Once the wafer has been fabricated, the values of \g across the wafer are fixed;
 however, they remain unknown to the designer. In order to infer them, we employ
-the procedure developed in the current subsection, which can also be seen in
-\fref{bayes-statistical-model}. The procedure consists of the five steps
+the model developed in the current subsection, which can also be seen in
+\fref{bayes-statistical-model}. The development consists of the five steps
 described below.
 
 Step~1 is to assign an adequate model to the unknown \g. We model \g as a
@@ -154,12 +154,13 @@ practical computations, it should be reduced to a finite-dimensional one. First,
 one is composed of the $\hnd \np$ points where the observations in $H$ are made
 (\hnd measurement sites with \np measurement points each), and the other one of
 the locations where the designer wishes to characterize \g. For simplicity,
-assume that the designer is interested in all the sites, which is $\nd \np$
-locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
-these locations. Second, the dimensionality is reduced further via the technique
-described in \xref{probability-transformation}. Concretely, we perform the
-transformation in \eref{model-order-reduction} with respect to the correlation
-matrix of \vg computed via \eref{bayes-covariance}. The result is
+assume that the designer is interested in all the sites, which results in $\nd
+\np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
+these locations. Second, the dimensionality of the problem is reduced further
+via the \ac{KL} decomposition, which is introduced in
+\xref{probability-transformation}. Concretely, we perform the transformation
+shown in \eref{model-order-reduction} with respect to the correlation matrix of
+\vg computed via \eref{bayes-covariance}. The result is
 \begin{equation} \elab{bayes-reduction}
   \vg = \mu_\g \v{1} + \sigma_\g \m{U} \tm{\Lambda}^\frac{1}{2} \vz
 \end{equation}
@@ -171,13 +172,13 @@ of \g; typically, $\nz \ll \nd \np$. In addition, the parameters $\u_\g$ in
 \}$; see \fref{bayes-statistical-model}. The model is now ready for practical
 computations.
 
-Step~3 is to define a likelihood function, which is where the observed
-information is taken into account; see \xref{bayesian-statistics}. In our case,
-the observed information is the measurements $H$ stacked into \hvh as described
-in \sref{bayes-data-model}. Since the measurement process is not perfect, we
-also have to take into consideration measurement noise. To this end, the
-observed \hvh is assumed to deviate from the data model's prediction \vh as
-follows:
+Step~3 is to specify the likelihood function in \eref{bayes-theorem}, which is
+where the observed information is taken into account; see
+\xref{bayesian-statistics}. In our case, the observed information is the
+measurements $H$ stacked into \hvh as described in \sref{bayes-data-model}.
+Since the measurement process is not perfect, we also have to take into
+consideration measurement noise. To this end, the observed \hvh is assumed to
+deviate from the data model's prediction \vh as follows:
 \[
   \hvh = \vh + \v{\epsilon}
 \]
@@ -197,7 +198,7 @@ parameters of the inference are identified, and they are $\u = \u_\g \cup \{
   \hvh | \u \sim \mathrm{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
 \end{equation}
 The density function of this distribution is the likelihood $p(H | \u)$ of our
-statistical model, which is the first element of the posterior shown in
+statistical model, which is the first element of the posterior in
 \eref{bayes-theorem}.
 
 Step~4 is to decide on the second element of the posterior in
@@ -236,11 +237,11 @@ Provided that there is a way to draw samples from \eref{bayes-posterior}, \g can
 be readily analyzed as we shall see in \sref{bayes-post-processing}. The
 problem, however, is that direct sampling of the posterior is difficult due to
 the data model involved in the likelihood function via \vh; see
-\eref{bayes-likelihood}. In order to circumvent this problem, we utilize the
-Metropolis--Hastings algorithm \cite{gelman2013} outlined in
-\xref{bayesian-statistics}, which operates on an auxiliary distribution called
-the proposal distribution. The construction of an adequate proposal is discussed
-next.
+\eref{bayes-likelihood}. In order to circumvent this problem, we utilize Markov
+chain Monte Carlo sampling and, more specifically, the Metropolis--Hastings
+algorithm \cite{gelman2013}, which is outlined in \xref{bayesian-statistics}.
+The algorithm operates on an auxiliary distribution called the proposal
+distribution, and the construction of an adequate proposal is discussed next.
 
 \subsection{Optimization Procedure}
 \slab{bayes-optimization}
