@@ -240,11 +240,11 @@ Since $\m{E}$ is the matrix exponential---which can be seen in
 where $\period = \ns \dt$ is the period of the power profile \mp. By splitting
 the identity matrix $\m{I}$ into $\m{U} \transpose{\m{U}}$, we obtain the
 following solution to the system:
-\begin{align}
+\begin{align*}
   \vs_\ns
-  & = \m{U} (\m{I} - e^{\m{\Lambda} \period})^{-1} \transpose{\m{U}} \v{w}_\ns \elab{t0} \\
-  & = \m{U} \: \diagonal{\frac{1}{1 - e^{\lambda_1 \period}}}{\frac{1}{1 - e^{\lambda_\ns \period}}} \transpose{\m{U}} \v{w}_\ns. \nonumber
-\end{align}
+  & = \m{U} (\m{I} - e^{\m{\Lambda} \period})^{-1} \transpose{\m{U}} \v{w}_\ns \\
+  & = \m{U} \: \diagonal{\frac{1}{1 - e^{\lambda_1 \period}}}{\frac{1}{1 - e^{\lambda_\ns \period}}} \transpose{\m{U}} \v{w}_\ns.
+\end{align*}
 The above equation yields not only the final state vector $\vs_\ns$ but also the
 initial one $\vs_0$. Consequently, the rest of the state vectors $\{ \vs_i \}_{i
 = 1}^{\ns - 1}$ can be successively found by means of
