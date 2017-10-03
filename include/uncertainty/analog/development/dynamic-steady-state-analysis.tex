@@ -61,15 +61,15 @@ returns it in a suitable format.
 Following \rref{chaos-multidimensional-output} concerning vector-valued
 quantities, \g is treated as an $\np \ns$-element row vector, in which case each
 coefficient $\hat{\g}_{\vi}$ in \eref{chaos-expansion} is also such a vector.
-The projection matrix in \eref{chaos-projection-matrix} and, consequently,
+The projection matrix in \eref{chaos-projection-matrix} and consequently
 \aref{chaos-construction} should be interpreted accordingly: \vg is an $\nq
 \times \np \ns$ matrix whose row $j$ is the dynamic steady-state temperature or
 power profile computed at point $j$ of the quadrature in
 \eref{chaos-coefficient} and reshaped into a row vector. Similarly, $\hat{\vg}$
 should be understood as an $\nc \times \np \ns$ matrix whose row $i$ is
-coefficient $i$ of the expansion in \eref{chaos-expansion}. Recall that an
-ordering is assumed to be imposed on quadrature points as well as polynomial
-terms.
+coefficient $i$ of the expansion in \eref{chaos-expansion}. Recall that a
+certain ordering is assumed to be imposed on quadrature points as well as on
+polynomial terms.
 
 The constructed expansion can now be post-processed as required, which is
 already the topic of Stage~4 in \fref{chaos-overview}; see
