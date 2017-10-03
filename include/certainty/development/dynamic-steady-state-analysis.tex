@@ -26,18 +26,18 @@ discuss further in \sref{reliability-optimization}.
 \subsection{\priortitle}
 \slab{dynamic-steady-state-prior}
 
-Let us elaborate on the techniques that have been applied in the literature in
+Let us elaborate on the techniques that have been presented in the literature in
 order to calculate the dynamic steady-state temperature profile.
 
 A straightforward approximation of the profile can be obtained by running a
-temperature simulator over one or more successive periods of the application
-until a sufficiently accurate approximation of the dynamic steady state is
-attained \cite{srinivasan2004}. The typical simulator of choice is HotSpot
+temperature simulator over several successive periods of the application until a
+sufficiently accurate approximation of the dynamic steady state is attained
+\cite{srinivasan2004}. The typical simulator of choice is HotSpot
 \cite{skadron2003}, which is the state of the art in system-level temperature
 analysis \cite{srinivasan2004, liao2005, coskun2006, liu2007, huang2009b,
 xiang2010, thiele2011}. The simulator performs transient temperature analysis by
-solving \eref{temperature-model-original} numerically via the fourth-order
-Runge--Kutta method \cite{press2007}.
+solving the system in \eref{temperature-model-original} numerically via the
+fourth-order Runge--Kutta method \cite{press2007}.
 
 \inputfigure{dream-iterative-transient-accuracy}
 The number of iterations required to reach the dynamic steady state depends on
@@ -94,7 +94,7 @@ difficult and dangerous from the standpoint of design optimization.
 
 In this subsection, we are to formalize the problem of dynamic steady-state
 temperature analysis and to develop an exact and, moreover, computationally
-efficient solution to this problem, which eliminates the issues of the
+efficient solution to this problem, which eliminates the shortcomings of the
 state-of-the-art solutions discussed in the previous subsection.
 
 Consider the temperature model in \eref{temperature-model} and the corresponding
@@ -103,9 +103,9 @@ steady state is
 \begin{equation} \elab{dynamic-steady-state-condition}
   \vs_0 = \vs_\ns.
 \end{equation}
-In words, the above condition means that, once the dynamic steady state has been
-reached, the system starts to arrive at its initial state at the end of each
-iteration, which is what makes it periodic. Then, using
+The above condition means that, once the dynamic steady state has been reached,
+the electronic system starts to arrive at its initial state at the end of each
+iteration, which is what makes the system's behavior periodic. Then, using
 \eref{transient-state-recurrence}, the dynamic steady-state temperature profile
 can be computed by solving the following system of linear equations:
 \[
@@ -174,7 +174,7 @@ Such methods are designed to overcome the problems of direct solvers, and they
 are consequently applicable for very large systems. However, the most important
 issue with these methods is their convergence. In our experiments, we have not
 observed any advantages of using these methods compared to the other considered
-techniques. Thus, they are excluded from the discussion.
+techniques. Thus, they are excluded from further discussion.
 
 Yet another solution can be obtain by observing that $\mathbb{A}$ in
 \eref{dynamic-steady-state-system} is, in fact, a block Toeplitz matrix and,
@@ -193,7 +193,7 @@ issues.
 
 Have a careful look at the structure of $\mathbb{A}$ in
 \eref{dynamic-steady-state-system}. The nonzero elements are located only on the
-block diagonal, on the subdiagonal attached to the block diagonal, and on the
+block diagonal, the subdiagonal attached to the block diagonal, and the
 superdiagonal in the top-right corner of the matrix. Linear systems with similar
 structures arise in boundary value problems of ordinary differential equations,
 and the technique to solve them is to form a so-called condensed equation or
