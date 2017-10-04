@@ -1,13 +1,13 @@
 In this section, we illustrate the importance of temperature analysis for
 design-space exploration and, more specifically, for reliability optimization.
 
-Among the failure mechanisms that are commonly considered (see
+Among the commonly considered failure mechanisms (see
 \sref{condition-variation}), thermal cycling has arguably the most prominent
-dependence on temperature: not only the average and maximum temperature but also
-the amplitude and frequency of temperature oscillations have a huge impact on
-the lifetime of the system. With this in mind, we focus our attention on
-mitigating the damage caused by thermal cycling. To this end, relying on our
-solution to dynamic steady-state analysis presented in
+dependence on temperature: as noted earlier, not only the average and maximum
+temperature but also the amplitude and frequency of temperature oscillations
+have a huge impact on the lifetime of the system. With this in mind, we focus
+our attention on mitigating the damage caused by thermal cycling. To this end,
+relying on our solution to dynamic steady-state analysis presented in
 \sref{dynamic-steady-state-solution}, we develop a thermal-cycling-aware
 technique for scheduling of periodic applications. Note that, by exploring the
 design space in order to find configurations that reduce the system's wear, we
@@ -16,8 +16,8 @@ implicitly address condition uncertainty, which is introduced in
 suboptimal, which it to be further discussed and addressed in
 \sref{chaos-reliability-analysis}.
 
-In the remainder of the section, we first consider a motivational example,
-\sref{thermal-motivation-cycling}. In \sref{thermal-cycling-problem}, we
+In the remainder of the section, we first consider a motivational example given
+in \sref{thermal-motivation-cycling}. In \sref{thermal-cycling-problem}, we
 formulate our optimization objective and, in \sref{thermal-cycling-solution},
 describe the technique that is utilized in order to attain this objective. The
 experimental results are reported in \sref{thermal-cycling-results}.
@@ -27,22 +27,25 @@ experimental results are reported in \sref{thermal-cycling-results}.
 
 \inputfigure{dream-motivation-graph}
 \inputfigure{dream-motivation-cycling}
-We begin by giving a motivational example. Consider a periodic application with
-six tasks denoted by T1--T6 and a heterogeneous platform with two processing
-elements denoted by PE1 and PE2. The task graph of the application is given in
-\fref{dream-motivation-graph} along with the execution times of the tasks for
-both processing elements. The period of the application is 60~ms. The first
-alternative schedule and the resulting dynamic steady-state temperature profile
-are shown on the left-hand side of \fref{dream-motivation-cycling} where the
-height of a task represents its power consumption. It can be seen that PE1 is
-experiencing three thermal cycles, that is, there are three intervals where
+Consider a periodic application with six tasks denoted by T1--T6 and a
+heterogeneous platform with two processing elements denoted by PE1 and PE2. The
+application's task graph is given in \fref{dream-motivation-graph} along with
+the execution times of the tasks for both PE1 and PE2. The period of the
+application is 60~ms.
+
+The first alternative schedule and the resulting dynamic steady-state
+temperature profile are shown on the left-hand side of
+\fref{dream-motivation-cycling} where the height of a task represents its power
+consumption. It can be seen that PE1 is experiencing three thermal cycles as
+illustrated by the blue curve, that is, there are three intervals where
 temperature starts from a certain value, reaches an extremum, and then comes
 back. If we move T6 to PE2, the number of cycles decreases to two, which can be
 seen in the middle of \fref{dream-motivation-cycling}. If we also swap T2 and
 T4, the number of cycles of PE1 drops to one, which is depicted on the
-right-hand side. According to the reliability model described in
-\sref{thermal-cycling-fatigue}, these two changes improve the lifetime of the
-system by around 45\% and 55\%, respectively, relative to the initial schedule.
+right-hand side. According to the reliability model given in
+\sref{thermal-cycling-fatigue}, these two changes improve the system's lifetime
+by around 45\% and 55\%, respectively, relative to the initial schedule given on
+the left-hand side of \fref{dream-motivation-cycling}.
 
 The above motivational example shows that, when exploring the design space, it
 is important to take into consideration the number of temperature fluctuations
@@ -62,8 +65,7 @@ processing element is characterized by an execution time and a power
 consumption; these are the characteristics that the task has when it is assigned
 to the processing element.
 
-Since we are orientated toward the design stage in this context, static
-scheduling is considered, which is a task that is typically done offline.
+Static scheduling is considered, which is a task that is typically done offline.
 Specifically, the application is assumed to be scheduled using a static cyclic
 scheduler following the list scheduling policy \cite{adam1974}. The input to the
 scheduler is a mapping of the tasks onto the processing elements and a set of
@@ -98,9 +100,9 @@ $\q_\maximum$ on the resulting temperature profile \mq.
 \subsection{\solutiontitle}
 \slab{thermal-cycling-solution}
 
-The optimization is carried out via a genetic algorithm \cite{schmitz2004}. In
+The optimization is undertaken via a genetic algorithm \cite{schmitz2004}. In
 this paradigm inspired by biology, a population of chromosomes, which represent
-candidate solutions, is carried through a number of generations in order to
+candidate solutions, is evolved through a number of generations in order to
 produce a chromosome with the best possible fitness, that is, a solution that
 maximizes the objective function. The fitness function can be seen in
 \eref{thermal-cycling-objective}.
@@ -137,9 +139,9 @@ to the amount of violation and is not further processed. Otherwise, the
 \subsection{\resultstitle}
 \slab{thermal-cycling-results}
 
-In this subsection, we proceed to the reliability optimization itself. We first
-consider a set of synthetic applications and then study a real-life one. The
-general experimental setup is the same as the one described in
+In this subsection, we evaluate our reliability optimization. To this end, we
+first consider a set of synthetic applications and then study a real-life one.
+The general experimental setup is the same as the one described in
 \sref{dynamic-steady-state-results}. All the configuration files used in the
 experiments are available online at \cite{eslab2012}.
 
@@ -216,7 +218,7 @@ poor performance of iterative transient analysis with HotSpot is the excessively
 long execution time of the calculation of dynamic steady-state temperature
 profiles, which means that this method allows for a very shallow exploration of
 the design space. In the case of static steady-state analysis, the reason is
-different: the method is fast but also very inaccurate as it is discussed and
+different: the method is fast but also very inaccurate as discussed and
 illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy drives the
 optimization toward solutions that turn out to be of low quality.
 
