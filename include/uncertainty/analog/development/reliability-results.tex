@@ -144,11 +144,11 @@ To this end, for each problem (a pair of a platform and an application), we run
 the optimization procedure twice: the first run assumes the usual setup
 discussed so far, and the second run treats the objective in
 \eref{chaos-optimization-objective} and the constraints in
-\eref{chaos-optimization-constraints} as deterministic. More specifically, the
-second run assumes that temperature is deterministic and can be computed using
-the nominal values of the process parameters. Therefore, in this deterministic
-case, only one execution of the system is needed in order to evaluate the
-fitness function, and \eref{chaos-optimization-objective} and
+\eref{chaos-optimization-constraints} as deterministic. Specifically, the second
+run assumes that temperature is deterministic and can be computed using the
+nominal values of the process parameters. Therefore, in this deterministic case,
+only one execution of the system is needed in order to evaluate a chromosome's
+fitness, and \eref{chaos-optimization-objective} and
 \eref{chaos-optimization-constraints} become, respectively,
 \[
     \min_{\schedule} E(\schedule)
