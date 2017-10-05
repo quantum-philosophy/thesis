@@ -169,6 +169,8 @@ initial solution serves as a baseline for evaluating the performance of the
 solutions delivered by our optimization.
 
 \inputtable{dream-optimization-elements}
+\inputtable{dream-optimization-tasks}
+\inputtable{dream-optimization-methods}
 In the first set of experiments, we change the number of processing elements \np
 while keeping the number of tasks \nt per processing element constant and equal
 to 20. For each problem, we generate 20 random task graphs and compute the
@@ -183,7 +185,6 @@ system can be found in an affordable time. Moreover, as shown in
 \tref{dream-optimization-elements}, the performed optimization does not impact
 much the energy efficiency of the system.
 
-\inputtable{dream-optimization-tasks}
 In the second set of experiments, we keep the quad-core platform and vary the
 number of tasks \nt of the application. As before, for each problem, we generate
 20 random task graphs and monitor the changes in the \ac{MTTF} and energy
@@ -198,7 +199,6 @@ approach to dynamic steady-state temperature analysis presented in
 procedure. Due to its speed, the technique allows a large portion of the design
 space to be explored.
 
-\inputtable{dream-optimization-methods}
 In order to illustrate the above aspect, let us replace, inside the optimization
 framework, our method with \one~the one based on iterative transient analysis
 with HotSpot and \two~the one based on static steady-state analysis; see
@@ -221,6 +221,7 @@ different: the method is fast but also very inaccurate as discussed and
 illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy drives the
 optimization toward solutions that turn out to be of low quality.
 
+\inputfigure{dream-optimization-multiobjective}
 The experiments show that the impact of the optimization on energy consumption
 is insignificant. This is not surprising: the optimization searches toward
 low-temperature solutions, which are also implicitly the low-leakage ones. In
@@ -236,7 +237,6 @@ the \ac{MTTF} dimension is huge. This means that, by ignoring the reliability
 aspect, the designer may end up with a significantly decreased \ac{MTTF} without
 any significant gain in terms of energy consumption.
 
-\inputfigure{dream-optimization-multiobjective}
 Finally, we consider a real-life application, namely, an \up{MPEG-2} decoder
 \cite{ffmpeg}, which is assumed to be deployed on a dual-core platform. The
 decoder is analyzed and split into 34 tasks. The parameters of each task are
