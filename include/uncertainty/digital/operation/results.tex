@@ -49,9 +49,9 @@ technique. The algorithm is applied with its default, recommended settings.
 
 Let us now discuss the validation step, which is the middle blue box in
 \fref{brain-overview}. The considered hyperparameters are the number of cells
-\nc (the blue boxes in \fref{brain-model}), number of units per cell \nu (the
+\nl (the blue boxes in \fref{brain-model}), number of units per cell \nu (the
 double circles in \fref{brain-model}), and probability of dropout $\rho_\drop$
-introduced in \sref{brain-model}. More concretely, we let $\nc \in \{ 1, 2, 3,
+introduced in \sref{brain-model}. More concretely, we let $\nl \in \{ 1, 2, 3,
 4, 5 \}$, $\nu \in \{ 100, 200, 400, 800, 1600 \}$, and $\rho_\drop \in \{ 0,
 0.25, 0.5 \}$, which yields 75 different combinations in total. The candidates
 are explored by means of the Hyperband algorithm introduced in
@@ -73,9 +73,9 @@ The results of the validation step are reported in \tref{brain-validation}. The
 table shows the \ac{MSE} of the top 10 configurations of the hyperparameters as
 measured using $G_2$ ($0.1 \times 2 \times 10^6 = 2 \times 10^5$ profiles). The
 best trained predictive model is found to have the following hyperparameters:
-$\nc = 3$, $\nu = 1600$, and $\rho_\drop = 0$. In general, deeper and wider
+$\nl = 3$, $\nu = 1600$, and $\rho_\drop = 0$. In general, deeper and wider
 architectures tend to outperform shallower and narrower ones---the depth and
-breadth are measured by \nc and \nu, respectively---which is expected. In these
+breadth are measured by \nl and \nu, respectively---which is expected. In these
 experiments, the dropout mechanism does not have much impact on the resulting
 accuracy, which could be due to the amount of training data being enough for
 regularizing the model.
