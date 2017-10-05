@@ -27,11 +27,11 @@ The data set that we work with is the Google cluster-usage traces
 encompass more than 12 thousand machines serving requests from more than 900
 users. In the data set's parlance, a user request is a job; a job comprises one
 or several tasks; and a task is a Linux program to be run on a single machine.
-Each job is ascribed a unique \up{ID}, and each task is given an \up{ID} that is
-unique in the scope of the corresponding job. Apart from other tables, the data
-set contains a table that records the resource usage of individual tasks with
-the granularity of five minutes. Each record corresponds to a specific task and
-a specific five-minute interval, and it provides such measurements as the
+Each job is ascribed a unique \up{ID}, and each task of a job is given an
+\up{ID} that is unique in the scope of the job. Apart from other tables, the
+data set contains a table that records the resource usage of individual tasks
+with the granularity of five minutes. Each record corresponds to a specific task
+and a specific five-minute interval, and it provides such measurements as the
 average and maximum values of the \up{CPU}, memory, and disk usage. There are
 more than 1.2 billion records in the table in question, which correspond to more
 than 24 million tasks or, equivalently, resource-usage profiles and to more than
@@ -60,7 +60,7 @@ length.
 
 As the last step (the rightmost orange box in \fref{brain-overview}), a subset
 of the resource-usage profiles is selected using the index according to the
-needs of a particular training session (to be discussed in \sref{brain-results})
+needs of a particular learning session (to be discussed in \sref{brain-results})
 and then stored on disk. Concretely, the profiles are fetched from the databases
 and stored in the native format of the machine-learning library utilized; we
 refer to a file in such a format as a binary file. Instead of writing all the
@@ -76,7 +76,7 @@ creating the aforementioned three catalogs, which requires a separate pass over
 the training set.
 
 In conclusion, the benefit of the data pipeline describe above is in the
-streamlined access to the data during one or multiple training sessions. The
+streamlined access to the data during one or multiple learning sessions. The
 binary files can be read efficiently as many times as needed, and they can be
 straightforwardly regenerated when the selection criteria change. It is worth
 noting that the artifacts of the procedures undertaken at the grouping and
@@ -152,9 +152,9 @@ Let us now discuss how the model is supposed to be used.
 
 Recall that the output of the data pipeline described in \sref{brain-data} is
 the data set $G$, which is split into three parts: $G_1$ is for training, $G_2$
-is for validation, and $G_3$ is for testing. We now elaborate on the operations
-that take place during these three steps, which are also displayed at the bottom
-of \fref{brain-overview}.
+for validation, and $G_3$ for testing. We now elaborate on the operations that
+take place during these three steps of the pipeline, which are also displayed at
+the bottom of \fref{brain-overview}.
 
 Let us discuss training first. The model depicted in \sref{brain-model} has a
 large number of parameters that have to be learned; they are primarily various

@@ -3,10 +3,9 @@ workload uncertainty at runtime, which is the tool for making fine-grained
 long-range predictions of the resource usage in a computer system described in
 \sref{brain-solution}. All the experiments are conducted on a \up{GNU}/Linux
 machine equipped with 8 processors---each being an Intel Core i7-3770
-3.4~\up{GH}z---24~\up{GB} of \up{RAM}, and an \up{HDD} of 500~\up{GB}. The
-machine has no modern \up{GPU}s; therefore, there is an immense room for
-improvement. All the source code, configuration files, and input data used in
-the experiments are available online at \cite{eslab2017b}.
+3.4~\up{GH}z---24~\up{GB} of \up{RAM}, and an \up{HDD} of 500~\up{GB}. All the
+source code, configuration files, and input data used in the experiments are
+available online at \cite{eslab2017b}.
 
 \hiddensubsection{Data Pipeline}
 
@@ -61,13 +60,14 @@ four training epochs, which correspond to $4 \times 0.7 \times 2 \times 10^6 =
 5.6 \times 10^6$ resource-usage profiles or $5.6 \times 10^6 \div 64 = 87~500$
 training steps.
 
-The above exploration, which encompasses both the training and validation steps,
-takes approximately 15 days to finish. During this process, we run up to four
-training sessions in parallel, which typically keeps all the eight cores busy.
+The above exploration---which encompasses both the training and validation
+steps---takes approximately 15 days to finish. During this process, we run up to
+four learning sessions in parallel, which typically keeps all eight cores busy.
 It should be noted that, since the training, validation, and testing data sets
 have been cached on disk as a result of our data pipeline described in
-\sref{brain-data}, individual training sessions do not have any overhead in this
-regard.
+\sref{brain-data}, individual learning sessions do not have any overhead in this
+regard. Note also that the machine utilized in these experiments has no modern
+\up{GPU}s; therefore, there is an immense room for performance improvement.
 
 \inputtable{brain-validation}
 The results of the validation step are reported in \tref{brain-validation}. The
