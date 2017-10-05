@@ -27,11 +27,12 @@ steady-state temperature profile, which we discuss further in
 \subsection{\priortitle}
 \slab{dynamic-steady-state-prior}
 
-Let us elaborate on the techniques that have been presented in the literature in
-order to calculate the dynamic steady-state temperature profile.
+Let us elaborate on the two techniques that have been presented in the
+literature in order to calculate the dynamic steady-state temperature profile.
 
-A straightforward approximation of the profile can be obtained by running a
-temperature simulator over several successive periods of the application until a
+The first technique is referred to as the iterative transient approximation. In
+this case, an estimate of the profile is calculated by running a temperature
+simulator over a number of successive periods of the application until a
 sufficiently accurate approximation of the dynamic steady state is attained
 \cite{srinivasan2004}. The typical simulator of choice is HotSpot
 \cite{skadron2003}, which is the state of the art in system-level temperature
@@ -47,28 +48,30 @@ consider an application with a period of 500~ms running on five hypothetical
 platforms with processing-element areas of 1--25~mm\textsuperscript{2}. Let us
 simulate 50 successive periods of the application via HotSpot with its default
 settings and compare the resulting approximations in each period with the actual
-temperature profile using the \ac{NRMSE}. The comparison is shown in
-\fref{dream-iterative-transient-accuracy}. It can be observed that the number of
-successive periods over which transient analysis has to be performed in order to
-achieve a satisfactory level of accuracy is significant for the majority of the
-configurations, which entails large computation times. For instance, for an area
-of 9~mm\textsuperscript{2}, even after 15 iterations, the \ac{NRMSE} is still
-close to 20\%. Using the analytical approach to transient analysis presented in
-\sref{transient-analysis}, the calculation can be sped up; however, the large
-number of iterations still keeps the computational cost unreasonably high as we
-discuss further in \sref{dynamic-steady-state-results}. Moreover, this
-approximation technique provides no guarantees on the resulting accuracy since
-there is no reliable metric for measuring the proximity to the actual solution,
-the actual dynamic steady-state temperature profile.
+dynamic steady-state temperature profiles---whose calculation is to be discussed
+in \sref{dynamic-steady-state-solution}---using the \ac{NRMSE}. The comparison
+is shown in \fref{dream-iterative-transient-accuracy}. It can be observed that
+the number of successive periods over which transient analysis has to be
+performed in order to achieve a satisfactory level of accuracy is significant
+for the majority of the configurations, which entails large computation times.
+For instance, for an area of 9~mm\textsuperscript{2}, even after 15 iterations,
+the \ac{NRMSE} is still close to 20\%. Using the analytical approach to
+transient analysis presented in \sref{transient-analysis}, the iterative
+transient approximation can be sped up; however, the large number of iterations
+still keeps the computational cost unreasonably high as discussed further in
+\sref{dynamic-steady-state-results}. Moreover, the approach provides no
+guarantees on the resulting accuracy since there is no reliable metric for
+measuring the proximity to the actual solution, the actual dynamic steady-state
+temperature profile.
 
-Another crude but fast approximation of the profile is proposed in
-\cite{huang2009b}. It forgoes transient analysis and resides to static
-steady-state analysis instead. To elaborate, it is assumed that, in each time
-interval where the system's power consumption is constant, the system
-instantaneously reaches a static steady state. The result of this procedure is a
-stepwise temperature curve where each step corresponds to the static
-steady-state temperature that would be reached if the corresponding power was
-applied for a sufficiently long period of time.
+The second technique is referred to as the static steady-state approximation. It
+is a crude but fast technique proposed in \cite{huang2009b}. The approach
+forgoes transient analysis and resides to static steady-state analysis instead.
+Specifically, it is assumed that, in each time interval where the system's power
+consumption is constant, the system instantaneously reaches a static steady
+state. The result of this procedure is a stepwise temperature curve where each
+step corresponds to the static steady-state temperature that would be reached if
+the corresponding power was applied for a sufficiently long period of time.
 
 \inputfigure{dream-static-steady-state-example}
 \inputfigure{dream-static-steady-state-accuracy}
