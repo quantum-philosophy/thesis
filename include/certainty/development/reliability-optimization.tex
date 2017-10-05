@@ -94,12 +94,24 @@ $\q_\maximum$ on the resulting temperature profile \mq.
 
 \subsection{\solutiontitle}
 
-The optimization is undertaken via a genetic algorithm \cite{schmitz2004}. In
-this paradigm inspired by biology, a population of chromosomes, which represent
-candidate solutions, is evolved through a number of generations in order to
-produce a chromosome with the best possible fitness, that is, a solution that
-maximizes the objective function. The fitness function can be seen in
-\eref{thermal-cycling-objective}.
+The application is to scheduled using a static cyclic scheduler following the
+list scheduling policy \cite{adam1974}. The input to the scheduler is a mapping
+of the tasks onto the processing elements and a vector of priorities of the
+tasks; other characteristics of the platform and application are assumed to be
+implicitly known to the scheduler. The schedule produces a vector specifying the
+starting times of the tasks, which together with the given mapping constitute a
+schedule \schedule.
+
+The optimization procedure is undertaken via a genetic algorithm
+\cite{schmitz2004}. In this paradigm inspired by biology, a population of
+chromosomes, which represent candidate solutions, is evolved through a number of
+generations in order to produce a chromosome with the best possible fitness,
+that is, a solution that maximizes the objective function. The fitness of a
+chromosome is calculated in accordance with \eref{thermal-cycling-objective};
+more specifically, it is based on
+\begin{equation} \elab{thermal-cycling-fitness}
+  \min_{i = 1}^\np \mean_i(\schedule).
+\end{equation}
 
 Each chromosome contains $2 \nt$ genes---twice the number of tasks---and it can
 be viewed as two concatenated vectors with \nt elements each. The first vector
@@ -127,8 +139,8 @@ profile violates the temperature constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, the
 \ac{MTTF} of each processing element is estimated according to
-\eref{thermal-cycling-mean-time}, and the fitness function shown in
-\eref{thermal-cycling-objective} is calculated.
+\eref{thermal-cycling-mean-time}, and the fitness of the chromosome is set as
+shown in \eref{thermal-cycling-objective}.
 
 \subsection{\resultstitle}
 
