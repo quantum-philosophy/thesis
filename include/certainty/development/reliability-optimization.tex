@@ -54,20 +54,12 @@ In addition to the description given in \sref{system-model}, the considered
 platform with \np processing elements is to execute a periodic application with
 \nt tasks. The application is given as a directed acyclic graph whose vertices
 and edges correspond to the tasks and to data dependencies between these tasks,
-respectively; see \fref{dream-motivation-graph} for an example. The period of
-the application is denoted by \period. Furthermore, each pair of a task and a
-processing element is characterized by an execution time and a power
-consumption; these are the characteristics that the task has when it is assigned
-to the processing element.
-
-Static scheduling is considered, which is a task that is typically done offline.
-Specifically, the application is assumed to be scheduled using a static cyclic
-scheduler following the list scheduling policy \cite{adam1974}. The input to the
-scheduler is a mapping of the tasks onto the processing elements and a set of
-priorities of the tasks; other parameters are implicitly known to the scheduler.
-The schedule produces a vector specifying the starting times of the tasks. Both
-the mapping and starting times are referred to as a schedule, which we denote by
-\schedule.
+respectively; see \fref{dream-motivation-graph} for an example. The end-to-end
+delay of the application is denoted by \period, and it is assumed to be equal to
+the application's period. Furthermore, each pair of a task and a processing
+element is characterized by an execution time and a power consumption; these are
+the characteristics that the task exhibits when it is assigned to the processing
+element.
 
 The time to failure of each processing element is modeled using the reliability
 model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
@@ -81,8 +73,10 @@ such that
     & Q(\schedule) \leq \q_\maximum.
   \end{split}
 \end{align}
-In the above formulae, $\mean_i$ is the \ac{MTTF} of processing element $i$
-computed according to \eref{thermal-cycling-mean-time}, and
+In the above formulae, \schedule denotes a schedule, which specifies the
+starting times of the tasks as well as their mapping onto the processing
+elements; $\mean_i$ is the \ac{MTTF} of processing element $i$, which is
+computed according to \eref{thermal-cycling-mean-time}; and
 \[
   Q(\schedule) = \norm[\infty]{\mq(\schedule)}
 \]
