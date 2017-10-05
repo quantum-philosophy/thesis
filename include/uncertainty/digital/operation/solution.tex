@@ -109,11 +109,12 @@ on the left-hand side of \fref{brain-model}. Similarly, the output is a single
 an individual task at step $j$, and the output $\hat{\vg}_{i, j + 1}$ is a
 one-step-ahead prediction of this usage.
 
-The core of the model is formed by a number of recurrent layers, which are also
-called cells. They are shown as a group of blue boxes in \fref{brain-model}. The
-network can be made as many layers deep as needed. Each cell is composed of a
-number of units, which are depicted as double circles in \fref{brain-model}. The
-number of cells and units per cell are denoted by \nl and \nu, respectively.
+The core of the predictive model is formed by a number of recurrent layers. In
+\fref{brain-model}, they are represented by a group of blue boxes. The network
+can be made as many layers deep as needed. Each layer is composed of a number of
+units, which are depicted as double circles in \fref{brain-model}. The number of
+layers and the number of units per layer are denoted by \nl and \nu,
+respectively.
 
 A unit is the smallest processing elements. The key characteristics of a unit
 are that it has internal memory, and that it has access to its previous output,
@@ -122,26 +123,26 @@ how a unit lets data flow through it and updates its memory. One notable unit is
 the \ac{LSTM} unit \cite{hochreiter1997}. It has been designed to overcome the
 problems of traditional recurrent networks---such as vanishing gradient when
 training---and it is now one of the most widely used types. The recurrent layers
-of our model are \ac{LSTM} cells, cells composed of \ac{LSTM} units.
+of our model are \ac{LSTM} layers (composed of \ac{LSTM} units).
 
-In addition, each cell is enhanced by a dropout mechanism \cite{zaremba2014},
+In addition, each layer is enhanced by a dropout mechanism \cite{zaremba2014},
 which gives control over the regularization of the model and is to prevent
 potential overfitting \cite{hastie2013}. The mechanism is active only during
 training. For future reference, denote the probability of dropping an output of
-a cell by $\rho_\drop$.
+a layer by $\rho_\drop$.
 
-The output of the last cell is typically a large tensor, which is proportional
-in size to the number of units in the cell. Each entry of such a tensor can be
+The output of the last recurrent layer is a tensor, which is proportional in
+size to the number of units in the layer. Each entry of such a tensor can be
 considered as a feature that the network has extracted and activated in
 accordance with the profile that is currently being fed into the model. The task
 now is to combine these features in order to produce a single prediction. To
-this end, we mount a regression layer on top of the last cell, which is depicted
-by an orange box in \fref{brain-model}. Unlike the recurrent layers, which
-feature highly nonlinear transformations, this layer performs an affine
+this end, we mount a regression layer on top of the last recurrent layer, which
+is depicted by an orange box in \fref{brain-model}. Unlike the recurrent layers,
+which feature highly nonlinear transformations, this layer performs an affine
 transformation.
 
 To summarize, we have described a predictive model that is composed of a number
-of \ac{LSTM} cells and a linear regression layer. Due to its internal memory,
+of \ac{LSTM} layers and a linear regression layer. Due to its internal memory,
 the presented model is capable of efficiently taking into account the entire
 past of the resource-usage profile under consideration when making predictions.
 Let us now discuss how the model is supposed to be used.
@@ -199,10 +200,10 @@ no $\vg_{i, \nsi{i} + 1}$ to be compared with, and this $\vg_{i, \nsi{i} + 1}$
 is assumed to be zero.
 
 Let us now discuss validation, which corresponds to the middle blue box in
-\fref{brain-overview}. As it is the case with arguably any nontrivial model, the
-one presented in \sref{brain-model} has a number of hyperparameters. Examples
-include the number of cells \nl, number of units per cell \nu, and probability
-of dropout $\rho_\drop$. Unlike ordinary parameters---which are to be optimized
+\fref{brain-overview}. Similar to other nontrivial models, the one presented in
+\sref{brain-model} has a number of hyperparameters. Examples include the number
+of recurrent layers \nl, number of units per layer \nu, and probability of
+dropout $\rho_\drop$. Unlike ordinary parameters---which are to be optimized
 during training as discussed earlier---hyperparameters are to be set prior to
 training and kept unchanged thereafter. From the examples given, it is apparent
 that the impact of hyperparameters is profound; they should be tuned with great
