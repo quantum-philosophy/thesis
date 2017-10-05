@@ -16,14 +16,7 @@ implicitly address condition uncertainty, which is introduced in
 suboptimal, which is discussed further and addressed in
 \sref{chaos-reliability-analysis}.
 
-In the remainder of the section, we first consider a motivational example given
-in \sref{thermal-motivation-cycling}. In \sref{thermal-cycling-problem}, we
-formulate our optimization objective and, in \sref{thermal-cycling-solution},
-describe the technique that is utilized in order to attain this objective. The
-experimental results are reported in \sref{thermal-cycling-results}.
-
 \subsection{\motivationtitle}
-\slab{thermal-motivation-cycling}
 
 \inputfigure{dream-motivation-graph}
 \inputfigure{dream-motivation-cycling}
@@ -98,7 +91,6 @@ schedule while the second constraint enforces a maximum temperature
 $\q_\maximum$ on the resulting temperature profile \mq.
 
 \subsection{\solutiontitle}
-\slab{thermal-cycling-solution}
 
 The optimization is undertaken via a genetic algorithm \cite{schmitz2004}. In
 this paradigm inspired by biology, a population of chromosomes, which represent
@@ -137,7 +129,6 @@ to the amount of violation and is not further processed. Otherwise, the
 \eref{thermal-cycling-objective} is calculated.
 
 \subsection{\resultstitle}
-\slab{thermal-cycling-results}
 
 In this subsection, we evaluate our reliability optimization. To this end, we
 first consider a set of synthetic applications and then study a real-life one.
