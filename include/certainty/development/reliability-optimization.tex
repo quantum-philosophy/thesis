@@ -29,16 +29,18 @@ application is 60~ms.
 The first alternative schedule and the resulting dynamic steady-state
 temperature profile are shown on the left-hand side of
 \fref{dream-motivation-cycling} where the height of a task represents its power
-consumption. It can be seen that PE1 is experiencing three thermal cycles as
-illustrated by the blue curve, that is, there are three intervals where
-temperature starts from a certain value, reaches an extremum, and then comes
-back. If we move T6 to PE2, the number of cycles decreases to two, which can be
-seen in the middle of \fref{dream-motivation-cycling}. If we also swap T2 and
-T4, the number of cycles of PE1 drops to one, which is depicted on the
-right-hand side. According to the reliability model given in
-\sref{thermal-cycling-fatigue}, these two changes improve the system's lifetime
-by around 45\% and 55\%, respectively, relative to the initial schedule given on
-the left-hand side of \fref{dream-motivation-cycling}.
+consumption. Note that the mapping of the tasks onto the processing elements is
+treated as a part of the schedule. It can be seen that PE1 is experiencing three
+thermal cycles as illustrated by the blue curve, that is, there are three
+intervals where temperature starts from a certain value, reaches an extremum,
+and then comes back. If we move T6 to PE2, the number of cycles decreases to
+two, which can be seen in the middle of \fref{dream-motivation-cycling}. If we
+also swap T2 and T4, the number of cycles that PE1 undergoes drops to one, which
+is depicted on the right-hand side of \fref{dream-motivation-cycling}. According
+to the reliability model described in \sref{thermal-cycling-fatigue}, these two
+changes improve the lifetime of the electronic system by around 45\% and 55\%,
+respectively, relative to the initial schedule, which can be seen on the
+left-hand side of \fref{dream-motivation-cycling}.
 
 The above motivational example shows that, when exploring the design space, it
 is important to take into consideration the number of temperature fluctuations
