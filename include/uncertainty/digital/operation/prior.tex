@@ -15,13 +15,13 @@ Closer to the topic of this chapter, the work in \cite{dabbagh2015} is concerned
 with cloud data centers. The authors propose a framework for predicting the
 number of virtual-machine requests together with the required amount of \up{CPU}
 and memory. The framework makes use of k-means clustering \cite{hastie2013} for
-identifying different types of requests, and it then utilizes Wiener filters in
+identifying different types of requests, and then it utilizes Wiener filters in
 order to estimate the aggregate workload with respect to each identified type.
 Similar to \cite{dabbagh2015}, the work in \cite{ismaeel2015} is focused on
 forecasting virtual-machine requests in cloud data centers and relies on k-means
 clustering as the first step. Unlike \cite{dabbagh2015}, the main workhorse in
-the case of \cite{ismaeel2015} is extreme learning machines, which are
-feedforward neural networks mentioned earlier. An ensemble model
+the case of the technique in \cite{ismaeel2015} is extreme learning machines,
+which are feedforward neural networks mentioned earlier. An ensemble model
 \cite{hastie2013} is presented in \cite{cao2014} targeted at predicting the
 \up{CPU} usage in cloud environments. It relies on multiple models including an
 exponential smoothing, auto regressive, weighted nearest neighbors, and most
@@ -42,8 +42,8 @@ networks accompanied by adequate training and regularization techniques
 knowledge, they have not been studied yet for the purpose of resource management
 in a large computer system.
 
-In addition, note that the predictions delivered by \cite{cao2014, dabbagh2015,
-ismaeel2015} are coarse, aggregate. The corresponding techniques treat
+In addition, it should be noted that the predictions delivered by the techniques
+in \cite{cao2014, dabbagh2015, ismaeel2015} are coarse, aggregate. They treat
 virtual-machine requests or computational resources as a fluid and predict the
 level of this fluid at the next time moment. It means that they are not capable
 of characterizing individual tasks executed by the machines. More generally, to
