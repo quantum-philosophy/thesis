@@ -131,19 +131,20 @@ potential overfitting \cite{hastie2013}. The mechanism is active only during
 training. For future reference, denote the probability of dropping an output of
 a layer by $\rho_\drop$.
 
-The output of the last recurrent layer is a tensor, which is proportional in
-size to the number of units in the layer. Each entry of such a tensor can be
-considered as a feature that the network has extracted and activated in
-accordance with the profile that is currently being fed into the model. The task
-now is to combine these features in order to produce a single prediction. To
-this end, we mount a regression layer on top of the last recurrent layer, which
-is depicted by an orange box in \fref{brain-model}. Unlike the recurrent layers,
-which feature highly nonlinear transformations, this layer performs an affine
+The output of the last recurrent layer is typically a large tensor, which is
+proportional in size to the number of units in the layer. Each entry of such a
+tensor can be considered as a feature that the network has extracted and
+activated in accordance with the resource-usage profile that is currently being
+fed into the model. The task now is to combine these features in order to
+produce a single prediction. To this end, we mount a feedforward layer with a
+linear activation function on top of the last recurrent layer, which is depicted
+by an orange box in \fref{brain-model}. Unlike the recurrent layers, which
+feature highly nonlinear transformations, this layer performs an affine
 transformation.
 
 To summarize, we have described a predictive model that is composed of a number
-of recurrent layers and a linear regression layer. Due to its internal memory,
-the model is capable of efficiently taking into account the entire past of the
+of recurrent layers and a feedforward layer. Due to its internal memory, the
+model is capable of efficiently taking into account the entire past of the
 resource-usage profile in question when predicting the future of this profile.
 Let us now discuss how the predictive model is supposed to be used.
 
