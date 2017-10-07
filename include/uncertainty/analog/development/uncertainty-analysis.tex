@@ -23,11 +23,11 @@ expansion is processed in order to obtain the desired statistics about \g.
 \slab{chaos-formulation}
 
 The problem formulation is problem specific. Therefore, in this general section,
-we operate on unspecified \g and \vu, and more concrete discussions on Stage~1
-are postponed until later sections where we start to apply our methodology to
-particular problems. In addition, for convenience, \g is assumed to take values
-in $\real$ here, which is to be generalized to $\real^n$ later on. Lastly, there
-is one reoccurring aspect about \vu that is worth discussing already here.
+we operate on unspecified \g and \vu; more concrete discussions about Stage~1
+are postponed to later sections where we start to apply the proposed methodology
+to particular problems. In addition, for convenience, \g is assumed to take
+values in $\real$ here, which is generalized to $\real^n$ later on. Lastly,
+there is one reoccurring aspect about \vu that is worth discussing already now.
 
 A description of \vu supplied by the designer is an input to our probabilistic
 analysis. A proper way to describe a set of random variables is to specify their
@@ -37,14 +37,15 @@ to the high dimensionality and intricate dependencies inherent to real-life
 problems.
 
 A more realistic assumption is the knowledge of the marginal distributions $\{
-F_i \}_{i = 1}^\nu$ and correlation matrix $\correlation{\vu}$ of \vu, which are
-not sufficient to reconstruct the joint distribution in general. However, it can
-be approximated well by accompanying the available marginal distributions by a
-carefully constructed copula \cite{nelsen2006}, which makes \vu fully specified;
-see \xref{probability-theory}. Specifically, one constructs a Gaussian copula
-based on the available correlation matrix $\correlation{\vu}$ as a part of the
-Nataf transformation \cite{liu1986}; see \xref{probability-transformation}. This
-Gaussian copula is defined in terms of an auxiliary correlation matrix.
+F_i \}_{i = 1}^\nu$ and correlation matrix $\correlation{\vu}$ of \vu, which,
+however, are not sufficient to reconstruct the joint distribution of \vu in
+general. Nevertheless, it can be approximated well by accompanying the available
+marginals by a carefully constructed copula \cite{nelsen2006}, which makes \vu
+fully specified; see \xref{probability-theory}. Specifically, one constructs a
+Gaussian copula based on $\{ F_i \}_{i = 1}^\nu$ and $\correlation{\vu}$ as a
+part of the Nataf transformation \cite{liu1986}, which is introduced in
+\xref{probability-transformation}. This Gaussian copula is defined in terms of
+an auxiliary correlation matrix.
 
 Without loss of generality, we target the above practical scenario in our
 experiments in this section and the next one. However, it should be understood
@@ -55,13 +56,13 @@ the true one. If the joint distribution is available, it should be used instead.
 \subsection{Probability Transformation}
 \slab{chaos-transformation}
 
-Independence is required by \ac{PC} expansions. In general, however, the
-individual variables in $\vu: \Omega \to \real^\nu$ are dependent. Therefore,
-our foremost task is to transform \vu into a vector with mutually independent
-components in order to fulfill the requirement; see Stage~2 in
-\fref{chaos-overview}. To this end, an adequate probability transformation
-should be undertaken depending on the available information; see
-\cite{eldred2008} for an overview. Denote such a transformation by
+Mutual independence of random variables is required by \ac{PC} expansions. In
+general, however, the individual variables in $\vu: \Omega \to \real^\nu$ are
+dependent. Therefore, our foremost task is to transform \vu into a vector with
+independent components in order to fulfill the requirement; see Stage~2 in
+\fref{chaos-overview}. To this end, an adequate transformation should be
+undertaken, depending on the available information \cite{eldred2008}. Denote
+such a transformation by
 \begin{equation} \elab{chaos-transformation}
   \vu = \transform{\vz}
 \end{equation}
@@ -159,10 +160,10 @@ which implicitly decides on the content of the index set
 $\tensorindex{\nz}{\lq}$ used in \eref{chaos-coefficient}, should be related as
 $\sparseindex{\nz}{\lc} \subseteq \sparseindex{\nz}{\lq}$.
 
-In the case of Gaussian quadratures---which is a potent class of quadratures
-introduced in \xref{sparse-integration}---a quadrature of level \lq is exact for
-polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}. Therefore, in
-this particular and very common case, an adequate quadrature can be constructed
+In the case of Gaussian quadratures---which is a broad, potent class of
+quadratures introduced in \xref{sparse-integration}---a quadrature of level \lq
+is exact for polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}.
+Therefore, in this very common case, an adequate quadrature can be constructed
 by ensuring that $\lq \geq \lc$.
 
 An important generalization of the isotropic Smolyak algorithm in
