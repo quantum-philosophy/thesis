@@ -75,8 +75,8 @@ Stage~4, is worth discussing.
 \subsection{Post-Processing}
 
 Polynomial expansions are utilized inside an optimization procedure whose
-objective is to minimize \eref{chaos-optimization-objective}. Let us discuss
-this procedure.
+objective is the one shown in \eref{chaos-optimization-objective}. Let us
+discuss this procedure.
 
 Similar to \sref{reliability-optimization}, we make use of a genetic algorithm.
 Each chromosome contains $2 \nt$ genes that encode a mapping of the tasks onto
@@ -91,16 +91,16 @@ stopping condition is the absence of improvement within 10 successive
 generations.
 
 Let us turn to the evaluation of the fitness of a chromosome. We begin by
-checking the timing constraint, the first in
+checking the timing constraint, the first one in
 \eref{chaos-optimization-constraints}, as it does not require any uncertainty
 analysis; the constraint is purely deterministic. If it is violated, we set the
 fitness to the amount of this violation relative to the constraint---that is, to
-the difference between the actual application period and the deadline
-$\period_\maximum$ divided by $\period_\maximum$---and add a big constant $C$.
-If the timing constraint is satisfied, we perform our uncertainty analysis and
-proceed to checking the other two constraints. If any of them is violated, we
-set the fitness to the total relative amount of violation plus $C / 2$. If all
-the constraints are satisfied, the fitness value of the chromosome is set to the
+the difference between the actual period and the deadline $\period_\maximum$
+divided by $\period_\maximum$---and add a big constant $C$. If the timing
+constraint is satisfied, we perform our uncertainty analysis and proceed to
+checking the other two constraints. If any of them is violated, we set the
+fitness to the total relative amount of violation plus $C / 2$. If all the
+constraints are satisfied, the fitness value of the chromosome is set to the
 expected consumption of energy.
 
 In order to speed up the optimization, we make use of caching and parallel

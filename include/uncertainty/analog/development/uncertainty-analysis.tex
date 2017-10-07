@@ -73,16 +73,17 @@ components, and $\transform: \real^\nz \to \real^\nu$. The quantity of interest
 \]
 
 Correlated random variables can be transformed into linearly uncorrelated ones
-via the \ac{KL} decomposition described in \eref{karhunen-loeve}. In addition,
-if the correlated variables form a Gaussian vector, the uncorrelated ones are
-also mutually independent. In the general case (non-Gaussian), the most
-prominent solutions to attaining independence are the Rosenblatt transformation
-\cite{rosenblatt1952} and the Nataf transformation mentioned earlier.
-Rosenblatt's approach is suitable when the joint distribution of \vu is known.
-However, as emphasized in \sref{chaos-formulation}, such information is rarely
-available. A set of marginal distributions and a correlation matrix are more
-likely to be given, which are already sufficient for the Nataf transformation;
-see \xref{probability-transformation} for more details.
+via the \ac{KL} decomposition described in \xref{probability-transformation} and
+shown in \eref{karhunen-loeve}. In addition, if the correlated variables form a
+Gaussian vector, the uncorrelated ones are also mutually independent. In the
+general case (non-Gaussian), the most prominent solutions to attaining
+independence are the Rosenblatt transformation \cite{rosenblatt1952} and the
+Nataf transformation mentioned earlier. Rosenblatt's approach is suitable when
+the joint distribution of \vu is known. However, as emphasized in
+\sref{chaos-formulation}, such information is rarely available. Marginal
+distributions and a correlation matrix are more likely to be given, which are
+already sufficient for the Nataf transformation; see
+\xref{probability-transformation}.
 
 Apart from the extraction of the independent variables \vz, an essential
 operation at this stage is model order reduction since the number of stochastic

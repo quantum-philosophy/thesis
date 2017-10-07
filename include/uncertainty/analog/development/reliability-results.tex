@@ -12,15 +12,16 @@ files used in the experiments are available online at \cite{eslab2015}.
 We consider a 45-nm technological process and rely on the 45-nm open cell
 library by NanGate \cite{nangate}. The effective channel length and gate oxide
 thickness are assumed to have nominal values equal to 22.5~nm and 1~nm,
-respectively. Based on \up{ITRS} \cite{itrs}, each process parameter is assumed
-to deviate up to 12\% of its nominal value, and this percentage is treated as
-three standard deviations. Regarding the correlation function in
-\eref{bayes-correlation}, the weight coefficient $w$ is set to 0.5, and the
-length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of
-the die. The model order reduction described in
-\xref{probability-transformation} is set to preserve 95\% of the variance of the
-problem. The parameter $\gamma$ in \eref{chaos-anisotropic-weight} tuning the
-anisotropy of \ac{PC} expansions and integration grids is set to 0.25.
+respectively. Based on the International Technology Roadmap for Semiconductors
+\cite{itrs}, each process parameter is assumed to deviate up to 12\% of its
+nominal value, and this percentage is treated as three standard deviations.
+Regarding the correlation function in \eref{bayes-correlation}, the weight
+coefficient $w$ is set to 0.5, and the length-scale parameters $\ell_\SE$ and
+$\ell_\OU$ are set to half the size of the die. The model order reduction
+described in \xref{probability-transformation} is set to preserve 95\% of the
+variance of the problem. The parameter $\gamma$ in
+\eref{chaos-anisotropic-weight} tuning the anisotropy of \ac{PC} expansions and
+integration grids is set to 0.25.
 
 Heterogeneous platforms and periodic applications are generated randomly via
 \up{TGFF} \cite{dick1998} in such a way that the execution time of each task is
@@ -35,11 +36,13 @@ than 1\%, which typically requires 3--5 iterations.
 
 \hiddensubsection{Approximation Accuracy}
 
-Our first goal is to evaluate the accuracy of our solutions. To this end, in
-this subsection, the quantity of interest given in
-\eref{chaos-optimization-quantity} is considered in isolation. This quantity
-plays the key role in the subsequent optimization since the optimization
-objective and constraints depend on it as discussed previously.
+Our first goal is to evaluate the accuracy of the proposed solutions. To this
+end, in this subsection, the quantity of interest given in
+\eref{chaos-optimization-quantity}---which encompasses the total energy
+consumption, maximum temperature, and parameterization of the reliability model
+of the system---is considered in isolation. This quantity plays the key role in
+the subsequent optimization since the optimization objective and constraints
+depend on it as discussed previously.
 
 We compare our performance with the performance of \ac{MC} sampling applied to
 \eref{chaos-optimization-quantity}. The operations performed by the
@@ -66,14 +69,15 @@ distance is the \ac{KLD} \cite{gelman2013, hastie2013} where the results of
 values and attains zero only when two distributions are equal almost everywhere
 \cite{durrett2010}. In general, the errors decrease as \lc increases. This
 trend, however, is not monotonic for \ac{PC} expansions of high levels; see
-\error{Q} and \error{\life} for $\lc = 5$. The observation can be ascribed to
-the random nature of sampling and to the reduction procedures that we undertake
-in order to gain speed; they might impose limitations on the accuracy that can
-be attained by polynomial approximations. \tref{chaos-optimization-accuracy}
-also contains the numbers of polynomial terms \nc and quadrature points \nq
-corresponding to each value of \lc. We have also performed the above experiment
-for platforms with fewer and with more processing elements and observed results
-similar to those in \tref{chaos-optimization-accuracy}.
+\error{Q} and \error{\life} for $\lc = 5$ in \tref{chaos-optimization-accuracy}.
+The observation can be ascribed to the random nature of sampling and to the
+reduction procedures that we undertake in order to gain speed; they might impose
+limitations on the accuracy that can be attained by polynomial approximations.
+\tref{chaos-optimization-accuracy} also contains the numbers of polynomial terms
+\nc and quadrature points \nq corresponding to each value of \lc. We have also
+performed the above experiment for platforms with fewer and with more processing
+elements and observed results similar to those in
+\tref{chaos-optimization-accuracy}.
 
 Based on the figures reported in \tref{chaos-optimization-accuracy}, we consider
 the results delivered by third-level \ac{PC} expansions---where the \ac{KLD}
