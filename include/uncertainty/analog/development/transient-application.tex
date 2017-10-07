@@ -139,7 +139,7 @@ of \vu, directly impacts the computational cost of \ac{PC} expansions, which is
 elaborated on in \sref{chaos-construction}, one should consider a possibility of
 model order reduction before constructing these expansions. Therefore, the
 reduction procedure described in \xref{probability-transformation} in connection
-with $\transform$ is assumed to be engaged in the transformation. The reduce
+with $\transform$ is assumed to be engaged in the transformation. The reduced
 dimensionality is denoted by \nz.
 
 \subsection{Surrogate Construction}
@@ -190,7 +190,7 @@ integration with respect to the distribution of \vz, and they should be
 performed numerically using an adequate quadrature $\quadrature{\nz}{\lq}$. When
 beta distributions are concerned, the natural choice is Gauss--Jacobi
 quadratures, which belong to the class of Gaussian quadratures introduced in
-\xref{sparse-integration}. Given $\quadrature{\nz}{\lq}$, the coefficient are
+\xref{sparse-integration}. Given $\quadrature{\nz}{\lq}$, the coefficients are
 computed as shown in \eref{chaos-coefficient}. It is important to note that \lq
 should be chosen in such a way that the quadrature is exact for polynomials of
 total order up to at least $2 \lc$, that is, twice the level of \ac{PC}
