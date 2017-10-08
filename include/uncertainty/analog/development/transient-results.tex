@@ -121,10 +121,11 @@ for $\lc \geq 1$ and $\no \geq 10^4$. The error of the variance starts from
 and below for the fourth level and higher; see \error{\variance} for $\lc \geq
 4$ and $\no = 10^5$. Finally, the error of the \ac{PDF} allows us to conclude
 that the \acp{PDF} computed by the third-level (and higher) \ac{PC} expansions
-closely follow those estimated by the \ac{MC} technique with large numbers of
+closely follow those estimated by the \ac{MC} technique with a large number of
 samples. The observed difference in \tref{chaos-transient-accuracy-0-5} is
-bounded by 1.83\%; see \error{f} for $\lc \geq 3$ and $\no \geq 10^4$. In order
-to give a better intuition about the proximity of the two methods,
+bounded by 1.83\%; see \error{f} for $\lc \geq 3$ and $\no \geq 10^4$.
+
+In order to give a better intuition about the proximity of the two methods,
 \fref{chaos-application-density} displays the \acp{PDF} computed using our
 framework with $\lc = 4$ (the solid lines) along with those calculated by the
 \ac{MC} approach with $\no = 10^4$ (the dashed lines) at time 50~ms. It can be
@@ -140,11 +141,12 @@ relatively small, bounded by 1.19\%; see \error{\expectation} for $\lc \geq 4$
 and $\no = 10^2$. At the same time, the case with $\no = 10^2$ has high error
 rates in terms of the variance and \ac{PDF}: they are above 38\% and around 4\%,
 respectively; see \error{\variance} and \error{f} for $\lc \geq 4$ and $\no =
-10^2$. The results in the case with $\no = 10^3$ are reasonably more accurate.
-However, for a fixed $\lc \geq 4$, the error of the variance exhibits a
-considerable decrease even when \no makes a transition from \power{10}{4} to
-\power{10}{5}. The rate of this decrease suggests that $\no = 10^4$ is not
-sufficient to reach the accuracy delivered by our framework.
+10^2$. The results with $\no \geq 10^3$ are reasonably more accurate, and the
+case with $\no = 10^4$ appears to be sufficiently adequate. However, note that,
+for a fixed $\lc \geq 4$, the error of the variance exhibits a considerable
+decrease even when \no makes a transition from \power{10}{4} to \power{10}{5}.
+The rate of this decrease suggests that $\no = 10^4$ might not be sufficient to
+reach the accuracy delivered by our framework.
 
 The above conclusions with respect to the results reported in
 \tref{chaos-transient-accuracy-0-5} ($w = 0.5$) are directly applicable to the
