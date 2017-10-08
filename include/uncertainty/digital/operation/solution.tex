@@ -5,16 +5,17 @@ be processed prior to learning since they are likely to be given in a format
 that is not efficient or convenient to the subsequent calculations. With this in
 mind, our foremost task is to extract $G$ defined in \eref{brain-dataset} from
 given raw data. This processing part can be seen at the top of
-\fref{brain-overview} and is explained in \sref{brain-data}. Next, the resulting
-profiles are utilized in order to obtain an adequately trained predictive model.
-The modeling part is covered in \sref{brain-model} while the learning part is
-explained in \sref{brain-learning}; the latter can also be seen at the bottom of
-\fref{brain-overview}. The above operations are to be undertaken offline while
-the trained model is supposed to be used by the resource manager at runtime in
-order to make predictions and, thereby, take workload uncertainty into account.
+\fref{brain-overview} and is explained in \sref{brain-data-pipeline}. Next, the
+resulting profiles are utilized in order to obtain an adequately trained
+predictive model. The modeling part is covered in \sref{brain-predictive-model}
+while the learning part is explained in \sref{brain-learning-pipeline}; the
+latter can also be seen at the bottom of \fref{brain-overview}. The above
+operations are to be undertaken offline while the trained model is supposed to
+be used by the resource manager at runtime in order to make predictions and,
+thereby, take workload uncertainty into account.
 
 \subsection{Data Pipeline}
-\slab{brain-data}
+\slab{brain-data-pipeline}
 
 In this subsection, we describe our pipeline for working with large data sets
 that makes the data readily accessible for machine-learning undertakings. In
@@ -84,7 +85,7 @@ indexing steps stay the same. The presence of multiple binary files also allows
 for shuffling the training data at the beginning of each training epoch.
 
 \subsection{Predictive Model}
-\slab{brain-model}
+\slab{brain-predictive-model}
 
 As emphasized in \sref{brain-introduction} and \sref{brain-problem}, our goal is
 to assess the applicability of the latest advancements in neural networks
@@ -94,27 +95,27 @@ diverse. However, since the data that we study are inherently sequential, it is
 natural to found our model on the basis of recurrent neural networks
 \cite{goodfellow2016}, which are designed for such cases.
 
-\inputfigure{brain-model}
-A schematic representation of our model can be seen in \fref{brain-model}. Note
-that many of the actual connections between the model's parts are simplified or
-not shown at all in order to make the figure legible. In what follows, we
-describe each part of the model in detail. A number of important operational
-aspects of the model are to be covered in the next subsection,
-\sref{brain-learning}.
+\inputfigure{brain-predictive-model}
+A schematic representation of our model can be seen in
+\fref{brain-predictive-model}. Note that many of the actual connections between
+the model's parts are simplified or not shown at all in order to make the figure
+legible. In what follows, we describe each part of the model in detail. A number
+of important operational aspects of the model are to be covered in the next
+subsection, \sref{brain-learning-pipeline}.
 
 The input to the model is a single \ng-dimensional data point, which can be seen
-on the left-hand side of \fref{brain-model}. Similarly, the output is a single
-\ng-dimensional data point, which is depicted on the right-hand side of
-\fref{brain-model}. The input $\vg_{ij}$ is the value of the resource usage of
-an individual task at step $j$, and the output $\hat{\vg}_{i, j + 1}$ is a
-one-step-ahead prediction of this usage.
+on the left-hand side of \fref{brain-predictive-model}. Similarly, the output is
+a single \ng-dimensional data point, which is depicted on the right-hand side of
+\fref{brain-predictive-model}. The input $\vg_{ij}$ is the value of the resource
+usage of an individual task at step $j$, and the output $\hat{\vg}_{i, j + 1}$
+is a one-step-ahead prediction of this usage.
 
 The core of the predictive model is formed by a number of recurrent layers. In
-\fref{brain-model}, they are represented by a group of blue boxes. The network
-can be made as many layers deep as needed. Each layer is composed of a number of
-units, which are depicted as double circles in \fref{brain-model}. The number of
-layers and the number of units per layer are denoted by \nl and \nu,
-respectively.
+\fref{brain-predictive-model}, they are represented by a group of blue boxes.
+The network can be made as many layers deep as needed. Each layer is composed of
+a number of units, which are depicted as double circles in
+\fref{brain-predictive-model}. The number of layers and the number of units per
+layer are denoted by \nl and \nu, respectively.
 
 A unit is the smallest processing elements. The key characteristics of a unit
 are that it has internal memory, and that it has access to its previous output,
@@ -138,8 +139,8 @@ activated in accordance with the resource-usage profile that is currently being
 fed into the model. The task now is to combine these features in order to
 produce a single prediction. To this end, we mount a feedforward layer with a
 linear activation function on top of the last recurrent layer, which is depicted
-by an orange box in \fref{brain-model}. Unlike the recurrent layers, which
-feature highly nonlinear transformations, this layer performs an affine
+by an orange box in \fref{brain-predictive-model}. Unlike the recurrent layers,
+which feature highly nonlinear transformations, this layer performs an affine
 transformation.
 
 To summarize, we have described a predictive model that is composed of a number
@@ -149,21 +150,21 @@ resource-usage profile in question when predicting the future of this profile.
 Let us now discuss how the predictive model is supposed to be used.
 
 \subsection{Learning Pipeline}
-\slab{brain-learning}
+\slab{brain-learning-pipeline}
 
-Recall that the output of the data pipeline described in \sref{brain-data} is
-the data set $G$, which is split into three parts: $G_1$ is for training, $G_2$
-for validation, and $G_3$ for testing. We now elaborate on the operations that
-take place during these three steps of the pipeline, which are also displayed at
-the bottom of \fref{brain-overview}.
+Recall that the output of the data pipeline described in
+\sref{brain-data-pipeline} is the data set $G$, which is split into three parts:
+$G_1$ is for training, $G_2$ for validation, and $G_3$ for testing. We now
+elaborate on the operations that take place during these three steps of the
+pipeline, which are also displayed at the bottom of \fref{brain-overview}.
 
-Let us discuss training first. The model depicted in \sref{brain-model} has a
-large number of parameters that have to be learned; they are primarily various
-weights and biases inside the layers. For this purpose, $G_1$ is utilized. The
-training is undertaken via backpropagation through time using stochastic
-gradient descent \cite{goodfellow2016} whose objective is to minimize a certain
-loss function, which we shall specify shortly. There are two aspects that need
-to be discussed first.
+Let us discuss training first. The model depicted in
+\sref{brain-predictive-model} has a large number of parameters that have to be
+learned; they are primarily various weights and biases inside the layers. For
+this purpose, $G_1$ is utilized. The training is undertaken via backpropagation
+through time using stochastic gradient descent \cite{goodfellow2016} whose
+objective is to minimize a certain loss function, which we shall specify
+shortly. There are two aspects that need to be discussed first.
 
 \inputfigure{brain-feed}
 The first concerns the way a single profile is fed into the model. To begin
@@ -173,13 +174,14 @@ profile---which can be seen in \eref{brain-profile}---has multiple data points
 ($\nsi{i} \neq \nsi{j}$) since the execution times of two tasks are likely to
 differ. With this in mind, all the points of a profile are fed in one pass using
 a technique called dynamic unrolling. An illustration is given in
-\fref{brain-feed}, in which the schematic representation in \fref{brain-model}
-has been simplified even further and rotated 90${}^\circ$ counterclockwise. It
-can be seen that the model has been replicated as many times as there are data
-points in the profile. However, it is still the same model, and all the replicas
-share the same parameters and the same internal memory. It can also be seen in
-\fref{brain-feed} how information flows from one time step to the next, which
-implicitly gives the model access to the whole history at each time step.
+\fref{brain-feed}, in which the schematic representation in
+\fref{brain-predictive-model} has been simplified even further and rotated
+90${}^\circ$ counterclockwise. It can be seen that the model has been replicated
+as many times as there are data points in the profile. However, it is still the
+same model, and all the replicas share the same parameters and the same internal
+memory. It can also be seen in \fref{brain-feed} how information flows from one
+time step to the next, which implicitly gives the model access to the whole
+history at each time step.
 
 Now, it is not efficient to feed only one profile at a time due to the
 inevitable overhead imposed by the computations involved. These computations
@@ -202,13 +204,13 @@ is assumed to be zero.
 
 Let us now discuss validation, which corresponds to the middle blue box in
 \fref{brain-overview}. Similar to other nontrivial models, the one presented in
-\sref{brain-model} has a number of hyperparameters. Examples include the number
-of recurrent layers \nl, number of units per layer \nu, and probability of
-dropout $\rho_\drop$. Unlike ordinary parameters---which are to be optimized
-during training as discussed earlier---hyperparameters are to be set prior to
-training and kept unchanged thereafter. From the examples given, it is apparent
-that the impact of hyperparameters is profound; they should be tuned with great
-care.
+\sref{brain-predictive-model} has a number of hyperparameters. Examples include
+the number of recurrent layers \nl, number of units per layer \nu, and
+probability of dropout $\rho_\drop$. Unlike ordinary parameters---which are to
+be optimized during training as discussed earlier---hyperparameters are to be
+set prior to training and kept unchanged thereafter. From the examples given, it
+is apparent that the impact of hyperparameters is profound; they should be tuned
+with great care.
 
 The validation set $G_2$ is used to assess the performance of the model trained
 (using $G_1$ as usual) under different configurations of the model's

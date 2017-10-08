@@ -10,31 +10,31 @@ available online at \cite{eslab2017b}.
 \hiddensubsection{Data Pipeline}
 
 Recall that the considered data set is the Google cluster-usage traces
-\cite{reiss2011} introduced in \sref{brain-data}. Without loss of generality, we
-focus on the consumption of one particular resource, namely \up{CPU}; thus, $\ng
-= 1$ in \eref{brain-profile}. In this regard, the data set provides two apposite
-pieces of information: the average and maximum \up{CPU} usage over five-minute
-intervals; we extract the former.
+\cite{reiss2011} introduced in \sref{brain-data-pipeline}. Without loss of
+generality, we focus on the consumption of one particular resource, namely
+\up{CPU}; thus, $\ng = 1$ in \eref{brain-profile}. In this regard, the data set
+provides two apposite pieces of information: the average and maximum \up{CPU}
+usage over five-minute intervals; we extract the former.
 
 The grouping and indexing steps of our data pipeline---described in
-\sref{brain-data} and depicted in \fref{brain-overview}---take approximately 57
-hours to finish (no parallelism). Since they have to be done only once, their
-computational cost can be safely considered negligible. Regarding the selection
-step, we filter those resource-usage profiles that contain 5--50 data points;
-hence, $\nsi{i} \in [5, 50]$ in \eref{brain-profile}. Such profiles constitute
-around 74\% of the total number of profiles (around 18 out of 24 million). We
-experiment with a random subset of two million profiles, which is around 11\% of
-the 5--50 resource-usage profiles; hence, $\no = 2 \times 10^6$ in
-\eref{brain-dataset}. The data sets $G_1$, $G_2$, and $G_3$ constitute 70\%,
-10\%, and 20\% of $G$, respectively. Fetching and storing on disk these many
-profiles take around four hours. Recall that this operation has to be repeated
-only when the selection criteria change, which happens rarely.
+\sref{brain-data-pipeline} and depicted in \fref{brain-overview}---take
+approximately 57 hours to finish (no parallelism). Since they have to be done
+only once, their computational cost can be safely considered negligible.
+Regarding the selection step, we filter those resource-usage profiles that
+contain 5--50 data points; hence, $\nsi{i} \in [5, 50]$ in \eref{brain-profile}.
+Such profiles constitute around 74\% of the total number of profiles (around 18
+out of 24 million). We experiment with a random subset of two million profiles,
+which is around 11\% of the 5--50 resource-usage profiles; hence, $\no = 2
+\times 10^6$ in \eref{brain-dataset}. The data sets $G_1$, $G_2$, and $G_3$
+constitute 70\%, 10\%, and 20\% of $G$, respectively. Fetching and storing on
+disk these many profiles take around four hours. Recall that this operation has
+to be repeated only when the selection criteria change, which happens rarely.
 
 \hiddensubsection{Learning Pipeline}
 
 The machine-learning library that is used for constructing, training,
-validating, and testing the model described in \sref{brain-model} is TensorFlow
-\cite{abadi2015}.
+validating, and testing the model described in \sref{brain-predictive-model} is
+TensorFlow \cite{abadi2015}.
 
 The training step (see the leftmost blue box in \fref{brain-overview}) is
 configured as follows. Ten buckets or queues are used according to the following
@@ -48,26 +48,27 @@ technique. The algorithm is applied with its default, recommended settings.
 
 Let us now discuss the validation step, which corresponds to the middle blue box
 in \fref{brain-overview}. The considered hyperparameters are the number of
-recurrent layers \nl (the blue boxes in \fref{brain-model}), number of units per
-layer \nu (the double circles in \fref{brain-model}), and probability of dropout
-$\rho_\drop$; these hyperparameters are introduced in \sref{brain-model}.
-Specifically, we let \nl be in $\{ 1, 2, 3, 4, 5 \}$, \nu be in $\{ 100, 200,
-400, 800, 1600 \}$, and $\rho_\drop$ be in $\{ 0, 0.25, 0.5 \}$, which yields 75
-different combinations in total. The candidates are explored by means of the
-Hyperband algorithm with its default settings; the algorithm is introduced in
-\sref{brain-learning}. The maximum budget granted to one configuration is set to
-four training epochs, which correspond to $4 \times 0.7 \times 2 \times 10^6 =
-5.6 \times 10^6$ resource-usage profiles or $5.6 \times 10^6 \div 64 = 87~500$
-training steps.
+recurrent layers \nl (the blue boxes in \fref{brain-predictive-model}), number
+of units per layer \nu (the double circles in \fref{brain-predictive-model}),
+and probability of dropout $\rho_\drop$; these hyperparameters are introduced in
+\sref{brain-predictive-model}. Specifically, we let \nl be in $\{ 1, 2, 3, 4, 5
+\}$, \nu be in $\{ 100, 200, 400, 800, 1600 \}$, and $\rho_\drop$ be in $\{ 0,
+0.25, 0.5 \}$, which yields 75 different combinations in total. The candidates
+are explored by means of the Hyperband algorithm with its default settings; the
+algorithm is introduced in \sref{brain-learning-pipeline}. The maximum budget
+granted to one configuration is set to four training epochs, which correspond to
+$4 \times 0.7 \times 2 \times 10^6 = 5.6 \times 10^6$ resource-usage profiles or
+$5.6 \times 10^6 \div 64 = 87~500$ training steps.
 
 The above exploration---which encompasses both the training and validation
 steps---takes approximately 15 days to finish. During this process, we run up to
 four learning sessions in parallel, which typically keeps all eight cores busy.
 It should be noted that, since the training, validation, and testing data sets
 have been cached on disk as a result of our data pipeline described in
-\sref{brain-data}, individual learning sessions do not have any overhead in this
-regard. Note also that the machine utilized in these experiments has no modern
-\up{GPU}s; therefore, there is an immense room for performance improvement.
+\sref{brain-data-pipeline}, individual learning sessions do not have any
+overhead in this regard. Note also that the machine utilized in these
+experiments has no modern \up{GPU}s; therefore, there is an immense room for
+performance improvement.
 
 \inputtable{brain-validation}
 The results of the validation step are reported in \tref{brain-validation}. The
