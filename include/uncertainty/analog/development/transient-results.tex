@@ -100,57 +100,52 @@ of the number of \ac{MC} sampling. One can immediately note that, in all the
 subtables, all the error metrics tend to decrease from the top-left corners (low
 values of \lc and \no) to the bottom-right corners (high values of \lc and \no),
 which suggests that the \ac{PC} and \ac{MC} methods converge. There are a few
-outliers, associated with low \ac{PC} levels and the random nature of sampling;
-for instance, \error{\variance} increases from 66.13 to 66.7 and \error{f} from
-1.59 to 1.62 when \no increases from 10\textsuperscript{4} and
+outliers, associated with low \ac{PC} levels and the random nature of sampling.
+For instance, \error{\variance} increases from 66.13 to 66.7 and \error{f} from
+1.59 to 1.62 when \no makes a transition from 10\textsuperscript{4} to
 10\textsuperscript{5} in \tref{chaos-transient-accuracy-0-5}. However, the
 aforementioned main trend is still clear.
 
 For clarity of the discussions below, we focus primarily on one of the three
-tables, namely, on \tref{chaos-transient-accuracy-0-5}, since the case with $w =
-0.5$ turns out to be the most challenging, which we shall elaborate on shortly.
-The drawn conclusions are generalized to the other two tables at the end of this
-subsection.
+tables, namely \tref{chaos-transient-accuracy-0-5}. The conclusions drawn with
+respect to \tref{chaos-transient-accuracy-0-5} are to be generalized to the
+other two tables at the end of this subsection.
 
 \inputfigure{chaos-application-density}
-First, we inspect the accuracy of our technique and, therefore, pay particular
+First, we inspect the accuracy of our technique and thus pay particular
 attention the columns of \tref{chaos-transient-accuracy-0-5} corresponding to
 high values of \no. It can be seen that the error of the expectation is small
 even for $\lc = 1$. Concretely, it is bounded by 0.6\%; see \error{\expectation}
 for $\lc \geq 1$ and $\no \geq 10^4$. The error of the variance starts from
 66.7\% for the first-level \ac{PC} expansions and drops significantly to 5.71\%
 and below for the fourth level and higher; see \error{\variance} for $\lc \geq
-4$ and $\no = 10^5$. It should be noted, however, that, for a fixed $\lc \geq
-4$, \error{\variance} exhibits a considerable decrease even when \no transitions
-from 10\textsuperscript{4} to 10\textsuperscript{5}. The rate of this decrease
-suggests that $\no = 10^4$ is not sufficient to reach the accuracy delivered by
-the proposed framework, and $\no = 10^5$ might not be either. Finally, the error
-of the \acp{PDF} allows us to conclude that the \ac{PDF} computed by the
-third-level (and higher) \ac{PC} expansions closely follow those estimated by
-the \ac{MC} technique with large numbers of samples. The observed difference in
-\tref{chaos-transient-accuracy-0-5} is bounded by 1.83\%; see \error{f} for $\lc
-\geq 3$ and $\no \geq 10^4$. In order to give a better intuition about the
-proximity of the two methods, \fref{chaos-application-density} displays the
-\acp{PDF} computed using our framework with $\lc = 4$ (the solid lines) along
-with those calculated by the \ac{MC} approach with $\no = 10^4$ (the dashed
-lines) for time moment 50~ms. It can be seen that the \acp{PDF} tightly match
-each other. Note that this example captures one particular time moment, and such
-curves are also readily available for the other steps of the considered time
-span.
+4$ and $\no = 10^5$. Finally, the error of the \ac{PDF} allows us to conclude
+that the \acp{PDF} computed by the third-level (and higher) \ac{PC} expansions
+closely follow those estimated by the \ac{MC} technique with large numbers of
+samples. The observed difference in \tref{chaos-transient-accuracy-0-5} is
+bounded by 1.83\%; see \error{f} for $\lc \geq 3$ and $\no \geq 10^4$. In order
+to give a better intuition about the proximity of the two methods,
+\fref{chaos-application-density} displays the \acp{PDF} computed using our
+framework with $\lc = 4$ (the solid lines) along with those calculated by the
+\ac{MC} approach with $\no = 10^4$ (the dashed lines) at time 50~ms. It can be
+seen that the \acp{PDF} tightly match each other. Note that this example
+concerns one particular time step, and such curves are also readily available
+for the other steps of the analyzed time span.
 
-Second, we investigate the convergence of the \ac{MC} technique and, therefore,
-watch the rows of \tref{chaos-transient-accuracy-0-5} that correspond to \ac{PC}
+Second, we investigate the convergence of the \ac{MC} technique and hence watch
+the rows of \tref{chaos-transient-accuracy-0-5} that correspond to \ac{PC}
 expansions of high levels. Similar to the previous observations, even for low
 values of \no, the error of the expectation estimated by \ac{MC} sampling is
 relatively small, bounded by 1.19\%; see \error{\expectation} for $\lc \geq 4$
 and $\no = 10^2$. At the same time, the case with $\no = 10^2$ has high error
-rates in terms of the variance and \acp{PDF}: they are above 38\% and almost
-3.5\%, respectively; see \error{\variance} and \error{f} for $\lc = 7$ and $\no
-= 10^2$. The results for the case with $\no = 10^3$ are reasonably more
-accurate. However, this trend is compromised by the figures reported in
-\tref{chaos-transient-accuracy-1}: 10\textsuperscript{3} samples leave an error
-of more than 7\% for the variance; see \error{\variance} for $\lc \geq 4$ and
-$\no = 10^3$.
+rates in terms of the variance and \ac{PDF}: they are above 38\% and around 4\%,
+respectively; see \error{\variance} and \error{f} for $\lc \geq 4$ and $\no =
+10^2$. The results in the case with $\no = 10^3$ are reasonably more accurate.
+However, for a fixed $\lc \geq 4$, the error of the variance exhibits a
+considerable decrease even when \no makes a transition from
+10\textsuperscript{4} to 10\textsuperscript{5}. The rate of this decrease
+suggests that $\no = 10^4$ is not sufficient to reach the accuracy delivered by
+our framework.
 
 The above conclusions with respect to the results reported in
 \tref{chaos-transient-accuracy-0-5} ($w = 0.5$) are directly applicable to the
@@ -160,7 +155,7 @@ average error rates are lower when either of the two correlation kernels shown
 in \eref{bayes-correlation} dominates. In particular, according to
 \error{\variance}, the case with $w = 1$, which is reported in
 \tref{chaos-transient-accuracy-1} and corresponds to $k_\SE$, stands out to be
-the least error prone.
+the least challenging.
 
 Guided by the observations in this subsection, we conclude that our framework
 delivers accurate results starting from $\lc = 4$. The \ac{MC} estimates, on the
