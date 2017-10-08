@@ -83,8 +83,11 @@ nested. In multiple dimensions, the collocation nodes are formed as shown in
 
 \inputfigure{frame-basis}
 The basis functions that correspond to open Newton--Cotes rules are the
-following piecewise linear functions. For $i = 0$ and $j = 0$, we have that
-$e_{00}(\x) = 1$. For $i > 0$ and $j = 0$ (close to the left endpoint),
+following piecewise linear functions. For $i = 0$ and $j = 0$,
+\[
+  e_{00}(\x) = 1.
+\]
+For $i > 0$ and $j = 0$ (close to the left endpoint),
 \[
   e_{i0}(\x) =
   \begin{cases}
@@ -113,18 +116,22 @@ interpolation are depicted in \fref{frame-basis}. In multiple dimensions, the
 basis functions are formed as shown in \eref{interpolant-tensor-basis} and
 \eref{quadrature-tensor-index}.
 
-Lastly, let us calculate the volumes (integrals over the whole domain) of the
-basis functions, which we denote by $w_{ij}$; they will be needed in the
-continuation. We have that $w_{00} = 1$ and, for $i > 0$,
-\begin{equation} \elab{frame-basis-volume}
-  w_{ij} = \int_0^1 e_{ij}(\x) \d \x =
-  \begin{cases}
-    \frac{2}{n_i + 1}, & \text{if } j \in \{ 0, n_i - 1 \}, \\
-    \frac{1}{n_i + 1}, & \text{otherwise}.
-  \end{cases}
-\end{equation}
-In multiple dimensions, the volumes of basis functions are products of their
-one-dimensional counterparts given in \eref{frame-basis-volume}.
+Lastly, let us calculate the volumes (the integrals over the whole domain) of
+the basis functions, which we denote by $w_{ij}$ and make use of in the
+continuation. For $i = 0$ and $j = 0$,
+\[
+  w_{00} = 1.
+\]
+For $i > 0$ and $j \in \{ 0, n_i - 1 \}$,
+\[
+  w_{ij} = \frac{2}{n_i + 1}.
+\]
+In other cases,
+\[
+  w_{ij} = \frac{1}{n_i + 1}.
+\]
+The volumes of multidimensional basis functions are products of the volumes of
+the corresponding one-dimensional counterparts given above.
 
 Imagine now a function that is nearly flat on the first half of $[0, 1]$ and
 rather irregular on the other. Under these circumstances, it is natural to
@@ -160,8 +167,8 @@ indices $(\vi, \vj)$ as follows:
 where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ can be found in
 \xref{sparse-interpolation}---see \eref{interpolant-sparse-surplus}---and
 $w_{\vi \vj}$ are products of the one-dimensional volumes shown in
-\eref{frame-basis-volume}. Then this score is used in order to guide the
-algorithm as we explain now.
+\sref{frame-basis}. Then this score is used in order to guide the algorithm as
+we explain now.
 
 Each $\interpolant{\nz}{\ls}$ is characterized by a set of level indices
 $\sparseindex{\nz}{\ls}$, and each $\vi \in \sparseindex{\nz}{\ls}$ is
