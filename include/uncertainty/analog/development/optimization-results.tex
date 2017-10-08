@@ -1,8 +1,8 @@
 In this section, we evaluate the performance of our approach to reliability
 analysis and optimization presented in \sref{chaos-reliability-analysis} and
-\sref{chaos-reliability-optimization} considering the illustrative application
-described in \sref{chaos-reliability-application}. The technique for dynamic
-steady-state analysis under process variation delineated in
+\sref{chaos-optimization} considering the illustrative application described in
+\sref{chaos-optimization-application}. The technique for dynamic steady-state
+analysis under process variation delineated in
 \sref{chaos-dynamic-steady-state-analysis} is also a part of the assessment
 since it is included in the reliability model. All the experiments are conducted
 on a \up{GNU}/Linux machine equipped with 16 processors, each being an Intel
@@ -101,12 +101,12 @@ The primary quantity to pay attention to is the number of random variables \nz
 preserved after the reduction procedure noted in \sref{chaos-transformation} and
 described in \xref{probability-transformation}. Without this reduction, \nz
 would be $2 \np$ since there are two process parameters per processing element;
-see \sref{chaos-reliability-application}. It can be seen in
+see \sref{chaos-optimization-application}. It can be seen in
 \tref{chaos-optimization-speed} that there is no reduction for the dual-core
 platform while around 80\% of the stochastic dimensions are eliminated for the
 platform with 32 cores. In addition, one can note that \nz is the same for the
 last two platforms. The magnitude of reduction is solely determined by the
-correlation patterns assumed (see \sref{chaos-reliability-application}) and the
+correlation patterns assumed (see \sref{chaos-optimization-application}) and the
 floorplans of the considered platforms, which we also observe and elaborate on
 in \sref{chaos-transient-results}.
 
@@ -134,8 +134,8 @@ that our approach is both accurate and computationally efficient.
 
 \inputtable{chaos-optimization-objective}
 In this subsection, the results of the optimization procedure formulated in
-\sref{chaos-reliability-optimization} are reported. To reiterate, the objective
-is to minimize the expected energy consumption as shown in
+\sref{chaos-optimization} are reported. To reiterate, the objective is to
+minimize the expected energy consumption as shown in
 \eref{chaos-optimization-objective} while satisfying a set of constraints on the
 maximum application period, maximum temperature, and minimum lifetime as shown
 in \eref{chaos-optimization-constraints}. To this end, we employ a genetic
