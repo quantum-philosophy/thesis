@@ -73,20 +73,20 @@ state. The result of this procedure is a stepwise temperature curve where each
 step corresponds to the static steady-state temperature that would be reached if
 the corresponding power was applied for a sufficiently long period of time.
 
-\inputfigure{dream-static-steady-state-example}
-\inputfigure{dream-static-steady-state-accuracy}
+\inputfigure{dream-static-steady-example}
+\inputfigure{dream-static-steady-accuracy}
 An example of such an approximation along with the corresponding dynamic
 steady-state temperature profile of an application with 10 tasks and a period of
-100~ms is given in \fref{dream-static-steady-state-example}. The
-processing-element area is 25~\power{mm}{2} in this case. The reduced accuracy
-of this technique is due to the mismatch between the actual temperature within
-each interval and the static steady-state temperature. The inaccuracy depends on
-the thermal characteristics of the platform and on the application itself. In
-order to illustrate this, let us simulate five applications with periods of
-10--1000~ms running on five platforms with an area per processing element of
+100~ms is given in \fref{dream-static-steady-example}. The processing-element
+area is 25~\power{mm}{2} in this case. The reduced accuracy of this technique is
+due to the mismatch between the actual temperature within each interval and the
+static steady-state temperature. The inaccuracy depends on the thermal
+characteristics of the platform and on the application itself. In order to
+illustrate this, let us simulate five applications with periods of 10--1000~ms
+running on five platforms with an area per processing element of
 1--25~\power{mm}{2}. The errors are shown in
-\fref{dream-static-steady-state-accuracy}. It can be seen that, for example, for
-an area of 10~\power{mm}{2} and a period of 100~ms, the \ac{NRMSE} of this
+\fref{dream-static-steady-accuracy}. It can be seen that, for example, for an
+area of 10~\power{mm}{2} and a period of 100~ms, the \ac{NRMSE} of this
 approximation technique is close to 40\%.
 
 To conclude, the state-of-the-art techniques for dynamic steady-state
@@ -322,20 +322,20 @@ the corresponding iterative calculation is undertaken until the \ac{NRMSE}
 relative to the dynamic steady-state temperature profile computed by means of
 the proposed method---which is exact---is less than 1\%.
 
-\inputfigure{dream-dynamic-steady-state-speed-steps}
+\inputfigure{dream-dynamic-steady-speed-steps}
 First of all, we vary the period \period of power and temperature
 profiles---and, therefore, the number of samples \ns that they contain---while
 keeping the architecture fixed, which is a quad-core platform with a
 processing-element area of 4~\power{mm}{2}. The results of this experiment are
-depicted in \fref{dream-dynamic-steady-state-speed-steps} on a semilogarithmic
-scale. It can be seen that the proposed technique is 9--170 times faster than
-iterative transient analysis with the analytical solution and roughly 5000 times
-faster than iterative transient analysis with HotSpot.
+depicted in \fref{dream-dynamic-steady-speed-steps} on a semilogarithmic scale.
+It can be seen that the proposed technique is 9--170 times faster than iterative
+transient analysis with the analytical solution and roughly 5000 times faster
+than iterative transient analysis with HotSpot.
 
-\inputfigure{dream-dynamic-steady-state-speed-elements}
+\inputfigure{dream-dynamic-steady-speed-elements}
 In the second experiment, we evaluate the scaling properties of our method with
 respect to the number of processing elements \np. The period is fixed to 500~ms,
 which results in 500 time steps. The obtained results are shown in
-\fref{dream-dynamic-steady-state-speed-elements}. It can be observed that the
-proposed technique provides a significant performance improvement relative to
-the alternative solutions.
+\fref{dream-dynamic-steady-speed-elements}. It can be observed that the proposed
+technique provides a significant performance improvement relative to the
+alternative solutions.
