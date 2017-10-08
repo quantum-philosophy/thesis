@@ -157,26 +157,23 @@ in \eref{bayes-correlation} dominates. In particular, according to
 \tref{chaos-transient-accuracy-1} and corresponds to $k_\SE$, stands out to be
 the least challenging.
 
-Guided by the observations in this subsection, we conclude that our framework
-delivers accurate results starting from $\lc = 4$. The \ac{MC} estimates, on the
-other hand, can be considered sufficiently reliable starting from $\no = 10^4$.
-The last conclusion, however, is biased in favor of the \ac{MC} technique since,
-as noted earlier, there is evidence that 10\textsuperscript{4} samples might
-still be not enough.
+Guided by the above observations, we conclude that our framework delivers
+sufficiently accurate results starting from $\lc = 4$. The \ac{MC} estimates, on
+the other hand, can be considered sufficiently reliable starting from $\no =
+10^4$.
 
 \hiddensubsection{Computational Speed}
 
-The second set of experiments is to measure the speed of the framework with
-respect to \ac{MC} sampling. For clarity, we use the same level of \ac{PC}
-expansions and the same number of \ac{MC} samples in each case. More precisely,
-based on the conclusions from the previous subsection, $\lc = 4$ and $\no =
-10^4$; the latter is also consistent with the experience from the literature
-\cite{ghanta2006, bhardwaj2008, huang2009a, shen2009, lee2013} and with the
-theoretical results on the accuracy of \ac{MC} sampling given in
-\cite{diaz-emparanza2002}. As before, we report the results obtained for various
-values of the weight coefficient $w$, which impacts the number of the
-independent variables $\vz: \Omega \to \real^\nz$ preserved after the model
-order reduction procedure described in \xref{probability-transformation}.
+The second set of experiments is to measure the speed of our framework with
+respect to \ac{MC} sampling. To this end, we keep \lc and \no fixed and equal to
+4 and 10\textsuperscript{4}, respectively. The latter value is also consistent
+with the experience from the literature \cite{ghanta2006, bhardwaj2008,
+huang2009a, shen2009, lee2013} and with the theoretical results on the accuracy
+of \ac{MC} sampling given in \cite{diaz-emparanza2002}. Similar to the previous
+subsection, we report the results obtained for various values of the weight
+coefficient $w$, which impacts the number of the independent variables $\vz:
+\Omega \to \real^\nz$ preserved after the model-order-reduction procedure
+described in \xref{probability-transformation}.
 
 \inputtable{chaos-transient-speed}
 First, we vary the number of processing elements \np, which directly affects the
