@@ -43,12 +43,11 @@ Let us now turn to the choice of collocation nodes and basis functions.
 \slab{frame-grid}
 
 \inputfigure{frame-grid}
-As explained in \xref{sparse-interpolation}, the integration grid should
-preferably be fully nested in order to gain additional computational efficiency.
+The integration grid should be fully nested in order to gain additional
+computational efficiency, which is explained in \xref{sparse-interpolation}.
 Such a grid can be constructed using the family of Newton--Cotes rules
-\cite{ma2009}, which, moreover, is well disposed to adaptivity as we shall see
-later on. In one dimension, a Newton--Cotes rule is merely a set of equidistant
-nodes on $[0, 1]$.
+\cite{ma2009}. In one dimension, a Newton--Cotes rule is merely a set of
+equidistant nodes on $[0, 1]$.
 
 There are two types of Newton--Cotes rules: closed and open. The only difference
 between the two is that the former includes the endpoints, that is, 0 and 1,
