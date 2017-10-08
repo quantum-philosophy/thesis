@@ -166,7 +166,7 @@ through time using stochastic gradient descent \cite{goodfellow2016} whose
 objective is to minimize a certain loss function, which we shall specify
 shortly. There are two aspects that need to be discussed first.
 
-\inputfigure{brain-feed}
+\inputfigure{brain-dynamic-unroll}
 The first concerns the way a single profile is fed into the model. To begin
 with, the internal memory of the model is nullified. Next, note that each
 profile---which can be seen in \eref{brain-profile}---has multiple data points
@@ -174,14 +174,14 @@ profile---which can be seen in \eref{brain-profile}---has multiple data points
 ($\nsi{i} \neq \nsi{j}$) since the execution times of two tasks are likely to
 differ. With this in mind, all the points of a profile are fed in one pass using
 a technique called dynamic unrolling. An illustration is given in
-\fref{brain-feed}, in which the schematic representation in
+\fref{brain-dynamic-unroll}, in which the schematic representation in
 \fref{brain-predictive-model} has been simplified even further and rotated
 90${}^\circ$ counterclockwise. It can be seen that the model has been replicated
 as many times as there are data points in the profile. However, it is still the
 same model, and all the replicas share the same parameters and the same internal
-memory. It can also be seen in \fref{brain-feed} how information flows from one
-time step to the next, which implicitly gives the model access to the whole
-history at each time step.
+memory. It can also be seen in \fref{brain-dynamic-unroll} how information flows
+from one time step to the next, which implicitly gives the model access to the
+whole history at each time step.
 
 Now, it is not efficient to feed only one profile at a time due to the
 inevitable overhead imposed by the computations involved. These computations
@@ -198,9 +198,9 @@ that are shorter than \nsi{r} with zeros and emits a tensor of size $\nb \times
 The loss function that we minimize during training is the \ac{MSE} of one-step
 predictions over the whole batch. The correct prediction for the very last time
 step, which goes beyond the time window of the profiles in question, is assumed
-to be zero. For instance, $\hat{\vg}_{i, \nsi{i} + 1}$ in \fref{brain-feed} has
-no $\vg_{i, \nsi{i} + 1}$ to be compared with, and this $\vg_{i, \nsi{i} + 1}$
-is assumed to be zero.
+to be zero. For instance, $\hat{\vg}_{i, \nsi{i} + 1}$ in
+\fref{brain-dynamic-unroll} has no $\vg_{i, \nsi{i} + 1}$ to be compared with,
+and this $\vg_{i, \nsi{i} + 1}$ is assumed to be zero.
 
 Let us now discuss validation, which corresponds to the middle blue box in
 \fref{brain-overview}. Similar to other nontrivial models, the one presented in
