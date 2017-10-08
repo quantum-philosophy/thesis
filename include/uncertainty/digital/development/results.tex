@@ -1,5 +1,5 @@
-In this section, we evaluate our solution. All the experiments are conducted on
-a \up{GNU}/Linux machine equipped with 16 processors, each being an Intel Xeon
+Let us now assess the proposed framework. All the experiments are conducted on a
+\up{GNU}/Linux machine equipped with 16 processors, each being an Intel Xeon
 E5520 2.27~\up{GH}z, and 24~\up{GB} of \up{RAM}. All the source code,
 configuration files, and input data used in the experiments are available online
 at \cite{eslab2017a}.
@@ -97,14 +97,15 @@ same numbers of evaluations of the quantity of interest, the orange line shows
 the error of direct sampling, which is also calculated with respect to the
 reference solution.
 
-We begin by describing one particular problem shown in the figures. Consider,
-for instance, the one labeled with $\bigstar$ in \fref{frame-accuracy-energy}.
-It can be seen that, at the very beginning, our solution and the solution
-delivered by direct sampling are poor. The \ac{KS} statistic tells us that there
-are substantial mismatches between the estimates and the reference solution.
-However, as the interpolant is being adaptively refined, our solution approaches
-rapidly the reference one and, by the end of the interpolation process, leaves
-the solution of naïve sampling approximately an order of magnitude behind.
+We begin by describing one particular problem shown in the three figures.
+Consider, for instance, the one labeled with $\bigstar$ in
+\fref{frame-accuracy-energy}. It can be seen that, at the very beginning, our
+solution and the solution delivered by direct sampling are poor. The \ac{KS}
+statistic indicates that there are substantial mismatches between the estimates
+and the reference solution. However, as the hierarchical interpolant is being
+adaptively refined, our solution approaches rapidly the reference one and, by
+the end of the interpolation process, leaves the solution of naïve sampling
+approximately an order of magnitude behind.
 
 Studying \fref{frame-accuracy-delay}, \fref{frame-accuracy-energy}, and
 \fref{frame-accuracy-temperature}, one can make a number of observations. Our
