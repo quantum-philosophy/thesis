@@ -159,34 +159,35 @@ grows proportional to \g's evaluation time.
 
 Last but not least, we investigate the viability of deploying the proposed
 framework in a real environment. It means that we are to couple the framework
-with a battle-proven simulator, used in both academia and industry, and then let
-this simulator evaluate a real application running on a real platform.
+with a battle-proven simulator, used in both academia and industry, and let this
+simulator evaluate a real application running on a real platform.
 
 The scenario that we consider is similar to the one depicted in
-\fref{frame-application}. In this case, an industrial-standard simulator is put
-in place of the ``black box'' on the left-hand side of the figure, and the
-quantity of interest \g is now the total energy. Unlike the synthetic examples
-discussed earlier, there is no true solution to compare with due to the
-prohibitive expense of running the simulator, which is exactly why our framework
-is needed in such cases.
+\fref{frame-application}. The difference is that an industrial-standard
+simulator is put in place of the ``black box'' on the left-hand side of the
+figure, and that the quantity of interest \g is now the total energy. Unlike the
+synthetic examples discussed earlier, there is no true solution to compare with
+due to the prohibitive expense of running the simulator, which is exactly why
+our framework is needed in such cases.
 
 The chosen simulator is the well-known and widely used combination of Sniper
 \cite{carlson2011} and \up{McPAT} \cite{li2009}. The architecture that we
 simulate is Intel's Nehalem-based Gainestown series. Sniper is distributed with
-a configuration file for this architecture, and we utilize it without any
-changes. The simulated platform is set up to have three \up{CPU}s sharing one L3
-cache. Regarding the application chosen for this example, it is \up{VIPS}, which
-is an image-processing piece of software taken from the \up{PARSEC} benchmark
-suite \cite{bienia2011}. In this scenario, \up{VIPS} applies a fixed set of
-operations to a given image. The width and height of the image to process are
-considered as the uncertain parameters \vu, which are assumed to be distributed
-uniformly within certain ranges.
+a configuration for this architecture, and we utilize this configuration without
+any changes. The simulated platform is set up to have three \up{CPU}s sharing
+one L3 cache. Regarding the application chosen for this example, it is
+\up{VIPS}, which is an image-processing piece of software taken from the
+\up{PARSEC} benchmark suite \cite{bienia2011}. In this scenario, \up{VIPS}
+applies a fixed set of operations to a given image. The width and height of the
+image to process are considered as the uncertain parameters \vu, and they are
+assumed to be distributed uniformly within certain ranges.
 
 The deployment of the real-life example has fulfilled our expectations. The
 interpolation process has successfully finished and delivered an interpolant
-after 78 invocations of the simulator. Each invocation takes 40 minutes on
-average. The probability distribution of the total energy has been estimated by
-sampling the constructed surrogate 10\textsuperscript{5} times. These many
-samples would take around 6 months to obtain on our machine if we sampled the
-simulator directly in parallel on 16 cores; using the technique presented in
-this chapter, the whole procedure has taken approximately 9 hours.
+after 78 invocations of the simulator. Each such invocation takes 40 minutes on
+average. The probability distribution of the total energy consumption has been
+estimated by sampling the constructed surrogate 10\textsuperscript{5} times.
+These many samples would have taken around 6 months to obtain on our machine if
+we had sampled the simulator directly in parallel on 16 cores; using the
+technique presented in this chapter, the whole procedure has taken approximately
+9 hours.
