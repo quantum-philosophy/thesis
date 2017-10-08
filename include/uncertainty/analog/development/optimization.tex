@@ -1,15 +1,15 @@
-Analogous to \sref{reliability-optimization}, in this section, the proposed
-framework is illustrated in the context of design-space exploration.
+Analogous to \sref{dream-optimization}, in this section, the proposed framework
+is illustrated in the context of design-space exploration.
 
 \subsection{\problemtitle}
 
 The general setup is the same as the one in \sref{thermal-cycling-problem}. We
 continue working with the thermal-cycling fatigue \cite{jedec2016}, which is
 introduced in \sref{thermal-cycling-fatigue} and motivated in
-\sref{reliability-optimization}. Recall that, in this case, the system is
-exposed a periodic or approximately periodic workload, and that the
-corresponding temperature profile is a dynamic steady-state temperature profile,
-which, in the deterministic case, can be computed as described in
+\sref{dream-optimization}. Recall that, in this case, the system is exposed a
+periodic or approximately periodic workload, and that the corresponding
+temperature profile is a dynamic steady-state temperature profile, which, in the
+deterministic case, can be computed as described in
 \sref{dynamic-steady-state-solution}.
 
 The goal of our optimization in this section is to find such a schedule
@@ -78,9 +78,9 @@ Polynomial expansions are utilized inside an optimization procedure whose
 objective is the one shown in \eref{chaos-optimization-objective}. Let us
 discuss this procedure.
 
-Similar to \sref{reliability-optimization}, we make use of a genetic algorithm.
-Each chromosome contains $2 \nt$ genes that encode a mapping of the tasks onto
-the processing elements and their priorities; this information is needed for
+Similar to \sref{dream-optimization}, we make use of a genetic algorithm. Each
+chromosome contains $2 \nt$ genes that encode a mapping of the tasks onto the
+processing elements and their priorities; this information is needed for
 constructing a schedule \schedule. The population contains $4 \nt$ individuals
 that are initialized using uniform distributions. The parents for the next
 generation are chosen by a tournament selection with the number of competitors
