@@ -85,18 +85,17 @@ correspond to the end-to-end delay, total energy, and maximum temperature,
 respectively. Each figure contains six plots arranged in a three-by-two grid.
 The three rows of the grid correspond to the three platform sizes, and the two
 columns correspond to the two application sizes. The horizontal axis of each
-plot shows the number of points, that is, the number of evaluations of \g, and
-the vertical one shows the \ac{KS} statistic on a logarithmic scale. Each plot
-has two lines. The blue line represents our technique. The circles on this line
-correspond to the steps of the interpolation process shown in
-\eref{frame-sparse}. They illustrate how the \ac{KS} statistic computed with
-respect to the reference solution changes as the interpolation process takes
-steps (and adds more and more nodes into the interpolant) until a stopping
-condition is satisfied. Note that only a subset of the actual steps is displayed
-in order to make the figure legible. Synchronously with the blue line---that is,
-for the same numbers of evaluations of the quantity of interest---the orange
-line shows the error of direct sampling, which is also calculated with respect
-to the reference solution.
+plot shows the number of evaluations of \g and the vertical one shows the
+\ac{KS} statistic on a logarithmic scale. Each plot has two lines. The blue line
+represents our technique. The circles on this line correspond to the steps of
+the interpolation process shown in \eref{frame-sparse}. They illustrate how the
+\ac{KS} statistic computed with respect to the reference solution changes as the
+interpolation process adds nodes to the interpolant until a stopping condition
+is satisfied. Note that only a subset of the actual steps is displayed in order
+to make the figure legible. Synchronously with the blue line, that is, for the
+same numbers of evaluations of the quantity of interest, the orange line shows
+the error of direct sampling, which is also calculated with respect to the
+reference solution.
 
 We begin by describing one particular problem shown in the figures. Consider,
 for instance, the one labeled with $\bigstar$ in \fref{frame-accuracy-energy}.
