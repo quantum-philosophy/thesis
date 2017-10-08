@@ -96,18 +96,18 @@ to the collocation nodes of the previous level. The sparsity and incremental
 refinement of the Smolyak approach are remarkable properties \emph{per se};
 however, the approach can be taken even further as we discuss next.
 
-It can be seen in \eref{interpolant-sparse-grid} that it is beneficial to the
-refinement to have that $\X^1_{i - 1}$ is entirely included in $\X^1_i$ since,
-in that case, the cardinality of
+It can be seen in \eref{interpolant-sparse-grid} that the refinement becomes
+more efficient when $\X^1_{i - 1}$ is included in $\X^1_i$ since, in that case,
+the cardinality of
 \[
   \X^n_{\ls} \setminus \X^n_{\ls - 1} = \bigcup_{\vi \in \Delta\sparseindex{n}{\ls}} \Delta\X^n_{\vi}
 \]
-derived from \eref{interpolant-sparse-grid} decreases. In words, the values of
-\f obtained on lower levels can be reused in order to attain higher levels if
-the grid grows without discarding its previous structure. With this aspect in
-mind, the rule used for generating successive sets of points $\{ \X^1_i \}_i$
-should be chosen to be nested, that is, in such a way that $\X^1_i$ contains all
-the nodes present in $\X^1_{i - 1}$.
+derived from \eref{interpolant-sparse-grid} decreases. To elaborate, the values
+of \f obtained at lower levels can be reused in order to attain higher levels
+provided that the grid grows without discarding its previous structure. With
+this in mind, the rule used for generating successive sets of points $\{ \X^1_i
+\}_i$ should be chosen to be nested, that is, in such a way that $\X^1_i$
+contains all the nodes present in $\X^1_{i - 1}$.
 
 The last step is to rewrite \eref{interpolant-sparse-incremental} in a
 hierarchical form. To this end, we require interpolants of higher levels to
