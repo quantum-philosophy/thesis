@@ -20,17 +20,17 @@ until a stopping condition is satisfied such as when the difference between two
 successive temperature profiles $\mq_{i - 1}$ and $\mq_i$ drops below a
 predefined threshold.
 
-\inputalgorithm{dream-dynamic-steady-state-iterative}
+\inputalgorithm{dream-dynamic-steady-solution-iterative}
 In the case of dynamic steady-state analysis, which is discussed in
 \sref{dynamic-steady-analysis}, the pseudocode of the aforementioned iterative
-procedure is listed in \aref{dream-dynamic-steady-state-iterative}. The two main
-steps of this algorithm are as follows.
+procedure is listed in \aref{dream-dynamic-steady-solution-iterative}. The two
+main steps of this algorithm are as follows.
 
 Line~3: The power profile \mp is updated using the current temperature profile
 \mq. In the first iteration, the ambient temperature is used for this purpose.
 
 Line~4: The temperature profile \mq is updated using the current power profile
-\mp. This task is delegated to \aref{dream-dynamic-steady-state} discussed in
+\mp. This task is delegated to \aref{dream-dynamic-steady-solution} discussed in
 \sref{dynamic-steady-state-solution}.
 
 In order to give a better intuition about the convergence rate of the iterative

@@ -257,13 +257,13 @@ calculated when computing $\v{w}_\ns$. The last step of the solution is to
 compute the actual dynamic steady-state temperature profile \mq by applying
 \eref{temperature-algebraic}.
 
-\inputalgorithm{dream-dynamic-steady-state}
+\inputalgorithm{dream-dynamic-steady-solution}
 It can be seen that the solution to the $\nn \ns \times \nn \ns$ system in
 \eref{dynamic-steady-state-system} has been reduced to the two trivial
 recurrences in \eref{dynamic-steady-state-recurrence} and
 \eref{dynamic-steady-state-auxiliary-recurrence} that traverse the \ns steps of
 the power profile \mp. The pseudocode of this solution is given in
-\aref{dream-dynamic-steady-state}, and its key aspects are as follows.
+\aref{dream-dynamic-steady-solution}, and its key aspects are as follows.
 
 Line~2--5: \eref{dynamic-steady-state-auxiliary-recurrence} is recursively
 evaluated for all time steps of the input power profile \mp in order to

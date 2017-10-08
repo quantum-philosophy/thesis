@@ -20,21 +20,21 @@ The function $\f: \real^\nu \times \real^{\np \times \ns} \to \real^{\np \times
 \ns}$ is supposed to return the periodic power profile that corresponds to the
 desired periodic workload.
 
-\inputalgorithm{chaos-dynamic-steady-state-iterative}
+\inputalgorithm{chaos-dynamic-steady-solution-iterative}
 The solution to probabilistic dynamic steady-state analysis is based on the
 deterministic one presented in \sref{dynamic-steady-state-solution}. The power,
 temperature, and other vectors that appear in
 \sref{dynamic-steady-state-solution} become stochastic in the present context,
 which also concerns to the full extent the boundary condition given in
 \eref{dynamic-steady-state-condition}. The pseudocode of a procedure that
-delivers \mq for a fixed \vu is listed in \aref{dream-dynamic-steady-state}. The
-algorithm does not take account of the interdependence between power and
+delivers \mq for a fixed \vu is listed in \aref{dream-dynamic-steady-solution}.
+The algorithm does not take account of the interdependence between power and
 temperature; however, this interdependence can be addressed via one of the
 techniques presented in \sref{power-temperature-interplay}. In this section, we
 use the iterative approach illustrated in
-\aref{dream-dynamic-steady-state-iterative}. For clarity, this last algorithm is
-rewritten here as shown in \aref{chaos-dynamic-steady-state-iterative}; the main
-difference is that the calculation of power on line~3 is now based on
+\aref{dream-dynamic-steady-solution-iterative}. For clarity, this last algorithm
+is rewritten here as shown in \aref{chaos-dynamic-steady-solution-iterative};
+the main difference is that the calculation of power on line~3 is now based on
 \eref{chaos-power-model-bulk}.
 
 \begin{remark}
@@ -50,13 +50,13 @@ nominal values.
 To recapitulate, in this section, the quantity of interest \g is the dynamic
 steady-state temperature profile \mq (or the corresponding power profile \mp, if
 preferable). The output of Stage~1 in \fref{chaos-overview} is
-\aref{chaos-dynamic-steady-state-iterative}.
+\aref{chaos-dynamic-steady-solution-iterative}.
 
 \subsection{Surrogate Construction}
 
 At Stage~3 in \fref{chaos-overview}, the procedure delineated in
 \sref{chaos-construction} is applied to
-\aref{chaos-dynamic-steady-state-iterative} from Stage~1 with respect to the
+\aref{chaos-dynamic-steady-solution-iterative} from Stage~1 with respect to the
 output of Stage~2,. The algorithm computes \mp or \mq for a given \vu and
 returns it in a suitable format.
 
