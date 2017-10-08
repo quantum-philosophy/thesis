@@ -72,8 +72,8 @@ to \celsius{1}. The parameter $\nu_\epsilon$ in \eref{bayes-prior} has the same
 interpretation as $\nu_\g$; we set it to 10 as well. In \eref{bayes-proposal},
 $\nu$ and $\alpha$ are tuning parameters, which are configured based on
 experiments; we set $\nu$ to 8 and $\alpha$ to 0.5. The number of sample draws
-is another tuning parameter, which we set to 10\textsuperscript{4}. The first
-half of these samples is ascribed to the burn-in period mentioned in
+is another tuning parameter, which we set to \power{10}{4}. The first half of
+these samples is ascribed to the burn-in period mentioned in
 \xref{bayesian-statistics}, and the second one constitutes $G$; in this case,
 $\no = 5 \times 10^3$. In the optimization described in
 \sref{bayes-optimization}, we use the quasi-Newton algorithm \cite{press2007}.

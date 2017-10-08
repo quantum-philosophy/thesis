@@ -1,5 +1,4 @@
-\newcommand{\raisepower}[2]{#1\textsuperscript{#2}}
-\newcommand{\timespower}[2]{#1 × \raisepower{10}{#2}}
+\newcommand{\timespower}[2]{#1 × \power{10}{#2}}
 \begin{table*}
   \centering
   \caption{Scaling with respect to the number of processing elements}
@@ -49,25 +48,25 @@
     & \textnormal{Speedup (×)} \\
     \midrule
     \multirow{5}{*}{$w = 0$}
-    &             10     &  0.01 &    0.51 & \timespower{1.77}{5} \\
-    & \raisepower{10}{2} &  0.02 &    3.87 & \timespower{7.64}{5} \\
-    & \raisepower{10}{3} &  0.16 &   38.81 & \timespower{8.72}{5} \\
-    & \raisepower{10}{4} &  1.58 &  387.90 & \timespower{8.84}{5} \\
-    & \raisepower{10}{5} & 15.85 & 3877.27 & \timespower{8.81}{5} \\
+    &        10     &  0.01 &    0.51 & \timespower{1.77}{5} \\
+    & \power{10}{2} &  0.02 &    3.87 & \timespower{7.64}{5} \\
+    & \power{10}{3} &  0.16 &   38.81 & \timespower{8.72}{5} \\
+    & \power{10}{4} &  1.58 &  387.90 & \timespower{8.84}{5} \\
+    & \power{10}{5} & 15.85 & 3877.27 & \timespower{8.81}{5} \\
     \midrule
     \multirow{5}{*}{$w = 0.5$}
-    &             10     &  0.02 &    0.39 & \timespower{6.10}{4} \\
-    & \raisepower{10}{2} &  0.07 &    3.84 & \timespower{2.08}{5} \\
-    & \raisepower{10}{3} &  0.52 &   38.41 & \timespower{2.66}{5} \\
-    & \raisepower{10}{4} &  5.31 &  383.75 & \timespower{2.60}{5} \\
-    & \raisepower{10}{5} & 54.27 & 3903.28 & \timespower{2.59}{5} \\
+    &        10     &  0.02 &    0.39 & \timespower{6.10}{4} \\
+    & \power{10}{2} &  0.07 &    3.84 & \timespower{2.08}{5} \\
+    & \power{10}{3} &  0.52 &   38.41 & \timespower{2.66}{5} \\
+    & \power{10}{4} &  5.31 &  383.75 & \timespower{2.60}{5} \\
+    & \power{10}{5} & 54.27 & 3903.28 & \timespower{2.59}{5} \\
     \midrule
     \multirow{5}{*}{$w = 1$}
-    &             10     &  0.02 &    0.39 & \timespower{6.15}{4} \\
-    & \raisepower{10}{2} &  0.07 &    3.88 & \timespower{2.05}{5} \\
-    & \raisepower{10}{3} &  0.54 &   38.86 & \timespower{2.60}{5} \\
-    & \raisepower{10}{4} &  5.31 &  390.95 & \timespower{2.65}{5} \\
-    & \raisepower{10}{5} & 53.19 & 3907.48 & \timespower{2.64}{5} \\
+    &        10     &  0.02 &    0.39 & \timespower{6.15}{4} \\
+    & \power{10}{2} &  0.07 &    3.88 & \timespower{2.05}{5} \\
+    & \power{10}{3} &  0.54 &   38.86 & \timespower{2.60}{5} \\
+    & \power{10}{4} &  5.31 &  390.95 & \timespower{2.65}{5} \\
+    & \power{10}{5} & 53.19 & 3907.48 & \timespower{2.64}{5} \\
     \bottomrule
   \end{tabular}
 \end{table*}

@@ -28,10 +28,10 @@ processing elements.
 Similar to the previous chapters, the construction of thermal \up{RC} circuits,
 which are needed for temperature analysis, is delegated to HotSpot
 \cite{skadron2003}. The floorplan of each platform is a regular grid where each
-processing element occupies 2~×~2~mm\textsuperscript{2} on the die. The modeling
-of the static power is based on a linear fit to a data set of \up{SPICE}
-simulations of a series of \up{CMOS} invertors. The sampling interval of power
-and temperature profiles is equal to 1~ms.
+processing element occupies 2~×~2~\power{mm}{2} on the die. The modeling of the
+static power is based on a linear fit to a data set of \up{SPICE} simulations of
+a series of \up{CMOS} invertors. The sampling interval of power and temperature
+profiles is equal to 1~ms.
 
 The uncertain parameters \vu are the execution times of the tasks, and their
 marginal distributions and correlation matrix are as described in
@@ -49,9 +49,8 @@ tasks, respectively.
 The configuration of the interpolation algorithm---including the collocation
 nodes, basis functions, and adaptation strategy with stopping
 conditions---follows closely the description given in \sref{frame-construction}.
-The parameters \error{a}, \error{r}, and \error{s} are around
-10\textsuperscript{3}, 10\textsuperscript{2}, and 10\textsuperscript{4},
-respectively, depending on the problem.
+The parameters \error{a}, \error{r}, and \error{s} are around \power{10}{3},
+\power{10}{2}, and \power{10}{4}, respectively, depending on the problem.
 
 The performance of our framework with respect to each problem is assessed as
 follows. First, as in \cref{uncertainty-analog-development}, the true
@@ -60,13 +59,13 @@ extensively. Direct sampling means that there is no any intermediate
 representation or any intermediate model order reduction involved. Second, we
 construct an interpolant for \g and estimate \g's distribution by sampling this
 interpolant, which is discussed in \sref{frame-construction} and
-\sref{frame-processing}. In both cases, we draw 10\textsuperscript{5} samples;
-let us remind, however, that, unlike the cost of direct sampling, the cost of
-sampling the interpolant is practically negligible. Third, we perform another
-round of direct sampling. This time we draw as many samples as many times the
-calculation of \g is invoked during the interpolation process. In each of the
-three cases, sampling is undertaken in accordance with a Sobol sequence, which
-is a quasi-random low-discrepancy sequence featuring much better convergence
+\sref{frame-processing}. In both cases, we draw \power{10}{5} samples; let us
+remind, however, that, unlike the cost of direct sampling, the cost of sampling
+the interpolant is practically negligible. Third, we perform another round of
+direct sampling. This time we draw as many samples as many times the calculation
+of \g is invoked during the interpolation process. In each of the three cases,
+sampling is undertaken in accordance with a Sobol sequence, which is a
+quasi-random low-discrepancy sequence featuring much better convergence
 properties than those of the classical \ac{MC} sampling \cite{joe2008}. As a
 result, we obtain three estimates of \g's distribution: reference (the one
 considered true), proposed (the one based on interpolation), and direct (the one
@@ -148,13 +147,13 @@ is irrelevant: since the evaluation of \g is time consuming (see
 expense indicator. For the curious reader, however, let us give an example by
 considering the problem labeled with $\clubsuit$ in
 \fref{frame-accuracy-temperature}. Obtaining a reference solution with
-10\textsuperscript{5} simulations in parallel on 16 cores takes around two
-hours. Constructing an interpolant with 383 collocation nodes takes around 30
-seconds (this is also the time of direct sampling with 383 simulations of \g).
-Evaluating the interpolant 10\textsuperscript{5} times takes less than a second.
-The relative computation cost of sampling an interpolant readily diminishes as
-the complexity of \g increases; contrast it with direct sampling, whose cost
-grows proportional to \g's evaluation time.
+\power{10}{5} simulations in parallel on 16 cores takes around two hours.
+Constructing an interpolant with 383 collocation nodes takes around 30 seconds
+(this is also the time of direct sampling with 383 simulations of \g).
+Evaluating the interpolant \power{10}{5} times takes less than a second. The
+relative computation cost of sampling an interpolant readily diminishes as the
+complexity of \g increases; contrast it with direct sampling, whose cost grows
+proportional to \g's evaluation time.
 \end{remark}
 
 Last but not least, we investigate the viability of deploying the proposed
@@ -186,8 +185,7 @@ The deployment of the real-life example has fulfilled our expectations. The
 interpolation process has successfully finished and delivered an interpolant
 after 78 invocations of the simulator. Each such invocation takes 40 minutes on
 average. The probability distribution of the total energy consumption has been
-estimated by sampling the constructed surrogate 10\textsuperscript{5} times.
-These many samples would have taken around 6 months to obtain on our machine if
-we had sampled the simulator directly in parallel on 16 cores; using the
-technique presented in this chapter, the whole procedure has taken approximately
-9 hours.
+estimated by sampling the constructed surrogate \power{10}{5} times. These many
+samples would have taken around 6 months to obtain on our machine if we had
+sampled the simulator directly in parallel on 16 cores; using the technique
+presented in this chapter, the whole procedure has taken approximately 9 hours.
