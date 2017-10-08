@@ -25,7 +25,7 @@ steady-state temperature profile, which we discuss further in
 \sref{dream-optimization}.
 
 \subsection{\priortitle}
-\slab{dynamic-steady-state-prior}
+\slab{dynamic-steady-prior}
 
 Let us elaborate on the two techniques that have been presented in the
 literature in order to calculate the dynamic steady-state temperature profile.
@@ -49,20 +49,19 @@ platforms with processing-element areas of 1--25~\power{mm}{2}. Let us simulate
 50 successive periods of the application via HotSpot with its default settings
 and compare the resulting approximations in each period with the actual dynamic
 steady-state temperature profiles---whose calculation is to be discussed in
-\sref{dynamic-steady-state-solution}---using the \ac{NRMSE}. The comparison is
-shown in \fref{dream-iterative-transient-accuracy}. It can be observed that the
-number of successive periods over which transient analysis has to be performed
-in order to achieve a satisfactory level of accuracy is significant for the
-majority of the configurations, which entails large computation times. For
-instance, for an area of 9~\power{mm}{2}, even after 15 iterations, the
-\ac{NRMSE} is still close to 20\%. Using the analytical approach to transient
-analysis presented in \sref{transient-analysis}, the iterative transient
-approximation can be sped up; however, the large number of iterations still
-keeps the computational cost unreasonably high as discussed further in
-\sref{dynamic-steady-state-results}. Moreover, the approach provides no
-guarantees on the resulting accuracy since there is no reliable metric for
-measuring the proximity to the actual solution, the actual dynamic steady-state
-temperature profile.
+\sref{dynamic-steady-solution}---using the \ac{NRMSE}. The comparison is shown
+in \fref{dream-iterative-transient-accuracy}. It can be observed that the number
+of successive periods over which transient analysis has to be performed in order
+to achieve a satisfactory level of accuracy is significant for the majority of
+the configurations, which entails large computation times. For instance, for an
+area of 9~\power{mm}{2}, even after 15 iterations, the \ac{NRMSE} is still close
+to 20\%. Using the analytical approach to transient analysis presented in
+\sref{transient-analysis}, the iterative transient approximation can be sped up;
+however, the large number of iterations still keeps the computational cost
+unreasonably high as discussed further in \sref{dynamic-steady-results}.
+Moreover, the approach provides no guarantees on the resulting accuracy since
+there is no reliable metric for measuring the proximity to the actual solution,
+the actual dynamic steady-state temperature profile.
 
 The second technique is referred to as the static steady-state approximation. It
 is a crude but fast technique proposed in \cite{huang2009b}. The approach
@@ -94,7 +93,7 @@ temperature analysis are slow and inaccurate. This state of affairs makes them
 difficult and dangerous from the standpoint of design optimization.
 
 \subsection{\solutiontitle}
-\slab{dynamic-steady-state-solution}
+\slab{dynamic-steady-solution}
 
 In this subsection, we are to formalize the problem of dynamic steady-state
 temperature analysis and to develop an exact and, moreover, computationally
@@ -104,7 +103,7 @@ state-of-the-art solutions discussed in the previous subsection.
 Consider the temperature model in \eref{temperature-model} and the corresponding
 recurrence in \eref{transient-recurrence}. The key condition of a dynamic steady
 state is
-\begin{equation} \elab{dynamic-steady-state-condition}
+\begin{equation} \elab{dynamic-steady-condition}
   \vs_0 = \vs_\ns.
 \end{equation}
 The above condition means that, once the dynamic steady state has been reached,
@@ -120,9 +119,9 @@ computed by solving the following system of linear equations:
   \end{cases}
 \]
 where the first equation enforces the boundary condition in
-\eref{dynamic-steady-state-condition}. In order to get the big picture, the
-system can be rewritten as follows:
-\begin{equation} \elab{dynamic-steady-state-system}
+\eref{dynamic-steady-condition}. In order to get the big picture, the system can
+be rewritten as follows:
+\begin{equation} \elab{dynamic-steady-system}
   \resizebox{0.89\linewidth}{!}{
     $\underbrace{\left[
       \begin{array}{rrrrrrr}
@@ -160,17 +159,16 @@ system can be rewritten as follows:
 where $\mathbb{A}$ is an $\nn \ns \times \nn \ns$ matrix, and $\mathbb{X}$ and
 $\mathbb{B}$ are $\nn \ns$-element vectors.
 
-The most direct way to solve the system in \eref{dynamic-steady-state-system} is
-to use a dense solver such as the \up{LU} decomposition \cite{press2007}.
-However, since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is
-to employ a sparse solver such as the unsymmetric multifrontal method
-\cite{davis2004}. The computational complexity of such solutions is $\bigo{n_s^3
-n_n^3}$ \cite{press2007} where $\nn$ is the number of nodes in the thermal
-\up{RC} circuit, and $\ns$ is the number of samples in the power profile. The
-problem, however, is that the system to solve can be extremely large, which is
-primarily due to \ns. In such cases, direct solvers are prohibitively slow and
-require an enormous amount of memory. Therefore, we do not discuss them any
-further.
+The most direct way to solve the system in \eref{dynamic-steady-system} is to
+use a dense solver such as the \up{LU} decomposition \cite{press2007}. However,
+since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is to employ
+a sparse solver such as the unsymmetric multifrontal method \cite{davis2004}.
+The computational complexity of such solutions is $\bigo{n_s^3 n_n^3}$
+\cite{press2007} where $\nn$ is the number of nodes in the thermal \up{RC}
+circuit, and $\ns$ is the number of samples in the power profile. The problem,
+however, is that the system to solve can be extremely large, which is primarily
+due to \ns. In such cases, direct solvers are prohibitively slow and require an
+enormous amount of memory. Therefore, we do not discuss them any further.
 
 Another potential approach is leveraging iterative methods for solving systems
 of linear equations such as the Jacobi or Gauss--Seidel method \cite{press2007}.
@@ -181,13 +179,13 @@ observed any advantages of using these methods compared to the other considered
 techniques. Thus, they are excluded from further discussion.
 
 Yet another solution can be obtained by observing that $\mathbb{A}$ in
-\eref{dynamic-steady-state-system} is, in fact, a block Toeplitz matrix and,
-moreover, a block-circulant matrix, in which each block row is rotated one block
-element to the right relative to the preceding block row. This observation leads
-to a range of possible techniques for solving the system shown in
-\eref{dynamic-steady-state-system} such as the fast Fourier transform
+\eref{dynamic-steady-system} is, in fact, a block Toeplitz matrix and, moreover,
+a block-circulant matrix, in which each block row is rotated one block element
+to the right relative to the preceding block row. This observation leads to a
+range of possible techniques for solving the system shown in
+\eref{dynamic-steady-system} such as the fast Fourier transform
 \cite{mazancourt1983}, which we discuss further in our experiments reported in
-\sref{dynamic-steady-state-results}.
+\sref{dynamic-steady-results}.
 
 The major problem with the aforementioned techniques is that \one~the sparseness
 of $\mathbb{A}$ is not taken into account, or \two~the specific structure of
@@ -196,12 +194,12 @@ inaccurate computations. Let us now develop a solution that does not have these
 issues.
 
 Have a careful look at the structure of $\mathbb{A}$ in
-\eref{dynamic-steady-state-system}. The nonzero elements are located only on the
-block diagonal, the subdiagonal attached to the block diagonal, and the
-superdiagonal in the top-right corner of the matrix. Linear systems with similar
-structures arise in boundary value problems of ordinary differential equations,
-and the technique to solve them is to form a so-called condensed equation or
-condensed system \cite{stoer2002} as we describe next.
+\eref{dynamic-steady-system}. The nonzero elements are located only on the block
+diagonal, the subdiagonal attached to the block diagonal, and the superdiagonal
+in the top-right corner of the matrix. Linear systems with similar structures
+arise in boundary value problems of ordinary differential equations, and the
+technique to solve them is to form a so-called condensed equation or condensed
+system \cite{stoer2002} as we describe next.
 
 To begin with, let
 \[
@@ -209,7 +207,7 @@ To begin with, let
 \]
 for $i = \range{1}{\ns}$. \eref{transient-recurrence} can then be rewritten as
 follows:
-\begin{equation} \elab{dynamic-steady-state-recurrence}
+\begin{equation} \elab{dynamic-steady-recurrence}
   \vs_i = \m{E} \vs_{i - 1} + \v{v}_i
 \end{equation}
 for $i = \range{1}{\ns}$. Apply this formula recursively starting from $\vs_0$
@@ -219,7 +217,7 @@ leads to
 \]
 for $i = \range{1}{\ns}$. In the above, $\v{w}_i$ is an auxiliary recurrence
 defined by
-\begin{equation} \elab{dynamic-steady-state-auxiliary-recurrence}
+\begin{equation} \elab{dynamic-steady-auxiliary-recurrence}
   \v{w}_i = \m{E} \v{w}_{i - 1} + \v{v}_i
 \end{equation}
 for $i = \range{1}{\ns}$ where
@@ -231,7 +229,7 @@ After taking \ns steps, we arrive at the following state vector:
   \vs_\ns = \m{E}^\ns \vs_0 + \v{w}_\ns.
 \]
 Taking into account the boundary condition given in
-\eref{dynamic-steady-state-condition}, we obtain the following system of linear
+\eref{dynamic-steady-condition}, we obtain the following system of linear
 equations:
 \[
   (\m{I} - \m{E}^\ns) \vs_\ns = \v{w}_\ns.
@@ -252,22 +250,22 @@ following solution to the system:
 The above equation yields not only the final state vector $\vs_\ns$ but also the
 initial one $\vs_0$. Consequently, the rest of the state vectors $\{ \vs_i \}_{i
 = 1}^{\ns - 1}$ can be successively found by means of
-\eref{dynamic-steady-state-recurrence} where each $\v{v}_i$ has already been
+\eref{dynamic-steady-recurrence} where each $\v{v}_i$ has already been
 calculated when computing $\v{w}_\ns$. The last step of the solution is to
 compute the actual dynamic steady-state temperature profile \mq by applying
 \eref{temperature-algebraic}.
 
 \inputalgorithm{dream-dynamic-steady-solution}
 It can be seen that the solution to the $\nn \ns \times \nn \ns$ system in
-\eref{dynamic-steady-state-system} has been reduced to the two trivial
-recurrences in \eref{dynamic-steady-state-recurrence} and
-\eref{dynamic-steady-state-auxiliary-recurrence} that traverse the \ns steps of
-the power profile \mp. The pseudocode of this solution is given in
-\aref{dream-dynamic-steady-solution}, and its key aspects are as follows.
+\eref{dynamic-steady-system} has been reduced to the two trivial recurrences in
+\eref{dynamic-steady-recurrence} and \eref{dynamic-steady-auxiliary-recurrence}
+that traverse the \ns steps of the power profile \mp. The pseudocode of this
+solution is given in \aref{dream-dynamic-steady-solution}, and its key aspects
+are as follows.
 
-Line~2--5: \eref{dynamic-steady-state-auxiliary-recurrence} is recursively
-evaluated for all time steps of the input power profile \mp in order to
-calculate the auxiliary vector $\v{w}_\ns$.
+Line~2--5: \eref{dynamic-steady-auxiliary-recurrence} is recursively evaluated
+for all time steps of the input power profile \mp in order to calculate the
+auxiliary vector $\v{w}_\ns$.
 
 Line~6: The calculated $\v{w}_\ns$ is utilized in order to compute the final (or
 initial) state vector $\vs_\ns$. This vector is stored in an $\nn \times \ns$
@@ -275,8 +273,8 @@ matrix denoted by $\m{S}$. Note that, for convenience, $\vs_\ns$ is stored in
 the first column of $\m{S}$.
 
 Line~7--9: Using $\vs_\ns$ or, equivalently, $\vs_0$,
-\eref{dynamic-steady-state-recurrence} is recursively evaluated in order to
-calculate the remaining state vectors, that is, $\{ \vs_i \}_{i = 1}^{\ns - 1}$.
+\eref{dynamic-steady-recurrence} is recursively evaluated in order to calculate
+the remaining state vectors, that is, $\{ \vs_i \}_{i = 1}^{\ns - 1}$.
 
 Line 10: \eref{temperature-algebraic} is applied in order to compute the desired
 \mq.
@@ -299,12 +297,12 @@ The complexity is linear with respect to \ns, which is important since \ns is
 typically much larger than \nn, that is, the number of thermal nodes.
 
 \subsection{\resultstitle}
-\slab{dynamic-steady-state-results}
+\slab{dynamic-steady-results}
 
 Let us now investigate the scaling of the solution to dynamic steady-state
-analysis proposed in \sref{dynamic-steady-state-solution}. All the experiments
-are conducted on a \up{GNU}/Linux machine equipped with Intel Core i7
-3.4~\up{GH}z and 8~\up{GB} of \up{RAM}.
+analysis proposed in \sref{dynamic-steady-solution}. All the experiments are
+conducted on a \up{GNU}/Linux machine equipped with Intel Core i7 3.4~\up{GH}z
+and 8~\up{GB} of \up{RAM}.
 
 Thermal \up{RC} circuits are constructed by means of HotSpot \cite{skadron2003}
 with its default configuration, and they follow the principle described in
@@ -313,14 +311,14 @@ profiles is set to 1~ms.
 
 For comparison purposes, we consider two alternative techniques, namely the one
 based on iterative transient analysis---which is introduced in
-\sref{dynamic-steady-state-prior}---and the one based on the fast Fourier
-transform---which is mentioned in \sref{dynamic-steady-state-solution}---since
-they are comparable with the proposed technique in terms of accuracy. In the
-case of transient analysis, we evaluate both the fast analytical solution
-described in \sref{transient-solution} and the one implemented in HotSpot, and
-the corresponding iterative calculation is undertaken until the \ac{NRMSE}
-relative to the dynamic steady-state temperature profile computed by means of
-the proposed method---which is exact---is less than 1\%.
+\sref{dynamic-steady-prior}---and the one based on the fast Fourier
+transform---which is mentioned in \sref{dynamic-steady-solution}---since they
+are comparable with the proposed technique in terms of accuracy. In the case of
+transient analysis, we evaluate both the fast analytical solution described in
+\sref{transient-solution} and the one implemented in HotSpot, and the
+corresponding iterative calculation is undertaken until the \ac{NRMSE} relative
+to the dynamic steady-state temperature profile computed by means of the
+proposed method---which is exact---is less than 1\%.
 
 \inputfigure{dream-dynamic-steady-speed-steps}
 First of all, we vary the period \period of power and temperature

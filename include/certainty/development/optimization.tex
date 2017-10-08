@@ -8,13 +8,12 @@ temperature but also the amplitude and frequency of temperature oscillations
 have a huge impact on the lifetime of the system. With this in mind, we focus
 our attention on mitigating the damage caused by thermal cycling. To this end,
 relying on our solution to dynamic steady-state analysis presented in
-\sref{dynamic-steady-state-solution}, we develop a thermal-cycling-aware
-technique for scheduling of periodic applications. Note that, by exploring the
-design space looking for configurations that reduce the system's wear, we
-implicitly address condition uncertainty, which is introduced in
-\sref{condition-variation}. However, this approach to condition uncertainty is
-suboptimal, which is discussed further and addressed in
-\sref{chaos-reliability-analysis}.
+\sref{dynamic-steady-solution}, we develop a thermal-cycling-aware technique for
+scheduling of periodic applications. Note that, by exploring the design space
+looking for configurations that reduce the system's wear, we implicitly address
+condition uncertainty, which is introduced in \sref{condition-variation}.
+However, this approach to condition uncertainty is suboptimal, which is
+discussed further and addressed in \sref{chaos-reliability-analysis}.
 
 \subsection{\motivationtitle}
 
@@ -128,7 +127,7 @@ schedule \schedule. If the schedule violates the deadline constraint given in
 to the amount of violation and is not further processed. Otherwise, based on the
 parameters of the processing elements and tasks, a power profile \mp is
 constructed, and the corresponding temperature profile \mq is computed using our
-technique presented in \sref{dynamic-steady-state-solution}. If the temperature
+technique presented in \sref{dynamic-steady-solution}. If the temperature
 profile violates the temperature constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not further processed. Otherwise, the
@@ -141,7 +140,7 @@ shown in \eref{thermal-cycling-objective}.
 In this subsection, we evaluate our reliability optimization. To this end, we
 first consider a set of synthetic applications and then study a real-life one.
 The general experimental setup is the same as the one described in
-\sref{dynamic-steady-state-results}. All the configuration files used in the
+\sref{dynamic-steady-results}. All the configuration files used in the
 experiments are available online at \cite{eslab2012}.
 
 Heterogeneous platforms and periodic applications are generated randomly by
@@ -193,7 +192,7 @@ respect to \tref{dream-optimization-elements}.
 The experiments show that our optimization is able to effectively increase the
 \ac{MTTF} of the system at hand. The efficiency is due to the fast and accurate
 approach to dynamic steady-state temperature analysis presented in
-\sref{dynamic-steady-state-solution}, which is at the heart of the optimization
+\sref{dynamic-steady-solution}, which is at the heart of the optimization
 procedure. Due to its speed, the technique allows a large portion of the design
 space to be explored.
 
@@ -201,7 +200,7 @@ space to be explored.
 In order to illustrate the above aspect, let us replace, inside the optimization
 framework, our method with \one~the one based on iterative transient analysis
 with HotSpot and \two~the one based on static steady-state analysis; see
-\sref{dynamic-steady-state-prior}. The goal is to compare the results in
+\sref{dynamic-steady-prior}. The goal is to compare the results in
 \tref{dream-optimization-tasks} with the results produced by the two alternative
 methods when they are given the same amount of time as the one taken by our
 method. For each problem, the optimized \ac{MTTF} produced by either of the two
@@ -217,7 +216,7 @@ long execution time of the calculation of dynamic steady-state temperature
 profiles, which means that this method allows for a very shallow exploration of
 the design space. In the case of static steady-state analysis, the reason is
 different: the method is fast but also very inaccurate as discussed and
-illustrated in \sref{dynamic-steady-state-prior}. The inaccuracy drives the
+illustrated in \sref{dynamic-steady-prior}. The inaccuracy drives the
 optimization toward solutions that turn out to be of low quality.
 
 The experiments show that the impact of the optimization on energy consumption
