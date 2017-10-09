@@ -11,7 +11,7 @@ distribution function $F$---which is also known as the \ac{CDF}---defined by
 \end{equation*}
 The expectation of \x is given by
 \[
-  \expectation{\x} = \int_\real y \, \d F(y) = \int_\Omega \x(\omega) \d \probability(\omega).
+  \expectation{\x} = \int_\real y \, \d F(y) = \int_\Omega \x(\omega) \d \probability{\omega}.
 \]
 If $\expectation{\x} = 0$, \x is called centered. The variance of \x is given
 by
@@ -28,7 +28,7 @@ The above quantities are well defined only when the corresponding integrals are
 finite. An example of a vector space of random variables defined on $(\Omega,
 \F, \probability)$ whose expectations and variances are finite is
 \begin{equation} \elab{square-integrable-space}
-  \L{2}(\Omega, \F, \probability) = \left\{ \x: \int_\Omega \absolute{\x(\omega)}^2 \d \probability(\omega) < \infty \right\},
+  \L{2}(\Omega, \F, \probability) = \left\{ \x: \int_\Omega \absolute{\x(\omega)}^2 \d \probability{\omega} < \infty \right\},
 \end{equation}
 the Hilbert space of square-integrable random variables \cite{janson1997}. The
 inner product in this vector space is defined by
