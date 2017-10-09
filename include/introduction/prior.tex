@@ -8,17 +8,17 @@ other prominent reasons: the independence of the number of stochastic dimensions
 and the law of large numbers \cite{durrett2010} stating that the quantities
 estimated using \ac{MC} sampling asymptotically approach the true values.
 
-The major problem with sampling-based methods, however, is in sampling: one
-should be able to obtain sufficient many realizations of the quantity of
-interest in order to accurately estimate the needed statistics about this
-quantity, and the number of need samples can be considerably large
-\cite{diaz-emparanza2002}. In the case of \ac{MC} sampling, for instance, the
-error of estimation decreases as $\no^{-1/2}$ where \no is the number of drawn
-samples. This means that an additional decimal point of accuracy requires
-hundred times more samples. When the subject under analysis is computationally
-expensive---which is arguably the case with all nontrivial quantities as they
-typically involve a complete realization of the whole system---sampling methods
-are rendered slow and often unfeasible.
+The major problem with sampling-based methods, however, is in sampling itself:
+one has to obtain sufficient many realizations of the quantity of interest in
+order to accurately estimate the needed statistics about this quantity, and the
+number of need samples can be considerably large \cite{diaz-emparanza2002}. In
+the case of \ac{MC} sampling, for instance, the error of estimation decreases as
+$\no^{-1/2}$ where \no is the number of drawn samples. This means that an
+additional decimal point of accuracy requires hundred times more samples. When
+the subject under analysis is computationally expensive---which is arguably the
+case with all nontrivial quantities as they typically involve a complete
+realization of the whole system---sampling methods are rendered slow and often
+unfeasible.
 
 There are sampling techniques that have better convergence rates than the
 aforementioned one of the classical \ac{MC} sampling. Examples of such
