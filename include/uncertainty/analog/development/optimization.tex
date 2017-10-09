@@ -14,7 +14,9 @@ deterministic case, can be computed as described in
 
 The goal of our optimization in this section is to find such a schedule
 \schedule that minimizes energy consumption while satisfying certain
-constraints. More specifically, our objective is
+constraints; recall that a schedule specifies the starting times of the tasks as
+well as their mapping onto the processing elements. More specifically, our
+objective is
 \begin{equation} \elab{chaos-optimization-objective}
   \min_{\schedule} \expectation{(E(\schedule))}
 \end{equation}
