@@ -102,8 +102,8 @@ described below.
 
 Step~1 is to assign an adequate model to the unknown \g. We model \g as a
 Gaussian process \cite{rasmussen2006} since \one~it is flexible in capturing the
-correlation patterns induced by the fabrication process; \two~it is
-computationally efficient; and \three~Gaussian distributions are often adequate
+correlation patterns induced by the fabrication process, \two~it is
+computationally efficient, and \three~Gaussian distributions are often adequate
 models of the uncertainty due to process variation \cite{reda2009,
 srivastava2010, juan2012}. The model is denoted by
 \begin{equation} \elab{bayes-prior-quantity}
@@ -131,8 +131,8 @@ is the correlation function, and
 \end{align*}
 are the squared-exponential and Ornstein--Uhlenbeck kernels
 \cite{rasmussen2006}, respectively. In these formulae, $\sigma_\g^2$ is the
-variance of \g; $w \in [0, 1]$ is a weight coefficient; $\ell_\SE > 0$ and
-$\ell_\OU > 0$ are so-called length-scale parameters; and $\norm[2]{\cdot}$
+variance of \g, $w \in [0, 1]$ is a weight coefficient, $\ell_\SE > 0$ and
+$\ell_\OU > 0$ are so-called length-scale parameters, and $\norm[2]{\cdot}$
 stands for the Euclidean distance. The choice of $v$ is based on the
 observations of the correlation structures induced by the fabrication process
 \cite{chandrakasan2000, cheng2011}. Specifically, $k_\SE$ imposes similarities
@@ -284,8 +284,8 @@ the current position of the chain as follows:
 \begin{equation} \elab{bayes-proposal}
   \u \sim t_\nu(\u^*, \alpha^2 \m{J}^{-1})
 \end{equation}
-where $\u^*$ and $\m{J}$ are as in \sref{bayes-optimization}; \nu is the number
-of degrees of freedom; and $\alpha$ is a tuning constant controlling the
+where $\u^*$ and $\m{J}$ are as in \sref{bayes-optimization}, \nu is the number
+of degrees of freedom, and $\alpha$ is a tuning constant controlling the
 standard deviation of the proposal. Now sampling the proposal in
 \eref{bayes-proposal} and evaluating the posterior in \eref{bayes-posterior} can
 be done in parallel. The obtained samples are then accepted or rejected
