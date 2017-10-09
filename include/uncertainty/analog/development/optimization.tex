@@ -24,15 +24,14 @@ such that
 \begin{equation} \elab{chaos-optimization-constraints}
   \begin{split}
     & \period(\schedule) \leq \period_\maximum, \\
-    & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \\
-    & \probability\left(\life(\schedule) \leq \life_\minimum\right) \leq \rho_\wear
+    & \probability{Q(\schedule) \geq \q_\maximum} \leq \rho_\burn, \text{ and} \\
+    & \probability{\expectation{\left(\life(\schedule)\right)} \leq \life_\minimum} \leq \rho_\wear
   \end{split}
 \end{equation}
 where
 \begin{align*}
-  & E(\schedule) = \dt \, \norm[1]{\mp(\schedule)}, \\
-  & Q(\schedule) = \norm[\infty]{\mq(\schedule)}, \text{ and} \\
-  & \life(\schedule) = \expectation{\left(\life(\schedule)\right)}.
+  & E(\schedule) = \dt \, \norm[1]{\mp(\schedule)} \text{ and} \\
+  & Q(\schedule) = \norm[\infty]{\mq(\schedule)}.
 \end{align*}
 To begin with, \mp and \mq are the dynamic steady-state power and temperature
 profiles, respectively; \dt is their sampling interval; and $\norm[1]{\cdot}$
