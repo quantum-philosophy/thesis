@@ -196,28 +196,29 @@ approach to dynamic steady-state temperature analysis presented in
 procedure. Due to its speed, the technique allows a large portion of the design
 space to be explored.
 
-\inputtable{dream-optimization-methods}
+\inputtable{dream-optimization-solutions}
 In order to illustrate the above aspect, let us replace, inside the optimization
-framework, our method with \one~the one based on iterative transient analysis
+framework, our solution with \one~the one based on iterative transient analysis
 with HotSpot and \two~the one based on static steady-state analysis; see
 \sref{dynamic-steady-prior}. The goal is to compare the results in
 \tref{dream-optimization-tasks} with the results produced by the two alternative
 methods when they are given the same amount of time as the one taken by our
 method. For each problem, the optimized \ac{MTTF} produced by either of the two
 approximate methods is re-evaluated by our exact method. The results are
-summarized in \tref{dream-optimization-methods} where \ac{MTTF}\textsubscript{a}
-and \ac{MTTF}\textsubscript{b} stand for the two alternative methods,
-respectively. It can be seen that, for example, the lifetime of the platform
-running 160 tasks can be extended by a factor of 18 using our technique whereas
-the best solutions found by the other two techniques within the same time frame
-are only around 2--5 times better than the initial solution. The reason for the
-poor performance of iterative transient analysis with HotSpot is the excessively
-long execution time of the calculation of dynamic steady-state temperature
-profiles, which means that this method allows for a very shallow exploration of
-the design space. In the case of static steady-state analysis, the reason is
-different: the method is fast but also very inaccurate as discussed and
-illustrated in \sref{dynamic-steady-prior}. The inaccuracy drives the
-optimization toward solutions that turn out to be of low quality.
+summarized in \tref{dream-optimization-solutions} where
+\ac{MTTF}\textsubscript{a} and \ac{MTTF}\textsubscript{b} stand for the two
+alternative methods, respectively. It can be seen that, for example, the
+lifetime of the platform running 160 tasks can be extended by a factor of 18
+using our technique whereas the best solutions found by the other two techniques
+within the same time frame are only around 2--5 times better than the initial
+solution. The reason for the poor performance of iterative transient analysis
+with HotSpot is the excessively long execution time of the calculation of
+dynamic steady-state temperature profiles, which means that this method allows
+for a very shallow exploration of the design space. In the case of static
+steady-state analysis, the reason is different: the method is fast but also very
+inaccurate as discussed and illustrated in \sref{dynamic-steady-prior}. The
+inaccuracy drives the optimization toward solutions that turn out to be of low
+quality.
 
 The experiments show that the impact of the optimization on energy consumption
 is insignificant. This is not surprising: the optimization searches toward
