@@ -45,7 +45,7 @@ responsibility of the designer.
 \begin{remark} \rlab{chaos-nested-uncertainty}
 It is important to realize that there are two levels of probabilistic modeling
 here. First, $R(\cdot | \vg)$ \emph{per se} is a probabilistic model describing
-the lifetime of the system. Second, the parameterization \vg is another
+the lifetime \life of the system. Second, the parameterization \vg is another
 probabilistic model characterizing the impact of the uncertainty due to process
 variation on the reliability model. Thus, the overall model can be thought of as
 a probability distribution over probability distributions. Given an outcome of
@@ -69,6 +69,6 @@ capabilities by seamlessly incorporating into the analysis the effect of process
 variation on process parameters. In particular, the technique allows for a
 straightforward propagation of the uncertainty from process parameters through
 temperature---which is the driving force of many failure mechanisms---to the
-lifetime of the system. In contrast to the straightforward use of \ac{MC}
-sampling, the \ac{PC} expansions that we construct make the subsequent analysis
-highly efficient from the computational perspective.
+lifetime of the system at hand. In contrast to the straightforward use of
+\ac{MC} sampling, the \ac{PC} expansions that we construct make the subsequent
+analysis highly efficient from the computational perspective.

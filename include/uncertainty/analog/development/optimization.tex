@@ -25,35 +25,35 @@ such that
   \begin{split}
     & \period(\schedule) \leq \period_\maximum, \\
     & \probability\left(Q(\schedule) \geq \q_\maximum\right) \leq \rho_\burn, \text{ and} \\
-    & \probability\left(\life(\schedule) \leq \life_\minimum\right) \leq \rho_\wear.
+    & \probability\left(\life(\schedule) \leq \life_\minimum\right) \leq \rho_\wear
   \end{split}
 \end{equation}
-In the above formulae,
+where
 \begin{align*}
   & E(\schedule) = \dt \, \norm[1]{\mp(\schedule)}, \\
-  & Q(\schedule) = \norm[\infty]{\mq(\schedule)}, \\
-  & \life(\schedule) = \expectation{\left(\life(\schedule)\right)},
+  & Q(\schedule) = \norm[\infty]{\mq(\schedule)}, \text{ and} \\
+  & \life(\schedule) = \expectation{\left(\life(\schedule)\right)}.
 \end{align*}
-$\period(\schedule)$ is the period of the application, \dt is the sampling
-interval of power and temperature profiles, and $\norm[1]{\cdot}$ denotes the
-Manhattan norm.
-
-Our objective in \eref{chaos-optimization-objective} is to minimize the
+To begin with, \mp and \mq are the dynamic steady-state power and temperature
+profiles, respectively; \dt is their sampling interval; and $\norm[1]{\cdot}$
+and $\norm[\infty]{\cdot}$ denote the Manhattan and uniform norms, respectively.
+The objective in \eref{chaos-optimization-objective} is to minimize the
 expectation of the consumed energy $E: \Omega \to \real$, which is a random
 variable since energy is a function of power, and power, in turn, depends on the
-uncertain parameters \vu. Our constraints in
+uncertain parameters \vu. The constraints in
 \eref{chaos-optimization-constraints} concern \one~time, \two~temperature, and
-\three~reliability. The first constrains the period of the application by
-$\period_\maximum$ (a deadline). The second constrains the maximum temperature
-of the system by $\q_\maximum$ where $\rho_\burn$ is an acceptable probability
-of burning the chip. The third constrains from below the lifetime of the system
-by $\life_\minimum$ where $\rho_\wear$ is an acceptable probability of having a
-premature fault due to wear. The last two constraints in
-\eref{chaos-optimization-constraints} are probabilistic since the quantities
-under consideration are stochastic. In the last constraint, we set an upper
-bound on the probability of the expected value of \life; note that this
-expectation is a random variable itself due to the nested structure of the
-reliability model described in \rref{chaos-nested-uncertainty}.
+\three~reliability. The first one constrains the end-to-end delay \period of the
+application by $\period_\maximum$ (a deadline); recall that this delay is
+assumed to be also the application's period. The second one constrains the
+maximum temperature $Q$ of the system by $\q_\maximum$ where $\rho_\burn$ is an
+acceptable probability of burning the chip. The third one constrains (from
+below) the lifetime \life of the system by $\life_\minimum$ where $\rho_\wear$
+is an acceptable probability of having a premature fault due to wear. The last
+two constraints in \eref{chaos-optimization-constraints} are probabilistic since
+the quantities involved in these constraints are stochastic. In the last
+constraint, we set an upper bound on the probability of the expectation of
+\life; note that this expectation is a random variable itself due to the nested
+structure of the reliability model described in \rref{chaos-nested-uncertainty}.
 
 In this section, the quantity of interest \g in \fref{chaos-overview} is the
 vector

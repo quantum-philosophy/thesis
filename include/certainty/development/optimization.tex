@@ -54,11 +54,11 @@ platform with \np processing elements is to execute a periodic application with
 \nt tasks. The application is given as a directed acyclic graph whose vertices
 and edges correspond to the tasks and to data dependencies between these tasks,
 respectively; see \fref{dream-motivation-graph} for an example. The end-to-end
-delay of the application is denoted by \period, and it is assumed to be equal to
-the application's period. Furthermore, each pair of a task and a processing
-element is characterized by an execution time and a power consumption; these are
-the characteristics that the task exhibits when it is assigned to the processing
-element.
+delay of the application is denoted by \period, and this delay is assumed to be
+also the application's activation period. Furthermore, each pair of a task and a
+processing element is characterized by an execution time and a power
+consumption; these are the characteristics that the task exhibits when it is
+assigned to the processing element.
 
 The time to failure of each processing element is modeled using the reliability
 model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
