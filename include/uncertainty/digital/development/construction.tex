@@ -171,15 +171,15 @@ $w_{\vi \vj}$ are products of the one-dimensional volumes shown in
 \sref{frame-basis}. Then this score is used in order to guide the algorithm as
 we explain now.
 
-Each $\interpolant{\nz}{\ls}$ is characterized by a set of level indices
-$\sparseindex{\nz}{\ls}$, and each $\vi \in \sparseindex{\nz}{\ls}$ is
-characterized by a set of order indices $\Delta\tensorindex{\nz}{\vi}$. At each
-interpolation step $\ls \in \natural$, a single index denoted by $\vi_{\ls}$ is
-chosen from $\sparseindex{\nz}{\ls - 1}$ starting from $\sparseindex{\nz}{-1} =
-\{ \v{0} \}$. The chosen index subsequently gives birth to
-$\Delta\sparseindex{\nz}{\ls}$ and $\{ \Delta\tensorindex{\nz}{\vi}: \vi \in
-\Delta\sparseindex{\nz}{\ls} \}$, which form the increment given on the
-right-hand side of \eref{frame-sparse}.
+Each interpolant $\interpolant{\nz}{\ls}$ is characterized by a set of level
+indices $\sparseindex{\nz}{\ls}$, and each level index $\vi \in
+\sparseindex{\nz}{\ls}$ by a set of order indices
+$\Delta\tensorindex{\nz}{\vi}$. At each interpolation step $\ls \in \natural$, a
+single level index denoted by $\vi_{\ls}$ is chosen from $\sparseindex{\nz}{\ls
+- 1}$ where $\sparseindex{\nz}{-1} = \{ \v{0} \}$, and this index subsequently
+gives birth to $\Delta\sparseindex{\nz}{\ls}$ and $\{
+\Delta\tensorindex{\nz}{\vi}: \vi \in \Delta\sparseindex{\nz}{\ls} \}$, which
+form the increment given on the right-hand side of \eref{frame-sparse}.
 
 The level index set $\Delta\sparseindex{\nz}{\ls}$ contains the so-called
 admissible forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of
@@ -346,9 +346,9 @@ interpolant by extending it with the indices and surpluses of the undertaken
 iteration.
 
 \inputalgorithm{frame-evaluation}
-We now turn to the usage stage of an interpolant. The pseudocode is given in
-\aref{frame-evaluation}. This subroutine is also involved in
-\aref{frame-construction}; see line~5. Let us make a couple of observations
+We now turn our attention to the usage stage of an interpolant. The pseudocode
+is given in \aref{frame-evaluation}. This subroutine is also used in
+\aref{frame-construction} on line~5. Let us make a couple of observations
 regarding this subroutine.
 
 Line 3: The inner loop corresponds to an unfolded version of

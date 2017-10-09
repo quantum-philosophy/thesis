@@ -46,9 +46,9 @@ computed using \eref{variance}. This approach can be generalized to
 probabilistic moments of higher orders.
 
 The careful reader might have noted a problem with the calculation of
-$\variance{\g}$ presented above: \h is vector valued. More generally, \g has
-been depicted so far as having a one-dimensional codomain. The proposed
-framework, however, does not have such a limitation as explained in
+$\variance{\g}$ presented above: \h is a vector. More generally, \g has been
+depicted so far as having a one-dimensional codomain. The proposed framework,
+however, does not have such a limitation, which is explained in
 \rref{frame-multidimensional-output}.
 
 \begin{remark} \rlab{frame-multidimensional-output}
@@ -68,8 +68,9 @@ of \g is estimated using versatile sampling methods applied to the interpolant.
 The framework extends naturally to quantities with multiple outputs, and it
 provides analytical formulae for the expectation and variance.
 
-Lastly, let us remind that the evaluation of \g is an expensive operation. Our
-technique is designed to keep this expense as low as possible by choosing
-evaluation points adaptively, which is unlike traditional sampling methods.
-Moreover, in contrast to \up{PC} expansions and similar techniques, the proposed
-framework is well suited for nonsmooth response surfaces.
+Lastly, let us remind that the evaluation of the quantity of interest is an
+expensive operation. The proposed technique is designed to keep this expense as
+low as possible by choosing evaluation points adaptively, which is unlike
+traditional sampling methods. Moreover, in contrast to \up{PC} expansions and
+similar techniques, our framework is well suited for nonsmooth response
+surfaces.

@@ -1,13 +1,12 @@
-Due to its analog, physical nature, the variability coming from process
-variation is typically smooth, well behaved. In such cases, uncertainty
-quantification based on \ac{PC} expansions \cite{xiu2010} and other
-approximation techniques making use of global polynomials generally work well,
-which is demonstrated in \cref{uncertainty-analog-development}. On the other
-hand, the variability coming from the digital world often has steep gradients
-and favors nondifferentiability and even discontinuity. In such cases, \ac{PC}
-expansions and similar techniques fail: they require extremely many evaluations
-of the studied quantity in order to deliver an acceptable level of accuracy and
-are consequently not worth it.
+Due to its physical nature, the variability coming from process variation is
+typically smooth and well behaved. In such cases, uncertainty quantification
+based on \ac{PC} expansions \cite{xiu2010} and other approximation techniques
+making use of global polynomials generally work well, which is demonstrated in
+\cref{uncertainty-analog-development}. On the other hand, the variability coming
+from the digital world often has steep gradients and favors nondifferentiability
+and even discontinuity. In such cases, \ac{PC} expansions and similar techniques
+fail: they require extremely many evaluations of the studied quantity in order
+to deliver an acceptable level of accuracy and are consequently not worth it.
 
 \inputfigure{frame-motivation}
 In order to illustrate this concern, let us consider an example. Suppose that
@@ -37,13 +36,13 @@ observed oscillating behavior is the well-known Gibbs phenomenon stemming from
 the discontinuity of the response. Regardless of the number of points spent, the
 oscillations will never go away completely.
 
-Let us now investigate how the framework developed in this chapter solves the
-same problem. For the purpose of the experiment, our technique is constrained to
-make use of the same number of points as the \ac{PC} expansion does. The result
-is the blue curve in \fref{frame-motivation}, and the adaptively chosen points
-are plotted on the horizontal axis. It can be seen that the approximation is
-good, and, in fact, it would be indistinguishable from the true response with a
-few additional points. One can note that the adaptive procedure started to
+Let us now see how the framework developed in this chapter solves the same
+problem. For the purpose of the experiment, our technique is constrained to make
+use of the same number of points as the \ac{PC} expansion does. The result is
+the blue curve in \fref{frame-motivation}, and the adaptively chosen points are
+plotted on the horizontal axis. It can be seen that the approximation is good,
+and, in fact, it would be indistinguishable from the true response with a few
+additional points. One can note that the adaptive procedure started to
 concentrate interpolation points at the jump and left the insipid regions on
 both sides of the jump with no particular attention. Having constructed such a
 representation, one can proceed to the calculation of the probability
