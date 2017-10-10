@@ -23,19 +23,19 @@ flow and the resource needed by that task flow.
 Studying the literature on probabilistic analysis of electronic systems related
 to \cref{uncertainty-analog-development} and this chapter, one can note a
 pronounced trend: the generality and straightforwardness of sampling methods
-tend to be lost. To elaborate, a technique typically \one~requires restrictive
-assumptions to be fulfilled such as the absence of correlation, \two~is tailored
-to one concrete quantity of interest such as the response time, and
-\three~requires substantial effort in order to be deployed. However, one should
-keep in mind what is practical. First of all, although additional assumptions
-might make the mathematics analytically solvable, they often do not hold in
-reality and oversimplify the model. An exact analytical solution might also be
-extremely complex, requiring a lot of computational resources upon evaluation.
-Furthermore, it is often the case that there has been developed a robust
-simulator evaluating the quantity under consideration for the deterministic
-scenario. Switching to probabilistic analysis based on analytical approaches
-means discarding this battle-tested code and implementing something else from
-scratch, which is wasteful.
+tend to be lost. The proposed techniques typically \one~require restrictive
+assumptions to be fulfilled such as the absence of correlation, \two~are
+tailored to one concrete quantity of interest such as the response time, and
+\three~require substantial effort in order to be deployed. However, one should
+also keep in mind what is practical. First of all, although additional
+assumptions might make the mathematics analytically solvable, they often do not
+hold in reality and oversimplify the model. An exact analytical solution might
+also be extremely complex, requiring a lot of computational resources upon
+evaluation. Furthermore, it is often the case that there has already been
+developed a robust simulator evaluating the quantity under consideration in the
+deterministic scenario. Switching to probabilistic analysis based on analytical
+approaches might mean discarding this battle-tested code and implementing
+something else from scratch, which is wasteful.
 
 Some of the techniques mentioned earlier, in fact, preserve the generality and
 straightforwardness of sampling methods. An example is our probabilistic

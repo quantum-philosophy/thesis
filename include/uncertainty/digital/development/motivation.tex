@@ -1,12 +1,13 @@
-Due to its physical nature, the variability coming from process variation is
-typically smooth and well behaved. In such cases, uncertainty quantification
-based on \ac{PC} expansions \cite{xiu2010} and other approximation techniques
-making use of global polynomials generally work well, which is demonstrated in
+Due to its nature, the variability coming from process variation is typically
+smooth and well behaved. In such cases, uncertainty quantification based on
+\ac{PC} expansions \cite{xiu2010} and other approximation techniques making use
+of global polynomials generally work well, which is demonstrated in
 \cref{uncertainty-analog-development}. On the other hand, the variability coming
-from the digital world often has steep gradients and favors nondifferentiability
-and even discontinuity. In such cases, \ac{PC} expansions and similar techniques
-fail: they require extremely many evaluations of the studied quantity in order
-to deliver an acceptable level of accuracy and are consequently not worth it.
+from such sources as workload often has steep gradients and favors
+nondifferentiability and even discontinuity. In such cases, \ac{PC} expansions
+and similar techniques fail: they require extremely many evaluations of the
+quantity of interest in order to deliver an acceptable level of accuracy and are
+consequently not worth it.
 
 \inputfigure{frame-motivation}
 In order to illustrate this concern, let us consider an example. Suppose that
@@ -48,9 +49,10 @@ both sides of the jump with no particular attention. Having constructed such a
 representation, one can proceed to the calculation of the probability
 distribution of the quantity of interest, which, in general, is done via
 sampling followed by such techniques as kernel density estimation
-\cite{hastie2013}. The crucial point to note is that this follow-up sampling
-does not involve the original system in any way, which implies that it costs
-practically nothing in terms of the computation time.
+\cite{hastie2013}. The crucial point to note is that, analogous to the \ac{PC}
+expansions leveraged in \cref{uncertainty-analog-development}, this follow-up
+sampling does not involve the original system in any way, which implies that the
+operation costs practically nothing in terms of the computation time.
 
 The example discussed above illustrates the fact that the proposed framework is
 well suited for nonsmooth response surfaces. More generally, the adaptivity
