@@ -1,5 +1,7 @@
-Analogous to \sref{dream-optimization}, in this section, the proposed framework
-is illustrated in the context of design-space exploration.
+Analogous to the optimization given in \sref{dream-optimization}, the framework
+proposed in this chapter is illustrated in the context of design-space
+exploration. Concretely, we pursue energy minimization in the presence of
+process variation.
 
 \subsection{\problemtitle}
 
@@ -76,44 +78,52 @@ Stage~4, is worth discussing.
 
 \subsection{Post-Processing}
 
-Polynomial expansions are utilized inside an optimization procedure whose
-objective is the one shown in \eref{chaos-optimization-objective}. Let us
-discuss this procedure.
+In this context, the post-processing stage concerns the usage of \ac{PC}
+expansions of \eref{chaos-optimization-quantity} inside an optimization
+procedure whose objective and constraints are the ones shown in
+\eref{chaos-optimization-objective} and \eref{chaos-optimization-constraints},
+respectively.
 
-Similar to \sref{dream-optimization}, we make use of a genetic algorithm. Each
-chromosome contains $2 \nt$ genes that encode a mapping of the tasks onto the
-processing elements and their priorities; this information is needed for
-constructing a schedule \schedule. The population contains $4 \nt$ individuals
-that are initialized using uniform distributions. The parents for the next
-generation are chosen by a tournament selection with the number of competitors
-equal to 20\% of \nt. A one-point crossover is then applied to 80\% of the
-parents. Each parent undergoes a uniform mutation where each gene is altered
-with probability 0.01. The top five-percent individuals always survive. The
-stopping condition is the absence of improvement within 10 successive
-generations.
+We begin by delineating the optimization procedure \emph{per se}. Similar to
+\sref{dream-optimization}, we make use of a genetic algorithm
+\cite{schmitz2004}. Each chromosome contains $2 \nt$ genes that encode a mapping
+of the tasks onto the processing elements and a vector of priorities of the
+tasks; the two pieces of information are needed for scheduling as explained
+below. The population contains $4 \nt$ individuals that are initialized using
+uniform distributions. The parents for the next generation are chosen by a
+tournament selection with the number of competitors equal to 20\% of \nt. A
+one-point crossover is then applied to 80\% of the parents. Each parent
+undergoes a uniform mutation where each gene is altered with probability 0.01.
+The top five-percent individuals always survive. The stopping condition is the
+absence of improvement within 10 successive generations.
 
-Let us turn to the evaluation of the fitness of a chromosome. We begin by
-checking the timing constraint, the first one in
-\eref{chaos-optimization-constraints}, as it does not require any uncertainty
-analysis; the constraint is purely deterministic. If it is violated, we set the
-fitness to the amount of this violation relative to the constraint---that is, to
-the difference between the actual period and the deadline $\period_\maximum$
-divided by $\period_\maximum$---and add a big constant $C$. If the timing
-constraint is satisfied, we perform our uncertainty analysis and proceed to
-checking the other two constraints. If any of them is violated, we set the
+Let us now turn to the evaluation of the fitness of a chromosome, which is where
+\ac{PC} expansions come into play. First, the information encoded in the
+chromosome is fed into a list scheduler \cite{adam1974}, and the scheduler
+produces a schedule \schedule. We then check the timing constraint (the first
+one in \eref{chaos-optimization-constraints}), which does not require any
+uncertainty analysis. If it is violated, we set the fitness to the amount of
+this violation relative to the constraint---that is, to the difference between
+the actual period and the deadline $\period_\maximum$ divided by
+$\period_\maximum$---and add a big constant $C$. If the timing constraint is
+satisfied, we perform our uncertainty analysis and proceed to checking the
+temperature and lifetime constraints. If any of them is violated, we set the
 fitness to the total relative amount of violation plus $C / 2$. If all the
 constraints are satisfied, the fitness value of the chromosome is set to the
-expected consumption of energy.
+expected energy consumption.
 
-In order to speed up the optimization, we make use of caching and parallel
-computing. Specifically, the fitness value of each evaluated chromosome is
-stored in memory and reused when a chromosome with the same set of genes is
-encountered, and unseen (not cached) individuals are assessed in parallel.
+The aforementioned examination of the temperature and lifetime constraints as
+well as the evaluation of the expected energy consumption are undertaken by
+means of a \ac{PC} expansion of \eref{chaos-optimization-quantity} using the
+description given in \sref{chaos-processing}. Concretely, the two probabilities
+needed in \eref{chaos-optimization-constraints} are estimated via sampling the
+light surrogate. The expectation in \eref{chaos-optimization-objective}, on the
+other hand, requires no sampling and is straightforwardly computed using the
+analytical formula shown in \eref{chaos-moments}.
 
-The important aspect to note is that the examination of the temperature and
-lifetime constraints---the last two formulae in
-\eref{chaos-optimization-constraints}---as well as the evaluation of the
-expected total energy consumption in \eref{chaos-optimization-objective} are
-undertaken by means of a \ac{PC} expansion. The probabilities of the two events
-are estimated via sampling the constructed surrogate, and the expectation has an
-analytical formula, which is elaborated on in \sref{chaos-processing}.
+\begin{remark}
+In order to speed up the optimization, we use caching and parallel computing.
+Specifically, the fitness value of each evaluated chromosome is stored in memory
+and reused when a chromosome with the same set of genes is encountered, and
+unseen (not cached) individuals are assessed in parallel.
+\end{remark}
