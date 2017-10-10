@@ -59,7 +59,7 @@ condition, and they are the ones used in the original version of local
 adaptivity presented in \cite{ma2009}. The open ones, on the other hand, do not
 fulfill the condition close to the boundaries of the unit interval. However,
 according to our experience, open Newton--Cotes rules are a viable option since
-they performs well in practice, which is also noted in \cite{klimke2006}. In
+they perform well in practice, which is also noted in \cite{klimke2006}. In
 fact, we are able to obtain better results with open rules and, therefore,
 present them here.
 
@@ -268,7 +268,7 @@ interpolation in multiple dimensions. The main equation is \eref{frame-sparse}
 where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$, $\vx_{\vi \vj}$, and $e_{\vi
 \vj}$ are the ones in \eref{interpolant-sparse-surplus}, \sref{frame-grid}, and
 \sref{frame-basis}, respectively, and the interpolation is undertaken according
-to the rules in \sref{frame-adaptivity}. Now we discuss the implementation.
+to the rules in \sref{frame-adaptivity}. Next, we discuss the implementation.
 
 \subsection{Implementation}
 
@@ -299,7 +299,7 @@ interpolation.
 The pseudocode of the construction stage is given in \aref{frame-construction}.
 The input is a subroutine called Algorithm~G that evaluates $\g \circ
 \transform$. The output is a structure \texttt{interpolant} that contains
-artifacts of interpolation. These artifacts are a set of tuples $\{
+artifacts of the interpolation. These artifacts are a set of tuples $\{
 (\v{\iota}_k, \Delta\g(\vx_{\v{\iota}_k})) \}$, which is a comprehensive
 description of a hierarchical interpolant. The pseudocode works as follows.
 
@@ -330,12 +330,13 @@ order.
 
 Line 5: \aref{frame-evaluation} is a subroutine that exercises the interpolant
 constructed so far at the collocation nodes and, thereby, approximates the
-values obtained on line~4. This algorithm is to be discussed separately.
+values obtained on line~4. This algorithm is to be discussed separately later
+on.
 
 Line 6: The \texttt{Subtract} subroutine computes the difference between the
 actual and approximated values of \g, which yields the hierarchical surpluses
-$\{ \Delta(\g \circ \transform)(\vx_{\v{\iota}_k}) \}$ of the current
-interpolation step.
+$\{ \Delta(\g \circ \transform)(\vx_{\v{\iota}_k}) \}$ (see
+\eref{interpolant-sparse-surplus}) of the current interpolation step.
 
 Line 7: The \texttt{Score} method of \texttt{strategy} calculates the scores of
 the new collocation nodes based on their surpluses as described in
