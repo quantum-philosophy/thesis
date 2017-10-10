@@ -3,19 +3,19 @@ system-level framework for the analysis of electronic systems that are dependent
 on uncertain parameters. As it is the case with sampling methods introduced in
 \sref{prior}, our technique treats the system at hand as a ``black box'' and,
 therefore, is straightforward to apply since no handcrafting is required, and
-existing codes need no change. Hence, the quantities that the framework is able
-to tackle are diverse. Examples include those concerned with timing-, power-,
-and temperature-related characteristics of applications running on heterogeneous
-platforms.
+existing codes need no change. Consequently, the quantities that the framework
+is able to tackle are diverse. Examples include those concerned with timing-,
+power-, and temperature-related characteristics of applications running on
+heterogeneous platforms.
 
 In contrast to \cref{uncertainty-analog-development} and sampling methods, the
 framework presented in this chapter explores and exploits the nature of the
 problem---that is, the way the quantity of interest depends on the uncertain
 parameters---by exercising the aforementioned ``black box'' at a set of points
 chosen adaptively. The adaptivity that we leverage is hybrid \cite{jakeman2012}:
-it tries to pick up both global (on the level of individual dimensions
+it is sensitive to both global (on the level of individual stochastic dimensions
 \cite{klimke2006}) and, more importantly, local (on the level on individual
 points \cite{ma2009}) variations. This means that the framework is able to
 benefit from any particularities that might be present in the stochastic space,
-that is, in the space of the uncertain parameters. The adaptivity is the capital
+that is, the space of the uncertain parameters. The adaptivity is the capital
 feature of our technique, which we motivate and illustrate next.
