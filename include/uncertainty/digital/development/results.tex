@@ -7,7 +7,7 @@ at \cite{eslab2017a}.
 We consider three platform sizes \np, two application sizes \nt, and three
 quantities of interest \g. Specifically, \np is in $\{ 2, 4, 8 \}$, \nt is in
 $\{ 10, 20 \}$, and \g is the end-to-end delay, total energy consumption, or
-maximum temperature; the quantities of interest are defined in
+maximum temperature; these quantities of interest are defined in
 \eref{frame-delay}, \eref{frame-energy}, and \eref{frame-temperature},
 respectively. Therefore, we address 18 problems in total, which correspond to
 different combinations of \np, \nt, and \g. At this point, it might be helpful
@@ -68,12 +68,13 @@ sampling is undertaken in accordance with a Sobol sequence, which is a
 quasi-random low-discrepancy sequence featuring much better convergence
 properties than those of the classical \ac{MC} sampling \cite{joe2008}. As a
 result, we obtain three estimates of \g's distribution: reference (the one
-considered true), proposed (the one based on interpolation), and direct (the one
-equal in terms of the number of \g's evaluations to the proposed solution). The
-last two are compared with the first one. For computing the proximity between
-two distributions, we use the well-known \ac{KS} statistic \cite{rao2002}, which
-is the supremum over the distance (pointwise) between two empirical distribution
-functions and hence is a rather unforgiving error indicator.
+considered true), proposed (the one based on our interpolation), and direct (the
+one equal in terms of the number of \g's evaluations to the proposed solution).
+The last two are compared with the first one. For computing the proximity
+between two distributions, we use the well-known \ac{KS} statistic
+\cite{rao2002}, which is the supremum over the distance (pointwise) between two
+empirical distribution functions and hence is a rather unforgiving error
+indicator.
 
 \inputfigure{frame-accuracy-delay}
 \inputfigure{frame-accuracy-energy}
@@ -96,14 +97,15 @@ same numbers of evaluations of the quantity of interest, the orange line shows
 the error of direct sampling, which is also calculated with respect to the
 reference solution.
 
-We begin by describing one particular problem shown in the three figures.
-Consider, for instance, the one labeled with $\bigstar$ in
-\fref{frame-accuracy-energy}. It can be seen that, at the very beginning, our
-solution and the solution delivered by direct sampling are poor. The \ac{KS}
-statistic indicates that there are substantial mismatches between the estimates
-and the reference solution. However, as the hierarchical interpolant is being
-adaptively refined, our solution approaches rapidly the reference one and, by
-the end of the interpolation process, leaves the solution of naïve sampling
+We begin by describing one particular problem chosen among those shown in the
+three figures. Consider, for instance, the one labeled with $\bigstar$ in
+\fref{frame-accuracy-energy}. It can be seen that, at the very beginning when
+the number of evaluations is very small, the proposed solution as well as direct
+sampling perform poorly. The \ac{KS} statistic indicates that there is a
+substantial mismatch between each of these two solutions and the reference one.
+However, as the hierarchical interpolant is being adaptively refined, our
+solution approaches rapidly the reference one and, by the end of the
+interpolation process, leaves the solution produced by naïve sampling
 approximately an order of magnitude behind.
 
 Studying \fref{frame-accuracy-delay}, \fref{frame-accuracy-energy}, and
@@ -127,7 +129,7 @@ certain accuracy requirements (\error{a}, \error{r}, and \error{s}), and it
 reasonably does not do more than what has been requested. Second, since model
 order reduction is performed in the case of interpolation, the quantity being
 interpolated is not \g strictly speaking; it is a lower-dimensional
-representation of \g, which already implies an information loss. Therefore,
+representation of \g, which already implies some information loss. Therefore,
 there is a limit on the accuracy that can be achieved, which depends on the
 amount of reduction.
 
