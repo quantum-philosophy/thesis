@@ -109,17 +109,18 @@ $\period_\maximum$---and add a big constant $C$. If the timing constraint is
 satisfied, we perform our uncertainty analysis and proceed to checking the
 temperature and lifetime constraints. If any of them is violated, we set the
 fitness to the total relative amount of violation plus $C / 2$. If all the
-constraints are satisfied, the fitness value of the chromosome is set to the
-expected energy consumption.
+constraints are satisfied, the fitness of the chromosome is set to the expected
+energy consumption.
 
 The aforementioned examination of the temperature and lifetime constraints as
 well as the evaluation of the expected energy consumption are undertaken by
 means of a \ac{PC} expansion of \eref{chaos-optimization-quantity} using the
 description given in \sref{chaos-processing}. Concretely, the two probabilities
 needed in \eref{chaos-optimization-constraints} are estimated via sampling the
-light surrogate. The expectation in \eref{chaos-optimization-objective}, on the
-other hand, requires no sampling and is straightforwardly computed using the
-analytical formula shown in \eref{chaos-moments}.
+light polynomial surrogate. By contrast, the expectation in
+\eref{chaos-optimization-objective} requires no sampling and is
+straightforwardly computed using the analytical formula shown in
+\eref{chaos-moments}.
 
 \begin{remark}
 In order to speed up the optimization, we use caching and parallel computing.
