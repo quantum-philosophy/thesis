@@ -97,18 +97,18 @@ two seconds. More importantly, \tref{chaos-optimization-speed} provides
 information about a number of complementary quantities that are of high interest
 to the designer, which we discuss below.
 
-The primary quantity to pay attention to is the number of random variables \nz
+The primary quantity to pay heed to is the number of random variables \nz
 preserved after the reduction procedure noted in \sref{chaos-transformation} and
 described in \xref{probability-transformation}. Without this reduction, \nz
 would be $2 \np$ since there are two process parameters per processing element;
-see \sref{chaos-optimization-application}. It can be seen in
-\tref{chaos-optimization-speed} that there is no reduction for the dual-core
-platform while around 80\% of the stochastic dimensions are eliminated for the
-platform with 32 cores. In addition, one can note that \nz is the same for the
-last two platforms. The magnitude of reduction is solely determined by the
-correlation patterns assumed (see \sref{chaos-optimization-application}) and the
-floorplans of the considered platforms, which we also observe and elaborate on
-in \sref{chaos-transient-results}.
+recall \sref{chaos-optimization-application}. It can be seen in
+\tref{chaos-optimization-speed} that there is no reduction in the case of the
+dual-core platform while around 80\% of the stochastic dimensions are eliminated
+in the case of the platform with 32 cores. In addition, one can note that \nz is
+the same for the last two platforms. The magnitude of reduction is solely
+determined by the assumed correlation patterns (see
+\sref{chaos-optimization-application}) and the floorplans of the considered
+platforms, which we also observe and discuss in \sref{chaos-transient-results}.
 
 Another important quantity displayed in \tref{chaos-optimization-speed} is the
 number of quadrature points \nq. This number is the main indicator of the
