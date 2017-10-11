@@ -30,27 +30,27 @@ predictions from the aforementioned individual models by means of a scoring
 algorithm.
 
 It can be seen that, in general, machine learning has extensively been utilized
-for aiding the design of resource managers of computer systems. However, as we
-also note in \sref{brain-introduction}, the most recent advancements in machine
+for aiding the design of resource managers of computer systems. However, as
+noted in \sref{brain-introduction}, the most recent advancements in machine
 learning have not been sufficiently explored yet in this context. In particular,
 the utility of neural networks have been studied only marginally: feedforward
 networks---which are used, for instance, in \cite{kumar2010, ismaeel2015}---are
 arguably the simplest and least powerful members of the family. However, the
-family is rich and potent as widely demonstrated. For instance, recurrent
+family is rich and potent as widely demonstrated. For instance, recurrent neural
 networks accompanied by adequate training and regularization techniques
-\cite{goodfellow2016} are a salient candidate. Nonetheless, to the best of our
-knowledge, they have not been studied yet for the purpose of resource management
-in a large computer system.
+\cite{goodfellow2016} are a salient candidate for resource management in a large
+computer system.
 
 In addition, it should be noted that the predictions delivered by the techniques
-in \cite{cao2014, dabbagh2015, ismaeel2015} are coarse, aggregate. They treat
-virtual-machine requests or computational resources as a fluid and predict the
-level of this fluid at the next time moment. It means that they are not capable
-of characterizing individual tasks executed by the machines. More generally, to
-the best of our knowledge, resource-usage prediction at the level of individual
-tasks and potentially multiple steps ahead has not been addressed yet. However,
-if it was, it would provide the resource manager with more detailed and
-foresighted information and allow for more intelligent management of the system.
+proposed in \cite{cao2014, dabbagh2015, ismaeel2015} are coarse, aggregate. They
+treat virtual-machine requests or computational resources as a fluid and predict
+the level that this fluid will attain at the next time moment. This means that
+they are not capable of characterizing individual tasks executed by the
+machines. More generally, resource-usage prediction at the level of individual
+tasks and potentially multiple steps ahead has been deprived of attention.
+However, such prediction could provide the resource manager with more detailed
+and foresighted information and allow it for a more intelligent orchestration of
+the system.
 
 To summarize, only primitive architectures of neural networks have been
 considered in the literature on resource management of computer systems, and
