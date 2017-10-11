@@ -53,15 +53,14 @@ In addition to the description given in \sref{system-model}, the considered
 platform with \np processing elements is to execute a periodic application with
 \nt tasks. The application is given as a directed acyclic graph whose vertices
 and edges correspond to the tasks and to data dependencies between these tasks,
-respectively; see \fref{dream-motivation-graph} for an example. The end-to-end
-delay of the application is denoted by \period, and this delay is assumed to be
-also the application's activation period. Furthermore, each pair of a task and a
-processing element is characterized by an execution time and a power
+respectively; see \fref{dream-motivation-graph} for an example. Each pair of a
+task and a processing element is characterized by an execution time and a power
 consumption; these are the characteristics that the task exhibits when it is
-assigned to the processing element.
+assigned to the processing element. Furthermore, the time to failure of each
+processing element is modeled using the reliability model presented in
+\sref{thermal-cycling-fatigue}.
 
-The time to failure of each processing element is modeled using the reliability
-model presented in \sref{thermal-cycling-fatigue}. Our optimization objective is
+Our optimization objective is as follows:
 \begin{equation} \elab{thermal-cycling-objective}
   \max_{\schedule} \min_{i = 1}^\np \mean_i(\schedule)
 \end{equation}
@@ -72,14 +71,15 @@ such that
     & Q(\schedule) \leq \q_\maximum.
   \end{split}
 \end{align}
-In the above formulae, \schedule denotes a schedule, which specifies the
-starting times of the tasks as well as their mapping onto the processing
-elements; $\mean_i$ is the \ac{MTTF} of processing element $i$, which is
-computed according to \eref{thermal-cycling-mean-time}; and
+In the above formulae, \schedule is a schedule, which specifies the starting
+times of the tasks as well as their mapping onto the processing elements;
+$\mean_i$ is the \ac{MTTF} of processing element $i$, which is computed
+according to \eref{thermal-cycling-mean-time}; \period stands for the end-to-end
+delay of the application; and
 \[
   Q(\schedule) = \norm[\infty]{\mq(\schedule)}
 \]
-where \mq is the dynamic steady-state temperature profile of the system, and
+where \mq is the dynamic steady-state temperature profile of the platform, and
 $\norm[\infty]{\cdot}$ denotes the uniform norm. The first constraint in
 \eref{thermal-cycling-constraints} enforces a deadline $\period_\maximum$ on the
 schedule while the second constraint enforces a maximum temperature
