@@ -87,13 +87,13 @@ $\q_\maximum$ on the resulting temperature profile \mq.
 
 \subsection{\solutiontitle}
 
-The application is to scheduled using a static cyclic scheduler following the
-list scheduling policy \cite{adam1974}. The input to the scheduler is a mapping
-of the tasks onto the processing elements and a vector of priorities of the
-tasks; other characteristics of the platform and application are assumed to be
-implicitly known to the scheduler. The schedule produces a vector specifying the
-starting times of the tasks, which together with the given mapping constitute a
-schedule \schedule.
+The application is scheduled using a static cyclic scheduler following the list
+scheduling policy \cite{adam1974}. The input to the scheduler is a mapping of
+the tasks onto the processing elements and a vector of priorities of the tasks;
+other characteristics of the platform and application are assumed to be
+implicitly known to the scheduler. The scheduler produces a vector specifying
+the starting times of the tasks, which together with the given mapping
+constitute a schedule \schedule.
 
 The optimization procedure is undertaken via a genetic algorithm
 \cite{schmitz2004}. In this paradigm inspired by biology, a population of
