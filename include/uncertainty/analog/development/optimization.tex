@@ -5,20 +5,18 @@ process variation.
 
 \subsection{\problemtitle}
 
-The general setup is the same as the one in \sref{dream-optimization-problem}.
-We continue working with the thermal-cycling fatigue \cite{jedec2016}, which is
-introduced in \sref{thermal-cycling-fatigue} and motivated in
-\sref{dream-optimization}. Recall that, in this case, the system is exposed a
+The general setup is the same as the one described in
+\sref{dream-optimization-problem}. We continue working with the thermal-cycling
+fatigue \cite{jedec2016}, which is introduced in \sref{thermal-cycling-fatigue}
+and motivated in \sref{dream-optimization}. Recall that the system is exposed a
 periodic or approximately periodic workload, and that the corresponding
-temperature profile is a dynamic steady-state temperature profile, which, in the
-deterministic case, can be computed as described in
+temperature profile is a dynamic steady-state temperature profile. In the
+deterministic case, this profile can be computed as described in
 \sref{dynamic-steady-solution}.
 
-The goal of our optimization in this section is to find such a schedule
-\schedule that minimizes energy consumption while satisfying certain
-constraints; recall that a schedule includes the starting times of the tasks as
-well as their mapping onto the processing elements. More specifically, our
-objective is
+The goal of the optimization in this section is to find a schedule that
+minimizes the energy consumption of the system while satisfying certain
+constraints. Specifically, our objective is as follows:
 \begin{equation} \elab{chaos-optimization-objective}
   \min_{\schedule} \expectation{(E(\schedule))}
 \end{equation}
@@ -35,15 +33,17 @@ where
   & E(\schedule) = \dt \, \norm[1]{\mp(\schedule)} \text{ and} \\
   & Q(\schedule) = \norm[\infty]{\mq(\schedule)}.
 \end{align*}
-To begin with, \mp and \mq are the dynamic steady-state power and temperature
-profiles, respectively; \dt is their sampling interval; and $\norm[1]{\cdot}$
-and $\norm[\infty]{\cdot}$ denote the Manhattan and uniform norms, respectively.
-The objective in \eref{chaos-optimization-objective} is to minimize the
-expectation of the consumed energy $E: \Omega \to \real$, which is a random
-variable since energy is a function of power, and power, in turn, depends on the
-uncertain parameters \vu. The constraints in
-\eref{chaos-optimization-constraints} concern \one~time, \two~temperature, and
-\three~reliability. The first one constrains the end-to-end delay \period of the
+To begin with, \schedule denotes a schedule (recall that a schedule includes not
+only the starting times of the tasks but also their mapping onto the processing
+elements); \mp and \mq are the corresponding dynamic steady-state power and
+temperature profiles, respectively; \dt is their sampling interval; and
+$\norm[1]{\cdot}$ and $\norm[\infty]{\cdot}$ are the Manhattan and uniform
+norms, respectively. The objective in \eref{chaos-optimization-objective} is to
+minimize the expectation of the total energy consumption $E: \Omega \to \real$,
+which is a random variable since energy depends on power, and power depends on
+the uncertain parameters \vu. The constraints in
+\eref{chaos-optimization-constraints} concern time, temperature, and
+reliability. The first one constrains the end-to-end delay \period of the
 application by a deadline $\period_\maximum$. The second one constrains the
 maximum temperature $Q: \Omega \to \real$ of the platform by $\q_\maximum$ where
 $\rho_\burn$ is an acceptable probability of burning the chip. The third one

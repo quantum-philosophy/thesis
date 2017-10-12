@@ -53,14 +53,13 @@ In addition to the description given in \sref{system-model}, the considered
 platform with \np processing elements is to execute a periodic application with
 \nt tasks. The application is given as a directed acyclic graph whose vertices
 and edges correspond to the tasks and to data dependencies between these tasks,
-respectively; see \fref{dream-motivation-graph} for an example. Each pair of a
-task and a processing element is characterized by an execution time and a power
-consumption; these are the characteristics that the task exhibits when it is
-assigned to the processing element. Furthermore, the time to failure of each
-processing element is modeled using the reliability model presented in
-\sref{thermal-cycling-fatigue}.
+respectively; see \fref{dream-motivation-graph}. Each pair of a task and a
+processing element is characterized by an execution time and a power
+consumption, which are the characteristics that the task exhibits when it is
+assigned to the processing element.
 
-Our optimization objective is as follows:
+The optimization objective is to find a schedule that maximizes the lifetime of
+the system under certain constraints. Formally, the objective is
 \begin{equation} \elab{thermal-cycling-objective}
   \max_{\schedule} \min_{i = 1}^\np \mean_i(\schedule)
 \end{equation}
@@ -71,11 +70,13 @@ such that
     & Q(\schedule) \leq \q_\maximum.
   \end{split}
 \end{align}
-In the above formulae, \schedule is a schedule, which specifies the starting
-times of the tasks as well as their mapping onto the processing elements;
-$\mean_i$ is the \ac{MTTF} of processing element $i$, which is computed
-according to \eref{thermal-cycling-mean-time}; \period stands for the end-to-end
-delay of the application; and
+In the above formulae, \schedule denotes a schedule, which specifies the
+starting times of the tasks as well as their mapping onto the processing
+elements; $\mean_i$ is the \ac{MTTF} of processing element $i$, which is
+computed according to the reliability model presented in
+\sref{thermal-cycling-fatigue} and can be seen in
+\eref{thermal-cycling-mean-time}; \period stands for the end-to-end delay of the
+application; and
 \[
   Q(\schedule) = \norm[\infty]{\mq(\schedule)}
 \]
@@ -87,13 +88,12 @@ $\q_\maximum$ on the resulting temperature profile \mq.
 
 \subsection{\solutiontitle}
 
-The application is scheduled using a static cyclic scheduler following the list
-scheduling policy \cite{adam1974}. The input to the scheduler is a mapping of
-the tasks onto the processing elements and a vector of priorities of the tasks;
-the execution time of each task on each processing element is assumed to be
-implicitly known to the scheduler. The scheduler produces a vector specifying
-the starting times of the tasks, which together with the given mapping
-constitute a schedule \schedule.
+The application is scheduled by means of a static cyclic scheduler following the
+list scheduling policy \cite{adam1974}. The input to the scheduler is a vector
+mapping the tasks onto the processing elements and a vector assigning priorities
+to the tasks. The scheduler produces a vector prescribing starting times to the
+tasks, and this vector together with the given mapping constitute a schedule
+\schedule.
 
 The optimization procedure is undertaken via a genetic algorithm
 \cite{schmitz2004}. In this paradigm inspired by biology, a population of
