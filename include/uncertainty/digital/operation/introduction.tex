@@ -1,9 +1,9 @@
-Resource management is of great importance. It is the activity that, if
+Resource management is of great importance since it is the activity that, if
 adequately executed, enables one to optimally exploit the full potential of the
-computer system at hand. However, there is typically very little control over
-the operating environment. In particular, the actual workload that the system
-will have to process at runtime is rarely, if ever, known in advance. Therefore,
-resource management has to cope with inherent workload uncertainty.
+computer system at hand. However, in many cases, there is very little control
+over the operating environment. In particular, the actual runtime workload of a
+general-purpose system is rarely, if ever, known in advance. In such cases,
+resource management inevitably has to cope with workload uncertainty.
 
 Workload uncertainty can be mitigated at runtime by predicting the future and
 acting accordingly. This is the general principle that proactive resource
@@ -27,27 +27,27 @@ resource managers of computer systems.
 
 \inputfigure{brain-application}
 In this chapter, we conduct one such body of research. More specifically, we
-study resource usage in a large system of computers and aim to predict this
-usage multiple steps ahead at the level of individual tasks executed by the
+study the usage of resources in a large system of computers and aim to predict
+this usage multiple steps ahead at the level of individual tasks executed by the
 machines. To this end, we intend to use recurrent neural networks
 \cite{goodfellow2016}.
 
 In order to give a better intuition about the considered scenario,
 \fref{brain-application} illustrates how the aforementioned prediction is
 supposed to work in practice. In this example, the \up{CPU} usage of a single
-task running on a single computer is depicted three times; see the solid lines.
+task running on a single machine is depicted three times; see the solid lines.
 The three cases correspond to three different time moments as viewed by the
 resource manager of the system; see the black circles. The solid orange lines
 represent the history of the usage, which is known to the manager, while the
 solid blue lines represent the future usage, which is unknown to the manager.
-The latter is what we are to predict for each task of interest and several steps
+Our objective is then to predict this future usage for each task several steps
 ahead. In \fref{brain-application}, our potential predictions up to four steps
 ahead are depicted as a set of dashed blue lines.
 
 Such detailed (since for individual tasks) and foresighted (since multiple steps
 ahead) information about the future resource usage as the one depicted in
 \fref{brain-application} can be of great help to the resource manager of the
-system. For instance, having at its disposal the information about the future
-resource usage of the tasks that are currently being executed, the manager can
-more intelligently decide which machine the next incoming task should be
-delegated to.
+system. In particular, the manager can more intelligently decide which machine
+the next incoming task should be delegated to provided that it is able to
+foresee how the currently active tasks will utilize the system's resources in
+the future.
