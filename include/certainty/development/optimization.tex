@@ -161,10 +161,10 @@ partially based on a temperature-aware heuristic proposed in \cite{xie2006},
 which we refer to as the initial solution. The heuristic relies on spatial
 temperature variations and tries to minimize the maximum temperature while
 satisfying real-time constraints. This initial solution is also used to decide
-on the deadline constraint \period in \eref{thermal-cycling-constraints}: it is
-set to the duration of the initial schedule extended by 5\%. Furthermore, the
-initial solution serves as a baseline for evaluating the performance of the
-solutions delivered by our optimization.
+on the deadline constraint $\period_\maximum$ in
+\eref{thermal-cycling-constraints}: it is set to the duration of the initial
+schedule extended by 5\%. Furthermore, the initial solution serves as a baseline
+for evaluating the performance of the solutions delivered by our optimization.
 
 \inputtable{dream-optimization-elements}
 In the first set of experiments, we change the number of processing elements \np
