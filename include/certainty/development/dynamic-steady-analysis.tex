@@ -160,9 +160,9 @@ where $\mathbb{A}$ is an $\nn \ns \times \nn \ns$ matrix, and $\mathbb{X}$ and
 $\mathbb{B}$ are $\nn \ns$-element vectors.
 
 The most direct way to solve the system in \eref{dynamic-steady-system} is to
-use a dense solver such as the \up{LU} decomposition \cite{press2007}. However,
+use a dense solver, such as the \up{LU} decomposition \cite{press2007}. However,
 since $\mathbb{A}$ is a sparse matrix, a more appropriate approach is to employ
-a sparse solver such as the unsymmetric multifrontal method \cite{davis2004}.
+a sparse solver, such as the unsymmetric multifrontal method \cite{davis2004}.
 The computational complexity of such solutions is $\bigo{n_s^3 n_n^3}$
 \cite{press2007} where $\nn$ is the number of nodes in the thermal \up{RC}
 circuit, and $\ns$ is the number of samples in the power profile. The problem,
@@ -171,20 +171,21 @@ due to \ns. In such cases, direct solvers are prohibitively slow and require an
 enormous amount of memory. Therefore, we do not discuss them any further.
 
 Another potential approach is leveraging iterative methods for solving systems
-of linear equations such as the Jacobi or Gauss--Seidel method \cite{press2007}.
-Such methods are designed to overcome the problems of direct solvers, and they
-are consequently applicable for very large systems. However, the most important
-issue with these methods is their convergence. In our experiments, we have not
-observed any advantages of using these methods compared to the other considered
-techniques. Thus, they are excluded from further discussion.
+of linear equations, such as the Jacobi or Gauss--Seidel method
+\cite{press2007}. Such methods are designed to overcome the problems of direct
+solvers, and they are consequently applicable for very large systems. However,
+the most important issue with these methods is their convergence. In our
+experiments, we have not observed any advantages of using these methods compared
+to the other considered techniques. Thus, they are excluded from further
+discussion.
 
 Yet another solution can be obtained by observing that $\mathbb{A}$ in
 \eref{dynamic-steady-system} is, in fact, a block Toeplitz matrix and, moreover,
 a block-circulant matrix, in which each block row is rotated one block element
 to the right relative to the preceding block row. This observation leads to a
-range of possible techniques for solving the system shown in
-\eref{dynamic-steady-system} such as the fast Fourier transform
-\cite{mazancourt1983}, which we discuss further in our experiments reported in
+range of possible techniques for solving the system of equations shown in
+\eref{dynamic-steady-system}, such as the fast Fourier transform
+\cite{mazancourt1983} used in the experiments reported in
 \sref{dynamic-steady-results}.
 
 The major problem with the aforementioned techniques is that \one~the sparseness

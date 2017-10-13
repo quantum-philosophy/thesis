@@ -1,4 +1,4 @@
-Consider a large system of computers that is serving a stream of tasks which are
+Consider a system of computers that is serving a stream of tasks which are
 distributed across the individual machines of the system by a resource manager.
 Each task consumes certain resources---such as \up{CPU} and memory---during its
 execution. Each task $i$ is characterized by a resource-usage profile, which is
@@ -8,10 +8,10 @@ interval and captured by the following matrix of size $\ng \times \nsi{i}$:
   \mg_i = (\vg_{ij})_{j = 1}^\nsi{i}
 \end{equation}
 where $\vg_{ij} \in \real^\ng$ is the measurement taken at time step $j$, and
-\nsi{i} denotes the length of the sequence. Such information is called
-fine grained as it contains multiple measurements over the execution of the task
-as opposed to having only one aggregate measurement such as the average or
-maximum value.
+\nsi{i} denotes the length of the sequence. Such information is called fine
+grained as it contains multiple measurements over the execution of the task as
+opposed to having only one aggregate measurement, such as the average or maximum
+value.
 
 Consider now task $i$ and suppose that the current time step is $j$; an
 illustration for $j \in \{ 3, 4, 5 \}$ is given in \fref{brain-application}.
