@@ -46,13 +46,13 @@ beta one has a bounded support $[-4, 4]$, which can potentially lead to more
 realistic models.
 
 The variability of \u is split into global $\u_\overall$ and local $\u_\local$
-parts \cite{shen2009, chandra2010}. Without loss of generality, $\u_\overall$
-can be treated as a composition of independent inter-lot, inter-wafer, and
+parts \cite{shen2009, chandra2010, juan2012}. Without loss of generality,
+$\u_\overall$ can be treated as a composition of inter-lot, inter-wafer, and
 inter-die variations; likewise, $\u_\local$ can be treated as a composition of
-independent and dependent local variations. The variability $\u_\overall$ is
-assumed to be shared by all the \np processing elements whereas each processing
-element is assumed to have its own local parameter $\u_{\local, i}$. Thus, the
-effective channel length of processing element $i$ is modeled as follows:
+intra-die variations. The variability $\u_\overall$ is assumed to be shared by
+all the \np processing elements whereas each processing element is assumed to
+have its own local parameter $\u_{\local, i}$. Then the effective channel length
+of processing element $i$ is modeled using the following formula:
 \[
   \u_i = \u_\nominal + \u_\overall + \u_{\local, i}
 \]
