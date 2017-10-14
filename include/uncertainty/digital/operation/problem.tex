@@ -1,9 +1,9 @@
 Consider a system of computers that is serving a stream of tasks which are
 distributed across the individual machines of the system by a resource manager.
-Each task consumes certain resources---such as \up{CPU} and memory---during its
-execution. Each task $i$ is characterized by a resource-usage profile, which is
+The tasks consume certain resources, such as \up{CPU} and memory, during their
+execution. Let task $i$ be characterized by a resource-usage profile defined as
 a sequence of \ng-dimensional measurements taken with a certain sampling
-interval and captured by the following matrix of size $\ng \times \nsi{i}$:
+interval and captured by the following $\ng \times \nsi{i}$ matrix:
 \begin{equation} \elab{brain-profile}
   \mg_i = (\vg_{ij})_{j = 1}^\nsi{i}
 \end{equation}
@@ -13,29 +13,29 @@ grained as it contains multiple measurements over the execution of the task as
 opposed to having only one aggregate measurement, such as the average or maximum
 value.
 
-Consider now task $i$ and suppose that the current time step is $j$; an
+Suppose now that the current time step with respect to task $i$ is $j$; an
 illustration for $j \in \{ 3, 4, 5 \}$ is given in \fref{brain-application}.
 This means that $\range{\vg_{i1}}{\vg_{ij}}$ are known. Given these previous
-values, the goal is to estimate the next $h$ values of the sequence, which we
-denote by $\range{\hat{\vg}_{i, j + 1}}{\hat{\vg}_{i, j + h}}$; in
-\fref{brain-application}, $h = 4$. Such an estimation is called a long-range
-prediction as it provides multiple future values as opposed to providing only
-one. The described operation is to be performed for each active task of interest
-at each time moment of interest.
+values, the objective is to estimate the next $h$ values of the sequence, which
+we denote by $\range{\hat{\vg}_{i, j + 1}}{\hat{\vg}_{i, j + h}}$; in
+\fref{brain-application}, $h = 4$. Such prediction is called long range since it
+provides multiple future values as opposed to providing only one. The described
+operation is to be performed with respect to each active task of interest at
+each time moment of interest.
 
-In order to tackle the problem, one is to learn from historical data.
-Specifically, there is a data set of past profiles at one's disposal, which is
-denoted by
+In order to tackle the above problem, one is to learn from historical data, that
+is, from a data set of past profiles. Denoted this data set by
 \begin{equation} \elab{brain-dataset}
   G = \left\{ \mg_i: i = \range{1}{\no} \right\}
 \end{equation}
 where \no is the total number of profiles, and $\mg_i$ is as in
-\eref{brain-profile}. Such a data set can be straightforwardly collected
-provided that the system has an adequate monitoring facility deployed, which is
+\eref{brain-profile}. Such data can be straightforwardly collected provided that
+the system at hand has an adequate monitoring facility deployed, which is
 commonplace in practice.
 
 It should be understood that, in order for learning to be possible, the
 available resource-usage profiles have to have a certain structure that could be
-extracted and utilized for intelligent prediction. Therefore, an important
-question is whether real-life profiles of this kind exhibit such a structure at
-all. Investigating this question is part of our objective in this chapter.
+extracted and utilized for meaningful prediction. Therefore, an important
+question in this regard is whether real-life profiles of this kind exhibit such
+a structure at all. Investigating this question is part of our objective in this
+chapter.
