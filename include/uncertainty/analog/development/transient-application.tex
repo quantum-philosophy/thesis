@@ -45,21 +45,21 @@ moments. It can be seen that the curves are nearly indistinguishable, but the
 beta one has a bounded support $[-4, 4]$, which can potentially lead to more
 realistic models.
 
-The variability of $u$ is split into global $u_\overall$ and local $u_\local$
-parts \cite{shen2009, chandra2010}. Without loss of generality, $u_\overall$ can
-be treated as a composition of independent inter-lot, inter-wafer, and inter-die
-variations; likewise, $u_\local$ can be treated as a composition of independent
-and dependent local variations. The variability $u_\overall$ is assumed to be
-shared by all the \np processing elements whereas each processing element is
-assumed to have its own local parameter $u_{\local, i}$. Thus, the effective
-channel length of processing element $i$ is modeled as follows:
+The variability of \u is split into global $\u_\overall$ and local $\u_\local$
+parts \cite{shen2009, chandra2010}. Without loss of generality, $\u_\overall$
+can be treated as a composition of independent inter-lot, inter-wafer, and
+inter-die variations; likewise, $\u_\local$ can be treated as a composition of
+independent and dependent local variations. The variability $\u_\overall$ is
+assumed to be shared by all the \np processing elements whereas each processing
+element is assumed to have its own local parameter $\u_{\local, i}$. Thus, the
+effective channel length of processing element $i$ is modeled as follows:
 \[
-  u_i = u_\nominal + u_\overall + u_{\local, i}
+  \u_i = \u_\nominal + \u_\overall + \u_{\local, i}
 \]
-where $u_\nominal$ is the nominal value of the effective channel length.
+where $\u_\nominal$ is the nominal value of the effective channel length.
 Consequently, the uncertain parameters of the problem are
 \[
-  \vu = (u_{\local, 1}, \dotsc, u_{\local, \np}, u_\overall): \Omega \to \real^{\np + 1}.
+  \vu = (\u_{\local, 1}, \dotsc, \u_{\local, \np}, \u_\overall): \Omega \to \real^{\np + 1}.
 \]
 
 Global variations are typically assumed to be uncorrelated with respect to the
@@ -80,12 +80,12 @@ prerequisite for the techniques discussed in \sref{chaos-prior} that are based
 on the continuous \ac{KL} decomposition. A correlation matrix, on the other
 hand, can be readily estimated from measurements and thus is a more probable
 input to probabilistic analysis. Therefore, we use \eref{bayes-correlation} with
-the only purpose of constructing a correlation matrix of $\{ u_{\local, i} \}_{i
-= 1}^\np$. For convenience, the resulting matrix is extended by one dimension in
-order to accommodate $u_\overall$ along with $\{ u_{\local, i} \}_{i = 1}^\np$.
-In this case, the correlation matrix obtains one additional nonzero diagonal
-element equal to unity; the result is the correlation matrix of \vu denoted by
-$\correlation{\vu}$.
+the only purpose of constructing a correlation matrix of $\{ \u_{\local, i}
+\}_{i = 1}^\np$. For convenience, the resulting matrix is extended by one
+dimension in order to accommodate $\u_\overall$ along with $\{ \u_{\local, i}
+\}_{i = 1}^\np$. In this case, the correlation matrix obtains one additional
+nonzero diagonal element equal to unity; the result is the correlation matrix of
+\vu denoted by $\correlation{\vu}$.
 
 Let us now be more specific about the power model in \eref{chaos-power-model}.
 In the ongoing scenario, \f can be rewritten as the following summation:
