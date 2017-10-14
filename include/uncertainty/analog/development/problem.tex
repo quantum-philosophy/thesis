@@ -15,18 +15,18 @@ process parameters can be modeled as a stochastic process
 \[
   \u: \Omega \times \real^2 \to \real^\nu
 \]
-defined on a suitable probability space $(\Omega, \F, \probability)$ (see
-\xref{probability-theory}) and a two-dimensional plane that takes values in
-$\real^\nu$ where \nu is the number of the considered process parameters. For
-practical computations, the stochastic process is discretized, and each
-processing element is modeled with a finite set of random variables. Then the
-uncertain parameters of the problem are defined as
+that is defined on a suitable probability space $(\Omega, \F, \probability)$
+(see \xref{probability-theory}) and a two-dimensional plane and takes values in
+$\real^\nu$ where \nu is the number of the process parameters. For practical
+computations, the stochastic process is discretized, and each processing element
+is modeled via a finite set of random variables. Then the uncertain parameters
+of the problem are defined as
 \[
   \vu = (\u_i)_{i = 1}^\nu: \Omega \to \real^\nu
 \]
-so that the individual random variables of the processing elements are collected
-into a single random vector where \nu is redefined to be the total number of
-these variables. Given this setting, our goal is twofold as follows.
+where the union of all random variables of all processing elements is arranged
+into a single random vector, and \nu is redefined to be the number of elements
+that this vector has. Given the above setting, our goal is twofold as follows.
 
 First, we are to develop a system-level framework for transient temperature (and
 hence power) analysis as well as dynamic steady-state analysis of electronic
