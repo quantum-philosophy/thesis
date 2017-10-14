@@ -24,10 +24,11 @@ contain 5--50 data points; hence, $\nsi{i} \in [5, 50]$ in \eref{brain-profile}.
 Such profiles constitute around 74\% of the total number of profiles (around 18
 out of 24 million). We experiment with a random subset of two million profiles,
 which is around 11\% of the 5--50 resource-usage profiles; hence, $\no = 2
-\times 10^6$ in \eref{brain-dataset}. The data sets $G_1$, $G_2$, and $G_3$
-constitute 70\%, 10\%, and 20\% of $G$, respectively. Fetching and storing on
-disk these many profiles take around four hours. Recall that this operation has
-to be repeated only when the selection criteria change, which happens rarely.
+\times 10^6$ in \eref{brain-dataset}. The data sets $G_\training$,
+$G_\validation$, and $G_\testing$ constitute 70\%, 10\%, and 20\% of $G$,
+respectively. Fetching and storing on disk these many profiles take around four
+hours. Recall that this operation has to be repeated only when the selection
+criteria change, which happens rarely.
 
 \hiddensubsection{Learning Pipeline}
 
@@ -72,8 +73,8 @@ performance improvement.
 \inputtable{brain-validation}
 The results of the validation step are reported in \tref{brain-validation}. The
 table shows the \ac{MSE} of the top 10 and bottom 10 configurations of the
-hyperparameters as measured using $G_2$ ($0.1 \times 2 \times 10^6 = 2 \times
-10^5$ profiles). The total number of distinct configurations sampled by
+hyperparameters as measured using $G_\validation$ ($0.1 \times 2 \times 10^6 = 2
+\times 10^5$ profiles). The total number of distinct configurations sampled by
 Hyperband is 62. It can be seen that the error decreases rapidly at the bottom
 of the table and slows down toward the top: relative to the least accurate
 trained model (rank 62), the error drops by around 22\% in the bottom 10 and by
@@ -99,12 +100,12 @@ example, the fourth best configuration requires 75\% less memory than the first
 one.
 
 After the validation step, the best trained model is taken to the testing step
-(see \fref{brain-overview}), which is undertaken using $G_3$ ($0.2 \times 2
-\times 10^6 = 4 \times 10^5$ profiles). The model is extensively assessed by
+(see \fref{brain-overview}), which is undertaken using $G_\testing$ ($0.2 \times
+2 \times 10^6 = 4 \times 10^5$ profiles). The model is extensively assessed by
 predicting the resource usage of individual tasks multiple steps ahead at each
-step of the profiles in $G_3$. In this experiment, we predict four steps into
-the future; hence, $h = 4$ in \sref{brain-problem}. This elaborate sequential
-testing procedure takes around 18 hours.
+step of the profiles in $G_\testing$. In this experiment, we predict four steps
+into the future; hence, $h = 4$ in \sref{brain-problem}. This elaborate
+sequential testing procedure takes around 18 hours.
 
 In order to assess the accuracy of our model better, we employ an alternative
 model referred to as the reference model. This model is based on random walk. It
@@ -116,8 +117,8 @@ results in four identical predictions at each time step.
 \inputfigure{brain-testing}
 The results of the testing step can be seen in \fref{brain-testing}, which shows
 the \ac{MSE} of our model (the blue line) as well as the one of the reference
-model (the orange line) with respect to $G_3$. The magnitude of our model's
-errors suggests that the amount of regularity present in the data is not
+model (the orange line) with respect to $G_\testing$. The magnitude of our
+model's errors suggests that the amount of regularity present in the data is not
 sufficient to make the resource-usage predictions highly accurate. Nevertheless,
 it can also be seen in \fref{brain-testing} that, relative to the reference
 model, our model provides an error reduction of approximately 47\% at each of

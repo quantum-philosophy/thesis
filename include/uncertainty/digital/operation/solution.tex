@@ -155,17 +155,19 @@ Let us now discuss how the predictive model is supposed to be used.
 
 Recall that the output of the data pipeline described in
 \sref{brain-data-pipeline} is the data set $G$, which is split into three parts:
-$G_1$ is for training, $G_2$ for validation, and $G_3$ for testing. We now
-elaborate on the operations that take place during these three steps of the
-pipeline, which are also displayed at the bottom of \fref{brain-overview}.
+$G_\training$ is for training, $G_\validation$ for validation, and $G_\testing$
+for testing. We now elaborate on the operations that take place during these
+three steps of the pipeline, which are also displayed at the bottom of
+\fref{brain-overview}.
 
 Let us discuss training first. The model depicted in
 \sref{brain-predictive-model} has a large number of parameters that have to be
 learned; they are primarily various weights and biases inside the layers. For
-this purpose, $G_1$ is utilized. The training is undertaken via backpropagation
-through time using stochastic gradient descent \cite{goodfellow2016} whose
-objective is to minimize a certain loss function, which we shall specify
-shortly. There are two aspects that need to be discussed first.
+this purpose, $G_\training$ is utilized. The training is undertaken via
+backpropagation through time using stochastic gradient descent
+\cite{goodfellow2016} whose objective is to minimize a certain loss function,
+which we shall specify shortly. There are two aspects that need to be discussed
+first.
 
 \inputfigure{brain-dynamic-unroll}
 The first concerns the way a single profile is fed into the model. To begin
@@ -213,12 +215,12 @@ set prior to training and kept unchanged thereafter. From the examples given, it
 is apparent that the impact of hyperparameters is profound; they should be tuned
 with great care.
 
-The validation set $G_2$ is used to assess the performance of the model trained
-(using $G_1$ as usual) under different configurations of the model's
-hyperparameters. Similar to training, the error metric utilized in this case is
-the \ac{MSE}, and it is beneficial to perform these computations in batches. The
-trained model that has the best performance on $G_2$ is then chosen as the one
-to use.
+The validation set $G_\validation$ is used to assess the performance of the
+model trained (using $G_\training$ as usual) under different configurations of
+the model's hyperparameters. Similar to training, the error metric utilized in
+this case is the \ac{MSE}, and it is beneficial to perform these computations in
+batches. The trained model that has the best performance on $G_\validation$ is
+then chosen as the one to use.
 
 Despite all the techniques employed to speed up training, it is still a
 time-consuming operation. This means that a brute-force search in the space of
@@ -238,21 +240,21 @@ time spent or the number of training steps taken; in our experiments in
 Let us now turn to testing; see the rightmost blue box in \fref{brain-overview}.
 After a trained model has been selected during the validation step, it has to be
 assessed anew \cite{hastie2013}: one cannot aver that the error with respect to
-$G_2$ is a good estimate of the generalization error due to the selection
-bias---we have deliberately chosen the configuration that has the best
-performance on $G_2$.
+$G_\validation$ is a good estimate of the generalization error due to the
+selection bias---we have deliberately chosen the configuration that has the best
+performance on $G_\validation$.
 
-In order to have an unbiased evaluation, the testing set $G_3$ is utilized.
-Similar to training and validation, the \ac{MSE} is considered as a measure of
-quality, and bucketing is utilized. However, unlike training and validation, the
-error is calculated in a more elaborate way. To elaborate, recall first that our
-objective is making long-range predictions of resource usage; see
-\sref{brain-problem}. Note also that, in training and validation, we are only
-concerned with what happens one time step ahead. The reason is that we would
-like to have as high of a throughput as possible during training and validation
-since they are to be performed many times. Testing, on the other hand, is done
-only once, and it is during testing we make and subsequently assess
-multiple-step-ahead predictions.
+In order to have an unbiased evaluation, the testing set $G_\testing$ is
+utilized. Similar to training and validation, the \ac{MSE} is considered as a
+measure of quality, and bucketing is utilized. However, unlike training and
+validation, the error is calculated in a more elaborate way. To elaborate,
+recall first that our objective is making long-range predictions of resource
+usage; see \sref{brain-problem}. Note also that, in training and validation, we
+are only concerned with what happens one time step ahead. The reason is that we
+would like to have as high of a throughput as possible during training and
+validation since they are to be performed many times. Testing, on the other
+hand, is done only once, and it is during testing we make and subsequently
+assess multiple-step-ahead predictions.
 
 In order to calculate long-rage predictions, we use refeeding: at time step $j$,
 the predicted value $\hat{\vg}_{i, j + 1}$ of the resource usage of task $i$ is
@@ -277,5 +279,5 @@ observations into the model.
 
 At this point, the main aspects of our workflow, which is illustrated in
 \fref{brain-overview}, have been discussed. The output of the workflow is a
-predictive model that has been trained on $G_1$, validated on $G_2$, and tested
-on $G_3$.
+predictive model that has been trained on $G_\training$, validated on
+$G_\validation$, and tested on $G_\testing$.
