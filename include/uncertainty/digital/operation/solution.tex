@@ -4,11 +4,11 @@ Our workflow for resource-usage prediction is illustrated in
 be processed prior to learning since they are likely to be given in a format
 that is not efficient or convenient to the subsequent calculations. With this in
 mind, our foremost task is to extract $G$ defined in \eref{brain-dataset} from
-given raw data. This processing part can be seen at the top of
+the given raw data. This processing part can be seen at the top of
 \fref{brain-overview} and is explained in \sref{brain-data-pipeline}. Next, the
 resulting profiles are utilized in order to obtain an adequately trained
 predictive model. The modeling part is covered in \sref{brain-predictive-model}
-while the learning part is explained in \sref{brain-learning-pipeline}; the
+while the learning one is explained in \sref{brain-learning-pipeline}; the
 latter can also be seen at the bottom of \fref{brain-overview}. The above
 operations are to be undertaken offline while the trained model is supposed to
 be used by the resource manager at runtime in order to make predictions and,
@@ -17,8 +17,8 @@ thereby, take workload uncertainty into account.
 \subsection{Data Pipeline}
 \slab{brain-data-pipeline}
 
-In this subsection, we describe our pipeline for working with large data sets
-that makes the data readily accessible for machine-learning undertakings. In
+In this subsection, we describe our pipeline for working with large data sets,
+which makes the data readily accessible for machine-learning undertakings. In
 order to make the exposition clearer, the pipeline is described by applying it
 to a real-life data set of resource-usage traces collected in a large computer
 cluster. To this end, we begin by giving a brief introduction to this data set.
@@ -34,14 +34,14 @@ data set contains a table that records the resource usage of individual tasks
 with the granularity of five minutes. Each record corresponds to a specific task
 and a specific five-minute interval, and it provides such measurements as the
 average and maximum values of the \up{CPU}, memory, and disk usage. There are
-more than 1.2 billion records in the table in question, which correspond to more
-than 24 million tasks or, equivalently, resource-usage profiles and to more than
-670 thousand jobs.
+more than 1.2 billion records in the resource-usage table, which correspond to
+more than 24 million tasks or, equivalently, resource-usage profiles and to more
+than 670 thousand jobs.
 
 The resource-usage table is provided in the form of 500 archives. Each archive
-contains a single file with measurements over a certain time window. Such a
-format is inconvenient and inefficient to work with, which is addressed in what
-follows. Consider now the three topmost boxes in \fref{brain-overview}.
+contains a single file with measurements over a certain time window. This format
+is inconvenient and inefficient to work with, which is addressed as described
+below and shown by the three topmost boxes in \fref{brain-overview}.
 
 As the first step (the leftmost orange box in \fref{brain-overview}), the data
 from the 500 archives are distributed into separate databases so that each such
@@ -66,10 +66,11 @@ and then stored on disk. Concretely, the profiles are fetched from the databases
 and stored in the native format of the machine-learning library utilized; we
 refer to a file in such a format as a binary file. Instead of writing all the
 selected profiles into one binary file, we distribute them across several files.
-Such a catalog of binary files is created for each of the three commonly
-considered parts \cite{hastie2013} of the data at hand: one is for training, one
-is for validation, and one is for testing. We denote these parts by $G_1$,
-$G_2$, and $G_3$, respectively; see also \fref{brain-overview}.
+Such a catalog of binary files is created for each of the three parts of the
+commonly considered partitioning of the available data \cite{hastie2013}: one is
+for training, one for validation (model selection or development), and one for
+testing. In what follows, these parts of $G$ are denoted by $G_1$, $G_2$, and
+$G_3$, respectively; see also \fref{brain-overview}.
 
 Lastly, it is common practice to standardize data before feeding them into a
 learning algorithm \cite{hastie2013}. In our case, it is done along with
@@ -139,7 +140,7 @@ activated in accordance with the resource-usage profile that is currently being
 fed into the model. The task now is to combine these features in order to
 produce a single prediction. To this end, we mount a feedforward layer with a
 linear activation function on top of the last recurrent layer, which is depicted
-by an orange box in \fref{brain-predictive-model}. Unlike the recurrent layers,
+as an orange box in \fref{brain-predictive-model}. Unlike the recurrent layers,
 which feature highly nonlinear transformations, this layer performs an affine
 transformation.
 
