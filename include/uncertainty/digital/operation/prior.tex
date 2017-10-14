@@ -2,7 +2,7 @@ Let us discuss a number of studies that leverage machine-learning techniques in
 order to facilitate resource management in computer systems.
 
 In \cite{coskun2008}, the subject of forecasting is temperature, and the
-objective is attained by means of an autoregressive moving-average model
+objective is attained by means of an autoregressive--moving-average model
 \cite{hastie2013}, resulting in an efficient thermal management strategy for
 multiprocessor systems. The work in \cite{kumar2010} enhances runtime thermal
 management by providing an on-chip temperature predictor based on feedforward
@@ -23,10 +23,8 @@ clustering as the first step. Unlike \cite{dabbagh2015}, the main workhorse in
 the case of the technique in \cite{ismaeel2015} is extreme learning machines,
 which are feedforward neural networks mentioned earlier. An ensemble model
 \cite{hastie2013} is presented in \cite{cao2014} targeted at predicting the
-\up{CPU} usage in cloud environments. It relies on multiple models, including an
-exponential smoothing, auto regressive, weighted nearest neighbors, and most
-similar pattern model. The final prediction is obtained by combing the
-predictions from the aforementioned individual models by means of a scoring
+\up{CPU} usage in cloud environments. It relies on multiple traditional models,
+and the final prediction is obtained by combing them by means of a scoring
 algorithm.
 
 It can be seen that, in general, machine learning has extensively been utilized
@@ -34,12 +32,12 @@ for aiding the design of resource managers of computer systems. However, as
 noted in \sref{brain-introduction}, the most recent advancements in machine
 learning have not been sufficiently explored yet in this context. In particular,
 the utility of neural networks have been studied only marginally: feedforward
-networks---which are used, for instance, in \cite{kumar2010, ismaeel2015}---are
-arguably the simplest and least powerful members of the family. However, the
-family is rich and potent as widely demonstrated. For instance, recurrent neural
-networks accompanied by adequate training and regularization techniques
-\cite{goodfellow2016} are a salient candidate for resource management in a large
-computer system.
+networks---which are utilized, for instance, in \cite{kumar2010,
+ismaeel2015}---are arguably the simplest and least powerful members of the
+family. However, the family is rich and potent, which is widely demonstrated.
+For instance, recurrent neural networks accompanied by adequate training and
+regularization techniques \cite{goodfellow2016} are a salient candidate for
+resource management in computer systems.
 
 In addition, it should be noted that the predictions delivered by the techniques
 proposed in \cite{cao2014, dabbagh2015, ismaeel2015} are coarse, aggregate. They
@@ -49,10 +47,10 @@ they are not capable of characterizing individual tasks executed by the
 machines. More generally, resource-usage prediction at the level of individual
 tasks and potentially multiple steps ahead has been deprived of attention.
 However, such prediction could provide the resource manager with more detailed
-and foresighted information and allow it for a more intelligent orchestration of
-the system.
+and foresighted information and, thereby, allow for a more intelligent
+orchestration of the system.
 
 To summarize, only primitive architectures of neural networks have been
-considered in the literature on resource management of computer systems, and
-only aggregate prediction has been undertaken so far. Consequently, there is a
-need for further exploration and development in this direction.
+investigated in the literature on resource management of computer systems, and
+only aggregate prediction has been considered so far. Therefore, there is a
+palpable need for further exploration and development in this direction.
