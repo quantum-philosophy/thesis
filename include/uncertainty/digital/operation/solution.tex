@@ -93,45 +93,45 @@ objective is to assess the applicability of the latest advancements in neural
 networks \cite{goodfellow2016} to fine-grained long-range prediction of resource
 usage in computer systems. The architectures of neural networks are very
 diverse. However, since the data that we study are inherently sequential, it is
-natural to found our model on the basis of recurrent neural networks
+natural to found our predictive model on the basis of recurrent neural networks
 \cite{goodfellow2016}, which are designed for such cases.
 
 \inputfigure{brain-predictive-model}
 A schematic representation of our model can be seen in
 \fref{brain-predictive-model}. Note that many of the actual connections between
-the model's parts are simplified or not shown at all in order to make the figure
-legible. In what follows, we describe each part of the model in detail. A number
-of important operational aspects of the model are to be covered in the next
-subsection, \sref{brain-learning-pipeline}.
+the parts of the model are simplified or not shown at all in order to make the
+figure legible. In the rest of this subsection, we describe each of the parts. A
+number of important operational aspects of the model are to be covered in the
+next subsection, \sref{brain-learning-pipeline}.
 
-The input to the model is a single \ng-dimensional data point, which can be seen
-on the left-hand side of \fref{brain-predictive-model}. Similarly, the output is
-a single \ng-dimensional data point, which is depicted on the right-hand side of
-\fref{brain-predictive-model}. The input $\vg_{ij}$ is the value of the resource
-usage of an individual task at step $j$, and the output $\hat{\vg}_{i, j + 1}$
-is a one-step-ahead prediction of this usage.
+The input to the predictive model is a single \ng-dimensional data point, which
+can be seen on the left-hand side of \fref{brain-predictive-model}. Similarly,
+the output is a single \ng-dimensional data point, which is depicted on the
+right-hand side of \fref{brain-predictive-model}. The input $\vg_{ij}$ is the
+value of the resource usage of an individual task at step $j$, and the output
+$\hat{\vg}_{i, j + 1}$ is a one-step-ahead prediction of this usage.
 
-The core of the predictive model is formed by a number of recurrent layers. In
-\fref{brain-predictive-model}, they are represented by a group of blue boxes.
-The network can be made as many layers deep as needed. Each layer is composed of
-a number of units, which are depicted as double circles in
+The core of the model is formed by a number of recurrent layers. In
+\fref{brain-predictive-model}, these layers are represented by a group of blue
+boxes. The network can be made as many layers deep as needed. Each layer is
+composed of a number of units, which are depicted as double circles in
 \fref{brain-predictive-model}. The number of layers and the number of units per
 layer are denoted by \nl and \nu, respectively.
 
-A unit is the smallest processing elements. The key characteristics of a unit
-are that it has internal memory, and that it has access to its previous output,
-which makes it recurrent. There are different types of units; each one defines
-how a unit lets data flow through it and updates its memory. One notable unit is
-the \ac{LSTM} unit \cite{hochreiter1997}. It has been designed to overcome the
-problems of traditional recurrent networks---such as vanishing gradient when
-training---and it is now one of the most widely used types. The recurrent layers
-of our model are \ac{LSTM} layers (composed of \ac{LSTM} units).
+Units are the smallest processing elements. The key characteristics of a unit of
+a recurrent layer are that the unit has internal memory, and that it has access
+to its previous output. There are different types of recurrent units, defining
+how these units let data flow through them and update their memory. One notable
+unit is the \ac{LSTM} unit \cite{hochreiter1997}, which has been designed to
+overcome the problems of traditional recurrent neural networks, such as the
+vanishing gradient during training. The recurrent layers of our predictive model
+are \ac{LSTM} layers, that is, layers composed of \ac{LSTM} units.
 
-In addition, each layer is enhanced by a dropout mechanism \cite{zaremba2014},
-which gives control over the regularization of the model and is to prevent
-potential overfitting \cite{hastie2013}. The mechanism is active only during
-training. For future reference, denote the probability of dropping an output of
-a layer by $\rho_\drop$.
+Each recurrent layer is enhanced by a dropout mechanism \cite{zaremba2014},
+which is active only during training. This mechanism gives control over the
+regularization of the model and is to prevent potential overfitting
+\cite{hastie2013}. For future reference, denote the probability of dropping an
+output of a layer by $\rho_\drop$.
 
 The output of the last recurrent layer is typically a large tensor, which is
 proportional in size to the number of units in the layer. Each entry of such a
