@@ -74,15 +74,16 @@ to be independent of each other, and the correlations among those elements of
 correlation function shown in \eref{bayes-correlation}.
 
 The two process parameters manifest themselves in the calculations associated
-with the power model in \eref{chaos-power-model-bulk} through the static power.
-The modeling here is based on \up{SPICE} simulations of a series of \up{CMOS}
-invertors taken from the 45-nm open cell library by NanGate \cite{nangate} and
-configured according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}. The
+with the power model shown in \eref{chaos-power-model-bulk} through the static
+power. Analogous to \sref{chaos-transient-application}, the modeling here is
+based on \up{SPICE} simulations of a series of \up{CMOS} invertors. The
+invertors are taken from the 45-nm open cell library by NanGate \cite{nangate}
+and configured according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}. The
 simulations are performed on a fine-grained and sufficiently broad
 three-dimensional grid comprising the effective channel length, gate oxide
 thickness, and temperature; the results are tabulated. An interpolation
-algorithm is then utilized when the static power is to be evaluated for a
-particular point within the range of the grid. The output of this model is
+algorithm is subsequently employed whenever the static power is to be evaluated
+at a particular point within the range of the grid. The output of this model is
 scaled up to account for about 40\% of the total power consumption
 \cite{liu2007}. Regarding temperature, the thermal \up{RC} circuit used for
 dynamic steady-state analysis is constructed via HotSpot \cite{skadron2003} as

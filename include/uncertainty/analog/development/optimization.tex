@@ -116,16 +116,16 @@ energy consumption.
 The aforementioned examination of the temperature and lifetime constraints as
 well as the evaluation of the expected energy consumption are undertaken by
 means of a \ac{PC} expansion of \eref{chaos-optimization-quantity} using the
-description given in \sref{chaos-processing}. Concretely, the two probabilities
-needed in \eref{chaos-optimization-constraints} are estimated via sampling the
-light polynomial surrogate. By contrast, the expectation in
+description given in \sref{chaos-processing}. Specifically, the two
+probabilities needed in \eref{chaos-optimization-constraints} are estimated via
+sampling the light polynomial surrogate. By contrast, the expectation in
 \eref{chaos-optimization-objective} requires no sampling and is
 straightforwardly computed using the analytical formula shown in
 \eref{chaos-moments}.
 
 \begin{remark}
 In order to speed up the optimization, we use caching and parallel computing.
-Specifically, the fitness value of each evaluated chromosome is stored in memory
-and reused when a chromosome with the same set of genes is encountered, and
+Concretely, the fitness value of each evaluated chromosome is stored in memory
+and reused whenever a chromosome with the same set of genes is encountered, and
 unseen (not cached) individuals are assessed in parallel.
 \end{remark}
