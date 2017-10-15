@@ -108,7 +108,7 @@ The input to the predictive model is a single \ng-dimensional data point, which
 can be seen on the left-hand side of \fref{brain-predictive-model}. Similarly,
 the output is a single \ng-dimensional data point, which is depicted on the
 right-hand side of \fref{brain-predictive-model}. The input $\vg_{ij}$ is the
-value of the resource usage of an individual task at step $j$, and the output
+value of the resource usage of a single task at time step $j$, and the output
 $\hat{\vg}_{i, j + 1}$ is a one-step-ahead prediction of this usage.
 
 The core of the model is formed by a number of recurrent layers. In
@@ -154,51 +154,50 @@ Let us now discuss how the predictive model is supposed to be used.
 \slab{brain-learning-pipeline}
 
 Recall that the output of the data pipeline described in
-\sref{brain-data-pipeline} is the data set $G$, which is split into three parts:
-$G_\training$ is for training, $G_\validation$ for validation, and $G_\testing$
-for testing. We now elaborate on the operations that take place during these
-three steps of the pipeline, which are also displayed at the bottom of
-\fref{brain-overview}.
+\sref{brain-data-pipeline} is the resource-usage data set $G$, which is split
+into three parts: $G_\training$, $G_\validation$, and $G_\testing$. The three
+parts are utilized during the following three steps of what we refer to as the
+learning pipeline: training, validation, and testing. This learning pipeline is
+discussed below and illustrated at the bottom of \fref{brain-overview}.
 
-Let us discuss training first. The model depicted in
-\sref{brain-predictive-model} has a large number of parameters that have to be
-learned; they are primarily various weights and biases inside the layers. For
-this purpose, $G_\training$ is utilized. The training is undertaken via
-backpropagation through time using stochastic gradient descent
-\cite{goodfellow2016} whose objective is to minimize a certain loss function,
-which we shall specify shortly. There are two aspects that need to be discussed
-first.
+We begin with training. The model depicted in \fref{brain-predictive-model} has
+a large number of parameters that have to be learned; they are primarily various
+weights and biases inside the layers. For this purpose, $G_\training$ is
+utilized. The training is undertaken via backpropagation through time using
+stochastic gradient descent \cite{goodfellow2016} whose objective is to minimize
+a certain loss function, which we shall specify shortly. There are two aspects
+that need to be discussed first.
 
 \inputfigure{brain-dynamic-unroll}
 The first concerns the way a single profile is fed into the model. To begin
-with, the internal memory of the model is nullified. Next, note that each
-profile---which can be seen in \eref{brain-profile}---has multiple data points
-($\nsi{i} > 1$), and that two profiles generally have different lengths
-($\nsi{i} \neq \nsi{j}$) since the execution times of two tasks are likely to
-differ. With this in mind, all the points of a profile are fed in one pass using
-a technique called dynamic unrolling. An illustration is given in
-\fref{brain-dynamic-unroll}, in which the schematic representation in
-\fref{brain-predictive-model} has been simplified even further and rotated
-90${}^\circ$ counterclockwise. It can be seen that the model has been replicated
-as many times as there are data points in the profile. However, it is still the
-same model, and all the replicas share the same parameters and the same internal
-memory. It can also be seen in \fref{brain-dynamic-unroll} how information flows
-from one time step to the next, which implicitly gives the model access to the
-whole history at each time step.
+with, the internal memory of the model is nullified. Next, recall that each
+profile contains several data points (see \eref{brain-profile}), and note that
+two profiles generally have different lengths ($\nsi{i} \neq \nsi{j}$) since the
+execution times of two tasks are likely to differ. With this in mind, each
+profile is fed into the model using a technique called dynamic unrolling. An
+illustration is depicted in \fref{brain-dynamic-unroll}, in which the schematic
+representation given in \fref{brain-predictive-model} has been simplified even
+further and rotated 90${}^\circ$ counterclockwise. It can be seen that the model
+has been replicated as many times as there are data points in the profile.
+However, it is still the same model, and all the replicas share the same
+parameters and the same internal memory. It can also be observed in
+\fref{brain-dynamic-unroll} how information flows from one time step to the next
+one, which implicitly gives the model access to the whole history at each time
+step.
 
-Now, it is not efficient to feed only one profile at a time due to the
-inevitable overhead imposed by the computations involved. These computations
-should be performed in batches when possible, that is, \nb profiles should be
-fed simultaneously where \nb is referred to as the batch size. Since $\nsi{i}
-\neq \nsi{j}$ in general, it is not possible to stack multiple arbitrary
-profiles into a single tensor directly. In order to circumvent this problem, we
-reside to bucketing. Specifically, each profile is put into one of many queues
-depending on its length. When a queue that is accumulating profiles of length
-from some \nsi{l} to \nsi{r} has collected \nb profiles, it pads the profiles
-that are shorter than \nsi{r} with zeros and emits a tensor of size $\nb \times
-\nsi{r} \times \ng$ to be further consumed by the model.
+Now, it is not efficient to feed only one resource-usage profile at a time due
+to the inevitable overhead imposed by the computations involved. These
+computations should be performed in batches, that is, \nb profiles should be fed
+simultaneously where \nb is referred to as the batch size. Since, in general,
+$\nsi{i} \neq \nsi{j}$, it is not possible to stack multiple arbitrary profiles
+into a single tensor. In order to circumvent this problem, we reside to
+bucketing. Specifically, each profile is put into one of many queues chosen
+based on the profile's length. When a queue accumulating profiles of length from
+some \nsi{l} to \nsi{r} has collected \nb profiles, it pads the ones that are
+shorter than \nsi{r} with zeros and emits a tensor of size $\nb \times \nsi{r}
+\times \ng$ to be further consumed by the model.
 
-The loss function that we minimize during training is the \ac{MSE} of one-step
+The loss function that is minimized during training is the \ac{MSE} of one-step
 predictions over the whole batch. The correct prediction for the very last time
 step, which goes beyond the time window of the profiles in question, is assumed
 to be zero. For instance, $\hat{\vg}_{i, \nsi{i} + 1}$ in
@@ -212,30 +211,30 @@ the number of recurrent layers \nl, number of units per layer \nu, and
 probability of dropout $\rho_\drop$. Unlike ordinary parameters---which are to
 be optimized during training as discussed earlier---hyperparameters are to be
 set prior to training and kept unchanged thereafter. From the examples given, it
-is apparent that the impact of hyperparameters is profound; they should be tuned
-with great care.
+is apparent that the impact of hyperparameters is profound. Hence, they should
+be tuned with great care.
 
 The validation set $G_\validation$ is used to assess the performance of the
-model trained (using $G_\training$ as usual) under different configurations of
-the model's hyperparameters. Similar to training, the error metric utilized in
-this case is the \ac{MSE}, and it is beneficial to perform these computations in
-batches. The trained model that has the best performance on $G_\validation$ is
-then chosen as the one to use.
+model trained (using $G_\training$ as usual) with different configurations of
+the model's hyperparameters. Similar to training, the error metric in this case
+is the \ac{MSE}, and it is beneficial to perform these computations in batches.
+The trained model that has the best performance on $G_\validation$ is then
+chosen as the one to use.
 
 Despite all the techniques employed to speed up training, it is still a
 time-consuming operation. This means that a brute-force search in the space of
-hyperparameters for the best configuration is impractical; a certain intelligent
-strategy should be followed. In our workflow, we use the Hyperband algorithm
-\cite{li2016}. Instead of adaptively choosing new configurations to
-evaluate---which is the case with many algorithms of this kind---it adaptively
-allocates resources to configurations chosen at random, which has been shown to
-be a very efficient strategy. In particular, the algorithm allows one for saving
-a lot of compute power, which otherwise would be burnt in vain evaluating
-overtly inadequate configurations of hyperparameters. In this context,
+the hyperparameters for the best configuration is impractical; therefore, a
+certain intelligent strategy should be followed. In our workflow, we use the
+Hyperband algorithm \cite{li2016}. Instead of adaptively choosing new
+configurations to evaluate---which is the case with many algorithms of this
+kind---Hyperband adaptively allocates resources to configurations chosen at
+random, which is shown to be a highly efficient strategy. In particular, the
+algorithm allows one to reduce the computation time by promptly eliminating
+overtly inadequate configurations of the hyperparameters. In this context,
 \emph{resources} refers to a user-defined measure of how extensively a
-configuration is exercised. For instance, it can be the amount of wall-clock
-time spent or the number of training steps taken; in our experiments in
-\sref{brain-results}, we use the latter.
+configuration is to be exercised. For instance, it can be the amount of
+wall-clock time spent or the number of training steps taken; in our experiments
+given in \sref{brain-results}, we use the latter.
 
 Let us now turn to testing; see the rightmost blue box in \fref{brain-overview}.
 After a trained model has been selected during the validation step, it has to be
@@ -247,35 +246,35 @@ performance on $G_\validation$.
 In order to have an unbiased evaluation, the testing set $G_\testing$ is
 utilized. Similar to training and validation, the \ac{MSE} is considered as a
 measure of quality, and bucketing is utilized. However, unlike training and
-validation, the error is calculated in a more elaborate way. To elaborate,
-recall first that our objective is making long-range predictions of resource
-usage; see \sref{brain-problem}. Note also that, in training and validation, we
-are only concerned with what happens one time step ahead. The reason is that we
-would like to have as high of a throughput as possible during training and
-validation since they are to be performed many times. Testing, on the other
-hand, is done only once, and it is during testing we make and subsequently
-assess multiple-step-ahead predictions.
+validation, the error is calculated in a more elaborate way as follows. Recall
+first that our objective is making long-range predictions of resource usage; see
+\sref{brain-problem}. Note also that, in training and validation, we are only
+concerned with what happens one time step ahead. The reason is that we would
+like to have as high of a throughput as possible during training and validation
+since they are to be performed many times. Testing, on the other hand, is done
+only once, and it is during testing that we make and assess multiple-step-ahead
+predictions.
 
-In order to calculate long-rage predictions, we use refeeding: at time step $j$,
+In order to calculate long-rage predictions, we use refeeding: at time step~$j$,
 the predicted value $\hat{\vg}_{i, j + 1}$ of the resource usage of task $i$ is
 fed into the model as if it was the actual resource usage $\vg_{i, j + 1}$ at
-step $j + 1$, which is not yet known at step $j$. At this point, it might be
-helpful to consider the example given in \fref{brain-application}. The process
-continues until all the desired $h$ future values are estimated. It is natural
-to expect that the more accurate the one-step-ahead prediction is, the more
-accurate the multiple-step-ahead one becomes.
+time step $j + 1$, which is not yet known at time step $j$. At this point, it
+might be helpful to consider the example given in \fref{brain-application}. The
+process continues until all the desired $h$ future values are estimated. It is
+natural to expect that the more accurate the one-step-ahead prediction is, the
+more accurate the multiple-step-ahead one becomes.
 
-There is more to testing. Consider now how a trained model might be used in
-practice. Potentially at each step $j$, the resource manager might want to
-predict the next $h$ values of the resource usage of task $i$, that is,
-$\range{\hat{\vg}_{i, j + 1}}{\hat{\vg}_{i, j + h}}$. Therefore, in order to
-test the model properly, we have to sweep over all the time steps of the
-profiles in question while making $h$ predictions at each step. An important
-aspect to note is that the state of the model's memory should be saved before
-computing $\range{\hat{\vg}_{i, j + 1}}{\hat{\vg}_{i, j + h}}$ at step $j$ and
-restored before feeding $\vg_{i, j + 1}$ in order to advance to step $j + 1$.
-The memory becomes contaminated when one feeds predictions instead of
-observations into the model.
+Consider now how a trained predictive model might be used in practice.
+Potentially at each time step $j$, the next $h$ values of the resource usage of
+task~$i$, that is, $\range{\hat{\vg}_{i, j + 1}}{\hat{\vg}_{i, j + h}}$, might
+have to be estimated. Therefore, in order to test the model properly, we have to
+consider all the time steps of the profile in question and make $h$ predictions
+at each time step. An important aspect to note is that the state of the model's
+memory should be saved before computing $\range{\hat{\vg}_{i, j +
+1}}{\hat{\vg}_{i, j + h}}$ at time step $j$ and restored before feeding $\vg_{i,
+j + 1}$ in order to advance to time step $j + 1$. The reason is that the memory
+becomes contaminated when one feeds predictions instead of observations into the
+model.
 
 At this point, the main aspects of our workflow, which is illustrated in
 \fref{brain-overview}, have been discussed. The output of the workflow is a
