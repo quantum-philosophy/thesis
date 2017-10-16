@@ -2,7 +2,7 @@ In this section, we develop a technique for probabilistic transient power and
 temperature analysis of electronic systems using the uncertainty-unaware
 approach presented in \sref{transient-solution} combined with the machinery
 described in \sref{chaos-uncertainty-analysis}. Our goal is to obtain such a
-technique that preserves the gradual solution process that is at the heart of
+technique that preserves the gradual solution process which is at the heart of
 transient analysis; see \sref{transient-analysis}. In this way, the designer
 retains fine control over transient calculations.
 
@@ -25,38 +25,37 @@ processing elements at time step $i$ given their heat dissipation $\vq \in
 \begin{remark}
 It should be understood that \vp, \vq, and \vu are random vectors in general,
 and that \f consumes $\vq(\omega)$ and $\vu(\omega)$ and yields $\vp(\omega)$
-for some particular outcome $\omega \in \Omega$. The function itself is purely
-deterministic.
+for some particular outcome $\omega \in \Omega$. The function \f itself is
+purely deterministic.
 \end{remark}
 
-The designer can choose any \f. It can be, for instance, a closed-form formula
-or a piece of code. The only assumption we make is that \f is smooth in \vz and
-belongs to $\L{2}(\Omega, \F, \probability)$ when it is viewed as a random
-variable (see \xref{probability-theory}), which is generally applicable to most
-physical systems \cite{xiu2010}. The definition of \f is flexible enough to take
-account of such phenomena as the interdependence between power and temperature
-discussed in \sref{power-model}.
+The designer can choose any \f. For instance, it can be a closed-form formula or
+a piece of code. The only assumption we make is that \f is smooth in \vz and,
+when viewed as a random variable, belongs to $\L{2}(\Omega, \F, \probability)$
+(see \xref{probability-theory}), which is generally applicable to most physical
+systems \cite{xiu2010}. The definition of \f is flexible enough to take account
+of such phenomena as the interdependence between power and temperature discussed
+in \sref{power-model}.
 
-Our solution to transient analysis proposed here is based on the one presented
-in \sref{transient-solution}. The major difference is that
+Our solution to transient analysis under process variation is based on the one
+presented in \sref{transient-solution}. The major difference is that
 \eref{temperature-model} implicitly operates on stochastic quantities in the
 context of this chapter. Consequently, the recurrent solution in
 \eref{transient-recurrence}, that is,
 \begin{equation} \elab{chaos-recurrence-original}
   \vs_i = \m{E} \vs_{i - 1} + \m{F} \vp_i
 \end{equation}
-for $i = \range{1}{\ns}$ where $\vs_0 = \v{0}$, is stochastic as well. In the
-deterministic case, it can be readily employed to perform transient power and
-temperature analysis. In the probabilistic case, however, the situation is
-substantially different since $\vp_i$ and hence $\vs_i$ and $\vq_i$ are
-stochastic quantities. Moreover, at each step, $\vp_i$ is an arbitrary
-transformation of the uncertain parameters \vu and stochastic temperature
-$\vq_i$, which results in a multivariate random variable with a generally
-unknown probability distribution. Furthermore, $\vp_i$, $\vq_i$, $\vs_i$, and
-\vu are dependent random vectors since the first three are functions of the
-last. Hence, the operations in \eref{chaos-recurrence-original} are to be
-performed on dependent random vectors with arbitrary distributions, which, in
-general, have no closed-form solutions.
+for $i = \range{1}{\ns}$, is stochastic as well. In the deterministic case, it
+can be readily employed in order to perform transient power and temperature
+analysis. In the probabilistic case, however, the situation is substantially
+different since $\vp_i$ and hence $\vs_i$ and $\vq_i$ are stochastic quantities.
+Moreover, at each step, $\vp_i$ is an arbitrary transformation of the uncertain
+parameters \vu and stochastic temperature $\vq_i$, which results in a random
+vector with a generally unknown probability distribution. Furthermore, $\vp_i$,
+$\vq_i$, $\vs_i$, and \vu are dependent random vectors since the first three are
+functions of the last one. Therefore, the operations in
+\eref{chaos-recurrence-original} are to be performed on dependent random vectors
+with arbitrary distributions, which, in general, have no closed-form solutions.
 
 Let us now summarize Stage~1 in \fref{chaos-overview}. In this section, the
 quantity of interest \g is the transient power and temperature
@@ -77,25 +76,25 @@ that it can then be propagated through the recurrence in
 \eref{chaos-recurrence-original} in order to obtain a \ac{PC} expansion of power
 and a \ac{PC} expansion of temperature.
 
-The expansion of $\vp_i$ in \eref{chaos-recurrence-original} computed via \f in
-\eref{chaos-power-model} is
+The expansion of $\vp_i$, which is needed in \eref{chaos-recurrence-original}
+and computed via \f shown in \eref{chaos-power-model}, is as follows:
 \[
   \chaos{\nz}{\lc}{\vp_i} = \sum_{\vj \in \sparseindex{\nz}{\lc}} \hat{\vp}_{i \vj} \psi_{\vj}
 \]
 where $\{ \psi_{\vj}: \real^\nz \to \real \}$ are the basis polynomials, $\{
 \hat{\vp}_{i \vj} \} \subset \real^\np$ are the corresponding coefficients, and
-the index set $\sparseindex{\nz}{\lc}$ is given by
+the index set $\sparseindex{\nz}{\lc}$ is the one given in
 \eref{index-total-order-anisotropic}. In addition,
 \rref{chaos-multidimensional-output} is worth recalling. It can be seen in
 \eref{chaos-recurrence-original} that, due to the linearity of the operations
-involved in the recurrence, $\vs_i$ attains a \ac{PC} expansion that has the
-same structure as the expansion of $\vp_i$, and the recurrence in
+involved in the recurrence, $\vs_i$ attains such a \ac{PC} expansion that has
+the same structure as the expansion of $\vp_i$. Then the recurrence in
 \eref{chaos-recurrence-original} can be rewritten as follows:
 \[
   \chaos{\nz}{\lc}{\vs_i} = \m{E} \, \chaos{\nz}{\lc}{\vs_{i - 1}} + \m{F} \, \chaos{\nz}{\lc}{\vp_i}
 \]
 for $i = \range{1}{\ns}$. Consequently, there are two interwoven \ac{PC}
-expansions: one is for power, and the other for temperature; the two expansions
+expansions: one is for power, and the other for temperature. The two expansions
 have the same polynomial basis but different coefficients. In order to
 understand the structure of the above formula better, let us spell it out as
 \[
@@ -109,7 +108,7 @@ Making use of the orthogonality property, which can be seen in
 \end{equation}
 for $i = \range{1}{\ns}$ and $\vj \in \sparseindex{\nz}{\lc}$. The coefficients
 $\{ \hat{\vp}_{i \vj} \}$ needed in this recurrence are found using a suitable
-quadrature $\quadrature{\nz}{\lq}$ as follows:
+quadrature $\quadrature{\nz}{\lq}$ (see \xref{sparse-integration}) as follows:
 \[
   \hat{\vp}_{i \vj} = \quadrature{\nz}{\lq}{\vp_i \psi_{\vj}}
 \]
@@ -133,12 +132,12 @@ where \nn, \np, \nc, and \nq are the number of thermal nodes, processing
 elements, polynomial terms, and quadrature points, respectively, and $\f(\np)$
 denotes the contribution of the power model shown in \eref{chaos-power-model}.
 The expression can be detailed further by expanding \nc and \nq. Assuming the
-isotropic total-order index set given in \eref{index-total-order-isotropic}, \nc
-has the formula shown in \eref{index-total-order-isotropic-length}. This formula
-behaves as $\nz^\lc / \lc!$ in the limit with respect to \nz. Regarding \nq, for
-quadratures based on the full tensor product given in \eref{quadrature-tensor},
-$\log(\nq) \propto \nz$, which means that the dependency of \nq on \nz is
-exponential.
+isotropic total-order index set in \eref{index-total-order-isotropic}, \nc can
+be calculated as shown in \eref{index-total-order-isotropic-length}. This
+formula behaves as $\nz^\lc / \lc!$ in the limit with respect to \nz. Regarding
+\nq, for quadratures based on the full tensor product given in
+\eref{quadrature-tensor}, $\log(\nq) \propto \nz$, which means that the
+dependency of \nq on \nz is exponential.
 
 It can be seen that the theory of \ac{PC} expansions suffers from the curse of
 dimensionality \cite{eldred2008, xiu2010}: when \nz increases, the number of
@@ -148,36 +147,36 @@ does not have a general solution and is one of the central topics of many
 ongoing studies.
 
 We mitigate the curse of dimensionality by \one~keeping the number of stochastic
-dimensions low via the model-order-reduction technique discussed in
-\xref{probability-transformation}---which is based on the \ac{KL} decomposition
-and is a part of $\transform$ in \eref{chaos-transformation}---and
-\two~utilizing efficient construction techniques discussed in
-\xref{sparse-integration} as well as in \sref{chaos-construction}. In the case
-of, for instance, isotropic integration grids based on the Smolyak algorithm and
-Gaussian quadratures, $\log(\nq) \propto \log(\nz)$, which means that the
-dependency of \nq on \nz is only polynomial \cite{heiss2008}. Anisotropic
-constructions allow for further reduction.
+dimensions low via model order reduction, which is a part of $\transform$ shown
+in \eref{chaos-transformation} and is based on the \ac{KL} decomposition
+described in \xref{probability-transformation}, and \two~utilizing efficient
+construction techniques, which is discussed in \sref{chaos-construction} and
+\xref{sparse-integration}. For instance, in the case of isotropic integration
+grids based on the Smolyak algorithm and Gaussian quadratures, $\log(\nq)
+\propto \log(\nz)$, which means that the dependency of \nq on \nz is only
+polynomial \cite{heiss2008}. Anisotropic constructions allow for further
+reduction.
 
 Let us summarize Stage~3 in \fref{chaos-overview}. Recall the stochastic
 recurrence in \eref{chaos-recurrence-original} where, in the presence of
-dependencies, an arbitrary functional $\vp_i$ of the stochastic temperature
-$\vq_i$ and the uncertain parameters \vu---which can be seen in
-\eref{chaos-power-model}---needs to be evaluated and combined with the random
-vector $\vs_i$. This recurrence has been replaced with a purely deterministic
-recurrence in \eref{chaos-recurrence}. More generally, the whole system,
-including the temperature model in \eref{temperature-model-original}, has been
-substituted with a light surrogate defined by a set of polynomials $\{
-\psi_{\vj} \}$, a set of coefficients $\{ \hat{\vp}_{i \vj} \}$ for power, and a
-set of coefficient $\{ \hat{\vq}_{i \vj} \}$ for temperature. These quantities
-constitute the desired stochastic power and temperature profiles, and these
-profiles are ready to be analyzed at each step of the process as discussed in
+dependencies, an arbitrary function $\vp_i$ (since it is based on \f as shown
+\eref{chaos-power-model}) of the stochastic temperature $\vq_i$ and uncertain
+parameters \vu needs to be evaluated and combined with the random vector
+$\vs_i$. This recurrence has been replaced with a purely deterministic one shown
+in \eref{chaos-recurrence}. More generally, the whole system, including the
+temperature model in \eref{temperature-model-original}, has been substituted
+with a light surrogate defined by a set of polynomials $\{ \psi_{\vj} \}$, a set
+of coefficients $\{ \hat{\vp}_{i \vj} \}$ for power, and a set of coefficient
+$\{ \hat{\vq}_{i \vj} \}$ for temperature. These quantities constitute the
+desired stochastic power and temperature profiles, and these profiles are ready
+to be analyzed at each step of the process as discussed in
 \sref{chaos-processing}.
 
 Before we proceed, let us draw attention to the ease and generality of taking
-process variation into consideration using the proposed approach. The above
-description is delivered from any explicit formula of any particular process
-parameter. In contrast, the solutions from the literature related to process
-variation are typically based on ad~hoc expressions and should be tailored by
-the designer for each new parameter individually; see, for instance,
-\cite{ghanta2006, bhardwaj2008, huang2009a}. The proposed framework provides a
+process variation into consideration using the proposed approach. The
+description given above is delivered from any explicit formula of any particular
+process parameter. In contrast, the solutions from the literature related to
+process variation are typically based on ad~hoc expressions and should be
+tailored by the designer for each new parameter individually; see, for instance,
+\cite{ghanta2006, bhardwaj2008, huang2009a}. The proposed framework provides
 great flexibility in this regard.
