@@ -102,7 +102,7 @@ described below.
 
 Step~1 is to assign an adequate model to the unknown \g. We model \g as a
 Gaussian process \cite{rasmussen2006} since \one~it is flexible in capturing the
-correlation patterns induced by the fabrication process, \two~it is
+variation patterns induced by the fabrication process, \two~it is
 computationally efficient, and \three~Gaussian distributions are often adequate
 models of the uncertainty due to process variation \cite{reda2009,
 srivastava2010, juan2012}. The model is denoted by
@@ -143,8 +143,8 @@ similarities, that is, the range where the correlation between two locations is
 significant. Although all the above parameters of \g can be inferred from data,
 for simplicity, we focus only on $\mu_\g$ and $\sigma_\g^2$. The rest of the
 parameters---namely $w$, $\ell_\SE$, and $\ell_\OU$---are assumed to be
-determined prior to our analysis based on the knowledge of the correlation
-patterns typical for the fabrication process considered; see \cite{marzouk2009}
+determined prior to our analysis based on the knowledge of the variation
+patterns typical for the considered fabrication process; see \cite{marzouk2009}
 and the references therein.
 
 Step~2 is to make the above model of \g computationally tractable. The model is
