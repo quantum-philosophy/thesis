@@ -65,9 +65,9 @@ vector
 \end{equation}
 where the first element corresponds to the total energy consumption; the second
 one is the maximum temperature; and, with a slight abuse of notation, the third
-one is the parameters of the reliability model characterizing the lifetime,
-which are denoted by \vg in \sref{reliability-model} and
-\sref{chaos-reliability-analysis}. Each element implicitly depends on \schedule
+one is the parameters of the reliability model characterizing the lifetime (they
+are denoted by \vg in \sref{reliability-model} and
+\sref{chaos-reliability-analysis}). Each element implicitly depends on \schedule
 and \vu. In \aref{chaos-construction}, Algorithm~G is a subroutine that
 transforms \vz into \vu, makes a call to
 \aref{chaos-dynamic-steady-solution-iterative}, and processes the resulting
@@ -88,15 +88,14 @@ respectively.
 We begin by delineating the optimization procedure itself. Similar to
 \sref{dream-optimization}, we make use of a genetic algorithm
 \cite{schmitz2004}. Each chromosome contains $2 \nt$ genes that encode a mapping
-of the tasks onto the processing elements and a vector of priorities of the
-tasks; the two pieces of information are needed for scheduling as explained
-below. The population contains $4 \nt$ individuals that are initialized using
-uniform distributions. The parents for the next generation are chosen by a
-tournament selection with the number of competitors equal to 20\% of \nt. A
-one-point crossover is then applied to 80\% of the parents. Each parent
-undergoes a uniform mutation where each gene is altered with probability 0.01.
-The top five-percent individuals always survive. The stopping condition is the
-absence of improvement within 10 successive generations.
+of the tasks onto the processing elements and a set of priorities of the tasks.
+The population contains $4 \nt$ individuals that are initialized using uniform
+distributions. The parents for the next generation are chosen by a tournament
+selection with the number of competitors equal to 20\% of \nt. A one-point
+crossover is then applied to 80\% of the parents. Each parent undergoes a
+uniform mutation where each gene is altered with probability 0.01. The top
+five-percent individuals always survive. The stopping condition is the absence
+of improvement within 10 successive generations.
 
 Let us now turn to the evaluation of the fitness of a chromosome, which is where
 \ac{PC} expansions come into play. First, the information encoded in the
@@ -115,7 +114,7 @@ energy consumption.
 
 The aforementioned examination of the temperature and lifetime constraints as
 well as the evaluation of the expected energy consumption are undertaken by
-means of a \ac{PC} expansion of \eref{chaos-optimization-quantity} using the
+means of a \ac{PC} expansion of \eref{chaos-optimization-quantity} following the
 description given in \sref{chaos-processing}. Specifically, the two
 probabilities needed in \eref{chaos-optimization-constraints} are estimated via
 sampling the light polynomial surrogate. By contrast, the expectation in
