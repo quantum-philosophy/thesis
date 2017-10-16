@@ -5,20 +5,20 @@ to be taken into account at once in order to calculate the corresponding dynamic
 steady state. Thus, similar to the contrast between \sref{transient-analysis}
 and \sref{dynamic-steady-analysis}, the solutions in
 \sref{chaos-transient-analysis} and this section differ. However, they still
-rely on the same strategy outlined in \sref{chaos-uncertainty-analysis} and
+rely on the same methodology outlined in \sref{chaos-uncertainty-analysis} and
 shown in \fref{chaos-overview}.
 
 \subsection{\problemtitle}
 
 The system model is the same as the one in \sref{chaos-transient-analysis}. The
-only difference is that the power model is more convenient to be defined as
+only difference is that it is more convenient to define the power model as
 follows:
 \begin{equation} \elab{chaos-power-model-bulk}
   \mp = \f(\vu, \mq).
 \end{equation}
 The function $\f: \real^\nu \times \real^{\np \times \ns} \to \real^{\np \times
 \ns}$ is supposed to return the periodic power profile that corresponds to the
-desired periodic workload.
+periodic workload under analysis.
 
 \inputalgorithm{chaos-dynamic-steady-solution-iterative}
 The solution to probabilistic dynamic steady-state analysis is based on the
@@ -46,9 +46,9 @@ case, however, the power model has multiple parameters stepping far from their
 nominal values.
 \end{remark}
 
-To recapitulate, in this section, the quantity of interest \g is the dynamic
-steady-state temperature profile \mq (or the corresponding power profile \mp, if
-preferable). The output of Stage~1 in \fref{chaos-overview} is
+To recapitulate, the quantity of interest \g in \fref{chaos-overview} is the
+dynamic steady-state power and temperature profiles, which are denoted by \mp
+and \mq, respectively. The calculation of this quantity is shown in
 \aref{chaos-dynamic-steady-solution-iterative}.
 
 \subsection{Surrogate Construction}
@@ -56,22 +56,26 @@ preferable). The output of Stage~1 in \fref{chaos-overview} is
 At Stage~3 in \fref{chaos-overview}, the procedure delineated in
 \sref{chaos-construction} is applied to
 \aref{chaos-dynamic-steady-solution-iterative} from Stage~1 with respect to the
-output of Stage~2. The algorithm computes \mp or \mq for a given \vu and returns
-it in a suitable format.
+output of Stage~2. Concretely, \aref{chaos-dynamic-steady-solution-iterative} is
+utilized inside \aref{chaos-construction} via Algorithm~G. In this case,
+Algorithm~G calls \aref{chaos-dynamic-steady-solution-iterative} and returns \mp
+or \mq or both, depending on what is actually needed for the subsequent
+calculations, in a suitable format.
 
-Following \rref{chaos-multidimensional-output} concerning vector-valued
-quantities, \g is treated as an $\np \ns$-element row vector, in which case each
-coefficient $\hat{\g}_{\vi}$ in \eref{chaos-expansion} is also such a vector.
-The projection matrix in \eref{chaos-projection-matrix} and consequently
-\aref{chaos-construction} should be interpreted accordingly: \vg is an $\nq
-\times \np \ns$ matrix whose row $j$ is the dynamic steady-state temperature or
-power profile computed at point $j$ of the quadrature in
-\eref{chaos-coefficient} and reshaped into a row vector. Similarly, $\hat{\vg}$
-should be understood as an $\nc \times \np \ns$ matrix whose row $i$ is
-coefficient $i$ of the expansion in \eref{chaos-expansion}. Recall that a
-certain ordering is assumed to be imposed on quadrature points as well as on
+Suppose, for instance, that the designer is interested in analyzing solely the
+dynamic steady-state temperature profile \mq. Following
+\rref{chaos-multidimensional-output} concerning vector-valued quantities, \g is
+treated as an $\np \ns$-element row vector, in which case each coefficient
+$\hat{\g}_{\vi}$ in \eref{chaos-expansion} is also such a vector. The projection
+matrix in \eref{chaos-projection-matrix} and consequently
+\aref{chaos-construction} should be reinterpreted accordingly: \vg is an $\nq
+\times \np \ns$ matrix whose row $j$ is \mq computed at point $j$ of the
+quadrature in \eref{chaos-coefficient} and reshaped into a row vector.
+Similarly, $\hat{\vg}$ should be understood as an $\nc \times \np \ns$ matrix
+whose row $i$ is coefficient $i$ of the expansion in \eref{chaos-expansion}.
+Recall that a certain ordering is assumed to be imposed on quadrature points and
 polynomial terms.
 
-The constructed expansion can now be post-processed as required, which is
-already the topic of Stage~4 in \fref{chaos-overview}; see
-\sref{chaos-processing}
+The constructed \ac{PC} expansion can now be post-processed as required, which
+is already the topic of Stage~4 in \fref{chaos-overview}; see
+\sref{chaos-processing}.
