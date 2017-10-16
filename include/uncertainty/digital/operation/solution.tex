@@ -137,11 +137,11 @@ The output of the last recurrent layer is typically a large tensor, which is
 proportional in size to the number of units in the layer. Each entry of such a
 tensor can be considered as a feature that the network has extracted and
 activated in accordance with the resource-usage profile that is currently being
-fed into the model. The task now is to combine these features in order to
-produce a single prediction. To this end, we mount a feedforward layer with a
-linear activation function on top of the last recurrent layer, which is depicted
-as an orange box in \fref{brain-predictive-model}. Unlike the recurrent layers,
-which feature highly nonlinear transformations, this layer performs an affine
+fed to the model. The task now is to combine these features in order to produce
+a single prediction. To this end, we mount a feedforward layer with a linear
+activation function on top of the last recurrent layer, which is depicted as an
+orange box in \fref{brain-predictive-model}. Unlike the recurrent layers, which
+feature highly nonlinear transformations, this layer performs an affine
 transformation.
 
 To summarize, we have described a predictive model that is composed of a number
@@ -169,12 +169,12 @@ a certain loss function, which we shall specify shortly. There are two aspects
 that need to be discussed first.
 
 \inputfigure{brain-dynamic-unroll}
-The first concerns the way a single profile is fed into the model. To begin
-with, the internal memory of the model is nullified. Next, recall that each
-profile contains several data points (see \eref{brain-profile}), and note that
-two profiles generally have different lengths ($\nsi{i} \neq \nsi{j}$) since the
-execution times of two tasks are likely to differ. With this in mind, each
-profile is fed into the model using a technique called dynamic unrolling. An
+The first concerns the way a single profile is fed to the predictive model. To
+begin with, the internal memory of the model is nullified. Next, recall that
+each profile contains several data points (see \eref{brain-profile}), and note
+that two profiles generally have different lengths ($\nsi{i} \neq \nsi{j}$)
+since the execution times of two tasks are likely to differ. With this in mind,
+each profile is fed to the model using a technique called dynamic unrolling. An
 illustration is depicted in \fref{brain-dynamic-unroll}, in which the schematic
 representation given in \fref{brain-predictive-model} has been simplified even
 further and rotated 90${}^\circ$ counterclockwise. It can be seen that the model
@@ -257,9 +257,9 @@ predictions.
 
 In order to calculate long-rage predictions, we use refeeding: at time step~$j$,
 the predicted value $\hat{\vg}_{i, j + 1}$ of the resource usage of task $i$ is
-fed into the model as if it was the actual resource usage $\vg_{i, j + 1}$ at
-time step $j + 1$, which is not yet known at time step $j$. At this point, it
-might be helpful to consider the example given in \fref{brain-application}. The
+fed to the model as if it was the actual resource usage $\vg_{i, j + 1}$ at time
+step $j + 1$, which is not yet known at time step $j$. At this point, it might
+be helpful to consider the example given in \fref{brain-application}. The
 process continues until all the desired $h$ future values are estimated. It is
 natural to expect that the more accurate the one-step-ahead prediction is, the
 more accurate the multiple-step-ahead one becomes.
