@@ -55,7 +55,7 @@ The first constraint in \eref{chaos-optimization-constraints} is deterministic.
 On the other hand, the other two constraints are probabilistic since they are
 based on stochastic quantities. In the very last constraint, we set an upper
 bound on the expectation of \life. It should be noted that this expectation is a
-random variable itself due to the nested structure of the reliability model
+random variable \perse due to the nested structure of the reliability model
 discussed in \rref{chaos-nested-uncertainty}.
 
 In this section, the quantity of interest \g in \fref{chaos-overview} is the
@@ -79,13 +79,13 @@ Stage~4, is worth discussing.
 
 \subsection{Post-Processing}
 
-In this context, the post-processing stage concerns the usage of \ac{PC}
-expansions of \eref{chaos-optimization-quantity} inside an optimization
-procedure whose objective and constraints are the ones shown in
+In this context, the post-processing stage concerns the usage of expansions of
+\eref{chaos-optimization-quantity} inside an optimization procedure whose
+objective and constraints are the ones shown in
 \eref{chaos-optimization-objective} and \eref{chaos-optimization-constraints},
 respectively.
 
-We begin by delineating the optimization procedure \emph{per se}. Similar to
+We begin by delineating the optimization procedure \perse. Similar to
 \sref{dream-optimization}, we make use of a genetic algorithm
 \cite{schmitz2004}. Each chromosome contains $2 \nt$ genes that encode a mapping
 of the tasks onto the processing elements and a vector of priorities of the

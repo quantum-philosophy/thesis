@@ -27,11 +27,10 @@ in \sref{reliability-model}.
 Second, having established a reliability model $R(\cdot | \vg)$ of the system
 under consideration, the major portion of the associated computation time is
 ascribed to the evaluation of the parameterization \vg rather than to the model
-\emph{per se}, that is, for a given \vg. For instance, \vg often contains
-estimates of the \ac{MTTF} of each processing element for a range of stress
-levels. Thus, \vg typically involves computationally intensive simulations,
-including power analysis paired with temperature analysis; see
-\sref{reliability-model}.
+\perse, that is, for a given \vg. For instance, \vg often contains estimates of
+the \ac{MTTF} of each processing element for a range of stress levels. Thus, \vg
+typically involves computationally intensive simulations, including power
+analysis paired with temperature analysis; see \sref{reliability-model}.
 
 Guided by the aforementioned observations, we employ the \ac{PC} decomposition
 in order to construct a light surrogate for \vg. It is worth emphasizing that
@@ -45,8 +44,8 @@ responsibility.
 
 \begin{remark} \rlab{chaos-nested-uncertainty}
 It is important to realize that there are two levels of probabilistic modeling
-here. First, $R(\cdot | \vg)$ \emph{per se} is a probabilistic model describing
-the lifetime \life of the system. Second, the parameterization \vg is another
+here. First, $R(\cdot | \vg)$ \perse is a probabilistic model describing the
+lifetime \life of the system. Second, the parameterization \vg is another
 probabilistic model characterizing the impact of the uncertainty due to process
 variation on the reliability model. Thus, the overall model can be thought of as
 a probability distribution over probability distributions. Given an outcome of
