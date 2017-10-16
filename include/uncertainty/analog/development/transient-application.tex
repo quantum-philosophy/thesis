@@ -1,6 +1,6 @@
 In this section, we consider a particular application of the proposed approach
-to probabilistic transient analysis given in \sref{chaos-transient-analysis} in
-order to illustrate how it is used in practice. We begin by describing the
+to probabilistic transient analysis presented in \sref{chaos-transient-analysis}
+in order to illustrate its usage in practice. We begin by describing the
 considered scenario.
 
 \subsection{\problemtitle}
@@ -13,12 +13,13 @@ system.
 As discussed in \sref{power-model}, the total dissipation of power is composed
 of two major parts: dynamic and static. The influence of process variation on
 the dynamic power is known to be negligibly small \cite{srivastava2010}; on the
-other hand, the variability of the static power is substantial, in which the
+other hand, the variability of the static power is substantial, to which the
 subthreshold leakage current contributes the most \cite{juan2011, juan2012}.
-Hence, we focus on the subthreshold leakage and, more specifically, on the
-effective channel length denoted by \u since it has the strongest influence on
-this leakage---it affects the threshold voltage as well---and is severely
-deteriorated by process variation \cite{chandrakasan2000}.
+With this in mind, we focus our attention on the subthreshold leakage and, more
+specifically, on the effective channel length, which is denoted by \u, since it
+has the strongest influence on this leakage (including its impact on other
+important parameters such as the threshold voltage) and is severely deteriorated
+by process variation \cite{chandrakasan2000}.
 
 \inputfigure{chaos-beta-gaussian}
 It is well known that the dispersion of the effective channel length around its
@@ -41,14 +42,14 @@ right bounds of the support, respectively. The parameters $a$ and $b$ can be
 chosen so that the frequently observed bell shape is preserved. An illustration
 is given in \fref{chaos-beta-gaussian} where a beta distribution is fitted to
 the standard Gaussian distribution; alternatively, one can match probabilistic
-moments. It can be seen that the curves are nearly indistinguishable, but the
-beta one has a bounded support $[-4, 4]$, which can potentially lead to more
+moments. It can be seen that the curves are nearly indistinguishable; however,
+the beta one has a bounded support $[-4, 4]$, which can potentially lead to more
 realistic models.
 
-The variability of \u is split into global $\u_\overall$ and local $\u_\local$
-parts \cite{shen2009, chandra2010, juan2012}. Without loss of generality,
-$\u_\overall$ can be treated as a composition of inter-lot, inter-wafer, and
-inter-die variations; likewise, $\u_\local$ can be treated as a composition of
+The variability of \u is split into global and local parts \cite{shen2009,
+chandra2010, juan2012}, which are denoted by $\u_\overall$ and $\u_\local$,
+respectively. The former can be treated as a composition of inter-lot,
+inter-wafer, and inter-die variations, and the latter as a composition of
 intra-die variations. The variability $\u_\overall$ is assumed to be shared by
 all the \np processing elements whereas each processing element is assumed to
 have its own local parameter $\u_{\local, i}$. Then the effective channel length
@@ -76,16 +77,16 @@ locations that are at the same distance from the center of the die; see also
 Although \eref{bayes-correlation} captures certain features inherent to the
 fabrication process, it is still an idealization. In practice, it can be
 difficult to make a justifiable choice and tune such a formula, which is a
-prerequisite for the techniques discussed in \sref{chaos-prior} that are based
-on the continuous \ac{KL} decomposition. A correlation matrix, on the other
+prerequisite for techniques based on the continuous \ac{KL} decomposition, such
+as those discussed in \sref{chaos-prior}. A correlation matrix, on the other
 hand, can be readily estimated from measurements and thus is a more probable
 input to probabilistic analysis. Therefore, we use \eref{bayes-correlation} with
 the only purpose of constructing a correlation matrix of $\{ \u_{\local, i}
-\}_{i = 1}^\np$. For convenience, the resulting matrix is extended by one
+\}_{i = 1}^\np$. For convenience, this correlation matrix is extended by one
 dimension in order to accommodate $\u_\overall$ along with $\{ \u_{\local, i}
-\}_{i = 1}^\np$. In this case, the correlation matrix obtains one additional
-nonzero diagonal element equal to unity; the result is the correlation matrix of
-\vu denoted by $\correlation{\vu}$.
+\}_{i = 1}^\np$. Concretely, the matrix obtains one additional nonzero diagonal
+element equal to unity; the resulting matrix is the correlation matrix of \vu
+denoted by $\correlation{\vu}$.
 
 Let us now be more specific about the power model in \eref{chaos-power-model}.
 In the ongoing scenario, \f can be rewritten as the following summation:
@@ -105,23 +106,24 @@ length against temperature---and the results are tabulated. An interpolation
 technique is subsequently utilized whenever the static power is required to be
 calculated at a particular point within the range of the grid.
 
-Regarding temperature analysis, an adequate thermal \up{RC} circuit should be
-constructed. Given the specification of the platform---including the floorplan
-of the die and the configuration of the thermal package---the circuit is
-constructed by HotSpot \cite{skadron2003} adhering to the structure described in
+Lastly, in order to be able to perform temperature calculations, an adequate
+thermal \up{RC} circuit should be constructed. Given the specification of the
+platform under consideration---including the floorplan of the die and the
+configuration of the thermal package---such a circuit is obtained by means of
+HotSpot \cite{skadron2003}. The structure of the circuit is the one described in
 \sref{temperature-model}.
 
 To conclude, in this section, we address the variability of the effective
 channel length. The input to our analysis is composed of the marginal
 distributions of the uncertain parameters \vu, which are beta distributions, and
 the corresponding correlation matrix $\correlation{\vu}$. Let us now go over the
-other stages of our methodology discussed in \sref{chaos-uncertainty-analysis}
+other stages of our methodology presented in \sref{chaos-uncertainty-analysis}
 and depicted in \fref{chaos-overview}.
 
 \subsection{Probability Transformation}
 
-At Stage~2 in \fref{chaos-overview}, \vu should be preprocessed in order to
-extract a vector of mutually independent random variables \vz via a suitable
+At Stage~2 in \fref{chaos-overview}, \vu should be processed in order to extract
+a vector of mutually independent random variables \vz via a suitable
 transformation $\transform$; see \eref{chaos-transformation}. Following the
 guidance given in \sref{chaos-transformation}, the most apposite $\transform$ in
 the ongoing scenario is the Nataf transformation. The whole procedure is
@@ -150,10 +152,10 @@ under the desired workload $\mp_\dynamic$ in order to produce the corresponding
 stochastic power and temperature profiles denoted by \mp and \mq, respectively.
 
 In the current scenario, the construction of \ac{PC} expansions is based on the
-Jacobi polynomial basis as it is preferable in situations involving
+Jacobi polynomial basis since it is preferable in situations involving
 beta-distributed parameters \cite{xiu2010}. To give a concrete example, for a
 dual-core platform ($\np = 2$) with two stochastic dimensions ($\nz = 2$), the
-second-level \ac{PC} expansion ($\lc = 2$) of temperature at step $i$ is as
+second-level \ac{PC} expansion ($\lc = 2$) of temperature at time step $i$ is as
 follows:
 \begin{equation} \elab{chaos-expansion-example}
   \begin{split}
@@ -178,9 +180,8 @@ corresponding to the two processing elements. Regarding the basis,
 \end{align*}
 The Jacobi polynomials have two parameters \cite{xiu2010}, and the ones shown
 above correspond to the case where both parameters are equal to two. Such a
-series might be shorter or longer, depending on the accuracy requirements given
-by \lc. The expansion of power has the same structure but different
-coefficients.
+series can be shorter or longer, depending on the accuracy requirements given by
+\lc. The expansion of power has the same structure but different coefficients.
 
 The next step is to compute the coefficients of power $\{ \hat{\vp}_{i \vj} \}$
 in \eref{chaos-recurrence}, which subsequently yield the coefficients of
@@ -200,7 +201,7 @@ expansions, which is motivated in \sref{chaos-construction}. Consequently, $\lq
 To summarize, we have completed four out of five stages of the proposed
 framework depicted in \fref{chaos-overview}. The result is a light surrogate for
 the entire system. At each time step, the surrogate is composed of two
-\np-valued polynomials---one is for power, and the other one is for
+\np-valued polynomials---one is for power, and the other one for
 temperature---which are defined in terms of \nz mutually independent random
 variables.
 
@@ -209,13 +210,13 @@ variables.
 At Stage~4 in \fref{chaos-overview}, the constructed expansions are utilized in
 order to assist the designer in analyzing the impact of process variation on
 power- and temperature-related characteristics of the system under development.
-Consider, for example, \eref{chaos-expansion-example}. It can be seen in that
-the surrogate model has a negligibly small computational cost: for any outcome
-of \vz, one can straightforwardly compute the corresponding temperature by
+Consider, for example, \eref{chaos-expansion-example}. It can be seen that the
+surrogate model has a negligibly small computational cost: for any outcome of
+\vz, one can straightforwardly calculate the corresponding temperature by
 plugging this outcome into \eref{chaos-expansion-example}; the same applies to
-power. Hence, the representation can be trivially analyzed in order to retrieve
-various statistics about the system. Let us illustrate a few of them using this
-example in \eref{chaos-expansion-example}.
+power. Therefore, the representation can be trivially analyzed in order to
+retrieve various statistics about the system. Let us illustrate a few of them
+using the expansion given in \eref{chaos-expansion-example}.
 
 \inputfigure{chaos-application-power}
 \inputfigure{chaos-application-temperature}
