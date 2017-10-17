@@ -1,50 +1,53 @@
 In order to give a better intuition about the approach to reliability analysis
 and optimization presented in \sref{chaos-reliability-analysis} and
 \sref{chaos-optimization}, we consider a concrete application, meaning that we
-specify the uncertain parameters and carry out the corresponding computations.
-This application is also utilized for the quantitative evaluation of our
-technique given in the next section, \sref{chaos-optimization-results}.
+specify the uncertain parameters and discuss the accompanying computations. This
+application is also utilized for the quantitative evaluation of our technique
+given in the next section, \sref{chaos-optimization-results}.
 
 \subsection{\problemtitle}
 
-Assume that the structure of the reliability model is the one in
-\eref{reliability-model} where each individual reliability function $R_i$ is the
-one in \eref{weibull-reliability} with its own $\eta_i$ and $\beta_i$ for $i =
-\range{1}{\np}$. During each iteration, the temperature of processing element
-$i$ exhibits \nk{i} cycles. Each cycle generally has different characteristics
-and, therefore, causes different damage. This aspect is taken into account by
-adjusting $\eta_i$ as shown in \eref{thermal-cycling-scale}. The shape parameter
-$\beta_i$ is known to be indifferent to temperature. For simplicity, assume that
-$\beta_i$ also does not depend on process parameters, and that $\beta_i = \beta$
-for $i = \range{1}{\np}$.
+Assume that the structure of the reliability model $R(\cdot | \vg)$ of the
+system at hand is the one given in \eref{reliability-model} where each
+individual reliability function $R_i(\cdot | \vg_i)$ is the one shown in
+\eref{weibull-reliability} with its own parameters $\scale_i$ and $\shape_i$.
+
+During each iteration, the temperature of processing element $i$ exhibits \nk{i}
+cycles. Each cycle generally has different characteristics and, therefore,
+causes different damage to the processing element. This aspect is taken into
+account by adjusting $\scale_i$ as shown in \eref{thermal-cycling-scale}. The
+shape parameter $\shape_i$ is known to be indifferent to temperature
+\cite{chang2006}. For simplicity, assume that $\shape_i$ does not depend on
+process parameters either, and that $\shape_i = \shape$ for $i =
+\range{1}{\np}$.
 
 Under the above assumptions, \rref{weibull-homogeneity} applies, and the
-lifetime $\life: \Omega \to \real$ of the electronic system has a Weibull
-distribution as follows:
+lifetime $\life: \Omega \to \real$ of the system has a Weibull distribution as
+follows:
 \[
   \life | (\scale, \shape) \sim \mathrm{Weibull}(\scale, \shape)
 \]
 where $\scale$ is the one given in \rref{weibull-homogeneity} combined with
 \eref{thermal-cycling-scale}. Even though the reliability model has two
-parameters, only $\scale$ is uncertain to the designer. Therefore, we treat the
-model as if it was parameterized by only one parameter, namely $\scale$, and
-$\shape$ is assumed to be implicitly given.
+parameters, only one of them is uncertain to the designer, namely $\scale$.
+Therefore, we treat the model as if it was parameterized only by $\scale$. The
+shape parameter $\shape$ is assumed to be implicitly given.
 
-In the case of reliability analysis without any accompanying exploration of the
-design space, one can proceed to constructing a \ac{PC} expansion of $\scale$.
-Having obtained a lightweight surrogate for $\scale$, the reliability of the
-system can be studied from various perspectives under process variation. In the
+In the case of reliability analysis under process variation without any
+accompanying exploration of the design space, one can proceed to constructing a
+\ac{PC} expansion of $\scale$. Having obtained this lightweight surrogate, the
+reliability of the system can be studied from various perspectives. In the
 current scenario, however, the quantity of interest \g is the one given in
 \eref{chaos-optimization-quantity} since it allows for evaluating the objective
 function and constraints defined in \eref{chaos-optimization-objective} and
 \eref{chaos-optimization-constraints}, respectively. In
-\eref{chaos-optimization-quantity}, the third component denoted by \life stands
-for the parameterization of the reliability model; consequently, it is $\scale$
-in the illustrative application developed in this section.
+\eref{chaos-optimization-quantity}, the component denoted by \life stands for
+the parameterization of the reliability model; consequently, it is $\scale$ in
+the illustrative application developed in this section.
 
 Let us now turn our attention to the uncertain parameters \vu of the addressed
-problem. We focus on two crucial process parameters: on the effective channel
-length and gate oxide thickness. Thus, each processing element is ascribed two
+problem. We focus on two crucial process parameters: the effective channel
+length and gate oxide thickness. Then each processing element is ascribed two
 random variables corresponding to the two process parameters, which means that
 $\nu = 2 \np$ in the current example; see also \sref{chaos-problem}.
 
@@ -70,54 +73,53 @@ intervals of the positive half of the real line. Thus, similar to
 \sref{chaos-transient-application}, we model the two process parameters using
 the four-parameter family of beta distributions shown in
 \eref{beta-distribution}. Without loss of generality, the parameters are assumed
-to be independent of each other, and the correlations among those elements of
+to be independent of each other, and the correlations between those elements of
 \vu that correspond to the same process parameter are assumed to be given by the
 correlation function shown in \eref{bayes-correlation}.
 
-The two process parameters manifest themselves in the calculations associated
-with the power model shown in \eref{chaos-power-model-bulk} through the static
-power. Analogous to \sref{chaos-transient-application}, the modeling here is
-based on \up{SPICE} simulations of a series of \up{CMOS} invertors. The
-invertors are taken from the 45-nm open cell library by NanGate \cite{nangate}
-and configured according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}. The
-simulations are performed on a fine-grained and sufficiently broad
-three-dimensional grid comprising the effective channel length, gate oxide
-thickness, and temperature; the results are tabulated. An interpolation
-algorithm is subsequently employed whenever the static power is to be evaluated
-at a particular point within the range of the grid. The output of this model is
-scaled up to account for about 40\% of the total power consumption
-\cite{liu2007}. Regarding temperature, the thermal \up{RC} circuit used for
-dynamic steady-state analysis is constructed via HotSpot \cite{skadron2003} as
-described in \sref{temperature-model}.
+The process parameters manifest themselves in the calculations associated with
+the power model shown in \eref{chaos-power-model-bulk} through the static power.
+Analogous to \sref{chaos-transient-application}, the modeling here is based on
+\up{SPICE} simulations of a series of \up{CMOS} invertors. The invertors are
+taken from the 45-nm open cell library by NanGate \cite{nangate} and configured
+according to the 45-nm \up{PTM} \up{HP} model \cite{ptm}. The simulations are
+performed on a fine-grained and sufficiently broad three-dimensional grid
+comprising the effective channel length, gate oxide thickness, and temperature;
+the results are tabulated. An interpolation algorithm is subsequently employed
+whenever the static power is to be evaluated at a particular point within the
+range of the grid. The output of this model is scaled up to account for about
+40\% of the total power consumption \cite{liu2007}. Regarding temperature, the
+thermal \up{RC} circuit utilized for dynamic steady-state analysis is
+constructed by virtue of HotSpot \cite{skadron2003} as described in
+\sref{temperature-model}.
 
 At this point, the two outputs of Stage~1 are now specified.
 
 \subsection{Probability Transformation}
 
 At Stage~2 in \fref{chaos-overview}, the uncertain parameters \vu are
-transformed into independent random variables \vz via a suitable transformation
-$\transform$. Specifically, we use the one in \eref{probability-transformation},
-which also includes model order reduction. Unlike
-\sref{chaos-transient-application}, in this section, we let \vz obey the
+transformed into a vector of independent random variables \vz via a suitable
+transformation $\transform$. Specifically, we use the one given in
+\eref{probability-transformation}, which also includes model order reduction.
+Unlike \sref{chaos-transient-application}, in this section, we let \vz obey the
 standard Gaussian distribution and, therefore, tailor $\transform$ accordingly;
 see \xref{probability-transformation}.
 
 \subsection{Surrogate Construction}
 
-Since the expansion variables \vz are Gaussian, the polynomial basis considered
-at Stage~3 is to be composed of Hermite polynomials, which is the exact scenario
-described in \xref{polynomial-chaos}. The variables also tell us how to approach
-numerical integration needed for the evaluation of the coefficients of \ac{PC}
-expansions: since we are interested in integrals with respect to the standard
-Gaussian measure, Gauss--Hermite quadratures \cite{maitre2010} are worth
-considering. These quadratures are especially efficient since they belong to the
-class of Gaussian quadratures and thus inherit their properties; see
-\xref{sparse-integration}.
+Since the auxiliary variables $\vz = (\z_i)_{i = 1}^\nz$ are Gaussian, the
+polynomial basis considered at Stage~3 is to be composed of Hermite polynomials,
+which is the exact scenario described in \xref{polynomial-chaos}. The variables
+also tell us how to approach numerical integration needed for the evaluation of
+the coefficients of \ac{PC} expansions: since we are interested in integrals
+with respect to the standard Gaussian measure, Gauss--Hermite quadratures
+\cite{maitre2010} are worth considering. These quadratures are especially
+efficient since they belong to the class of Gaussian quadratures and thus
+inherit their properties; see \xref{sparse-integration}.
 
-Lastly, let us illustrate the Hermite basis. For a random vector $\vz: \Omega
-\to \real$ with one standard Gaussian variable ($\nz = 1$), a second-level
-\ac{PC} expansion ($\lc = 2$) of a quantity of interest $\vg: \Omega \to
-\real^3$ with three outputs is
+Lastly, let us illustrate the Hermite basis. In the case of working with only
+one standard Gaussian variable ($\nz = 1$), a second-level \ac{PC} expansion
+($\lc = 2$) of a three-dimensional quantity of interest \vg is as follows:
 \[
   \chaos{1}{2}{\vg}
   = \hat{\vg}_{(0)} \psi_{(0)}
@@ -130,5 +132,5 @@ where $\{ \hat{\vg}_{\vi} \} \subset \real^3$,
   & \psi_{(1)}(\vz) = \z_1, \text{ and} \\
   & \psi_{(2)}(\vz) = \z_1^2 - 1.
 \end{align*}
-The expansion is post-processed at Stage~4 as described in
+At Stage~4, the expansion is post-processed as described in
 \sref{chaos-optimization}.
