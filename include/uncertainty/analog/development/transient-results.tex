@@ -42,16 +42,18 @@ lee2013}, work under the static steady-state assumption (the work in
 comparison with the proposed technique is not possible.
 
 For comparison purposes, we employ \ac{MC} sampling, which is introduced in
-\sref{prior}. The \ac{MC} approach is set up to preserve the whole variance of
-the problem, which means that there is no model order reduction applied, and to
-solve the system in \eref{temperature-model-original} directly using the fourth-
-and fifth-order Runge--Kutta formulae combined (the Dormand--Prince method)
+\sref{prior}. This approach samples the quantity of interest directly, meaning
+that there is no any intermediate representation involved in these calculations.
+There is no model order reduction applied prior to direct sampling, which
+preserves the whole variance of the problem at hand, and the system in
+\eref{temperature-model-original} is solved using traditional techniques, namely
+the fourth- and fifth-order Runge--Kutta formulae (the Dormand--Prince method)
 \cite{press2007}.
 
 \hiddensubsection{Approximation Accuracy}
 
 The first set of experiments aims to investigate the accuracy of our framework
-with respect to \ac{MC} sampling. At this point, it is important to realize that
+with respect to direct sampling. At this point, it is important to realize that
 the true distributions of temperature are unknown, and both the \ac{PC} and
 \ac{MC} approaches introduce errors. These errors decrease as the level \lc of
 \ac{PC} expansions and the number of samples \no of \ac{MC} sampling increase.
@@ -77,7 +79,7 @@ steps. The metrics are denoted by \error{\expectation}, \error{\variance}, and
 they are calculated using the analytical expressions in \eref{chaos-moments}.
 The third one is a strong indicator of the quality of the distributions
 estimated by our framework, and it is computed by sampling the constructed
-\ac{PC} expansions. In contrast to the \ac{MC} approach, this sampling has a
+\ac{PC} expansions. In contrast to direct sampling, this sampling has a
 negligible overhead as noted in \sref{chaos-processing}.
 
 \inputtable{chaos-transient-accuracy}
@@ -137,8 +139,8 @@ other steps of the analyzed time span as well.
 Second, we investigate the convergence of the \ac{MC} technique and consequently
 watch the rows of \tref{chaos-transient-accuracy-0-5} that correspond to \ac{PC}
 expansions of high levels. Similar to the previous observations, even for low
-values of \no, the error of the expectation estimated by \ac{MC} sampling is
-relatively small. More specifically, this error is bounded by 1.19\%; see
+values of \no, the error of the expectation estimated by direct sampling is
+relatively small. Specifically, this error is bounded by 1.19\%; see
 \error{\expectation} for $\lc \geq 4$ and $\no = 10^2$. At the same time, the
 case with $\no = 10^2$ has high error rates in terms of the variance and
 \ac{PDF}: they are above 38\% and around 4\%, respectively; see
@@ -164,7 +166,7 @@ the other hand, can be considered sufficiently reliable starting from $\no =
 \hiddensubsection{Computational Speed}
 
 The second set of experiments is to measure the speed of our framework with
-respect to \ac{MC} sampling. To this end, we keep \lc and \no fixed and equal to
+respect to direct sampling. To this end, we keep \lc and \no fixed and equal to
 4 and \power{10}{4}, respectively. The latter value is also similar to those
 used in the literature \cite{ghanta2006, bhardwaj2008, huang2009a, shen2009,
 xiang2010, juan2012, lee2013} and consisted with the theoretical results on the
@@ -216,7 +218,7 @@ low slope of the execution time of the \ac{MC} technique, which illustrates the
 well-known fact that the workload per sample is independent of the number of
 stochastic dimensions. On the other hand, the rows with $\nz \geq 10$ hint at
 the curse of dimensionality, which \ac{PC} expansions suffer from. However, even
-in high dimensions, the proposed framework significantly outperforms \ac{MC}
+in high dimensions, the proposed framework significantly outperforms direct
 sampling. For instance, in order to analyze a dynamic power profile with
 \power{10}{3} steps of a platform with 32 processing elements, the \ac{MC}
 approach requires more than 40 hours whereas our framework takes less than two
