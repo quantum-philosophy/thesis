@@ -22,24 +22,25 @@ Under the above assumptions, \rref{weibull-homogeneity} applies, and the
 lifetime $\life: \Omega \to \real$ of the electronic system has a Weibull
 distribution as follows:
 \[
-  \life | (\eta, \beta) \sim \mathrm{Weibull}(\eta, \beta)
+  \life | (\scale, \shape) \sim \mathrm{Weibull}(\scale, \shape)
 \]
-where $\eta$ is as in \rref{weibull-homogeneity} combined with
-\eref{thermal-cycling-scale}. Even though the model has two parameters, only
-$\eta$ is uncertain. Therefore, we treat the model as parameterized by only
-$\eta$, and $\beta$ is assumed to be implicitly given.
+where $\scale$ is the one given in \rref{weibull-homogeneity} combined with
+\eref{thermal-cycling-scale}. Even though the reliability model has two
+parameters, only $\scale$ is uncertain to the designer. Therefore, we treat the
+model as if it was parameterized by only one parameter, namely $\scale$, and
+$\shape$ is assumed to be implicitly given.
 
 In the case of reliability analysis without any accompanying exploration of the
-design space, one can proceed to constructing a \ac{PC} expansion of $\eta$.
-Having obtained a lightweight surrogate for $\eta$, the reliability of the
+design space, one can proceed to constructing a \ac{PC} expansion of $\scale$.
+Having obtained a lightweight surrogate for $\scale$, the reliability of the
 system can be studied from various perspectives under process variation. In the
 current scenario, however, the quantity of interest \g is the one given in
 \eref{chaos-optimization-quantity} since it allows for evaluating the objective
 function and constraints defined in \eref{chaos-optimization-objective} and
 \eref{chaos-optimization-constraints}, respectively. In
 \eref{chaos-optimization-quantity}, the third component denoted by \life stands
-for the parameterization of the reliability model; consequently, it is $\eta$ in
-the illustrative application developed in this section.
+for the parameterization of the reliability model; consequently, it is $\scale$
+in the illustrative application developed in this section.
 
 Let us now turn our attention to the uncertain parameters \vu of the addressed
 problem. We focus on two crucial process parameters: on the effective channel
