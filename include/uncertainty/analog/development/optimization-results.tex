@@ -10,33 +10,34 @@ E5520 2.27~\up{GH}z, and 24~\up{GB} of \up{RAM}. All the configuration files
 used in the experiments are available online at \cite{eslab2015}.
 
 We consider a 45-nm technological process and rely on the 45-nm open cell
-library by NanGate \cite{nangate}. The effective channel length and gate oxide
-thickness are assumed to have nominal values equal to 22.5~nm and 1~nm,
+library by NanGate \cite{nangate} as explained in
+\sref{chaos-optimization-application}. The effective channel length and gate
+oxide thickness are assumed to have nominal values equal to 22.5~nm and 1~nm,
 respectively. Based on the International Technology Roadmap for Semiconductors
-\cite{itrs}, each process parameter is assumed to deviate up to 12\% of its
-nominal value, and this percentage is treated as three standard deviations.
-Regarding the correlation function in \eref{bayes-correlation}, the weight
-coefficient $w$ is set to 0.5, and the length-scale parameters $\ell_\SE$ and
-$\ell_\OU$ are set to half the size of the die. The model order reduction
-described in \xref{probability-transformation} is set to preserve 95\% of the
-variance of the problem. The parameter $\gamma$ in
-\eref{chaos-anisotropic-weight} tuning the anisotropy of \ac{PC} expansions and
-integration grids is set to 0.25.
+\cite{itrs}, each parameter is assumed to deviate by up to 12\% of its nominal
+value; the percentage is treated as three standard deviations, and the
+assumption should be understood accordingly. Regarding the correlation function
+in \eref{bayes-correlation}, the weight coefficient $w$ is set to 0.5, and the
+length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of
+the die. The model order reduction described in
+\xref{probability-transformation} is set to preserve 95\% of the variance of the
+problem. The parameter $\gamma$ used in \eref{chaos-anisotropic-weight}, which
+controls the anisotropy of \ac{PC} expansions and integration grids, is set to
+0.25.
 
 Heterogeneous platforms and periodic applications are randomly generated via
 \up{TGFF} \cite{dick1998} in such a way that the execution time of each task is
-uniformly distributed between 10 and 30~ms, and its dynamic power is uniformly
-distributed between 6 and 20~W. The floorplans of the platforms are regular
-grids where each processing element occupies 2~×~2~\power{mm}{2}. The sampling
-interval \dt of power and temperature profiles is set to 1~ms; in practice, \dt
-should be set to a value that is reasonable for the problem at hand. The
-stopping condition in \aref{chaos-dynamic-steady-solution-iterative} is that the
-\ac{NRMSE} between two successive temperature profiles becomes smaller than 1\%,
-which typically requires 3--5 iterations.
+uniformly distributed between 10 and 30~ms, and its dynamic power between 6 and
+20~W. The floorplans of the considered platforms are regular grids where each
+processing element occupies 2~×~2~\power{mm}{2}. The sampling interval \dt of
+power and temperature profiles is set to 1~ms. The stopping condition used in
+\aref{chaos-dynamic-steady-solution-iterative} is that the \ac{NRMSE} between
+two successive temperature profiles becomes smaller than 1\%, which typically
+requires 3--5 iterations.
 
 \hiddensubsection{Approximation Accuracy}
 
-Our first goal is to evaluate the accuracy of the proposed solution. To this
+Our first task is to evaluate the accuracy of the proposed framework. To this
 end, in this subsection, the quantity of interest given in
 \eref{chaos-optimization-quantity}---which encompasses the total energy
 consumption, maximum temperature, and parameterization of the reliability model
@@ -44,54 +45,54 @@ of the system---is considered in isolation. This quantity plays the key role in
 the subsequent optimization since the optimization objective and constraints
 depend on it as discussed previously.
 
-We compare our performance with the performance of \ac{MC} sampling applied to
-the quantity given in \eref{chaos-optimization-quantity}. The operations
-performed by the \ac{MC}-based approach for one sample are exactly the same as
-those performed by our technique for one quadrature point. The only difference
-is that no model order reduction of any kind is undertaken prior to \ac{MC}
-sampling, which ensures that the resulting accuracy is not compromised. The
-number of \ac{MC} samples is set to \power{10}{4}, which is a practical
-assumption based on not only our experience but also the experience from the
-literature as discussed in \sref{chaos-transient-results}.
+We compare the performance of our technique with the one of \ac{MC} sampling
+applied to the quantity shown in \eref{chaos-optimization-quantity} directly.
+The operations performed by direct sampling for one sample are the same as those
+performed by our framework for one quadrature point. The only difference is that
+no model order reduction of any kind is undertaken prior to \ac{MC} sampling,
+which ensures that the resulting accuracy is not compromised. The number of
+\ac{MC} samples is set to \power{10}{4}, which is a practical assumption based
+not only on our experience but also on the experience from the literature as
+discussed in \sref{chaos-transient-results}.
 
 \inputtable{chaos-optimization-accuracy}
 The obtained results are displayed in \tref{chaos-optimization-accuracy} where
-we consider a quad-core platform, that is, $\np = 4$, with 10 randomly generated
+we consider a quad-core platform ($\np = 4$) with 10 randomly generated
 applications and vary the level of polynomial expansions \lc from 1 to 5. The
 errors for the three components of $\vg = (E, Q, \life)$ are denoted by
-\error{E}, \error{Q}, and \error{\life}, respectively. Each error indicator
-shows the distance between the empirical probability distributions produced by
-our approach and the ones produced by \ac{MC}\ sampling, and the measure of this
-distance is the \ac{KLD} \cite{gelman2013, hastie2013} where the results of
-\ac{MC} sampling are treated as the true ones. The \ac{KLD} takes non-negative
-values and attains zero only when two distributions are equal almost everywhere
+\error{E}, \error{Q}, and \error{\life}, respectively. Each error metric shows
+the distance between the empirical probability distributions produced by our
+approach and the ones produced by direct sampling. The measure of this distance
+is the \ac{KLD} \cite{gelman2013, hastie2013} where the results of direct
+sampling are treated as the true ones. The \ac{KLD} takes non-negative values
+and attains zero only when two distributions are equal almost everywhere
 \cite{durrett2010}. In general, the errors decrease as \lc increases. This
 trend, however, is not monotonic for \ac{PC} expansions of high levels; see
 \error{Q} and \error{\life} for $\lc = 5$ in \tref{chaos-optimization-accuracy}.
 The observation can be ascribed to the random nature of sampling and to the
-reduction procedures that we undertake in order to gain speed; they might impose
-limitations on the accuracy that can be attained by polynomial approximations.
-\tref{chaos-optimization-accuracy} additionally contains the number of
-polynomial terms \nc and the number of quadrature points \nq that correspond to
-each value of \lc. We have also performed the above experiment for platforms
-with fewer and with more processing elements and observed similar results.
+reduction procedures that we undertake in order to gain speed; they reasonably
+impose limitations on the accuracy that can be attained by polynomial
+surrogates. \tref{chaos-optimization-accuracy} additionally contains the number
+of polynomial terms \nc and the number of quadrature points \nq that correspond
+to each value of \lc. We have performed the above experiment for platforms with
+fewer and with more processing elements and observed similar results.
 
 Based on the figures reported in \tref{chaos-optimization-accuracy}, we consider
 the results delivered by third-level \ac{PC} expansions---where the \ac{KLD}
-drops to the third decimal place for all three quantities---to be sufficiently
+drops to the third decimal place for all the three quantities---sufficiently
 accurate. Therefore, we fix \lc (and \lq as they are kept synchronized) to three
 for the rest of the experiments.
 
 \hiddensubsection{Computational Speed}
 
 \inputtable{chaos-optimization-speed}
-Our goal now is to assess the speed of the proposed solution. To this end, we
+Our task now is to assess the speed of the proposed solution. To this end, we
 consider the same setup as the one outlined in the previous subsection.
 \tref{chaos-optimization-speed} displays the time needed to perform one
-characterization of \vg for the number of processing elements \np ranging from 2
-to 32. Note that, in this experiment, no parallel computing is utilized. It can
-be seen that the computation time ranges from a fraction of a second to around
-two seconds. More importantly, \tref{chaos-optimization-speed} provides
+characterization of \vg for the number of processing elements \np increasing
+from 2 to 32. Note that, in this experiment, no parallel computing is utilized.
+It can be seen that the computation time ranges from a fraction of a second to
+around two seconds. More importantly, \tref{chaos-optimization-speed} provides
 information about a number of complementary quantities that are of high interest
 to the designer, which we discuss below.
 
@@ -102,15 +103,15 @@ would be $2 \np$ since there are two process parameters per processing element;
 recall \sref{chaos-optimization-application}. It can be seen in
 \tref{chaos-optimization-speed} that there is no reduction in the case of the
 dual-core platform while around 80\% of the stochastic dimensions are eliminated
-in the case of the platform with 32 cores. In addition, one can note that \nz is
-the same for the last two platforms. The magnitude of reduction is determined
-solely by the assumed correlation structures (see
-\sref{chaos-optimization-application}) and the floorplans of the considered
-platforms, which we also observe and discuss in \sref{chaos-transient-results}.
+in the case of the platform with 32 processing elements. One can also note that
+\nz is the same for the last two platforms. The magnitude of reduction is
+determined solely by the assumed correlation structure (see
+\sref{chaos-optimization-application}) and the floorplan of the platform at
+hand, which we also observe and discuss in \sref{chaos-transient-results}.
 
 Another important quantity displayed in \tref{chaos-optimization-speed} is the
 number of quadrature points \nq. This number is the main indicator of the
-computational complexity of our probabilistic analysis: it equals to the number
+computational expense of our probabilistic analysis: it is equal to the number
 of times Algorithm~G in \aref{chaos-construction} is to be executed in order to
 construct a \ac{PC} expansion of the quantity of interest \g, which, in this
 case, is the one in \eref{chaos-optimization-quantity}. It can be seen that \nq
@@ -119,7 +120,7 @@ is very low. In order to substantiate this, the last column of
 to \power{10}{4} \ac{MC} samples. Our solution is faster by approximately
 100--200 times while delivering highly accurate results as discussed earlier. It
 should be noted that the comparison has been drawn based on the number of
-evaluation points rather than on the actual time since the relative cost of
+evaluation points rather than on the wall-clock time since the relative cost of
 other computations is negligible.
 
 To summarize, the proposed framework for probabilistic analysis of electronic
@@ -211,7 +212,7 @@ cores) in order to perform the optimization, and that the deterministic
 optimization is approximately 2--40 times faster. However, the price to pay when
 relying on the deterministic approach is considerably high as discussed above.
 The deterministic technique is blind-guessing with highly unfavorable odds of
-succeeding. Therefore, we consider the computation time of our framework to be
+succeeding. Therefore, we consider the computation time of our framework
 reasonable and affordable.
 
 Lastly, we perform an experiment targeted at investigating the impact of the
