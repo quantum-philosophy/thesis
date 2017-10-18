@@ -32,17 +32,17 @@ this usage multiple steps ahead at the level of individual tasks executed by the
 machines. To this end, we intend to use recurrent neural networks
 \cite{goodfellow2016}.
 
-In order to give a better intuition about the considered scenario,
+In order to give a better sense of the considered scenario,
 \fref{brain-application} illustrates how the aforementioned prediction is
 supposed to work in practice. In this example, the \up{CPU} usage of a single
 task running on a single machine is depicted three times; see the solid lines.
 The three cases correspond to three different time moments as viewed by the
 resource manager of the system; see the black circles. The solid orange lines
-represent the history of the usage, which is known to the manager, while the
-solid blue lines represent the future usage, which is unknown to the manager.
-Our objective is then to predict this future usage for each task several steps
-ahead. In \fref{brain-application}, our potential predictions up to four steps
-ahead are depicted as a set of dashed blue lines.
+represent the history of the \up{CPU} usage, which is known to the manager,
+while the solid blue lines represent the future usage, which is unknown to the
+manager. Our objective is then to predict this future usage for each task
+several steps ahead. In \fref{brain-application}, our potential predictions up
+to four steps ahead are depicted as a set of dashed blue lines.
 
 Such detailed (since for individual tasks) and foresighted (since multiple steps
 ahead) information about the future resource usage as the one depicted in
