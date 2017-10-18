@@ -1,7 +1,7 @@
-Due to its nature, the variability coming from process variation is typically
-smooth and well behaved. In such cases, uncertainty quantification based on
-\ac{PC} expansions \cite{xiu2010} and other approximation techniques making use
-of global polynomials generally work well, which is demonstrated in
+Due to its nature, the variability originating from process variation is
+typically smooth and well behaved. In such cases, uncertainty quantification
+based on \ac{PC} expansions \cite{xiu2010} and other approximation techniques
+relying on global polynomials generally work well, which is demonstrated in
 \cref{uncertainty-analog-development}. On the other hand, the variability coming
 from such sources as workload often has steep gradients and favors
 nondifferentiability and even discontinuity. In such cases, \ac{PC} expansions
@@ -21,7 +21,7 @@ delay, and it coincides with the execution time of the task; hence, we already
 know the answer. Let us pretend we do not and try to obtain it by other means.
 
 Suppose the above scenario is modeled by a uniformly distributed random variable
-$\u: \Omega \to [0, 1]$: the execution time of the task (the end-to-end delay of
+$\u: \Omega \to [0, 1]$. The execution time of the task (the end-to-end delay of
 the application) is 0.1~s if $\u \in [0, 0.6]$, and it is 1~s if $\u \in (0.6,
 1]$. The response in this case is a step function, which is illustrated by the
 yellow line in \fref{frame-motivation}.
@@ -29,8 +29,8 @@ yellow line in \fref{frame-motivation}.
 First, we try to quantify the end-to-end delay by constructing and subsequently
 sampling a \ac{PC} expansion founded on the Legendre polynomial basis
 \cite{xiu2010}; see \xref{polynomial-chaos}. The orange line in
-\fref{frame-motivation} shows a \ac{PC} expansion of level nine ($\lc = \lq =
-9$), which uses 10 points ($\nq = 10$). It can be seen that the approximation is
+\fref{frame-motivation} shows a \ac{PC} expansion of level 9 ($\lc = \lq = 9$),
+which uses 10 points ($\nq = 10$). It can be seen that the approximation is
 poor---not to mention negative execution times---which means that the follow-up
 sampling will also yield a poor approximation of the true distribution. The
 observed oscillating behavior is the well-known Gibbs phenomenon stemming from
@@ -38,14 +38,14 @@ the discontinuity of the response. Regardless of the number of points spent, the
 oscillations will never go away completely.
 
 Let us now see how the framework developed in this chapter solves the same
-problem. For the purpose of the experiment, our technique is constrained to make
-use of the same number of points as the \ac{PC} expansion does. The result is
-the blue curve in \fref{frame-motivation}, and the adaptively chosen points are
-plotted on the horizontal axis. It can be seen that the approximation is good,
-and, in fact, it would be indistinguishable from the true response with a few
-additional points. One can note that the adaptive procedure started to
-concentrate interpolation points at the jump and left the insipid regions on
-both sides of the jump with no particular attention. Having constructed such a
+problem. For the purpose of this experiment, our technique is constrained to
+make use of the same number of points as the \ac{PC} expansion does. The result
+is the blue curve in \fref{frame-motivation}, and the adaptively chosen points
+are plotted on the horizontal axis. It can be seen that the approximation is
+good, and, in fact, it would be indistinguishable from the true response with a
+few additional points. One can note that the adaptive procedure started to
+concentrate collocation nodes at the jump and left the insipid regions on both
+sides of the jump with no particular attention. Having constructed such a
 representation, one can proceed to the calculation of the probability
 distribution of the quantity of interest, which, in general, is done via
 sampling followed by such techniques as kernel density estimation
@@ -54,10 +54,10 @@ expansions leveraged in \cref{uncertainty-analog-development}, this follow-up
 sampling does not involve the original system in any way, which implies that the
 operation costs practically nothing in terms of the computation time.
 
-The example discussed above illustrates the fact that the proposed framework is
+The example described above illustrates the fact that the proposed framework is
 well suited for nonsmooth response surfaces. More generally, the adaptivity
 featured by our technique allows for a reduction of the costs associated with
 probabilistic analysis of the quantity under consideration, as measured by the
 number of times the quantity needs to be evaluated in order to achieve a certain
-accuracy level. The magnitude of the reduction depends on the problem, and it
-can be substantial when the problem is well disposed to adaptation.
+accuracy level. The magnitude of reduction depends on the problem, and it can be
+substantial when the problem is well disposed to adaptation.
