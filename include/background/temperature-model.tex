@@ -7,44 +7,44 @@ connected with each other via thermal resistances. The circuit is to capture the
 relevant physical structure and thermal properties of the system and, thereby,
 model its thermal dynamics.
 
-Similar to the identification of processing elements described in
+Similarly to the identification of processing elements described in
 \sref{system-model}, a thermal \up{RC} circuit can be constructed at different
 levels of granularity, which, in this case, refers primarily to the number of
-thermal nodes denoted by \nn and their placement. It should be duly noted that
-the chosen level of granularity impacts on the accuracy of the subsequent
-temperature calculations.
+thermal nodes denoted by \nn and their placement. It should be noted that the
+chosen level of granularity impacts the accuracy of the subsequent temperature
+calculations.
 
 \inputfigure{thermal-circuit}
-In order to give a better intuition about thermal \up{RC} circuits,
+In order to give a better sense of thermal \up{RC} circuits,
 \fref{thermal-circuit} depicts a simplified example of such a circuit
-constructed for a dual-core chip equipped with a thermal package composed of a
-thermal interface material, heat spreader, and heat sink. Given \np processing
-elements, each one is represented by one thermal node, and the thermal interface
-material, heat spreader, and heat sink are captured by \np, $\np + 4$, and $\np
-+ 8$ thermal nodes, respectively. Consequently, $\nn = 4 \times \np + 12$. In
-this particular example, since $\np = 2$, $\nn = 20$. The construction principle
-described in this paragraph is the one presented in \cite{huang2008}, and it is
-also the one utilized throughout the thesis.
+constructed for a dual-core chip that is equipped with a thermal package
+composed of a thermal interface material, heat spreader, and heat sink. Given
+\np processing elements, each one is represented by one thermal node, and the
+thermal interface material, heat spreader, and heat sink are captured by \np,
+$\np + 4$, and $\np + 8$ thermal nodes, respectively. Consequently, $\nn = 4
+\times \np + 12$. In this particular example, since $\np = 2$, $\nn = 20$. The
+construction principle described in this paragraph is the one presented in
+\cite{huang2008}, and it is also the one utilized throughout the thesis.
 
 Suppose now that an adequate thermal \up{RC} circuit has been constructed for
-the considered electronic system. Regardless of the structure of the circuit,
-the thermal dynamics of the circuit and, therefore, the electronic system itself
-are governed by the following system of \nn differential and \np algebraic
-equations, which is based on Fourier's law \cite{fourier2009}:
+the electronic system under consideration. Regardless of the structure of the
+circuit, the thermal dynamics of the circuit, and thus of the electronic system
+itself, are governed by the following system of \nn differential and \np
+algebraic equations, which is based on Fourier's law \cite{fourier2009}:
 \begin{subnumcases}{\elab{temperature-model-original}}
   \m{C} \frac{\d \tvs(t)}{\d t} + \m{G} \tvs(t) = \tm{B} \vp(t) \elab{temperature-differential-original} \\
   \vq(t) = \transpose{\tm{B}} \tvs(t) + \vq_\ambient \elab{temperature-algebraic-original}
 \end{subnumcases}
 where $\vq \in \real^\np$, $\vq_\ambient \in \real^\np$, and $\vp \in \real^\np$
 are the operating temperature, ambient temperature, and power consumption of the
-processing elements, respectively. Further, $\tvs \in \real^\nn$ represents the
-state of the thermal nodes, and $\m{C} \in \real^{\nn \times \nn}$ and $\m{G}
-\in \real^{\nn \times \nn}$ are a diagonal matrix of the thermal capacitance and
-a symmetric and positive definite matrix of the thermal conductance,
-respectively. Lastly, $\tm{B} \in \real^{\nn \times \np}$ is a mapping between
-the processing elements and the thermal nodes, which, without loss of
-generality, is assumed to be a rectangular diagonal matrix whose diagonal
-elements are equal to unity.
+processing elements, respectively. Furthermore, $\tvs \in \real^\nn$ represents
+the state of the thermal nodes, and $\m{C} \in \real^{\nn \times \nn}$ and
+$\m{G} \in \real^{\nn \times \nn}$ are a diagonal matrix of the thermal
+capacitance and a symmetric and positive definite matrix of the thermal
+conductance, respectively. Lastly, $\tm{B} \in \real^{\nn \times \np}$ is a
+mapping between the processing elements and the thermal nodes, which, without
+loss of generality, is assumed to be a rectangular diagonal matrix whose
+diagonal elements are equal to unity.
 
 In general, the differential part in \eref{temperature-differential-original} is
 nonlinear due to \vp since we do not make any assumptions about its structure;
@@ -54,5 +54,5 @@ closed-form solution to the system.
 Lastly, let us note that temperature analysis of electronic systems is generally
 considered to be a computationally expensive operation. The long computation
 times can be severely limiting, especially when the analysis is to be performed
-many times for such purposes as design-space exploration. Consequently, there is
-always a need for developing more efficient techniques.
+many times for such purposes as design-space exploration. Thus, there is always
+a need for the development of more efficient techniques.
