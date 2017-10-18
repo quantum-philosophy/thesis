@@ -205,9 +205,9 @@ to be zero. For instance, $\hat{\vg}_{i, \nsi{i} + 1}$ in
 and this $\vg_{i, \nsi{i} + 1}$ is assumed to be zero.
 
 Let us now discuss validation, which corresponds to the middle blue box in
-\fref{brain-overview}. Similar to other nontrivial models, the one presented in
-\sref{brain-predictive-model} has a number of hyperparameters. Examples include
-the number of recurrent layers \nl, number of units per layer \nu, and
+\fref{brain-overview}. Similarly to other nontrivial models, the one presented
+in \sref{brain-predictive-model} has a number of hyperparameters. Examples
+include the number of recurrent layers \nl, number of units per layer \nu, and
 probability of dropout $\rho_\drop$. Unlike ordinary parameters---which are to
 be optimized during training as discussed earlier---hyperparameters are to be
 set prior to training and kept unchanged thereafter. From the examples given, it
@@ -216,10 +216,10 @@ be tuned with great care.
 
 The validation set $G_\validation$ is used to assess the performance of the
 model trained (using $G_\training$ as usual) with different configurations of
-the model's hyperparameters. Similar to training, the error metric in this case
-is the \ac{MSE}, and it is beneficial to perform these computations in batches.
-The trained model that has the best performance on $G_\validation$ is then
-chosen as the one to use.
+the model's hyperparameters. Similarly to training, the error metric in this
+case is the \ac{MSE}, and it is beneficial to perform validation in batches. The
+trained model that has the best performance on $G_\validation$ is then chosen as
+the one to use.
 
 Despite all the techniques employed to speed up training, it is still a
 time-consuming operation. This means that a brute-force search in the space of
@@ -244,7 +244,7 @@ selection bias---we have deliberately chosen the configuration that has the best
 performance on $G_\validation$.
 
 In order to have an unbiased evaluation, the testing set $G_\testing$ is
-utilized. Similar to training and validation, the \ac{MSE} is considered as a
+utilized. Similarly to training and validation, the \ac{MSE} is considered as a
 measure of quality, and bucketing is utilized. However, unlike training and
 validation, the error is calculated in a more elaborate way as follows. Recall
 first that our objective is making long-range predictions of resource usage; see
