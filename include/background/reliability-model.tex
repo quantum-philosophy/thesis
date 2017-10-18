@@ -3,11 +3,11 @@ analysis.
 
 Let $(\Omega, \F, \probability)$ be a probability space as defined in
 \xref{probability-theory}, and let $\life: \Omega \to \real$ be a random
-variable that represents the lifetime of the system at hand. The lifetime is the
-time until the system experiences a fault after which it no longer meets certain
-requirements. Let also $F(\cdot | \vg)$ be the distribution function of
-\life---which gives the probability of failure before a certain time
-moment---where \vg is a vector of parameters. The expectation
+variable that represents the lifetime of the system. The lifetime is the time
+until the system experiences a fault, after which it no longer meets certain
+requirements. Also, let $F(\cdot | \vg)$ be the distribution function of
+\life---which gives the probability of failure before a certain moment in
+time---where \vg is a vector of parameters. The expectation
 $\expectation{\life}$ is called the \ac{MTTF}. Lastly, the complementary
 distribution function of \life is
 \[
@@ -22,8 +22,8 @@ processing elements that the system is composed of. Denote these individual
 lifetimes by $\{ \life_i: \Omega \to \real \}_{i = 1}^\np$. Each $\life_i$ is
 characterized by a physical model of wear \cite{jedec2016} that describes the
 stress that processing element $i$ is exposed to. Each $\life_i$ is also
-assigned an individual $R_i(\cdot | \vg_i)$ modeling the failures due to this
-stress.
+assigned an individual $R_i(\cdot | \vg_i)$, which models the failures due to
+this stress.
 
 The structure of $R(\cdot | \vg)$ with respect to $\{ R_i(\cdot | \vg_i) \}_{i =
 1}^\np$ is problem specific, and it can be especially diverse in the context of
@@ -44,7 +44,7 @@ parameters gathered in \vg. In this scenario,
 In this subsection, we present a model that is frequently used for
 characterizing the lifetime $\life_i$ of a single processing element when it is
 exposed to repetitive temperature-induced stress \cite{huang2009b, xiang2010}.
-The considered scenario is that the system at hand is experiencing a periodic
+The scenario under consideration is that the system is experiencing a periodic
 workload with a certain period, which is denoted by \period. The corresponding
 temperature profile is then a dynamic steady-state temperature profile, which is
 to be discussed in \sref{dynamic-steady-analysis}.
@@ -82,9 +82,9 @@ given by
 It is natural to expect that the usage conditions and hence the corresponding
 stress change over the period \period. Then the distribution of $\life_i$ should
 reflect this aspect, which is not prominent in \eref{weibull-distribution}. In
-order to take it into account, the period is split into \nk{i} time intervals
+order to take this into account, the period is split into \nk{i} time intervals
 $\{ \dt_{ij} \}_{j = 1}^{\nk{i}}$ so that the conditions that are relevant to
-the model stay unchanged within each interval. Let
+the model remain unchanged in each interval. Let
 \[
   \life_{ij} | \vg_{ij} \sim \mathrm{Weibull}(\scale_{ij}, \shape_{ij})
 \]
@@ -92,7 +92,7 @@ be the time to failure that the processing element would have if interval $j$
 was the only interval present and denote the corresponding \ac{MTTF} by
 $\mean_{ij}$.
 
-In the case of temperature-induced failures, we have that $\shape_{ij} =
+In the case of temperature-induced failures, we specify that $\shape_{ij} =
 \shape_i$ for $j = \range{1}{\nk{i}}$, that is, the shape parameters are all
 equal. The reason is that, unlike the scale parameters, the shape parameters are
 independent of the operating temperature \cite{chang2006}. As shown in
@@ -109,20 +109,20 @@ $\scale_i$ is rewritten as
 \]
 Note now that the model in \eref{weibull-reliability} becomes fully specified as
 soon as $\dt_{ij}$ and $\mean_{ij}$ are identified for $j = \range{1}{\nk{i}}$.
-This part of the model depends on the particular failure mechanism considered,
+This part depends on the particular failure mechanism that is being considered,
 which we discuss next.
 
 \subsection{Thermal-Cycling Fatigue}
 \slab{thermal-cycling-fatigue}
 
-Let us tailor the above Weibull model to the thermal-cycling fatigue
-\cite{jedec2016}. The fatigue is of particular interest to us due to its
-prominent dependence on temperature fluctuations: apart from the average and
+Let us tailor the above Weibull model to thermal-cycling fatigue
+\cite{jedec2016}. This type of fatigue is of particular interest to us due to
+its prominent dependence on temperature fluctuations: apart from the average and
 maximum values, the frequencies and amplitudes of temperature oscillations
 matter in this case.
 
-The time intervals with constant relevant conditions correspond to thermal
-cycles. In order to detect them in a given temperature curve, the curve is first
+Time intervals with constant relevant conditions correspond to thermal cycles.
+In order to detect them in a given temperature curve, the curve is first
 analyzed using a peak-detection algorithm in order to extract a set of extrema.
 The rainflow counting method \cite{xiang2010} is then applied to these extrema.
 The result is a set of \nk{i} thermal cycles. Each detected cycle is
@@ -137,9 +137,9 @@ where \nk{ij} stands for the mean number of such cycles to failure.
 \begin{remark}
 A cycle detected by the rainflow counting method does not have to be formed by
 adjacent extrema; cycles can overlap. This feature makes the counting method
-very efficient at mitigating overestimation. A cycle can be a half cycle,
+very efficient at mitigating overestimation. A cycle could be a half cycle,
 meaning that only an upward or downward swing is present in the time series,
-which is assumed to be adequately taken into account.
+which is assumed to be adequately accounted for.
 \end{remark}
 
 The number \nk{ij} is estimated using a modified version of the Coffin--Manson
@@ -167,7 +167,7 @@ follows:
 \end{equation}
 
 In conclusion, it is worth emphasizing that the reliability model requires
-detailed information about the thermal cycles that the processing element is
-exposed to, which is the topic of \cref{certainty-development} and, in
-particular, \sref{dynamic-steady-analysis} where dynamic steady-state
-temperature analysis is discussed in detail.
+detailed information about the thermal cycles to which the processing element is
+exposed, which is the topic of \cref{certainty-development} and, in particular,
+\sref{dynamic-steady-analysis} where dynamic steady-state temperature analysis
+is discussed in detail.
