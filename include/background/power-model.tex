@@ -1,8 +1,8 @@
 The total power consumption of an electrical circuit consists of two main
-components: dynamic and static. The dynamic power is due to the actual useful
-work done by the circuit. The static power, on the other hand, is due to various
-parasitic currents that cannot be entirely eliminated. The total power consumed
-by \np processing elements at time $t$ is then written as follows:
+components: dynamic and static. The dynamic component is the result of the
+actual useful work done by the circuit. By contract, the static component is the
+result of various parasitic currents that cannot be entirely eliminated. The
+total power consumed by \np processing elements at time $t$ is then written as
 \begin{equation} \elab{power-model}
   \vp(t) = \vp_\dynamic(t) + \vp_\static(t)
 \end{equation}
@@ -26,18 +26,18 @@ where \q is the current temperature, $V$ is the current supply voltage, $I_0$ is
 the average leakage current at the reference temperature and reference supply
 voltage, and \n{g} is the number of gates in the circuit. The quantities $a$,
 $b$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are technology-dependent
-constants, which can be found in \cite{liao2005}. There are the following two
-aspects to note with respect to the above equations.
+constants, which can be found in \cite{liao2005}. There are two aspects to note
+with respect to the equations given above.
 
-First, the dynamic power does not depend on the operating temperature whereas
+First, the dynamic power does not depend on the operating temperature, whereas
 the static power does. The dependence of the static (and hence total) power on
 temperature is positive and strong: a higher level of heat dissipation leads to
-a considerably higher level of power consumption. On the other hand, the more
-power is consumed, the more heat is dissipated. Consequently, power and
-temperature constantly instigate each other; they are interdependent. This
-phenomenon cannot be neglected since it leads to a higher level of power
-(energy) consumption than the one expected, to a higher level of heat
-dissipation than the one expected, and to a thermal runaway in the worst case.
+a considerably higher level of power consumption. On the other hand, as more
+power is consumed, more heat is dissipated. Consequently, power and temperature
+constantly instigate each other; they are interdependent. This phenomenon cannot
+be neglected since it leads to a higher level of power (energy) consumption than
+expected and a higher level of heat dissipation than expected and, in the worst
+case, could cause a thermal runaway.
 
 Second, even though it is not explicitly spelled out, the static (and hence
 total) power depends on a number of process parameters, including the effective
