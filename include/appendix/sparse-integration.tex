@@ -8,11 +8,11 @@ is approximated as
   = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) w_{ij},
 \]
 which is a summation of the function's values computed at prescribed points and
-multiplied by prescribed weights. Such a pair of a set of points and a set of
-weights is called a quadrature. In the notation $\quadrature{1}{i}$, the
-superscript $1$ indicates that it is a one-dimensional quadrature, and the
-subscript $i \in \natural$ indicates the level of the quadrature. In the above
-formula,
+multiplied by prescribed weights. In this context, this type of paring of a set
+of points and a set of weights is called a quadrature. In the notation
+$\quadrature{1}{i}$, the superscript $1$ indicates that it is a one-dimensional
+quadrature, and the subscript $i \in \natural$ indicates the level of the
+quadrature. In the above formula,
 \begin{align*}
   & \X^1_i = \{ \x_{ij}: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
   & \W^1_i = \{ w_{ij}: j \in \tensorindex{1}{i} \} \subset \real
@@ -36,10 +36,9 @@ Different families of quadratures can have different relations between $n_i$ and
 $i$. Even in the scope of the same family, the integration grid can be made to
 grow differently with respect to $i$ in order to attain certain properties, such
 as being nested. For our purposes, it is sufficient to mention one type of
-growth: the so-called slow linear growth. In this case, $n_i = i + 1$. Assuming
-the slow linear growth, the previous paragraph can be extended by stating that a
-Gaussian quadrature with $n_i$ points is exact for polynomials of order up to $2
-i + 1$.
+growth: so-called slow linear growth. In this case, $n_i = i + 1$. Assuming slow
+linear growth, the previous paragraph can be extended by stating that a Gaussian
+quadrature with $n_i$ points is exact for polynomials of order up to $2 i + 1$.
 
 In multiple dimensions, the integral of a function $\f: \real^n \to \real$
 \[
@@ -77,16 +76,17 @@ in which case
   = \prod_{k = 1}^n n_{i_k}. \nonumber
 \end{align}
 It can be seen that, in this case, the growth of the number of points with
-respect to the number of dimensions is exponential. In low dimensions, the grows
-is manageable; however, in high dimensions, the situation changes dramatically
-as the number of points produced by this approach can easily explode.
+respect to the number of dimensions is exponential. In low dimensions, the
+growth is manageable; however, in high dimensions, the situation changes
+dramatically as the number of points produced by this approach can easily
+explode.
 
 To give an example \cite{heiss2008}, suppose that each one-dimensional
 quadrature has only four points, that is, $n_i = 4$. Then, in 10 stochastic
 dimensions, that is, when $n = 10$, the number of multivariate points becomes
-$n_{\vi} = 4^{10} = 1~048~576$, which is by far not affordable. Moreover, it can
-be shown that most of the points obtained by the full tensor produce do not
-contribute to the asymptotic accuracy and, therefore, are a waste of the
+$n_{\vi} = 4^{10} = 1~048~576$, which is far beyond being affordable. Moreover,
+it can be shown that most of the points obtained by the full tensor product do
+not contribute to the asymptotic accuracy and, therefore, are a waste of
 computation time. In particular, if the integrand under consideration is a
 polynomial whose total order is constrained according to a certain strategy, the
 full tensor product cannot take this information into account. Consequently, a
@@ -102,7 +102,7 @@ such a way that the resulting grid is tailored to be exact only for a certain
 polynomial subspace. Such grids are called sparse grids, and they allow for a
 significant reduction of the number of points and thus the subsequent work. For
 instance, in the example given earlier, the number of points would only be
-$n_{\vi} = 1~581$, which is a drastic saving of the computation time.
+$n_{\vi} = 1~581$, which is a drastic reduction in computation time.
 
 To begin with, define
 \begin{align*}
@@ -138,7 +138,7 @@ Note that, for convenience, the points and weights of $\quadrature{n}{\lq}$ are
 indexed using a single one-dimensional set denoted by $\tensorindex{n}{\lq}
 \subset \natural$. Note also that, even though the level \lq is not indicated in
 the notation of points and weights, it should be understood that points and
-weight are generally different for different levels.
+weights are generally different for different levels.
 
 Lastly, consider the following more general integral:
 \[
@@ -154,4 +154,4 @@ for integrating with respect to the standard Gaussian measure, which can be seen
 in \eref{gaussian-measure}.
 
 It is also worth emphasizing that quadratures are generally precomputed and
-tabulated since they do not depend the function being integrated.
+tabulated since they do not depend on the function being integrated.
