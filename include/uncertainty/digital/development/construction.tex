@@ -54,11 +54,11 @@ between the two types is that the latter includes the endpoints, that is, 0 and
 1, while the former does not.
 
 Technically, in order to be able to proceed to hierarchical interpolation, the
-chosen rules have to satisfy a certain condition, which is motivated in
+chosen rules have to fulfill a certain condition, which is discussed in
 \xref{sparse-interpolation} and can be seen in
 \eref{interpolant-tensor-exactness}. Closed Newton--Cotes rules satisfy this
 condition, and they are the ones used in the original version of local
-adaptivity presented in \cite{ma2009}. The open ones, on the other hand, do not
+adaptivity presented in \cite{ma2009}. The open rules, on the other hand, do not
 fulfill the condition close to the boundaries of the unit interval. However,
 according to our experience, open Newton--Cotes rules are a viable option since
 they perform well in practice, which is also noted in \cite{klimke2006}. In
