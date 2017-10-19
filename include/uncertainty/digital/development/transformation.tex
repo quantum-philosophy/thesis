@@ -1,12 +1,11 @@
-At Stage~2 of the framework, we are to change the parameterization of the
-problem from the random vector $\vu: \Omega \to \real^\nu$ to an auxiliary
-random vector $\vz: \Omega \to \real^\nz$ such that \one~the support of the
-\ac{PDF} of \vz is the unit hypercube $[0, 1]^\nz$, and \two~$\nz \leq \nu$ has
-the smallest value that is needed to retain the desired level of accuracy. The
-first is standardization, which is done primarily for convenience. The second is
-model order reduction, which identifies and eliminates excessive complexity and
-hence speeds up the subsequent solution process. The overall transformation is
-denoted by
+At Stage~2 of the framework, we change the parameterization of the problem from
+the random vector $\vu: \Omega \to \real^\nu$ to an auxiliary random vector
+$\vz: \Omega \to \real^\nz$ such that the support of the \ac{PDF} of \vz is the
+unit hypercube $[0, 1]^\nz$, and that \nz has the smallest value required to
+retain the desired level of accuracy. The first task is standardization, which
+is done primarily for convenience. The second one is model order reduction,
+which identifies and eliminates excessive complexity and hence speeds up the
+subsequent solution process. The overall transformation is denoted by
 \begin{equation} \elab{frame-transformation}
   \vu = \transform{\vz}
 \end{equation}
@@ -16,10 +15,9 @@ now be computed as
   \g(\vu) = (\g \circ \transform)(\vz) = \g(\transform(\vz)).
 \]
 
-The attentive reader might already have a suitable candidate for the
-transformation $\transform$: it is the one described in
-\xref{probability-transformation}, consolidated in
+The attentive reader might already have a suitable candidate for $\transform$:
+it is the one described in \xref{probability-transformation}, consolidated in
 \eref{probability-transformation}, and utilized throughout
 \cref{uncertainty-analog-development} starting from \sref{chaos-transformation}.
-The application of the transformation is to be discussed further in
-\sref{frame-application}.
+The way this transformation is applied in this chapter is to be discussed
+further in \sref{frame-application}.
