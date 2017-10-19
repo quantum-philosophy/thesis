@@ -1,7 +1,7 @@
 Let \x be an uncertain parameter that we would like to characterize. To this
 end, the following information is at our disposal: \one~a set of observations
 $Y$ of a quantity $y$ that depends on \x; \two~a data model \f that describes
-the relation between \x and $y$, which is denoted by $y = \f(\x)$; and
+the relationship between \x and $y$, which is denoted by $y = \f(\x)$; and
 \three~prior knowledge (or beliefs) about \x. A natural solution is Bayes'
 theorem \cite{gelman2013}
 \[
@@ -17,14 +17,14 @@ distribution that corresponds to $p(\x | Y)$ is known as the posterior
 (distribution) of \x; it yields the relative likelihood of the parameter \x
 given the observations gathered in $Y$ and taking into consideration the prior
 knowledge about \x. The posterior is an exhaustive solution to our problem:
-having constructed $p(\x | Y)$, the needed statistics about \x can be trivially
-estimated by drawing samples from this posterior.
+having constructed $p(\x | Y)$, the required statistics about \x can be
+trivially estimated by taking samples from this posterior.
 
-In practice, the posterior distribution is unlikely to belong to any of the
-common families of probability distributions, which is in part due to the data
-model involved in the likelihood function; therefore, the sampling procedure is
-not straightforward. In order to circumvent this difficulty, one usually relies
-on Markov chain Monte Carlo sampling \cite{gelman2013}. In this case, an ergodic
+In practice, the posterior is unlikely to belong to any of the common families
+of probability distributions, which is due in part to the data model involved in
+the likelihood function. Therefore, the sampling procedure is not
+straightforward. In order to circumvent this difficulty, one usually relies on
+Markov chain Monte Carlo sampling \cite{gelman2013}. In this case, an ergodic
 Markov chain with the stationary distribution equal to the target posterior
 distribution is constructed and then utilized for exploring the probability
 space.
@@ -33,11 +33,11 @@ A popular technique in this regard is the Metropolis--Hastings algorithm
 \cite{gelman2013} where the chain is constructed via sampling from a
 computationally convenient distribution known as the proposal (distribution).
 Each sample drawn from the proposal is passed through the posterior in order to
-calculates its posterior probability, which is then used to decide whether the
+calculate its posterior probability, which is then used to decide whether the
 sample should be accepted or rejected. A rejection means that the sequence of
 samples advances using the last accepted sample---as if it was drawn once again.
 The acceptance strategy of the algorithm pushes the produced chain of samples
 toward regions of high posterior probability, which results in an adequate
-approximation of the target posterior distribution after a sufficient number of
-steps, depending on the starting point of the chain and the efficiency of the
-made moves.
+approximation of the posterior after a sufficient number of steps, depending on
+the starting point of the chain and the efficiency of the moves that have been
+made.
