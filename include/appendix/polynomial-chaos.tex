@@ -71,7 +71,7 @@ polynomial basis:
 \]
 where the equality should be understood in mean square. The coefficients $\{
 \hat{\f}_{\vi} \}$ of the expansion are found by taking the inner product with
-respect to each $\psi_{\vi}$ from the basis on both side of the above equation
+respect to each $\psi_{\vi}$ from the basis on both sides of the above equation
 and making use of the orthogonality property shown in
 \eref{chaos-orthogonality}. The result is
 \begin{equation} \elab{chaos-projection}
@@ -83,18 +83,18 @@ In practice, the infinite expansion is to be truncated, which we denote by
 \[
   \f \approx \chaos{n}{\lc}{\f} = \sum_{\vi \in \sparseindex{n}{\lc}} \hat{\f}_{\vi} \psi_{\vi}
 \]
-where $\sparseindex{n}{\lc}$ is a certain index set, and it is frequently the
-one in given \eref{index-total-order-isotropic}. In the notation
-$\chaos{n}{\lc}$, the superscript $n$ indicates the dimensionality, and the
-subscript \lc indicates the level of the truncated expansion.
+where $\sparseindex{n}{\lc}$ is a certain index set, frequently the one given in
+\eref{index-total-order-isotropic}. In the notation $\chaos{n}{\lc}$, the
+superscript $n$ indicates that there are $n$ random variables, and the subscript
+\lc indicates the level of the truncated expansion.
 
-It is important to note that the classical \ac{PC} decomposition can be
-generalized to other families of distributions than Gaussian. Many distributions
-directly correspond to certain families of orthogonal polynomials, which can be
-found in the Askey scheme of orthogonal polynomials. A distribution that does
-not have such a correspondence can be transformed into one of those that do
-using such technique as the one shown in \xref{probability-transformation}.
-Another solution is to construct a custom polynomial basis using the
-Gram--Schmidt process. Note also that the machinery of \ac{PC} expansions is
-applicable to discrete distributions as well. The interested reader is referred
-to \cite{xiu2010} for further discussions.
+The classical \ac{PC} decomposition can be generalized to other families of
+probability distributions besides the Gaussian one. Many distributions directly
+correspond to certain families of orthogonal polynomials, which can be found in
+the Askey scheme of orthogonal polynomials. A distribution that does not have
+such a correspondence can be transformed into one of those that do using
+techniques such as the one shown in \xref{probability-transformation}. Another
+solution is to construct a custom polynomial basis using the Gram--Schmidt
+process. Note that the machinery of \ac{PC} expansions is applicable to discrete
+probability distributions as well. The interested reader is referred to
+\cite{xiu2010} for further discussions.
