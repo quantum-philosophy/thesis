@@ -49,16 +49,16 @@ the \ac{PDF}. In such a case,
   F(y) = \int_{-\infty}^y f(z) \d z.
 \]
 Other types of random variables, such as discrete random variables, are of
-little interest to this thesis; therefore, they are not covered here.
+little relevance to this thesis; therefore, they are not covered here.
 
 Suppose now that there is a set of $n$ random variables $\{ \x_i \}_{i = 1}^n$.
-For convenience of treatment, the variables are arranged in a vector $\vx =
-(\x_i)_{i = 1}^n: \Omega \to \real^n$, which is called a random vector and can
-also be viewed as a single random variable taking values in $\real^n$. The
-variables obey a common distribution called the joint distribution, and the
-distribution of any subset of the variables is called a marginal distribution.
-The individual variables are called mutually independent if their joint
-distribution function $F$ factorizes as follows:
+For convenience, the variables are arranged in a vector $\vx = (\x_i)_{i = 1}^n:
+\Omega \to \real^n$, which is called a random vector and which can also be
+viewed as a single random variable taking values in $\real^n$. The variables
+obey a common distribution known as the joint distribution, and the distribution
+of any subset of the variables is called a marginal distribution. The individual
+variables are referred to as mutually independent if their joint distribution
+function $F$ factorizes as follows:
 \[
   F(\vx) = \prod_{i = 1}^n F_i(\x_i)
 \]
@@ -71,8 +71,8 @@ defined as follows:
 \[
   \covariance{\x_i}{\x_j} = \expectation{((\x_i - \expectation{\x_i})(\x_j - \expectation{\x_j}))}.
 \]
-If $\covariance{\x_i}{\x_j} = 0$, $\x_i$ and $\x_j$ are called uncorrelated.
-Furthermore, the covariance matrix of \vx is given by
+If $\covariance{\x_i}{\x_j} = 0$, $\x_i$ and $\x_j$ are referred to as
+uncorrelated. Furthermore, the covariance matrix of \vx is given by
 \begin{equation} \elab{covariance-matrix}
   \covariance{\vx} = \left(\covariance{\x_i}{\x_j}\right)_{i = 1, j = 1}^{n, n},
 \end{equation}
@@ -82,7 +82,7 @@ the covariance matrix is the correlation matrix
   \correlation{\vx} = \diagonal{\covariance{\vx}}^{-\frac{1}{2}} \covariance{\vx} \diagonal{\covariance{\vx}}^{-\frac{1}{2}}
 \end{equation}
 where $\diagonal{\cdot}$ extracts the diagonal elements of its argument and
-yields a diagonal matrix. It can be seen that the correlation matrix is the
+yields a diagonal matrix. It can be shown that the correlation matrix is the
 covariance matrix of a normalized version of \vx, that is, of
 \[
   \left(\frac{\x_i}{\sqrt{\variance{\x_i}}}\right)_{i = 1}^n.
