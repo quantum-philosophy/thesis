@@ -85,8 +85,8 @@ nested. In multiple dimensions, the collocation nodes are formed as shown in
 \slab{frame-basis}
 
 \inputfigure{frame-basis}
-The basis functions that correspond to open Newton--Cotes rules are the
-following piecewise linear functions. For $i = 0$ and $j = 0$,
+The basis functions that go hand in hand with open Newton--Cotes rules are
+piecewise linear functions. For $i = 0$ and $j = 0$,
 \[
   e_{00}(\x) = 1.
 \]
@@ -114,14 +114,14 @@ In other cases,
     0, & \text{otherwise}.
   \end{cases}
 \]
-The basis functions corresponding to the first three levels of one-dimensional
-interpolation are depicted in \fref{frame-basis}. In multiple dimensions, the
-basis functions are formed as shown in \eref{interpolant-tensor-basis} and
+The basis functions that correspond to the first three levels of one-dimensional
+interpolation are depicted in \fref{frame-basis}. In multiple dimensions, basis
+functions are formed as shown in \eref{interpolant-tensor-basis} together with
 \eref{quadrature-tensor-index}.
 
-Lastly, let us calculate the volumes (the integrals over the whole domain) of
-the basis functions, which we denote by $w_{ij}$ and make use of in the
-continuation. For $i = 0$ and $j = 0$,
+Additionally, let us calculate the volumes (the integrals over the whole domain)
+of the aforementioned piecewise linear functions; these volumes are required in
+the continuation. For $i = 0$ and $j = 0$,
 \[
   w_{00} = 1.
 \]
@@ -139,12 +139,13 @@ the corresponding one-dimensional counterparts given above.
 Imagine now a function that is nearly flat on the first half of $[0, 1]$ and
 rather irregular on the other. Under these circumstances, it is natural to
 expect that, in order to attain the same accuracy, the first half should require
-much fewer collocation nodes than the other one; recall \fref{frame-motivation}.
-However, if we followed the usual construction procedure described in
-\xref{sparse-interpolation}, we would not be able to benefit from this
-idiosyncrasy: both sides would be treated equally, and all the nodes of each
-level would be added. The solution to the above problem is to make the
-interpolation algorithm adaptive, which we discuss next.
+much fewer collocation nodes than the other one; recall the example given in
+\fref{frame-motivation}. However, if we followed the usual construction
+procedure described in \xref{sparse-interpolation}, we would not be able to
+benefit from this idiosyncrasy. Both sides would be treated equally, and all the
+nodes of each interpolation level would be added to the interpolant, which is
+wasteful. The solution to this problem is to make the interpolation algorithm
+adaptive, which we discuss next.
 
 \subsection{Hybrid Adaptivity}
 \slab{frame-adaptivity}
