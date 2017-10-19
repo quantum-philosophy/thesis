@@ -94,24 +94,25 @@ Then the collocation nodes are as follows:
 The above formula also shows how the collocation nodes of one level are related
 to the collocation nodes of the previous level. The sparsity and incremental
 refinement of the Smolyak approach are remarkable properties \perse; however,
-the approach can be taken even further as we discuss next.
+the approach can be taken even further, as we discuss next.
 
-It can be seen in \eref{interpolant-sparse-grid} that the refinement becomes
-more efficient when $\X^1_{i - 1}$ is included in $\X^1_i$ since, in that case,
-the cardinality of
+It can be seen in \eref{interpolant-sparse-grid} that it is beneficial to the
+refinement to have $\X^1_{i - 1}$ be entirely included in $\X^1_i$ since, in
+that case, the cardinality of
 \[
   \X^n_{\ls} \setminus \X^n_{\ls - 1} = \bigcup_{\vi \in \Delta\sparseindex{n}{\ls}} \Delta\X^n_{\vi}
 \]
-derived from \eref{interpolant-sparse-grid} decreases. To elaborate, the values
-of \f obtained at lower levels can be reused in order to attain higher levels
-provided that the grid grows without discarding its previous structure. With
-this in mind, the rule used for generating successive sets of points $\{ \X^1_i
-\}_i$ should be chosen to be nested, that is, in such a way that $\X^1_i$
-contains all the nodes present in $\X^1_{i - 1}$.
+derived from \eref{interpolant-sparse-grid} decreases. To express this idea in
+words, the values of \f obtained at lower levels can be reused in order to
+attain higher levels if the grid grows without discarding its previous
+structure. With this in mind, the rule used for generating successive sets of
+points $\{ \X^1_i \}_i$ should be chosen to be nested, that is, in such a way
+that $\X^1_i$ contains all the nodes present in $\X^1_{i - 1}$.
 
 The last step is to rewrite \eref{interpolant-sparse-incremental} in a
 hierarchical form. To this end, we require interpolants of higher levels to
-represent exactly interpolants of lower levels. In one dimension, it means that
+exactly represent interpolants of lower levels. In one dimension, this means
+that
 \begin{equation} \elab{interpolant-tensor-exactness}
   \interpolant{1}{i - 1}(\f) = \interpolant{1}{i}(\interpolant{1}{i - 1}(\f)).
 \end{equation}
@@ -140,9 +141,10 @@ The delta
 \begin{equation} \elab{interpolant-sparse-surplus}
   \Delta\f(\vx_{\vi \vj}) = \f(\vx_{\vi \vj}) - \interpolant{n}{\ls - 1}(\f)(\vx_{\vi \vj})
 \end{equation}
-is called a hierarchical surplus. When increasing the interpolation level, this
-surplus is the difference between the actual value of \f at a new node and the
-approximation of this value computed by the interpolant constructed so far.
+is referred to as a hierarchical surplus. When increasing the interpolation
+level, this surplus is the difference between the actual value of the target
+function at a new collocation node and the approximation of this value computed
+by the hierarchical interpolant that has been constructed so far.
 
 The final formula for (nonadaptive) hierarchical interpolation is obtained by
 substituting \eref{interpolant-tensor-delta} into
