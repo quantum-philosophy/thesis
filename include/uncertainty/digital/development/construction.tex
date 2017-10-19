@@ -1,22 +1,22 @@
-At Stage~3, an interpolant of the quantity of interest is to be constructed
-using the algorithm presented in this section. The algorithm constitutes the
-core of the framework proposed in this chapter, and it features a sparse
+At Stage~3, an approximation of the quantity of interest is constructed using
+the interpolation algorithm presented in this section. The algorithm constitutes
+the core of the framework proposed in this chapter, and it features a sparse
 structure, hierarchical construction, and hybrid adaptivity. The benefits of
-these features are interconnected and can be summarized as follows: \one~the
-ability to efficiently tackle multidimensional problems, \two~the ability to
-perform gradual refinement of the approximation with a natural error control,
-and \three~the ability to make the refinement fine-grained and, therefore, gain
-further efficiency.
+these characteristics are interconnected and can be summarized as follows:
+\one~the ability to efficiently address multidimensional problems, \two~the
+ability to progressively refine the approximation, and \three~the ability to
+perform this refinement strategically by virtue of a fine-grained error control.
 
 Hierarchical interpolation is introduced in \xref{sparse-interpolation}, and
 here we rely heavily on the results given in that section. The mathematics
-presented in \xref{sparse-interpolation} as well as here is based on the
+presented in \xref{sparse-interpolation} as well as below is based on the
 development in \cite{klimke2006, ma2009, jakeman2012}.
 
-Let \g as a function of \vz via $\transform$ be in $\continuous([0, 1]^\nz)$,
-the space of continuous functions on $[0, 1]^\nz$; this assumption is not
-limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
-approximated via the following interpolant:
+Consider \g as a function of \vz via $\transform$ as shown in
+\sref{frame-transformation}. Assume that the function belong to $\continuous([0,
+1]^\nz)$, the space of continuous functions on $[0, 1]^\nz$; this assumption is
+not limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
+approximated by means of the following interpolant:
 \begin{equation} \elab{frame-sparse}
   \g \approx \interpolant{\nz}{\ls}(\g)
   = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}}
@@ -30,13 +30,14 @@ $\Delta\tensorindex{\nz}{\vi}$ are index sets defined in
 \eref{interpolant-sparse-index-delta} and \eref{interpolant-tensor-index-delta},
 respectively.
 
-Due to the reason that is to be made clear in \sref{frame-adaptivity}, the
-interpretation of \eref{frame-sparse} used in this section is different from the
-interpretation used in \xref{sparse-interpolation}. Specifically, $\ls \in
-\natural$ no longer represents the current interpolation level but rather the
-current interpolation step, and $\interpolant{\nz}{\ls}(\g)$ is the interpolant
-that corresponds to that step. From now on, all index sets are generally subsets
-of their full-fledged counterparts defined in \xref{sparse-interpolation}.
+Due to the reasons clarified in \sref{frame-adaptivity}, the interpretation of
+\eref{frame-sparse} used in this chapter is different from the one used in
+\xref{sparse-interpolation}. Specifically, $\ls \in \natural$ no longer
+represents an interpolation level but rather an interpolation step. Accordingly,
+$\interpolant{\nz}{\ls}(\g)$ represents the interpolant obtained by a certain
+interpolation step. In addition, all the index sets discussed here are generally
+subsets of their full-fledged counterparts defined in
+\xref{sparse-interpolation}.
 
 Let us now turn to the choice of collocation nodes and basis functions.
 
