@@ -20,8 +20,8 @@ In addition, the expectation and variance of \g can be computed without
 sampling. Using an adequate $\transform$ discussed in
 \sref{frame-transformation}, \g can be reparameterized in terms of independent
 variables that are uniformly distributed on $[0, 1]^\nz$. This means that the
-density function of \vz equals unity. Therefore, using \eref{frame-sparse}, we
-have the following analytical expression:
+density function of \vz equals unity. Therefore, using \eref{frame-interpolant},
+we have the following analytical expression:
 \[
   \expectation{\g} \approx \expectation{\interpolant{\nz}{\ls}(\g)}
   = \int_{[0, 1]^\nz} \interpolant{\nz}{\ls}(\g)(\vz) \d \vz

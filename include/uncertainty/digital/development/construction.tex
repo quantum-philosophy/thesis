@@ -17,7 +17,7 @@ Consider \g as a function of \vz via $\transform$ as shown in
 1]^\nz)$, the space of continuous functions on $[0, 1]^\nz$; this assumption is
 not limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
 approximated by means of the following interpolant:
-\begin{equation} \elab{frame-sparse}
+\begin{equation} \elab{frame-interpolant}
   \g \approx \interpolant{\nz}{\ls}(\g)
   = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}}
   \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) e_{\vi \vj} \end{equation}
@@ -31,7 +31,7 @@ $\Delta\tensorindex{\nz}{\vi}$ are index sets defined in
 respectively.
 
 Due to the reasons clarified in \sref{frame-adaptivity}, the interpretation of
-\eref{frame-sparse} used in this chapter is different from the one used in
+\eref{frame-interpolant} used in this chapter is different from the one used in
 \xref{sparse-interpolation}. Specifically, $\ls \in \natural$ no longer
 represents an interpolation level but rather an interpolation step. Accordingly,
 $\interpolant{\nz}{\ls}(\g)$ represents the interpolant obtained by a certain
@@ -182,7 +182,7 @@ single level index denoted by $\vi_{\ls}$ is chosen from $\sparseindex{\nz}{\ls
 - 1}$ where $\sparseindex{\nz}{-1} = \{ \v{0} \}$, and this index subsequently
 gives birth to $\Delta\sparseindex{\nz}{\ls}$ and $\{
 \Delta\tensorindex{\nz}{\vi}: \vi \in \Delta\sparseindex{\nz}{\ls} \}$, which
-form the increment given on the right-hand side of \eref{frame-sparse}.
+form the increment given on the right-hand side of \eref{frame-interpolant}.
 
 The level index set $\Delta\sparseindex{\nz}{\ls}$ contains the so-called
 admissible forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of
@@ -228,10 +228,10 @@ The above refinement procedure is to be undertaken for each level index $\vi \in
 \range{1}{\nz}$.
 
 The choice of $\vi_{\ls}$ from $\sparseindex{\nz}{\ls - 1}$ at each step \ls in
-\eref{frame-sparse} is made as follows. First, each index can be picked at most
-once. The rest is resolved by prioritizing the candidates. It is reasonable to
-assign a priority to a level index \vi based on the scores of the order indices
-associated with this index, that is, based on the scores of
+\eref{frame-interpolant} is made as follows. First, each index can be picked at
+most once. The rest is resolved by prioritizing the candidates. It is reasonable
+to assign a priority to a level index \vi based on the scores of the order
+indices associated with this index, that is, based on the scores of
 $\tensorindex{\nz}{\vi}$. The priority can be set to the average score
 \[
   s_{\vi} = \frac{1}{\cardinality{\Delta\tensorindex{\nz}{\vi}}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} s_{\vi \vj}
@@ -240,7 +240,7 @@ Thus, at each step \ls, the index \vi with the highest $s_{\vi}$ is promoted to
 $\vi_{\ls}$.
 
 The final question to answer is the stopping condition of the approximation
-process in \eref{frame-sparse}. Apart from the natural constraints on the
+process in \eref{frame-interpolant}. Apart from the natural constraints on the
 maximum number of function evaluations and the maximum interpolation level (the
 original \ls in \xref{sparse-interpolation}), we rely on the following
 criterion. Assume there are two additional constants: \error{a} and \error{r},
@@ -267,11 +267,12 @@ that are the most influential.
 
 \conclusioncut
 To summarize, we have obtained an efficient algorithm for adaptive hierarchical
-interpolation in multiple dimensions. The main equation is \eref{frame-sparse}
-where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$, $\vx_{\vi \vj}$, and $e_{\vi
-\vj}$ are the ones in \eref{interpolant-sparse-surplus}, \sref{frame-grid}, and
-\sref{frame-basis}, respectively, and the interpolation is undertaken according
-to the rules in \sref{frame-adaptivity}. Next, we discuss the implementation.
+interpolation in multiple dimensions. The main equation is
+\eref{frame-interpolant} where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$,
+$\vx_{\vi \vj}$, and $e_{\vi \vj}$ are the ones in
+\eref{interpolant-sparse-surplus}, \sref{frame-grid}, and \sref{frame-basis},
+respectively, and the interpolation is undertaken according to the rules in
+\sref{frame-adaptivity}. Next, we discuss the implementation.
 
 \subsection{Implementation}
 
@@ -284,9 +285,9 @@ technique.
 
 Let us first make a general note. According to our experience, it is beneficial
 to the clarity and ease of implementation to collapse the two sums in
-\eref{frame-sparse} into one. This requires storing a level index $\vi = (i_k)
-\in \natural^\nz$ and an order index $\vj = (j_k) \in \natural^\nz$ for each
-node. It is also advantageous to encode each pair $(i_k, j_k)$ as a single
+\eref{frame-interpolant} into one. This requires storing a level index $\vi =
+(i_k) \in \natural^\nz$ and an order index $\vj = (j_k) \in \natural^\nz$ for
+each node. It is also advantageous to encode each pair $(i_k, j_k)$ as a single
 unsigned integer, which, in particular, eliminates excessive memory usage. In
 multiple dimensions, this results in a vector $\v{\iota} = (\iota_k) \in
 \natural^\nz$, which we simply call an index. Our encoding is
@@ -307,11 +308,11 @@ artifacts of the interpolation. These artifacts are a set of tuples $\{
 description of a hierarchical interpolant. The pseudocode works as follows.
 
 Line 1: Each iteration of the loop corresponds to an interpolation step \ls in
-\eref{frame-sparse}. The progress is captured by a structure \texttt{state}. The
-\texttt{strategy} object represents the adaptation strategy utilized, and it
-operates in accordance with \sref{frame-adaptivity}. The \texttt{Continue?}
-method of \texttt{strategy} checks if any of the stopping conditions is
-satisfied, in which case the process is terminated.
+\eref{frame-interpolant}. The progress is captured by a structure
+\texttt{state}. The \texttt{strategy} object represents the adaptation strategy
+utilized, and it operates in accordance with \sref{frame-adaptivity}. The
+\texttt{Continue?} method of \texttt{strategy} checks if any of the stopping
+conditions is satisfied, in which case the process is terminated.
 
 Line 2: The \texttt{Next} method of \texttt{strategy} consumes the previous
 state and returns the initial state of the ongoing interpolation step. In
@@ -356,7 +357,7 @@ is given in \aref{frame-evaluation}. This subroutine is also used in
 regarding this subroutine.
 
 Line 3: The inner loop corresponds to an unfolded version of
-\eref{frame-sparse}; that is, there is no separation into the individual
+\eref{frame-interpolant}; that is, there is no separation into the individual
 interpolation steps taken.
 
 Line 4: The \texttt{basis} object represents the utilized interpolation basis,
