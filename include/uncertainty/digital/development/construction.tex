@@ -276,7 +276,7 @@ interpolation in multiple dimensions. The main equation is
 \eref{frame-interpolant} where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$,
 $\vx_{\vi \vj}$, and $e_{\vi \vj}$ are the ones in
 \eref{interpolant-sparse-surplus}, \sref{frame-grid}, and \sref{frame-basis},
-respectively, and the interpolation is undertaken according to the rules in
+respectively; and the interpolation is undertaken according to the rules in
 \sref{frame-adaptivity}. Next, we discuss a few implementation details.
 
 \subsection{Implementation}
@@ -300,7 +300,7 @@ multiple dimensions, this results in a vector $\v{\iota} = (\iota_k) \in
   \iota_k = i_k \lor (j_k \ll \n{\mathrm{bits}})
 \]
 where $\lor$ and $\ll$ are the bitwise \up{OR} and logical left shift,
-respectively, and \n{\mathrm{bits}} is the number of bits reserved for storing
+respectively; and \n{\mathrm{bits}} is the number of bits reserved for storing
 level indices, which can be adjusted according to the maximum permitted depth of
 interpolation.
 
