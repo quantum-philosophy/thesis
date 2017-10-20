@@ -82,16 +82,16 @@ dramatically as the number of points produced by this approach can easily
 explode.
 
 To give an example \cite{heiss2008}, suppose that each one-dimensional
-quadrature has only four points, that is, $n_i = 4$. Then, in 10 stochastic
-dimensions, that is, when $n = 10$, the number of multivariate points becomes
-$n_{\vi} = 4^{10} = 1~048~576$, which is far beyond being affordable. Moreover,
-it can be shown that most of the points obtained by the full tensor product do
-not contribute to the asymptotic accuracy and, therefore, are a waste of
-computation time. In particular, if the integrand under consideration is a
-polynomial whose total order is constrained according to a certain strategy, the
-full tensor product cannot take this information into account. Consequently, a
-different construction technique should be utilized in the case of
-high-dimensional integration problems.
+quadrature has only four points ($n_i = 4$). Then, in 10 stochastic dimensions
+($n = 10$), the number of multivariate points becomes 1,048,576 ($n_{\vi} =
+n_i^n = 4^{10}$), which is far beyond being affordable. Moreover, it can be
+shown that most of the points obtained by the full tensor product do not
+contribute to the asymptotic accuracy and, therefore, are a waste of computation
+time. In particular, if the integrand under consideration is a polynomial whose
+total order is constrained according to a certain strategy, the full tensor
+product cannot take this information into account. Consequently, a different
+construction technique should be utilized in the case of high-dimensional
+integration problems.
 
 An alternative construction is the Smolyak algorithm \cite{smolyak1963}; see
 also \cite{klimke2006, eldred2008, heiss2008, maitre2010}. The algorithm is a
@@ -101,8 +101,8 @@ integration, the algorithm combines a range of one-dimensional quadratures in
 such a way that the resulting grid is tailored to be exact only for a certain
 polynomial subspace. Such grids are called sparse grids, and they allow for a
 significant reduction of the number of points and thus the subsequent work. For
-instance, in the example given earlier, the number of points would only be
-$n_{\vi} = 1~581$, which is a drastic reduction in computation time.
+instance, in the example given earlier, the number of points would only be 1581,
+which is a drastic reduction in computation time.
 
 To begin with, define
 \begin{align*}
