@@ -284,8 +284,8 @@ respectively; and the interpolation is undertaken according to the rules in
 The life cycle of interpolation has roughly two stages: construction and usage.
 The construction stage invokes \g at a set of collocation nodes and produces
 certain artifacts. The usage stage estimates the values of \g at a set of
-arbitrary points by manipulating the artifacts. In this subsection, we provide
-the pseudocodes of the two stages in order to give the big picture of the
+arbitrary points by manipulating these artifacts. In this subsection, we provide
+the pseudocodes of the two stages in order to give a better sense of the
 technique.
 
 Let us first make a general note. According to our experience, it is beneficial
@@ -299,15 +299,15 @@ multiple dimensions, this results in a vector $\v{\iota} = (\iota_k) \in
 \[
   \iota_k = i_k \lor (j_k \ll \n{\mathrm{bits}})
 \]
-where $\lor$ and $\ll$ are the bitwise \up{OR} and logical left shift,
-respectively; and \n{\mathrm{bits}} is the number of bits reserved for storing
+where $\lor$ and $\ll$ stand for the bitwise \up{OR} and logical left shift,
+respectively, and \n{\mathrm{bits}} is the number of bits reserved for storing
 level indices, which can be adjusted according to the maximum permitted depth of
 interpolation.
 
 \inputalgorithm{frame-construction}
 The pseudocode of the construction stage is given in \aref{frame-construction}.
 The input is a subroutine called Algorithm~G that evaluates $\g \circ
-\transform$. The output is a structure \texttt{interpolant} that contains
+\transform$. The output is a structure \texttt{interpolant} that contains the
 artifacts of the interpolation. These artifacts are a set of tuples $\{
 (\v{\iota}_k, \Delta\g(\vx_{\v{\iota}_k})) \}$, which is a comprehensive
 description of a hierarchical interpolant. The pseudocode works as follows.
@@ -324,12 +324,12 @@ state and returns the initial state of the ongoing interpolation step. In
 particular, it populates the \texttt{indices} field of \texttt{state} with the
 indices of the step. The rest of the loop's body populates the rest of
 \texttt{state}'s fields so that \texttt{strategy} can adequately execute its
-functions at the beginning of the next iteration.
+functionality at the beginning of the next iteration.
 
 Line 3: The \texttt{grid} object represents the utilized interpolation grid, and
 its \texttt{Compute} method calculates the collocation nodes that correspond to
-given indices, that is, $\{ \vx_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k \}$;
-see \sref{frame-grid} for more details.
+the given indices, that is, $\{ \vx_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k
+\}$; see \sref{frame-grid} for more details.
 
 Line 4: Algorithm~G evaluates $\g \circ \transform$ at the collocation nodes.
 This is by far the most time consuming operation of the algorithm as \g is
@@ -348,11 +348,11 @@ $\{ \Delta(\g \circ \transform)(\vx_{\v{\iota}_k}) \}$ (see
 \eref{interpolant-sparse-surplus}) of the current interpolation step.
 
 Line 7: The \texttt{Score} method of \texttt{strategy} calculates the scores of
-the new collocation nodes based on their surpluses as described in
+the collocation nodes based on their surpluses as described in
 \sref{frame-adaptivity}.
 
 Line 8: The \texttt{Append} method of \texttt{interpolant} refines the
-interpolant by extending it with the indices and surpluses of the undertaken
+interpolant by extending it with the indices and surpluses of the completed
 iteration.
 
 \inputalgorithm{frame-evaluation}
@@ -367,8 +367,8 @@ interpolation steps taken.
 
 Line 4: The \texttt{basis} object represents the utilized interpolation basis,
 and its \texttt{Compute} method evaluates the basis functions that correspond to
-given indices, that is, $\{ e_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k \}$, at
-arbitrary points; see \sref{frame-basis}.
+the given indices, that is, $\{ e_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k
+\}$, at arbitrary points; see \sref{frame-basis}.
 
 It is worth noting that the \texttt{strategy}, \texttt{grid}, and \texttt{basis}
 objects conform to certain interfaces and can be easily swapped out. This makes
@@ -378,5 +378,6 @@ problem.
 
 \conclusioncut
 To recapitulate, in this section, the approximation engine of our framework for
-probabilistic analysis of electronic systems has been presented. The technique
-is consolidated in \aref{frame-construction} and \aref{frame-evaluation}.
+probabilistic analysis of electronic systems under workload variation has been
+presented. It is consolidated in \aref{frame-construction} and
+\aref{frame-evaluation}.
