@@ -249,14 +249,14 @@ process in \eref{frame-interpolant}. Apart from the natural constraints on the
 maximum number of function evaluations and the maximum interpolation level (the
 original \ls in \xref{sparse-interpolation}), we rely on the following
 criterion. Given two additional user-defined constants \error{a} and \error{r},
-which are referred to as the absolute and relative error, respective, the
+which are referred to as the absolute and relative errors, respectively, the
 process is terminated as soon as
 \begin{equation} \elab{frame-stop}
   \max_{\vi \vj} \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj})} \leq \max \left\{ \error{a}, \error{r} (\g_\maximum - \g_\minimum) \right\}
 \end{equation}
-where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed value
-of \g, respectively. The left-hand side of \eref{frame-stop} corresponds the
-largest surplus whose level index has not been refined yet, that is, has not
+where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed
+values of \g, respectively. The left-hand side of \eref{frame-stop} corresponds
+the largest surplus whose level index has not been refined yet, that is, has not
 been considered as $\vi_{\ls}$ at some step \ls. The above criterion is an
 adequate technique for curtailing the interpolation process since it is based on
 the actual progress.
