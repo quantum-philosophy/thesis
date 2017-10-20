@@ -12,9 +12,9 @@ here we rely heavily on the results given in that section. The mathematics
 presented in \xref{sparse-interpolation} as well as below is based on the
 development in \cite{klimke2006, ma2009, jakeman2012}.
 
-Consider \g as a function of \vz via $\transform$ as shown in
-\sref{frame-transformation}. Assume that the function belong to $\continuous([0,
-1]^\nz)$, the space of continuous functions on $[0, 1]^\nz$; this assumption is
+Consider the quantity of interest \g as a function of \vz via $\transform$ as
+shown in \sref{frame-transformation}. Assume that \g belongs to $\continuous([0,
+1]^\nz)$, the space of continuous functions on $[0, 1]^\nz$; the assumption is
 not limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
 approximated by means of the following interpolant:
 \begin{equation} \elab{frame-interpolant}
@@ -150,91 +150,96 @@ adaptive, which we discuss next.
 \subsection{Hybrid Adaptivity}
 \slab{frame-adaptivity}
 
-In order to make the algorithm adaptive, we first need to decide on a measure of
-how good the constructed interpolant $\interpolant{\nz}{\ls}(\g)$ is at any
-given point in $[0, 1]^\nz$. Then, when refining the interpolant, instead of
-evaluating the quantity of interest at all possible nodes, we choose only those
-that are located in the regions with poor accuracy as indicated by the
-yet-to-be-found criterion.
+In order to make the algorithm adaptive, we first need to decide on a criterion
+used for measuring the accuracy of the interpolant $\interpolant{\nz}{\ls}(\g)$
+in \eref{frame-interpolant} at any point in $[0, 1]^\nz$. Then, when refining
+the interpolant, instead of evaluating the quantity of interest \g at all
+possible nodes, we choose only those that are located in the regions with poor
+accuracy as indicated by the criterion.
 
-We already have a good foundation for building such a criterion. Specifically,
-hierarchical surpluses given in \eref{interpolant-sparse-surplus} are natural
-indicators of the interpolation error: they are the difference between the
-values of the true function and those of an approximation at the nodes of the
-underlying sparse grid. Hence, surpluses can be recycled in order to effectively
-identify problematic regions. We proceed as follows. First, a score is assigned
-to each node $\vx_{\vi \vj}$ or, equivalently, to each pair of level and order
-indices $(\vi, \vj)$ as follows:
+We already have a good foundation for building the above-mentioned criterion.
+Hierarchical surpluses, which are introduced in \xref{sparse-interpolation} and
+defined in \eref{interpolant-sparse-surplus}, are natural indicators of the
+interpolation error: they are the difference between the true values of \g and
+those estimated by $\interpolant{\nz}{\ls}(\g)$ at the nodes of the underlying
+integration grid. Therefore, hierarchical surpluses can be recycled in order to
+effectively identify problematic regions.
+
+We proceed as follows. First, a score is assigned to each node $\vx_{\vi \vj}$
+or, equivalently, to each pair of a level index and an order index $(\vi, \vj)$
+as follows:
 \begin{equation} \elab{frame-score}
   s_{\vi \vj} = \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj}) w_{\vi \vj}}
 \end{equation}
-where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ can be found in
-\xref{sparse-interpolation}---see \eref{interpolant-sparse-surplus}---and
-$w_{\vi \vj}$ are products of the one-dimensional volumes shown in
-\sref{frame-basis}. Then this score is used in order to guide the algorithm as
-we explain now.
+where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ is a surplus defined in
+\eref{interpolant-sparse-surplus}, and $w_{\vi \vj}$ are products of the
+one-dimensional volumes introduced in \sref{frame-basis}. The score in
+\eref{frame-score} is utilized for guiding the algorithm as explained below.
 
-Each interpolant $\interpolant{\nz}{\ls}$ is characterized by a set of level
-indices $\sparseindex{\nz}{\ls}$, and each level index $\vi \in
+Each hierarchical interpolant $\interpolant{\nz}{\ls}$ is characterized by a set
+of level indices $\sparseindex{\nz}{\ls}$, and each level index $\vi \in
 \sparseindex{\nz}{\ls}$ by a set of order indices
 $\Delta\tensorindex{\nz}{\vi}$. At each interpolation step $\ls \in \natural$, a
-single level index denoted by $\vi_{\ls}$ is chosen from $\sparseindex{\nz}{\ls
-- 1}$ where $\sparseindex{\nz}{-1} = \{ \v{0} \}$, and this index subsequently
-gives birth to $\Delta\sparseindex{\nz}{\ls}$ and $\{
-\Delta\tensorindex{\nz}{\vi}: \vi \in \Delta\sparseindex{\nz}{\ls} \}$, which
-form the increment given on the right-hand side of \eref{frame-interpolant}.
+single level index
+\[
+  \vi_{\ls} \in \sparseindex{\nz}{\ls - 1}
+\]
+is chosen where $\sparseindex{\nz}{-1} = \{ \v{0} \}$. This index gives birth to
+$\Delta\sparseindex{\nz}{\ls}$ and $\{ \Delta\tensorindex{\nz}{\vi}: \vi \in
+\Delta\sparseindex{\nz}{\ls} \}$, forming the increment given on the right-hand
+side of \eref{frame-interpolant}.
 
-The level index set $\Delta\sparseindex{\nz}{\ls}$ contains the so-called
-admissible forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of
-an index \vi are given by
+The level index set $\Delta\sparseindex{\nz}{\ls}$ contains so-called admissible
+forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of an index
+\vi are given by
 \[
   \{ \vi + \v{1}_k \}_{k = 1}^\nz
 \]
 where $\v{1}_k \in \{ 0, 1 \}^\nz$ is a vector whose elements are zero except
-for element $k$ equal to unity. Further, an index \vi is called admissible if
-its inclusion into the index set $\sparseindex{\nz}{\ls}$ in question keeps the
-set admissible. Finally, $\sparseindex{\nz}{\ls}$ is admissible if it satisfies
-the following condition \cite{klimke2006}:
+for element $k$ that is equal to unity. An index \vi is called admissible if its
+inclusion into the index set $\sparseindex{\nz}{\ls}$ under consideration keeps
+the set admissible. Finally, $\sparseindex{\nz}{\ls}$ is admissible if it
+satisfies the following condition \cite{klimke2006}:
 \[
   \vi - \v{1}_k \in \sparseindex{\nz}{\ls}
 \]
-for $\vi \in \sparseindex{\nz}{\ls}$ and $k = \range{1}{\nz}$ where the cases
-with $i_k = 0$ need no check.
+for $\vi \in \sparseindex{\nz}{\ls}$ and $k \in \{ \range{1}{\nz} \}$ where the
+cases with $i_k = 0$ need no check.
 
 Let us now turn to the content of $\Delta\tensorindex{\nz}{\vi}$ where $\vi =
 \vi_{\ls} + \v{1}_k$ for some $k$. It also contains admissible forward
 neighbors; however, they are order indices, and their construction is different
-from the one used in the case of $\Delta\sparseindex{\nz}{\ls}$. Concretely,
-these indices are identified by inspecting the backward neighborhood of \vi,
-which is analogous to the forward one but in the other direction. For each
-backward neighbor $\vi - \v{1}_l$ and each $\vj \in \Delta\tensorindex{n}{\vi -
-\v{1}_l}$, we first check the condition
+from the one used in the case of $\Delta\sparseindex{\nz}{\ls}$. These indices
+are identified by inspecting the backward neighborhood of \vi, which is
+analogous to the forward one but in the other direction. For each backward
+neighbor $\vi - \v{1}_m$ and each $\vj \in \Delta\tensorindex{\nz}{\vi -
+\v{1}_m}$, we first check the condition
 \[
-  s_{\vi - \v{1}_l, \vj} \geq \error{s}
+  s_{\vi - \v{1}_m, \vj} \geq \error{s}
 \]
 where \error{s} is a user-defined constant referred to as the score error. If
 the condition holds, the forward neighbors of \vj in dimension $k$ are added to
 $\Delta\tensorindex{\nz}{\vi}$. This procedure is illustrated in
 \fref{frame-grid} for open Newton--Cotes rules in one dimension. The arrows
-emerging from a node connect the node with its forward neighbors. In general,
-each node has two forward neighbors in each dimension. The order indices of
-these nodes are
+emerging from a collocation node connect the node with its forward neighbors. In
+general, each node has two forward neighbors in each dimension. The order
+indices of these nodes are
 \begin{align*}
   & (j_1, \dots, 2 j_k \phantom{{} + 2}, \dots, j_{\nz}) \text{ and} \\
   & (j_1, \dots, 2 j_k + 2,              \dots, j_{\nz}).
 \end{align*}
-The above refinement procedure is to be undertaken for each level index $\vi \in
-\Delta\sparseindex{\nz}{\ls}$ with respect to each dimension $k =
-\range{1}{\nz}$.
+The above refinement procedure should be undertaken for each level index $\vi
+\in \Delta\sparseindex{\nz}{\ls}$ with respect to each dimension $k \in \{
+\range{1}{\nz} \}$.
 
-The choice of $\vi_{\ls}$ from $\sparseindex{\nz}{\ls - 1}$ at each step \ls in
+The choice of $\vi_{\ls} \in \sparseindex{\nz}{\ls - 1}$ at each step \ls in
 \eref{frame-interpolant} is made as follows. First, each index can be picked at
 most once. The rest is resolved by prioritizing the candidates. It is reasonable
-to assign a priority to a level index \vi based on the scores of the order
-indices associated with this index, that is, based on the scores of
-$\tensorindex{\nz}{\vi}$. The priority can be set to the average score
+to compute the priority of a level index \vi based on the scores of the order
+indices associated with this level index, that is, based on the scores of
+$\tensorindex{\nz}{\vi}$. We set the priority to the average score
 \[
-  s_{\vi} = \frac{1}{\cardinality{\Delta\tensorindex{\nz}{\vi}}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} s_{\vi \vj}
+  s_{\vi} = \frac{1}{\cardinality{\Delta\tensorindex{\nz}{\vi}}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} s_{\vi \vj}.
 \]
 Thus, at each step \ls, the index \vi with the highest $s_{\vi}$ is promoted to
 $\vi_{\ls}$.
@@ -243,36 +248,36 @@ The final question to answer is the stopping condition of the approximation
 process in \eref{frame-interpolant}. Apart from the natural constraints on the
 maximum number of function evaluations and the maximum interpolation level (the
 original \ls in \xref{sparse-interpolation}), we rely on the following
-criterion. Assume there are two additional constants: \error{a} and \error{r},
-which are referred to as the absolute and relative error, respective. Then the
+criterion. Given two additional user-defined constants \error{a} and \error{r},
+which are referred to as the absolute and relative error, respective, the
 process is terminated as soon as
 \begin{equation} \elab{frame-stop}
   \max_{\vi \vj} \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj})} \leq \max \left\{ \error{a}, \error{r} (\g_\maximum - \g_\minimum) \right\}
 \end{equation}
 where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed value
-of \g, respectively, and the left-hand side is the maximum surplus whose level
-index has not been refined yet (considered as $\vi_{\ls}$ at some step \ls). The
-above criterion is adequate for curtailing the process since it is based on the
-actual progress.
+of \g, respectively. The left-hand side of \eref{frame-stop} corresponds the
+largest surplus whose level index has not been refined yet, that is, has not
+been considered as $\vi_{\ls}$ at some step \ls. The above criterion is an
+adequate technique for curtailing the interpolation process since it is based on
+the actual progress.
 
 The adaptivity presented in this subsection is referred to as hybrid since it
-combines features of global and local adaptivity; the combination was proposed
-in \cite{jakeman2012}. Local adaptivity, which has already been sufficiently
-motivated, is due to \cite{ma2009}, and it operates on the level of individual
-nodes. Global adaptivity is due to \cite{klimke2006}, and it operates on the
-level of individual dimensions. The intuition behind global adaptivity is that,
-in general, the input variables manifest themselves (impact \g) differently, and
-the interpolation algorithm is likely to benefit by prioritizing those variables
-that are the most influential.
+combines features of global and local adaptivity \cite{jakeman2012}. Local
+adaptivity operates on the level of individual nodes \cite{ma2009}, and it is
+motivated in \sref{frame-motivation}. By contrast, global adaptivity operates on
+the level of individual dimensions \cite{klimke2006}. The intuition behind
+global adaptivity is that, in general, the input variables manifest themselves
+(impact \g) differently, and the interpolation algorithm is likely to benefit by
+prioritizing those variables that are the most influential.
 
 \conclusioncut
-To summarize, we have obtained an efficient algorithm for adaptive hierarchical
+So far, we have formalized an efficient algorithm for adaptive hierarchical
 interpolation in multiple dimensions. The main equation is
 \eref{frame-interpolant} where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$,
 $\vx_{\vi \vj}$, and $e_{\vi \vj}$ are the ones in
 \eref{interpolant-sparse-surplus}, \sref{frame-grid}, and \sref{frame-basis},
 respectively, and the interpolation is undertaken according to the rules in
-\sref{frame-adaptivity}. Next, we discuss the implementation.
+\sref{frame-adaptivity}. Next, we discuss a few implementation details.
 
 \subsection{Implementation}
 
