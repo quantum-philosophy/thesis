@@ -77,9 +77,8 @@ where
 \end{align*}
 \fref{frame-grid} depicts the first three levels of this rule. It can be seen
 that the number of nodes grows as 1, 3, 7, and so on, and that the rule is fully
-nested. In multiple dimensions, the collocation nodes are formed as shown in
-\xref{sparse-interpolation} and, more specifically, in
-\eref{interpolant-multiple-grid} together with \eref{quadrature-tensor-index}.
+nested. In multiple dimensions, collocation nodes are formed as shown in
+\eref{interpolant-tensor}.
 
 \subsection{Basis Functions}
 \slab{frame-basis}
@@ -116,8 +115,10 @@ In other cases,
 \]
 The basis functions that correspond to the first three levels of one-dimensional
 interpolation are depicted in \fref{frame-basis}. In multiple dimensions, basis
-functions are formed as shown in \eref{interpolant-multiple-basis} together with
-\eref{quadrature-tensor-index}.
+functions are formed as shown in \eref{interpolant-tensor}, which results in
+\[
+  e_{\vi \vj}(\vx) = \prod_{k = 1}^n e_{i_k j_k}(x_k).
+\]
 
 Additionally, let us calculate the volumes (the integrals over the whole domain)
 of the aforementioned piecewise linear functions; these volumes are required in
@@ -133,8 +134,11 @@ In other cases,
 \[
   w_{ij} = \frac{1}{n_i + 1}.
 \]
-The volumes of multidimensional basis functions are products of the volumes of
-the corresponding one-dimensional counterparts given above.
+The volumes of multidimensional basis functions are products of the
+corresponding one-dimensional volumes as follows:
+\begin{equation} \elab{frame-volume}
+  w_{\vi \vj} = \prod_{k = 1}^\nz w_{i_k j_k}.
+\end{equation}
 
 Imagine now a function that is nearly flat on the first half of $[0, 1]$ and
 rather irregular on the other. Under these circumstances, it is natural to
@@ -171,10 +175,10 @@ as follows:
 \begin{equation} \elab{frame-score}
   s_{\vi \vj} = \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj}) w_{\vi \vj}}
 \end{equation}
-where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ is a surplus defined in
-\eref{interpolant-sparse-surplus}, and $w_{\vi \vj}$ are products of the
-one-dimensional volumes introduced in \sref{frame-basis}. The score in
-\eref{frame-score} is utilized for guiding the algorithm as explained below.
+where $\Delta(\g \circ \transform)(\vx_{\vi \vj})$ is the surplus at the node as
+defined in \eref{interpolant-sparse-surplus}, and $w_{\vi \vj}$ is the volume of
+the corresponding basis function as shown in \eref{frame-volume}. The above
+score is utilized for guiding the algorithm as explained below.
 
 Each hierarchical interpolant $\interpolant{\nz}{\ls}$ is characterized by a set
 of level indices $\sparseindex{\nz}{\ls}$, and each level index $\vi \in

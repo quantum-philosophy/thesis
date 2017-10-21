@@ -27,15 +27,8 @@ we have the following analytical expression:
   = \int_{[0, 1]^\nz} \interpolant{\nz}{\ls}(\g)(\vz) \d \vz
   = \sum_{\vi \in \sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) w_{\vi \vj}
 \]
-where
-\[
-  w_{\vi \vj}
-  = \int_{[0, 1]^\nz} e_{\vi \vj}(\vz) \d \vz
-  = \prod_{k = 1}^\nz \int_0^1 e_{i_k j_k}(\z_k) \d \z_k
-  = \prod_{k = 1}^\nz w_{i_k j_k}.
-\]
-In the above equation, $w_{i_k j_k }$ is calculated as shown in
-\sref{frame-basis}.
+In the above equation, $w_{\vi \vj}$ is calculated as shown in
+\eref{frame-volume}.
 
 Regarding the variance, observe in \eref{variance} that $\variance{\g}$ can be
 assembled from two components: the expectation of \g, which we already have, and
