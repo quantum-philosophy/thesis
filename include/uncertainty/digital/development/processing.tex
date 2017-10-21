@@ -1,64 +1,64 @@
 At Stage~4 of the proposed framework (see \sref{frame-solution}), the
-constructed hierarchical interpolant $\interpolant{\nz}{\ls}(\g)$ of the
-quantity of interest \g is processed according to the designer's needs. The
-post-processing in this chapter is similar to the one described in
-\sref{chaos-processing}. Namely, the probabilistic analysis of \g is carried out
-on $\interpolant{\nz}{\ls}(\g)$ instead, and \g is never invoked again. Since
-$\interpolant{\nz}{\ls}(\g)$ is a lightweight representation of the heavy \g,
-the analysis has a negligible computational cost.
+constructed interpolant $\interpolant{\nz}{\ls}(\g)$ of the quantity of interest
+\g is processed according to the designer's requirements. The post-processing in
+this chapter is similar to the one described in \sref{chaos-processing}. Namely,
+probabilistic analysis of \g is carried out solely on
+$\interpolant{\nz}{\ls}(\g)$, and \g is never invoked again. Since
+$\interpolant{\nz}{\ls}(\g)$ is a light representation of the heavy \g, this
+analysis has a negligible computational cost.
 
-In particular, the distribution of \g can be efficiently estimating via a
-sampling method of choice. In this case, one draws independent samples from the
-distribution of \vz and evaluates $\interpolant{\nz}{\ls}(\g)$ at those points
-in accordance with \aref{frame-evaluation}. Having collected a large enough set
-of samples denoted by $G$, the density of \g can be estimated by employing such
-techniques as kernel density estimation \cite{hastie2013}. Having $G$ at one's
-disposal, other statistics about \g, such as probabilities of various events,
-can be straightforwardly estimated.
+The distribution of \g can be efficiently estimating via a sampling method of
+choice. In this case, one draws independent samples from the distribution of \vz
+and evaluates $\interpolant{\nz}{\ls}(\g)$ at those points in accordance with
+\aref{frame-evaluation}. Having collected a large enough set of samples, the
+distribution of \g can be computed by employing such techniques as kernel
+density estimation \cite{hastie2013}. Probabilities of various events can be
+straightforwardly estimated as well.
 
 In addition, the expectation and variance of \g can be computed without
-sampling. Using an adequate $\transform$ discussed in
-\sref{frame-transformation}, \g can be reparameterized in terms of independent
-variables that are uniformly distributed on $[0, 1]^\nz$. This means that the
-density function of \vz equals unity. Therefore, using \eref{frame-interpolant},
-we have the following analytical expression:
+sampling. Using a carefully chosen transformation $\transform$ (recall
+\sref{frame-transformation}), \g can be reparameterized in terms of independent
+variables that are uniformly distributed on $[0, 1]^\nz$; this transformation is
+to be discussed further in \sref{frame-application-transformation}. In this
+scenario, the density function of \vz equals unity. Therefore, using
+\eref{frame-interpolant}, we obtain the following analytical expression:
 \[
   \expectation{\g} \approx \expectation{\interpolant{\nz}{\ls}(\g)}
   = \int_{[0, 1]^\nz} \interpolant{\nz}{\ls}(\g)(\vz) \d \vz
   = \sum_{\vi \in \sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) w_{\vi \vj}
 \]
-In the above equation, $w_{\vi \vj}$ is calculated as shown in
+where $w_{\vi \vj}$ is the volume of a basis function as shown in
 \eref{frame-volume}.
 
 Regarding the variance, observe in \eref{variance} that $\variance{\g}$ can be
 assembled from two components: the expectation of \g, which we already have, and
 the expectation of $\g^2$, which is missing. The solution is to let $\h = (\g,
 \g^2)$ be the quantity of interest instead of \g. Then the expectations of both
-\g and $\g^2$ become available in analytical forms, and $\variance{\g}$ can be
-computed using \eref{variance}. This approach can be generalized to
-probabilistic moments of higher orders.
+\g and $\g^2$ become available analytically, and $\variance{\g}$ can be computed
+using \eref{variance}. This approach can be generalized to probabilistic moments
+of higher orders.
 
 The careful reader might have noted a problem with the calculation of
-$\variance{\g}$ presented above: \h is a vector. More generally, \g has been
-depicted so far as having a one-dimensional codomain. The proposed framework,
-however, does not have such a limitation, which is explained in
+$\variance{\g}$ presented above: \h is a vector, but \g has been depicted so far
+as having a one-dimensional codomain. However, it has been done for clarify; our
+framework does not have such a limitation, as explained in
 \rref{frame-multidimensional-output}.
 
 \begin{remark} \rlab{frame-multidimensional-output}
-The mathematics and pseudocodes stay unchanged for vector-valued quantities. The
-only difference is that, since hierarchical surpluses naturally inherit the
+The mathematics and pseudocodes remain unchanged for vector-valued quantities.
+The only difference is that, since hierarchical surpluses naturally inherit the
 output dimensionality of \g, the operations that involve them should be
 adequately adjusted. If the outputs are on different scales or have different
-accuracy requirements, one might want to have different \error{a} and \error{r}
-in \eref{frame-stop} for different outputs. In that case, one also needs to
-revisit \eref{frame-score} and devise a more sensible strategy for scoring
+accuracy requirements, one might consider having different \error{a} and
+\error{r} in \eref{frame-stop} for different outputs. In that case, one also has
+to revisit \eref{frame-score} and devise a more sensible strategy for scoring
 collocation nodes, such as rescaling individual outputs and then calculating
 $\norm[2]{\cdot}$ or $\norm[\infty]{\cdot}$.
 \end{remark}
 
 To summarize, once an interpolant of \g has been constructed, the distribution
-of \g is estimated using versatile sampling methods applied to the interpolant.
-The framework naturally extends to quantities with multiple outputs, and it
+of \g is estimated using a sampling method applied to the interpolant. The
+proposed framework naturally extends to quantities with multiple outputs, and it
 provides analytical formulae for the expectation and variance.
 
 Lastly, let us remind that the evaluation of the quantity of interest is an
