@@ -152,7 +152,10 @@
 \numberwithin{equation}{chapter}
 \numberwithin{remark}{chapter}
 
-\newcommand{\continuous}[1]{\mathcal{C}\left(#1\right)}
+\newcommand{\braces}[1]{\mathchoice{\left\{#1\right\}}{\{#1\}}{\{#1\}}{\{#1\}}}
+\newcommand{\parantheses}[1]{\mathchoice{\left(#1\right)}{(#1)}{(#1)}{(#1)}}
+
+\newcommand{\continuous}[1]{\mathcal{C}\parantheses{#1}}
 \newcommand{\real}{\mathbb{R}}
 \renewcommand{\natural}[1][0]{\mathbb{N}_{#1}}
 
@@ -171,15 +174,33 @@
 \newcommand{\hm}[1]{\hat{\m{#1}}}
 \newcommand{\tm}[1]{\tilde{\m{#1}}}
 
-\newcommand{\absolute}[1]{|#1|}
-\newcommand{\bigo}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\absolute}[1]{
+  \mathchoice
+  {\left|#1\right|}
+  {|#1|}
+  {|#1|}
+  {|#1|}
+}
+\newcommand{\bigo}[1]{\mathcal{O}\parantheses{#1}}
 \newcommand{\cardinality}[1]{\# #1}
-\newcommand{\hull}[1]{\mathrm{span}\left(#1\right)}
-\newcommand{\innerproduct}[2]{\left\langle #1, #2 \right\rangle}
-\newcommand{\norm}[2][]{\|#2\|_{#1}}
+\newcommand{\hull}[1]{\mathrm{span}\parantheses{#1}}
+\newcommand{\innerproduct}[2]{
+  \mathchoice
+  {\left\langle#1, #2\right\rangle}
+  {\langle#1, #2\rangle}
+  {\langle#1, #2\rangle}
+  {\langle#1, #2\rangle}
+}
+\newcommand{\norm}[2][]{
+  \mathchoice
+  {\left\|#2\right\|_{#1}}
+  {\|#2\|_{#1}}
+  {\|#2\|_{#1}}
+  {\|#2\|_{#1}}
+}
 \newcommand{\range}[2]{#1, \dots, #2}
 \newcommand{\transpose}[1]{{#1}^\mathrm{T}}
-\renewcommand{\L}[2]{L^{#1}\left(#2\right)}
+\renewcommand{\L}[2]{L^{#1}\parantheses{#2}}
 \renewcommand{\d}{\mathrm{d}}
 
 \newcommand{\maximum}{\mathrm{max}}
@@ -187,14 +208,14 @@
 
 \makeatletter
 \def\set#1{\@ifnextchar{\bgroup}{\settwo{#1}}{\setone{#1}}}
-\def\settwo#1#2{\mathchoice{\left\{#1: #2\right\}}{\{#1: #2\}}{\{#1: #2\}}{\{#1: #2\}}}
-\def\setone#1{\mathchoice{\left\{#1\right\}}{\{#1\}}{\{#1\}}{\{#1\}}}
+\def\settwo#1#2{\braces{#1: #2}}
+\def\setone#1{\braces{#1}}
 \makeatother
 
 \makeatletter
 \def\diagonal#1{\@ifnextchar{\bgroup}{\diagonaltwo{#1}}{\diagonalone{#1}}}
-\def\diagonaltwo#1#2{\mathrm{diag}\left(\range{#1}{#2}\right)}
-\def\diagonalone#1{\mathrm{diag}\left(#1\right)}
+\def\diagonaltwo#1#2{\mathrm{diag}\parantheses{\range{#1}{#2}}}
+\def\diagonalone#1{\mathrm{diag}\parantheses{#1}}
 \makeatother
 
 \newcommand{\vi}{\math{\boldsymbol{i}}}
@@ -217,13 +238,13 @@
 
 \makeatletter
 \def\transform{\@ifnextchar{\bgroup}{\transformone}{\transformzero}}
-\def\transformone#1{\mathbb{T}\left(#1\right)}
+\def\transformone#1{\mathbb{T}\parantheses{#1}}
 \def\transformzero{\mathbb{T}}
 \makeatother
 
 \makeatletter
 \def\probability{\@ifnextchar{\bgroup}{\probabilityone}{\probabilityzero}}
-\def\probabilityone#1{\mathbb{P}\left(#1\right)}
+\def\probabilityone#1{\mathbb{P}\parantheses{#1}}
 \def\probabilityzero{\mathbb{P}}
 \makeatother
 
@@ -235,23 +256,23 @@
 
 \makeatletter
 \def\variance{\@ifnextchar{\bgroup}{\varianceone}{\variancezero}}
-\def\varianceone#1{\mathbb{V}\mathrm{ar}\left(#1\right)}
+\def\varianceone#1{\mathbb{V}\mathrm{ar}\parantheses{#1}}
 \def\variancezero{\mathbb{V}\mathrm{ar}}
 \makeatother
 
 \makeatletter
 \def\covariance{\@ifnextchar{\bgroup}{\covarianceplus}{\covariancezero}}
 \def\covarianceplus#1{\@ifnextchar{\bgroup}{\covariancetwo{#1}}{\covarianceone{#1}}}
-\def\covariancetwo#1#2{\mathbb{C}\mathrm{ov}\left(#1, #2\right)}
-\def\covarianceone#1{\mathbb{C}\mathrm{ov}\left(#1\right)}
+\def\covariancetwo#1#2{\mathbb{C}\mathrm{ov}\parantheses{#1, #2}}
+\def\covarianceone#1{\mathbb{C}\mathrm{ov}\parantheses{#1}}
 \def\covariancezero{\mathbb{C}\mathrm{ov}}
 \makeatother
 
 \makeatletter
 \def\correlation{\@ifnextchar{\bgroup}{\correlationplus}{\correlationzero}}
 \def\correlationplus#1{\@ifnextchar{\bgroup}{\correlationtwo{#1}}{\correlationone{#1}}}
-\def\correlationtwo#1#2{\mathbb{C}\mathrm{orr}\left(#1, #2\right)}
-\def\correlationone#1{\mathbb{C}\mathrm{orr}\left(#1\right)}
+\def\correlationtwo#1#2{\mathbb{C}\mathrm{orr}\parantheses{#1, #2}}
+\def\correlationone#1{\mathbb{C}\mathrm{orr}\parantheses{#1}}
 \def\correlationzero{\mathbb{C}\mathrm{orr}}
 \makeatother
 
@@ -268,7 +289,7 @@
 
 \makeatletter
 \def\chaos#1#2{\@ifnextchar{\bgroup}{\chaosthree{#1}{#2}}{\chaostwo{#1}{#2}}}
-\def\chaosthree#1#2#3{\mathcal{C}^{#1}_{#2}\left(#3\right)}
+\def\chaosthree#1#2#3{\mathcal{C}^{#1}_{#2}\parantheses{#3}}
 \def\chaostwo#1#2{\mathcal{C}^{#1}_{#2}}
 \makeatother
 
@@ -284,7 +305,7 @@
 
 \makeatletter
 \def\quadrature#1#2{\@ifnextchar{\bgroup}{\quadraturethree{#1}{#2}}{\quadraturetwo{#1}{#2}}}
-\def\quadraturethree#1#2#3{\mathcal{Q}^{#1}_{#2}\left(#3\right)}
+\def\quadraturethree#1#2#3{\mathcal{Q}^{#1}_{#2}\parantheses{#3}}
 \def\quadraturetwo#1#2{\mathcal{Q}^{#1}_{#2}}
 \makeatother
 
