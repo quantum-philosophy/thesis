@@ -1,4 +1,4 @@
-Let $\f: [0, 1] \to \real$ be a function in $\continuous([0, 1])$, which is the
+Let $\f: [0, 1] \to \real$ be a function in $\continuous{[0, 1]}$, which is the
 space of continuous functions defined on $[0, 1]$. The function is approximated
 by virtue of the following interpolation formula:
 \begin{equation} \elab{interpolant-single}
@@ -10,7 +10,7 @@ dimensionality, and the subscript $i \in \natural$ indicates the level of the
 interpolant. In the above formula,
 \begin{align*}
   & \X_i = \{ \x_{ij}: j \in \tensorindex{1}{i} \} \subset [0, 1] \text{ and} \\
-  & \E_i = \{ e_{ij}: j \in \tensorindex{1}{i} \} \subset \continuous([0, 1])
+  & \E_i = \{ e_{ij}: j \in \tensorindex{1}{i} \} \subset \continuous{[0, 1]}
 \end{align*}
 are collocation nodes and basis functions, respectively, and
 $\tensorindex{1}{i}$ is an index set. The cardinality of $\tensorindex{1}{i}$
@@ -19,7 +19,7 @@ this context, the subscript $j \in \tensorindex{1}{i}$ is referred to as the
 order of a node or a function.
 
 Let us now turn to the multidimensional case. Let $\f: [0, 1]^n \to \real$ be a
-function in $\continuous([0, 1]^n)$, which is the space of continuous functions
+function in $\continuous{[0, 1]^n}$, which is the space of continuous functions
 defined on $[0, 1]^n$. The function is approximated as
 \[
   \f \approx \interpolant{n}{\vi}(\f)
@@ -29,7 +29,7 @@ where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$. In the
 above formula,
 \begin{align*}
   & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \\
-  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n)
+  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous{[0, 1]^n}
 \end{align*}
 are the nodes and functions, respectively, and $\tensorindex{n}{\vi} \subset
 \natural^n$ is an index set. The cardinality of $\tensorindex{n}{\vi}$ depends
