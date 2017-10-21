@@ -94,17 +94,18 @@ In the ongoing scenario, \f can be rewritten as the following summation:
   \f(i, \vq, \vu) = \f_\dynamic(i) + \f_\static(\vq, \vu)
 \]
 where $\f_\dynamic: \natural[+] \to \real^\np$ and $\f_\static: \real^\np \times
-\real^\nu \to \real^\np$. Without loss of generality, the dynamic part
-$\f_\dynamic$ is assumed to be given as a dynamic power profile denoted by
-$\mp_\dynamic$. Similarly to \sref{bayes-results}, the modeling of the static
-part $\f_\static$ is based on \up{SPICE} simulations of a reference electrical
-circuit composed of \up{BSIM4} devices \cite{bsim} configured according to the
-45-nm \up{PTM} \up{HP} model \cite{ptm}; specifically, we use a series of
-\up{CMOS} invertors. The simulations are performed with respect to a
-sufficiently wide fine-grained two-dimensional grid---the effective channel
-length against temperature---and the results are tabulated. An interpolation
-technique is subsequently utilized whenever the static power is required to be
-calculated at a particular point within the range of the grid.
+\real^\nu \to \real^\np$. Without loss of generality, the dynamic component
+$\f_\dynamic$ is assumed to be given as a dynamic power profile (recall
+\eref{power-profile}) denoted by $\mp_\dynamic$. Similarly to
+\sref{bayes-results}, the modeling of the static component $\f_\static$ is based
+on \up{SPICE} simulations of a reference electrical circuit composed of
+\up{BSIM4} devices \cite{bsim} configured according to the 45-nm \up{PTM}
+\up{HP} model \cite{ptm}; specifically, we use a series of \up{CMOS} invertors.
+The simulations are performed with respect to a sufficiently wide fine-grained
+two-dimensional grid---the effective channel length against temperature---and
+the results are tabulated. An interpolation technique is then utilized whenever
+$\f_\static$ is required to be calculated at a point within the range of the
+grid.
 
 Lastly, in order to be able to perform temperature calculations, an adequate
 thermal \up{RC} circuit should be constructed. Given the specification of the
