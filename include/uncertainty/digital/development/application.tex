@@ -144,23 +144,25 @@ corresponds to the small rounded rectangle.
 
 \subsection{Post-Processing}
 
-Having constructed an interpolant of \g, the designer proceeds to working
-exclusively with this interpolant, which is Stage~4 of the presented framework.
+Having constructed the interpolant $\interpolant{\nz}{\ls}(\g)$, the designer
+proceeds to working solely with this interpolant, which corresponds to Stage~4
+of our framework.
 
 Suppose the designer is interested in the probability distribution of \g. In
-this case, the interpolant $\interpolant{\nz}{\ls}(\g)$ should be sampled, which
-is represented by the rightmost box in \fref{frame-application}. The operation
-corresponds roughly to \aref{frame-evaluation}: the interpolant takes $\z_1$ and
-$\z_2$ and returns an approximation of \g at that point. Recall that the
-computational cost of sampling is negligible since \g is not involved. The
-collected samples, which are denoted by $G$ in \fref{frame-application}, are
-then used in order to compute an estimate of the distribution of \g.
+this scenario, $\interpolant{\nz}{\ls}(\g)$ should be sampled, which is
+represented by the rightmost box in \fref{frame-application}. The operation
+corresponds roughly to \aref{frame-evaluation}: the interpolant receives $\z_1$
+and $\z_2$ and returns an approximation of the value of \g at that point. Recall
+that the computational cost of this sampling is negligible since \g is not
+involved. The collected samples, which are denoted by $G$ in
+\fref{frame-application}, are subsequently used in order to estimate the
+distribution of \g.
 
 \inputfigure{frame-density}
 \fref{frame-density} depicts the result. The blue line shows the \ac{PDF} of \g
 computed by applying kernel density estimation \cite{hastie2013} to the obtained
-set of samples $G$. The yellow line---which is barely visible behind the blue
-line---shows the true density of \g; its calculation is explained in
+set of samples $G$. The yellow line, which is barely visible behind the blue
+line, shows the true density of \g; its calculation is explained in
 \sref{frame-results}. It can be seen that our solution closely matches the exact
 one. Additionally, the orange line illustrates the estimate that one would
 obtain if one sampled \g directly using the same number of \g's evaluations as
