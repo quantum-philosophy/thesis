@@ -248,7 +248,7 @@ following solution to the system:
   & = \m{U} \: \diagonal{\frac{1}{1 - e^{\lambda_1 \period}}}{\frac{1}{1 - e^{\lambda_\ns \period}}} \transpose{\m{U}} \v{w}_\ns.
 \end{align*}
 The above equation yields not only the final state vector $\vs_\ns$ but also the
-initial one $\vs_0$. Consequently, the rest of the state vectors $\{ \vs_i \}_{i
+initial one $\vs_0$. Consequently, the rest of the state vectors $\set{\vs_i}_{i
 = 1}^{\ns - 1}$ can be successively found by means of
 \eref{dynamic-steady-recurrence} where each $\v{v}_i$ has already been
 calculated when computing $\v{w}_\ns$. The last step of the solution is to
@@ -274,7 +274,7 @@ the first column of $\m{S}$.
 
 Line~7--9: Using $\vs_\ns$ or, equivalently, $\vs_0$,
 \eref{dynamic-steady-recurrence} is recursively evaluated in order to calculate
-the remaining state vectors, that is, $\{ \vs_i \}_{i = 1}^{\ns - 1}$.
+the remaining state vectors, that is, $\set{\vs_i}_{i = 1}^{\ns - 1}$.
 
 Line 10: \eref{temperature-algebraic} is applied in order to compute the desired
 \mq.
