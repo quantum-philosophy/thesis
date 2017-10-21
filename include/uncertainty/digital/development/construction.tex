@@ -93,7 +93,7 @@ For $i > 0$ and $j = 0$ (close to the left endpoint),
 \[
   e_{i0}(\x) =
   \begin{cases}
-    2 - \left(n_i + 1\right) \x, & \text{if } \x < \frac{2}{n_i + 1}, \\
+    2 - \left(n_i + 1\right) \x, & \text{if } \x < \frac{2}{n_i + 1}; \\
     0, & \text{otherwise}.
   \end{cases}
 \]
@@ -101,7 +101,7 @@ For $i > 0$ and $j = n_i - 1$ (close to the right endpoint),
 \[
   e_{i, n_i - 1}(\x) =
   \begin{cases}
-    \left(n_i + 1\right) \x - n_i + 1, & \text{if } \x > \frac{n_i - 1}{n_i + 1}, \\
+    \left(n_i + 1\right) \x - n_i + 1, & \text{if } \x > \frac{n_i - 1}{n_i + 1}; \\
     0, & \text{otherwise}.
   \end{cases}
 \]
@@ -109,7 +109,7 @@ In other cases,
 \[
   e_{ij}(\x) =
   \begin{cases}
-    1 - \left(n_i + 1\right)|\x - \x_{ij}|, & \text{if } |\x - \x_{ij}| < \frac{1}{n_i + 1}, \\
+    1 - \left(n_i + 1\right)|\x - \x_{ij}|, & \text{if } |\x - \x_{ij}| < \frac{1}{n_i + 1}; \\
     0, & \text{otherwise}.
   \end{cases}
 \]
