@@ -19,8 +19,8 @@ not limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
 approximated by means of the following interpolant:
 \begin{equation} \elab{frame-interpolant}
   \g \approx \interpolant{\nz}{\ls}(\g)
-  = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}}
-  \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) e_{\vi \vj} \end{equation}
+  = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) e_{\vi \vj}
+\end{equation}
 where $\vi \in \natural^\nz$ is called a level index; $\vj \in \natural^\nz$ is
 called an order index; $\set{\vx_{\vi \vj}}$ and $\set{e_{\vi \vj}}$ are
 collocation nodes and basis functions, respectively; $\set{\Delta(\g \circ
