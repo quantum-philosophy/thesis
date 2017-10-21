@@ -36,16 +36,16 @@ however, such exhaustive information is often unavailable, which is mainly due
 to the high dimensionality and intricate dependencies inherent to real-life
 problems.
 
-A more realistic assumption is the knowledge of the marginal distributions $\{
-F_i \}_{i = 1}^\nu$ and correlation matrix $\correlation{\vu}$ of \vu, which,
-however, are not sufficient to reconstruct the joint distribution of \vu in
-general. Nevertheless, it can be approximated well by accompanying the available
-marginals by a carefully constructed copula \cite{nelsen2006}, which makes \vu
-fully specified; see \xref{probability-theory}. Specifically, one constructs a
-Gaussian copula based on $\{ F_i \}_{i = 1}^\nu$ and $\correlation{\vu}$ as a
-part of the Nataf transformation \cite{liu1986}, which is introduced in
-\xref{probability-transformation}. This Gaussian copula is defined in terms of
-an auxiliary correlation matrix.
+A more realistic assumption is the knowledge of the marginal distributions
+$\set{F_i}_{i = 1}^\nu$ and correlation matrix $\correlation{\vu}$ of \vu,
+which, however, are not sufficient to reconstruct the joint distribution of \vu
+in general. Nevertheless, it can be approximated well by accompanying the
+available marginals by a carefully constructed copula \cite{nelsen2006}, which
+makes \vu fully specified; see \xref{probability-theory}. Specifically, one
+constructs a Gaussian copula based on $\set{F_i}_{i = 1}^\nu$ and
+$\correlation{\vu}$ as a part of the Nataf transformation \cite{liu1986}, which
+is introduced in \xref{probability-transformation}. This Gaussian copula is
+defined in terms of an auxiliary correlation matrix.
 
 Without loss of generality, we target the above practical scenario in our
 experiments in this section and the next one. However, it should be understood
@@ -109,9 +109,10 @@ following series at Stage~3 in \fref{chaos-overview}:
   = \sum_{\vi \in \sparseindex{\nz}{\lc}} \hat{\g}_{\vi} \psi_{\vi}
 \end{equation}
 where $\lc \in \natural$ is the level of the expansion, $\vi = (i_k) \in
-\natural^\nz$ is an index, $\sparseindex{\nz}{\lc}$ is an index set, and $\{
-\psi_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ are orthonormal polynomials in
-\nz variables whose orders are specified by the corresponding elements of \vi.
+\natural^\nz$ is an index, $\sparseindex{\nz}{\lc}$ is an index set, and
+$\set{\psi_{\vi}}{\vi \in \sparseindex{\nz}{\lc}}$ are orthonormal polynomials
+in \nz variables whose orders are specified by the corresponding elements of
+\vi.
 
 It can be seen that the foremost step toward a polynomial expansion is the
 choice of a suitable polynomial basis, which is typically made based on the
@@ -135,8 +136,8 @@ utilized. The result is
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
   = \sum_{j \in \tensorindex{\nz}{\lq}} (\g \circ \transform)(\vz_j) \psi_{\vi}(\vz_j) w_j
 \end{equation}
-where $\lq \in \natural$ is the quadrature's level, and $\{ \vz_j \} \subset
-\real^\nz$ and $\{ w_j \} \subset \real$ are the corresponding points and
+where $\lq \in \natural$ is the quadrature's level, and $\set{\vz_j} \subset
+\real^\nz$ and $\set{w_j} \subset \real$ are the corresponding points and
 weights, respectively, indexed by $\tensorindex{\nz}{\lq} \subset \natural$. The
 operator $\quadrature{\nz}{\lq}$ is constructed via the Smolyak algorithm
 \cite{smolyak1963} as shown in \eref{quadrature-sparse}. An important aspect to
@@ -172,7 +173,7 @@ The difference between the isotropic and anisotropic versions lies in the
 content of $\sparseindex{\nz}{\lq}$. In particular, the anisotropic total-order
 index set is defined as follows:
 \begin{equation} \elab{index-total-order-anisotropic}
-  \sparseindex{\nz}{\lq} = \left\{ \vi: \vi \in \natural^\nz, \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i \right\}
+  \sparseindex{\nz}{\lq} = \set{\vi}{\vi \in \natural^\nz, \innerproduct{\v{c}}{\vi} \leq \lq \, \min_{i = 1}^\nz c_i}
 \end{equation}
 where $\v{c} = (c_i) \in \real^\nz$ with $c_i \geq 0$ for $i = \range{1}{\nz}$
 is a vector assigning importance weights to the dimensions, and
@@ -191,7 +192,7 @@ in \eref{chaos-coefficient}, which are needed for calculating the coefficients
 of those polynomial terms. Then the question is in the choice of $\v{c}$. When
 the \ac{KL} decomposition is utilized as a part of $\transform$ in
 \eref{chaos-transformation}, a viable option in this regard is to rely on the
-variance contributions of the dimensions given by $\{ \lambda_i \}_{i = 1}^\nu$
+variance contributions of the dimensions given by $\set{\lambda_i}_{i = 1}^\nu$
 in \eref{karhunen-loeve}. Specifically, we let
 \begin{equation} \elab{chaos-anisotropic-weight}
   c_i = \left(\frac{\lambda_i}{\sum_{j = 1}^\nu \lambda_j}\right)^\gamma
@@ -223,9 +224,9 @@ indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$, respectively. Now, let
 \end{equation}
 The element of $\Pi$ on row $i$ and column $j$ is polynomial $i$ evaluated at
 quadrature point $j$ and multiplied by quadrature weight $j$. The matrix $\Pi$
-is referred to as the projection matrix. Using $\Pi$, the coefficients $\{
-\hat{g}_{\vi}: \vi \in \sparseindex{\nz}{\lc} \}$ in \eref{chaos-expansion} can
-now be trivially computed as follows:
+is referred to as the projection matrix. Using $\Pi$, the coefficients
+$\set{\hat{g}_{\vi}}{\vi \in \sparseindex{\nz}{\lc}}$ in \eref{chaos-expansion}
+can now be trivially computed as follows:
 \begin{equation} \elab{chaos-coefficients}
   \hat{\vg} = \Pi \vg
 \end{equation}
@@ -277,13 +278,13 @@ conclude that
 \[
   \expectation{\psi_{\vi}} = 0
 \]
-for $\vi \in \sparseindex{\nz}{\lc} \setminus \{ \v{0} \}$. Consequently, the
+for $\vi \in \sparseindex{\nz}{\lc} \setminus \set{\v{0}}$. Consequently, the
 expected value and variance of \g have the following straightforward
 expressions:
 \begin{equation} \elab{chaos-moments}
   \begin{split}
     & \expectation{\g} = \hat{\g}_{\v{0}} \text{ and} \\
-    & \variance{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc} \setminus \{ \v{0} \}} \hat{\g}_{\vi}^2,
+    & \variance{\g} = \sum_{\vi \in \sparseindex{\nz}{\lc} \setminus \set{\v{0}}} \hat{\g}_{\vi}^2,
   \end{split}
 \end{equation}
 respectively. It can be seen that the \ac{PC} decomposition provides analytical

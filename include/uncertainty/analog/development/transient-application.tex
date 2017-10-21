@@ -81,10 +81,10 @@ prerequisite for techniques based on the continuous \ac{KL} decomposition, such
 as those discussed in \sref{chaos-prior}. A correlation matrix, on the other
 hand, can be readily estimated from measurements and thus is a more probable
 input to probabilistic analysis. Therefore, we use \eref{bayes-correlation} with
-the only purpose of constructing a correlation matrix of $\{ \u_{\local, i}
-\}_{i = 1}^\np$. For convenience, this correlation matrix is extended by one
-dimension in order to accommodate $\u_\overall$ along with $\{ \u_{\local, i}
-\}_{i = 1}^\np$. Concretely, the matrix obtains one additional nonzero diagonal
+the only purpose of constructing a correlation matrix of $\set{\u_{\local,
+i}}_{i = 1}^\np$. For convenience, this correlation matrix is extended by one
+dimension in order to accommodate $\u_\overall$ along with $\set{\u_{\local,
+i}}_{i = 1}^\np$. Concretely, the matrix obtains one additional nonzero diagonal
 element equal to unity; the resulting matrix is the correlation matrix of \vu
 denoted by $\correlation{\vu}$.
 
@@ -168,7 +168,7 @@ follows:
               \hat{\vq}_{i, (0, 2)} \, \psi_{(0, 2)}
   \end{split}
 \end{equation}
-where the coefficients $\{ \hat{\vq}_{i \vj} \}$ are vectors with two elements
+where the coefficients $\set{\hat{\vq}_{i \vj}}$ are vectors with two elements
 corresponding to the two processing elements. Regarding the basis,
 \begin{align*}
   & \psi_{(0, 0)}(\vz) = 1, \\
@@ -183,9 +183,9 @@ above correspond to the case where both parameters are equal to two. Such a
 series can be shorter or longer, depending on the accuracy requirements given by
 \lc. The expansion of power has the same structure but different coefficients.
 
-The next step is to compute the coefficients of power $\{ \hat{\vp}_{i \vj} \}$
+The next step is to compute the coefficients of power $\set{\hat{\vp}_{i \vj}}$
 in \eref{chaos-recurrence}, which subsequently yield the coefficients of
-temperature $\{ \hat{\vq}_{i \vj} \}$. As discussed in
+temperature $\set{\hat{\vq}_{i \vj}}$. As discussed in
 \sref{chaos-construction}, these computations involve multidimensional
 integration with respect to the distribution of \vz, and they should be
 performed numerically using an adequate quadrature $\quadrature{\nz}{\lq}$. When

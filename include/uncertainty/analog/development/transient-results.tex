@@ -63,7 +63,7 @@ monitor the corresponding difference between the results produced by the two
 alternatives.
 
 We also inspect the impact of the correlation structure between the local random
-variables $\{ \u_{\local, i} \}_{i = 1}^\np$; recall
+variables $\set{\u_{\local, i}}_{i = 1}^\np$; recall
 \sref{chaos-transient-application}. More specifically, apart from \lc and \no,
 we change the balance between the two correlation functions shown in
 \eref{bayes-correlation}, that is, the squared-exponential kernel $k_\SE$ and
@@ -83,9 +83,9 @@ estimated by our framework, and it is computed by sampling the constructed
 negligible overhead as noted in \sref{chaos-processing}.
 
 \inputtable{chaos-transient-accuracy}
-The considered values of \lc, \no, and $w$ are the sets $\{ i \}_{i = 1}^7$, $\{
-10^i \}_{i = 2}^5$, and $\{ 0, 0.5, 1 \}$, respectively. The three variants of
-$w$ correspond to the total dominance of $k_\OU$ ($w = 0$), perfect balance
+The considered values of \lc, \no, and $w$ are the sets $\set{i}_{i = 1}^7$,
+$\set{10^i}_{i = 2}^5$, and $\set{0, 0.5, 1}$, respectively. The three variants
+of $w$ correspond to the total dominance of $k_\OU$ ($w = 0$), perfect balance
 between $k_\SE$ and $k_\OU$ ($w = 0.5$), and total dominance of $k_\SE$ ($w =
 1$). A comparison for a quad-core architecture with a dynamic power profile of
 $\ns = 10^2$ steps is given in \tref{chaos-transient-accuracy-0},
@@ -181,7 +181,7 @@ First, we vary the number of processing elements \np, which directly affects the
 dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$; recall
 \sref{chaos-transient-application}. The results, including the dimensionality
 \nz of \vz, are given in \tref{chaos-transient-speed-elements} where the
-considered values of \np are $\{ 2^i \}_{i = 1}^5$ and $\ns = 10^3$. It can be
+considered values of \np are $\set{2^i}_{i = 1}^5$ and $\ns = 10^3$. It can be
 seen that the variation patterns inherent to the fabrication process
 \cite{cheng2011} open a great possibility of model order reduction: \nz is
 observed to be at most 12 while the maximum number without reduction is 33 (1
