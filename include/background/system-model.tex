@@ -17,10 +17,10 @@ dissipation, respectively. A power profile is an $\np \times \ns$ matrix
   = \left(\range{\vp_1}{\vp_\ns}\right)
   = \left(\range{\vp(t_1)}{\vp(t_\ns)}\right) \in \real^{\np \times \ns}
 \]
-that contains \ns samples $\{ \vp_i \}_{i = 1}^\ns \subset \real^\np$ of the
-power consumption of \np processing elements taken at \ns time moments $\{ t_i
-\}_{i = 1}^\ns$ with a sampling interval \dt such that $t_i - t_{i - 1} = \dt$
-for $i = \range{2}{\ns}$. The number \ns is called the number of steps.
+that contains \ns samples $\set{\vp_i}_{i = 1}^\ns \subset \real^\np$ of the
+power consumption of \np processing elements taken at \ns time moments
+$\set{t_i}_{i = 1}^\ns$ with a sampling interval \dt such that $t_i - t_{i - 1}
+= \dt$ for $i = \range{2}{\ns}$. The number \ns is called the number of steps.
 Similarly, a temperature profile is an $\np \times \ns$ matrix
 \begin{equation} \elab{temperature-profile}
   \mq
