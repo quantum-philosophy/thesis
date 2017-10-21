@@ -14,8 +14,8 @@ superscript $1$ indicates that it is a one-dimensional quadrature, and the
 subscript $i \in \natural$ indicates the level of the quadrature. In the above
 formula,
 \begin{align*}
-  & \X^1_i = \{ \x_{ij}: j \in \tensorindex{1}{i} \} \subset \real \text{ and} \\
-  & \W^1_i = \{ w_{ij}: j \in \tensorindex{1}{i} \} \subset \real
+  & \X^1_i = \set{\x_{ij}}{j \in \tensorindex{1}{i}} \subset \real \text{ and} \\
+  & \W^1_i = \set{w_{ij}}{j \in \tensorindex{1}{i}} \subset \real
 \end{align*}
 are the points and weights of the quadrature, respectively, and
 $\tensorindex{1}{i} \subset \natural$ is an index set. The cardinality of
@@ -52,8 +52,8 @@ is approximated as
 where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$. In the
 above formula,
 \begin{align*}
-  & \X^n_{\vi} = \{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real^n \text{ and} \\
-  & \W^n_{\vi} = \{ w_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \} \subset \real
+  & \X^n_{\vi} = \set{\vx_{\vi \vj}}{\vj \in \tensorindex{n}{\vi}} \subset \real^n \text{ and} \\
+  & \W^n_{\vi} = \set{w_{\vi \vj}}{\vj \in \tensorindex{n}{\vi}} \subset \real
 \end{align*}
 and the points and weights, respectively, and $\tensorindex{n}{\vi} \subset
 \natural^n$ is an index set. The cardinality of $\tensorindex{n}{\vi}$
@@ -118,7 +118,7 @@ Then Smolyak's formula of level \lq is as follows:
 \end{equation}
 In the original (isotropic) formulation of the Smolyak algorithm,
 \begin{equation} \elab{index-total-order-isotropic}
-  \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \norm[1]{\vi} \leq \lq \right\}
+  \sparseindex{n}{\lq} = \set{\vi}{\vi \in \natural^n, \norm[1]{\vi} \leq \lq}
 \end{equation}
 where $\norm[1]{\cdot}$ stands for the Manhattan norm. The index set
 $\sparseindex{n}{\lq}$ is called the total-order index set \cite{eldred2008,
@@ -128,7 +128,7 @@ beck2011}, and its cardinality can be calculated as follows:
 \end{equation}
 Note that \eref{quadrature-sparse} reduces to \eref{quadrature-tensor} if we let
 \[
-  \sparseindex{n}{\lq} = \left\{ \vi: \vi \in \natural^n, \norm[\infty]{\vi} \leq \lq \right\}.
+  \sparseindex{n}{\lq} = \set{\vi}{\vi \in \natural^n, \norm[\infty]{\vi} \leq \lq}.
 \]
 
 Using \eref{quadrature-sparse}, the integral in question is approximated as

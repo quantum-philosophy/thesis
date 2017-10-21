@@ -186,6 +186,12 @@
 \newcommand{\minimum}{\mathrm{min}}
 
 \makeatletter
+\def\set#1{\@ifnextchar{\bgroup}{\settwo{#1}}{\setone{#1}}}
+\def\settwo#1#2{\mathchoice{\left\{#1: #2\right\}}{\{#1: #2\}}{\{#1: #2\}}{\{#1: #2\}}}
+\def\setone#1{\mathchoice{\left\{#1\right\}}{\{#1\}}{\{#1\}}{\{#1\}}}
+\makeatother
+
+\makeatletter
 \def\diagonal#1{\@ifnextchar{\bgroup}{\diagonaltwo{#1}}{\diagonalone{#1}}}
 \def\diagonaltwo#1#2{\mathrm{diag}\left(\range{#1}{#2}\right)}
 \def\diagonalone#1{\mathrm{diag}\left(#1\right)}

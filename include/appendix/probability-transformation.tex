@@ -39,10 +39,11 @@ means of model order reduction. The intuition is that, since the variables in
 $\vx_2$ are correlated, $\vx_2$ can be recovered sufficiently well from a small
 subset of the variables in $\vx_1$. Specifically, we are to select the smallest
 subset of $\vx_1$ such that its cumulative contribution to the variance of
-$\vx_2$ is above a certain threshold. Formally, assuming that $\{ \lambda_i
-\}_{i = 1}^{n_1}$ in $\m{\Lambda}$ are sorted in the descending order and given
-a threshold $\eta \in (0, 1]$, which is the fraction of the variance to be
-preserved, we are to identify the smallest $n_2 \leq n_1$ such that
+$\vx_2$ is above a certain threshold. Formally, assuming that
+$\set{\lambda_i}_{i = 1}^{n_1}$ in $\m{\Lambda}$ are sorted in the descending
+order and given a threshold $\eta \in (0, 1]$, which is the fraction of the
+variance to be preserved, we are to identify the smallest $n_2 \leq n_1$ such
+that
 \[
   \frac{\sum_{i = 1}^{n_2} \lambda_i}{\sum_{i = 1}^{n_1} \lambda_i} \geq \eta.
 \]
@@ -61,11 +62,11 @@ considered insignificant or redundant.
 The third transformation $\transform_3$ builds upon the previous two
 transformations and allows one to tackle the following problem. Let $\vx_1:
 \Omega \to \real^{n_1}$ be a random vector whose joint distribution is known and
-is the product of the marginal distributions $\{ F_{1i} \}_{i = 1}^{n_1}$ of the
+is the product of the marginal distributions $\set{F_{1i}}_{i = 1}^{n_1}$ of the
 individual variables; therefore, the variables are independent. Let also $\vx_2:
 \Omega \to \real^{n_2}$ be a random vector whose joint distribution is unknown,
 and where the only available information about $\vx_2$ is the marginal
-distributions $\{ F_{2i} \}_{i = 1}^{n_2}$ and correlation matrix
+distributions $\set{F_{2i}}_{i = 1}^{n_2}$ and correlation matrix
 $\correlation{\vx_2}$, which are not sufficient to recover the joint
 distribution in general. The goal is to transform $\vx_1$ into a random vector
 that has the same marginal distributions and the same correlation matrix as
@@ -84,7 +85,7 @@ are transformed into $n_2$ dependent Gaussian variables with a correlation
 matrix that is carefully constructed based on the knowledge about $\vx_2$.
 Third, using $\transform_1$, the $n_2$ dependent Gaussian variables are
 transformed into $n_2$ dependent uniform variables and then into $n_2$ dependent
-variables with the marginal distributions $\{ F_{2i} \}_{i = 1}^{n_2}$ and
+variables with the marginal distributions $\set{F_{2i}}_{i = 1}^{n_2}$ and
 correlation matrix $\correlation{\vx_2}$, which approximate the $n_2$ dependent
 variables $\vx_2$.
 
