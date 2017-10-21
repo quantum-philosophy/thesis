@@ -105,7 +105,7 @@ one in \eref{chaos-optimization-constraints}), which does not require any
 uncertainty analysis. If it is violated, we set the fitness to the amount of
 this violation relative to the constraint---that is, to the difference between
 the actual end-to-end delay and the deadline $\period_\maximum$ divided by
-$\period_\maximum$---and add a big constant $C$. If the timing constraint is
+$\period_\maximum$---and add a large constant $C$. If the timing constraint is
 satisfied, we perform our uncertainty analysis and proceed to checking the
 temperature and lifetime constraints. If any of them is violated, we set the
 fitness to the total relative amount of violation plus $C / 2$. If all the
