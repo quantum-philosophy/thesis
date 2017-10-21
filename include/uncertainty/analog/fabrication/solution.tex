@@ -168,9 +168,9 @@ where $\v{1} = (\range{1}{1}) \in \real^{\nd \np}$, and $\vz = (\z_i) \in
 \real^\nz$ is a vector of independent random variables that obey the standard
 Gaussian distribution. The number \nz is the final dimensionality of the model
 of \g; typically, $\nz \ll \nd \np$. In addition, the parameters $\u_\g$ in
-\eref{bayes-prior-quantity} are now known: $\u_\g = \{ \vz, \mu_\g, \sigma^2_\g
-\}$; see \fref{bayes-statistical-model}. The model is now ready for practical
-computations.
+\eref{bayes-prior-quantity} are now known: $\u_\g = \set{\vz, \mu_\g,
+\sigma^2_\g}$; see \fref{bayes-statistical-model}. The model is now ready for
+practical computations.
 
 Step~3 is to specify the likelihood function in \eref{bayes-theorem}, which is
 where the observed information is taken into account; see
@@ -191,9 +191,9 @@ the noise is as follows:
   \v{\epsilon} | \sigma^2_\epsilon \sim \mathrm{Gaussian}(\v{0}, \sigma^2_\epsilon \m{I})
 \]
 where $\sigma^2_\epsilon$ is the variance of the noise. At this point, all the
-parameters of the inference are identified, and they are $\u = \u_\g \cup \{
-\sigma_\epsilon^2 \} = \{ \vz, \mu_\g, \sigma_\g^2, \sigma_\epsilon^2 \}$; see
-\fref{bayes-statistical-model}. Taking the above into account, we obtain
+parameters of the inference are identified, and they are $\u = \u_\g \cup
+\set{\sigma_\epsilon^2} = \set{\vz, \mu_\g, \sigma_\g^2, \sigma_\epsilon^2}$;
+see \fref{bayes-statistical-model}. Taking the above into account, we obtain
 \begin{equation} \elab{bayes-likelihood}
   \hvh | \u \sim \mathrm{Gaussian}(\vh, \sigma_\epsilon^2 \m{I}).
 \end{equation}
@@ -292,7 +292,7 @@ be done in parallel. The obtained samples are then accepted or rejected
 subsequently as in the usual Metropolis--Hastings algorithm.
 
 Having completed the sampling procedure, we obtain a collection of samples of
-the parameterization $\u = \{ \vz, \mu_\g, \sigma^2_\g \}$. The first portion of
+the parameterization $\u = \set{\vz, \mu_\g, \sigma^2_\g}$. The first portion of
 the drawn samples is typically discarded as being unrepresentative; this portion
 is known as the burn-in period. The preserved samples of \u are then passed
 through \eref{bayes-reduction} in order to compute samples of \g, which are $\nd
