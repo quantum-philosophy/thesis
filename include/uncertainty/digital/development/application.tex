@@ -3,75 +3,79 @@ proposed framework by introducing a number of quantities of interest \g, which
 illustrate the broad applicability of the framework and thereby give the reader
 a better sense of its utility. Second, we turn to Stage~2 and highlight a
 transformation $\transform$ that is the one to use in the majority of cases.
-Third, we proceed directly to Stage~4 and illustrate a potential output of the
-proposed framework. For concreteness, throughout this section, the framework is
-applied to a particular problem involving one of the introduced quantities.
+Third, we proceed directly to Stage~4 and illustrate a potential output of our
+framework.
 
 \subsection{\problemtitle}
 \slab{frame-application-problem}
 
-Assume the system, power, and temperature models given in \sref{system-model},
-\sref{power-model}, \sref{temperature-model}, respectively. Assume also the
-application model utilized in \sref{dream-optimization-problem} except for the
-requirement about being periodic.
+Assume the system, power, and temperature models described in
+\sref{system-model}, \sref{power-model}, \sref{temperature-model}, respectively.
+Assume also the application model utilized in \sref{dream-optimization-problem}
+except for the requirement about being periodic.
 
-Let us first touch upon the timing aspects of the system in question. Each task
-of the application has a start time and a finish time, which are denoted by
-$b_i$ and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$ and $\v{d} =
-(d_i)_{i = 1}^\nt$. Then other timing characteristics can be derived from
-$(\v{b}, \v{d})$. For example, the end-to-end delay of the application---which
-is the difference between the finish time of the latest task and the start time
-of the earliest task---is as follows:
+Let us first touch upon the timing aspects of the system in question. Each of
+the \nt tasks of the application has a start time and a finish time, which are
+denoted by $b_i$ and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$
+and $\v{d} = (d_i)_{i = 1}^\nt$. Then other timing characteristics can be
+derived from $\v{b}$ and $\v{d}$. For example, the end-to-end delay of the
+application---which is the difference between the finish time of the latest task
+and the start time of the earliest task---is as follows:
 \begin{equation} \elab{frame-delay}
   \text{End-to-end delay}
   = \max_{i = 1}^\nt d_i - \min_{i = 1}^\nt b_i.
 \end{equation}
+
 Suppose now that the execution times of the tasks depend on the uncertain
-parameters \vu; see \sref{frame-problem}. Then the tuple $(\v{b}, \v{d})$
-depends on \vu. Hence, the end-to-end delay given in \eref{frame-delay} does so
-too, and it constitutes an example of a quantity \g that the designer might be
-interested in studying. Note that this \g is nondifferentiable since the $\max$
-and $\min$ functions are such. Therefore, \g is nonsmooth, which renders \up{PC}
-expansions and similar techniques inadequate for this problem, which is
-elaborated on in \sref{frame-motivation}.
+parameters \vu introduced in \sref{frame-problem}. Then $\v{b}$ and $\v{d}$
+depend on \vu. Hence, the end-to-end delay given in \eref{frame-delay} does so
+too, and it constitutes a quantity \g that the designer might be interested in
+analyzing. Note that this \g is nondifferentiable since the $\max$ and $\min$
+functions are such. Therefore, \g is nonsmooth, which renders the \up{PC}
+decomposition and similar techniques inappropriate in this case in general,
+which is elaborated on in \sref{frame-motivation}.
 
 \begin{remark} \rlab{frame-nonsmoothness}
-In general, the behavior of \g with respect to continuity, differentiability,
-and smoothness cannot be inferred from the behavior of \vu. Even when the
-parameters behave perfectly, \g might still exhibit nondifferentiability or even
+The behavior of \g with respect to continuity, differentiability, and smoothness
+cannot generally be inferred from the behavior of \vu. Even when the parameters
+behave perfectly, \g might still exhibit nondifferentiability or even
 discontinuity, which depends on how \g functions internally. For example, as
 shown in \cite{tanasa2015}, even if execution times of tasks are continuous, due
 to the actual scheduling policy, end-to-end delays are very often discontinuous.
 \end{remark}
 
-Let us move on to power. The total energy consumed by the system during an
-application run can be estimated using a power profile \mp as follows:
+Let us move on to power. The total energy consumed by the \np processing
+elements during an application run can be estimated using a power profile \mp,
+which is defined in \eref{power-profile}, as follows:
 \begin{equation} \elab{frame-energy}
   \text{Total energy}
   = \sum_{i = 1}^\np \int \p_i(t) \d t
   \approx \dt \norm[1]{\mp}
 \end{equation}
-where $\p_i$ stands for the power consumption of processing element $i$, and \dt
-is the sampling interval, which is assumed to be sufficiently small. Since the
-tuple $(\v{b}, \v{d})$ depends on \vu, the power consumption of the system is
-dependent on \vu as well. Consequently, the total energy given in
-\eref{frame-energy} depends on \vu and is a candidate for \g.
-\rref{frame-nonsmoothness} applies in this context to the full extent.
+where $\p_i$ denotes the power consumption of processing element $i$, \dt is the
+sampling interval, and $\norm[1]{\cdot}$ stands for the Manhattan norm. Since
+$\v{b}$ and $\v{d}$ depend on \vu, the power consumption of the system is also
+dependent on \vu. Consequently, the total energy given in \eref{frame-energy}
+depends on \vu and is a candidate for \g. \rref{frame-nonsmoothness} applies in
+this context to the full extent.
 
-Let us now turn to temperature. The maximum temperature of the system can be
-estimated using a temperature profile \mq as follows:
+Let us now turn to temperature. The maximum temperature that the platform
+attains during an application run can be estimated using a temperature profile
+\mq, which is defined in \eref{temperature-profile}, as follows:
 \begin{equation} \elab{frame-temperature}
   \text{Maximum temperature}
   = \max_{i = 1}^\np \sup_{t} \q_i(t)
   \approx \norm[\infty]{\mq}
 \end{equation}
-where $\q_i$ stands for the heat dissipation of processing element $i$. Since
-the power consumption of the system is affected by \vu, its heat dissipation is
-affected by \vu as well. Thus, the maximum temperature in
+where $\q_i$ denotes the heat dissipation of processing element $i$, and
+$\norm[\infty]{\cdot}$ stands for the uniform norm. Since the power consumption
+of the platform is affected by \vu, the corresponding heat dissipation is
+influenced by \vu as well. Therefore, the maximum temperature in
 \eref{frame-temperature} is also a potential quantity of interest \g. Note that,
-due to the maximization involved, the quantity is nondifferentiable and hence
-cannot be adequately addressed using polynomial approximations; recall also the
-concern in \rref{frame-nonsmoothness}.
+due to the maximization involved in the calculations, the quantity is
+nondifferentiable and hence cannot generally be adequately addressed using
+polynomial approximations; recall also the concern in
+\rref{frame-nonsmoothness}.
 
 To summarize, we have covered three aspects of electronic systems, namely
 timing, power, and temperature, and introduced a number of quantities that the
@@ -79,33 +83,33 @@ designer is typically interested in analyzing. These quantities are to be
 discussed further in the section on experimental results, \sref{frame-results}.
 
 \inputfigure{frame-application}
-Let us also employ one of the introduced quantities in order to have a concrete
-example to work with in this section. The setup that we are about to describe is
-to be detailed, extended, and scaled up in the experiments reported in
-\sref{frame-results}. The problem addressed in this section is depicted on the
+Let us employ one of the introduced quantities in order to have a concrete
+example to work with in this section. The addressed problem is depicted on the
 left-hand side of \fref{frame-application}. We consider a heterogeneous platform
-with two processing elements, PE1 and PE2, and an application with four tasks,
-T1--T4. The data dependencies between the tasks and their mapping onto the
-processing elements can be seen in \fref{frame-application}. The quantity of
-interest \g is the end-to-end delay of the application defined in
+with two processing elements denoted by PE1 and PE2 and an application with four
+tasks denoted by T1--T4; the setup is to be described in detail in
+\sref{frame-results}. The data dependencies between the tasks and their mapping
+onto the processing elements can be seen in \fref{frame-application}. The
+quantity of interest \g is the application's end-to-end delay defined in
 \eref{frame-delay}. The uncertain parameters \vu are the execution times of T2
 and T4 denoted by $\u_1$ and $\u_2$, respectively.
 
-The leftmost component in \fref{frame-application} is a ``black box'' capable of
-evaluating \g given \vu. It takes an assignment of the execution times $\u_1$
-and $\u_2$ and outputs the calculated end-to-end delay \g. In practice, this
-evaluation often involves an appropriate system simulator, such as Sniper
-\cite{carlson2011}, in which case the modeling capabilities of this simulator
-are naturally inherited by our technique.
+The big rectangle on the left-hand side of \fref{frame-application} is a ``black
+box'' capable of evaluating \g given \vu. It takes an assignment of the
+execution times $\u_1$ and $\u_2$ and outputs the calculated end-to-end delay
+\g. In practice, this evaluation often involves a system simulator, such as
+Sniper \cite{carlson2011}, in which case the modeling capabilities of this
+simulator are naturally inherited by our technique.
 
 Targeting the practical scenario described in \sref{chaos-formulation}, the
 marginal distributions and correlation matrix of \vu are assumed to be
-available. Without loss of generality, each marginal is a four-parameter beta
-distribution shown in \eref{beta-distribution}. The execution times are assumed
-to be correlated based on the dependencies between them defined by the structure
-of the task graph: the closer task $i$ and task $j$ are in the graph as measured
-by the number of edges between vertex $i$ and vertex $j$, the stronger $\u_i$
-and $\u_j$ are correlated.
+available. Without loss of generality, each marginal distribution is a
+four-parameter beta distribution shown in \eref{beta-distribution}. Furthermore,
+the execution times are assumed to be correlated based on the dependencies
+between the corresponding tasks as defined by the structure of the task graph of
+the application. Specifically, the closer task $i$ and task $j$ are in the graph
+as measured by the number of edges between vertex $i$ and vertex $j$, the
+stronger $\u_i$ and $\u_j$ are correlated.
 
 \subsection{Probability Transformation}
 \slab{frame-application-transformation}
