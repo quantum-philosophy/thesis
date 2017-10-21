@@ -138,31 +138,32 @@ accordance with their joint distribution.
 
 In what follows, we proceed directly to Stage~4 since Stage~3, which is depicted
 in the middle of \fref{frame-application}, is standard: using a number of
-strategic invocations of the simulator, it delivers a light surrogate for the
-simulator; in \fref{frame-application}, this surrogate corresponds to the small
-rounded rectangle.
+strategic invocations of the simulator, it delivers a light surrogate
+$\interpolant{\nz}{\ls}(\g)$ for the simulator; in \fref{frame-application}, it
+corresponds to the small rounded rectangle.
 
 \subsection{Post-Processing}
 
 Having constructed an interpolant of \g, the designer proceeds to working
 exclusively with this interpolant, which is Stage~4 of the presented framework.
-For concreteness, assume that the designer is interested in the distribution of
-\g, in which case the interpolant is to be sampled extensively; it is denoted by
-the rightmost box in \fref{frame-application}. Then the interpolant displayed in
-the figure corresponds roughly to \aref{frame-evaluation}: it takes $\z_1$ and
+
+Suppose the designer is interested in the probability distribution of \g. In
+this case, the interpolant $\interpolant{\nz}{\ls}(\g)$ should be sampled, which
+is represented by the rightmost box in \fref{frame-application}. The operation
+corresponds roughly to \aref{frame-evaluation}: the interpolant takes $\z_1$ and
 $\z_2$ and returns an approximation of \g at that point. Recall that the
-computational cost of this extensive sampling is negligible as \g is not
-involved. The collected samples, which we denote by $G$, are then used to
-compute an estimate of the distribution of \g.
+computational cost of sampling is negligible since \g is not involved. The
+collected samples, which are denoted by $G$ in \fref{frame-application}, are
+then used in order to compute an estimate of the distribution of \g.
 
 \inputfigure{frame-density}
-\fref{frame-density} depicts the result. To elaborate, the blue line shows the
-\ac{PDF} of \g computed by applying kernel density estimation to $G$ obtained
-from the interpolant. The yellow line---which is barely visible behind the blue
+\fref{frame-density} depicts the result. The blue line shows the \ac{PDF} of \g
+computed by applying kernel density estimation \cite{hastie2013} to the obtained
+set of samples $G$. The yellow line---which is barely visible behind the blue
 line---shows the true density of \g; its calculation is explained in
 \sref{frame-results}. It can be seen that our solution closely matches the exact
-one. In addition, the orange line shows the estimate that one would get if one
-sampled \g directly consuming the same number of \g's evaluations as the one
-consumed by our framework. We see that, given the same budget, the solution
-delivered by our technique is substantially closer to the true one than the one
-delivered by naïve sampling.
+one. Additionally, the orange line illustrates the estimate that one would
+obtain if one sampled \g directly using the same number of \g's evaluations as
+the one consumed by our framework. It can be seen that, given the same budget,
+the solution delivered by our technique is substantially closer to the true one
+than the one delivered by naïve sampling.
