@@ -94,8 +94,8 @@ quantity of interest \g is the application's end-to-end delay defined in
 \eref{frame-delay}. The uncertain parameters \vu are the execution times of T2
 and T4 denoted by $\u_1$ and $\u_2$, respectively.
 
-The big rectangle on the left-hand side of \fref{frame-application} is a ``black
-box'' capable of evaluating \g given \vu. It takes an assignment of the
+The large rectangle on the left-hand side of \fref{frame-application} is a
+``black box'' that evaluates \g given \vu. It takes an assignment of the
 execution times $\u_1$ and $\u_2$ and outputs the calculated end-to-end delay
 \g. In practice, this evaluation often involves a system simulator, such as
 Sniper \cite{carlson2011}, in which case the modeling capabilities of this
@@ -115,32 +115,30 @@ stronger $\u_i$ and $\u_j$ are correlated.
 \slab{frame-application-transformation}
 
 At Stage~2 of our workflow outlined in \sref{frame-solution}, a suitable
-$\transform$ needed in \eref{frame-transformation} is to be decided upon. In
-this example, we base $\transform$ on the one shown in
-\eref{probability-transformation} and reduce $\vu: \Omega \to \real^\nu$ to
-$\vz: \Omega \to [0, 1]^\nz$ so that the latter is uniformly distributed. In
-this case, the rightmost $\transform_1$ in \eref{probability-transformation} is
-simpler than what it is according to its original definition since the marginal
-distributions of \vz are already uniform. It should be understood that the
-model-order-reduction functionality of \eref{probability-transformation} is
-engaged; it eliminates redundant stochastic dimensions and, therefore, assists
-the subsequent interpolation.
+transformation $\transform$, which is required in \eref{frame-transformation},
+is decided upon. We utilize the one shown in \eref{probability-transformation}
+and reduce $\vu: \Omega \to \real^\nu$ to $\vz: \Omega \to [0, 1]^\nz$ so that
+the latter is uniformly distributed. In this case, the rightmost $\transform_1$
+in \eref{probability-transformation} is simplified since the marginals of \vz
+are already uniform. Note that the model-order-reduction functionality of the
+chosen $\transform$ is engaged; it eliminates redundant stochastic dimensions
+and, therefore, assists the subsequent interpolation.
 
-Note that the chosen $\transform$ makes \vz conform to the requirements listed
-in \sref{frame-transformation}. Namely, the codomain of \vz is $[0, 1]^\nz$, and
-it has the smallest number of dimensions that are needed to preserve the desired
-level of accuracy.
+The result is that the obtained vector \vz conforms to the requirements listed
+in \sref{frame-transformation}: the codomain of \vz is $[0, 1]^\nz$, and it has
+the smallest number of dimensions that are necessary in order to preserve a
+certain level of accuracy.
 
-The transformation is also depicted in \fref{frame-application}; see the small
-box to the right of the ``black box'' described earlier. In this particular
-example, the dimensionality is found to be the same before and after
-$\transform$. The depicted component takes an assignment of the auxiliary
-variables $\z_1$ and $\z_2$ and outputs the execution times $\u_1$ and $\u_2$ in
+In \fref{frame-application}, $\transform$ is depicted as a small square. In this
+particular example, the stochastic dimensionality is found to be the same before
+and after $\transform$, which is indicated by the two incoming and two outgoing
+arrows. The depicted component takes an assignment of the auxiliary variables
+$\z_1$ and $\z_2$ and outputs the execution times $\u_1$ and $\u_2$ in
 accordance with their joint distribution.
 
-In what follows, we proceed directly to discussing Stage~4 since Stage~3, which
-is given in the middle of \fref{frame-application}, is standard: using a number
-of strategic invocations of the simulator, it yields a light surrogate for the
+In what follows, we proceed directly to Stage~4 since Stage~3, which is depicted
+in the middle of \fref{frame-application}, is standard: using a number of
+strategic invocations of the simulator, it delivers a light surrogate for the
 simulator; in \fref{frame-application}, this surrogate corresponds to the small
 rounded rectangle.
 
