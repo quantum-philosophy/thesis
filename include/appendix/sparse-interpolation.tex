@@ -1,7 +1,7 @@
 Let $\f: [0, 1] \to \real$ be a function in $\continuous([0, 1])$, which is the
 space of continuous functions defined on $[0, 1]$. The function is approximated
 by virtue of the following interpolation formula:
-\begin{equation} \elab{interpolant-tensor-1d}
+\begin{equation} \elab{interpolant-single}
   \f \approx \interpolant{1}{i}(\f)
   = \sum_{j \in \tensorindex{1}{i}} \f(\x_{ij}) e_{ij}.
 \end{equation}
@@ -28,8 +28,8 @@ defined on $[0, 1]^n$. The function is approximated as
 where $\vi = (i_k) \in \natural^n$ and $\vj = (j_k) \in \natural^n$ are indices
 specifying levels and orders, respectively. In the above formula,
 \begin{align}
-  & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \elab{interpolant-tensor-grid} \\
-  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \elab{interpolant-tensor-basis}
+  & \X_{\vi} = \left\{ \vx_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset [0, 1]^n \text{ and} \elab{interpolant-multiple-grid} \\
+  & \E_{\vi} = \left\{ e_{\vi \vj}: \vj \in \tensorindex{n}{\vi} \right\} \subset \continuous([0, 1]^n) \elab{interpolant-multiple-basis}
 \end{align}
 are the nodes and functions, respectively, and $\tensorindex{n}{\vi} \subset
 \natural^n$ is an index set. The cardinality of $\tensorindex{n}{\vi}$ depends
@@ -62,7 +62,7 @@ it to drastically reduce the number of collocation nodes.
 Define
 \begin{align}
   & \interpolant{1}{-1} = 0, \nonumber \\
-  & \Delta\interpolant{1}{i} = \interpolant{1}{i} - \interpolant{1}{i - 1}, \text{ and} \elab{interpolant-tensor-delta-1d} \\
+  & \Delta\interpolant{1}{i} = \interpolant{1}{i} - \interpolant{1}{i - 1}, \text{ and} \elab{interpolant-single-delta} \\
   & \Delta\interpolant{n}{\vi} = \bigotimes_{k = 1}^n \Delta\interpolant{1}{i_k}. \nonumber
 \end{align}
 Then the Smolyak algorithm of level \ls is
@@ -118,8 +118,7 @@ that
 \end{equation}
 The above condition can be satisfied by an appropriate choice of collocation
 nodes and basis functions. Assuming that \eref{interpolant-tensor-exactness}
-holds and using \eref{interpolant-tensor-1d} and
-\eref{interpolant-tensor-delta-1d},
+holds and using \eref{interpolant-single} and \eref{interpolant-single-delta},
 \[
   \Delta\interpolant{1}{i}(\f) = \sum_{j \in \Delta\tensorindex{1}{i}} \left(\f(\x_{ij}) - \interpolant{1}{i - 1}(\f)(\x_{ij})\right) e_{ij}
 \]
