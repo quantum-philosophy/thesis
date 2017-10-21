@@ -22,9 +22,9 @@ approximated by means of the following interpolant:
   = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}}
   \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) e_{\vi \vj} \end{equation}
 where $\vi \in \natural^\nz$ is called a level index; $\vj \in \natural^\nz$ is
-called an order index; $\{ \vx_{\vi \vj} \}$ and $\{ e_{\vi \vj} \}$ are
-collocation nodes and basis functions, respectively; $\{ \Delta(\g \circ
-\transform)(\vx_{\vi \vj}) \}$ are hierarchical surpluses defined in
+called an order index; $\set{\vx_{\vi \vj}}$ and $\set{e_{\vi \vj}}$ are
+collocation nodes and basis functions, respectively; $\set{\Delta(\g \circ
+\transform)(\vx_{\vi \vj})}$ are hierarchical surpluses defined in
 \eref{interpolant-sparse-surplus}; and $\Delta\sparseindex{\nz}{\ls}$ and
 $\Delta\tensorindex{\nz}{\vi}$ are index sets defined in
 \eref{interpolant-sparse-index-delta} and \eref{interpolant-tensor-index-delta},
@@ -67,12 +67,12 @@ present them here.
 
 The open Newton--Cotes rule of level $i \in \natural$ is
 \[
-  \X^1_i = \left\{ \x_{ij}: j \in \tensorindex{1}{i} \right\}
+  \X^1_i = \set{\x_{ij}}{j \in \tensorindex{1}{i}}
 \]
 where
 \begin{align*}
   & \x_{ij} = \frac{j + 1}{n_i + 1}, \\
-  & \tensorindex{1}{i} = \left\{ i - 1 \right\}_{i = 1}^{n_i}, \text{ and} \\
+  & \tensorindex{1}{i} = \set{i - 1}_{i = 1}^{n_i}, \text{ and} \\
   & n_i = 2^{i + 1} - 1.
 \end{align*}
 \fref{frame-grid} depicts the first three levels of this rule. It can be seen
@@ -126,7 +126,7 @@ the continuation. For $i = 0$ and $j = 0$,
 \[
   w_{00} = 1.
 \]
-For $i > 0$ and $j \in \{ 0, n_i - 1 \}$,
+For $i > 0$ and $j \in \set{0, n_i - 1}$,
 \[
   w_{ij} = \frac{2}{n_i + 1}.
 \]
@@ -188,18 +188,18 @@ single level index
 \[
   \vi_{\ls} \in \sparseindex{\nz}{\ls - 1}
 \]
-is chosen where $\sparseindex{\nz}{-1} = \{ \v{0} \}$. This index gives birth to
-$\Delta\sparseindex{\nz}{\ls}$ and $\{ \Delta\tensorindex{\nz}{\vi}: \vi \in
-\Delta\sparseindex{\nz}{\ls} \}$, forming the increment given on the right-hand
+is chosen where $\sparseindex{\nz}{-1} = \set{\v{0}}$. This index gives birth to
+$\Delta\sparseindex{\nz}{\ls}$ and $\set{\Delta\tensorindex{\nz}{\vi}}{\vi \in
+\Delta\sparseindex{\nz}{\ls}}$, forming the increment given on the right-hand
 side of \eref{frame-interpolant}.
 
 The level index set $\Delta\sparseindex{\nz}{\ls}$ contains so-called admissible
 forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of an index
 \vi are given by
 \[
-  \{ \vi + \v{1}_k \}_{k = 1}^\nz
+  \set{\vi + \v{1}_k}_{k = 1}^\nz
 \]
-where $\v{1}_k \in \{ 0, 1 \}^\nz$ is a vector whose elements are zero except
+where $\v{1}_k \in \set{0, 1}^\nz$ is a vector whose elements are zero except
 for element $k$ that is equal to unity. An index \vi is called admissible if its
 inclusion into the index set $\sparseindex{\nz}{\ls}$ under consideration keeps
 the set admissible. Finally, $\sparseindex{\nz}{\ls}$ is admissible if it
@@ -207,7 +207,7 @@ satisfies the following condition \cite{klimke2006}:
 \[
   \vi - \v{1}_k \in \sparseindex{\nz}{\ls}
 \]
-for $\vi \in \sparseindex{\nz}{\ls}$ and $k \in \{ \range{1}{\nz} \}$ where the
+for $\vi \in \sparseindex{\nz}{\ls}$ and $k \in \set{\range{1}{\nz}}$ where the
 cases with $i_k = 0$ need no check.
 
 Let us now turn to the content of $\Delta\tensorindex{\nz}{\vi}$ where $\vi =
@@ -233,8 +233,8 @@ indices of these nodes are
   & (j_1, \dots, 2 j_k + 2,              \dots, j_{\nz}).
 \end{align*}
 The above refinement procedure should be undertaken for each level index $\vi
-\in \Delta\sparseindex{\nz}{\ls}$ with respect to each dimension $k \in \{
-\range{1}{\nz} \}$.
+\in \Delta\sparseindex{\nz}{\ls}$ with respect to each dimension $k \in
+\set{\range{1}{\nz}}$.
 
 The choice of $\vi_{\ls} \in \sparseindex{\nz}{\ls - 1}$ at each step \ls in
 \eref{frame-interpolant} is made as follows. First, each index can be picked at
@@ -256,7 +256,7 @@ criterion. Given two additional user-defined constants \error{a} and \error{r},
 which are referred to as the absolute and relative errors, respectively, the
 process is terminated as soon as
 \begin{equation} \elab{frame-stop}
-  \max_{\vi \vj} \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj})} \leq \max \left\{ \error{a}, \error{r} (\g_\maximum - \g_\minimum) \right\}
+  \max_{\vi \vj} \absolute{\Delta(\g \circ \transform)(\vx_{\vi \vj})} \leq \max \set{\error{a}, \error{r} (\g_\maximum - \g_\minimum)}
 \end{equation}
 where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed
 values of \g, respectively. The left-hand side of \eref{frame-stop} corresponds
@@ -312,8 +312,8 @@ interpolation.
 The pseudocode of the construction stage is given in \aref{frame-construction}.
 The input is a subroutine called Algorithm~G that evaluates $\g \circ
 \transform$. The output is a structure \texttt{interpolant} that contains the
-artifacts of the interpolation. These artifacts are a set of tuples $\{
-(\v{\iota}_k, \Delta\g(\vx_{\v{\iota}_k})) \}$, which is a comprehensive
+artifacts of the interpolation. These artifacts are a set of tuples
+$\set{(\v{\iota}_k, \Delta\g(\vx_{\v{\iota}_k}))}$, which is a comprehensive
 description of a hierarchical interpolant. The pseudocode works as follows.
 
 Line 1: Each iteration of the loop corresponds to an interpolation step \ls in
@@ -332,8 +332,8 @@ functionality at the beginning of the next iteration.
 
 Line 3: The \texttt{grid} object represents the utilized interpolation grid, and
 its \texttt{Compute} method calculates the collocation nodes that correspond to
-the given indices, that is, $\{ \vx_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k
-\}$; see \sref{frame-grid} for more details.
+the given indices, that is, $\set{\vx_{\v{\iota}_k}}$ based on
+$\set{\v{\iota}_k}$; see \sref{frame-grid} for more details.
 
 Line 4: Algorithm~G evaluates $\g \circ \transform$ at the collocation nodes.
 This is by far the most time consuming operation of the algorithm as \g is
@@ -348,7 +348,7 @@ on.
 
 Line 6: The \texttt{Subtract} subroutine computes the difference between the
 actual and approximated values of \g, which yields the hierarchical surpluses
-$\{ \Delta(\g \circ \transform)(\vx_{\v{\iota}_k}) \}$ (see
+$\set{\Delta(\g \circ \transform)(\vx_{\v{\iota}_k})}$ (see
 \eref{interpolant-sparse-surplus}) of the current interpolation step.
 
 Line 7: The \texttt{Score} method of \texttt{strategy} calculates the scores of
@@ -371,8 +371,8 @@ interpolation steps taken.
 
 Line 4: The \texttt{basis} object represents the utilized interpolation basis,
 and its \texttt{Compute} method evaluates the basis functions that correspond to
-the given indices, that is, $\{ e_{\v{\iota}_k} \}$ based on $\{ \v{\iota}_k
-\}$, at arbitrary points; see \sref{frame-basis}.
+the given indices, that is, $\set{e_{\v{\iota}_k}}$ based on
+$\set{\v{\iota}_k}$, at arbitrary points; see \sref{frame-basis}.
 
 It is worth noting that the \texttt{strategy}, \texttt{grid}, and \texttt{basis}
 objects conform to certain interfaces and can be easily swapped out. This makes
