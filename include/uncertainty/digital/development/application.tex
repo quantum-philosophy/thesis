@@ -19,8 +19,8 @@ the \nt tasks of the application has a start time and a finish time, which are
 denoted by $b_i$ and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$
 and $\v{d} = (d_i)_{i = 1}^\nt$. Then other timing characteristics can be
 derived from $\v{b}$ and $\v{d}$. For example, the end-to-end delay of the
-application---which is the difference between the finish time of the latest task
-and the start time of the earliest task---is as follows:
+application, which is the difference between the finish time of the latest task
+and the start time of the earliest task, is as follows:
 \begin{equation} \elab{frame-delay}
   \text{End-to-end delay}
   = \max_{i = 1}^\nt d_i - \min_{i = 1}^\nt b_i.

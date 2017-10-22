@@ -129,8 +129,8 @@ As shown in \eref{chaos-inner-product} and \eref{chaos-projection}, each
 coefficient $\hat{\g}_{\vi}$ is an \nz-dimensional integral of the product of \g
 and $\psi_{\vi}$. In general, this integral should be computed numerically as
 described in \xref{sparse-integration}. Specifically, an adequate
-\nz-dimensional quadrature $\quadrature{\nz}{\lq}$---which is a set of
-\nz-dimensional points accompanied by a set of scalar weights---is to be
+\nz-dimensional quadrature $\quadrature{\nz}{\lq}$, which is a set of
+\nz-dimensional points accompanied by a set of scalar weights, is to be
 utilized. The result is
 \begin{equation} \elab{chaos-coefficient}
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
@@ -161,8 +161,8 @@ which implicitly decides on the content of the index set
 $\tensorindex{\nz}{\lq}$ used in \eref{chaos-coefficient}, should be related as
 $\sparseindex{\nz}{\lc} \subseteq \sparseindex{\nz}{\lq}$.
 
-In the case of Gaussian quadratures---which is a broad, potent class of
-quadratures introduced in \xref{sparse-integration}---a quadrature of level \lq
+In the case of Gaussian quadratures, which is a broad and potent class of
+quadratures introduced in \xref{sparse-integration}, a quadrature of level \lq
 is exact for polynomials of total order up to $2 \lq + 1$ \cite{heiss2008}.
 Therefore, in this very common case, an adequate quadrature can be constructed
 by ensuring that $\lq \geq \lc$.

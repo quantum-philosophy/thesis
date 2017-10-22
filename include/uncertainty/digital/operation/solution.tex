@@ -208,11 +208,11 @@ Let us now discuss validation, which corresponds to the middle blue box in
 \fref{brain-overview}. Similarly to other nontrivial models, the one presented
 in \sref{brain-predictive-model} has a number of hyperparameters. Examples
 include the number of recurrent layers \nl, number of units per layer \nu, and
-probability of dropout $\rho_\drop$. Unlike ordinary parameters---which are to
-be optimized during training as discussed earlier---hyperparameters are to be
-set prior to training and kept unchanged thereafter. From the examples given, it
-is apparent that the impact of hyperparameters is profound. Hence, they should
-be tuned with great care.
+probability of dropout $\rho_\drop$. Unlike ordinary parameters, which are to be
+optimized during training as discussed earlier, hyperparameters are to be set
+prior to training and kept unchanged thereafter. From the examples given, it is
+apparent that the impact of hyperparameters is profound. Hence, they should be
+tuned with great care.
 
 The validation set $G_\validation$ is used to assess the performance of the
 model trained (using $G_\training$ as usual) with different configurations of
@@ -226,15 +226,15 @@ time-consuming operation. This means that a brute-force search in the space of
 the hyperparameters for the best configuration is impractical; therefore, a
 certain intelligent strategy should be followed. In our workflow, we use the
 Hyperband algorithm \cite{li2016}. Instead of adaptively choosing new
-configurations to evaluate---which is the case with many algorithms of this
-kind---Hyperband adaptively allocates resources to configurations chosen at
-random, which is shown to be a highly efficient strategy. In particular, the
-algorithm allows one to reduce computation time by promptly eliminating overtly
-inadequate configurations of the hyperparameters. In this context,
-\emph{resources} refers to a user-defined measure of how extensively a
-configuration is to be exercised. For instance, it can be the amount of
-wall-clock time spent or the number of training steps taken; in our experiments
-given in \sref{brain-results}, we use the latter.
+configurations to evaluate, which is the case with many algorithms of this kind,
+Hyperband adaptively allocates resources to configurations chosen at random,
+which is demonstrated to be an efficient strategy. In particular, the algorithm
+allows one to reduce computation time by promptly eliminating overtly inadequate
+configurations of the hyperparameters. In this context, \emph{resources} refers
+to a user-defined measure of how extensively a configuration is to be exercised.
+For instance, it can be the amount of wall-clock time spent or the number of
+training steps taken; in our experiments given in \sref{brain-results}, we use
+the latter.
 
 Let us now turn to testing; see the rightmost blue box in \fref{brain-overview}.
 After a trained model has been selected during the validation step, it has to be

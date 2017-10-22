@@ -58,11 +58,11 @@ granted to one configuration is set to four training epochs, which correspond to
 $4 \times 0.7 \times 2 \times 10^6 = 5.6 \times 10^6$ resource-usage profiles or
 $5.6 \times 10^6 \div 64 = 87{,}500$ training steps.
 
-The aforementioned exploration---which encompasses both training and
-validation---takes approximately 15 days to finish. During this process, we run
-up to four learning sessions in parallel, which typically keeps all the eight
-cores busy. It should be noted that, since the training, validation, and testing
-data sets have been cached on disk as a result of the data pipeline described in
+The aforementioned exploration, which encompasses both training and validation,
+takes approximately 15 days to finish. During this process, we run up to four
+learning sessions in parallel, which typically keeps all the eight cores busy.
+It should be noted that, since the training, validation, and testing data sets
+have been cached on disk as a result of the data pipeline described in
 \sref{brain-data-pipeline}, individual learning sessions do not have any
 overhead in this regard. It is also worth noting that the machine utilized in
 these experiments has no modern \up{GPU}s; therefore, there is a large room for

@@ -234,8 +234,8 @@ equations:
 \[
   (\m{I} - \m{E}^\ns) \vs_\ns = \v{w}_\ns.
 \]
-Since $\m{E}$ is the matrix exponential---which can be seen in
-\eref{matrix-exponential}---the above system can be rewritten as follows:
+Since $\m{E}$ is the matrix exponential, which can be seen in
+\eref{matrix-exponential}, the above system can be rewritten as follows:
 \[
   (\m{I} - \m{U} e^{\m{\Lambda} \period} \transpose{\m{U}}) \vs_\ns = \v{w}_\ns
 \]
@@ -309,16 +309,16 @@ with its default configuration, and they follow the principle described in
 \sref{temperature-model}. The sampling interval \dt of power and temperature
 profiles is set to 1~ms.
 
-For comparison purposes, we consider two alternative techniques, namely the one
-based on iterative transient analysis---which is introduced in
-\sref{dynamic-steady-prior}---and the one based on the fast Fourier
-transform---which is mentioned in \sref{dynamic-steady-solution}---since they
-are comparable with the proposed technique in terms of accuracy. In the case of
-transient analysis, we evaluate both the fast analytical solution described in
+For comparison purposes, we consider two alternative techniques---namely the one
+based on iterative transient analysis, which is introduced in
+\sref{dynamic-steady-prior}, and the one based on the fast Fourier transform,
+which is mentioned in \sref{dynamic-steady-solution}, since they are comparable
+with the proposed technique in terms of accuracy. In the case of transient
+analysis, we evaluate both the fast analytical solution described in
 \sref{transient-solution} and the one implemented in HotSpot, and the
 corresponding iterative calculation is undertaken until the \ac{NRMSE} relative
 to the dynamic steady-state temperature profile computed by means of the
-proposed method---which is exact---is less than 1\%.
+proposed method, which is exact, is less than 1\%.
 
 \inputfigure{dream-dynamic-steady-speed-steps}
 First of all, we vary the period \period of power and temperature
