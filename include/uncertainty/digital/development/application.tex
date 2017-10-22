@@ -136,17 +136,17 @@ arrows. The depicted component takes an assignment of the auxiliary variables
 $\z_1$ and $\z_2$ and outputs the execution times $\u_1$ and $\u_2$ in
 accordance with their joint distribution.
 
-In what follows, we proceed directly to Stage~4 since Stage~3, which is depicted
-in the middle of \fref{frame-application}, is standard: using a number of
-strategic invocations of the simulator, it delivers a light surrogate
-$\interpolant{\nz}{\ls}(\g)$ for the simulator; in \fref{frame-application}, it
-corresponds to the small rounded rectangle.
+In what follows, we proceed directly to Stage~4 since Stage~3, which is given in
+the middle of \fref{frame-application}, is standard: using a number of strategic
+invocations of the simulator of \g (the ``black box''), it delivers a light
+representation $\interpolant{\nz}{\ls}(\g)$, which is illustrated by a small
+rounded rectangle in \fref{frame-application}.
 
 \subsection{Post-Processing}
 
 Having constructed the interpolant $\interpolant{\nz}{\ls}(\g)$, the designer
-proceeds to working solely with this interpolant, which corresponds to Stage~4
-of our framework.
+starts to work solely with this interpolant, which corresponds to Stage~4 of our
+framework.
 
 Suppose the designer is interested in the probability distribution of \g. In
 this scenario, $\interpolant{\nz}{\ls}(\g)$ should be sampled, which is
@@ -155,17 +155,17 @@ corresponds roughly to \aref{frame-evaluation}: the interpolant receives $\z_1$
 and $\z_2$ and returns an approximation of the value of \g at that point. Recall
 that the computational cost of this sampling is negligible since \g is not
 involved. The collected samples, which are denoted by $G$ in
-\fref{frame-application}, are subsequently used in order to estimate the
+\fref{frame-application}, are then utilized in order to estimate the
 distribution of \g.
 
 \inputfigure{frame-density}
 \fref{frame-density} depicts the result. The blue line shows the \ac{PDF} of \g
-computed by applying kernel density estimation \cite{hastie2013} to the obtained
-set of samples $G$. The yellow line, which is barely visible behind the blue
-line, shows the true density of \g; its calculation is explained in
-\sref{frame-results}. It can be seen that our solution closely matches the exact
-one. Additionally, the orange line illustrates the estimate that one would
-obtain if one sampled \g directly using the same number of \g's evaluations as
-the one consumed by our framework. It can be seen that, given the same budget,
-the solution delivered by our technique is substantially closer to the true one
-than the one delivered by direct sampling.
+computed by applying kernel density estimation \cite{hastie2013} to the data set
+$G$. The yellow line, which is barely visible behind the blue line, shows the
+actual density of \g; its calculation is explained in \sref{frame-results}. It
+can be seen that our solution closely matches the exact one. In addition, the
+orange line illustrates the estimate that the designer would obtain if \g was
+sampled directly using the same number of evaluations as the one consumed by the
+proposed framework. It can be seen that, given the same budget, the solution
+delivered by our technique is substantially closer to the exact one than the one
+delivered by direct sampling.
