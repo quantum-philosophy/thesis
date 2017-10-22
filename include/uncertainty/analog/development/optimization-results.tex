@@ -58,8 +58,8 @@ discussed in \sref{chaos-transient-results}.
 \inputtable{chaos-optimization-accuracy}
 The obtained results are displayed in \tref{chaos-optimization-accuracy} where
 we consider a quad-core platform ($\np = 4$) with 10 randomly generated
-applications and vary the level of polynomial expansions \lc from 1 to 5. The
-errors for the three components of $\vg = (E, Q, \life)$ are denoted by
+applications and vary the level of polynomial expansions \lc from one to five.
+The errors for the three components of $\vg = (E, Q, \life)$ are denoted by
 \error{E}, \error{Q}, and \error{\life}, respectively. Each error metric shows
 the distance between the empirical probability distributions produced by our
 approach and the ones produced by direct sampling. The measure of this distance
@@ -162,9 +162,9 @@ and
   & \life(\schedule) \leq \life_\minimum.
 \end{align*}
 
-We consider 5 platforms with the number of processing elements \np taking values
-in $\set{2^i}_{i = 1}^5$ and 10 applications with the number of tasks \nt equal
-to $20 \, \np$; therefore, there are 50 problems in total. In
+We consider five platforms with the number of processing elements \np taking
+values in $\set{2^i}_{i = 1}^5$ and 10 applications with the number of tasks \nt
+equal to $20 \, \np$; therefore, there are 50 problems in total. In
 \eref{chaos-optimization-constraints}, $\rho_\burn$ and $\rho_\wear$ are set to
 0.01. Due to the diversity of the addressed problems, $\period_\maximum$,
 $\q_\maximum$, and $\life_\minimum$ are found individually for each problem in
