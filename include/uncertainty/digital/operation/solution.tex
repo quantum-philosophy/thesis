@@ -108,7 +108,7 @@ The input to the predictive model is a single \ng-dimensional data point, which
 can be seen on the left-hand side of \fref{brain-predictive-model}. Similarly,
 the output is a single \ng-dimensional data point, which is depicted on the
 right-hand side of \fref{brain-predictive-model}. The input $\vg_{ij}$ is the
-value of the resource usage of a single task at time step $j$, and the output
+value of the resource usage of a single task at time step~$j$, and the output
 $\hat{\vg}_{i, j + 1}$ is a one-step-ahead prediction of this usage.
 
 The core of the model is formed by a number of recurrent layers. In
@@ -256,22 +256,22 @@ once, and it is during testing that we make and assess multiple-step-ahead
 predictions.
 
 In order to calculate long-rage predictions, we use refeeding: at time step~$j$,
-the predicted value $\hat{\vg}_{i, j + 1}$ of the resource usage of task $i$ is
+the predicted value $\hat{\vg}_{i, j + 1}$ of the resource usage of task~$i$ is
 fed to the model as if it was the actual resource usage $\vg_{i, j + 1}$ at time
-step $j + 1$, which is not yet known at time step $j$. At this point, it might
+step $j + 1$, which is not yet known at time step~$j$. At this point, it might
 be helpful to consider the example given in \fref{brain-application}. The
 process continues until all the desired $h$ future values are estimated. It is
 natural to expect that the more accurate the one-step-ahead prediction is, the
 more accurate the multiple-step-ahead one becomes.
 
 Consider now how a trained predictive model might be used in practice.
-Potentially at each time step $j$, the next $h$ values of the resource usage of
+Potentially at each time step~$j$, the next $h$ values of the resource usage of
 task~$i$, that is, $\range{\hat{\vg}_{i, j + 1}}{\hat{\vg}_{i, j + h}}$, might
 have to be estimated. Therefore, in order to test the model properly, we have to
 consider all the time steps of the profile in question and make $h$ predictions
 at each time step. An important aspect to note is that the state of the model's
 memory should be saved before computing $\range{\hat{\vg}_{i, j +
-1}}{\hat{\vg}_{i, j + h}}$ at time step $j$ and restored before feeding $\vg_{i,
+1}}{\hat{\vg}_{i, j + h}}$ at time step~$j$ and restored before feeding $\vg_{i,
 j + 1}$ in order to advance to time step $j + 1$. The reason is that the memory
 becomes contaminated when one feeds predictions instead of observations into the
 model.

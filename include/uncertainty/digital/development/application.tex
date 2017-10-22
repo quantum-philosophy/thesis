@@ -52,7 +52,7 @@ which is defined in \eref{power-profile}, as follows:
   = \sum_{i = 1}^\np \int \p_i(t) \d t
   \approx \dt \norm[1]{\mp}
 \end{equation}
-where $\p_i$ denotes the power consumption of processing element $i$, \dt is the
+where $\p_i$ denotes the power consumption of processing element~$i$, \dt is the
 sampling interval, and $\norm[1]{\cdot}$ stands for the Manhattan norm. Since
 $\v{b}$ and $\v{d}$ depend on \vu, the power consumption of the system is also
 dependent on \vu. Consequently, the total energy given in \eref{frame-energy}
@@ -67,7 +67,7 @@ attains during an application run can be estimated using a temperature profile
   = \max_{i = 1}^\np \sup_{t} \q_i(t)
   \approx \norm[\infty]{\mq}
 \end{equation}
-where $\q_i$ denotes the heat dissipation of processing element $i$, and
+where $\q_i$ denotes the heat dissipation of processing element~$i$, and
 $\norm[\infty]{\cdot}$ stands for the uniform norm. Since the power consumption
 of the platform is affected by \vu, the corresponding heat dissipation is
 influenced by \vu as well. Therefore, the maximum temperature in
@@ -107,8 +107,8 @@ available. Without loss of generality, each marginal distribution is a
 four-parameter beta distribution shown in \eref{beta-distribution}. Furthermore,
 the execution times are assumed to be correlated based on the dependencies
 between the corresponding tasks as defined by the structure of the task graph of
-the application. Specifically, the closer task $i$ and task $j$ are in the graph
-as measured by the number of edges between vertex $i$ and vertex $j$, the
+the application. Specifically, the closer task~$i$ and task~$j$ are in the graph
+as measured by the number of edges between vertex~$i$ and vertex~$j$, the
 stronger $\u_i$ and $\u_j$ are correlated.
 
 \subsection{Probability Transformation}

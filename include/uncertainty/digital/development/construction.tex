@@ -194,13 +194,13 @@ $\Delta\sparseindex{\nz}{\ls}$ and $\set{\Delta\tensorindex{\nz}{\vi}}{\vi \in
 side of \eref{frame-interpolant}.
 
 The level index set $\Delta\sparseindex{\nz}{\ls}$ contains so-called admissible
-forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of an index
-\vi are given by
+forward neighbors of the chosen $\vi_{\ls}$. The forward neighbors of an
+index~\vi are given by
 \[
   \set{\vi + \v{1}_k}_{k = 1}^\nz
 \]
 where $\v{1}_k \in \set{0, 1}^\nz$ is a vector whose elements are zero except
-for element $k$ that is equal to unity. An index \vi is called admissible if its
+for element~$k$ that is equal to unity. An index~\vi is called admissible if its
 inclusion into the index set $\sparseindex{\nz}{\ls}$ under consideration keeps
 the set admissible. Finally, $\sparseindex{\nz}{\ls}$ is admissible if it
 satisfies the following condition \cite{klimke2006}:
@@ -222,7 +222,7 @@ neighbor $\vi - \v{1}_m$ and each $\vj \in \Delta\tensorindex{\nz}{\vi -
   s_{\vi - \v{1}_m, \vj} \geq \error{s}
 \]
 where \error{s} is a user-defined constant referred to as the score error. If
-the condition holds, the forward neighbors of \vj in dimension $k$ are added to
+the condition holds, the forward neighbors of \vj in dimension~$k$ are added to
 $\Delta\tensorindex{\nz}{\vi}$. This procedure is illustrated in
 \fref{frame-grid} for open Newton--Cotes rules in one dimension. The arrows
 emerging from a collocation node connect the node with its forward neighbors. In
@@ -239,13 +239,13 @@ The above refinement procedure should be undertaken for each level index $\vi
 The choice of $\vi_{\ls} \in \sparseindex{\nz}{\ls - 1}$ at each step \ls in
 \eref{frame-interpolant} is made as follows. First, each index can be picked at
 most once. The rest is resolved by prioritizing the candidates. It is reasonable
-to compute the priority of a level index \vi based on the scores of the order
+to compute the priority of a level index~\vi based on the scores of the order
 indices associated with this level index, that is, based on the scores of
 $\tensorindex{\nz}{\vi}$. We set the priority to the average score
 \[
   s_{\vi} = \frac{1}{\cardinality{\Delta\tensorindex{\nz}{\vi}}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} s_{\vi \vj}.
 \]
-Thus, at each step \ls, the index \vi with the highest $s_{\vi}$ is promoted to
+Thus, at each step \ls, the index~\vi with the highest $s_{\vi}$ is promoted to
 $\vi_{\ls}$.
 
 The final question to answer is the stopping condition of the approximation

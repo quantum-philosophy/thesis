@@ -75,19 +75,19 @@ hyperparameters as measured using $G_\validation$ ($0.1 \times 2 \times 10^6 = 2
 \times 10^5$ profiles). The total number of distinct configurations sampled by
 Hyperband is 62. It can be seen that the error changes rapidly at the bottom of
 the table and slows down toward the top. Relative to the least accurate trained
-model (rank 62), the error drops by around 22\% in the bottom 10 and by around
+model (rank~62), the error drops by around 22\% in the bottom 10 and by around
 3\% in the top 10 configurations. The overall accuracy improvement with respect
 to the bottommost configuration is around 36\%, which indicates that the
 validation step is highly beneficial.
 
-The best trained predictive model (rank 1) is found to have the following
+The best trained predictive model (rank~1) is found to have the following
 hyperparameters: $\nl = 3$, $\nu = 1600$, and $\rho_\drop = 0$. In general,
 larger architectures tend to outperform smaller ones, which is expected.
 However, there are complex configurations at the bottom of
 \tref{brain-validation} as well, which could be due to the dropout mechanism
 engaged in those cases. To elaborate, in these experiments, the impact of
 dropouts is found to be mostly neutral or negative; compare, for instance, the
-candidate solutions of rank 2 and 60. This could be due the amount of training
+candidate solutions of rank~2 and 60. This could be due the amount of training
 data being sufficient for regularizing the model.
 
 \tref{brain-validation} also shows an estimate of the memory required by each

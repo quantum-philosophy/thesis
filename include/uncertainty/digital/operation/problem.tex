@@ -1,19 +1,19 @@
 Consider a system of computers that is serving a stream of tasks which are
 distributed across the individual machines of the system by a resource manager.
 The tasks consume certain resources, such as \up{CPU} and memory, during their
-execution. Let task $i$ be characterized by a resource-usage profile defined as
+execution. Let task~$i$ be characterized by a resource-usage profile defined as
 a sequence of \ng-dimensional measurements taken with a certain sampling
 interval and captured by the following $\ng \times \nsi{i}$ matrix:
 \begin{equation} \elab{brain-profile}
   \mg_i = (\vg_{ij})_{j = 1}^\nsi{i}
 \end{equation}
-where $\vg_{ij} \in \real^\ng$ is the measurement taken at time step $j$, and
+where $\vg_{ij} \in \real^\ng$ is the measurement taken at time step~$j$, and
 \nsi{i} denotes the length of the sequence. Such information is called fine
 grained as it contains multiple measurements over the execution of the task as
 opposed to having only one aggregate measurement, such as the average or maximum
 value.
 
-Suppose now that the current time step with respect to task $i$ is $j$; an
+Suppose now that the current time step with respect to task~$i$ is $j$; an
 illustration for $j \in \set{3, 4, 5}$ is given in \fref{brain-application}.
 This means that $\range{\vg_{i1}}{\vg_{ij}}$ are known. Given these previous
 values, the objective is to estimate the next $h$ values of the sequence, which
