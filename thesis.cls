@@ -30,8 +30,8 @@
 
 \gdef\@abstractenglish{\input{include/abstract/english}}
 \gdef\@abstractswedish{\input{include/abstract/swedish}}
-\gdef\@acknowledgments{\input{include/acknowledgments}}
 \gdef\@dedication{\input{include/dedication}}
+\gdef\@foreword{\input{include/foreword}}
 \gdef\@university{include/assets/figures/university}
 
 \setmainlanguage{english}
@@ -212,8 +212,8 @@
     \cleardoublepage
   }
   {
-    \@acknowledgments
-    \addcontentsline{toc}{chapter}{Acknowledgments}
+    \@foreword
+    \addcontentsline{toc}{chapter}{Foreword}
     \cleardoublepage
   }
   {
