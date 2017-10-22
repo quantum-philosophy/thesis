@@ -1,30 +1,30 @@
 In this chapter, we have developed a framework for system-level analysis of
 electronic systems whose runtime behaviors depend on uncertain parameters. The
 proposed approach thrives on hierarchical interpolation guided by an advanced
-adaptation strategy, which makes the proposed framework general and suitable for
-studying various quantities that are of interest to the designer. Examples of
-such quantities include the end-to-end delay, total energy consumption, and
-maximum temperature of the system under consideration. Moreover, the hybrid
-adaptivity that the framework features makes it particularly suited for problems
-with idiosyncratic behaviors and steep response surfaces, which arise frequently
-in electronic systems due to their digital nature.
+adaptation strategy, which makes our framework general and suitable for studying
+various quantities that are of interest to the designer. Examples include the
+end-to-end delay, total energy consumption, and maximum temperature of the
+system. The hybrid adaptivity featured by the framework makes it particularly
+suited for problems with idiosyncratic behaviors and steep response surfaces,
+which often arise in electronic systems due to their nature.
 
-Given a means of evaluating the quantity of interest for a given outcome of the
-uncertain parameters and a description of the probability distribution of the
-parameters, the framework prescribes the steps that need to be taken in order to
-computationally efficiently characterize the quantity from the probabilistic
-perspective. More concretely, the framework delivers a light generative
+Provided a means of evaluating the quantity of interest for a given outcome of
+the uncertain parameters and a description of the probability distribution of
+the parameters, the proposed framework prescribes the steps that need to be
+taken in order to computationally efficiently characterize the quantity from the
+probabilistic perspective. Concretely, the framework delivers a light
 representation that allows for a straightforward calculation of the probability
-distribution of the quantity of interest and other accompanying statistics.
+distribution of the quantity of interest and other statistics about this
+quantity.
 
 The performance of our technique has been evaluated by addressing a number of
-problems that often arise in electronic-system design. The results delivered by
-our approach have been compared with ones produced by an advanced sampling
-technique with a large number of samples, and the comparison has shown that, for
-a fixed budget of evaluations of the quantity of interest, the framework
-achieves higher accuracy compared to direct simulations. Our technique has also
-been applied to a real-life problem, which has confirmed that the deployment of
-the framework in a real-life context is straightforward.
+problems that often appear in electronic-system design. The results delivered by
+our approach have been compared with the ones produced by an advanced sampling
+technique with a large number of samples. The comparison has shown that, for a
+fixed budget of evaluations of the quantity of interest, the framework achieves
+higher accuracy compared to direct sampling. Our technique has also been applied
+to a real-life problem, which has confirmed that the deployment of the framework
+in a real-life context is straightforward.
 
 Finally, note that, even though the proposed framework has been exemplified by
 considering random execution times and three specific quantities of interest, it
