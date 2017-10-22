@@ -234,7 +234,7 @@ follows:
   p(\u | H) \propto p(\hvh | \vz, \mu_\g, \sigma^2_\g, \sigma^2_\epsilon) p(\vz) p(\mu_\g) p(\sigma^2_\g) p(\sigma^2_\epsilon).
 \end{equation}
 Provided that there is a way to draw samples from \eref{bayes-posterior}, \g can
-be readily analyzed as we shall see in \sref{bayes-processing}. The problem,
+be readily analyzed, as we shall see in \sref{bayes-processing}. The problem,
 however, is that direct sampling of the posterior is difficult due to the data
 model involved in the likelihood function via \vh; see \eref{bayes-likelihood}.
 In order to circumvent this problem, we utilize Markov chain Monte Carlo
@@ -252,7 +252,7 @@ are mild, it is often difficult to pick an efficient proposal, that is, such a
 proposal that would yield a good approximation with as few evaluations of the
 posterior and thus of the data model in \sref{bayes-data-model} as possible.
 This choice is especially difficult in high-dimensional problems, and our
-problem---which involves around 30 parameters as we shall see in
+problem---which involves around 30 parameters, as we shall see in
 \sref{bayes-results}---is one them. Therefore, a careful construction of the
 proposal is an essential component of the proposed framework.
 
