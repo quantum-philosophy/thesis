@@ -2,8 +2,8 @@ Due to its nature, the variability originating from process variation is
 typically smooth and well behaved. In such cases, uncertainty quantification
 based on \ac{PC} expansions \cite{xiu2010} and other approximation techniques
 relying on global polynomials generally work well, which is demonstrated in
-\cref{uncertainty-analog-development}. On the other hand, the variability coming
-from such sources as workload often has steep gradients and favors
+\cref{uncertainty-process-development}. On the other hand, the variability
+coming from such sources as workload often has steep gradients and favors
 nondifferentiability and even discontinuity. In such cases, \ac{PC} expansions
 and similar techniques fail: they require extremely many evaluations of the
 quantity of interest in order to deliver an acceptable level of accuracy and are
@@ -50,7 +50,7 @@ representation, one can proceed to the calculation of the probability
 distribution of the quantity of interest, which, in general, is done via
 sampling followed by such techniques as kernel density estimation
 \cite{hastie2013}. The crucial point to note is that, analogously to the \ac{PC}
-expansions leveraged in \cref{uncertainty-analog-development}, this follow-up
+expansions leveraged in \cref{uncertainty-process-development}, this follow-up
 sampling does not involve the original system in any way, which implies that the
 operation costs practically nothing in terms of computation time.
 

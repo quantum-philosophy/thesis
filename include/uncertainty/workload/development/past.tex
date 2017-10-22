@@ -5,7 +5,7 @@ costs associated with direct sampling, a number of techniques have been
 introduced.
 
 We begin by noting that our work presented in
-\cref{uncertainty-analog-development} and thus the prior studies discussed in
+\cref{uncertainty-process-development} and thus the prior studies discussed in
 \sref{chaos-past} are of relevance to this section. However, since those
 techniques are designed for a different source of uncertainty, namely process
 variation, we do not discuss them separately here; see also
@@ -22,9 +22,9 @@ task scheduling by providing probabilistic bounds on the resource given to a
 task flow and the resource required by this task flow.
 
 Studying the literature on probabilistic analysis of electronic systems related
-to this chapter (and \cref{uncertainty-analog-development} for that matter), one
-can note a pronounced trend: the generality and straightforwardness of sampling
-methods tend to be lost. The proposed techniques typically \one~require
+to this chapter (and \cref{uncertainty-process-development} for that matter),
+one can note a pronounced trend: the generality and straightforwardness of
+sampling methods tend to be lost. The proposed techniques typically \one~require
 restrictive assumptions to be fulfilled, such as the absence of correlation;
 \two~are tailored to one concrete quantity of interest, such as the response
 time; and \three~require substantial effort in order to be deployed. However,
@@ -40,16 +40,16 @@ is wasteful.
 
 Some of the techniques mentioned earlier, in fact, preserve the generality and
 straightforwardness of sampling methods. An example is our probabilistic
-framework presented in \cref{uncertainty-analog-development}. The reason is that
-the construction of \ac{PC} expansions in this framework is undertaken by means
-of nonintrusive spectral projections \cite{xiu2010}, which, similarly to
+framework presented in \cref{uncertainty-process-development}. The reason is
+that the construction of \ac{PC} expansions in this framework is undertaken by
+means of nonintrusive spectral projections \cite{xiu2010}, which, similarly to
 sampling methods, do not need to look inside the ``black box.'' However, as
 motivated in \sref{frame-motivation}, nonsmoothness is a serious problem for
 global approximation based on polynomials. In particular, the convergence rate
 of \ac{PC} expansions deteriorates substantially in such cases, requiring
 partitioning the stochastic space in order to alleviate the problem. Therefore,
 it is not straightforward to apply such techniques as the one in
-\cref{uncertainty-analog-development} to sources of uncertainty that exhibit
+\cref{uncertainty-process-development} to sources of uncertainty that exhibit
 nonsmoothness.
 
 To conclude, the available techniques for probabilistic analysis of electronic
