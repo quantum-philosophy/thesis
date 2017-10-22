@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/10/02 Thesis]
+\ProvidesClass{thesis}[2017/10/22 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -209,7 +209,6 @@
   {
     \phantomsection
     \makeabstractswedish
-    \addcontentsline{toc}{chapter}{Sammanfattning}
     \cleardoublepage
   }
   {
