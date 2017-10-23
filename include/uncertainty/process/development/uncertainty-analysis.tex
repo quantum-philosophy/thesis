@@ -5,19 +5,20 @@ inputs to a set of outputs. The inputs are the uncertain parameters \vu, and the
 outputs are the quantities that the designer is interested in studying. The
 former can be, for instance, the effective channel length, gate oxide thickness,
 and threshold voltage, and the latter can be, for instance, the temperature
-profile, energy consumption, and maximum temperature of the considered system.
+profile, energy consumption, and maximum temperature of the system at hand.
 
 \inputfigure{chaos-overview}
 The major stages of our general approach are depicted in \fref{chaos-overview}.
 At Stage~1, the quantity of interest \g and the uncertain parameters \vu are
 specified. The quantity is given as a ``black-box'' function that operates on a
 particular outcome of the parameters. In order to evaluate \g, the designer is
-implicitly required to specify the considered system model, which also includes
-a power and a temperature model. At Stage~2, the uncertain parameters \vu are to
-be transformed into independent random variables \vz, since independence is a
-prerequisite of the subsequent calculations. At Stage~3, a surrogate for \g is
-constructed by means of the \ac{PC} decomposition. At Stage~4, the computed
-expansion is processed in order to obtain the desired statistics about \g.
+implicitly required to specify the system model being considered, which also
+includes a power and a temperature model. At Stage~2, the uncertain parameters
+\vu are to be transformed into independent random variables \vz, since
+independence is a prerequisite of the subsequent calculations. At Stage~3, a
+surrogate for \g is constructed by means of the \ac{PC} decomposition. At
+Stage~4, the computed expansion is processed in order to obtain the desired
+statistics about \g.
 
 \subsection{\problemtitle}
 \slab{chaos-formulation}

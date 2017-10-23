@@ -1,7 +1,7 @@
 In this section, we illustrate the importance of temperature analysis for
 design-space exploration and, more specifically, for reliability optimization.
 
-Among the commonly considered failure mechanisms (see \sref{aging-variation}),
+Among the commonly studied failure mechanisms (see \sref{aging-variation}),
 thermal cycling has arguably the most prominent dependence on temperature: as
 noted earlier, not only the average and maximum temperature but also the
 amplitude and frequency of temperature oscillations have a huge impact on the
@@ -49,10 +49,10 @@ steady-state temperature analysis has to be undertaken.
 \subsection{\problemtitle}
 \slab{dream-optimization-problem}
 
-In addition to the description given in \sref{system-model}, the considered
-platform with \np processing elements is to execute a periodic application with
-\nt tasks. The application is given as a directed acyclic graph whose vertices
-and edges correspond to the tasks and to data dependencies between these tasks,
+In addition to the description given in \sref{system-model}, the platform under
+consideration is to execute a periodic application with \nt tasks. The
+application is given as a directed acyclic graph whose vertices and edges
+correspond to the tasks and to data dependencies between these tasks,
 respectively; see \fref{dream-motivation-graph}. Each pair of a task and a
 processing element is characterized by an execution time and a power
 consumption, which are the characteristics that the task exhibits when it is

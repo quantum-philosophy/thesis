@@ -8,12 +8,12 @@ available online at \cite{eslab2017b}; see also \cite{eslab2017c}.
 
 \hiddensubsection{Data Pipeline}
 
-Recall that the considered data set is the Google cluster-usage traces
-\cite{reiss2011} introduced in \sref{brain-data-pipeline}. Without loss of
-generality, we focus on the consumption of one particular resource, namely
-\up{CPU}; thus, $\ng = 1$ in \eref{brain-profile}. In this regard, the data set
-provides two apposite pieces of information: the average and maximum \up{CPU}
-usage over five-minute intervals; we extract the former.
+Recall that we study the Google cluster-usage traces \cite{reiss2011}, which are
+introduced in \sref{brain-data-pipeline}. Without loss of generality, we focus
+on the consumption of one particular resource, namely \up{CPU}; thus, $\ng = 1$
+in \eref{brain-profile}. In this regard, the data set provides two apposite
+pieces of information: the average and maximum \up{CPU} usage over five-minute
+intervals; we extract the former.
 
 The grouping and indexing steps of our data pipeline, described in
 \sref{brain-data-pipeline} and depicted in \fref{brain-overview}, take
@@ -45,7 +45,7 @@ The optimization algorithm employed for minimizing the loss function is Adam
 its default settings.
 
 Let us now discuss the validation step, which corresponds to the middle blue box
-in \fref{brain-overview}. The considered hyperparameters are the number of
+in \fref{brain-overview}. The hyperparameters being considered are the number of
 recurrent layers \nl (the blue boxes in \fref{brain-predictive-model}), number
 of units per layer \nu (the double circles in \fref{brain-predictive-model}),
 and probability of dropout $\rho_\drop$; these hyperparameters are introduced in
@@ -109,7 +109,7 @@ model, we employ an alternative solution referred to as the reference solution.
 This alternative solution is based on random walk. It postulates that the best
 prediction of what will happen tomorrow is what happens today plus an optional
 random offset, which we set to zero. In other words, the next value of the
-resource usage of each considered task is estimated to be the current one, which
+resource usage of each analyzed task is estimated to be the current one, which
 subsequently results in four identical predictions at each time step.
 
 \inputfigure{brain-testing}

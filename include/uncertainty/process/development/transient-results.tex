@@ -83,7 +83,7 @@ estimated by our framework, and it is computed by sampling the constructed
 negligible overhead as noted in \sref{chaos-processing}.
 
 \inputtable{chaos-transient-accuracy}
-The considered values of \lc, \no, and $w$ are the sets $\set{i}_{i = 1}^7$,
+The studied values of \lc, \no, and $w$ are the sets $\set{i}_{i = 1}^7$,
 $\set{10^i}_{i = 2}^5$, and $\set{0, 0.5, 1}$, respectively. The three variants
 of $w$ correspond to the total dominance of $k_\OU$ ($w = 0$), perfect balance
 between $k_\SE$ and $k_\OU$ ($w = 0.5$), and total dominance of $k_\SE$ ($w =
@@ -180,18 +180,18 @@ described in \xref{probability-transformation}.
 First, we vary the number of processing elements \np, which directly affects the
 dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$; recall
 \sref{chaos-transient-application}. The results, including the dimensionality
-\nz of \vz, are given in \tref{chaos-transient-speed-elements} where the
-considered values of \np are $\set{2^i}_{i = 1}^5$ and $\ns = 10^3$. It can be
-seen that the variation patterns inherent to the fabrication process
-\cite{cheng2011} open a great possibility of model order reduction: \nz is
-observed to be at most 12 while the maximum number without reduction is 33 (1
-global variable and 32 local ones corresponding to the case with $\np = 32$).
-This reduction also depends on the floorplan, which is illustrated by the
-decrease of \nz when \np increases from 16 to 32 for $w = 1$. To elaborate, one
-floorplan is a four-by-four grid, a square, while the other an eight-by-four
-grid, a rectangle. Since both are fitted into square dies, the former is spread
-across the whole area, and the latter is concentrated along the middle line; the
-rest is due to the particularities of $k_\SE$.
+\nz of \vz, are given in \tref{chaos-transient-speed-elements} where $\np \in
+\set{2^i}_{i = 1}^5$ and $\ns = 10^3$. It can be seen that the variation
+patterns inherent to the fabrication process \cite{cheng2011} open a great
+possibility of model order reduction: \nz is observed to be at most 12 while the
+maximum number without reduction is 33 (1 global variable and 32 local ones
+corresponding to the case with $\np = 32$). The amount of reduction also depends
+on the floorplan, which is illustrated by the decrease of \nz when \np increases
+from 16 to 32 for $w = 1$. To elaborate, one floorplan is a four-by-four grid, a
+square, while the other an eight-by-four grid, a rectangle. Since both are
+fitted into square dies, the former is spread across the whole area, whereas the
+latter is concentrated along the middle line; the rest is due to the
+particularities of $k_\SE$.
 
 On average, the $k_\OU$ kernel ($w = 0$) requires the smallest number of
 variables while the mixture of the $k_\SE$ and $k_\OU$ kernels ($w = 0.5$)
