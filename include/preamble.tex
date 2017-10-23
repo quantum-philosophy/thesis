@@ -3,6 +3,7 @@
 %
 
 \usepackage[
+  datamodel=thesis,
   firstinits,
   hyperref,
   maxnames=10,
@@ -12,6 +13,18 @@
 ]{biblatex}
 
 \uspunctuation
+
+\begin{filecontents*}{thesis.dbx}
+\DeclareDatamodelFields[type=field,datatype=verbatim]{arxiv}
+\DeclareDatamodelEntryfields{arxiv}
+\end{filecontents*}
+
+\makeatletter
+\DeclareFieldFormat{arxiv}%
+{arXiv\addcolon\space\href{https://arxiv.org/\abx@arxivpath/#1}{\nolinkurl{#1}}}
+\makeatother
+
+\renewbibmacro*{eprint}{\printfield{arxiv}\newunit\newblock\printfield{eprint}}
 
 %
 % Sections

@@ -2,6 +2,7 @@
 *.bbl
 *.bcf
 *.blg
+*.dbx
 *.fdb_latexmk
 *.fls
 *.loa

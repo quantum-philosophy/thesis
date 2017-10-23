@@ -6,6 +6,7 @@ clean:
 	rm -f {,**/}*.bbl
 	rm -f {,**/}*.bcf
 	rm -f {,**/}*.blg
+	rm -f {,**/}*.dbx
 	rm -f {,**/}*.fdb_latexmk
 	rm -f {,**/}*.fls
 	rm -f {,**/}*.loa
