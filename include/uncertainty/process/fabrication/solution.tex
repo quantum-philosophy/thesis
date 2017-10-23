@@ -288,14 +288,14 @@ where $\u^*$ and $\m{J}$ are as in \sref{bayes-optimization}, \nu is the number
 of degrees of freedom, and $\alpha$ is a tuning constant controlling the
 standard deviation of the proposal. Now sampling the proposal in
 \eref{bayes-proposal} and evaluating the posterior in \eref{bayes-posterior} can
-be done in parallel. The obtained samples are then accepted or rejected
-subsequently as in the usual Metropolis--Hastings algorithm.
+be done in parallel. The obtained samples are then accepted or rejected as in
+the usual Metropolis--Hastings algorithm.
 
 Having completed the sampling procedure, we obtain a collection of samples of
 the parameterization $\u = \set{\vz, \mu_\g, \sigma^2_\g}$. The first portion of
-the drawn samples is typically discarded as being unrepresentative; this portion
-is known as the burn-in period. The preserved samples of \u are then passed
-through \eref{bayes-reduction} in order to compute samples of \g, which are $\nd
+the samples is typically discarded as being unrepresentative; this portion is
+known as the burn-in period. The preserved samples of \u are then passed through
+\eref{bayes-reduction} in order to compute samples of \g, which are $\nd
 \np$-dimensional. Denote the corresponding set of samples by $G$ and let its
 cardinality be \no.
 
