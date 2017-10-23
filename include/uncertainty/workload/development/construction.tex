@@ -7,16 +7,16 @@ these characteristics are interconnected and can be summarized as follows:
 ability to progressively refine the approximation, and \three~the ability to
 perform this refinement strategically by virtue of a fine-grained error control.
 
-Hierarchical interpolation is introduced in \xref{sparse-interpolation}, and
-here we rely heavily on the results given in that section. The mathematics
-presented in \xref{sparse-interpolation} as well as below is based on the
+Hierarchical interpolation is introduced in \xref{hierarchical-interpolation},
+and here we rely heavily on the results given in that section. The mathematics
+presented in \xref{hierarchical-interpolation} as well as below is based on the
 development in \cite{klimke2006, ma2009, jakeman2012}.
 
 Consider the quantity of interest \g as a function of \vz via $\transform$ as
 shown in \sref{frame-transformation}. Assume that \g belongs to $\continuous{[0,
 1]^\nz}$, the space of continuous functions on $[0, 1]^\nz$; the assumption is
-not limiting in practice. As shown in \xref{sparse-interpolation}, \g can be
-approximated by means of the following interpolant:
+not limiting in practice. As shown in \xref{hierarchical-interpolation}, \g can
+be approximated by means of the following interpolant:
 \begin{equation} \elab{frame-interpolant}
   \g \approx \interpolant{\nz}{\ls}(\g)
   = \interpolant{\nz}{\ls - 1}(\g) + \sum_{\vi \in \Delta\sparseindex{\nz}{\ls}} \sum_{\vj \in \Delta\tensorindex{\nz}{\vi}} \Delta(\g \circ \transform)(\vx_{\vi \vj}) e_{\vi \vj}
@@ -32,12 +32,12 @@ respectively.
 
 Due to the reasons clarified in \sref{frame-adaptivity}, the interpretation of
 \eref{frame-interpolant} used in this chapter is different from the one used in
-\xref{sparse-interpolation}. Specifically, $\ls \in \natural$ no longer
+\xref{hierarchical-interpolation}. Specifically, $\ls \in \natural$ no longer
 represents an interpolation level but rather an interpolation step. Accordingly,
 $\interpolant{\nz}{\ls}(\g)$ represents the interpolant obtained by a certain
 interpolation step. In addition, all the index sets discussed here are generally
 subsets of their full-fledged counterparts defined in
-\xref{sparse-interpolation}.
+\xref{hierarchical-interpolation}.
 
 Let us now turn to the choice of collocation nodes and basis functions.
 
@@ -46,8 +46,8 @@ Let us now turn to the choice of collocation nodes and basis functions.
 
 \inputfigure{frame-grid}
 In order to gain computational efficiency, the integration grid should be fully
-nested, which is explained in \xref{sparse-interpolation}. Such a grid can be
-constructed using the family of Newton--Cotes rules \cite{ma2009}. In one
+nested, which is explained in \xref{hierarchical-interpolation}. Such a grid can
+be constructed using the family of Newton--Cotes rules \cite{ma2009}. In one
 dimension, a Newton--Cotes rule is a set of equidistant nodes on $[0, 1]$. There
 are two types of Newton--Cotes rules: open and closed. The only difference
 between the two types is that the latter includes the endpoints, that is, 0 and
@@ -55,7 +55,7 @@ between the two types is that the latter includes the endpoints, that is, 0 and
 
 Technically, in order to be able to proceed to hierarchical interpolation, the
 chosen rules have to fulfill a certain condition, which is discussed in
-\xref{sparse-interpolation} and can be seen in
+\xref{hierarchical-interpolation} and can be seen in
 \eref{interpolant-tensor-exactness}. Closed Newton--Cotes rules satisfy this
 condition, and they are the ones used in the original version of local
 adaptivity presented in \cite{ma2009}. The open rules, on the other hand, do not
@@ -145,10 +145,10 @@ rather irregular on the other. Under these circumstances, it is natural to
 expect that, in order to attain the same accuracy, the first half should require
 much fewer collocation nodes than the other one; recall the example given in
 \fref{frame-motivation}. However, if we followed the usual construction
-procedure described in \xref{sparse-interpolation}, we would not be able to
-benefit from this idiosyncrasy. Both sides would be treated equally, and all the
-nodes of each interpolation level would be added to the interpolant, which is
-wasteful. The solution to this problem is to make the interpolation algorithm
+procedure described in \xref{hierarchical-interpolation}, we would not be able
+to benefit from this idiosyncrasy. Both sides would be treated equally, and all
+the nodes of each interpolation level would be added to the interpolant, which
+is wasteful. The solution to this problem is to make the interpolation algorithm
 adaptive, which we discuss next.
 
 \subsection{Hybrid Adaptivity}
@@ -162,12 +162,13 @@ possible nodes, we choose only those that are located in the regions with poor
 accuracy as indicated by the criterion.
 
 We already have a good foundation for building the above-mentioned criterion.
-Hierarchical surpluses, which are introduced in \xref{sparse-interpolation} and
-defined in \eref{interpolant-sparse-surplus}, are natural indicators of the
-interpolation error: they are the difference between the true values of \g and
-those estimated by $\interpolant{\nz}{\ls}(\g)$ at the nodes of the underlying
-integration grid. Therefore, hierarchical surpluses can be recycled in order to
-effectively identify problematic regions.
+Hierarchical surpluses, which are introduced in
+\xref{hierarchical-interpolation} and defined in
+\eref{interpolant-sparse-surplus}, are natural indicators of the interpolation
+error: they are the difference between the true values of \g and those estimated
+by $\interpolant{\nz}{\ls}(\g)$ at the nodes of the underlying integration grid.
+Therefore, hierarchical surpluses can be recycled in order to effectively
+identify problematic regions.
 
 We proceed as follows. First, a score is assigned to each node $\vx_{\vi \vj}$
 or, equivalently, to each pair of a level index \vi and an order index \vj as
@@ -251,7 +252,7 @@ $\vi_{\ls}$.
 The final question to answer is the stopping condition of the approximation
 process in \eref{frame-interpolant}. Apart from the natural constraints on the
 maximum number of function evaluations and the maximum interpolation level (the
-original \ls in \xref{sparse-interpolation}), we rely on the following
+original \ls in \xref{hierarchical-interpolation}), we rely on the following
 criterion. Given two additional user-defined constants \error{a} and \error{r},
 which are referred to as the absolute and relative errors, respectively, the
 process is terminated as soon as
