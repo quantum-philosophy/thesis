@@ -140,9 +140,9 @@ on locations that are close to each other on the wafer, and $k_\OU$ imposes
 similarities on locations that are at the same distance from the center of the
 wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control the extent of these
 similarities, that is, the range where the correlation between two locations is
-significant. Although all of the above parameters of \g can be inferred from
-data, for simplicity, we focus only on $\mu_\g$ and $\sigma_\g^2$. The rest of
-the parameters---namely $w$, $\ell_\SE$, and $\ell_\OU$---are assumed to be
+significant. Although all the above parameters of \g can be inferred from data,
+for simplicity, we focus only on $\mu_\g$ and $\sigma_\g^2$. The rest of the
+parameters---namely $w$, $\ell_\SE$, and $\ell_\OU$---are assumed to be
 determined prior to our analysis based on knowledge of the variation patterns
 that are typical for the fabrication process being considered; see
 \cite{marzouk2009} and the references therein.
@@ -154,10 +154,10 @@ practical computations, it should be reduced to a finite-dimensional one. First,
 one is composed of the $\hnd \np$ points where the observations in $H$ are made
 (\hnd measurement sites with \np measurement points each), and the other one of
 the locations where the designer wishes to characterize \g. For simplicity,
-assume that the designer is interested in all of the sites, which results in
-$\nd \np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of
-\g at these locations. Second, the dimensionality of the problem is reduced
-further via the \ac{KL} decomposition, which is introduced in
+assume that the designer is interested in all the sites, which results in $\nd
+\np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
+these locations. Second, the dimensionality of the problem is reduced further
+via the \ac{KL} decomposition, which is introduced in
 \xref{probability-transformation}. Concretely, we perform the transformation
 shown in \eref{model-order-reduction} with respect to the correlation matrix of
 \vg computed via \eref{bayes-covariance}. The result is
@@ -316,6 +316,5 @@ The strength of the Bayesian approach to inference starts to shine when one is
 interested in assessing the trustworthiness of the measured data and thus the
 credibility of estimates and decisions based on these data. Such an assessment
 can be readily undertaken using our framework, since the delivered posterior
-contains all of the necessary information about the quantity of interest \g.
-This is especially helpful in decision-making, as noted in
-\sref{bayes-motivation}.
+contains all the necessary information about the quantity of interest \g. This
+is especially helpful in decision-making, as noted in \sref{bayes-motivation}.
