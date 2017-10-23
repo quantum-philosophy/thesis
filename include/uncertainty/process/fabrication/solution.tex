@@ -138,14 +138,14 @@ observations of the correlation structures induced by the fabrication process
 \cite{chandrakasan2000, cheng2011}. Specifically, $k_\SE$ imposes similarities
 on locations that are close to each other on the wafer, and $k_\OU$ imposes
 similarities on locations that are at the same distance from the center of the
-wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control the extend of these
+wafer. The parameters $\ell_\SE$ and $\ell_\OU$ control the extent of these
 similarities, that is, the range where the correlation between two locations is
-significant. Although all the above parameters of \g can be inferred from data,
-for simplicity, we focus only on $\mu_\g$ and $\sigma_\g^2$. The rest of the
-parameters---namely $w$, $\ell_\SE$, and $\ell_\OU$---are assumed to be
-determined prior to our analysis based on the knowledge of the variation
-patterns typical for the considered fabrication process; see \cite{marzouk2009}
-and the references therein.
+significant. Although all of the above parameters of \g can be inferred from
+data, for simplicity, we focus only on $\mu_\g$ and $\sigma_\g^2$. The rest of
+the parameters---namely $w$, $\ell_\SE$, and $\ell_\OU$---are assumed to be
+determined prior to our analysis based on knowledge of the variation patterns
+that are typical for the fabrication process being considered; see
+\cite{marzouk2009} and the references therein.
 
 Step~2 is to make the above model of \g computationally tractable. The model is
 an infinite-dimensional object as it characterizes a continuum of locations. For
@@ -154,10 +154,10 @@ practical computations, it should be reduced to a finite-dimensional one. First,
 one is composed of the $\hnd \np$ points where the observations in $H$ are made
 (\hnd measurement sites with \np measurement points each), and the other one of
 the locations where the designer wishes to characterize \g. For simplicity,
-assume that the designer is interested in all the sites, which results in $\nd
-\np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
-these locations. Second, the dimensionality of the problem is reduced further
-via the \ac{KL} decomposition, which is introduced in
+assume that the designer is interested in all of the sites, which results in
+$\nd \np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of
+\g at these locations. Second, the dimensionality of the problem is reduced
+further via the \ac{KL} decomposition, which is introduced in
 \xref{probability-transformation}. Concretely, we perform the transformation
 shown in \eref{model-order-reduction} with respect to the correlation matrix of
 \vg computed via \eref{bayes-covariance}. The result is
@@ -176,9 +176,9 @@ Step~3 is to specify the likelihood function in \eref{bayes-theorem}, which is
 where the observed information is taken into account; see
 \xref{bayesian-statistics}. In our case, the observed information is the
 measurements $H$ stacked into \hvh as described in \sref{bayes-data-model}.
-Since the measurement process is not perfect, we also have to take into
-consideration measurement noise. To this end, the observed \hvh is assumed to
-deviate from the data model's prediction \vh as follows:
+Since the measurement process is not perfect, we also have to take measurement
+noise into consideration. To this end, the observed \hvh is assumed to deviate
+from the data model's prediction \vh as follows:
 \[
   \hvh = \vh + \v{\epsilon}
 \]
@@ -216,11 +216,11 @@ The prior of \vz is due to the decomposition in \eref{bayes-reduction}. The
 other three priors, that is, a Gaussian and two scaled inverse chi-squared
 distributions, are a common choice for a Gaussian model whose mean and variance
 are unknown. The parameters $\mu_0$, $\tau^2_\g$, and $\tau^2_\epsilon$
-represent the presumable values of $\mu_u$, $\sigma^2_\g$, and
-$\sigma^2_\epsilon$, respectively, and are set by the designer based on the
-prior knowledge of the technological process and measurement equipment. The
-parameters $\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of
-this information. When the prior knowledge is weak, less specific priors can be
+represent the presumed values of $\mu_u$, $\sigma^2_\g$, and
+$\sigma^2_\epsilon$, respectively, and are set by the designer based on prior
+knowledge of the technological process and measurement equipment. The parameters
+$\sigma_0$, $\nu_\g$, and $\nu_\epsilon$ reflect the precision of this
+information. When the prior knowledge is weak, less specific priors can be
 considered \cite{gelman2013}. Finally, $p(\u)$ in \eref{bayes-theorem} is
 obtained by multiplying the densities of the priors in \eref{bayes-prior}.
 
@@ -241,7 +241,7 @@ In order to circumvent this problem, we utilize Markov chain Monte Carlo
 sampling and, more specifically, the Metropolis--Hastings algorithm
 \cite{gelman2013}, which is outlined in \xref{bayesian-statistics}. The
 algorithm operates on an auxiliary distribution called the proposal
-distribution, and the construction of an adequate proposal is discussed next.
+distribution. The construction of an adequate proposal is discussed next.
 
 \subsection{Optimization Procedure}
 \slab{bayes-optimization}
