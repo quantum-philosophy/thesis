@@ -1,9 +1,9 @@
 In order to achieve the established goal, we make use of indirect measurements.
 Specifically, instead of \g, we measure an auxiliary parameter \h, which we
 refer to as the quantity of measurement. The observations of \h are then
-processed via Bayesian inference introduced in \xref{bayesian-statistics} in
-order to derive the on-wafer distribution of \g. The quantity \h is chosen such
-that \one~\h is convenient and cheap to be measured; \two~\h depends on \g,
+processed via Bayesian inference, as introduced in \xref{bayesian-statistics},
+in order to derive the on-wafer distribution of \g. The quantity \h is chosen
+such that \one~\h is convenient and cheap to be measured; \two~\h depends on \g,
 which is signified by $\h = \f(\g)$; and \three~there is a way to compute \h
 given \g. The last means that \f should be known. However, \f does not have to
 be specified analytically, since our framework treats \f as a ``black box.'' For
@@ -14,10 +14,10 @@ potential measurement site, and $\hnd < \nd$ denotes the number of those sites
 that are actually measured. Each site comprises \np measurement points, and
 there are \ns data instances per point. For instance, in the example given in
 \sref{bayes-motivation}, an observation at a site is a temperature profile \mq,
-which is a matrix capturing temperature of \np processing elements at \ns time
-moments as defined in \eref{temperature-profile}. Denote the collected data by
-$H$ and assume that the locations of the measurement points are recorded along
-with $H$.
+which is a matrix capturing the temperatures of \np processing elements at \ns
+moments in time as defined in \eref{temperature-profile}. Denote the collected
+data by $H$ and assume that the locations of the measurement points are recorded
+along with $H$.
 
 It is worth noting that, if \f is the identity function, that is, $\h = \f(\g) =
 \g$, the proposed technique focuses primarily on the reconstruction of any
@@ -39,11 +39,11 @@ follows. The framework is divided into four major stages depicted in
 \fref{bayes-overview}. Stage~1 is the data-harvesting stage where the designer
 collects a set of observations of the quantity of measurement \h, thereby
 forming the data set $H$. At Stage~2, we undertake an optimization procedure
-that is to assist the sampling procedure at Stage~3. The latter produces a
-collection of samples of the quantity of interest \g, such as the effective
-channel length, denoted by $G$. This data set $G$ is then processed at Stage~4
-in order to estimate the desired statistics about \g, such as the probability of
-\g being smaller than a certain threshold; recall the example in
+that is designed to assist the sampling procedure at Stage~3. The latter
+produces a collection of samples of the quantity of interest \g, such as the
+effective channel length, denoted by $G$. This data set $G$ is then processed at
+Stage~4 in order to estimate the desired statistics about \g, such as the
+probability of \g being smaller than a certain threshold; recall the example in
 \sref{bayes-motivation}. It can be seen in \fref{bayes-overview} that Stage~2
 and Stage~3 actively communicate with the two models on the right-hand side,
 called the data model and statistical model, which is what we elaborate on in
