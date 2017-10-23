@@ -108,7 +108,8 @@ Making use of the orthogonality property, which can be seen in
 \end{equation}
 for $i = \range{1}{\ns}$ and $\vj \in \sparseindex{\nz}{\lc}$. The coefficients
 $\set{\hat{\vp}_{i \vj}}$ needed in this recurrence are found using a suitable
-quadrature $\quadrature{\nz}{\lq}$ (see \xref{sparse-integration}) as follows:
+quadrature $\quadrature{\nz}{\lq}$ (see \xref{numerical-integration}) as
+follows:
 \[
   \hat{\vp}_{i \vj} = \quadrature{\nz}{\lq}{\vp_i \psi_{\vj}}
 \]
@@ -151,7 +152,7 @@ dimensions low via model order reduction, which is a part of $\transform$ shown
 in \eref{chaos-transformation} and is based on the \ac{KL} decomposition
 described in \xref{probability-transformation}, and \two~utilizing efficient
 construction techniques, which is discussed in \sref{chaos-construction} and
-\xref{sparse-integration}. For instance, in the case of isotropic integration
+\xref{numerical-integration}. For instance, in the case of isotropic integration
 grids based on the Smolyak algorithm and Gaussian quadratures, $\log(\nq)
 \propto \log(\nz)$, which means that the dependency of \nq on \nz is only
 polynomial \cite{heiss2008}. Anisotropic constructions allow for further

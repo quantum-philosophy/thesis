@@ -36,7 +36,7 @@ are the nodes and functions, respectively, and $\tensorindex{n}{\vi} \subset
 on both $n$ and \vi and is denoted by $n_{\vi} =
 \cardinality{\tensorindex{n}{\vi}}$.
 
-Similarly to \xref{sparse-integration}, the construction of
+Similarly to \xref{numerical-integration}, the construction of
 $\interpolant{n}{\vi}$ can be based on the full tensor product of $n$
 one-dimensional interpolants as follows:
 \begin{equation} \elab{interpolant-tensor}
@@ -49,16 +49,17 @@ in which case
 \end{align*}
 the index set $\tensorindex{n}{\vi}$ is the same as the one in
 \eref{quadrature-tensor-index}. The main observation with respect to the above
-construction is similar to the one made in \xref{sparse-integration}: the number
-of collocation nodes grows exponentially as the number of dimensions increases.
-Nevertheless, \eref{interpolant-tensor} serves well as a building block for a
-more efficient algorithm, which we discuss next.
+construction is similar to the one made in \xref{numerical-integration}: the
+number of collocation nodes grows exponentially as the number of dimensions
+increases. Nevertheless, \eref{interpolant-tensor} serves well as a building
+block for a more efficient algorithm, which we discuss next.
 
-This algorithm is the Smolyak algorithm introduced in \xref{sparse-integration}.
-In this context, the algorithm combines a number of one-dimensional interpolants
-in such a way that the resulting interpolant preserves the approximating power
-of the full tensor product only for a certain polynomial subspace, which allows
-it to drastically reduce the number of collocation nodes.
+This algorithm is the Smolyak algorithm introduced in
+\xref{numerical-integration}. In this context, the algorithm combines a number
+of one-dimensional interpolants in such a way that the resulting interpolant
+preserves the approximating power of the full tensor product only for a certain
+polynomial subspace, which allows it to drastically reduce the number of
+collocation nodes.
 
 Define
 \begin{align}
