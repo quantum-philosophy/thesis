@@ -13,34 +13,34 @@ Hence, the blue regions have a high level of power consumption and heat
 dissipation.
 
 Assume that the technological process imposes a lower bound $\g_\minimum$ on \g.
-This bound separates defective dies ($\g < \g_\minimum$) from those that are
-acceptable ($\g \geq \g_\minimum$). In order to reduce costs, the manufacturer
-is interested in detecting the faulty dies and taking them out of the production
-process at early stages. Then the possible actions with respect to a single die
-on the wafer are \one~to keep the die if it conforms to the specification and
-\two~to dispose it otherwise.
+It separates defective dies ($\g < \g_\minimum$) from those that are acceptable
+($\g \geq \g_\minimum$). In order to reduce costs, the manufacturer is
+interested in detecting the faulty dies and taking them out of the production
+process at the earliest possible stage. The possible actions with respect to a
+die on the wafer are then \one~to keep the die if it conforms to the
+specification or \two~to dispose of it otherwise.
 
 \inputfigure{bayes-motivation-distribution}
 In order to analyze the variability of the effective channel length \g across
-the wafer, one can remove the top layer of (and consequently destroy) the dies
+the wafer, one could remove the top layer of the dies (hence destroying them)
 and measure \g directly. Alternatively, despite the fact that the knowledge of
-\g is more preferable, one can step back and decide to quantify process
+\g is more preferable, one could step back and decide to quantify process
 variation using an auxiliary parameter \h that can be measured without damaging
-the dies; for instance, \h can be the leakage current. It should be noted that,
-in this second case, \h is the final product of the analysis, and \g is left
-unknown.
+the dies; for instance, \h could be the leakage current. It should be noted
+that, in this second case, \h is the final product of the analysis, and \g
+remains unknown.
 
 In either case, adequate test structures have to be present on the dies in order
-to take measurements at sufficiently many locations with a sufficient level of
-granularity. Such a sophisticated test structure might not always be readily
+to take measurements at a sufficient number of locations with a sufficient level
+of granularity. Such a sophisticated test structure might not always be readily
 available, and its deployment might significantly increase production expenses.
 Moreover, as noted earlier, the first approach implies that the measured dies
-have to be disposed afterwards, and the second approach implies that the further
+have to be disposed of afterwards, and the second approach implies that further
 design decisions will be based on a surrogate quantity \h instead of the primary
-target of process variation \g, which can compromise these decisions. The latter
-concern is particularly prominent in situations where the production process is
-not yet completely stable, and design decisions based on the primary subjects of
-process variation are consequently preferable.
+target of process variation \g, which could compromise these decisions. The
+latter concern is particularly prominent in situations where the production
+process is not yet completely stable, and design decisions based on the primary
+subjects of process variation are consequently preferable.
 
 Our technique operates differently. In this example, in order to characterize
 the effective channel length \g, we begin by measuring an auxiliary quantity \h.
@@ -49,19 +49,19 @@ straightforward from the measurement perspective. Then the distribution of \g
 across the whole wafer is obtained by inferring it from the collected
 measurements of \h. Our technique permits these measurements to be taken only at
 a small number of locations on the wafer and, moreover, to be corrupted by
-noise, which can be due to the imperfection of the utilized measurement
-equipment.
+noise, which can be due to the imperfection of the measurement equipment that is
+used.
 
 Let us consider one particular \h that can be used to study the effective
-channel length \g. Specifically, let \h be temperature, which is to be discussed
+channel length \g. Specifically, let \h be temperature, which will be discussed
 further in \sref{bayes-results}. We can then apply a fixed workload---for
 instance, we can run the same application under the same conditions---to a few
 dies on the wafer and measure the corresponding temperature profiles. Since
 temperature does not require extra equipment to be deployed on the wafer and can
 be tracked using infrared cameras \cite{mesa-martinez2007} or built-in
-facilities of the dies, our approach can reduce the costs associated with the
+components of the dies, our approach can reduce the costs associated with the
 analysis of process variation. The results of our framework applied to a set of
-noisy temperature profiles measured at only 7\% of the dies are shown on the
+noisy temperature profiles measured on only 7\% of the dies are shown on the
 right-hand side of \fref{bayes-motivation-distribution}, and the locations of
 the measured dies are depicted on the left-hand side of
 \fref{bayes-motivation-location}. It can be seen that the two maps in
@@ -75,7 +75,7 @@ readily estimated. This is important, since the true values are unknown in
 reality; otherwise, we would not need to infer them. Therefore, we can rely on
 our decisions only up to a certain probability. We can then reformulate the
 decision rule given earlier as follows: \one~to keep the die if $\probability{\g
-\geq \g_\minimum}$ is larger than a certain threshold and \two~to dispose it
+\geq \g_\minimum}$ is larger than a certain threshold or \two~to dispose of it
 otherwise. An illustration of following this rule is given on the right-hand
 side of \fref{bayes-motivation-location} where $\g_\minimum$ is set to two
 standard deviations below the mean value of \g, the probability threshold of the
@@ -89,15 +89,15 @@ In addition, we can introduce a trade-off action between action \one and action
 instance, via a test structure) if $\probability{\g \geq \g_\minimum}$ is
 smaller than the threshold of action \one but larger than another threshold. For
 instance, action \three can be taken if $0.1 < \probability{\g \geq \g_\minimum}
-< 0.9$. In this case, we can reduce costs by examining only those dies for which
-there is no sufficiently strong evidence of their satisfactory and
+< 0.9$. In this scenario, we can reduce expenses by examining only those dies
+for which there is no sufficiently strong evidence of their satisfactory or
 unsatisfactory condition. Furthermore, one can take into consideration a
 so-called utility function, which, for each combination of an outcome of \g and
-a taken action, returns the gain that the decision maker obtains. For example,
-such a function can favor a rare omission of malfunctioning dies to a frequent
-inspection of correct dies as the latter might involve much higher costs. The
-optimal decision is given by the action that maximizes the expected utility with
-respect to both the observed data and prior knowledge on \g. Thus, all possible
-values of \g weighted by their probabilities are taken into account in the final
-decision, incorporating also the designer's preferences via the utility
-function.
+an action that is taken, returns the gain that the decision maker obtains. For
+example, such a function could favor a rare omission of malfunctioning dies over
+a frequent inspection of correct dies, as the latter might involve much higher
+costs. The optimal decision is given by the action that maximizes the expected
+utility with respect to both the observed data and prior knowledge regarding \g.
+Consequently, all possible values of \g weighted by their probabilities are
+taken into account in the final decision, while also incorporating the
+preferences of the designer via the utility function.
