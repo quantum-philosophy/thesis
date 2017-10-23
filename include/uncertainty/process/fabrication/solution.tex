@@ -248,24 +248,24 @@ distribution. The construction of an adequate proposal is discussed next.
 
 In this subsection, we describe the objective of Stage~2 in
 \fref{bayes-overview}. Although the requirements for the proposal distribution
-are mild, it is often difficult to pick an efficient proposal, that is, such a
+are mild, it is often difficult to pick an efficient proposal, that is, a
 proposal that would yield a good approximation with as few evaluations of the
-posterior and thus of the data model in \sref{bayes-data-model} as possible.
+posterior---and thus of the data model in \sref{bayes-data-model}---as possible.
 This choice is especially difficult in high-dimensional problems, and our
-problem---which involves around 30 parameters, as we shall see in
+problem---involving around 30 parameters, as we shall see in
 \sref{bayes-results}---is one them. Therefore, a careful construction of the
 proposal is an essential component of the proposed framework.
 
 A common technique for constructing a high-quality proposal is to optimize the
-posterior in \eref{bayes-posterior}. Specifically, we seek such a value $\u^*$
+posterior given in \eref{bayes-posterior}. Specifically, we seek a value $\u^*$
 of \u that maximizes \eref{bayes-posterior} and hence has the maximum posterior
 probability. In addition, we calculate the negative of the Hessian matrix at
 $\u^*$, which is called the observed information matrix and denoted by $\m{J}$;
 see the output of Stage~2 in \fref{bayes-overview}. Using $\u^*$ and $\m{J}$, we
-can construct such a proposal that allows the Metropolis--Hastings algorithm
-\one~to start producing samples directly from the desired regions of high
-probability and \two~to explore those regions more rapidly. The usage of $\u^*$
-and $\m{J}$ is explained next.
+can construct a proposal that allows the Metropolis--Hastings algorithm \one~to
+start producing samples directly from the desired regions of high probability
+and \two~to explore those regions more rapidly. The usage of $\u^*$ and $\m{J}$
+is explained next.
 
 \subsection{Sampling Procedure}
 
