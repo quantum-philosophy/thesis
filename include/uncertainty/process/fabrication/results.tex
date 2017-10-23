@@ -109,7 +109,7 @@ two cases: sequential and parallel computing, which is followed by the total
 time and resulting error. The computation time of the post-processing stage,
 Stage~4, is not given as it is negligibly small. The sequential sampling time is
 the most representative indicator of the computational complexity of the
-proposed framework since the number of samples is always fixed, and there is no
+proposed framework, since the number of samples is always fixed, and there is no
 parallelization. Therefore, we refer to this value in most of the discussions
 given below.
 
@@ -127,8 +127,8 @@ In this subsection, we consider five platforms with different numbers of
 processing elements or, equivalently, measurement points \np. The considered
 scenarios are 2, 4, 8, 16, and 32 processing elements. The results are
 summarized in \tref{bayes-points}. The computation time grows along with \np.
-This behavior is expected since the granularity of the temperature model under
-the hood is bound to the number of processing elements: each processing element
+This is expected, since the granularity of the temperature model under the hood
+is bound to the number of processing elements: each processing element
 contributes four thermal nodes to the thermal \up{RC} circuit that temperature
 analysis is based on; recall \sref{temperature-model}. Hence, temperature
 analysis becomes more expensive. Nevertheless, even for large examples, taking
@@ -146,7 +146,7 @@ number of time moments captured by temperature profiles. The considered
 scenarios are 1, 10, 20, 40, 80, and 160 time moments. The results are
 aggregated in \tref{bayes-instances}. It can be seen that the growth of the
 computation time is relatively small. One might expect this growth due to \ns to
-be the same as the one due to \np since, technically, the influence of \np and
+be the same as the one due to \np, since, technically, the influence of \np and
 \ns on the dimensionality of $H$ is identical; recall that $\hvh \in \real^{\hnd
 \np \ns}$. However, the meanings of \np and \ns are completely different, and
 the ways they manifest themselves in the inference algorithm are consequently
@@ -154,12 +154,12 @@ also different, which explains the discordant timing shown in
 \tref{bayes-points} and \tref{bayes-instances}. The \ac{NRMSE} in
 \tref{bayes-instances} has a decreasing trend; however, this trend is less
 steady than the ones noted before. The finding can be explained as follows. The
-temporal distribution of the time moments in $H$ changes since these moments are
-kept evenly spaced across the time spans of the corresponding applications. Some
-time moments can be more informative than other time moments. Consequently, more
-or less representative samples can be accumulated in $H$, helping or misleading
-the inference. We can also conclude that a larger number of spatial measurements
-is more advantageous than a larger number of temporal measurements.
+temporal distribution of the time moments in $H$ changes, since these moments
+are kept evenly spaced across the time spans of the corresponding applications.
+Some time moments can be more informative than other time moments. Consequently,
+more or less representative samples can be accumulated in $H$, helping or
+misleading the inference. We can also conclude that a larger number of spatial
+measurements is more advantageous than a larger number of temporal measurements.
 
 \hiddensubsection{Deviation of Measurement Noise}
 

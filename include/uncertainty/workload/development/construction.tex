@@ -60,7 +60,7 @@ chosen rules have to fulfill a certain condition, which is discussed in
 condition, and they are the ones used in the original version of local
 adaptivity presented in \cite{ma2009}. The open rules, on the other hand, do not
 fulfill the condition close to the boundaries of the unit interval. However,
-according to our experience, open Newton--Cotes rules are a viable option since
+according to our experience, open Newton--Cotes rules are a viable option, since
 they perform well in practice, which is also noted in \cite{klimke2006}. In
 fact, we are able to obtain better results with open rules and, therefore,
 present them here.
@@ -263,10 +263,10 @@ where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed
 values of \g, respectively. The left-hand side of \eref{frame-stop} corresponds
 the largest surplus whose level index has not been refined yet, that is, has not
 been considered as $\vi_{\ls}$ at some step \ls. The above criterion is an
-adequate technique for curtailing the interpolation process since it is based on
-the actual progress.
+adequate technique for curtailing the interpolation process, since it is based
+on the actual progress.
 
-The adaptivity presented in this subsection is referred to as hybrid since it
+The adaptivity presented in this subsection is referred to as hybrid, since it
 combines features of global and local adaptivity \cite{jakeman2012}. Local
 adaptivity operates on the level of individual nodes \cite{ma2009}, and it is
 motivated in \sref{frame-motivation}. By contrast, global adaptivity operates on
@@ -339,7 +339,7 @@ $\set{\v{\iota}_k}$; see \sref{frame-grid} for more details.
 Line 4: Algorithm~G evaluates $\g \circ \transform$ at the collocation nodes.
 This is by far the most time consuming operation of the algorithm as \g is
 generally expensive to execute. This operation is also a prominent candidate for
-parallelization since the algorithm does not impose any particular evaluation
+parallelization, since the algorithm does not impose any particular evaluation
 order.
 
 Line 5: \aref{frame-evaluation} is a subroutine that exercises the interpolant

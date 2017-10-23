@@ -3,7 +3,7 @@ analysis and optimization presented in \sref{chaos-reliability-analysis} and
 \sref{chaos-optimization} considering the illustrative application described in
 \sref{chaos-optimization-application}. The technique for dynamic steady-state
 analysis under process variation delineated in
-\sref{chaos-dynamic-steady-analysis} is also a part of the assessment since it
+\sref{chaos-dynamic-steady-analysis} is also a part of the assessment, since it
 is included in the reliability model. All the experiments are conducted on a
 \up{GNU}/Linux machine equipped with 16 processors, each being an Intel Xeon
 E5520 2.27~\up{GH}z, and 24~\up{GB} of \up{RAM}. All the configuration files
@@ -42,7 +42,7 @@ end, in this subsection, the quantity of interest given in
 \eref{chaos-optimization-quantity}---which encompasses the total energy
 consumption, maximum temperature, and parameterization of the reliability model
 of the system---is considered in isolation. This quantity plays the key role in
-the subsequent optimization since the optimization objective and constraints
+the subsequent optimization, since the optimization objective and constraints
 depend on it as discussed previously.
 
 We compare the performance of our technique with the one of \ac{MC} sampling
@@ -99,7 +99,7 @@ to the designer, which we discuss below.
 The primary quantity to pay heed to is the number of random variables \nz
 preserved after the reduction procedure noted in \sref{chaos-transformation} and
 described in \xref{probability-transformation}. Without this reduction, \nz
-would be $2 \np$ since there are two process parameters per processing element;
+would be $2 \np$, since there are two process parameters per processing element;
 recall \sref{chaos-optimization-application}. It can be seen in
 \tref{chaos-optimization-speed} that there is no reduction in the case of the
 dual-core platform while around 80\% of the stochastic dimensions are eliminated
@@ -120,7 +120,7 @@ is very low. In order to substantiate this, the last column of
 to \power{10}{4} \ac{MC} samples. The proposed solution is 100--200 times faster
 while delivering highly accurate results as discussed earlier. It should be
 noted that the comparison has been drawn based on the number of evaluation
-points rather than on the wall-clock time since the relative cost of other
+points rather than on the wall-clock time, since the relative cost of other
 computations is negligible.
 
 To summarize, the proposed framework for probabilistic analysis of electronic

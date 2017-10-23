@@ -40,7 +40,7 @@ temperature profiles, respectively; \dt is their sampling interval; and
 $\norm[1]{\cdot}$ and $\norm[\infty]{\cdot}$ are the Manhattan and uniform
 norms, respectively. The objective in \eref{chaos-optimization-objective} is to
 minimize the expectation of the total energy consumption $E: \Omega \to \real$,
-which is a random variable since energy depends on power, and power depends on
+which is a random variable, since energy depends on power, and power depends on
 the uncertain parameters \vu. The constraints in
 \eref{chaos-optimization-constraints} concern time, temperature, and
 reliability. The first one constrains the end-to-end delay \period of the
@@ -52,7 +52,7 @@ $\life_\minimum$ where $\rho_\wear$ is an acceptable probability of having a
 premature fault due to wear.
 
 The first constraint in \eref{chaos-optimization-constraints} is deterministic.
-On the other hand, the other two constraints are probabilistic since they are
+On the other hand, the other two constraints are probabilistic, since they are
 based on stochastic quantities. In the very last constraint, we set an upper
 bound on the expectation of \life. It should be noted that this expectation is a
 random variable \perse due to the nested structure of the reliability model

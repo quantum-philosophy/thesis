@@ -1,7 +1,7 @@
 \inputfigure{brain-overview}
 Our workflow for resource-usage prediction is illustrated in
 \fref{brain-overview}. First, we note that the available data generally need to
-be processed prior to learning since they are likely to be given in a format
+be processed prior to learning, since they are likely to be given in a format
 that is not efficient or convenient to the subsequent calculations. With this in
 mind, our foremost task is to extract $G$ defined in \eref{brain-dataset} from
 the given raw data. This processing part can be seen at the top of
@@ -172,7 +172,7 @@ that need to be discussed first.
 The first concerns the way a single profile is fed to the predictive model. To
 begin with, the internal memory of the model is nullified. Next, recall that
 each profile contains several data points (see \eref{brain-profile}), and note
-that two profiles generally have different lengths ($\nsi{i} \neq \nsi{j}$)
+that two profiles generally have different lengths ($\nsi{i} \neq \nsi{j}$),
 since the execution times of two tasks are likely to differ. With this in mind,
 each profile is fed to the model using a technique called dynamic unrolling. An
 illustration is depicted in \fref{brain-dynamic-unroll}, in which the schematic
@@ -250,7 +250,7 @@ validation, the error is calculated in a more elaborate way as follows. Recall
 first that our objective is making long-range predictions of resource usage; see
 \sref{brain-problem}. Note also that, in training and validation, we are only
 concerned with what happens one step ahead. The reason is that we would like to
-have as high of a throughput as possible during training and validation since
+have as high of a throughput as possible during training and validation, since
 they are to be performed many times. Testing, on the other hand, is done only
 once, and it is during testing that we make and assess multiple-step-ahead
 predictions.

@@ -99,7 +99,7 @@ refinement of the Smolyak approach are remarkable properties \perse; however,
 the approach can be taken even further, as we discuss next.
 
 It can be seen in \eref{interpolant-sparse-grid} that it is beneficial to the
-refinement to have $\X^1_{i - 1}$ be entirely included in $\X^1_i$ since, in
+refinement to have $\X^1_{i - 1}$ be entirely included in $\X^1_i$, since, in
 that case, the cardinality of
 \[
   \X^n_{\ls} \setminus \X^n_{\ls - 1} = \bigcup_{\vi \in \Delta\sparseindex{n}{\ls}} \Delta\X^n_{\vi}
@@ -129,7 +129,7 @@ where
   \Delta\tensorindex{1}{i} = \set{j}{j \in \tensorindex{1}{i}, \x_{ij} \in \Delta\X^1_i}.
 \]
 The above summation is over $\Delta\X^1_i$ due to the fact that the difference
-in the parentheses is zero when $\x_{ij} \in \X^1_{i - 1}$ since $\X^1_{i - 1}
+in the parentheses is zero when $\x_{ij} \in \X^1_{i - 1}$, since $\X^1_{i - 1}
 \subset \X^1_i$. In multiple dimensions,
 \begin{equation} \elab{interpolant-tensor-delta}
   \Delta\interpolant{n}{\vi}(\f) = \sum_{\vj \in \Delta\tensorindex{n}{\vi}} \left(\f(\vx_{\vi \vj}) - \interpolant{n}{\ls - 1}(\f)(\vx_{\vi \vj})\right) e_{\vi \vj}

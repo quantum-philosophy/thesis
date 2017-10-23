@@ -3,7 +3,7 @@ is defined in \eref{temperature-profile}, that corresponds to a given power
 profile \mp, which is defined in \eref{power-profile}, by solving the system
 given in \eref{temperature-model-original}. Traditionally, this operation is
 undertaken numerically \cite{skadron2003}; however, we are interested in
-obtaining and working with an analytical solution to the system since such a
+obtaining and working with an analytical solution to the system, since such a
 solution has many advantages, as we shall see throughout the thesis.
 
 \subsection{\pasttitle}
@@ -71,7 +71,7 @@ Even though the matrices $\tm{E}$ and $\tm{F}$ have to be computed only once,
 they necessitate two computationally problematic operations: the matrix
 exponential and matrix inverse involving $\tm{A} \in \real^{\nn \times \nn}$,
 which is a generic matrix. It is preferable to have a symmetric matrix $\m{A}
-\in \real^{\nn \times \nn}$ when these operations are concerned since such a
+\in \real^{\nn \times \nn}$ when these operations are concerned, since such a
 matrix admits the eigendecomposition, which can be seen in
 \eref{eigendecomposition}. Having computed such a decomposition, the calculation
 of the matrix exponential and matrix inverse becomes trivial as follows:
@@ -97,7 +97,7 @@ using the following substitution:
     & \m{A} = -\m{C}^{-\frac{1}{2}} \m{G} \: \m{C}^{-\frac{1}{2}}
   \end{split}
 \]
-where $\m{A}$ is symmetric since
+where $\m{A}$ is symmetric, since
 \[
   \transpose{\m{A}}
   = -\transpose{(\m{C}^{-\frac{1}{2}} \m{G} \m{C}^{-\frac{1}{2}})}

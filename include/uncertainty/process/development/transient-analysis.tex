@@ -12,7 +12,7 @@ As stated in \sref{chaos-uncertainty-analysis}, the designer is supposed to
 decide on the system model producing the quantity of interest. Assuming the
 general system and temperature models given in \sref{system-model} and
 \sref{temperature-model}, respectively, the only component that is left to
-define is the power model since it is the one introducing the actual workload
+define is the power model, since it is the one introducing the actual workload
 into the system. Denote the power model by
 \begin{equation} \elab{chaos-power-model}
   \vp = \f(i, \vq, \vu)
@@ -48,23 +48,25 @@ context of this chapter. Consequently, the recurrent solution in
 for $i = \range{1}{\ns}$, is stochastic as well. In the deterministic case, it
 can be readily employed in order to perform transient power and temperature
 analysis. In the probabilistic case, however, the situation is substantially
-different since $\vp_i$ and hence $\vs_i$ and $\vq_i$ are stochastic quantities.
-Moreover, at each step, $\vp_i$ is an arbitrary transformation of the uncertain
-parameters \vu and stochastic temperature $\vq_i$, which results in a random
-vector with a generally unknown probability distribution. Furthermore, $\vp_i$,
-$\vq_i$, $\vs_i$, and \vu are dependent random vectors since the first three are
-functions of the last one. Therefore, the operations in
-\eref{chaos-recurrence-original} are to be performed on dependent random vectors
-with arbitrary distributions, which, in general, have no closed-form solutions.
+different, since $\vp_i$ and hence $\vs_i$ and $\vq_i$ are stochastic
+quantities. Moreover, at each step, $\vp_i$ is an arbitrary transformation of
+the uncertain parameters \vu and stochastic temperature $\vq_i$, which results
+in a random vector with a generally unknown probability distribution.
+Furthermore, $\vp_i$, $\vq_i$, $\vs_i$, and \vu are dependent random vectors,
+since the first three are functions of the last one. Therefore, the operations
+in \eref{chaos-recurrence-original} are to be performed on dependent random
+vectors with arbitrary distributions, which, in general, have no closed-form
+solutions.
 
 Let us now summarize Stage~1 in \fref{chaos-overview}. In this section, the
 quantity of interest \g is the transient power and temperature
 profiles---denoted by \mp and \mq, respectively---that correspond to the
 workload specified by \f as shown in \eref{chaos-power-model}. Regarding the
-uncertain parameters \vu, they are left unspecified since the construction below
-is general with respect to \vu; however, a concrete scenario is to be considered
-in the next section, \sref{chaos-transient-application}. We now proceed directly
-to Stage~3 as Stage~2 requires no additional attention in this case.
+uncertain parameters \vu, they are left unspecified, since the construction
+below is general with respect to \vu; however, a concrete scenario is to be
+considered in the next section, \sref{chaos-transient-application}. We now
+proceed directly to Stage~3 as Stage~2 requires no additional attention in this
+case.
 
 \subsection{Surrogate Construction}
 

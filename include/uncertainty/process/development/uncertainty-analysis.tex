@@ -14,7 +14,7 @@ specified. The quantity is given as a ``black-box'' function that operates on a
 particular outcome of the parameters. In order to evaluate \g, the designer is
 implicitly required to specify the considered system model, which also includes
 a power and a temperature model. At Stage~2, the uncertain parameters \vu are to
-be transformed into independent random variables \vz since independence is a
+be transformed into independent random variables \vz, since independence is a
 prerequisite of the subsequent calculations. At Stage~3, a surrogate for \g is
 constructed by means of the \ac{PC} decomposition. At Stage~4, the computed
 expansion is processed in order to obtain the desired statistics about \g.
@@ -87,7 +87,7 @@ already sufficient for the Nataf transformation; see
 \xref{probability-transformation}.
 
 Apart from the extraction of the independent variables \vz, an essential
-operation at this stage is model order reduction since the number of stochastic
+operation at this stage is model order reduction, since the number of stochastic
 dimensions---that is, the dimensionality of \vz---directly impacts the
 complexity of the rest of the computations. This operation is frequently treated
 as a part of the \ac{KL} decomposition, and it is also elaborated on in
