@@ -1,38 +1,38 @@
 Although there are many aspects that are of significance to the design of an
 electronic system, our interest revolves primarily around those that are related
-to power and temperature, which is due to the following reason. Power
-consumption and heat dissipation are of great importance. Power translates to
-energy, and energy to hours of battery life and to electricity bills.
-Temperature, on the other hand, is one of the major causes of permanent damage
-\cite{jedec2016}, which necessitates adequate cooling equipment and thereby
-escalates product expenses \cite{chaudhry2015}. The situation is complicated
-even further by the interdependence between power and temperature, which is
-discussed in \sref{power-model} and \sref{power-temperature}: higher power leads
-to higher temperature, and higher temperature to higher power \cite{liu2007}.
+to power and temperature for the following reason: power consumption and heat
+dissipation are of great importance. Power translates to energy, and energy
+translates to hours of battery life and to electricity bills. Temperature, on
+the other hand, is one of the major causes of permanent damage \cite{jedec2016},
+which necessitates adequate cooling equipment and thereby escalates product
+expenses \cite{chaudhry2015}. The situation is complicated even further by the
+interdependence between power and temperature, which is discussed in
+\sref{power-model} and \sref{power-temperature}: higher power leads to higher
+temperature, and higher temperature to higher power \cite{liu2007}.
 Consequently, taking power and temperature into consideration is key to
 achieving effectiveness, efficiency, and robustness.
 
-In what follows, we proceed to temperature analysis; it is important to realize,
+In the following, we consider temperature analysis; it is important to realize,
 however, that power analysis is inseparable from temperature analysis due to the
 aforementioned power-temperature interplay. Hence, power analysis is always
 implied whenever we discuss temperature analysis, and vice versa.
 
 There are two types of temperature analysis: \one~transient analysis and
-\two~steady-state analysis. The first delivers the temperatures that the system
-traverses in an arbitrary time interval starting from an arbitrary initial
-condition when it is exposed to an arbitrary, both spatially and temporally,
-power distribution. The second delivers the temperature that the system attains
-and retains once it has reached a thermal equilibrium under a power distribution
-that is spatially arbitrary but temporally constant or repeating.
+\two~steady-state analysis. The first records the temperatures that the system
+under consideration traverses in an arbitrary time interval starting from an
+arbitrary initial condition when it is exposed to a spatially and temporally
+arbitrary power distribution. The second records the temperature that the system
+attains and retains once it has reached a thermal equilibrium under a power
+distribution that is spatially arbitrary but temporally constant or repeating.
 
 Steady-state analysis can be further classified into two categories: \one~static
 analysis and \two~dynamic analysis. The first is concerned with temporally
 constant power distributions, that is, with those that do not change over time.
 In this case, the resulting temperature distributions do not change over time
-either. The second is concerned with temporary arbitrary power distributions
-that are periodic, that is, with those that repeat with certain periods. In this
-case, the resulting temperature distributions change over time with the same
-periods as the corresponding repeating power distributions. The scenario being
-considered is that the system at hand is exposed to a periodic workload or to
-such a workload that can be approximated as periodic. Prominent examples that
-have such periodic behaviors are various multimedia applications.
+either. The second is concerned with temporally arbitrary power distributions
+that are periodic, that is, with those that repeat with a certain periodicity.
+In this case, the resulting temperature distributions change over time with the
+same periods as the corresponding repeating power distributions. The scenario
+being considered is that the system is exposed to a periodic workload or to a
+workload that can be approximated as periodic. Prominent examples that have such
+periodic behaviors are various multimedia applications.
