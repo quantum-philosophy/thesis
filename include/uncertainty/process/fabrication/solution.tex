@@ -1,11 +1,11 @@
 In order to achieve the established goal, we make use of indirect measurements.
 Specifically, instead of \g, we measure an auxiliary parameter \h, which we
 refer to as the quantity of measurement. The observations of \h are then
-processed via Bayesian inference, as introduced in \xref{bayesian-statistics},
-in order to derive the on-wafer distribution of \g. The quantity \h is chosen
-such that \one~\h is convenient and cheap to be measured; \two~\h depends on \g,
-which is signified by $\h = \f(\g)$; and \three~there is a way to compute \h
-given \g. The last means that \f should be known. However, \f does not have to
+processed via Bayesian inference (see \xref{bayesian-statistics}) in order to
+derive the on-wafer distribution of \g. The quantity \h is chosen such that
+\one~\h is convenient and cheap to be measured; \two~\h depends on \g, which is
+signified by $\h = \f(\g)$; and \three~there is a way to compute \h given \g.
+The last requirement means that \f should be known. However, \f does not have to
 be specified analytically, since our framework treats \f as a ``black box.'' For
 example, \f can be a piece of code.
 
