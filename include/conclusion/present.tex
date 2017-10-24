@@ -1,39 +1,59 @@
-In this work, we have developed a number of system-level techniques for
-analyzing and designing under process, workload, and aging uncertainty.
+We have developed a number of system-level techniques for analyzing and
+designing electronic systems under the uncertainty stemming from the fabrication
+process, workload, and aging. The features that are common to the proposed
+techniques are generality and straightforwardness of application.
 
 In \cref{certainty-development}, we have elaborated on the Utopian deterministic
-scenario, which has served as an adequate starting point for the developments in
-the subsequent chapters. We have refined transient power and temperature
-analysis and proposed a novel approach to performing dynamic steady-state
-analysis. The latter has been illustrated in the context of reliability
-optimization.
+scenario, which has served as an adequate starting point for the subsequent
+developments. We have presented an auxiliary transformation of the temperature
+model that simplifies certain operations associated with temperature
+calculations. Furthermore, we have proposed a novel approach to dynamic
+steady-state power and temperature analysis. Since our technique is both
+accurate and fast, it can readily be utilized inside intensive
+design-space-exploration loops, which has been illustrated by undertaking
+reliability optimization.
 
-In \cref{uncertainty-process-fabrication}, we have considered the variability of
-process parameters across silicon wafers engendered by process variation and
-presented a versatile statistical framework for inferring this variability by
-means of indirect measurements, which can potentially be incomplete and
-corrupted by noise.
+In \cref{uncertainty-process-fabrication}, we have considered the variability
+that is induced by process variation on process parameters across silicon
+wafers. In this context, we have presented a versatile statistical framework for
+inferring the aforementioned variability by means of indirect measurements,
+which can potentially be incomplete and corrupted by noise. The ability to work
+with such measurements implies low costs, since there is no need for deploying
+any specialized test structures, or only a small subset of test equipment might
+need to be engaged.
 
-In \cref{uncertainty-process-development}, we have presented a technique for
-studying diverse system-level quantities that are of interest to the designer
-but are also uncertain due the variability stemming from process variation.
-Examples include transient and dynamic steady-state power and temperature
-profiles of the system under consideration as well as the system's maximum
-temperature and energy consumption. The proposed approach has been applied to
-energy optimization with reliability-related constraints. In this context,
-reliability analysis has been enhanced in order to take account of the impact of
-process uncertainty.
+In \cref{uncertainty-process-development}, we have presented a methodology for
+studying diverse system-level quantities that are of interest to the designer,
+but that are also uncertain due to process variation. Examples include transient
+and dynamic steady-state power and temperature profiles of the system under
+consideration as well as the system's maximum temperature and total energy
+consumption. Our approach treats the quantity under analysis as an opaque
+object---and hence is flexible and easy to apply---and delivers a surrogate for
+this object that allows the designer to computationally efficiently estimate
+various probabilistic characteristics of this quantity. The efficiency makes the
+proposed technique suitable for exploring the design space. This has been
+demonstrated in the context of energy optimization with reliability-related
+constraints, in which reliability analysis has been enhanced to consider process
+uncertainty.
 
 In \cref{uncertainty-workload-development}, we have developed another technique
 for probabilistic analysis of system-level quantities that are of interest to
-the designer. In this case, we have striven to provide a computationally
-efficient and adequate characterization of the variability that originates from
-workload uncertainty, which tends to be less regular than the one originating
-from process uncertainty.
+the designer. In this case, we have striven to provide an adequate
+characterization of the variability that originates from workload. This
+variability tends to be less regular than the one stemming from the fabrication
+process and, therefore, necessitates a separate treatment. The presented
+approach allows the designer to analyze such important quantities end-to-end
+delays, energy consumption, and peak temperatures subject to workload variation.
+It has been demonstrated that, for a fixed budget of evaluations of the quantity
+under consideration, our technique achieves higher accuracy compared to the one
+delivered by direct sampling.
 
 In \cref{uncertainty-workload-operation}, we have elaborated on the mitigation
-of workload uncertainty at runtime in the context of resource management. More
-specifically, we have performed an early investigation of the applicability of
+of workload uncertainty at runtime in the context of resource management.
+Specifically, we have performed an early investigation of the applicability of
 advanced prediction techniques from the field of machine learning to the problem
 of fine-grained long-range forecasting of resource usage in large computer
-systems.
+systems. The results indicate that the real-life data which have been studied
+possess certain regularities, and that these regularities can be modeled by
+advanced machine-learning techniques and thereby utilized for making sensible
+predictions.
