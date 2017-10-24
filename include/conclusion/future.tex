@@ -1,1 +1,19 @@
-She sells seashells on the seashore.
+There are several potential directions for future work. One general remark is
+that it would be insightful to investigate how our uncertainty-aware techniques
+perform in practice. We have conducted such an investigation in the case of the
+interpolation-based technique presented in
+\cref{uncertainty-workload-development}; however, this investigation is
+relatively small and has been done in an academic setting. Industrial settings
+are different, and they might help to reveal blind spots.
+
+The early investigation reported in \cref{uncertainty-workload-operation} is
+arguably the most prominent direction for further development in the scope of
+this thesis. In situations where workload can vary dramatically and without any
+apparent regularity, mitigation of uncertainty at runtime is considered
+advantageous, since one has access to large amounts of relevant and previously
+inaccessible-by-definition information and hence can make more deliberate
+decisions. As emphasized throughout \cref{uncertainty-workload-operation},
+modern architectures of neural networks accompanied by modern approaches to
+training have great potential, and resource management is the foremost
+beneficiary in this regard. This potential, however, is yet to be materialized.
+Extensive research in this direction is highly needed.
