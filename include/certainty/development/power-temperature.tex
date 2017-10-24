@@ -47,7 +47,7 @@ calculate the static power at the current temperature, add it to the dynamic
 power, and use the result for evaluating the next temperature. Hence, the
 recurrence becomes
 \[
-  \vs_i = \m{E} \vs_{i - 1} + \m{F} (\vp_{\dynamic, i} + \vp_{\static, i}(\vq_{i - 1})).
+  \vs_i = \m{E} \vs_{i - 1} + \m{F} (\vp_{\dynamic, i} + \vp_{\static, i}(\vq_{i - 1}))
 \]
 for $i = \range{1}{\ns}$ where, as indicated, $\vp_{\static, i}$ is computed
 using $\vq_{i - 1}$.
