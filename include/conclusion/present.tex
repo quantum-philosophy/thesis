@@ -1,17 +1,16 @@
 We have developed a number of system-level techniques for analyzing and
 designing electronic systems under the uncertainty stemming from the fabrication
-process, workload, and aging. The features that are common to the proposed
-techniques are generality and straightforwardness of application.
+process, workload, and aging. The features that are common to our solutions are
+efficiency, generality, and straightforwardness of application.
 
 In \cref{certainty-development}, we have elaborated on the Utopian deterministic
 scenario, which has served as an adequate starting point for the subsequent
 developments. We have presented an auxiliary transformation of the temperature
 model that simplifies certain operations associated with temperature
 calculations. Furthermore, we have proposed a novel approach to dynamic
-steady-state power and temperature analysis. Since our technique is both
-accurate and fast, it can readily be utilized inside intensive
-design-space-exploration loops, which has been illustrated by undertaking
-reliability optimization.
+steady-state power and temperature analysis. The high accuracy and speed of our
+technique make it readily applicable inside intensive design-space-exploration
+loops, which has been illustrated by undertaking reliability optimization.
 
 In \cref{uncertainty-process-fabrication}, we have considered the variability
 that is induced by process variation on process parameters across silicon
@@ -28,11 +27,11 @@ but that are also uncertain due to process variation. Examples include transient
 and dynamic steady-state power and temperature profiles of the system under
 consideration as well as the system's maximum temperature and total energy
 consumption. Our approach treats the quantity under analysis as an opaque
-object---and hence is flexible and easy to apply---and delivers a surrogate for
+object, which makes it flexible and easy to use, and delivers a surrogate for
 this object that allows the designer to computationally efficiently estimate
 various probabilistic characteristics of this quantity. The efficiency makes the
-proposed technique suitable for exploring the design space. This has been
-demonstrated in the context of energy optimization with reliability-related
+proposed technique suitable for exploring the design space. This virtue has been
+exemplified in the context of energy optimization with reliability-related
 constraints, in which reliability analysis has been enhanced to consider process
 uncertainty.
 
@@ -42,18 +41,19 @@ the designer. In this case, we have striven to provide an adequate
 characterization of the variability that originates from workload. This
 variability tends to be less regular than the one stemming from the fabrication
 process and, therefore, necessitates a separate treatment. The presented
-approach allows the designer to analyze such important quantities end-to-end
-delays, energy consumption, and peak temperatures subject to workload variation.
-It has been demonstrated that, for a fixed budget of evaluations of the quantity
-under consideration, our technique achieves higher accuracy compared to the one
-delivered by direct sampling.
+approach allows the designer to analyze such important quantities subject to
+workload variation as end-to-end delays, energy consumption, and peak
+temperatures. The experimental results have demonstrated that, given a fixed
+budget of evaluations of the quantity under consideration, the designer can
+benefit substantially in terms of accuracy per computation time by utilizing the
+proposed technique instead of direct sampling.
 
 In \cref{uncertainty-workload-operation}, we have elaborated on the mitigation
 of workload uncertainty at runtime in the context of resource management.
 Specifically, we have performed an early investigation of the applicability of
 advanced prediction techniques from the field of machine learning to the problem
 of fine-grained long-range forecasting of resource usage in large computer
-systems. The results indicate that the real-life data which have been studied
-possess certain regularities, and that these regularities can be modeled by
-advanced machine-learning techniques and thereby utilized for making sensible
+systems. The obtained results indicate that the real-life data which have been
+studied possess certain regularities, and that these regularities can be modeled
+by advanced machine-learning techniques and thereby utilized for making sensible
 predictions.
