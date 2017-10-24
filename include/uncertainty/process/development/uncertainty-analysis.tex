@@ -117,14 +117,14 @@ in \nz variables whose orders are specified by the corresponding elements of
 
 It can be seen that the first step toward a polynomial expansion is the choice
 of a suitable polynomial basis, which is typically made based on the Askey
-scheme of orthogonal polynomials \cite{xiu2010}. The step is crucial as the rate
-of convergence of \ac{PC} expansions depends on it. Although there are no rules
-that guarantee the optimal choice \cite{knio2006}, there are best practices
-suggesting that one should be guided by the probability distributions of the
-random variables that drive the stochastic system at hand. For instance, when a
-random variable follows a beta distribution, the Jacobi basis is worth being
-tried first; on the other hand, the Hermite basis is preferable for Gaussian
-distributions.
+scheme of orthogonal polynomials \cite{xiu2010}. The step is crucial, as the
+rate of convergence of \ac{PC} expansions depends on it. Although there are no
+rules that guarantee the optimal choice \cite{knio2006}, there are best
+practices suggesting that one should be guided by the probability distributions
+of the random variables that drive the stochastic system at hand. For instance,
+when a random variable follows a beta distribution, the Jacobi basis is worth
+being tried first; on the other hand, the Hermite basis is preferable for
+Gaussian distributions.
 
 As shown in \eref{chaos-inner-product} and \eref{chaos-projection}, each
 coefficient $\hat{\g}_{\vi}$ is an \nz-dimensional integral of the product of \g
@@ -205,10 +205,11 @@ setting $\gamma = 1$.
 
 Once \vz has been identified, and \lc, \lq, and $\v{c}$ have been chosen, the
 corresponding polynomial basis and quadrature stay the same for all quantities
-that one might be interested in studying. This observation is of high importance
-as a lot of preparatory work can and should be done only once and then reused as
-needed. In particular, the construction in \eref{chaos-expansion} can be reduced
-to one matrix multiplication with a precomputed matrix, which we show next.
+that one might be interested in studying. This observation is of high
+importance, as a lot of preparatory work can and should be done only once and
+then reused as needed. In particular, the construction in \eref{chaos-expansion}
+can be reduced to one matrix multiplication with a precomputed matrix, which we
+show next.
 
 \inputalgorithm{chaos-construction}
 Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of

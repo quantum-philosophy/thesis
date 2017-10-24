@@ -148,16 +148,16 @@ that are typical for the fabrication process being considered; see
 \cite{marzouk2009} and the references therein.
 
 Step~2 is to make the above model of \g computationally tractable. The model is
-an infinite-dimensional object as it characterizes a continuum of locations. For
-practical computations, it should be reduced to a finite-dimensional one. First,
-\g is discretized with respect to the union of two sets of locations. The first
-one is composed of the $\hnd \np$ points where the observations in $H$ are made
-(\hnd measurement sites with \np measurement points each), and the other one of
-the locations where the designer wishes to characterize \g. For simplicity,
-assume that the designer is interested in all the sites, which results in $\nd
-\np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the values of \g at
-these locations. Second, the dimensionality of the problem is reduced further
-via the \ac{KL} decomposition, which is introduced in
+an infinite-dimensional object, as it characterizes a continuum of locations.
+For practical computations, it should be reduced to a finite-dimensional one.
+First, \g is discretized with respect to the union of two sets of locations. The
+first one is composed of the $\hnd \np$ points where the observations in $H$ are
+made (\hnd measurement sites with \np measurement points each), and the other
+one of the locations where the designer wishes to characterize \g. For
+simplicity, assume that the designer is interested in all the sites, which
+results in $\nd \np$ locations in total. Let $\vg \in \real^{\nd \np}$ store the
+values of \g at these locations. Second, the dimensionality of the problem is
+reduced further via the \ac{KL} decomposition, which is introduced in
 \xref{probability-transformation}. Concretely, we perform the transformation
 shown in \eref{model-order-reduction} with respect to the correlation matrix of
 \vg computed via \eref{bayes-covariance}. The result is
