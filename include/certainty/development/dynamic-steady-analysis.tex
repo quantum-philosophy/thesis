@@ -3,22 +3,22 @@ analysis in one particular but important context. It tackles the scenario where
 power consumption follows a periodic pattern. In this case, after a sufficiently
 long time, the system does not reach a static steady state but instead a dynamic
 steady state where temperature starts to exhibit a periodic pattern following
-the periodic pattern of power. Then the goal of the analysis in question is to
-find the periodic temperature profile \mq, called the dynamic steady-state
-temperature profile, that corresponds to a given periodic power profile \mp.
+the periodic pattern of power. The goal of the analysis is then to find the
+periodic temperature profile \mq, called the dynamic steady-state temperature
+profile, that corresponds to a given periodic power profile \mp.
 
 In the case of applications that exhibit periodic or close to periodic
 behaviors, this analysis is of particular importance. Any design optimization
 has to be performed such that the efficiency and reliability of the system at
-hand are maximized considering not a relatively short transient time interval at
-the system's start but the context in which the system is to function over a
+hand are maximized by considering not a relatively short transient time interval
+at the system's start but the context in which the system is to function over a
 long period of time, which is exactly the dynamic steady state of the system.
 
 A prominent example of a design task for which the analysis is of central
 importance is reliability optimization targeted at mitigating thermal-cycling
 fatigue \cite{jedec2016}. As noted in \sref{thermal-cycling-fatigue}, in this
-context, not only the average and maximum temperature have a huge impact on the
-lifetime of the system but also the amplitude and frequency of temperature
+context, the lifetime of the system is impacted not only by the average and
+maximum temperature but also by the amplitude and frequency of temperature
 oscillations. Thus, efficient reliability optimization depends on the
 availability of the actual dynamic steady-state temperature profile, which we
 discuss further in \sref{dream-optimization}.
