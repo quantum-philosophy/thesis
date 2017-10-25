@@ -16,13 +16,12 @@ which, in the context of reliability analysis, gives the probability of survival
 up to a certain moment in time and is called the reliability function of the
 system.
 
-The lifetime \life of the system is a function of the lifetimes of the \np
-processing elements that the system is composed of. Denote these individual
-lifetimes by $\set{\life_i}{\Omega \to \real}_{i = 1}^\np$. Each $\life_i$ is
-characterized by a physical model of wear \cite{jedec2016} that describes the
-stress that processing element~$i$ is exposed to. Each $\life_i$ is also
-assigned an individual $R_i(\cdot | \vg_i)$, which models the failures due to
-this stress.
+The lifetime \life is a function of the lifetimes of the \np processing elements
+that the system is composed of. Denote these individual lifetimes by
+$\set{\life_i}{\Omega \to \real}_{i = 1}^\np$. Each $\life_i$ is characterized
+by a physical model of wear \cite{jedec2016} that describes the stress which
+processing element~$i$ is exposed to. Each $\life_i$ is also assigned an
+individual $R_i(\cdot | \vg_i)$, which models the failures due to this stress.
 
 The structure of $R(\cdot | \vg)$ with respect to $\set{R_i(\cdot | \vg_i)}_{i =
 1}^\np$ is problem specific, and it can be especially diverse in the context of
