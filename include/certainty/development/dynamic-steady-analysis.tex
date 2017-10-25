@@ -93,10 +93,10 @@ difficult and dangerous from the standpoint of design optimization.
 \subsection{\solutiontitle}
 \slab{dynamic-steady-solution}
 
-In this subsection, we are to formalize the problem of dynamic steady-state
-temperature analysis and to develop an exact and, moreover, computationally
-efficient solution to this problem, which eliminates the shortcomings of the
-state-of-the-art solutions discussed in the previous subsection.
+In this subsection, we formalize the problem of dynamic steady-state temperature
+analysis and develop an exact and, moreover, computationally efficient solution
+to this problem, which eliminates the shortcomings of the state-of-the-art
+solutions discussed in the previous subsection.
 
 Consider the temperature model in \eref{temperature-model} and the corresponding
 recurrence in \eref{transient-recurrence}. The key condition of a dynamic steady
@@ -105,7 +105,7 @@ state is
   \vs_0 = \vs_\ns.
 \end{equation}
 The above condition means that, once the dynamic steady state has been reached,
-the electronic system starts to arrive at its initial state at the end of each
+the electronic system starts returning to its initial state at the end of each
 iteration, which is what makes the system's behavior periodic. Then, using
 \eref{transient-recurrence}, the dynamic steady-state temperature profile can be
 computed by solving the following system of linear equations:
@@ -208,8 +208,8 @@ follows:
 \begin{equation} \elab{dynamic-steady-recurrence}
   \vs_i = \m{E} \vs_{i - 1} + \v{v}_i
 \end{equation}
-for $i = \range{1}{\ns}$. Apply this formula recursively starting from $\vs_0$
-leads to
+for $i = \range{1}{\ns}$. Applying this formula recursively starting from
+$\vs_0$ leads to
 \[
   \vs_i = \m{E}^i \vs_0 + \v{w}_i
 \]
@@ -282,9 +282,9 @@ It is worth noting that the auxiliary transformation presented in
 \eref{eigendecomposition} have substantially simplified the calculations
 associated with dynamic steady-state analysis. Note also that the
 eigendecomposition along with $\m{E}$ and $\m{F}$ are computed only once for a
-particular thermal \up{RC} circuit and can be considered given together with the
-circuit. In other words, these quantities stay the same when different power
-profiles are to be analyzed, which is particularly advantageous when an
+particular thermal \up{RC} circuit and can be considered to be given together
+with the circuit. In other words, these quantities stay the same when different
+power profiles are to be analyzed, which is particularly advantageous when an
 intensive design-space-exploration procedure is concerned.
 
 The computational complexity of the whole procedure is estimated to be
