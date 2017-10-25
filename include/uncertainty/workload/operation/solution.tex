@@ -191,7 +191,7 @@ to the inevitable overhead imposed by the computations involved. These
 computations should be performed in batches, that is, \nb profiles should be fed
 simultaneously where \nb is referred to as the batch size. Since, in general,
 $\nsi{i} \neq \nsi{j}$, it is not possible to stack multiple arbitrary profiles
-into a single tensor. In order to circumvent this problem, we reside to
+into a single tensor. In order to circumvent this problem, we resort to
 bucketing. Specifically, each profile is put into one of many buckets chosen
 based on the profile's length. When a bucket collecting profiles of length from
 some \nsi{l} to \nsi{r} has received \nb profiles, it pads the ones that are
