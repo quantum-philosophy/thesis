@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/10/22 Thesis]
+\ProvidesClass{thesis}[2017/10/25 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -212,6 +212,7 @@
     \cleardoublepage
   }
   {
+    \chapter*{Foreword}
     \@foreword
     \addcontentsline{toc}{chapter}{Foreword}
     \cleardoublepage
