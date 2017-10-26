@@ -1,6 +1,6 @@
-So far, the interdependence between power and temperature, which is drawn
-attention to in \sref{power-model}, has been ignored. In order to properly take
-it into account, several approaches can be employed as follows.
+So far, the interdependence between power and temperature, which is introduced
+in \sref{power-model}, has been ignored. In order to properly take it into
+account, several approaches can be employed as follows.
 
 The first approach is to calculate the power and temperature profiles several
 times in turns until the latter converges. In this case, we obtain a series of
@@ -8,7 +8,7 @@ pairs of a power profile and a temperature profile
 \[
   \set{(\mp_i, \mq_i)}{i = 1, 2, \dots}.
 \]
-With each new temperature profile $\mq_i$---which is computed by performing
+For each new temperature profile $\mq_i$---which is computed by performing
 transient, static steady-state, or dynamic steady-state analysis as usual---a
 new power profile $\mp_i$ is obtained by recalculating the static power and
 adding it to the dynamic power, which we write as follows:
@@ -41,11 +41,11 @@ successive dynamic steady-state temperature profiles becomes smaller than
 applications.
 
 In the case of transient analysis, the iterative procedure can also be done on a
-step-by-step basis and even with only one iteration. Specifically, at each step
-of the iterative process in \eref{transient-recurrence}, one can simply
-calculate the static power at the current temperature, add it to the dynamic
-power, and use the result for evaluating the next temperature. Hence, the
-recurrence becomes
+step-by-step basis, even with only one iteration. Specifically, at each step of
+the iterative process in \eref{transient-recurrence}, one can simply calculate
+the static power at the current temperature, add it to the dynamic power, and
+use the result for evaluating the next temperature. Hence, the recurrence
+becomes
 \[
   \vs_i = \m{E} \vs_{i - 1} + \m{F} (\vp_{\dynamic, i} + \vp_{\static, i}(\vq_{i - 1}))
 \]
@@ -72,18 +72,18 @@ where
 \end{align*}
 and $\hm{G}$ has the same properties as $\m{G}$. Therefore, all the solutions
 that have been derived in this chapter remain perfectly valid. Moreover, as
-shown in \cite{liu2007}, despite of its simplicity, the approximation is
-relatively accurate and, if needed, can be improved by considering multiple
-linear segments.
+shown in \cite{liu2007}, despite its simplicity, the approximation is relatively
+accurate and, if needed, can be improved by considering multiple linear
+segments.
 
 In order to evaluate the linearization, we consider a number of hypothetical
 platforms with 2--32 processing elements and undertake dynamic steady-state
-analysis. The calculations are performed with both the linearization and the
+analysis. The experiment is performed with both the linear approximation and the
 full exponential model in \eref{static-power}. For the former, the model is
 fitted using least squares \cite{press2007} targeted at the range
 \celsius{40}--\celsius{80}. For the latter, we use the iterative approach
 described earlier. The results show that the \ac{NRMSE} is bounded by 2\%,
-indicating the adequate accuracy of the linear approximation.
+indicating that the linearization is adequately accurate.
 
 It is important to note that, regardless of the approach utilized, power and
 temperature are analyzed simultaneously, as they are interdependent. One obtains
