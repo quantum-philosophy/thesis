@@ -69,24 +69,23 @@ polynomial basis:
 \[
   \f = \sum_{\vi \in \natural^n} \hat{\f}_{\vi} \psi_{\vi}
 \]
-where the equality should be understood in mean square. The coefficients
-$\set{\hat{\f}_{\vi}}$ of the expansion are found by taking the inner product
-with respect to each $\psi_{\vi}$ from the basis on both sides of the above
-equation and making use of the orthogonality property shown in
-\eref{chaos-orthogonality}. The result is
-\begin{equation} \elab{chaos-projection}
-  \hat{\f}_{\vi} = \innerproduct{\f}{\psi_{\vi}}.
-\end{equation}
-This operation is referred to as a spectral projection.
-
-In practice, the infinite expansion is to be truncated, which we denote by
+where the equality should be understood in mean square. In practice, this
+infinite expansion should be truncated, which we denote by
 \[
   \f \approx \chaos{n}{\lc}{\f} = \sum_{\vi \in \sparseindex{n}{\lc}} \hat{\f}_{\vi} \psi_{\vi}
 \]
 where $\sparseindex{n}{\lc}$ is a certain index set, frequently the one given in
 \eref{index-total-order-isotropic}. In the notation $\chaos{n}{\lc}$, the
 superscript $n$ indicates that there are $n$ random variables, and the subscript
-\lc indicates the level of the truncated expansion.
+\lc indicates the level of the truncated expansion. Each coefficient
+$\hat{\f}_{\vi}$ is found by taking the inner product with respect to the
+corresponding polynomial $\psi_{\vi}$ on both sides of the above equation and
+making use of the orthogonality property shown in \eref{chaos-orthogonality}.
+The result is
+\begin{equation} \elab{chaos-projection}
+  \hat{\f}_{\vi} = \innerproduct{\f}{\psi_{\vi}}.
+\end{equation}
+This operation is referred to as a spectral projection.
 
 The classical \ac{PC} decomposition can be generalized to other families of
 probability distributions besides the Gaussian one. Many distributions directly
