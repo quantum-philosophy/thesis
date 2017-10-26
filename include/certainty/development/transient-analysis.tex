@@ -30,17 +30,18 @@ we obtain
   \tvs(t) = e^{\tm{A} t} \tvs(0) + e^{\tm{A} t} \int_0^t e^{-\tm{A} \tau} \m{C}^{-1} \tm{B} \vp(\tau) \d \tau,
 \]
 which is the solution at time $t$ starting from the initial condition $\tvs(0)$
-at time~0. Suppose now that the power consumption of the processing elements
-does not change over time; hence, $\vp(t) = \vp$. In this case, the system is a
-system of linear differential equations that has the following analytical
-solution:
+at time~0.
+
+Imagine now that the power consumption of the processing elements does not
+change over time, that is, $\vp(t) = \vp$. In this case, the system is a system
+of linear differential equations that has the following analytical solution:
 \begin{equation} \elab{transient-solution-original}
   \tvs(t) = e^{\tm{A} t} \tvs(0) + \tm{A}^{-1} (e^{\tm{A} t} - \m{I}) \m{C}^{-1} \tm{B} \vp
 \end{equation}
 where $\m{I}$ is the identity matrix.
 
-Assume now that the sampling interval \dt of \mp is small enough so that the
-power consumption in the interval $[t_i, t_{i + 1})$ can be reasonably
+Suppose now that the sampling interval \dt of \mp is small enough so that the
+power consumption in each interval $[t_i, t_{i + 1})$ can be reasonably
 approximated by a constant equal to $\vp_i = \vp(t_i)$. The corresponding \mq
 can then be found by applying the following recurrence derived from
 \eref{transient-solution-original}:
@@ -53,9 +54,9 @@ for $i = \range{1}{\ns}$ where
   & \tm{E} = e^{\tm{A} \dt}, \text{ and} \\
   & \tm{F} = \tm{A}^{-1}(e^{\tm{A} \dt} - \m{I})\m{C}^{-1} \tm{B}.
 \end{align*}
-It should be noted that, in order to obtain the actual \mq, the recurrence
-should be followed by \eref{temperature-algebraic-original}, which involves two
-trivial algebraic operations.
+Note that, in order to obtain the actual \mq, the recurrence should be followed
+by \eref{temperature-algebraic-original}, which involves two trivial algebraic
+operations.
 
 Similarly to the observation made in \cite{thiele2011}, our experience shows
 that the approach to transient analysis described above provides a significant
