@@ -10,8 +10,8 @@ pairs of a power profile and a temperature profile
 \]
 For each new temperature profile $\mq_i$---which is computed by performing
 transient, static steady-state, or dynamic steady-state analysis as usual---a
-new power profile $\mp_i$ is obtained by recalculating the static power and
-adding it to the dynamic power, which we write as follows:
+new power profile $\mp_i$ is obtained by recalculating the static component of
+power and adding it to the dynamic one, which we write as follows:
 \[
   \mp_i = \mp_\dynamic + \mp_{\static, i}(\mq_{i - 1})
 \]
@@ -43,17 +43,17 @@ applications.
 In the case of transient analysis, the iterative procedure can also be done on a
 step-by-step basis, even with only one iteration. Specifically, at each step of
 the iterative process in \eref{transient-recurrence}, one can simply calculate
-the static power at the current temperature, add it to the dynamic power, and
-use the result for evaluating the next temperature. Hence, the recurrence
-becomes
+the static power component at the current temperature, add it to the dynamic
+one, and use the result for evaluating the next temperature. Hence, the
+recurrence becomes
 \[
   \vs_i = \m{E} \vs_{i - 1} + \m{F} (\vp_{\dynamic, i} + \vp_{\static, i}(\vq_{i - 1}))
 \]
 for $i = \range{1}{\ns}$ where, as indicated, $\vp_{\static, i}$ is computed
 using $\vq_{i - 1}$.
 
-The second approach is to use a linear approximation of the static power, which
-can be formalized as follows:
+The second approach is to use a linear approximation of static power, which can
+be formalized as follows:
 \[
   \vp_\static(t) = \hm{A} \vq(t) + \hv{b}
 \]
@@ -90,9 +90,9 @@ temperature are analyzed simultaneously, as they are interdependent. One obtains
 not only a temperature profile but also the corresponding static or total power
 profile, and all profiles take account of the power-temperature interplay.
 
-Lastly, let us mention that the static power is not considered in the
-experiments given in \sref{dynamic-steady-results}. However, if it was taken
-into account using the linearization, the computation times would remain
-unchanged, and, if the iterative model was utilized, the computation times would
-increase proportionally for all the techniques, which would not affect any of
-the conclusions.
+Lastly, let us mention that static power is not considered in the experiments
+given in \sref{dynamic-steady-results}. However, if it was taken into account
+using the linearization, the computation times would remain unchanged, and, if
+the iterative model was utilized, the computation times would increase
+proportionally for all the techniques, which would not affect any of the
+conclusions.

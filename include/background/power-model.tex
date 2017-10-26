@@ -1,8 +1,8 @@
 The total power consumption of an electrical circuit consists of two main
-components: dynamic and static. The dynamic component is the result of the
-actual useful work done by the circuit. By contract, the static component is the
-result of various parasitic currents that cannot be entirely eliminated. The
-total power consumed by \np processing elements at time $t$ is then written as
+components: dynamic and static. Dynamic power is the result of the actual useful
+work done by the circuit. By contract, static power is the result of various
+parasitic currents that cannot be entirely eliminated. The total power consumed
+by \np processing elements at time $t$ is then written as
 \begin{equation} \elab{power-model}
   \vp(t) = \vp_\dynamic(t) + \vp_\static(t)
 \end{equation}
@@ -10,15 +10,15 @@ where $\vp_\dynamic \in \real^\np$ and $\vp_\static \in \real^\np$ are the
 aforementioned dynamic and static components of the total dissipation of power,
 respectively.
 
-The dynamic power is modeled as follows:
+Dynamic power is modeled as follows:
 \[
   \p_\dynamic = C f V^2
 \]
 where $C$ is the effective switched capacitance, $f$ is the frequency, and $V$
-is the supply voltage of the circuit. The static power is chiefly due to the
-leakage current \cite{chandrakasan2000, srivastava2010, juan2011, juan2012},
-especially in modern \up{CMOS} transistors. The leakage and, by extension,
-static power are modeled as follows \cite{liao2005}:
+is the supply voltage of the circuit. Static power is chiefly due to the leakage
+current \cite{chandrakasan2000, srivastava2010, juan2011, juan2012}, especially
+in modern \up{CMOS} transistors. Leakage power and, by extension, static power
+are modeled as follows \cite{liao2005}:
 \begin{equation} \elab{static-power}
   \p_\static = \n{g} V I_0 \left(a \q^2 e^{\frac{\alpha V + \beta}{\q}} + b e^{\gamma V + \delta}\right)
 \end{equation}
@@ -29,8 +29,8 @@ $b$, $\alpha$, $\beta$, $\gamma$, and $\delta$ are technology-dependent
 constants, which can be found in \cite{liao2005}. There are two aspects to note
 with respect to the equations given above.
 
-First, the dynamic power does not depend on the operating temperature, whereas
-the static power does. The dependence of the static (and hence total) power on
+First, the dynamic power component does not depend on the operating temperature,
+whereas the static one does. The dependence of static (and hence total) power on
 temperature is positive and strong: a higher level of heat dissipation leads to
 a considerably higher level of power consumption. On the other hand, as more
 power is consumed, more heat is dissipated. Consequently, power and temperature
@@ -39,7 +39,7 @@ be neglected, since it leads to a higher level of power (energy) consumption
 than expected and a higher level of heat dissipation than expected and, in the
 worst case, could cause a thermal runaway.
 
-Second, even though it is not explicitly spelled out, the static (and hence
-total) power depends on a number of process parameters, including the effective
-channel length and gate oxide thickness. In particular, the effective channel
-length has one of the strongest impacts on the leakage current \cite{juan2012}.
+Second, even though it is not explicitly spelled out, static (and hence total)
+power depends on a number of process parameters, including the effective channel
+length and gate oxide thickness. In particular, the effective channel length has
+one of the strongest impacts on the leakage current \cite{juan2012}.
