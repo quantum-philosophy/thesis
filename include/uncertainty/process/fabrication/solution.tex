@@ -76,19 +76,19 @@ temperature profile \h. At this point, it is worth recalling the power model
 presented in \sref{power-model}. The first transition is due to the dependence
 of the leakage current on the effective channel length, which is implicitly
 present in \eref{static-power}. The transition can then be made by means of the
-model in \eref{static-power} or any of its variations; see, for instance,
-\cite{chandrakasan2000, srivastava2010, juan2012}. In particular, an adequate
-model of static power can be constructed via a fitting procedure applied to a
-data set of \up{SPICE} simulations of reference electrical circuits. The only
-requirement for such a model is that it should be parameterized by \g. In
-addition, it can also be parameterized by temperature in order to take account
-of the power-temperature interdependence described in \sref{power-model}. The
-second transition is made by combining the static component of power with the
-dynamic power that corresponds to the workload being considered. The resulting
-total power and the relevant temperature-related information---such as the
-floorplan and thermal parameters of the platform---are fed to a temperature
-simulator in order to acquire the corresponding temperature \h, which is
-discussed in detail in \cref{certainty-development}.
+model shown in \eref{static-power} or any of its variations; see, for instance,
+\cite{chandrakasan2000, srivastava2010, yang2010, juan2012}. In particular, an
+adequate model of static power can be constructed via fitting to \up{SPICE}
+simulations of reference electrical circuits. The only requirement for such a
+model is that it should be parameterized by \g. In addition, it can also be
+parameterized by temperature in order to take account of the power-temperature
+interdependence described in \sref{power-model}. The second transition is made
+by combining the static component of power with the dynamic power that
+corresponds to the workload being considered. The resulting total power and the
+relevant temperature-related information---such as the floorplan and thermal
+parameters of the platform---are fed to a temperature simulator in order to
+acquire the corresponding temperature \h, which is discussed in detail in
+\cref{certainty-development}.
 
 \subsection{Statistical Model}
 \slab{bayes-statistical-model}
