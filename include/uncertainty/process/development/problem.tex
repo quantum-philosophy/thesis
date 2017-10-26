@@ -10,8 +10,8 @@ temperature from the one corresponding to the nominal power consumption.
 
 Each process parameter is a characteristic of a single transistor; consider, for
 instance, the effective channel length. Therefore, each device in the electrical
-circuit at hand can potentially have a different value of this parameter. Then the
-process parameters can be modeled as a stochastic process
+circuit at hand can potentially have a different value of this parameter. The
+process parameters can then be modeled as a stochastic process
 \[
   \u: \Omega \times \real^2 \to \real^\nu
 \]
@@ -19,8 +19,8 @@ that is defined on a suitable probability space $(\Omega, \F, \probability)$
 (see \xref{probability-theory}) and a two-dimensional plane and takes values in
 $\real^\nu$ where \nu is the number of the process parameters. For practical
 computations, the stochastic process is discretized, and each processing element
-is modeled via a finite set of random variables. Then the uncertain parameters
-of the problem are defined as
+is modeled via a finite set of random variables. The uncertain parameters of the
+problem are then defined as
 \[
   \vu = (\u_i)_{i = 1}^\nu: \Omega \to \real^\nu
 \]

@@ -67,7 +67,7 @@ Define
   & \Delta\interpolant{1}{i} = \interpolant{1}{i} - \interpolant{1}{i - 1}, \text{ and} \elab{interpolant-single-delta} \\
   & \Delta\interpolant{n}{\vi} = \bigotimes_{k = 1}^n \Delta\interpolant{1}{i_k}. \nonumber
 \end{align}
-Then the Smolyak algorithm of level \ls is
+The Smolyak algorithm of level \ls is then
 \begin{equation} \elab{interpolant-sparse-incremental}
   \interpolant{n}{\ls}
   = \sum_{\vi \in \sparseindex{n}{\ls}} \Delta\interpolant{n}{\vi}
@@ -87,7 +87,7 @@ collocation nodes, define
   & \Delta\X^1_i = \X^1_i \setminus \X^1_{i - 1}, \text{ and } \\
   & \Delta\X^n_{\vi} = \Delta\X^1_{i_1} \times \cdots \times \Delta\X^1_{i_n}.
 \end{align*}
-Then the collocation nodes are as follows:
+The collocation nodes are then as follows:
 \begin{equation} \elab{interpolant-sparse-grid}
   \X^n_{\ls}
   = \bigcup_{\vi \in \sparseindex{n}{\ls}} \Delta\X^n_{\vi}
