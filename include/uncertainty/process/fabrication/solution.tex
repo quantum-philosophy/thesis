@@ -70,25 +70,25 @@ In order to acquire a better understanding of the data model, let us return to
 the example given in \sref{bayes-motivation}. In this case, \g stands for the
 effective channel length, and \h for the temperature profile \mq corresponding
 to a fixed workload. The data model can be roughly divided into two transitions:
-\one~from the effective channel length \g to the static power $\p_\static$ and
-\two~from the static power $\p_\static$ to the corresponding temperature profile
-\h. At this point, it is worth recalling the power model presented in
-\sref{power-model}. The first transition is due to the dependence of the leakage
-current on the effective channel length, which is implicitly present in
-\eref{static-power}. The transition can then be made by means of the model in
-\eref{static-power} or any of its variations; see, for instance,
+\one~from the effective channel length \g to the static power consumed by the
+platform at hand and \two~from this static power to the corresponding
+temperature profile \h. At this point, it is worth recalling the power model
+presented in \sref{power-model}. The first transition is due to the dependence
+of the leakage current on the effective channel length, which is implicitly
+present in \eref{static-power}. The transition can then be made by means of the
+model in \eref{static-power} or any of its variations; see, for instance,
 \cite{chandrakasan2000, srivastava2010, juan2012}. In particular, an adequate
-model of the static power can be constructed via a fitting procedure applied to
-a data set of \up{SPICE} simulations of reference electrical circuits. The only
+model of static power can be constructed via a fitting procedure applied to a
+data set of \up{SPICE} simulations of reference electrical circuits. The only
 requirement for such a model is that it should be parameterized by \g. In
 addition, it can also be parameterized by temperature in order to take account
 of the power-temperature interdependence described in \sref{power-model}. The
-second transition is made by combining the static power $\p_\static$ with the
-dynamic power $\p_\dynamic$ that corresponds to the workload being considered.
-The total power that is obtained and the relevant temperature-related
-information---such as the floorplan and thermal parameters of the platform at
-hand---are fed to a temperature simulator in order to acquire the corresponding
-temperature \h, which is discussed in detail in \cref{certainty-development}.
+second transition is made by combining the static component of power with the
+dynamic power that corresponds to the workload being considered. The resulting
+total power and the relevant temperature-related information---such as the
+floorplan and thermal parameters of the platform---are fed to a temperature
+simulator in order to acquire the corresponding temperature \h, which is
+discussed in detail in \cref{certainty-development}.
 
 \subsection{Statistical Model}
 \slab{bayes-statistical-model}
