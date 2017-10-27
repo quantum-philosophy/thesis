@@ -32,13 +32,14 @@ literature in order to calculate the dynamic steady-state temperature profile.
 The first technique is referred to as the iterative transient approximation. In
 this case, an estimate of the profile is calculated by running a temperature
 simulator over a number of successive periods of the application until a
-sufficiently accurate approximation of the dynamic steady state is attained
-\cite{srinivasan2004}. The typical simulator of choice is HotSpot
-\cite{skadron2003}, which is the state of the art in system-level temperature
-analysis \cite{srinivasan2004, liao2005, coskun2006, liu2007, huang2009b,
-xiang2010, thiele2011}. The simulator performs transient temperature analysis by
-solving the system in \eref{temperature-model-original} numerically by means of
-the fourth-order Runge--Kutta method \cite{press2007}.
+sufficiently accurate approximation of the dynamic steady state is assumed to be
+attained \cite{srinivasan2004}. The typical simulator of choice in this context
+is HotSpot \cite{skadron2003}, which is the state of the art in system-level
+temperature analysis of electronic systems; see, for instance,
+\cite{srinivasan2004, liao2005, coskun2006, liu2007, huang2009b, xiang2010,
+thiele2011, oboril2012, pagani2014}. The simulator performs transient
+temperature analysis by solving the system in \eref{temperature-model-original}
+numerically by means of the fourth-order Runge--Kutta method \cite{press2007}.
 
 \inputfigure{dream-iterative-transient-accuracy}
 The number of iterations required to reach the dynamic steady state depends on
