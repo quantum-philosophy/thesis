@@ -50,13 +50,13 @@ steady-state temperature analysis is required.
 \slab{dream-optimization-problem}
 
 In addition to the description given in \sref{system-model}, the platform under
-consideration is to execute a periodic application with \nt tasks. The
+consideration is supposed to execute a periodic application with \nt tasks. The
 application is given as a directed acyclic graph whose vertices and edges
 correspond to the tasks and to data dependencies between these tasks,
 respectively; see \fref{dream-motivation-graph}. Each pair of a task and a
-processing element is characterized by an execution time and a power
-consumption, which are the characteristics that the task exhibits when it is
-assigned to the processing element.
+processing element is characterized by an execution time and a power consumption
+value, which are the characteristics that the task exhibits when it is assigned
+to the processing element.
 
 The optimization objective is to find a schedule that maximizes the lifetime of
 the system under certain constraints. Formally, the objective is
