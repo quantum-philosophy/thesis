@@ -11,32 +11,32 @@ process variation undertaken in \cite{juan2014} are facilitated by a linear
 regression model \cite{hastie2013} constructed based on measurements of static
 power with the goal of predicting peak temperatures.
 
-Closer to the topic of this chapter, the work in \cite{dabbagh2015} is concerned
-with cloud data centers. The authors propose a framework for predicting the
-number of virtual-machine requests together with the required amount of \up{CPU}
-and memory. The framework makes use of k-means clustering \cite{hastie2013} for
-identifying different types of requests, and then it utilizes Wiener filters in
-order to estimate the aggregate workload with respect to each identified type.
-Similarly to \cite{dabbagh2015}, the work in \cite{ismaeel2015} is focused on
-forecasting virtual-machine requests in cloud data centers and relies on k-means
-clustering as the first step. Unlike \cite{dabbagh2015}, the main workhorse in
-the case of the technique in \cite{ismaeel2015} is extreme learning machines,
-which are feedforward neural networks mentioned earlier. An ensemble model
-\cite{hastie2013} is presented in \cite{cao2014} targeted at predicting \up{CPU}
-usage in cloud environments. It relies on multiple traditional models, and the
-final prediction is obtained by combing them by means of a scoring algorithm.
+The work in \cite{dabbagh2015}, which is more directly relevant to the topic of
+this chapter, is concerned with cloud data centers. The authors propose a
+framework for predicting the number of virtual-machine requests together with
+the required amounts of \up{CPU} and memory. The framework makes use of k-means
+clustering \cite{hastie2013} for identifying different types of requests, and
+then it utilizes Wiener filters in order to estimate the aggregate workload with
+respect to each identified type. Similarly to \cite{dabbagh2015}, the work in
+\cite{ismaeel2015} is focused on forecasting virtual-machine requests in cloud
+data centers and relies on k-means clustering as the first step. Unlike
+\cite{dabbagh2015}, the main workhorse in the case of the technique in
+\cite{ismaeel2015} is extreme learning machines, which are feedforward neural
+networks. An ensemble model \cite{hastie2013} is presented in \cite{cao2014}
+targeted at predicting \up{CPU} usage in cloud environments. It relies on
+multiple traditional models, and the final prediction is obtained by combing
+them by means of a scoring algorithm.
 
-It can be seen that, in general, machine learning has been utilized extensively
-for aiding the design of resource managers for computer systems. However, as
-noted in \sref{brain-introduction}, the most recent advancements in machine
-learning have not been sufficiently explored yet in this context. In particular,
-the utility of neural networks have been studied only marginally: feedforward
-neural networks---utilized, for instance, in \cite{kumar2010, ismaeel2015}---are
-arguably the simplest and least powerful members of the family. However, the
-family is rich and potent, which is widely demonstrated. For instance, recurrent
-neural networks accompanied by adequate training and regularization techniques
-\cite{goodfellow2016} are a salient candidate for resource management in
-computer systems.
+It can be seen that, in general, machine learning has been extensively utilized
+to aid the design of resource managers for computer systems. However, as noted
+in \sref{brain-introduction}, the most recent advancements have not yet been
+sufficiently explored in this context. In particular, the utility of neural
+networks has been studied only marginally: feedforward neural networks---which
+are utilized, for instance, in \cite{kumar2010, ismaeel2015}---are arguably the
+simplest and least powerful members of the family. However, the family is rich
+and potent. For instance, recurrent neural networks accompanied by adequate
+training techniques \cite{goodfellow2016} are a salient candidate for resource
+management in computer systems.
 
 In addition, note that the predictions delivered by the techniques proposed in
 \cite{cao2014, dabbagh2015, ismaeel2015} are coarse and aggregate. They treat
@@ -44,9 +44,9 @@ virtual-machine requests or computational resources as a fluid and predict the
 level that this fluid will attain at the next moment in time. This means that
 they are not capable of characterizing individual tasks executed by the
 machines. More generally, resource-usage prediction at the level of individual
-tasks and potentially multiple steps ahead has been deprived of attention.
-However, such prediction could provide the resource manager with more detailed
-and foresighted information, thereby allowing for a more intelligent
+tasks, potentially multiple steps ahead, has not received adequate attention.
+However, prediction of this type could provide the resource manager with more
+detailed and foresighted information, thereby allowing for more intelligent
 orchestration of the system.
 
 To summarize, only primitive architectures of neural networks have been
