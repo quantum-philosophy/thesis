@@ -1,4 +1,4 @@
-Consider a system of computers that is serving a stream of tasks which are
+Consider a system of computers that is serving a stream of tasks that are
 distributed across the individual machines of the system by a resource manager.
 The tasks consume certain resources, such as \up{CPU} and memory, during their
 execution. Let task~$i$ be characterized by a resource-usage profile defined as
@@ -19,17 +19,17 @@ This means that $\range{\vg_{i1}}{\vg_{ij}}$ are known. Given these previous
 values, the objective is to estimate the next $h$ values of the sequence, which
 we denote by $\range{\hat{\vg}_{i, j + 1}}{\hat{\vg}_{i, j + h}}$; in
 \fref{brain-application}, $h = 4$. Such prediction is called long range, since
-it provides multiple future values as opposed to providing only one. This
-operation is to be performed with respect to each active task of interest at
-each moment in time of interest.
+it provides multiple future values as opposed to providing only one. The
+operation should be performed with respect to each active task of interest at
+each moment of interest.
 
-In order to tackle the above problem, one is to learn from historical data, that
-is, from a data set of past profiles. Denoted this data set by
+In order to tackle this problem, one is supposed to learn from historical data,
+that is, from a data set of past profiles. Denote this data set by
 \begin{equation} \elab{brain-dataset}
   G = \set{\mg_i}{i = \range{1}{\no}}
 \end{equation}
 where \no is the total number of profiles, and $\mg_i$ is as in
-\eref{brain-profile}. Such data can be straightforwardly collected provided that
+\eref{brain-profile}. Such data can be collected straightforwardly provided that
 the system at hand has an adequate monitoring facility deployed, which is
 commonplace in practice.
 
