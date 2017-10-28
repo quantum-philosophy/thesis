@@ -4,15 +4,15 @@ Our workflow for resource-usage prediction is illustrated in
 be processed prior to learning, since they are likely to be given in a format
 that is not efficient or convenient to the subsequent calculations. With this in
 mind, our foremost task is to extract $G$ defined in \eref{brain-dataset} from
-the given raw data. This processing part can be seen at the top of
+the given raw data. This processing step can be seen at the top of
 \fref{brain-overview} and is explained in \sref{brain-data-pipeline}. Next, the
 resulting profiles are utilized in order to obtain an adequately trained
 predictive model. The modeling part is covered in \sref{brain-predictive-model}
-while the learning one is explained in \sref{brain-learning-pipeline}; the
-latter can also be seen at the bottom of \fref{brain-overview}. The above
-operations are to be undertaken offline, whereas the trained model is supposed
-to be used by the resource manager at runtime in order to make predictions and
-subsequently take account of workload uncertainty.
+while the learning part is explained in \sref{brain-learning-pipeline}; the
+latter can also be seen at the bottom of \fref{brain-overview}. These operations
+are to be performed offline, whereas the trained model is supposed to be used by
+the resource manager at runtime in order to make predictions and subsequently
+take account of workload uncertainty.
 
 \subsection{Data Pipeline}
 \slab{brain-data-pipeline}
