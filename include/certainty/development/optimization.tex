@@ -121,14 +121,14 @@ absence of improvement within 200 successive generations.
 
 The fitness of a chromosome is evaluated in a number of steps. First, the
 chromosome is decoded, and the mapping of the tasks onto the processing elements
-as well as the priorities of the tasks are fed to the scheduler. The scheduler
-produces a schedule \schedule. If the schedule violates the deadline constraint
-given in \eref{thermal-cycling-constraints}, the chromosome is penalized
-proportionally to the amount of violation and is not processed further.
-Otherwise, based on the parameters of the processing elements and tasks, a power
-profile \mp is constructed, and the corresponding temperature profile \mq is
-computed using our technique presented in \sref{dynamic-steady-solution}. If the
-temperature profile violates the temperature constraint given in
+and the priorities of the tasks are fed to the scheduler. The scheduler produces
+a schedule \schedule. If the schedule violates the deadline constraint given in
+\eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
+to the amount of violation and is not processed further. Otherwise, based on the
+parameters of the processing elements and tasks, a power profile \mp is
+constructed, and the corresponding temperature profile \mq is computed using our
+technique presented in \sref{dynamic-steady-solution}. If the temperature
+profile violates the temperature constraint given in
 \eref{thermal-cycling-constraints}, the chromosome is penalized proportionally
 to the amount of violation and is not processed further. Otherwise, the
 \ac{MTTF} of each processing element is estimated according to
