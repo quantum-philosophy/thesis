@@ -38,9 +38,9 @@ partition:
 \[
   5 < 6 < 7 < 8 < 9 < 10 < 15 < 20 < 30 < 40 \leq 50.
 \]
-For instance, the first bucket collects profiles with $\nsi{i} = 5$, and the
-last one profiles with $\nsi{i} \in [40, 50]$. The batch size \nb is set to 64.
-The optimization algorithm employed for minimizing the loss function is Adam
+For instance, the first and last buckets collect profiles with $\nsi{i} = 5$ and
+$\nsi{i} \in [40, 50]$, respectively. The batch size \nb is set to 64. The
+optimization algorithm employed for minimizing the loss function is Adam
 \cite{kingma2014}, which is an adaptive technique. The algorithm is applied with
 its default settings.
 
@@ -52,33 +52,33 @@ and probability of dropout $\rho_\drop$; these hyperparameters are introduced in
 \sref{brain-predictive-model}. Specifically, we let \nl be in $\set{1, 2, 3, 4,
 5}$, \nu in $\set{100, 200, 400, 800, 1600}$, and $\rho_\drop$ in $\set{0, 0.25,
 0.5}$, which yields 75 different combinations in total. The candidate solutions
-are explored by means of the Hyperband algorithm with its default settings; the
+are explored by means of the Hyperband algorithm with its default settings; this
 algorithm is introduced in \sref{brain-learning-pipeline}. The maximum budget
 granted to one configuration is set to four training epochs, which correspond to
 $4 \times 0.7 \times 2 \times 10^6 = 5.6 \times 10^6$ resource-usage profiles or
 $5.6 \times 10^6 \div 64 = 87{,}500$ training steps.
 
 The aforementioned exploration, which encompasses both training and validation,
-takes approximately 15 days to finish. During this process, we run up to four
-learning sessions in parallel, which typically keeps all the eight cores busy.
-It should be noted that, since the training, validation, and testing data sets
-have been cached on disk as a result of the data pipeline described in
+takes roughly 15 days to finish. During this process, we run up to four learning
+sessions in parallel, which typically keeps all eight cores busy. It should be
+noted that, since the training, validation, and testing data sets have been
+cached on disk as a result of the data pipeline described in
 \sref{brain-data-pipeline}, individual learning sessions do not have any
 overhead in this regard. It is also worth noting that the machine utilized in
-these experiments has no modern \up{GPU}s; therefore, there is a large room for
-performance improvement.
+these experiments has no modern \up{GPU}s; therefore, there is a great deal of
+room for performance improvement.
 
 \inputtable{brain-validation}
 The results of the validation step are reported in \tref{brain-validation}. The
 table shows the \acp{MSE} of the top 10 and bottom 10 configurations of the
 hyperparameters as measured using $G_\validation$ ($0.1 \times 2 \times 10^6 = 2
-\times 10^5$ profiles). The total number of distinct configurations sampled by
-Hyperband is 62. It can be seen that the error changes rapidly at the bottom of
-the table and slows down toward the top. Relative to the least accurate trained
-model (rank~62), the error drops by around 22\% in the bottom 10 and by around
-3\% in the top 10 configurations. The overall accuracy improvement with respect
-to the bottommost configuration is around 36\%, which indicates that the
-validation step is highly beneficial.
+\times 10^5$ profiles). The total number of distinct cases sampled by Hyperband
+is 62. It can be seen that the error changes rapidly at the bottom of the table
+and slows down toward the top. Relative to the least accurate trained model
+(rank~62), the error drops by around 22\% in the bottom 10 and by around 3\% in
+the top 10 configurations. The overall improvement in accuracy with respect to
+the bottommost configuration is about 36\%, which indicates that the validation
+step is highly beneficial.
 
 The best trained predictive model (rank~1) is found to have the following
 hyperparameters: $\nl = 3$, $\nu = 1600$, and $\rho_\drop = 0$. In general,
@@ -87,24 +87,24 @@ However, there are complex configurations at the bottom of
 \tref{brain-validation} as well, which could be due to the dropout mechanism
 engaged in those cases. To elaborate, in these experiments, the impact of
 dropouts is found to be mostly neutral or negative; compare, for instance, the
-candidate solutions of rank~2 and 60. This could be due the amount of training
-data being sufficient for regularizing the model.
+candidates of ranks~2 and 60. This could be due to the amount of training data
+being sufficient for regularizing the model.
 
 \tref{brain-validation} also shows an estimate of the memory required by each
 configuration, which includes the trainable parameters and internal state of the
 model. It can be seen that, if memory usage is a concern, one could trade a
-small decrease in accuracy for a considerable memory saving. For example, the
-fourth best configuration requires around 85\% less memory than the first one.
+small decrease in accuracy for a considerable saving in memory. For example, the
+fourth best solution requires around 85\% less memory than the first one.
 
 After the validation step, the best trained predictive model is taken to the
 testing step; see \fref{brain-overview}. The solution is assessed extensively by
-predicting the resource usage of individual tasks multiple steps ahead at each
+predicting the resource usage for individual tasks multiple steps ahead at each
 time step of the profiles in $G_\testing$ ($0.2 \times 2 \times 10^6 = 4 \times
 10^5$ profiles). In these experiments, we predict four time steps into the
 future; therefore, $h = 4$ in \sref{brain-problem}. This elaborate and mostly
 sequential procedure takes approximately 18 hours.
 
-In order to have a better assessment of the accuracy of the chosen trained
+In order to attain a better assessment of the accuracy of the chosen trained
 model, we employ an alternative solution referred to as the reference solution.
 This alternative solution is based on random walk. It postulates that the best
 prediction of what will happen tomorrow is what happens today plus an optional
@@ -121,5 +121,5 @@ not sufficient for making highly accurate resource-usage predictions.
 Nevertheless, one can observe in \fref{brain-testing} that, relative to the
 reference solution, the trained model provides an error reduction of
 approximately 47\% at each of the four time steps. This observation indicates
-that a certain structure does exist, and that this structure can be identified
-and utilized in order to make educated predictions.
+that some structure does exist, and that this structure can be identified and
+utilized in order to make educated predictions.
