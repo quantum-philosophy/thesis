@@ -116,24 +116,24 @@ $\set{\psi_{\vi}}{\vi \in \sparseindex{\nz}{\lc}}$ are orthonormal polynomials
 in \nz variables whose orders are specified by the corresponding elements of
 \vi.
 
-It can be seen that the first step toward a polynomial expansion is the choice
-of a suitable polynomial basis, which is typically made based on the Askey
-scheme of orthogonal polynomials \cite{xiu2010}. The step is crucial, as the
-rate of convergence of \ac{PC} expansions depends on it. Although there are no
-rules that guarantee the optimal choice \cite{knio2006}, there are best
-practices suggesting that one should be guided by the probability distributions
-of the random variables that drive the stochastic system at hand. For instance,
-when a random variable follows a beta distribution, the Jacobi basis is worth
-being tried first; on the other hand, the Hermite basis is preferable for
-Gaussian distributions.
+It is clear that the first step toward a polynomial expansion is the choice of a
+suitable polynomial basis, which is typically made based on the Askey scheme of
+orthogonal polynomials \cite{xiu2010}. This step is crucial, as the rate of
+convergence of \ac{PC} expansions depends on it. Although there are no rules
+that guarantee the optimal choice \cite{knio2006}, there are best practices
+suggesting that one should be guided by the probability distributions of the
+random variables that drive the stochastic system at hand. For instance, when a
+random variable follows a beta distribution, it is worth trying the Jacobi basis
+first; on the other hand, the Hermite basis is preferable for Gaussian
+distributions.
 
 As shown in \eref{chaos-inner-product} and \eref{chaos-projection}, each
 coefficient $\hat{\g}_{\vi}$ is an \nz-dimensional integral of the product of \g
 and $\psi_{\vi}$. In general, this integral should be computed numerically as
 described in \xref{numerical-integration}. Specifically, an adequate
 \nz-dimensional quadrature $\quadrature{\nz}{\lq}$, which is a set of
-\nz-dimensional points accompanied by a set of scalar weights, is to be
-utilized. The result is
+\nz-dimensional points accompanied by a set of scalar weights, is utilized. The
+result is
 \begin{equation} \elab{chaos-coefficient}
   \hat{\g}_{\vi} \approx \quadrature{\nz}{\lq}{\g \psi_{\vi}}
   = \sum_{j \in \tensorindex{\nz}{\lq}} (\g \circ \transform)(\vz_j) \psi_{\vi}(\vz_j) w_j
@@ -159,7 +159,7 @@ least $2 \lc$. With this in mind, one typically constructs such a quadrature
 that is exact for polynomials of total order up to at least $2 \lc$
 \cite{eldred2008}. More generally, the index set $\sparseindex{\nz}{\lc}$, which
 is used in \eref{chaos-expansion}, and the index set $\sparseindex{\nz}{\lq}$,
-which implicitly decides on the content of the index set
+which implicitly determines the content of the index set
 $\tensorindex{\nz}{\lq}$ used in \eref{chaos-coefficient}, should be related as
 $\sparseindex{\nz}{\lc} \subseteq \sparseindex{\nz}{\lq}$.
 
@@ -206,11 +206,10 @@ setting $\gamma = 1$.
 
 Once \vz has been identified, and \lc, \lq, and $\v{c}$ have been chosen, the
 corresponding polynomial basis and quadrature stay the same for all quantities
-that one might be interested in studying. This observation is of high
-importance, as a lot of preparatory work can and should be done only once and
-then reused as needed. In particular, the construction in \eref{chaos-expansion}
-can be reduced to one matrix multiplication with a precomputed matrix, which we
-show next.
+that one might be interested in studying. This observation is highly important,
+as a lot of preparatory work can and should be done only once and then reused as
+needed. In particular, the construction in \eref{chaos-expansion} can be reduced
+to one matrix multiplication with a precomputed matrix, which we show next.
 
 \inputalgorithm{chaos-construction}
 Let $\nc = \cardinality{\sparseindex{\nz}{\lc}}$ be the cardinality of
@@ -218,8 +217,8 @@ $\sparseindex{\nz}{\lc}$, which is the number of polynomial terms and
 coefficients in \eref{chaos-expansion}. Let also $\nq =
 \cardinality{\tensorindex{\nz}{\lq}}$ be the cardinality of
 $\tensorindex{\nz}{\lq}$, which is the number of quadrature points and weights
-in \eref{chaos-coefficient}. Furthermore, assume that the index set
-$\sparseindex{\nz}{\lc}$ as well as $\tensorindex{\nz}{\lq}$ are given certain
+in \eref{chaos-coefficient}. Furthermore, assume that the index sets
+$\sparseindex{\nz}{\lc}$ and $\tensorindex{\nz}{\lq}$ are given certain
 orderings so that one is able to refer to their elements using one-dimensional
 indices $i = \range{1}{\nc}$ and $j = \range{1}{\nq}$, respectively. Now, let
 \begin{equation} \elab{chaos-projection-matrix}
