@@ -1,7 +1,7 @@
 In this section, we consider a particular application of the proposed approach
 to probabilistic transient analysis presented in \sref{chaos-transient-analysis}
 in order to illustrate its usage in practice. We begin by describing the
-scenario at hand.
+scenario being considered.
 
 \subsection{\problemtitle}
 
@@ -13,8 +13,8 @@ system.
 As discussed in \sref{power-model}, the total dissipation of power is composed
 of two major components: dynamic and static. The influence of process variation
 on dynamic power is known to be negligibly small \cite{srivastava2010}; on the
-other hand, the variability of static power is substantial, to which the
-subthreshold leakage current contributes the most \cite{juan2011, juan2012}.
+other hand, the variability of static power is substantial, with the
+subthreshold leakage current contributing the most \cite{juan2011, juan2012}.
 With this in mind, we focus our attention on the subthreshold leakage and, more
 specifically, on the effective channel length, which is denoted by \u, since it
 has the strongest influence on this leakage (including its impact on other
@@ -26,8 +26,8 @@ It is well known that the dispersion of the effective channel length around its
 nominal value resembles the bell shape of Gaussian distributions. Therefore,
 such variations are often conveniently modeled using Gaussian random variables
 \cite{bhardwaj2006, ghanta2006, huang2009a, shen2009, chandra2010,
-srivastava2010, juan2011, juan2012, lee2013}. Due to both the underlying physics
-and demonstration purposes, we make a step further and embed into the model the
+srivastava2010, juan2011, juan2012, lee2013}. Due to the underlying physics and
+for demonstration purposes, we take a step further and embed into the model the
 fact that the effective channel length---occupying the space between the drain
 and source of a transistor---cannot be arbitrarily large or take negative
 values, which Gaussian distributions allow it to do. In other words, we require
@@ -74,19 +74,19 @@ locations on the die that are close to each other as well as between those
 locations that are at the same distance from the center of the die; see also
 \cite{ghanem1991, ghanta2006, bhardwaj2008, huang2009a, lee2013}.
 
-Although \eref{bayes-correlation} captures certain features inherent to the
-fabrication process, it is still an idealization. In practice, it can be
+Although \eref{bayes-correlation} captures certain features that are inherent to
+the fabrication process, it is still an idealization. In practice, it can be
 difficult to make a justifiable choice and tune such a formula, which is a
 prerequisite for techniques based on the continuous \ac{KL} decomposition, such
 as those discussed in \sref{chaos-past}. A correlation matrix, on the other
 hand, can be readily estimated from measurements and thus is a more probable
-input to probabilistic analysis. Therefore, we use \eref{bayes-correlation} with
-the only purpose of constructing a correlation matrix of $\set{\u_{\local,
-i}}_{i = 1}^\np$. For convenience, this correlation matrix is extended by one
-dimension in order to accommodate $\u_\overall$ along with $\set{\u_{\local,
-i}}_{i = 1}^\np$. Concretely, the matrix obtains one additional nonzero diagonal
-element equal to unity; the resulting matrix is the correlation matrix of \vu
-denoted by $\correlation{\vu}$.
+input to probabilistic analysis. Hence, we use \eref{bayes-correlation} for the
+sole purpose of constructing a correlation matrix of $\set{\u_{\local, i}}_{i =
+1}^\np$. For convenience, this correlation matrix is extended by one dimension
+in order to accommodate $\u_\overall$ along with $\set{\u_{\local, i}}_{i =
+1}^\np$. Thus, the matrix acquires one additional nonzero diagonal element equal
+to unity; the resulting matrix is the correlation matrix of \vu denoted by
+$\correlation{\vu}$.
 
 Let us now be more specific about the power model in \eref{chaos-power-model}.
 In the ongoing scenario, \f can be rewritten as the following summation:
@@ -104,13 +104,13 @@ on \up{SPICE} simulations of a reference electrical circuit composed of
 The simulations are performed with respect to a sufficiently wide fine-grained
 two-dimensional grid---the effective channel length against temperature---and
 the results are tabulated. An interpolation technique is then utilized whenever
-$\f_\static$ is required to be calculated at a point within the range of the
+it is necessary to calculate $\f_\static$ at a point within the range of the
 grid.
 
 Lastly, in order to be able to perform temperature calculations, an adequate
 thermal \up{RC} circuit should be constructed. Given the specification of the
 platform under consideration---including the floorplan of the die and the
-configuration of the thermal package---such a circuit is obtained by means of
+configuration of the thermal package---this circuit is obtained by means of
 HotSpot \cite{skadron2003}. The structure of the circuit is the one described in
 \sref{temperature-model}.
 
