@@ -1,14 +1,14 @@
 As we elaborate in \sref{motivation} and \sref{past}, uncertainty-unaware
 techniques are inadequate, and sampling methods---including \ac{MC}
-sampling---as a means of uncertainty quantification have high computational
-expenses. In order to overcome the limitations of deterministic approaches and,
+sampling---as a means of uncertainty quantification are computationally
+expensive. In order to overcome the limitations of deterministic approaches and,
 at the same time, to eliminate or at least mitigate the computational costs
 associated with direct sampling, a number of probabilistic techniques have been
 introduced, which are discussed below. We are particularly interested in power
-and temperature and, therefore, shape the exposition accordingly. Since the
-static component of power consumption is influenced by process variation the
-most, which is mainly due to the leakage current, the techniques discussed below
-focus primarily on the variability of this component.
+and temperature and, therefore, pay special attention to these metrics in the
+exposition. Since the static component of power consumption is influenced by
+process variation the most, due mainly to the leakage current, the techniques
+discussed below focus primarily on the variability of this component.
 
 A solely power-targeted but temperature-aware solution is proposed in
 \cite{chandra2010} where the working force of the analysis is \ac{MC} sampling
@@ -32,19 +32,19 @@ Static power is also quantified in \cite{bhardwaj2008} via the \ac{PC} and
 \cite{vrudhula2006} and \cite{ghanta2006} in order to analyze the response of
 interconnect networks and power grids, respectively, under process variation.
 
-The last five of the aforementioned techniques, that is, \cite{bhardwaj2006,
+The last five of the above techniques, that is, \cite{bhardwaj2006,
 vrudhula2006, ghanta2006, bhardwaj2008, shen2009}, perform only probabilistic
 power analysis and ignore the interdependence between power and temperature
 described in \sref{power-model}. The other ones are temperature-related
-approaches, but none of them attempts to tackle probabilistic transient analysis
-and to compute the probability distributions of power and temperature that
-evolve over time. However, such transient curves are of practical importance.
-First, certain procedures cannot be undertaken without the knowledge of
-time-dependent variations; an example is reliability optimization concerned with
-thermal-cycling fatigue, which is discussed in \sref{dream-optimization}.
-Second, the static steady-state assumption considered, for instance, in
-\cite{huang2009a, juan2011, juan2012, lee2013} can rarely be justified, since
-power is not invariant in reality.
+approaches, but none of them attempts to tackle probabilistic transient
+analysis, that is, to compute the probability distributions of power and
+temperature that evolve over time. However, such transient curves are of
+practical importance. First, certain procedures cannot be undertaken without
+knowledge of time-dependent variations; one example of this is reliability
+optimization concerned with thermal-cycling fatigue, which is discussed in
+\sref{dream-optimization}. Second, the static steady-state assumption that is
+considered, for instance, in \cite{huang2009a, juan2011, juan2012, lee2013} can
+rarely be justified, since power is not invariant in reality.
 
 In addition, one frequently encounters the assumption that power and temperature
 follow \apriori known probability distributions; Gaussian and log-normal
@@ -60,17 +60,17 @@ and apply the Jarque--Bera test of normality to the collected temperature
 samples as well as to the samples obtained by passing the temperature samples
 through the log transformation. We observe that the null hypothesis, which avers
 that the data are from an unspecified Gaussian distribution, is firmly rejected
-in both cases at the significance level of 5\% \cite{rao2002}. This means that,
-if the null hypothesis was true, the probability of observing these data would
-be less than 0.05. Consequently, the distribution is very unlikely to be
-Gaussian or log-normal, which can also be seen in
-\fref{chaos-application-density} shown in \sref{chaos-transient-results}.
+in both cases at a significance level of 5\% \cite{rao2002}. This means that, if
+the null hypothesis were true, the probability of observing these data would be
+less than 0.05. Consequently, the distribution is very unlikely to be Gaussian
+or log-normal, which can also be seen in \fref{chaos-application-density} shown
+in \sref{chaos-transient-results}.
 
 One can observe in the above discussion that the overwhelming majority of the
 literature related to temperature in the presence of process variation relies on
 static steady-state temperature analysis, which is inadequate in practice, and
-the other two types of temperature analysis, that is, transient analysis and
-dynamic steady-state analysis, are deprived of attention. However, as motivated
+the other two types of temperature analysis---transient analysis and dynamic
+steady-state analysis---are not given enough attention. However, as discussed
 earlier, their availability is of practical importance to the designer.
 
 Let us now discuss reliability analysis. Reliability analysis is probabilistic
@@ -78,31 +78,32 @@ by nature. However, certain components of a reliability model can be treated as
 either stochastic or deterministic, depending on the phenomena that the model is
 designed for. Temperature is an example of such a component: it can be
 considered deterministic if the effect of process variation on temperature is
-neglected and as stochastic otherwise. The former scenario is the one that is
-typically addressed in the literature related to reliability. For instance, the
-reliability model proposed in \cite{xiang2010} has a treatment of process
-variation; however, temperature is included in the model as a deterministic
-quantity. In \cite{das2014a}, a design methodology minimizing energy consumption
-of and temperature-induced wear on multiprocessor systems is introduced; yet
-neither energy nor temperature is aware of the uncertainty due to process
-variation. A similar observation can be made with respect to the work reported
-in \cite{das2014c} where a reinforcement-learning algorithm is used in order to
-improve the lifetime of multiprocessor systems. An extensive survey on
-reliability-aware system-level design techniques given in \cite{das2014b}
-confirms the trend emphasized above: the widespread device-level models of
-failure mechanisms generally ignore the impact of process variation on
-temperature. However, deterministic temperature is a strong assumption to make,
-since it can lead to a substantial yield loss.
+neglected, and it can be considered stochastic if this effect is accounted for.
+The former scenario is the one that is typically addressed in the literature
+related to reliability. For instance, the reliability model proposed in
+\cite{xiang2010} has a treatment of process variation; however, temperature is
+included in the model as a deterministic quantity. In \cite{das2014a}, a design
+methodology that minimizes energy consumption of and temperature-induced wear on
+multiprocessor systems is introduced; yet neither energy nor temperature is
+modeled with an awareness of the uncertainty due to process variation. A similar
+observation can be made with respect to the work reported in \cite{das2014c}
+where a reinforcement-learning algorithm is used in order to improve the
+lifetime of multiprocessor systems. An extensive survey of reliability-aware
+system-level design techniques given in \cite{das2014b} confirms the trend
+emphasized above: the widespread device-level models of failure mechanisms
+generally ignore the impact of process variation on temperature. However, it is
+unwise to assume that temperature is deterministic, since it could lead to a
+substantial yield loss.
 
 An example of a different kind is the work presented in \cite{lee2013}. It
 introduces a statistical simulator for reliability analysis under process
 variation and does consider temperature as a stochastic parameter. However, as
 discussed previously, this study is limited to static steady-state temperatures.
-Moreover, the presented reliability analysis is an analysis of maximum
+Moreover, the reliability analysis that it presents is an analysis of maximum
 temperatures without any direct connection to the common failure mechanisms
-\cite{jedec2016}. The work presented in \cite{kiamehr2016} is worth mentioning
-as well. Although it is not directly concerned with reliability analysis, it
-considers aging variation as well process variation and proposes a framework for
+\cite{jedec2016}. The work in \cite{kiamehr2016} is worth mentioning as well.
+Although it is not directly concerned with reliability analysis, it considers
+aging variation together with process variation and presents a framework for
 timing analysis based on \ac{MC} sampling.
 
 To summarize, the prior techniques for probabilistic power and temperature
@@ -116,7 +117,8 @@ huang2009a, shen2009}, \four~limited to the static steady-state temperature
 maximum temperature \cite{juan2011}, and \six~\apriori chosen distributions of
 power and temperature \cite{bhardwaj2006, srivastava2010, juan2012}. The
 designer's toolbox does not yet include tools for transient analysis and dynamic
-steady-state analysis under process variation, which are of high importance for
+steady-state analysis under process variation, which are of great importance for
 certain applications. Furthermore, the state-of-the-art reliability models lack
-a flexible approach to taking into account the effect of process variation on
-power and temperature. This chapter addresses the aforementioned concerns.
+a flexible approach to taking the effect of process variation on power and
+temperature into consideration. This chapter addresses the aforementioned
+concerns.
