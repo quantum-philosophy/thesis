@@ -1,18 +1,18 @@
 \inputfigure{chaos-motivation}
 Consider a quad-core architecture whose leakage current is uncertain to the
-designer due to its dependence on a number of process parameters affected by
-process variation. Assume first that these parameters have nominal values. We
-can then simulate the system under a certain workload and observe the
+designer due to its dependence on a number of process parameters that are
+affected by process variation. Assume first that these parameters have nominal
+values. We can then simulate the system under a certain workload and observe the
 corresponding temperature profile. The result is depicted in
 \fref{chaos-motivation} by a blue line, which corresponds to the temperature of
-one of the processing elements; the experimental setup is to be detailed in
-\sref{chaos-transient-application} and \sref{chaos-transient-results}. It can be
-seen that the temperature is always below \celsius{90}. Let us now assume a mild
-deviation of the parameters from their nominal values in the direction where the
-leakage current is higher, and let us perform temperature analysis once again.
-The result is the orange line in \fref{chaos-motivation}; the maximum
+one of the processing elements; the experimental setup will be detailed in
+\sref{chaos-transient-application} and \sref{chaos-transient-results}. Note that
+the temperature is always below \celsius{90}. Let us now assume a mild deviation
+in the parameters from their nominal values in the direction that causes the
+leakage current to be higher, and let us perform temperature analysis once
+again. The result is the orange line in \fref{chaos-motivation}; the maximum
 temperature is approaching \celsius{100}. Finally, we repeat the experiment
-considering a severe deviation of the parameters in the same direction and
+considering a severe deviation in the parameters in the same direction and
 observe the yellow line in \fref{chaos-motivation}; in this case, the maximum
 temperature is almost \celsius{110}.
 
@@ -20,8 +20,8 @@ Suppose now that the designer is tuning a solution constrained by a maximum
 temperature of \celsius{90}, and that the designer is guided exclusively by the
 nominal values of the process parameters. In this scenario, even with mild
 deviations, the electrical circuits might be burnt. Another path that the
-designer might take is to design the system for severe conditions. In this
-scenario, however, the system might easily become too conservative,
+designer might take is to design the system for severe conditions. This
+scenario, however, could easily lead to a system that is too conservative, or
 overdesigned.
 
 The conclusion drawn from the example given above is that the presence of
@@ -30,5 +30,5 @@ robustness. Nevertheless, the majority of the literature related to power,
 temperature, and reliability analysis of electronic systems ignores this
 important aspect; see, for instance, \cite{rao2009, yang2010, rai2011,
 thiele2011, pagani2014}. This negligence is also present in the analysis and
-optimization described in \cref{certainty-development}, and the goal of this
-chapter is to eliminate this concern in the case of process variation.
+optimization described in \cref{certainty-development}. Therefore, the goal of
+this chapter is to eliminate this concern in the case of process variation.
