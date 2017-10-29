@@ -6,12 +6,12 @@ values are different for different fabricated chips, and they vary within each
 fabricated chip, since, in general, the variability due to process variation is
 not uniform. As emphasized earlier, this variability leads to such phenomena as
 deviations in power from the nominal values and, therefore, to deviations in
-temperature from the one corresponding to the nominal power consumption.
+temperature from the temperature corresponding to the nominal power consumption.
 
 Each process parameter is a characteristic of a single transistor; consider, for
 instance, the effective channel length. Therefore, each device in the electrical
-circuit at hand can potentially have a different value for this parameter. The
-process parameters can then be modeled as a stochastic process
+circuit can potentially have a different value for this parameter. The process
+parameters can then be modeled as a stochastic process
 \[
   \u: \Omega \times \real^2 \to \real^\nu
 \]
@@ -33,7 +33,7 @@ hence power) analysis as well as dynamic steady-state analysis of electronic
 systems where power consumption and heat dissipation are stochastic due to their
 dependency on the parameters \vu. The designer is required to specify \one~the
 probability distribution of \vu and \two~the dependency of the system's power
-consumption on \vu, which can be given as a ``black box.'' The framework is to
+consumption on \vu, which can be given as a ``black box.'' The framework should
 provide the designer with tools for analyzing the system under a given
 workload---without imposing constraints on the nature of this workload---and
 calculating the corresponding stochastic power \mp and stochastic temperature
