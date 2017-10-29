@@ -15,18 +15,17 @@ in \eref{brain-profile}. In this regard, the data set provides two apposite
 pieces of information: the average and maximum \up{CPU} usage over five-minute
 intervals; we extract the former.
 
-The grouping and indexing steps of our data pipeline, which are described in
-\sref{brain-data-pipeline} and depicted in \fref{brain-overview}, take
-approximately 57 hours to finish (no parallelism). Since they have to be
-performed only once, their computational cost can be safely considered
-negligible. Regarding the selection step, we filter those resource-usage
-profiles that contain 5--50 data points; consequently, $\nsi{i} \in [5, 50]$ in
-\eref{brain-profile}. Such profiles constitute around 74\% of the total number
-of profiles (around 18 out of 24 million). We experiment with a random subset of
-two million profiles, which is around 11\% of the 5--50 resource-usage profiles;
-therefore, $\no = 2 \times 10^6$ in \eref{brain-dataset}. The data sets
-$G_\training$, $G_\validation$, and $G_\testing$ constitute 70\%, 10\%, and 20\%
-of the data set $G$, respectively. The process of fetching this number of
+The grouping and indexing steps, which are described in
+\sref{brain-data-pipeline} and depicted in \fref{brain-overview}, take around 57
+hours (no parallelism). Since they have to be performed only once, their
+computational cost can be considered negligible. Regarding the selection step,
+we filter those resource-usage profiles that contain 5--50 data points; hence,
+$\nsi{i} \in [5, 50]$ in \eref{brain-profile}. Such profiles constitute about
+74\% of the total number of profiles (about 18 out of 24 million). We experiment
+with a random subset of two million profiles, which is roughly 11\% of the 5--50
+resource-usage profiles; thus, $\no = 2 \times 10^6$ in \eref{brain-dataset}.
+The data sets $G_\training$, $G_\validation$, and $G_\testing$ constitute 70\%,
+10\%, and 20\% of $G$, respectively. The process of fetching this number of
 profiles and storing them on disk takes around four hours. Recall that this
 operation has to be repeated only when the selection criteria change, which
 happens rarely.
