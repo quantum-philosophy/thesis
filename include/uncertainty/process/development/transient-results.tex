@@ -167,7 +167,7 @@ The second set of experiments is to measure the speed of our framework with
 respect to direct sampling. To this end, we keep \lc and \no fixed and equal to
 4 and \power{10}{4}, respectively. The latter value is also similar to those
 used in the literature \cite{ghanta2006, bhardwaj2008, huang2009a, shen2009,
-xiang2010, juan2012, lee2013} and consisted with the theoretical results on the
+xiang2010, juan2012, lee2013} and consistent with the theoretical results on the
 accuracy of \ac{MC} sampling presented in \cite{diaz-emparanza2002}. Analogously
 to the previous subsection, we report the results obtained for different values
 of the weight coefficient $w$, which impacts the number of the independent
@@ -180,20 +180,20 @@ dimensionality of the uncertain parameters $\vu: \Omega \to \real^\nu$; recall
 \sref{chaos-transient-application}. The results, including the dimensionality
 \nz of \vz, are given in \tref{chaos-transient-speed-elements} where $\np \in
 \set{2^i}_{i = 1}^5$ and $\ns = 10^3$. It can be seen that the variation
-patterns inherent to the fabrication process \cite{cheng2011} open a great
-possibility of model order reduction: \nz is observed to be at most 12, whereas
+patterns inherent to the fabrication process \cite{cheng2011} offer significant
+potential for model order reduction: \nz is observed to be at most 12, whereas
 the maximum number without reduction is 33 (1 global variable and 32 local ones
 corresponding to the case with $\np = 32$). The amount of reduction also depends
-on the floorplan, which is illustrated by the decrease of \nz when \np increases
+on the floorplan, which is illustrated by the decrease in \nz when \np increases
 from 16 to 32 for $w = 1$. To elaborate, one floorplan is a four-by-four grid, a
 square, while the other an eight-by-four grid, a rectangle. Since both are
 fitted into square dies, the former is spread across the whole area, whereas the
 latter is concentrated along the middle line; the rest is due to the
-particularities of $k_\SE$.
+peculiarities of $k_\SE$.
 
 On average, the $k_\OU$ kernel ($w = 0$) requires the smallest number of
-variables, while the mixture of the $k_\SE$ and $k_\OU$ kernels ($w = 0.5$)
-requires the largest. It means that, in the latter case, more variables should
+variables, while the combination of the $k_\SE$ and $k_\OU$ kernels ($w = 0.5$)
+requires the largest. This means that, in the latter case, more variables should
 be preserved in order to retain 99\% of the variance. Consequently, the case
 with $w = 0.5$ is the most demanding in terms of computation time. Note that,
 since the results reported in the previous subsection correspond to the case
@@ -202,18 +202,18 @@ with $\np = 4$, \nz is two, five, and five in \tref{chaos-transient-accuracy-0},
 respectively.
 
 At this point, it is important to realize the following. First, since the curse
-of dimensionality arguably constitutes the major concern of the theory of
-\ac{PC} expansions, the applicability of our framework depends primarily on how
-this curse manifests itself in the problem at hand, that is, on the
-dimensionality \nz of \vz. Second, since \vz is a result of a procedure that
-depends on many factors, the relationship between \vu and \vz is not
-straightforward, which is also illustrated in the previous paragraphs. Thus, \nu
-can be misleading when reasoning about the applicability of our technique; \nz
-is well suited for this purpose.
+of dimensionality arguably constitutes the major concern of \ac{PC} expansions,
+the applicability of our framework depends primarily on how this curse manifests
+itself with regard to the problem at hand, that is, on the dimensionality \nz of
+\vz. Second, since \vz is a result of a procedure that depends on many factors,
+the relationship between \vu and \vz is not straightforward, which is also
+illustrated in the previous paragraphs. Thus, \nu can be misleading when
+reasoning about the applicability of our technique; \nz is well suited for this
+purpose.
 
 Another observation with respect to \tref{chaos-transient-speed-elements} is the
-low slope of the execution time of the \ac{MC} technique, which illustrates the
-well-known fact that the workload per sample is independent of the number of
+shallow slope of the execution time of the \ac{MC} technique, which illustrates
+the well-known fact that the workload per sample is independent of the number of
 stochastic dimensions. On the other hand, the rows with $\nz \geq 10$ hint at
 the curse of dimensionality, which \ac{PC} expansions suffer from. However, even
 in high dimensions, the proposed framework significantly outperforms direct
@@ -222,7 +222,7 @@ sampling. For instance, in order to analyze a dynamic power profile with
 approach requires more than 40 hours, whereas our framework takes less than two
 minutes; see the case with $w = 0.5$.
 
-Second, we investigate the scaling properties of the proposed framework with
+Next, we investigate the scaling properties of the proposed framework with
 respect to the duration of the analyzed time span, which is directly
 proportional to the number of time steps \ns covered by power and temperature
 profiles. The results for a quad-core platform are given in
@@ -234,10 +234,10 @@ constructed expansions on the dimensionality \nz, which is two for $w = 0$ and
 five for $w = 0.5$ and $w = 1$; see \tref{chaos-transient-speed-elements} for
 $\np = 4$. It can be seen in \tref{chaos-transient-speed-steps} that the
 computation times of both techniques grow linearly with respect to \ns, which is
-expected. However, the proposed framework shows a superior performance, being up
-to five orders of magnitude faster than the \ac{MC} alternative.
+expected. However, our framework displays a superior performance, being up to
+five orders of magnitude faster than the \ac{MC} alternative.
 
-It is worth noting that the observed speedups are due to two major reasons.
+It is worth noting that the observed speedups are due to two major factors.
 First, \ac{PC} expansions are generally superior to \ac{MC} sampling when the
 curse of dimensionality is suppressed \cite{eldred2008, xiu2010}, which we
 accomplish by model order reduction and efficient integration schemes. The
