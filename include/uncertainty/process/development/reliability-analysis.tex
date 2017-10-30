@@ -11,18 +11,18 @@ the former is accounted for in reliability analysis.
 
 Our work in this context is motivated by the following two observations.
 
-First, as underlined throughout the thesis, temperature is the driving force of
+First, as underscored throughout the thesis, temperature is the driving force of
 many failure mechanisms. The most prominent examples include electromigration,
-time-dependent dielectric breakdown, stress migration, and thermal cycling
-\cite{xiang2010}; the interested reader is referred to \cite{jedec2016} for an
-overview. All of these mechanisms have strong dependencies on temperature. At
-the same time, temperature is tightly related to process parameters---such as
-the effective channel length and gate oxide thickness---and can vary
-dramatically when these parameters deviate from their nominal values. Despite
-the above concerns, the state-of-the-art techniques for reliability analysis of
-electronic systems lack a systematic treatment of process variation and, in
-particular, the effect of this variation on temperature, which is also the case
-in \sref{reliability-model}.
+time-dependent dielectric breakdown, stress migration, and thermal cycling; the
+interested reader is referred to \cite{jedec2016} for an overview. All of these
+mechanisms have strong dependencies on temperature. At the same time,
+temperature is closely related to process parameters---such as the effective
+channel length and gate oxide thickness---and can vary dramatically when these
+parameters deviate from their nominal values. Despite these concerns, the
+current state-of-the-art techniques for reliability analysis of electronic
+systems lack a systematic treatment of process variation and, in particular, the
+effect of this variation on temperature, which is also the case in
+\sref{reliability-model}.
 
 Second, having established a reliability model $R(\cdot | \vg)$ of the system
 under consideration, the major portion of the associated computation time is
@@ -33,14 +33,14 @@ typically involves computationally intensive simulations, including power
 analysis paired with temperature analysis; see \sref{reliability-model}.
 
 Guided by the aforementioned observations, we employ the \ac{PC} decomposition
-in order to construct a light surrogate for \vg. It is worth emphasizing that
-$R(\cdot | \vg)$ stays intact, which means that our approach does not impose any
-restrictions on $R(\cdot | \vg)$. Hence, the designer can take advantage of an
-arbitrary reliability model in a straightforward manner. Naturally, this also
-implies that the modeling errors associated with the chosen $R(\cdot | \vg)$ can
-affect the quality of the results delivered by our technique. Therefore,
-choosing an adequate reliability model for the problem at hand is the designer's
-responsibility.
+in order to construct a lightweight surrogate for \vg. It is worth emphasizing
+that $R(\cdot | \vg)$ stays intact, which means that our approach does not
+impose any restrictions on $R(\cdot | \vg)$. Hence, the designer can take
+advantage of an arbitrary reliability model in a straightforward manner.
+Naturally, this also implies that modeling errors associated with the chosen
+$R(\cdot | \vg)$ can affect the quality of the results produced by our
+technique. Therefore, choosing an adequate reliability model for the problem at
+hand is the designer's responsibility.
 
 \begin{remark} \rlab{chaos-nested-uncertainty}
 It is important to realize that there are two levels of probabilistic modeling
@@ -52,7 +52,7 @@ a probability distribution over probability distributions. Given an outcome of
 the fabrication process and thus \vg, the system's lifetime remains random.
 \end{remark}
 
-To conclude, the quantify of interest \g, which is an output of Stage~1 in
+To conclude, the quantity of interest \g, which is an output of Stage~1 in
 \fref{chaos-overview}, is the parameters \vg of the reliability model under
 consideration.
 
