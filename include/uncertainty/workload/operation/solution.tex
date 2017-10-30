@@ -129,7 +129,7 @@ vanishing gradient during training. The recurrent layers of our predictive model
 are \ac{LSTM} layers, that is, layers composed of \ac{LSTM} units.
 
 Each recurrent layer is enhanced by a dropout mechanism \cite{zaremba2014},
-which is only active during training. This mechanism gives control over the
+which is active only during training. This mechanism gives control over the
 regularization of the model and is meant to prevent potential overfitting
 \cite{hastie2013}. For future reference, denote the probability of dropping an
 output of a layer by $\rho_\drop$.
@@ -248,12 +248,12 @@ utilized. Similarly to training and validation, the \ac{MSE} is considered as a
 measure of quality, and bucketing is utilized. However, unlike training and
 validation, the error is calculated in a more elaborate way as follows. Recall
 first that our objective is making long-range predictions of resource usage; see
-\sref{brain-problem}. Note also that, in training and validation, we are only
-concerned with what happens one step ahead. The reason for this is that we would
-like to have the highest throughput possible during training and validation,
-since they are performed many times. Testing, on the other hand, is done only
-once, and it is during testing that we make and assess multiple-step-ahead
-predictions.
+\sref{brain-problem}. Note also that, in training and validation, we are
+concerned with what happens only one step ahead. The reason for this is that we
+would like to have the highest throughput possible during training and
+validation, since they are performed many times. Testing, on the other hand, is
+done only once, and it is during testing that we make and assess
+multiple-step-ahead predictions.
 
 In order to calculate long-range predictions, we use refeeding: at time
 step~$j$, the predicted value $\hat{\vg}_{i, j + 1}$ of the resource usage of
