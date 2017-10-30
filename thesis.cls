@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/10/25 Thesis]
+\ProvidesClass{thesis}[2017/10/30 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -30,8 +30,8 @@
 
 \gdef\@abstractenglish{\input{include/abstract/english}}
 \gdef\@abstractswedish{\input{include/abstract/swedish}}
+\gdef\@acknowledgments{\input{include/acknowledgments}}
 \gdef\@dedication{\input{include/dedication}}
-\gdef\@foreword{\input{include/foreword}}
 \gdef\@university{include/assets/figures/university}
 
 \setmainlanguage{english}
@@ -212,9 +212,9 @@
     \cleardoublepage
   }
   {
-    \chapter*{Foreword}
-    \@foreword
-    \addcontentsline{toc}{chapter}{Foreword}
+    \chapter*{Acknowledgments}
+    \@acknowledgments
+    \addcontentsline{toc}{chapter}{Acknowledgments}
     \cleardoublepage
   }
   {
