@@ -210,10 +210,10 @@ variables.
 
 At Stage~4 in \fref{chaos-overview}, the constructed expansions are utilized in
 order to assist the designer in analyzing the impact of process variation on
-power- and temperature-related characteristics of the system under development.
-Consider, for example, \eref{chaos-expansion-example}. It can be seen that the
-surrogate model has a negligibly small computational cost: for any outcome of
-\vz, one can straightforwardly calculate the corresponding temperature by
+power- and temperature-related characteristics of the system that is being
+developed. Consider, for example, \eref{chaos-expansion-example}. It can be seen
+that the surrogate model has a negligibly small computational cost: for any
+outcome of \vz, one can readily calculate the corresponding temperature by
 plugging this outcome into \eref{chaos-expansion-example}; the same applies to
 power. Therefore, the representation can be trivially analyzed in order to
 retrieve various statistics about the system. Let us illustrate a few of them
@@ -231,9 +231,9 @@ span of $\mp_\dynamic$, these quantities are plotted in
 standard deviation above the corresponding expectations. The displayed curves
 closely match those obtained via \ac{MC} sampling with $\no = 10^4$ samples;
 however, our method takes less than a second, whereas \ac{MC} sampling takes
-more than a day, which is to be discussed further in
+more than a day, which will be discussed further in
 \sref{chaos-transient-results}. In addition, the \ac{PDF} of the temperature at
-that moment in time can be estimated. This operation is undertaken by sampling
-the surrogate, in which case we might obtain curves similar to those shown in
+that moment can be estimated. This operation is undertaken by sampling the
+surrogate, in which case we might obtain curves similar to those shown in
 \fref{chaos-application-density}, which is a part of a different example given
 in \sref{chaos-transient-results}.
