@@ -209,6 +209,7 @@
   {
     \phantomsection
     \makeabstractswedish
+    \addcontentsline{toc}{chapter}{Sammanfattning}
     \cleardoublepage
   }
   {
