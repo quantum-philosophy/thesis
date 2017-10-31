@@ -44,7 +44,6 @@
 \raggedbottom
 \midsloppy
 
-\setstocksize{297mm}{210mm}
 \settrimmedsize{242mm}{165mm}{*}
 \settypeblocksize{*}{28pc}{1.618}
 
