@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/10/30 Thesis]
+\ProvidesClass{thesis}[2017/10/31 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -32,7 +32,7 @@
 \gdef\@abstractswedish{\input{include/abstract/swedish}}
 \gdef\@acknowledgments{\input{include/acknowledgments}}
 \gdef\@dedication{\input{include/dedication}}
-\gdef\@university{include/assets/figures/university}
+\gdef\@logoenglish{include/assets/other/logo-english}
 
 \setmainlanguage{english}
 \setotherlanguages{swedish}
@@ -162,7 +162,7 @@
     \@author
   }
   \vfill
-  \includegraphics[width=14em]{\@university}\\[2em]
+  \includegraphics[height=5em]{\@logoenglish}\\[2em]
   {
     \small
     \@department\\
