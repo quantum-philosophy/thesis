@@ -137,7 +137,7 @@
     \begin{tabular}{p{3em}b{\textwidth-3em}}
       ISBN & \texttt{\@isbn} \\
       ISSN & \texttt{\@issn} \\
-      URL  & \texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber/} \\
+      URL  & \texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber} \\
     \end{tabular}\\[2em]
     Typeset in Korolev LiU, Miller Text, Computer Modern, and Input Mono\\
     Printed by LiU-Tryck, Linköping \@publicationyear
