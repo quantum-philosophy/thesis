@@ -1,22 +1,22 @@
-Analogously to the optimization given in \sref{dream-optimization}, the
-framework proposed in this chapter is illustrated in the context of design-space
-exploration. Concretely, we pursue energy minimization in the presence of
-process variation.
+The framework proposed in this chapter is illustrated in the context of
+design-space exploration, which is analogous to the optimization in
+\sref{dream-optimization}. Concretely, we pursue energy minimization in the
+presence of process variation.
 
 \subsection{\problemtitle}
 
 The general setup is the same as the one described in
-\sref{dream-optimization-problem}. We continue working with the thermal-cycling
-fatigue \cite{jedec2016}, which is introduced in \sref{thermal-cycling-fatigue}
-and motivated in \sref{dream-optimization}. Recall that the system is exposed a
-periodic or approximately periodic workload, and that the corresponding
-temperature profile is a dynamic steady-state temperature profile. In the
-deterministic case, this profile can be computed as described in
+\sref{dream-optimization-problem}. We continue working with thermal-cycling
+fatigue \cite{jedec2016}, which is discussed in \sref{thermal-cycling-fatigue}
+and \sref{dream-optimization}. Recall that the system is exposed to a periodic
+or approximately periodic workload, and that the corresponding temperature
+profile is a dynamic steady-state temperature profile. In the deterministic
+case, this temperature profile can be computed as described in
 \sref{dynamic-steady-solution}.
 
 The goal of the optimization in this section is to find a schedule that
-minimizes the energy consumption of the system while satisfying certain
-constraints. Specifically, our objective is as follows:
+minimizes the system's energy consumption while satisfying certain constraints.
+Specifically, our objective is as follows:
 \begin{equation} \elab{chaos-optimization-objective}
   \min_{\schedule} \expectation{(E(\schedule))}
 \end{equation}
@@ -48,8 +48,8 @@ application by a deadline $\period_\maximum$. The second one constrains the
 maximum temperature $Q: \Omega \to \real$ of the platform by $\q_\maximum$ where
 $\rho_\burn$ is an acceptable probability of burning the chip. The third one
 constrains (from below) the lifetime $\life: \Omega \to \real$ of the system by
-$\life_\minimum$ where $\rho_\wear$ is an acceptable probability of having a
-premature fault due to wear.
+$\life_\minimum$ where $\rho_\wear$ is an acceptable probability of premature
+failure due to wear.
 
 The first constraint in \eref{chaos-optimization-constraints} is deterministic.
 On the other hand, the other two constraints are probabilistic, since they are
