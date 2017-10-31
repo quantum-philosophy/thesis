@@ -94,8 +94,8 @@ distributions. The parents for the next generation are chosen by a tournament
 selection with the number of competitors equal to 20\% of \nt. A one-point
 crossover is then applied to 80\% of the parents. Each parent undergoes a
 uniform mutation where each gene is altered with probability 0.01. The top 5\%
-individuals always survive. The stopping condition is the absence of improvement
-within 10 successive generations.
+of individuals always survive. The stopping condition is the absence of
+improvement within 10 successive generations.
 
 Let us now turn to the evaluation of the fitness of a chromosome, which is where
 \ac{PC} expansions come into play. First, the information encoded in the
@@ -123,8 +123,8 @@ straightforwardly computed using the analytical formula shown in
 \eref{chaos-moments}.
 
 \begin{remark}
-In order to speed up the optimization, we use caching and parallel computing.
-Concretely, the fitness value of each evaluated chromosome is stored in memory
+In order to speed up the optimization process, we use caching and parallel
+computing. The fitness value of each evaluated chromosome is stored in memory
 and reused whenever a chromosome with the same set of genes is encountered, and
 unseen (not cached) individuals are assessed in parallel.
 \end{remark}
