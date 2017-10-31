@@ -1,12 +1,13 @@
-In this thesis, we take the designer's standpoint. A certain aspect of the
-electronic system under consideration is said to be uncertain if it is unknown
-to the designer of this system at design time. The typical scenario is that the
-designer is interested in studying a certain quantity---referred to as the
-quantity of interest---whose complete knowledge would be highly beneficial but
-cannot be attained, since the quantity \perse is uncertain, or it depends on
-parameters that are uncertain to the designer. We stay agnostic on the
-underlying reason behind this state of uncertainty: it can be aleatory as well
-as epistemic.
+In this thesis, we take the designer's standpoint. Specifically, a particular
+aspect of the electronic system under consideration is said to be uncertain if
+this aspect is unknown to the designer of the system at design time.
+
+The typical scenario is that the designer is interested in studying a certain
+quantity---referred to as the quantity of interest---where complete knowledge of
+this quantity would be highly beneficial but cannot be attained, since the
+quantity \perse is uncertain to the designer, or since it depends on parameters
+that are uncertain to the designer. We remain agnostic on the underlying reason
+behind this state of uncertainty: it can be aleatory as well as epistemic.
 
 Uncertainty in electronic systems can originate from different phenomena, and,
 in many cases, it is inherent and inevitable (from the designer's standpoint).
@@ -15,7 +16,7 @@ Let us consider three examples that are of relevance to the thesis.
 \subsection{Process Variation}
 \slab{process-variation}
 
-A prominent example of uncertainty is the one stemming from process variation
+A prominent example of uncertainty is the one that stems from process variation
 \cite{chandrakasan2000, srivastava2010}. In this case, the source of uncertainty
 is the fabrication process. Specifically, the process parameters of fabricated
 nanoscale devices deviate from their nominal values, since the contemporary
@@ -30,40 +31,41 @@ technological process, such as the effective channel length and gate oxide
 thickness. As a result, the same workload applied to two seemingly identical
 dies can lead to two drastically different power profiles and consequently to
 two drastically different temperature profiles, since power consumption and heat
-dissipation depend on the aforementioned quantities, which is to be discussed
+dissipation depend on the aforementioned quantities, which will be discussed
 further in \sref{power-model}. This concern is especially exigent due to the
-power-temperature interplay, which is also covered in \sref{power-model} as well
-as in \sref{power-temperature}, whose magnitude depends on process parameters.
+power-temperature interplay---which is also covered in \sref{power-model} as
+well as in \sref{power-temperature}---whose magnitude depends on process
+parameters.
 
 \subsection{Workload Variation}
 \slab{workload-variation}
 
-Another salient example of uncertainty is the one emerging from workload
+Another salient example of uncertainty is the one that emerges from workload
 variation. In this case, the source of uncertainty is the actual work that
 electronic systems are instructed to perform. To elaborate, from one activation
 to another, the same piece of deterministic software can exhibit drastically
 different behaviors depending on the environment and input data. Neither the
-environment nor input data that the system under consideration will be exposed
-to at runtime is exhaustively known at early development stages.
+environment nor the input data that the system under consideration will be
+exposed to at runtime is exhaustively known at early development stages.
 
 \subsection{Aging Variation}
 \slab{aging-variation}
 
-Yet another example of uncertainty is the one originating from aging variation.
-In this case, the source of uncertainty is natural or accelerated wear or
-fatigue \cite{jedec2016}, which leads to the performance of electrical circuits
-degrading over time. This physical degradation can cause terminal faults and,
-therefore, abruptly end the life of the system at hand. Since the degradation is
-a nonuniform and intricate process, the lifetime of the system is uncertain to
-the designer.
+Yet another example of uncertainty is the one that originates from aging
+variation. In this case, the source of uncertainty is natural or accelerated
+wear \cite{jedec2016}, which leads to the degradation over time of the
+performance of electrical circuits. This degradation can cause terminal faults
+and, therefore, can abruptly end the life of the system at hand. Since the
+degradation is a nonuniform and intricate process, the lifetime of the system is
+uncertain to the designer.
 
 There is one factor that is worth highlighting in this context: temperature.
 Temperature has a profound impact on the lifetime of electronic systems, which
 is well known and well studied. The failure mechanisms that are commonly
 considered---such as electromigration, time-dependent dielectric breakdown, and
-thermal cycling---are directly driven by temperature. One can additionally note
-a connection between process variation and aging variation. More specifically,
-the former intensifies the latter via temperature.
+thermal cycling---are directly driven by temperature. Additionally, there is a
+connection between process variation and aging variation, which is that the
+former intensifies the latter via temperature.
 
 \conclusioncut
 Having introduced and exemplified uncertainty in electronic systems, we are
