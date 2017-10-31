@@ -1,0 +1,105 @@
+\documentclass[a4paper,oneside,showtrims]{memoir}
+
+\usepackage{geometry}
+
+\usepackage[no-math]{fontspec}
+\usepackage{graphicx}
+
+\linespread{1.05}
+
+\clubpenalty=10000
+\widowpenalty=10000
+\raggedbottom
+\midsloppy
+
+\setstocksize{297mm}{210mm}
+\settrimmedsize{242mm}{165mm}{*}
+\settypeblocksize{*}{28pc}{1.618}
+
+\newfontfamily{\headingfont}[]{KorolevLiU Medium}
+
+\setmainfont{MillerText}[
+  BoldFont="MillerText-Bold",
+  ItalicFont="MillerText-Italic",
+  SmallCapsFont="MillerText-RomanSC",
+]
+
+\setmonofont{InputMonoNarrow}[
+  Scale=MatchLowercase,
+]
+
+\newcommand{\resetlayout}{
+  \setlength{\trimtop}{\stockheight}
+  \addtolength{\trimtop}{-\paperheight}
+  \setlength{\trimedge}{\stockwidth}
+  \addtolength{\trimedge}{-\paperwidth}
+  \settrims{0.5\trimtop}{0.5\trimedge}
+  \setlrmargins{*}{*}{1.5}
+  \setulmargins{2cm}{*}{*}
+}
+
+\newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
+
+\begin{document}
+  \resetlayout
+  \checkandfixthelayout
+  \pagestyle{empty}
+  \makeoddfoot{plain}%
+  {ISBN\hspace{0.5em}\texttt{978-91-7685-426-6}}{}%
+  {ISSN\hspace{0.5em}\texttt{0345-7524}}
+  \thispagestyle{plain}
+  \begin{center}
+    {
+      \small
+      Linköping Studies in Science and Technology. Dissertations, No. 1887
+    }\\[6em]
+    {
+      \headingfont
+      \Huge
+      System-Level Analysis and Design\\[0.2em]
+      under Uncertainty
+    }\\[3em]
+    {
+      \headingfont
+      \huge
+      Ivan Ukhov
+    }
+    \vfill
+    {
+      \textbf{Akademisk avhandling}\\
+      \vspace{0.5em}
+      som för avläggande av teknologie doktorexamen i datalogi vid Linköpings
+      universitet kommer att offentligt försvaras i sal Ada Lovelace, hus B,
+      Linköpings universitet, den 15 december 2017 klockan 10.15.
+    }\\[2em]
+    {
+      \textbf{Fakultetsopponent}\\
+      \vspace{0.5em}
+      Professor Doktor Jian-Jia Chen\\
+      Technische Universität Dortmund, Tyskland
+    }\\[2em]
+    \vfill
+    \includegraphics[height=5em]{include/assets/other/logo-swedish}\\[2em]
+    {
+      \small
+      Department of Computer and Information Science\\
+      Linköping University\\
+      SE-581\,83 Linköping, Sweden
+    }
+  \end{center}
+  \clearpage
+  {
+    \centerline{\Large\textsc{Abstract}}
+    \vspace{1em}
+    \noindent
+    \input{include/abstract/english}
+  }
+  \vfill
+  \noindent
+  \hspace{-0.5em}
+  \begin{minipage}{\textwidth}
+    URL\hspace{0.5em}\texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-140758/}
+  \end{minipage}
+\end{document}
+
+% vim: set spelllang=sv:

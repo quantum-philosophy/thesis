@@ -1,6 +1,9 @@
 all:
 	latexmk -pvc -xelatex thesis.tex
 
+exhibit:
+	latexmk -pvc -xelatex exhibit.tex
+
 clean:
 	rm -f {,**/}*.aux
 	rm -f {,**/}*.bbl
