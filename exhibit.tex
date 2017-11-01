@@ -4,11 +4,22 @@
 
 \usepackage[no-math]{fontspec}
 \usepackage{graphicx}
+\usepackage{microtype}
 
 \linespread{1.05}
 
 \settrimmedsize{242mm}{165mm}{*}
 \settypeblocksize{*}{28pc}{1.618}
+
+\newcommand{\adjustlayout}{
+  \setlength{\trimtop}{\stockheight}
+  \addtolength{\trimtop}{-\paperheight}
+  \setlength{\trimedge}{\stockwidth}
+  \addtolength{\trimedge}{-\paperwidth}
+  \settrims{0.5\trimtop}{0.5\trimedge}
+  \setlrmargins{*}{*}{*}
+  \setulmargins{2cm}{*}{*}
+}
 
 \newfontfamily{\headingfont}[]{KorolevLiU Medium}
 
@@ -22,20 +33,10 @@
   Scale=MatchLowercase,
 ]
 
-\newcommand{\resetlayout}{
-  \setlength{\trimtop}{\stockheight}
-  \addtolength{\trimtop}{-\paperheight}
-  \setlength{\trimedge}{\stockwidth}
-  \addtolength{\trimedge}{-\paperwidth}
-  \settrims{0.5\trimtop}{0.5\trimedge}
-  \setlrmargins{*}{*}{*}
-  \setulmargins{2cm}{*}{*}
-}
-
 \newcommand{\up}[1]{\textsc{\MakeLowercase{#1}}}
 
 \begin{document}
-  \resetlayout
+  \adjustlayout
   \checkandfixthelayout
   \pagestyle{empty}
   \makeoddfoot{plain}
