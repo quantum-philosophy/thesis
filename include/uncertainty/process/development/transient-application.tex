@@ -74,19 +74,19 @@ locations on the die that are close to each other as well as between those
 locations that are at the same distance from the center of the die; see also
 \cite{ghanem1991, ghanta2006, bhardwaj2008, huang2009a, lee2013}.
 
-Although \eref{bayes-correlation} captures certain features that are inherent to
-the fabrication process, it is still an idealization. In practice, it can be
-difficult to make a justifiable choice and tune such a formula, which is a
-prerequisite for techniques based on the continuous \ac{KL} decomposition, such
-as those discussed in \sref{chaos-past}. A correlation matrix, on the other
-hand, can be readily estimated from measurements and thus is a more probable
-input to probabilistic analysis. Hence, we use \eref{bayes-correlation} for the
-sole purpose of constructing a correlation matrix of $\set{\u_{\local, i}}_{i =
-1}^\np$. For convenience, this correlation matrix is extended by one dimension
-in order to accommodate $\u_\overall$ along with $\set{\u_{\local, i}}_{i =
-1}^\np$. Thus, the matrix acquires one additional nonzero diagonal element equal
-to unity; the resulting matrix is the correlation matrix of \vu denoted by
-$\correlation{\vu}$.
+Although \eref{bayes-correlation} captures certain features that are
+characteristic of the fabrication process, it is still an idealization. In
+practice, it can be difficult to make a justifiable choice and tune such a
+formula, which is a prerequisite for techniques based on the continuous \ac{KL}
+decomposition, such as those discussed in \sref{chaos-past}. A correlation
+matrix, on the other hand, can be readily estimated from measurements and thus
+is a more probable input to probabilistic analysis. Hence, we use
+\eref{bayes-correlation} for the sole purpose of constructing a correlation
+matrix of $\set{\u_{\local, i}}_{i = 1}^\np$. For convenience, this correlation
+matrix is extended by one dimension in order to accommodate $\u_\overall$ along
+with $\set{\u_{\local, i}}_{i = 1}^\np$. Thus, the matrix acquires one
+additional nonzero diagonal element equal to unity; the resulting matrix is the
+correlation matrix of \vu denoted by $\correlation{\vu}$.
 
 Let us now be more specific about the power model in \eref{chaos-power-model}.
 In the ongoing scenario, \f can be rewritten as the following summation:
