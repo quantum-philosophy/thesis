@@ -1,0 +1,382 @@
+\documentclass[a4paper,showtrims,twocolumn]{memoir}
+
+\usepackage{geometry}
+
+\usepackage[no-math]{fontspec}
+\usepackage{flushend}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{titlesec}
+
+\settrimmedsize{242mm}{165mm}{*}
+\settypeblocksize{*}{28pc}{1.618}
+
+\newcommand{\adjustlayout}{
+  \setlength{\trimtop}{\stockheight}
+  \addtolength{\trimtop}{-\paperheight}
+  \setlength{\trimedge}{\stockwidth}
+  \addtolength{\trimedge}{-\paperwidth}
+  \settrims{0.5\trimtop}{0.5\trimedge}
+  \setlrmargins{*}{*}{1.5}
+  \setulmargins{2cm}{*}{*}
+}
+
+\setlength{\columnsep}{5mm}
+
+\newfontfamily{\headingfont}[]{KorolevLiU Medium}
+
+\setmainfont{MillerText}[
+  BoldFont="MillerText-Bold",
+  ItalicFont="MillerText-Italic",
+  SmallCapsFont="MillerText-RomanSC",
+]
+
+\makeatletter
+\def\@maketitle{
+  \newpage
+  \null
+  \begin{center}
+    \small
+    Department of Computer and Information Science\\
+    Linköping University\\[2.5em]
+    {
+      \LARGE
+      \headingfont
+      Dissertations
+    }\\[1.5em]
+  \end{center}
+  \par
+}
+\makeatother
+
+\title{}
+
+\titlespacing*{\section}{0em}{0em}{0.5em}
+\titlespacing*{\subsection}{0em}{0em}{0.5em}
+
+\newcommand{\series}[1]{\section*{\footnotesize #1}}
+\newcommand{\subseries}[1]{\subsection*{\footnotesize\normalfont\textit{#1}}}
+
+\newenvironment{theses}
+  {
+    \begin{itemize}
+      \setlength{\itemsep}{0.2em}
+      \setlength{\parskip}{0em}
+      \setlength{\parsep}{0em}
+  }
+  {
+    \end{itemize}
+  }
+
+\newcommand{\thesis}[5]{\item[No. #1] \textbf{#2}: #3, #4, ISBN #5.}
+
+\begin{document}
+  \adjustlayout
+  \checkandfixthelayout
+  \pagestyle{empty}
+  \maketitle
+  \thispagestyle{empty}
+  \fontsize{6}{7}
+  \selectfont
+  \raggedright
+
+  \series{Linköping Studies in Science and Technology}
+
+  \begin{theses}
+    \thesis{14}{Anders Haraldsson}{A Program Manipulation System Based on Partial Evaluation}{1977}{91-7372-144-1}
+    \thesis{17}{Bengt Magnhagen}{Probability Based Verification of Time Margins in Digital Designs}{1977}{91-7372-157-3}
+    \thesis{18}{Mats Cedwall}{Semantisk analys av processbeskrivningar i naturligt språk}{1977}{91-7372-168-9}
+    \thesis{22}{Jaak Urmi}{A Machine Independent LISP Compiler and its Implications for Ideal Hardware}{1978}{91-7372-188-3}
+    \thesis{33}{Tore Risch}{Compilation of Multiple File Queries in a Meta-Database System}{1978}{91-7372-232-4}
+    \thesis{51}{Erland Jungert}{Synthesizing Database Structures from a User Oriented Data Model}{1980}{91-7372-387-8}
+    \thesis{54}{Sture Hägglund}{Contributions to the Development of Methods and Tools for Interactive Design of Applications Software}{1980}{91-7372-404-1}
+    \thesis{55}{Pär Emanuelson}{Performance Enhancement in a Well-Structured Pattern Matcher through Partial Evaluation}{1980}{91-7372-403-3}
+    \thesis{58}{Bengt Johnsson, Bertil Andersson}{The Human-Computer Interface in Commercial Systems}{1981}{91-7372-414-9}
+    \thesis{69}{H. Jan Komorowski}{A Specification of an Abstract Prolog Machine and its Application to Partial Evaluation}{1981}{91-7372-479-3}
+    \thesis{71}{René Reboh}{Knowledge Engineering Techniques and Tools for Expert Systems}{1981}{91-7372-489-0}
+    \thesis{77}{Östen Oskarsson}{Mechanisms of Modifiability in large Software Systems}{1982}{91-7372-527-7}
+    \thesis{94}{Hans Lunell}{Code Generator Writing Systems}{1983}{91-7372-652-4}
+    \thesis{97}{Andrzej Lingas}{Advances in Minimum Weight Triangulation}{1983}{91-7372-660-5}
+    \thesis{109}{Peter Fritzson}{Towards a Distributed Programming Environment based on Incremental Compilation}{1984}{91-7372-801-2}
+    \thesis{111}{Erik Tengvald}{The Design of Expert Planning Systems. An Experimental Operations Planning System for Turning}{1984}{91-7372-805-5}
+    \thesis{155}{Christos Levcopoulos}{Heuristics for Minimum Decompositions of Polygons}{1987}{91-7870-133-3}
+    \thesis{165}{James W. Goodwin}{A Theory and System for Non-Monotonic Reasoning}{1987}{91-7870-183-X}
+    \thesis{170}{Zebo Peng}{A Formal Methodology for Automated Synthesis of VLSI Systems}{1987}{91-7870-225-9}
+    \thesis{174}{Johan Fagerström}{A Paradigm and System for Design of Distributed Systems}{1988}{91-7870-301-8}
+    \thesis{192}{Dimiter Driankov}{Towards a Many Valued Logic of Quantified Belief}{1988}{91-7870-374-3}
+    \thesis{213}{Lin Padgham}{Non-Monotonic Inheritance for an Object Oriented Knowledge Base}{1989}{91-7870-485-5}
+    \thesis{214}{Tony Larsson}{A Formal Hardware Description and Verification Method}{1989}{91-7870-517-7}
+    \thesis{221}{Michael Reinfrank}{Fundamentals and Logical Foundations of Truth Maintenance}{1989}{91-7870-546-0}
+    \thesis{239}{Jonas Löwgren}{Knowledge-Based Design Support and Discourse Management in User Interface Management Systems}{1991}{91-7870-720-X}
+    \thesis{244}{Henrik Eriksson}{Meta-Tool Support for Knowledge Acquisition}{1991}{91-7870-746-3}
+    \thesis{252}{Peter Eklund}{An Epistemic Approach to Interactive Design in Multiple Inheritance Hierarchies}{1991}{91-7870-784-6}
+    \thesis{258}{Patrick Doherty}{NML3 - A Non-Monotonic Formalism with Explicit Defaults}{1991}{91-7870-816-8}
+    \thesis{260}{Nahid Shahmehri}{Generalized Algorithmic Debugging}{1991}{91-7870-828-1}
+    \thesis{264}{Nils Dahlbäck}{Representation of Discourse-Cognitive and Computational Aspects}{1992}{91-7870-850-8}
+    \thesis{265}{Ulf Nilsson}{Abstract Interpretations and Abstract Machines: Contributions to a Methodology for the Implementation of Logic Programs}{1992}{91-7870-858-3}
+    \thesis{270}{Ralph Rönnquist}{Theory and Practice of Tense-bound Object References}{1992}{91-7870-873-7}
+    \thesis{273}{Björn Fjellborg}{Pipeline Extraction for VLSI Data Path Synthesis}{1992}{91-7870-880-X}
+    \thesis{276}{Staffan Bonnier}{A Formal Basis for Horn Clause Logic with External Polymorphic Functions}{1992}{91-7870-896-6}
+    \thesis{277}{Kristian Sandahl}{Developing Knowledge Management Systems with an Active Expert Methodology}{1992}{91-7870-897-4}
+    \thesis{281}{Christer Bäckström}{Computational Complexity of Reasoning about Plans}{1992}{91-7870-979-2}
+    \thesis{292}{Mats Wirén}{Studies in Incremental Natural Language Analysis}{1992}{91-7871-027-8}
+    \thesis{297}{Mariam Kamkar}{Interprocedural Dynamic Slicing with Applications to Debugging and Testing}{1993}{91-7871-065-0}
+    \thesis{302}{Tingting Zhang}{A Study in Diagnosis Using Classification and Defaults}{1993}{91-7871-078-2}
+    \thesis{312}{Arne Jönsson}{Dialogue Management for Natural Language Interfaces - An Empirical Approach}{1993}{91-7871-110-X}
+    \thesis{338}{Simin Nadjm-Tehrani}{Reactive Systems in Physical Environments: Compositional Modelling and Framework for Verification}{1994}{91-7871-237-8}
+    \thesis{371}{Bengt Savén}{Business Models for Decision Support and Learning. A Study of Discrete-Event Manufacturing Simulation at Asea/ABB 1968-1993}{1995}{91-7871-494-X}
+    \thesis{375}{Ulf Söderman}{Conceptual Modelling of Mode Switching Physical Systems}{1995}{91-7871-516-4}
+    \thesis{383}{Andreas Kågedal}{Exploiting Groundness in Logic Programs}{1995}{91-7871-538-5}
+    \thesis{396}{George Fodor}{Ontological Control, Description, Identification and Recovery from Problematic Control Situations}{1995}{91-7871-603-9}
+    \thesis{413}{Mikael Pettersson}{Compiling Natural Semantics}{1995}{91-7871-641-1}
+    \thesis{414}{Xinli Gu}{RT Level Testability Improvement by Testability Analysis and Transformations}{1996}{91-7871-654-3}
+    \thesis{416}{Hua Shu}{Distributed Default Reasoning}{1996}{91-7871-665-9}
+    \thesis{429}{Jaime Villegas}{Simulation Supported Industrial Training from an Organisational Learning Perspective - Development and Evaluation of the SSIT Method}{1996}{91-7871-700-0}
+    \thesis{431}{Peter Jonsson}{Studies in Action Planning: Algorithms and Complexity}{1996}{91-7871-704-3}
+    \thesis{437}{Johan Boye}{Directional Types in Logic Programming}{1996}{91-7871-725-6}
+    \thesis{439}{Cecilia Sjöberg}{Activities, Voices and Arenas: Participatory Design in Practice}{1996}{91-7871-728-0}
+    \thesis{448}{Patrick Lambrix}{Part-Whole Reasoning in Description Logics}{1996}{91-7871-820-1}
+    \thesis{452}{Kjell Orsborn}{On Extensible and Object-Relational Database Technology for Finite Element Analysis Applications}{1996}{91-7871-827-9}
+    \thesis{459}{Olof Johansson}{Development Environments for Complex Product Models}{1996}{91-7871-855-4}
+    \thesis{461}{Lena Strömbäck}{User-Defined Constructions in Unification-Based Formalisms}{1997}{91-7871-857-0}
+    \thesis{462}{Lars Degerstedt}{Tabulation-based Logic Programming: A Multi-Level View of Query Answering}{1996}{91-7871-858-9}
+    \thesis{475}{Fredrik Nilsson}{Strategi och ekonomisk styrning - En studie av hur ekonomiska styrsystem utformas och används efter företagsförvärv}{1997}{91-7871-914-3}
+    \thesis{480}{Mikael Lindvall}{An Empirical Study of Requirements-Driven Impact Analysis in Object-Oriented Software Evolution}{1997}{91-7871-927-5}
+    \thesis{485}{Göran Forslund}{Opinion-Based Systems: The Cooperative Perspective on Knowledge-Based Decision Support}{1997}{91-7871-938-0}
+    \thesis{494}{Martin Sköld}{Active Database Management Systems for Monitoring and Control}{1997}{91-7219-002-7}
+    \thesis{495}{Hans Olsén}{Automatic Verification of Petri Nets in a CLP framework}{1997}{91-7219-011-6}
+    \thesis{498}{Thomas Drakengren}{Algorithms and Complexity for Temporal and Spatial Formalisms}{1997}{91-7219-019-1}
+    \thesis{502}{Jakob Axelsson}{Analysis and Synthesis of Heterogeneous Real-Time Systems}{1997}{91-7219-035-3}
+    \thesis{503}{Johan Ringström}{Compiler Generation for Data-Parallel Programming Languages from Two-Level Semantics Specifications}{1997}{91-7219-045-0}
+    \thesis{512}{Anna Moberg}{Närhet och distans - Studier av kommunikationsmönster i satellitkontor och flexibla kontor}{1997}{91-7219-119-8}
+    \thesis{520}{Mikael Ronström}{Design and Modelling of a Parallel Data Server for Telecom Applications}{1998}{91-7219-169-4}
+    \thesis{522}{Niclas Ohlsson}{Towards Effective Fault Prevention - An Empirical Study in Software Engineering}{1998}{91-7219-176-7}
+    \thesis{526}{Joachim Karlsson}{A Systematic Approach for Prioritizing Software Requirements}{1998}{91-7219-184-8}
+    \thesis{530}{Henrik Nilsson}{Declarative Debugging for Lazy Functional Languages}{1998}{91-7219-197-X}
+    \thesis{555}{Jonas Hallberg}{Timing Issues in High-Level Synthesis}{1998}{91-7219-369-7}
+    \thesis{561}{Ling Lin}{Management of 1-D Sequence Data - From Discrete to Continuous}{1999}{91-7219-402-2}
+    \thesis{563}{Eva L Ragnemalm}{Student Modelling based on Collaborative Dialogue with a Learning Companion}{1999}{91-7219-412-X}
+    \thesis{567}{Jörgen Lindström}{Does Distance matter? On geographical dispersion in organisations}{1999}{91-7219-439-1}
+    \thesis{582}{Vanja Josifovski}{Design, Implementation and Evaluation of a Distributed Mediator System for Data Integration}{1999}{91-7219-482-0}
+    \thesis{589}{Rita Kovordányi}{Modeling and Simulating Inhibitory Mechanisms in Mental Image Reinterpretation - Towards Cooperative Human-Computer Creativity}{1999}{91-7219-506-1}
+    \thesis{592}{Mikael Ericsson}{Supporting the Use of Design Knowledge - An Assessment of Commenting Agents}{1999}{91-7219-532-0}
+    \thesis{593}{Lars Karlsson}{Actions, Interactions and Narratives}{1999}{91-7219-534-7}
+    \thesis{594}{C. G. Mikael Johansson}{Social and Organizational Aspects of Requirements Engineering Methods - A practice-oriented approach}{1999}{91-7219-541-X}
+    \thesis{595}{Jörgen Hansson}{Value-Driven Multi-Class Overload Management in Real-Time Database Systems}{1999}{91-7219-542-8}
+    \thesis{596}{Niklas Hallberg}{Incorporating User Values in the Design of Information Systems and Services in the Public Sector: A Methods Approach}{1999}{91-7219-543-6}
+    \thesis{597}{Vivian Vimarlund}{An Economic Perspective on the Analysis of Impacts of Information Technology: From Case Studies in Health-Care towards General Models and Theories}{1999}{91-7219-544-4}
+    \thesis{598}{Johan Jenvald}{Methods and Tools in Computer-Supported Taskforce Training}{1999}{91-7219-547-9}
+    \thesis{607}{Magnus Merkel}{Understanding and enhancing translation by parallel text processing}{1999}{91-7219-614-9}
+    \thesis{611}{Silvia Coradeschi}{Anchoring symbols to sensory data}{1999}{91-7219-623-8}
+    \thesis{613}{Man Lin}{Analysis and Synthesis of Reactive Systems: A Generic Layered Architecture Perspective}{1999}{91-7219-630-0}
+    \thesis{618}{Jimmy Tjäder}{Systemimplementering i praktiken - En studie av logiker i fyra projekt}{1999}{91-7219-657-2}
+    \thesis{627}{Vadim Engelson}{Tools for Design, Interactive Simulation, and Visualization of Object-Oriented Models in Scientific Computing}{2000}{91-7219-709-9}
+    \thesis{637}{Esa Falkenroth}{Database Technology for Control and Simulation}{2000}{91-7219-766-8}
+    \thesis{639}{Per-Arne Persson}{Bringing Power and Knowledge Together: Information Systems Design for Autonomy and Control in Command Work}{2000}{91-7219-796-X}
+    \thesis{660}{Erik Larsson}{An Integrated System-Level Design for Testability Methodology}{2000}{91-7219-890-7}
+    \thesis{688}{Marcus Bjäreland}{Model-based Execution Monitoring}{2001}{91-7373-016-5}
+    \thesis{689}{Joakim Gustafsson}{Extending Temporal Action Logic}{2001}{91-7373-017-3}
+    \thesis{720}{Carl-Johan Petri}{Organizational Information Provision - Managing Mandatory and Discretionary Use of Information Technology}{2001}{91-7373-126-9}
+    \thesis{724}{Paul Scerri}{Designing Agents for Systems with Adjustable Autonomy}{2001}{91-7373-207-9}
+    \thesis{725}{Tim Heyer}{Semantic Inspection of Software Artifacts: From Theory to Practice}{2001}{91-7373-208-7}
+    \thesis{726}{Pär Carlshamre}{A Usability Perspective on Requirements Engineering - From Methodology to Product Development}{2001}{91-7373-212-5}
+    \thesis{732}{Juha Takkinen}{From Information Management to Task Management in Electronic Mail}{2002}{91-7373-258-3}
+    \thesis{745}{Johan Åberg}{Live Help Systems: An Approach to Intelligent Help for Web Information Systems}{2002}{91-7373-311-3}
+    \thesis{746}{Rego Granlund}{Monitoring Distributed Teamwork Training}{2002}{91-7373-312-1}
+    \thesis{757}{Henrik André-Jönsson}{Indexing Strategies for Time Series Data}{2002}{917373-346-6}
+    \thesis{747}{Anneli Hagdahl}{Development of IT-supported Interorganisational Collaboration - A Case Study in the Swedish Public Sector}{2002}{91-7373-314-8}
+    \thesis{749}{Sofie Pilemalm}{Information Technology for Non-Profit Organisations - Extended Participatory Design of an Information System for Trade Union Shop Stewards}{2002}{91-7373-318-0}
+    \thesis{765}{Stefan Holmlid}{Adapting users: Towards a theory of use quality}{2002}{91-7373-397-0}
+    \thesis{771}{Magnus Morin}{Multimedia Representations of Distributed Tactical Operations}{2002}{91-7373-421-7}
+    \thesis{772}{Pawel Pietrzak}{A Type-Based Framework for Locating Errors in Constraint Logic Programs}{2002}{91-7373-422-5}
+    \thesis{758}{Erik Berglund}{Library Communication Among Programmers Worldwide}{2002}{91-7373-349-0}
+    \thesis{774}{Choong-ho Yi}{Modelling Object-Oriented Dynamic Systems Using a Logic-Based Framework}{2002}{91-7373-424-1}
+    \thesis{779}{Mathias Broxvall}{A Study in the Computational Complexity of Temporal Reasoning}{2002}{91-7373-440-3}
+    \thesis{793}{Asmus Pandikow}{A Generic Principle for Enabling Interoperability of Structured and Object-Oriented Analysis and Design Tools}{2002}{91-7373-479-9}
+    \thesis{785}{Lars Hult}{Publika Informationstjänster. En studie av den Internetbaserade encyklopedins bruksegenskaper}{2003}{91-7373-461-6}
+    \thesis{800}{Lars Taxén}{A Framework for the Coordination of Complex Systems´ Development}{2003}{91-7373-604-X}
+    \thesis{808}{Klas Gäre}{Tre perspektiv på förväntningar och förändringar i samband med införande av informationssystem}{2003}{91-7373-618-X}
+    \thesis{821}{Mikael Kindborg}{Concurrent Comics - programming of social agents by children}{2003}{91-7373-651-1}
+    \thesis{823}{Christina Ölvingson}{On Development of Information Systems with GIS Functionality in Public Health Informatics: A Requirements Engineering Approach}{2003}{91-7373-656-2}
+    \thesis{828}{Tobias Ritzau}{Memory Efficient Hard Real-Time Garbage Collection}{2003}{91-7373-666-X}
+    \thesis{833}{Paul Pop}{Analysis and Synthesis of Communication-Intensive Heterogeneous Real-Time Systems}{2003}{91-7373-683-X}
+    \thesis{852}{Johan Moe}{Observing the Dynamic Behaviour of Large Distributed Systems to Improve Development and Testing – An Empirical Study in Software Engineering}{2003}{91-7373-779-8}
+    \thesis{867}{Erik Herzog}{An Approach to Systems Engineering Tool Data Representation and Exchange}{2004}{91-7373-929-4}
+    \thesis{872}{Aseel Berglund}{Augmenting the Remote Control: Studies in Complex Information Navigation for Digital TV}{2004}{91-7373-940-5}
+    \thesis{869}{Jo Skåmedal}{Telecommuting’s Implications on Travel and Travel Patterns}{2004}{91-7373-935-9}
+    \thesis{870}{Linda Askenäs}{The Roles of IT - Studies of Organising when Implementing and Using Enterprise Systems}{2004}{91-7373-936-7}
+    \thesis{874}{Annika Flycht-Eriksson}{Design and Use of Ontologies in Information-Providing Dialogue Systems}{2004}{91-7373-947-2}
+    \thesis{873}{Peter Bunus}{Debugging Techniques for Equation-Based Languages}{2004}{91-7373-941-3}
+    \thesis{876}{Jonas Mellin}{Resource-Predictable and Efficient Monitoring of Events}{2004}{91-7373-956-1}
+    \thesis{883}{Magnus Bång}{Computing at the Speed of Paper: Ubiquitous Computing Environments for Healthcare Professionals}{2004}{91-7373-971-5}
+    \thesis{882}{Robert Eklund}{Disfluency in Swedish human-human and human-machine travel booking dialogues}{2004}{91-7373-966-9}
+    \thesis{887}{Anders Lindström}{English and other Foreign Linguistic Elements in Spoken Swedish. Studies of Productive Processes and their Modelling using Finite-State Tools}{2004}{91-7373-981-2}
+    \thesis{889}{Zhiping Wang}{Capacity-Constrained Production-inventory systems - Modelling and Analysis in both a traditional and an e-business context}{2004}{91-85295-08-6}
+    \thesis{893}{Pernilla Qvarfordt}{Eyes on Multimodal Interaction}{2004}{91-85295-30-2}
+    \thesis{910}{Magnus Kald}{In the Borderland between Strategy and Management Control - Theoretical Framework and Empirical Evidence}{2004}{91-85295-82-5}
+    \thesis{918}{Jonas Lundberg}{Shaping Electronic News: Genre Perspectives on Interaction Design}{2004}{91-85297-14-3}
+    \thesis{900}{Mattias Arvola}{Shades of use: The dynamics of interaction design for sociable use}{2004}{91-85295-42-6}
+    \thesis{920}{Luis Alejandro Cortés}{Verification and Scheduling Techniques for Real-Time Embedded Systems}{2004}{91-85297-21-6}
+    \thesis{929}{Diana Szentivanyi}{Performance Studies of Fault-Tolerant Middleware}{2005}{91-85297-58-5}
+    \thesis{933}{Mikael Cäker}{Management Accounting as Constructing and Opposing Customer Focus: Three Case Studies on Management Accounting and Customer Relations}{2005}{91-85297-64-X}
+    \thesis{937}{Jonas Kvarnström}{TALplanner and Other Extensions to Temporal Action Logic}{2005}{91-85297-75-5}
+    \thesis{938}{Bourhane Kadmiry}{Fuzzy Gain-Scheduled Visual Servoing for Unmanned Helicopter}{2005}{91-85297-76-3}
+    \thesis{945}{Gert Jervan}{Hybrid Built-In Self-Test and Test Generation Techniques for Digital Systems}{2005}{91-85297-97-6}
+    \thesis{946}{Anders Arpteg}{Intelligent Semi-Structured Information Extraction}{2005}{91-85297-98-4}
+    \thesis{947}{Ola Angelsmark}{Constructing Algorithms for Constraint Satisfaction and Related Problems - Methods and Applications}{2005}{91-85297-99-2}
+    \thesis{963}{Calin Curescu}{Utility-based Optimisation of Resource Allocation for Wireless Networks}{2005}{91-85457-07-8}
+    \thesis{972}{Björn Johansson}{Joint Control in Dynamic Situations}{2005}{91-85457-31-0}
+    \thesis{974}{Dan Lawesson}{An Approach to Diagnosability Analysis for Interacting Finite State Systems}{2005}{91-85457-39-6}
+    \thesis{979}{Claudiu Duma}{Security and Trust Mechanisms for Groups in Distributed Services}{2005}{91-85457-54-X}
+    \thesis{983}{Sorin Manolache}{Analysis and Optimisation of Real-Time Systems with Stochastic Behaviour}{2005}{91-85457-60-4}
+    \thesis{986}{Yuxiao Zhao}{Standards-Based Application Integration for Business-to-Business Communications}{2005}{91-85457-66-3}
+    \thesis{1004}{Patrik Haslum}{Admissible Heuristics for Automated Planning}{2006}{91-85497-28-2}
+    \thesis{1005}{Aleksandra Tešanovic}{Developing Reusable and Reconfigurable Real-Time Software using Aspects and Components}{2006}{91-85497-29-0}
+    \thesis{1008}{David Dinka}{Role, Identity and Work: Extending the design and development agenda}{2006}{91-85497-42-8}
+    \thesis{1009}{Iakov Nakhimovski}{Contributions to the Modeling and Simulation of Mechanical Systems with Detailed Contact Analysis}{2006}{91-85497-43-X}
+    \thesis{1013}{Wilhelm Dahllöf}{Exact Algorithms for Exact Satisfiability Problems}{2006}{91-85523-97-6}
+    \thesis{1016}{Levon Saldamli}{PDEModelica - A High-Level Language for Modeling with Partial Differential Equations}{2006}{91-85523-84-4}
+    \thesis{1017}{Daniel Karlsson}{Verification of Component-based Embedded System Designs}{2006}{91-85523-79-8}
+    \thesis{1018}{Ioan Chisalita}{Communication and Networking Techniques for Traffic Safety Systems}{2006}{91-85523-77-1}
+    \thesis{1019}{Tarja Susi}{The Puzzle of Social Activity - The Significance of Tools in Cognition and Cooperation}{2006}{91-85523-71-2}
+    \thesis{1021}{Andrzej Bednarski}{Integrated Optimal Code Generation for Digital Signal Processors}{2006}{91-85523-69-0}
+    \thesis{1022}{Peter Aronsson}{Automatic Parallelization of Equation-Based Simulation Programs}{2006}{91-85523-68-2}
+    \thesis{1030}{Robert Nilsson}{A Mutation-based Framework for Automated Testing of Timeliness}{2006}{91-85523-35-6}
+    \thesis{1034}{Jon Edvardsson}{Techniques for Automatic Generation of Tests from Programs and Specifications}{2006}{91-85523-31-3}
+    \thesis{1035}{Vaida Jakoniene}{Integration of Biological Data}{2006}{91-85523-28-3}
+    \thesis{1045}{Genevieve Gorrell}{Generalized Hebbian Algorithms for Dimensionality Reduction in Natural Language Processing}{2006}{91-85643-88-2}
+    \thesis{1051}{Yu-Hsing Huang}{Having a New Pair of Glasses - Applying Systemic Accident Models on Road Safety}{2006}{91-85643-64-5}
+    \thesis{1054}{Åsa Hedenskog}{Perceive those things which cannot be seen - A Cognitive Systems Engineering perspective on requirements management}{2006}{91-85643-57-2}
+    \thesis{1061}{Cécile Åberg}{An Evaluation Platform for Semantic Web Technology}{2007}{91-85643-31-9}
+    \thesis{1073}{Mats Grindal}{Handling Combinatorial Explosion in Software Testing}{2007}{978-91-85715-74-9}
+    \thesis{1075}{Almut Herzog}{Usable Security Policies for Runtime Environments}{2007}{978-91-85715-65-7}
+    \thesis{1079}{Magnus Wahlström}{Algorithms, measures, and upper bounds for Satisfiability and related problems}{2007}{978-91-85715-55-8}
+    \thesis{1083}{Jesper Andersson}{Dynamic Software Architectures}{2007}{978-91-85715-46-6}
+    \thesis{1086}{Ulf Johansson}{Obtaining Accurate and Compre-hensible Data Mining Models - An Evolutionary Approach}{2007}{978-91-85715-34-3}
+    \thesis{1089}{Traian Pop}{Analysis and Optimisation of Distributed Embedded Systems with Heterogeneous Scheduling Policies}{2007}{978-91-85715-27-5}
+    \thesis{1091}{Gustav Nordh}{Complexity Dichotomies for CSP-related Problems}{2007}{978-91-85715-20-6}
+    \thesis{1106}{Per Ola Kristensson}{Discrete and Continuous Shape Writing for Text Entry and Control}{2007}{978-91-85831-77-7}
+    \thesis{1110}{He Tan}{Aligning Biomedical Ontologies}{2007}{978-91-85831-56-2}
+    \thesis{1112}{Jessica Lindblom}{Minding the body - Interacting socially through embodied action}{2007}{978-91-85831-48-7}
+    \thesis{1113}{Pontus Wärnestål}{Dialogue Behavior Management in Conversational Recommender Systems}{2007}{978-91-85831-47-0}
+    \thesis{1120}{Thomas Gustafsson}{Management of Real-Time Data Consistency and Transient Overloads in Embedded Systems}{2007}{978-91-85831-33-3}
+    \thesis{1127}{Alexandru Andrei}{Energy Efficient and Predictable Design of Real-time Embedded Systems}{2007}{978-91-85831-06-7}
+    \thesis{1139}{Per Wikberg}{Eliciting Knowledge from Experts in Modeling of Complex Systems: Managing Variation and Interactions}{2007}{978-91-85895-66-3}
+    \thesis{1143}{Mehdi Amirijoo}{QoS Control of Real-Time Data Services under Uncertain Workload}{2007}{978-91-85895-49-6}
+    \thesis{1150}{Sanny Syberfeldt}{Optimistic Replication with Forward Conflict Resolution in Distributed Real-Time Databases}{2007}{978-91-85895-27-4}
+    \thesis{1155}{Beatrice Alenljung}{Envisioning a Future Decision Support System for Requirements Engineering - A Holistic and Human-centred Perspective}{2008}{978-91-85895-11-3}
+    \thesis{1156}{Artur Wilk}{Types for XML with Application to Xcerpt}{2008}{978-91-85895-08-3}
+    \thesis{1183}{Adrian Pop}{Integrated Model-Driven Development Environments for Equation-Based Object-Oriented Languages}{2008}{978-91-7393-895-2}
+    \thesis{1185}{Jörgen Skågeby}{Gifting Technologies - Ethnographic Studies of End-users and Social Media Sharing}{2008}{978-91-7393-892-1}
+    \thesis{1187}{Imad-Eldin Ali Abugessaisa}{Analytical tools and information-sharing methods supporting road safety organizations}{2008}{978-91-7393-887-7}
+    \thesis{1204}{H. Joe Steinhauer}{A Representation Scheme for Description and Reconstruction of Object Configurations Based on Qualitative Relations}{2008}{978-91-7393-823-5}
+    \thesis{1222}{Anders Larsson}{Test Optimization for Core-based System-on-Chip}{2008}{978-91-7393-768-9}
+    \thesis{1238}{Andreas Borg}{Processes and Models for Capacity Requirements in Telecommunication Systems}{2009}{978-91-7393-700-9}
+    \thesis{1240}{Fredrik Heintz}{DyKnow: A Stream-Based Know-ledge Processing Middleware Framework}{2009}{978-91-7393-696-5}
+    \thesis{1241}{Birgitta Lindström}{Testability of Dynamic Real-Time Systems}{2009}{978-91-7393-695-8}
+    \thesis{1244}{Eva Blomqvist}{Semi-automatic Ontology Construction based on Patterns}{2009}{978-91-7393-683-5}
+    \thesis{1249}{Rogier Woltjer}{Functional Modeling of Constraint Management in Aviation Safety and Command and Control}{2009}{978-91-7393-659-0}
+    \thesis{1260}{Gianpaolo Conte}{Vision-Based Localization and Guidance for Unmanned Aerial Vehicles}{2009}{978-91-7393-603-3}
+    \thesis{1262}{AnnMarie Ericsson}{Enabling Tool Support for Formal Analysis of ECA Rules}{2009}{978-91-7393-598-2}
+    \thesis{1266}{Jiri Trnka}{Exploring Tactical Command and Control: A Role-Playing Simulation Approach}{2009}{978-91-7393-571-5}
+    \thesis{1268}{Bahlol Rahimi}{Supporting Collaborative Work through ICT - How End-users Think of and Adopt Integrated Health Information Systems}{2009}{978-91-7393-550-0}
+    \thesis{1274}{Fredrik Kuivinen}{Algorithms and Hardness Results for Some Valued CSPs}{2009}{978-91-7393-525-8}
+    \thesis{1281}{Gunnar Mathiason}{Virtual Full Replication for Scalable Distributed Real-Time Databases}{2009}{978-91-7393-503-6}
+    \thesis{1290}{Viacheslav Izosimov}{Scheduling and Optimization of Fault-Tolerant Distributed Embedded Systems}{2009}{978-91-7393-482-4}
+    \thesis{1294}{Johan Thapper}{Aspects of a Constraint Optimisation Problem}{2010}{978-91-7393-464-0}
+    \thesis{1306}{Susanna Nilsson}{Augmentation in the Wild: User Centered Development and Evaluation of Augmented Reality Applications}{2010}{978-91-7393-416-9}
+    \thesis{1313}{Christer Thörn}{On the Quality of Feature Models}{2010}{978-91-7393-394-0}
+    \thesis{1321}{Zhiyuan He}{Temperature Aware and Defect-Probability Driven Test Scheduling for System-on-Chip}{2010}{978-91-7393-378-0}
+    \thesis{1333}{David Broman}{Meta-Languages and Semantics for Equation-Based Modeling and Simulation}{2010}{978-91-7393-335-3}
+    \thesis{1337}{Alexander Siemers}{Contributions to Modelling and Visualisation of Multibody Systems Simulations with Detailed Contact Analysis}{2010}{978-91-7393-317-9}
+    \thesis{1354}{Mikael Asplund}{Disconnected Discoveries: Availability Studies in Partitioned Networks}{2010}{978-91-7393-278-3}
+    \thesis{1359}{Jana Rambusch}{Mind Games Extended: Understanding Gameplay as Situated Activity}{2010}{978-91-7393-252-3}
+    \thesis{1373}{Sonia Sangari}{Head Movement Correlates to Focus Assignment in Swedish}{2011}{978-91-7393-154-0}
+    \thesis{1374}{Jan-Erik Källhammer}{Using False Alarms when Developing Automotive Active Safety Systems}{2011}{978-91-7393-153-3}
+    \thesis{1375}{Mattias Eriksson}{Integrated Code Generation}{2011}{978-91-7393-147-2}
+    \thesis{1381}{Ola Leifler}{Affordances and Constraints of Intelligent Decision Support for Military Command and Control – Three Case Studies of Support Systems}{2011}{978-91-7393-133-5}
+    \thesis{1386}{Soheil Samii}{Quality-Driven Synthesis and Optimization of Embedded Control Systems}{2011}{978-91-7393-102-1}
+    \thesis{1419}{Erik Kuiper}{Geographic Routing in Intermittently-connected Mobile Ad Hoc Networks: Algorithms and Performance Models}{2012}{978-91-7519-981-8}
+    \thesis{1451}{Sara Stymne}{Text Harmonization Strategies for Phrase-Based Statistical Machine Translation}{2012}{978-91-7519-887-3}
+    \thesis{1455}{Alberto Montebelli}{Modeling the Role of Energy Management in Embodied Cognition}{2012}{978-91-7519-882-8}
+    \thesis{1465}{Mohammad Saifullah}{Biologically-Based Interactive  Neural Network Models for Visual Attention and Object Recognition}{2012}{978-91-7519-838-5}
+    \thesis{1490}{Tomas Bengtsson}{Testing and Logic Optimization Techniques for Systems on Chip}{2012}{978-91-7519-742-5}
+    \thesis{1481}{David Byers}{Improving Software Security by Preventing Known Vulnerabilities}{2012}{978-91-7519-784-5}
+    \thesis{1496}{Tommy Färnqvist}{Exploiting Structure in CSP-related Problems}{2013}{978-91-7519-711-1}
+    \thesis{1503}{John Wilander}{Contributions to Specification, Implementation, and Execution of Secure Software}{2013}{978-91-7519-681-7}
+    \thesis{1506}{Magnus Ingmarsson}{Creating and Enabling the Useful Service Discovery Experience}{2013}{978-91-7519-662-6}
+    \thesis{1547}{Wladimir Schamai}{Model-Based Verification of Dynamic System Behavior against Requirements: Method, Language, and Tool}{2013}{978-91-7519-505-6}
+    \thesis{1551}{Henrik Svensson}{Simulations}{2013}{978-91-7519-491-2}
+    \thesis{1559}{Sergiu Rafiliu}{Stability of Adaptive Distributed Real-Time Systems with Dynamic Resource Management}{2013}{978-91-7519-471-4}
+    \thesis{1581}{Usman Dastgeer}{Performance-aware Component Composition for GPU-based Systems}{2014}{978-91-7519-383-0}
+    \thesis{1602}{Cai Li}{Reinforcement Learning of Locomotion based on Central Pattern Generators}{2014}{978-91-7519-313-7}
+    \thesis{1652}{Roland Samlaus}{An Integrated Development Environment with Enhanced Domain-Specific Interactive Model Validation}{2015}{978-91-7519-090-7}
+    \thesis{1663}{Hannes Uppman}{On Some Combinatorial Optimization Problems: Algorithms and Complexity}{2015}{978-91-7519-072-3}
+    \thesis{1664}{Martin Sjölund}{Tools and Methods for Analysis, Debugging, and Performance Improvement of Equation-Based Models}{2015}{978-91-7519-071-6}
+    \thesis{1666}{Kristian Stavåker}{Contributions to Simulation of Modelica Models on Data-Parallel Multi-Core Architectures}{2015}{978-91-7519-068-6}
+    \thesis{1680}{Adrian Lifa}{Hardware/Software Codesign of Embedded Systems with Reconfigurable and Heterogeneous Platforms}{2015}{978-91-7519-040-2}
+    \thesis{1685}{Bogdan Tanasa}{Timing Analysis of Distributed Embedded Systems with Stochastic Workload and Reliability Constraints}{2015}{978-91-7519-022-8}
+    \thesis{1691}{Håkan Warnquist}{Troubleshooting Trucks – Automated Planning and Diagnosis}{2015}{978-91-7685-993-3}
+    \thesis{1702}{Nima Aghaee}{Thermal Issues in Testing of Advanced Systems on Chip}{2015}{978-91-7685-949-0}
+    \thesis{1715}{Maria Vasilevskaya}{Security in Embedded Systems: A Model-Based Approach with Risk Metrics}{2015}{978-91-7685-917-9}
+    \thesis{1729}{Ke Jiang}{Security-Driven Design of Real-Time Embedded System}{2016}{978-91-7685-884-4}
+    \thesis{1733}{Victor Lagerkvist}{Strong Partial Clones and the Complexity of Constraint Satisfaction Problems: Limitations and Applications}{2016}{978-91-7685-856-1}
+    \thesis{1734}{Chandan Roy}{An Informed System Development Approach to Tropical Cyclone Track and Intensity Forecasting}{2016}{978-91-7685-854-7}
+    \thesis{1746}{Amir Aminifar}{Analysis, Design, and Optimization of Embedded Control Systems}{2016}{978-91-7685-826-4}
+    \thesis{1747}{Ekhiotz Vergara}{Energy Modelling and Fairness for Efficient Mobile Communication}{2016}{978-91-7685-822-6}
+    \thesis{1748}{Dag Sonntag}{Chain Graphs – Interpretations, Expressiveness and Learning Algorithms}{2016}{978-91-7685-818-9}
+    \thesis{1768}{Anna Vapen}{Web Authentication using Third-Parties in Untrusted Environments}{2016}{978-91-7685-753-3}
+    \thesis{1778}{Magnus Jandinger}{On a Need to Know Basis: A Conceptual and Methodological Framework for Modelling and Analysis of Information Demand in an Enterprise Context}{2016}{978-91-7685-713-7}
+    \thesis{1798}{Rahul Hiran}{Collaborative Network Security: Targeting Wide-area Routing and Edge-network Attacks}{2016}{978-91-7685-662-8}
+    \thesis{1813}{Nicolas Melot}{Algorithms and Framework for Energy Efficient Parallel Stream Computing on Many-Core Architectures}{2016}{978-91-7685-623-9}
+    \thesis{1823}{Amy Rankin}{Making Sense of Adaptations: Resilience in High-Risk Work}{2017}{978-91-7685-596-6}
+    \thesis{1831}{Lisa Malmberg}{Building Design Capability in the Public Sector: Expanding the Horizons of Development}{2017}{978-91-7685-585-0}
+    \thesis{1851}{Marcus Bendtsen}{Gated Bayesian Networks}{2017}{978-91-7685-525-6}
+    \thesis{1852}{Zlatan Dragisic}{Completion of Ontologies and Ontology Networks}{2017}{978-91-7685-522-5}
+    \thesis{1854}{Meysam Aghighi}{Computational Complexity of some Optimization Problems in Planning}{2017}{978-91-7685-519-5}
+    \thesis{1863}{Simon Ståhlberg}{Methods for Detecting Unsolvable Planning Instances using Variable Projection}{2017}{978-91-7685-498-3}
+    \thesis{1879}{Karl Hammar}{Content Ontology Design Patterns: Qualities, Methods, and Tools}{2017}{978-91-7685-454-9}
+    \thesis{1887}{Ivan Ukhov}{System-Level Analysis and Design under Uncertainty}{2017}{978-91-7685-426-6}
+    \end{theses}
+
+  \series{Linköping Studies in Arts and Science}
+
+  \begin{theses}
+    \thesis{504}{Ing-Marie Jonsson}{Social and Emotional Characteristics of Speech-based In-Vehicle Information Systems: Impact on Attitude and Driving Behaviour}{2009}{978-91-7393-478-7}
+    \thesis{586}{Fabian Segelström}{Stakeholder Engagement for Service Design: How service designers identify and communicate insights}{2013}{978-91-7519-554-4}
+    \thesis{618}{Johan Blomkvist}{Representing Future Situations of Service: Prototyping in Service Design}{2014}{978-91-7519-343-4}
+    \thesis{620}{Marcus Mast}{Human-Robot Interaction for Semi-Autonomous Assistive Robots}{2014}{978-91-7519-319-9}
+    \thesis{677}{Peter Berggren}{Assessing Shared Strategic Understanding}{2016}{978-91-7685-786-1}
+    \thesis{695}{Mattias Forsblad}{Distributed cognition in home environments: The prospective memory and cognitive practices of older adults}{2016}{978-91-7685-686-4}
+  \end{theses}
+
+  \subseries{Linköping Studies in Statistics}
+
+  \begin{theses}
+    \thesis{9}{Davood Shahsavani}{Computer Experiments Designed to Explore and Approximate Complex Deterministic Models}{2008}{978-91-7393-976-8}
+    \thesis{10}{Karl Wahlin}{Roadmap for Trend Detection and Assessment of Data Quality}{2008}{978-91-7393-792-4}
+    \thesis{11}{Oleg Sysoev}{Monotonic regression for large multivariate datasets}{2010}{978-91-7393-412-1}
+    \thesis{13}{Agné Burauskaite-Harju}{Characterizing Temporal Change and Inter-Site Correlations in Daily and Sub-daily Precipitation Extremes}{2011}{978-91-7393-110-6}
+  \end{theses}
+
+  \subseries{Linköping Studies in Information Science}
+
+  \begin{theses}
+    \thesis{1}{Karin Axelsson}{Metodisk systemstrukturering- att skapa samstämmighet mellan informationssystem-arkitektur och verksamhet}{1998}{9172-19-296-8}
+    \thesis{2}{Stefan Cronholm}{Metodverktyg och användbarhet - en studie av datorstödd metodbaserad systemutveckling}{1998}{9172-19-299-2}
+    \thesis{3}{Anders Avdic}{Användare och utvecklare - om anveckling med kalkylprogram}{1999}{91-7219-606-8}
+    \thesis{4}{Owen Eriksson}{Kommunikationskvalitet hos informationssystem och affärsprocesser}{2000}{91-7219-811-7}
+    \thesis{5}{Mikael Lind}{Från system till process - kriterier för processbestämning vid verksamhetsanalys}{2001}{91-7373-067-X}
+    \thesis{6}{Ulf Melin}{Koordination och informationssystem i företag och nätverk}{2002}{91-7373-278-8}
+    \thesis{7}{Pär J. Ågerfalk}{Information Systems Actability - Understanding Information Technology as a Tool for Business Action and Communication}{2003}{91-7373-628-7}
+    \thesis{8}{Ulf Seigerroth}{Att förstå och förändra system-utvecklingsverksamheter - en taxonomi för metautveckling}{2003}{91-7373-736-4}
+    \thesis{9}{Karin Hedström}{Spår av datoriseringens värden – Effekter av IT i äldreomsorg}{2004}{91-7373-963-4}
+    \thesis{10}{Ewa Braf}{Knowledge Demanded for Action - Studies on Knowledge Mediation in Organisations}{2004}{91-85295-47-7}
+    \thesis{11}{Fredrik Karlsson}{Method Configuration method and computerized tool support}{2005}{91-85297-48-8}
+    \thesis{12}{Malin Nordström}{Styrbar systemförvaltning - Att organisera systemförvaltningsverksamhet med hjälp av effektiva förvaltningsobjekt}{2005}{91-85297-60-7}
+    \thesis{13}{Stefan Holgersson}{Yrke: POLIS - Yrkeskunskap, motivation, IT-system och andra förutsättningar för polisarbete}{2005}{91-85299-43-X}
+    \thesis{14}{Benneth Christiansson, Marie-Therese Christiansson}{Mötet mellan process och komponent - mot ett ramverk för en verksamhetsnära kravspecifikation vid anskaffning av komponent-baserade informationssystem}{2006}{91-85643-22-X}
+  \end{theses}
+\end{document}
+
+% vim: set nowrap tw=0:

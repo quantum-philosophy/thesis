@@ -1,8 +1,13 @@
-all:
-	latexmk -pvc -xelatex thesis.tex
+all: thesis
 
 exhibit:
 	latexmk -pvc -xelatex exhibit.tex
+
+history:
+	latexmk -pvc -xelatex history.tex
+
+thesis:
+	latexmk -pvc -xelatex thesis.tex
 
 clean:
 	rm -f {,**/}*.aux
@@ -31,4 +36,4 @@ publish:
 	git push --force
 	git checkout master
 
-.PHONY: all clean publish
+.PHONY: all clean exhibit history publish thesis
