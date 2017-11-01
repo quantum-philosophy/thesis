@@ -166,19 +166,19 @@ measurements is more advantageous than a larger number of temporal measurements.
 
 \inputtable{bayes-noise}
 In this subsection, we vary the standard deviation of measurement noise, which
-corrupts $H$. The cases being considered are 0, 0.5, 1, and \celsius{2}
-\cite{mesa-martinez2007}. Note that the corresponding prior in
-\eref{bayes-prior} is kept unchanged. The results are given in
-\tref{bayes-noise}. It can be seen that the sampling time is approximately
-constant. However, we observe an increase in the optimization time when the
-level of noise decreases, which can be ascribed to greater opportunities for
-perfection for the optimization procedure. A more important observation revealed
-by this experiment is that, in spite of the fact that the inference operates on
-indirect and incomplete data, a thoroughly calibrated piece of equipment can
-considerably improve the quality of prediction. However, even with a noise of
-\celsius{2}---meaning that measurements are dispersed over a wide band of
-\celsius{8} with a probability of more than 0.95---the \ac{NRMSE} is still only
-4\%.
+corrupts $H$. The cases being considered are \celsius{0}, \celsius{0.5},
+\celsius{1}, and \celsius{2} \cite{mesa-martinez2007}. Note that the
+corresponding prior in \eref{bayes-prior} is kept unchanged. The results are
+given in \tref{bayes-noise}. It can be seen that the sampling time is
+approximately constant. However, we observe an increase in the optimization time
+when the level of noise decreases, which can be ascribed to greater
+opportunities for perfection for the optimization procedure. Another observation
+revealed by this experiment is that, in spite of the fact that the inference
+operates on indirect and incomplete data, a thoroughly calibrated piece of
+equipment can considerably improve the quality of prediction. However, even with
+a noise of \celsius{2}---meaning that measurements are dispersed over a wide
+band of \celsius{8} with a probability of more than 0.95---the \ac{NRMSE} is
+still only 4\%.
 
 \hiddensubsection{Sequential and Parallel Sampling}
 
