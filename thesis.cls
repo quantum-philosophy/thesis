@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/10/31 Thesis]
+\ProvidesClass{thesis}[2017/11/01 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -46,6 +46,16 @@
 
 \settrimmedsize{242mm}{165mm}{*}
 \settypeblocksize{*}{28pc}{1.618}
+
+\newcommand{\adjustlayout}{
+  \setlength{\trimtop}{\stockheight}
+  \addtolength{\trimtop}{-\paperheight}
+  \setlength{\trimedge}{\stockwidth}
+  \addtolength{\trimedge}{-\paperwidth}
+  \settrims{0.5\trimtop}{0.5\trimedge}
+  \setlrmargins{*}{*}{1.5}
+  \setulmargins{2cm}{*}{*}
+}
 
 \newfontfamily{\headingfont}[]{KorolevLiU Medium}
 
@@ -171,19 +181,9 @@
   }
 }
 
-\newcommand{\resetlayout}{
-  \setlength{\trimtop}{\stockheight}
-  \addtolength{\trimtop}{-\paperheight}
-  \setlength{\trimedge}{\stockwidth}
-  \addtolength{\trimedge}{-\paperwidth}
-  \settrims{0.5\trimtop}{0.5\trimedge}
-  \setlrmargins{*}{*}{1.5}
-  \setulmargins{2cm}{*}{*}
-}
-
 \AtBeginDocument{
   \chapterstyle{blackbox}
-  \resetlayout
+  \adjustlayout
   \checkandfixthelayout
   \pagestyle{empty}
   \pagenumbering{roman}
