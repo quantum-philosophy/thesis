@@ -3,7 +3,7 @@ optimization presented in \sref{chaos-reliability-analysis} and
 \sref{chaos-optimization}, we consider a concrete application, meaning that we
 specify the uncertain parameters and discuss the accompanying computations. This
 application is also utilized for the quantitative evaluation of our technique
-given in the next section, \sref{chaos-optimization-results}.
+presented in the next section, \sref{chaos-optimization-results}.
 
 \subsection{\problemtitle}
 
@@ -13,13 +13,12 @@ individual reliability function $R_i(\cdot | \vg_i)$ is the one shown in
 \eref{weibull-reliability} with its own parameters $\scale_i$ and $\shape_i$.
 
 During each iteration, the temperature of processing element~$i$ exhibits \nk{i}
-cycles. Each cycle generally has different characteristics and, therefore,
-causes different damage to the processing element. This aspect is taken into
-account by adjusting $\scale_i$ as shown in \eref{thermal-cycling-scale}. The
-shape parameter $\shape_i$ is known to be indifferent to temperature
-\cite{chang2006}. For simplicity, assume that $\shape_i$ does not depend on
-process parameters either, and that $\shape_i = \shape$ for $i =
-\range{1}{\np}$.
+cycles. Each cycle generally has different characteristics and hence causes a
+different amount of damage to the processing element. This aspect is accounted
+for by adjusting $\scale_i$ as shown in \eref{thermal-cycling-scale}. The shape
+parameter $\shape_i$ is known to be indifferent to temperature \cite{chang2006}.
+For simplicity, assume that $\shape_i$ does not depend on process parameters
+either, and that $\shape_i = \shape$ for $i = \range{1}{\np}$.
 
 Under the above assumptions, \rref{weibull-homogeneity} applies, and the
 lifetime $\life: \Omega \to \real$ of the system has a Weibull distribution as
@@ -47,7 +46,7 @@ the illustrative application developed in this section.
 
 Let us now turn our attention to the uncertain parameters \vu of the addressed
 problem. We focus on two crucial process parameters: the effective channel
-length and gate oxide thickness. Then each processing element is assigned two
+length and gate oxide thickness. Each processing element is then assigned two
 random variables corresponding to the two process parameters, which means that
 $\nu = 2 \np$ in the current example; see also \sref{chaos-problem}.
 
@@ -109,9 +108,9 @@ see \xref{probability-transformation}.
 Since the auxiliary variables $\vz = (\z_i)_{i = 1}^\nz$ are Gaussian, the
 polynomial basis considered at Stage~3 is to be composed of Hermite polynomials,
 which is the exact scenario described in \xref{polynomial-chaos}. The variables
-also tell us how to approach numerical integration needed for the evaluation of
-the coefficients of \ac{PC} expansions: since we are interested in integrals
-with respect to the standard Gaussian measure, Gauss--Hermite quadratures
+also tell us how to approach numerical integration needed for evaluation of the
+coefficients of \ac{PC} expansions: since we are interested in integrals with
+respect to the standard Gaussian measure, Gauss--Hermite quadratures
 \cite{maitre2010} are worth considering. These quadratures are especially
 efficient, since they belong to the class of Gaussian quadratures and thus
 inherit their properties; see \xref{numerical-integration}.
