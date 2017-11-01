@@ -45,19 +45,19 @@ of the system---is considered in isolation. This quantity plays the key role in
 the subsequent optimization, since the optimization objective and constraints
 depend on it as discussed previously.
 
-We compare the performance of our technique with the one of \ac{MC} sampling
-applied to the quantity shown in \eref{chaos-optimization-quantity} directly.
-The operations performed by direct sampling for one sample are the same as those
+We compare the performance of our technique with that of direct \ac{MC} sampling
+applied to the quantity shown in \eref{chaos-optimization-quantity}. The
+operations performed by direct sampling for one sample are the same as those
 performed by our framework for one quadrature point. The only difference is that
 no model order reduction of any kind is undertaken prior to \ac{MC} sampling,
 which ensures that the resulting accuracy is not compromised. The number of
 \ac{MC} samples is set to \power{10}{4}, which is a practical assumption based
-not only on our experience but also on the experience from the literature as
-discussed in \sref{chaos-transient-results}.
+not only on our experience but also on the literature as discussed in
+\sref{chaos-transient-results}.
 
 \inputtable{chaos-optimization-accuracy}
-The obtained results are displayed in \tref{chaos-optimization-accuracy} where
-we consider a quad-core platform ($\np = 4$) with 10 randomly generated
+The results are displayed in \tref{chaos-optimization-accuracy} where we
+consider a quad-core platform ($\np = 4$) with 10 randomly generated
 applications and vary the level of polynomial expansions \lc from one to five.
 The errors for the three components of $\vg = (E, Q, \life)$ are denoted by
 \error{E}, \error{Q}, and \error{\life}, respectively. Each error metric shows
@@ -65,17 +65,17 @@ the distance between the empirical probability distributions produced by our
 approach and the ones produced by direct sampling. The measure of this distance
 is the \ac{KLD} \cite{gelman2013, hastie2013} where the results of direct
 sampling are treated as the true ones. The \ac{KLD} takes non-negative values
-and attains zero only when two distributions are equal almost everywhere
+and reaches zero only when two distributions are equal almost everywhere
 \cite{durrett2010}. In general, the errors decrease as \lc increases. This
 trend, however, is not monotonic for \ac{PC} expansions of high levels; see
 \error{Q} and \error{\life} for $\lc = 5$ in \tref{chaos-optimization-accuracy}.
-The observation can be ascribed to the random nature of sampling and to the
+This observation can be ascribed to the random nature of sampling and to the
 reduction procedures that we undertake in order to gain speed; they reasonably
 impose limitations on the accuracy that can be attained by polynomial
 surrogates. \tref{chaos-optimization-accuracy} additionally contains the number
 of polynomial terms \nc and the number of quadrature points \nq that correspond
 to each value of \lc. We have performed the above experiment for platforms with
-fewer and with more processing elements and observed similar results.
+both fewer and more processing elements and have observed similar results.
 
 Based on the figures reported in \tref{chaos-optimization-accuracy}, we consider
 the results delivered by third-level \ac{PC} expansions, where the \ac{KLD}
