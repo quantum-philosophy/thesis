@@ -1,13 +1,13 @@
-As many other bodies of research, the one presented in this thesis has a
+As with many other bodies of research, the one presented in this thesis has a
 beginning and an end. The latter rarely implies that the subject under
 consideration has been exhaustively studied and requires no further attention.
-Instead, it merely means that the research undertaking has come to a certain
+Instead, it merely means that the research project has come to a certain
 conclusion and made a certain contribution to the understanding or treatment of
 this subject. Naturally, this can leave a number of research questions open and
 is likely to pose new questions, which is also the case with our work.
 
-Before we discuss particularities, let us first make one general remark about
-our research. It would be valuable to investigate how our uncertainty-aware
+Before we discuss particulars, let us first make one general remark about our
+research. It would be valuable to investigate how our uncertainty-aware
 techniques perform in practice. Although we have conducted such an investigation
 in the case of the interpolation-based technique presented in
 \cref{uncertainty-workload-development}, this study is relatively small and has
@@ -17,20 +17,20 @@ might help to reveal our blind spots.
 In the experiments reported in \cref{uncertainty-process-fabrication},
 \cref{uncertainty-process-development}, and
 \cref{uncertainty-workload-development}, we assume certain probability
-distributions. Even though our assumptions are motivated, it would be helpful to
-assess our solutions using probability distributions that are estimated based on
-real-life measurements. In particular, as noted in the chapters, the assumed
-correlations impact not only accuracy but also feasibility of applying our
-techniques. The concern about feasibility is particularly acute in situations
-where the curse of dimensionality is an issue, and this curse could be an issue
-in \cref{uncertainty-process-development} and
+distributions. Even though our assumptions are reasonable, it would be helpful
+to assess our solutions using probability distributions that are estimated based
+on real-life measurements. In particular, as noted in the chapters, the assumed
+correlations affect not only the accuracy but also the feasibility of applying
+our techniques. The concern about feasibility is particularly acute in
+situations where the curse of dimensionality is an issue, and this curse could
+be an issue in \cref{uncertainty-process-development} and
 \cref{uncertainty-workload-development}. Recall that the former leverages the
 \ac{PC} decomposition while the latter makes use of adaptive hierarchical
 interpolation. Having identified a number of problematic real-life use cases,
 one could investigate how the proposed techniques should be configured or even
 extended in order to make them applicable in those cases. For instance, the
-attentive reader might have noted that the control over anisotropy provided by
-the framework that is based on \ac{PC} expansions has not been sufficiently
+attentive reader might have noted that the control over anisotropy that is
+provided by the framework based on \ac{PC} expansions has not been sufficiently
 explored in the experimental results. However, if used properly, it could
 effectively mitigate the curse of dimensionality.
 
@@ -40,7 +40,7 @@ boundaries between the techniques proposed in
 \cref{uncertainty-workload-development}. Our default policy is to use the former
 for process uncertainty and the latter for workload uncertainty, which is
 motivated by the response surfaces that are characteristic of the two types of
-uncertainty. However, it does not mean that one of the techniques cannot be
+uncertainty. However, this does not mean that one of the techniques cannot be
 successfully used in the primary application area of the other. For instance,
 workload uncertainty might lead to smooth variations, in which case a polynomial
 surrogate might be beneficial.
@@ -50,8 +50,8 @@ arguably the most prominent direction for further development within the scope
 of this thesis. Mitigation of uncertainty at runtime is considered advantageous,
 since one has access to large amounts of relevant and previously
 inaccessible-by-definition information and, therefore, can make more educated
-decisions. As emphasized throughout \cref{uncertainty-workload-operation},
-modern architectures of neural networks accompanied by modern approaches to
-training have great potential, and resource management is the foremost
-beneficiary in this regard. This potential, however, is yet to be materialized.
-Extensive research in this direction is highly needed.
+decisions. As emphasized in \cref{uncertainty-workload-operation}, modern
+architectures of neural networks accompanied by modern approaches to training
+have great potential, and resource management is the foremost beneficiary in
+this regard. This potential, however, has yet to materialize. Extensive research
+in this direction would be highly desirable.
