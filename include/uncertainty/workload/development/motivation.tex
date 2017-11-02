@@ -1,24 +1,24 @@
 Due to its nature, the variability originating from process variation is
 typically smooth and well behaved. In such cases, uncertainty quantification
 based on \ac{PC} expansions \cite{xiu2010} and other approximation techniques
-relying on global polynomials generally work well, which is demonstrated in
+relying on global polynomials generally work well as demonstrated in
 \cref{uncertainty-process-development}. On the other hand, the variability
-coming from such sources as workload often has steep gradients and favors
+coming from sources such as workload often has steep gradients and favors
 nondifferentiability and even discontinuity. In such cases, \ac{PC} expansions
-and similar techniques fail: they require extremely many evaluations of the
-quantity of interest in order to deliver an acceptable level of accuracy and are
-consequently not worth it.
+and similar techniques fail: they require an extremely large number of
+evaluations of the quantity of interest in order to deliver an acceptable level
+of accuracy and are consequently not worth it.
 
 \inputfigure{frame-motivation}
 In order to illustrate this concern, let us consider an example. Suppose that
 our system has only one processing element, and it is running an application
-with only one task. Suppose further that the task has two branches and takes
-either one depending on the input data. Assume that one branch takes 0.1~s to
-execute and has probability 0.6, and the other branch takes 1~s and has
-probability 0.4. Our goal is to find the distribution of the end-to-end delay of
-the application. In this example, the quantity of interest is the end-to-end
-delay, and it coincides with the execution time of the task; hence, we already
-know the answer. Let us pretend we do not and try to obtain it by other means.
+with only one task. Suppose also that the task has two branches and takes either
+one depending on the input data. Assume that one branch takes 0.1~s to execute
+and has probability 0.6, and the other branch takes 1~s and has probability 0.4.
+Our goal is to find the distribution of the end-to-end delay of the application.
+In this example, the quantity of interest is the end-to-end delay, and it
+coincides with the execution time of the task; hence, we already know the
+answer. Let us pretend we do not and try to obtain it by other means.
 
 Suppose the above scenario is modeled by a uniformly distributed random variable
 $\u: \Omega \to [0, 1]$. The execution time of the task (the end-to-end delay of
@@ -43,21 +43,21 @@ make use of the same number of points as the \ac{PC} expansion does. The result
 is the blue curve in \fref{frame-motivation}, and the adaptively chosen points
 are plotted on the horizontal axis. It can be seen that the approximation is
 good, and, in fact, it would be indistinguishable from the true response with a
-few additional points. One can note that the adaptive procedure started to
-concentrate collocation nodes at the jump and left the insipid regions on both
-sides of the jump with no particular attention. Having constructed such a
-representation, one can proceed to the calculation of the probability
-distribution of the quantity of interest, which, in general, is done via
-sampling followed by such techniques as kernel density estimation
-\cite{hastie2013}. The crucial point to note is that, analogously to the \ac{PC}
-expansions leveraged in \cref{uncertainty-process-development}, this follow-up
-sampling does not involve the original system in any way, which implies that the
-operation costs practically nothing in terms of computation time.
+few additional points. Note that the adaptive procedure started to concentrate
+collocation nodes at the jump and paid little attention to the less interesting
+regions on either side of the jump. Having constructed such a representation,
+one can proceed to the calculation of the probability distribution of the
+quantity of interest, which, in general, should be done via sampling followed by
+such techniques as kernel density estimation \cite{hastie2013}. The crucial
+point to note is that, analogously to the \ac{PC} expansions leveraged in
+\cref{uncertainty-process-development}, this follow-up sampling does not involve
+the original system in any way, which implies that the operation costs
+practically nothing in terms of computation time.
 
 The example described above illustrates the fact that the proposed framework is
 well suited for nonsmooth response surfaces. More generally, the adaptivity
 featured by our technique allows for a reduction in the costs associated with
 probabilistic analysis of the quantity under consideration as measured by the
 number of times the quantity needs to be evaluated in order to achieve a certain
-accuracy level. The magnitude of reduction depends on the problem, and it can be
+level of accuracy. The magnitude of reduction depends on the problem and can be
 substantial when the problem is well disposed to adaptation.
