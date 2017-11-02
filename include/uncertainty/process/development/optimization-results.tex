@@ -43,7 +43,7 @@ end, in this subsection, the quantity of interest given in
 consumption, maximum temperature, and parameterization of the reliability model
 of the system---is considered in isolation. This quantity plays the key role in
 the subsequent optimization, since the optimization objective and constraints
-depend on it as discussed previously.
+depend on it, as discussed previously.
 
 We compare the performance of our technique with that of direct \ac{MC} sampling
 applied to the quantity shown in \eref{chaos-optimization-quantity}. The
@@ -52,7 +52,7 @@ performed by our framework for one quadrature point. The only difference is that
 no model order reduction of any kind is undertaken prior to \ac{MC} sampling,
 which ensures that the resulting accuracy is not compromised. The number of
 \ac{MC} samples is set to \power{10}{4}, which is a practical assumption based
-not only on our experience but also on the literature as discussed in
+not only on our experience but also on the literature, as discussed in
 \sref{chaos-transient-results}.
 
 \inputtable{chaos-optimization-accuracy}
@@ -118,7 +118,7 @@ case, is the one in \eref{chaos-optimization-quantity}. Note that \nq is very
 low. In order to substantiate this, the last column of
 \tref{chaos-optimization-speed} shows the speedup of our approach with respect
 to \power{10}{4} \ac{MC} samples. The proposed solution is 100--200 times faster
-while delivering highly accurate results as discussed earlier. It should be
+while delivering highly accurate results, as discussed earlier. It should be
 noted that the comparison has been drawn based on the number of evaluation
 points rather than on the wall-clock time, since the relative cost of other
 computations is negligible.
@@ -208,7 +208,7 @@ Let us now comment on the optimization time shown in
 \tref{chaos-optimization-objective}. It can be observed that our framework takes
 from around one minute to six hours (utilizing 16 cores) in order to perform the
 optimization, and that the deterministic technique is 2--40 times faster.
-However, the price to pay when relying on the latter is quite high as discussed
+However, the price to pay when relying on the latter is quite high, as discussed
 above. The deterministic approach is blind-guessing with highly unfavorable odds
 of succeeding. Therefore, the computation time of our framework is considered
 reasonable and affordable.
