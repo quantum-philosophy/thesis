@@ -277,10 +277,10 @@ started at $\u^*$, and the covariance matrix is the inverse of $\m{J}$
 \cite{gelman2013}. In order to speed up the sampling process, we would like to
 make use of parallel computing. The aforementioned proposal, however, is purely
 sequential, since the mean for the next sample draw is dependent on the previous
-sample. Therefore, we appeal to a variation of the Metropolis--Hastings
-algorithm known as the independence sampler \cite{gelman2013}. In this case, a
-typical choice of the proposal is a multivariate t-distribution independent of
-the current position of the chain as follows:
+sample. Therefore, we appeal to a variant of the Metropolis--Hastings algorithm
+known as the independence sampler \cite{gelman2013}. In this case, a typical
+choice of the proposal is a multivariate t-distribution independent of the
+current position of the chain as follows:
 \begin{equation} \elab{bayes-proposal}
   \u \sim t_\nu(\u^*, \alpha^2 \m{J}^{-1})
 \end{equation}
