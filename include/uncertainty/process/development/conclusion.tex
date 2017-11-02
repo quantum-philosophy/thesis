@@ -1,41 +1,41 @@
 As emphasized throughout the thesis, electronic-system designs that ignore
 uncertainty are both inefficient and unreliable. Acknowledging this exigent
-concern, in this chapter, we have developed a flexible system-level framework
-for analysis of electronic systems that are subject to process variation. The
-proposed framework is capable of modeling diverse system-level quantities
-dependent on diverse process parameters obeying diverse probability
-distributions. Our methodology delivers a lightweight representation of the
-quantity being analyzed, thereby allowing the designer to computationally
-efficiently calculate the probability distribution and other characteristics of
-this quantity.
+concern, we have developed a flexible framework for analysis of electronic
+systems that are subject to process variation. The framework is capable of
+modeling diverse system-level quantities that are dependent on diverse process
+parameters, which, in turn, obey diverse probability distributions. Our
+methodology delivers a lightweight surrogate for the quantity being analyzed,
+thereby providing the designer with a computationally efficient means of
+calculating the probability distribution and other characteristics of this
+quantity.
 
 Leveraging our general methodology, we have presented a technique aimed at
 quantifying transient power and temperature variations of electronic systems
-under process uncertainty. The technique has been applied in a context of
-particular importance where the variability in the effective channel length has
-been addressed. We have drawn a comparison with direct sampling, which has
-confirmed the efficiency of our technique in terms of accuracy and speed.
+under process uncertainty. The technique has been used to address the
+variability in the effective channel length, which is an area of particular
+importance. We have drawn a comparison with direct sampling, which has confirmed
+the efficiency of our technique in terms of accuracy and speed.
 
 We have also presented a process-variation-aware technique for dynamic
-steady-state power and temperature analysis as well as proposed a technique for
-reliability analysis that seamlessly takes into account the variability in
-process parameters and, in particular, the impact of process variation on the
-operating temperature. In this case, we have compared our performance with the
-one of direct sampling by considering the influence of not only the effective
-channel length but also the gate oxide thickness. The obtained results have
-shown the efficiency of our solution with respect to both accuracy and speed.
+steady-state power and temperature analysis and have proposed a technique for
+reliability analysis that seamlessly accounts for the variability in process
+parameters and, in particular, for the impact of process variation on the
+operating temperature. In this case, we have compared our performance with that
+of direct sampling by considering the influence not only of the effective
+channel length but also of the gate oxide thickness. The results have shown the
+efficiency of our solution with respect to both accuracy and speed.
 
 The low computational demand featured by the proposed framework implies that our
-uncertainty analysis can be straightforwardly performed inside
-design-space-exploration loops, including those targeted at energy and
-reliability optimization with temperature-related constraints under process
-variation. This important virtue has been demonstrated by considering an
-energy-driven probabilistic optimization procedure under temperature- and
-reliability-related constraints. It has been shown that temperature has to be
-treated as a stochastic quantity in order to make electronic systems reliable.
+uncertainty analysis can be readily performed inside design-space-exploration
+loops, including those targeted at energy and reliability optimization with
+temperature-related constraints under process variation. This important virtue
+has been demonstrated by considering an energy-driven probabilistic optimization
+procedure under temperature- and reliability-related constraints. It has been
+shown that temperature has to be treated as a stochastic quantity in order to
+make electronic systems reliable.
 
 Finally, note that, even though our framework has been illustrated by
 considering the effective channel length, gate oxide thickness, and a number of
 specific quantities of interest, it can be readily applied to other problems
-requiring process variation to be effectively and efficiently taken into
+that require process variation to be effectively and efficiently taken into
 account.
