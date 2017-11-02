@@ -1,22 +1,22 @@
 Similarly to \cref{uncertainty-process-development}, we propose a design-time
 system-level framework for analysis of electronic systems that depend on
 uncertain parameters. In this chapter, however, the source of uncertainty being
-considered is workload. As it is the case with sampling methods introduced in
-\sref{past}, our technique treats the system at hand as a ``black box'' and thus
-is straightforward to apply in practice, since no handcrafting is required, and
-existing codes need no change. Hence, the quantities that the framework is able
-to address are diverse, including those that are concerned with timing-, power-,
-and temperature-related characteristics of applications running on heterogeneous
-platforms.
+considered is workload. As is the case with sampling methods (see \sref{past}),
+our technique treats the system at hand as a ``black box'' and thus is
+straightforward to apply in practice, since no handcrafting is required, and
+existing codes need not be changed. Hence, the quantities that the framework is
+able to address are diverse, including those that are concerned with timing-,
+power-, and temperature-related characteristics of applications running on
+heterogeneous platforms.
 
 In contrast to \cref{uncertainty-process-development} and sampling methods, the
 framework presented in this chapter explores and exploits the nature of the
-problem---that is, the way the quantity of interest depends on the uncertain
-parameters---by exercising the aforementioned ``black box'' at a set of points
-chosen adaptively. The adaptivity that we leverage is hybrid \cite{jakeman2012}:
-it is sensitive to both global (on the level of individual stochastic dimensions
-\cite{klimke2006}) and, more importantly, local (on the level on individual
-points \cite{ma2009}) variations. This means that the framework is able to
-benefit from any peculiarities that might be present in the stochastic space,
-the space of the uncertain parameters. The adaptivity is the capital feature of
-our technique, which we motivate and illustrate next.
+problem---that is, the way the quantity of interest depends upon the uncertain
+parameters---by exercising the aforementioned ``black box'' at an adaptively
+chosen set of points. The adaptivity that we leverage is hybrid
+\cite{jakeman2012}: it is sensitive to both global (on the level of individual
+stochastic dimensions \cite{klimke2006}) and, more importantly, local (on the
+level of individual points \cite{ma2009}) variations. This means that the
+framework is able to benefit from any peculiarities that might be present in the
+stochastic space, the space of the uncertain parameters. The adaptivity is the
+primary feature of our technique, which we discuss and illustrate next.
