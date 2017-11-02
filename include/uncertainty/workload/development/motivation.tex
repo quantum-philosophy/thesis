@@ -24,11 +24,11 @@ Suppose the above scenario is modeled by a uniformly distributed random variable
 $\u: \Omega \to [0, 1]$. The execution time of the task (the end-to-end delay of
 the application) is 0.1~s if $\u \in [0, 0.6]$, and it is 1~s if $\u \in (0.6,
 1]$. The response in this case is a step function, which is illustrated by the
-yellow line in \fref{frame-motivation}.
+orange line in \fref{frame-motivation}.
 
 First, we try to quantify the end-to-end delay by constructing and subsequently
 sampling a \ac{PC} expansion founded on the Legendre polynomial basis
-\cite{xiu2010}; see \xref{polynomial-chaos}. The orange line in
+\cite{xiu2010}; see \xref{polynomial-chaos}. The green line in
 \fref{frame-motivation} shows a ninth-level \ac{PC} expansion ($\lc = \lq = 9$),
 which uses 10 points ($\nq = 10$). It can be seen that the approximation is
 poor---not to mention negative execution times---which means that the follow-up
