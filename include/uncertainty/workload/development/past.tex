@@ -1,25 +1,25 @@
-As mentioned \sref{past}, a sampling method would be a reasonable solution to
+As noted in \sref{past}, a sampling method would be a reasonable solution to
 probabilistic analysis of electronic systems if these systems were
 computationally inexpensive to evaluate. In order to eliminate or reduce the
 costs associated with direct sampling, a number of techniques have been
 introduced.
 
-We begin by noting that our work presented in
+We remark first that our work presented in
 \cref{uncertainty-process-development} and thus the prior studies discussed in
 \sref{chaos-past} are of relevance to this section. However, since those
 techniques are designed for a different source of uncertainty, namely process
 variation, we do not discuss them separately here; see also
 \sref{frame-motivation}.
 
-In the case of workload variation, timing analysis has drawn the major attention
-\cite{quinton2012}. A seminal work on response time analysis of periodic tasks
-with random execution times on uniprocessor systems is reported in
-\cite{diaz2002}. A novel analytical solution to this problem is presented in
+In the case of workload variation, timing analysis has attracted the most
+attention \cite{quinton2012}. A seminal work on response time analysis of
+periodic tasks with random execution times on uniprocessor systems is reported
+in \cite{diaz2002}. A novel analytical solution to this problem is presented in
 \cite{tanasa2015}; the solution makes milder assumptions and allows for
 addressing larger, previously unsolvable problems. The framework proposed in
 \cite{santinelli2011} makes use of real-time calculus in order to facilitate
-task scheduling by providing probabilistic bounds on the resource given to a
-task flow and the resource required by this task flow. In
+task scheduling by delivering probabilistic bounds on the resources provided to
+a task flow and the resources required by this task flow. In
 \cite{schranzhofer2009}, the authors consider applications characterized by
 probabilities of execution and propose a heuristic that searches a design that
 has the least expected average power consumption. Independent periodic tasks
@@ -46,15 +46,15 @@ is wasteful.
 
 Some of the techniques mentioned earlier, in fact, preserve the generality and
 straightforwardness of sampling methods. An example is our probabilistic
-framework presented in \cref{uncertainty-process-development}. The reason is
-that the construction of \ac{PC} expansions in this framework is undertaken by
-means of nonintrusive spectral projections \cite{xiu2010}, which, similarly to
+framework presented in \cref{uncertainty-process-development}. This is because
+the construction of \ac{PC} expansions in this framework is undertaken by means
+of nonintrusive spectral projections \cite{xiu2010}, which, similarly to
 sampling methods, do not need to look inside the ``black box.'' However, as
-motivated in \sref{frame-motivation}, nonsmoothness is a serious problem for
+described in \sref{frame-motivation}, nonsmoothness is a serious problem for
 global approximation based on polynomials. In particular, the convergence rate
 of \ac{PC} expansions deteriorates substantially in such cases, requiring
 partitioning the stochastic space in order to alleviate the problem. Therefore,
-it is not straightforward to apply such techniques as the one in
+it is not straightforward to apply techniques such as the one in
 \cref{uncertainty-process-development} to sources of uncertainty that exhibit
 nonsmoothness.
 
