@@ -5,20 +5,20 @@ adaptation strategy, which makes our framework general and suitable for studying
 various quantities that are of interest to the designer. Examples include the
 end-to-end delay, total energy consumption, and maximum temperature of the
 system. The hybrid adaptivity featured by the framework makes it particularly
-suited for problems with idiosyncratic behaviors and steep response surfaces,
-which often arise in electronic systems due to their nature.
+well suited for problems with idiosyncratic behaviors and steep response
+surfaces, which often arise in electronic systems due to their nature.
 
-Provided a means of evaluating the quantity of interest for a given outcome of
-the uncertain parameters and a description of the probability distribution of
-the parameters, the proposed framework prescribes the steps that need to be
-taken in order to computationally efficiently characterize the quantity from a
-probabilistic perspective. Concretely, the framework delivers a lightweight
-representation that allows for a straightforward calculation of the probability
-distribution of the quantity of interest and other statistics about this
-quantity.
+When provided with a means of evaluating the quantity of interest for a given
+outcome of the uncertain parameters and a description of the probability
+distribution of these parameters, the proposed framework prescribes the steps
+that need to be taken in order to analyze the quantity from a probabilistic
+perspective in a manner that is computationally efficient. Concretely, it
+delivers a lightweight representation that allows for a straightforward
+calculation of the probability distribution and other characteristics of the
+quantity of interest.
 
 The performance of our technique has been evaluated by addressing a number of
-problems that often appear in electronic-system design. The results delivered by
+problems that often appear in electronic-system design. The results produced by
 our approach have been compared with the ones produced by an advanced sampling
 technique with a large number of samples. The comparison has shown that, for a
 fixed budget of evaluations of the quantity of interest, the framework achieves
@@ -32,5 +32,5 @@ is general and can be applied in many other settings. Additionally, the approach
 to reliability analysis presented in \sref{chaos-reliability-analysis} can
 benefit from the development given in this chapter by constructing surrogate
 representations via adaptive hierarchical interpolation instead of the \ac{PC}
-decomposition and thereby making it possible to work with nonsmooth response
+decomposition, thereby making it possible to work with nonsmooth response
 surfaces.
