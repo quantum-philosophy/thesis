@@ -331,10 +331,10 @@ indices of the step. The rest of the loop's body populates the rest of
 \texttt{state}'s fields so that \texttt{strategy} can adequately execute its
 functionality at the beginning of the next iteration.
 
-Line 3: The \texttt{grid} object represents the utilized interpolation grid, and
-its \texttt{Compute} method calculates the collocation nodes that correspond to
-the given indices, that is, $\set{\vx_{\v{\iota}_k}}$ based on
-$\set{\v{\iota}_k}$; see \sref{frame-grid} for more details.
+Line 3: The \texttt{grid} object represents the interpolation grid that is being
+utilized, and its \texttt{Compute} method calculates the collocation nodes
+$\set{\vx_{\v{\iota}_k}}$ that correspond to the given indices
+$\set{\v{\iota}_k}$; see \sref{frame-grid}.
 
 Line 4: Algorithm~G evaluates $\g \circ \transform$ at the collocation nodes.
 This is by far the most time consuming operation of the algorithm, as \g is
@@ -344,7 +344,7 @@ order.
 
 Line 5: \aref{frame-evaluation} is a subroutine that exercises the interpolant
 constructed so far at the collocation nodes and thereby approximates the values
-obtained on line~4. This algorithm is to be discussed separately later on.
+obtained on line~4. This algorithm will be discussed separately later on.
 
 Line 6: The \texttt{Subtract} subroutine computes the difference between the
 actual and approximated values of \g, which yields the hierarchical surpluses
@@ -369,10 +369,10 @@ Line 3: The inner loop corresponds to an unfolded version of
 \eref{frame-interpolant}; that is, there is no separation into the individual
 interpolation steps taken.
 
-Line 4: The \texttt{basis} object represents the utilized interpolation basis,
-and its \texttt{Compute} method evaluates the basis functions that correspond to
-the given indices, that is, $\set{e_{\v{\iota}_k}}$ based on
-$\set{\v{\iota}_k}$, at arbitrary points; see \sref{frame-basis}.
+Line 4: The \texttt{basis} object represents the interpolation basis that is
+being used, and its \texttt{Compute} method evaluates the basis functions
+$\set{e_{\v{\iota}_k}}$ that correspond to the given indices $\set{\v{\iota}_k}$
+at arbitrary points; see \sref{frame-basis}.
 
 It is worth noting that the \texttt{strategy}, \texttt{grid}, and \texttt{basis}
 objects conform to certain interfaces and can be easily swapped out. This makes
