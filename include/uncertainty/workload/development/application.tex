@@ -1,9 +1,9 @@
-The agenda for this section is as follows. First, we exemplify Stage~1 of the
-proposed framework by introducing a number of quantities of interest \g, which
-illustrate the broad applicability of the framework and thereby give the reader
-a better sense of its utility. Second, we turn to Stage~2 and highlight a
-transformation $\transform$ that is the one to use in the majority of cases.
-Third, we proceed directly to Stage~4 and illustrate a potential output of our
+The agenda for this section is as follows. First, we exemplify Stage~1 of our
+framework by introducing a number of quantities of interest \g, which illustrate
+the broad applicability of the framework and thereby give the reader a better
+sense of its utility. Second, we turn to Stage~2 and highlight a transformation
+$\transform$ that is the appropriate one to use in the majority of cases. Third,
+we proceed directly to Stage~4 and illustrate a potential output of the
 framework.
 
 \subsection{\problemtitle}
@@ -17,7 +17,7 @@ except for the requirement about being periodic.
 Let us first touch upon the timing aspects of the system in question. Each of
 the \nt tasks of the application has a start time and a finish time, which are
 denoted by $b_i$ and $d_i$, respectively. Let also $\v{b} = (b_i)_{i = 1}^\nt$
-and $\v{d} = (d_i)_{i = 1}^\nt$. Then other timing characteristics can be
+and $\v{d} = (d_i)_{i = 1}^\nt$. Other timing characteristics can then be
 derived from $\v{b}$ and $\v{d}$. For example, the end-to-end delay of the
 application, which is the difference between the finish time of the latest task
 and the start time of the earliest task, is as follows:
@@ -28,20 +28,21 @@ and the start time of the earliest task, is as follows:
 
 Suppose now that the execution times of the tasks depend on the uncertain
 parameters \vu introduced in \sref{frame-problem}. Then $\v{b}$ and $\v{d}$
-depend on \vu. Hence, the end-to-end delay given in \eref{frame-delay} does so
-too, and it constitutes a quantity \g that the designer might be interested in
-analyzing. Note that this \g is nondifferentiable, since the $\max$ and $\min$
-functions are such. Therefore, \g is nonsmooth, which renders the \up{PC}
-decomposition and similar techniques inappropriate in this case in general,
-which is elaborated on in \sref{frame-motivation}.
+depend on \vu. Hence, the end-to-end delay given in \eref{frame-delay} does too,
+and it constitutes a quantity \g that the designer might be interested in
+analyzing. Note that, since the $\min$ and $\max$ functions are
+nondifferentiable, the same is true for \g. Therefore, \g is nonsmooth, which
+renders the \up{PC} decomposition and similar techniques inappropriate in this
+case in general, which is discussed in \sref{frame-motivation}.
 
 \begin{remark} \rlab{frame-nonsmoothness}
 The behavior of \g with respect to continuity, differentiability, and smoothness
 cannot generally be inferred from the behavior of \vu. Even when the parameters
 behave perfectly, \g might still exhibit nondifferentiability or even
 discontinuity, which depends on how \g functions internally. For example, as
-shown in \cite{tanasa2015}, even if execution times of tasks are continuous, due
-to the actual scheduling policy, end-to-end delays are very often discontinuous.
+shown in \cite{tanasa2015}, even if the execution times of tasks are continuous,
+end-to-end delays are very often discontinuous due to the actual scheduling
+policy.
 \end{remark}
 
 Let us move on to power. The total energy consumed by the \np processing
@@ -60,7 +61,7 @@ depends on \vu and is a candidate for \g. \rref{frame-nonsmoothness} applies in
 this context to the full extent.
 
 Let us now turn to temperature. The maximum temperature that the platform
-attains during an application run can be estimated using a temperature profile
+reaches during an application run can be estimated using a temperature profile
 \mq, which is defined in \eref{temperature-profile}, as follows:
 \begin{equation} \elab{frame-temperature}
   \text{Maximum temperature}
@@ -79,15 +80,15 @@ polynomial approximations; recall also the concern in
 
 To summarize, we have covered three aspects of electronic systems, namely
 timing, power, and temperature, and introduced a number of quantities that the
-designer is typically interested in analyzing. These quantities are to be
+designer is typically interested in analyzing. These quantities will be
 discussed further in the section on experimental results, \sref{frame-results}.
 
 \inputfigure{frame-application}
 Let us employ one of the introduced quantities in order to have a concrete
-example to work with in this section. The addressed problem is depicted on the
-left-hand side of \fref{frame-application}. We consider a heterogeneous platform
-with two processing elements denoted by PE1 and PE2 and an application with four
-tasks denoted by T1--T4; the setup is to be described in detail in
+example to work with in this section. The problem being addressed is depicted on
+the left-hand side of \fref{frame-application}. We consider a heterogeneous
+platform with two processing elements denoted by PE1 and PE2 and an application
+with four tasks denoted by T1--T4; the setup will be described in detail in
 \sref{frame-results}. The data dependencies between the tasks and their mapping
 onto the processing elements can be seen in \fref{frame-application}. The
 quantity of interest \g is the application's end-to-end delay defined in
@@ -106,10 +107,10 @@ marginal distributions and correlation matrix of \vu are assumed to be
 available. Without loss of generality, each marginal distribution is a
 four-parameter beta distribution shown in \eref{beta-distribution}. Furthermore,
 the execution times are assumed to be correlated based on the dependencies
-between the corresponding tasks as defined by the structure of the task graph of
-the application. Specifically, the closer task~$i$ and task~$j$ are in the graph
-as measured by the number of edges between vertex~$i$ and vertex~$j$, the
-stronger $\u_i$ and $\u_j$ are correlated.
+between the corresponding tasks as defined by the structure of the application's
+task graph. Specifically, the closer task~$i$ and task~$j$ are in the graph as
+measured by the number of edges between vertex~$i$ and vertex~$j$, the more
+strongly $\u_i$ and $\u_j$ are correlated.
 
 \subsection{Probability Transformation}
 \slab{frame-application-transformation}
