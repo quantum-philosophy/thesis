@@ -272,8 +272,8 @@ consider all the time steps of the profile in question and make $h$ predictions
 at each time step. One important aspect to note is that the state of the model's
 memory should be saved before computing $\range{\hat{\vg}_{i, j +
 1}}{\hat{\vg}_{i, j + h}}$ at time step~$j$ and then restored before feeding
-$\vg_{i, j + 1}$ in order to advance to time step $j + 1$. This is due to the
-memory becoming contaminated when one feeds predictions instead of observations
+$\vg_{i, j + 1}$ in order to advance to time step $j + 1$. This is because the
+memory becomes contaminated when one feeds predictions instead of observations
 into the model.
 
 At this point, the main aspects of our workflow, which is illustrated in
