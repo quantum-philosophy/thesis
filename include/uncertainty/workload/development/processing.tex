@@ -1,13 +1,13 @@
 At Stage~4 of the proposed framework (see \sref{frame-solution}), the
 constructed interpolant $\interpolant{\nz}{\ls}(\g)$ of the quantity of interest
 \g is processed according to the designer's requirements. The post-processing in
-this chapter is similar to the one described in \sref{chaos-processing}. Namely,
+this chapter is similar to that described in \sref{chaos-processing}. Namely,
 probabilistic analysis of \g is carried out solely on
 $\interpolant{\nz}{\ls}(\g)$, and \g is never invoked again. Since
 $\interpolant{\nz}{\ls}(\g)$ is a lightweight representation of \g, this
 analysis has a negligible computational cost.
 
-The distribution of \g can be efficiently estimating via a sampling method of
+The distribution of \g can be efficiently estimated via a sampling method of
 choice. In this case, one draws independent samples from the distribution of \vz
 and evaluates $\interpolant{\nz}{\ls}(\g)$ at those points in accordance with
 \aref{frame-evaluation}. Having collected a large enough set of samples, the
@@ -40,8 +40,8 @@ probabilistic moments of higher orders.
 
 The careful reader might have noted a problem with the calculation of
 $\variance{\g}$ presented above: \h is a vector, but \g has been depicted so far
-as having a one-dimensional codomain. However, it has been done for clarify; our
-framework does not have such a limitation, as explained in
+as having a one-dimensional codomain. However, this has been done for clarity;
+our framework does not have such a limitation, as explained in
 \rref{frame-multidimensional-output}.
 
 \begin{remark} \rlab{frame-multidimensional-output}
@@ -57,11 +57,11 @@ $\norm[2]{\cdot}$ or $\norm[\infty]{\cdot}$.
 \end{remark}
 
 To summarize, once an interpolant of \g has been constructed, the distribution
-of \g is estimated using a sampling method applied to the interpolant. The
-proposed framework naturally extends to quantities with multiple outputs, and it
-provides analytical formulae for the expectation and variance.
+of \g is estimated using a sampling method that is applied to the interpolant.
+The proposed framework naturally extends to quantities with multiple outputs,
+and it provides analytical formulae for the expectation and variance.
 
-Lastly, let us remind that the evaluation of the quantity of interest is an
+Lastly, let us recall that the evaluation of the quantity of interest is an
 expensive operation. The proposed technique is designed to keep this expense as
 low as possible by choosing evaluation points adaptively, which is unlike
 traditional sampling methods. Moreover, in contrast to \up{PC} expansions and
