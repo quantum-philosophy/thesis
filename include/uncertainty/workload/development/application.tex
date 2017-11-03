@@ -117,13 +117,13 @@ strongly $\u_i$ and $\u_j$ are correlated.
 
 At Stage~2 of our workflow outlined in \sref{frame-solution}, a suitable
 transformation $\transform$, which is required in \eref{frame-transformation},
-is decided upon. We utilize the one shown in \eref{probability-transformation}
-and reduce $\vu: \Omega \to \real^\nu$ to $\vz: \Omega \to [0, 1]^\nz$ so that
-the latter is uniformly distributed. In this case, the rightmost $\transform_1$
-in \eref{probability-transformation} is simplified, since the marginals of \vz
-are already uniform. Note that the model-order-reduction functionality of the
-chosen $\transform$ is engaged; it eliminates redundant stochastic dimensions
-and, therefore, assists the subsequent interpolation.
+is chosen. We utilize the one shown in \eref{probability-transformation} and
+reduce $\vu: \Omega \to \real^\nu$ to $\vz: \Omega \to [0, 1]^\nz$ so that the
+latter is uniformly distributed. In this case, the rightmost $\transform_1$ in
+\eref{probability-transformation} is simplified, since the marginals of \vz are
+already uniform. Note that the model-order-reduction functionality of the chosen
+$\transform$ is engaged; it eliminates redundant stochastic dimensions and,
+therefore, assists the subsequent interpolation.
 
 The result is that the obtained vector \vz conforms to the requirements listed
 in \sref{frame-transformation}: the codomain of \vz is $[0, 1]^\nz$, and it has
