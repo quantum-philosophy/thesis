@@ -290,7 +290,7 @@ The life cycle of interpolation has roughly two stages: construction and usage.
 The construction stage invokes \g at a set of collocation nodes and produces
 certain artifacts. The usage stage estimates the values of \g at a set of
 arbitrary points by manipulating these artifacts. In this subsection, we provide
-the pseudocode of the two stages in order to give a better sense of the
+the pseudocode for the two stages in order to give a better sense of the
 technique.
 
 Let us first make a general note. According to our experience, it is beneficial
@@ -310,7 +310,7 @@ level indices, which can be adjusted according to the maximum permitted depth of
 interpolation.
 
 \inputalgorithm{frame-construction}
-The pseudocode of the construction stage is given in \aref{frame-construction}.
+The pseudocode for the construction stage is given in \aref{frame-construction}.
 The input is a subroutine called Algorithm~G that evaluates $\g \circ
 \transform$. The output is a structure \texttt{interpolant} that contains the
 artifacts of the interpolation. These artifacts are a set of tuples
