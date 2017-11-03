@@ -201,9 +201,9 @@ index~\vi are given by
   \set{\vi + \v{1}_k}_{k = 1}^\nz
 \]
 where $\v{1}_k \in \set{0, 1}^\nz$ is a vector whose elements are zero except
-for element~$k$ that is equal to unity. An index~\vi is called admissible if its
-inclusion into the index set $\sparseindex{\nz}{\ls}$ under consideration keeps
-the set admissible. Finally, $\sparseindex{\nz}{\ls}$ is admissible if it
+for element~$k$, which is equal to unity. An index~\vi is called admissible if
+its inclusion into the index set $\sparseindex{\nz}{\ls}$ under consideration
+keeps the set admissible. Finally, $\sparseindex{\nz}{\ls}$ is admissible if it
 satisfies the following condition \cite{klimke2006}:
 \[
   \vi - \v{1}_k \in \sparseindex{\nz}{\ls}
@@ -261,15 +261,15 @@ process is terminated as soon as
 \end{equation}
 where $\g_\minimum$ and $\g_\maximum$ are the minimum and maximum observed
 values of \g, respectively. The left-hand side of \eref{frame-stop} corresponds
-the largest surplus whose level index has not been refined yet, that is, has not
-been considered as $\vi_{\ls}$ at some step \ls. The above criterion is an
+to the largest surplus whose level index has not been refined yet, that is, has
+not been considered as $\vi_{\ls}$ at some step \ls. The above criterion is an
 adequate technique for curtailing the interpolation process, since it is based
 on the actual progress.
 
 The adaptivity presented in this subsection is referred to as hybrid, since it
 combines features of global and local adaptivity \cite{jakeman2012}. Local
-adaptivity operates on the level of individual nodes \cite{ma2009}, and it is
-motivated in \sref{frame-motivation}. By contrast, global adaptivity operates on
+adaptivity operates on the level of individual nodes \cite{ma2009} and is
+discussed in \sref{frame-motivation}. By contrast, global adaptivity operates on
 the level of individual dimensions \cite{klimke2006}. The intuition behind
 global adaptivity is that, in general, the input variables manifest themselves
 (impact \g) differently, and the interpolation algorithm is likely to benefit by
