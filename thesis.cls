@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/11/01 Thesis]
+\ProvidesClass{thesis}[2017/11/04 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -157,7 +157,6 @@
 \renewcommand{\maketitle}{
   \center
   {
-    \small
     \@publicationseries, No. \@publicationnumber
   }\\[10em]
   {
@@ -173,7 +172,6 @@
   \vfill
   \includegraphics[height=5em]{\@logoenglish}\\[2em]
   {
-    \small
     \@department\\
     Linköping University\\
     SE-581\,83 Linköping, Sweden\\[2em]
