@@ -170,7 +170,7 @@
     \@author
   }
   \vfill
-  \includegraphics[height=5em]{\@logoenglish}\\[2em]
+  \includegraphics[height=5.5em]{\@logoenglish}\\[2em]
   {
     \@department\\
     Linköping University\\
