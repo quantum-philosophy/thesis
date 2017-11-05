@@ -112,8 +112,9 @@ iteration, which is what makes the system's behavior periodic. Then, using
 computed by solving the following system of linear equations:
 \[
   \begin{cases}
-    \vs_1 - \m{E} \vs_\ns & = \m{F} \vp_1 \\
-    \dots \\
+    \vs_1   - \m{E} \vs_\ns       & = \m{F} \vp_1   \\
+    \vs_2   - \m{E} \vs_1         & = \m{F} \vp_2   \\
+    \dots                                           \\
     \vs_\ns - \m{E} \vs_{\ns - 1} & = \m{F} \vp_\ns
   \end{cases}
 \]
