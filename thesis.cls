@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/11/04 Thesis]
+\ProvidesClass{thesis}[2017/11/05 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -32,7 +32,7 @@
 \gdef\@abstractswedish{\input{include/abstract/swedish}}
 \gdef\@acknowledgments{\input{include/acknowledgments}}
 \gdef\@dedication{\input{include/dedication}}
-\gdef\@logoenglish{include/assets/other/logo-english}
+\gdef\@logoenglish{include/assets/layout/logo-english}
 
 \setmainlanguage{english}
 \setotherlanguages{swedish}
