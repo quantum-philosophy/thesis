@@ -46,7 +46,7 @@
 \raggedbottom
 \midsloppy
 
-\settrimmedsize{242mm}{165mm}{*}
+\settrimmedsize{240mm}{165mm}{*}
 \settypeblocksize{*}{28pc}{1.618}
 
 \newcommand{\adjustlayout}{
