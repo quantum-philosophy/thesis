@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/11/05 Thesis]
+\ProvidesClass{thesis}[2017/11/06 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -197,6 +197,7 @@
     \makededication
     \cleardoublepage
   }
+  \pagestyle{plain}
   {
     \phantomsection
     \makeabstractenglish
