@@ -92,6 +92,13 @@
   \end{swedish}
 }
 
+\newcommand{\makeacknowledgments}{
+  \chapter*{Acknowledgments}
+  \phantomsection
+  \addcontentsline{toc}{chapter}{Acknowledgments}
+  \@acknowledgments
+}
+
 \newif\ifNoChapterNumber
 
 \makechapterstyle{blackbox}{
@@ -211,9 +218,7 @@
     \cleardoublepage
   }
   {
-    \chapter*{Acknowledgments}
-    \@acknowledgments
-    \addcontentsline{toc}{chapter}{Acknowledgments}
+    \makeacknowledgments
     \cleardoublepage
   }
   {
