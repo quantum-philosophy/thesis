@@ -10,10 +10,12 @@
 \usepackage{algorithm}
 \usepackage{color}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{ifthen}
 \usepackage{microtype}
 \usepackage{polyglossia}
+
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
 
 \def\createvariable#1{
   \expandafter\def\csname #1\endcsname{\expandafter\gdef\csname @#1\endcsname}
