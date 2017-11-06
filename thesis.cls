@@ -157,6 +157,10 @@
   \addtocontents{lot}{\protect\addvspace{1em}}%
 }
 
+\makepagestyle{simple}
+\makeoddfoot{simple}{}{}{\thepage}
+\makeevenfoot{simple}{\thepage}{}{}
+
 \newif\ifNoChapterNumber
 
 \makechapterstyle{blackbox}{
@@ -245,6 +249,7 @@
   \cleardoublepage
   \pagenumbering{arabic}
   \pagestyle{ruled}
+  \aliaspagestyle{chapter}{simple}
 }
 
 % vim: set ft=tex:
