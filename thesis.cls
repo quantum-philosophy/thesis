@@ -169,10 +169,10 @@
 \newif\ifNoChapterNumber
 
 \makechapterstyle{blackbox}{
-  \renewcommand\printchaptername{}
-  \renewcommand\printchapternonum{\NoChapterNumbertrue}
-  \renewcommand\printchapternum{}
-  \renewcommand\printchaptertitle[1]{%
+  \renewcommand{\printchaptername}{}
+  \renewcommand{\printchapternonum}{\NoChapterNumbertrue}
+  \renewcommand{\printchapternum}{}
+  \renewcommand{\printchaptertitle}[1]{%
     \setlength\fboxsep{0em}%
     \setlength\tabcolsep{0em}%
     \begin{tabular}{p{5em}b{\textwidth-5em}}
