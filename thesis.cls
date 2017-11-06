@@ -101,7 +101,7 @@
   \vfill
   \begin{flushleft}
     \copyright\ \@publicationyear\ \@author\\[2em]
-    \setlength\tabcolsep{0pt}%
+    \setlength\tabcolsep{0em}%
     \begin{tabular}{p{3em}b{\textwidth-3em}}
       ISBN & \texttt{\@isbn} \\
       ISSN & \texttt{\@issn} \\
@@ -152,9 +152,10 @@
 }
 
 \renewcommand{\insertchapterspace}{%
-  \addtocontents{loa}{\protect\addvspace{10pt}}%
-  \addtocontents{lof}{\protect\addvspace{10pt}}%
-  \addtocontents{lot}{\protect\addvspace{10pt}}}
+  \addtocontents{loa}{\protect\addvspace{1em}}%
+  \addtocontents{lof}{\protect\addvspace{1em}}%
+  \addtocontents{lot}{\protect\addvspace{1em}}%
+}
 
 \newif\ifNoChapterNumber
 
@@ -163,8 +164,8 @@
   \renewcommand\printchapternonum{\NoChapterNumbertrue}
   \renewcommand\printchapternum{}
   \renewcommand\printchaptertitle[1]{%
-    \setlength\fboxsep{0pt}%
-    \setlength\tabcolsep{0pt}%
+    \setlength\fboxsep{0em}%
+    \setlength\tabcolsep{0em}%
     \begin{tabular}{p{5em}b{\textwidth-5em}}
       \colorbox{black}{%
         \begin{minipage}[c][10em][t]{2.5em}
