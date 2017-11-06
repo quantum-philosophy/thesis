@@ -71,10 +71,56 @@
   Scale=MatchLowercase,
 ]
 
-\renewcommand{\insertchapterspace}{%
-  \addtocontents{loa}{\protect\addvspace{10pt}}%
-  \addtocontents{lof}{\protect\addvspace{10pt}}%
-  \addtocontents{lot}{\protect\addvspace{10pt}}}
+\renewcommand{\maketitle}{
+  \center
+  {
+    \@publicationseries, No. \@publicationnumber
+  }\\[10em]
+  {
+    \headingfont
+    \Huge
+    \@title
+  }\\[4em]
+  {
+    \headingfont
+    \huge
+    \@author
+  }
+  \vfill
+  \includegraphics[height=5.5em]{\@logoenglish}\\[2em]
+  {
+    \@department\\
+    Linköping University\\
+    SE-581\,83 Linköping, Sweden\\[2em]
+    Linköping \@publicationyear
+  }
+}
+
+\newcommand{\makepermission}{
+  \mbox{}
+  \vfill
+  \begin{flushleft}
+    \copyright\ \@publicationyear\ \@author\\[2em]
+    \setlength\tabcolsep{0pt}%
+    \begin{tabular}{p{3em}b{\textwidth-3em}}
+      ISBN & \texttt{\@isbn} \\
+      ISSN & \texttt{\@issn} \\
+      URL  & \texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber} \\
+    \end{tabular}\\[2em]
+    Typeset in Korolev LiU, Miller Text, Computer Modern, and Input Mono\\
+    Printed by LiU-Tryck, Linköping \@publicationyear
+  \end{flushleft}
+}
+
+\newcommand{\makededication}{
+  \mbox{}
+  \vfill
+  \begin{center}
+    \Large
+    \@dedication\\
+  \end{center}
+  \vfill
+}
 
 \newcommand{\makeabstractenglish}{
   \begin{english}
@@ -104,6 +150,11 @@
   \addcontentsline{toc}{chapter}{Acknowledgments}
   \@acknowledgments
 }
+
+\renewcommand{\insertchapterspace}{%
+  \addtocontents{loa}{\protect\addvspace{10pt}}%
+  \addtocontents{lof}{\protect\addvspace{10pt}}%
+  \addtocontents{lot}{\protect\addvspace{10pt}}}
 
 \newif\ifNoChapterNumber
 
@@ -138,57 +189,6 @@
       }
     \end{tabular}
     \NoChapterNumberfalse
-  }
-}
-
-\newcommand{\makededication}{
-  \mbox{}
-  \vfill
-  \begin{center}
-    \Large
-    \@dedication\\
-  \end{center}
-  \vfill
-}
-
-\newcommand{\makepermission}{
-  \mbox{}
-  \vfill
-  \begin{flushleft}
-    \copyright\ \@publicationyear\ \@author\\[2em]
-    \setlength\tabcolsep{0pt}%
-    \begin{tabular}{p{3em}b{\textwidth-3em}}
-      ISBN & \texttt{\@isbn} \\
-      ISSN & \texttt{\@issn} \\
-      URL  & \texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber} \\
-    \end{tabular}\\[2em]
-    Typeset in Korolev LiU, Miller Text, Computer Modern, and Input Mono\\
-    Printed by LiU-Tryck, Linköping \@publicationyear
-  \end{flushleft}
-}
-
-\renewcommand{\maketitle}{
-  \center
-  {
-    \@publicationseries, No. \@publicationnumber
-  }\\[10em]
-  {
-    \headingfont
-    \Huge
-    \@title
-  }\\[4em]
-  {
-    \headingfont
-    \huge
-    \@author
-  }
-  \vfill
-  \includegraphics[height=5.5em]{\@logoenglish}\\[2em]
-  {
-    \@department\\
-    Linköping University\\
-    SE-581\,83 Linköping, Sweden\\[2em]
-    Linköping \@publicationyear
   }
 }
 
