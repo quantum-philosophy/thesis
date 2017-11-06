@@ -216,7 +216,6 @@
     \cleardoublepage
   }
   \pagestyle{plain}
-  \aliaspagestyle{cleared}{plain}
   {
     \makeabstractenglish
     \cleardoublepage
@@ -251,7 +250,6 @@
   \pagenumbering{arabic}
   \pagestyle{ruled}
   \aliaspagestyle{chapter}{simple}
-  \aliaspagestyle{cleared}{simple}
 }
 
 % vim: set ft=tex:
