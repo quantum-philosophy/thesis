@@ -66,11 +66,11 @@ another round of direct sampling. This time, the number of samples taken is
 equal to the number of times \g is invoked during the interpolation process.
 
 In each of the aforementioned three cases, sampling is performed in accordance
-with a Sobol sequence, which is a quasi-random low-discrepancy sequence
-featuring better convergence properties than those of classical \ac{MC} sampling
-\cite{joe2008}. As a result, we obtain three estimates of the distribution of
-the quantity of interest: reference (the one considered to be exact), proposed
-(the one based on our interpolation), and direct (the one equal in terms of the
+with a Sobol sequence, which is a low-discrepancy sequence featuring better
+convergence properties than those of classical \ac{MC} sampling \cite{joe2008}.
+As a result, we obtain three estimates of the probability distribution of the
+quantity of interest: reference (the one considered to be exact), proposed (the
+one based on our interpolation), and direct (the one equal in terms of the
 number of evaluations of \g to the proposed solution). The last two are compared
 with the first one. For computing the proximity between two distributions, we
 use the well-known \ac{KS} statistic \cite{rao2002}, which is the supremum over
