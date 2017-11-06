@@ -157,6 +157,11 @@
   \addtocontents{lot}{\protect\addvspace{1em}}%
 }
 
+\makeatletter
+\let\old@dottedtocline\@dottedtocline
+\renewcommand{\@dottedtocline}[5]{\old@dottedtocline{#1}{0em}{#3}{#4}{#5}}
+\makeatother
+
 \makepagestyle{simple}
 \makeoddfoot{simple}{}{}{\thepage}
 \makeevenfoot{simple}{\thepage}{}{}
