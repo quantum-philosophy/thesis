@@ -77,6 +77,8 @@
 \newcommand{\makeabstractenglish}{
   \begin{english}
     \centerline{\Large\textsc{Abstract}}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Abstract}
     \vspace{1em}
     \noindent
     \@abstractenglish
@@ -86,6 +88,8 @@
 \newcommand{\makeabstractswedish}{
   \begin{swedish}
     \centerline{\Large\textsc{Sammanfattning}}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Sammanfattning}
     \vspace{1em}
     \noindent
     \@abstractswedish
@@ -206,15 +210,11 @@
   }
   \pagestyle{plain}
   {
-    \phantomsection
     \makeabstractenglish
-    \addcontentsline{toc}{chapter}{Abstract}
     \cleardoublepage
   }
   {
-    \phantomsection
     \makeabstractswedish
-    \addcontentsline{toc}{chapter}{Sammanfattning}
     \cleardoublepage
   }
   {
