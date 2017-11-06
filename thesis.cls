@@ -216,6 +216,7 @@
     \cleardoublepage
   }
   \pagestyle{plain}
+  \aliaspagestyle{cleared}{plain}
   {
     \makeabstractenglish
     \cleardoublepage
