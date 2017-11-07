@@ -79,10 +79,10 @@ of the matrix exponential and matrix inverse becomes trivial as follows:
 \begin{align}
   & e^{\m{A} \dt}
   = \m{U} e^{\m{\Lambda} \dt} \transpose{\m{U}}
-  = \m{U} \: \diagonal{e^{\lambda_1 \dt}}{e^{\lambda_\nn \dt}} \transpose{\m{U}} \text{ and} \elab{matrix-exponential} \\
+  = \m{U} \, \diagonal{e^{\lambda_1 \dt}}{e^{\lambda_\nn \dt}} \transpose{\m{U}} \text{ and} \elab{matrix-exponential} \\
   & \m{A}^{-1}
   = \m{U} \m{\Lambda}^{-1} \transpose{\m{U}}
-  = \m{U} \: \diagonal{\lambda_1^{-1}}{\lambda_\nn^{-1}} \transpose{\m{U}}. \elab{matrix-inverse}
+  = \m{U} \, \diagonal{\lambda_1^{-1}}{\lambda_\nn^{-1}} \transpose{\m{U}}. \elab{matrix-inverse}
 \end{align}
 
 In order to obtain such an $\m{A}$, we propose to perform an auxiliary
@@ -95,7 +95,7 @@ using the following substitution:
 \[
   \begin{split}
     & \vs(t) = \m{C}^{\frac{1}{2}} \tvs(t) \text{ and} \\
-    & \m{A} = -\m{C}^{-\frac{1}{2}} \m{G} \: \m{C}^{-\frac{1}{2}}
+    & \m{A} = -\m{C}^{-\frac{1}{2}} \m{G} \m{C}^{-\frac{1}{2}}
   \end{split}
 \]
 where $\m{A}$ is symmetric, since
@@ -132,7 +132,7 @@ for $i = \range{1}{\ns}$ where
 Using the eigendecomposition in \eref{eigendecomposition}, the last equation can
 be efficiently computed in the following way:
 \[
-  \m{F} = \m{U} \: \diagonal{\frac{e^{\lambda_1 \dt} - 1}{\lambda_1}}{\frac{e^{\lambda_\nn \dt} - 1}{\lambda_\nn}} \transpose{\m{U}} \m{B}.
+  \m{F} = \m{U} \, \diagonal{\frac{e^{\lambda_1 \dt} - 1}{\lambda_1}}{\frac{e^{\lambda_\nn \dt} - 1}{\lambda_\nn}} \transpose{\m{U}} \m{B}.
 \]
 As before, the recurrence in \eref{transient-recurrence} should be followed by
 \eref{temperature-algebraic} in order to obtain \mq. The above auxiliary

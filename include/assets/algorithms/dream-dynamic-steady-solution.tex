@@ -9,7 +9,7 @@
     \For{$i \gets 2 \textbf{ to } \ns$}
       \Let{$\v{w}$}{$\m{E} \v{w} + \m{V}(:, i)$}
     \EndFor
-    \Let{$\m{S}(:, \ns)$}{$\m{U} \; \diagonal{\frac{1}{1 - e^{\lambda_i \period}}} \transpose{\m{U}} \v{w}$} \Comment{a matrix version of $\vs$}
+    \Let{$\m{S}(:, \ns)$}{$\m{U} \, \diagonal{\frac{1}{1 - e^{\lambda_i \period}}} \transpose{\m{U}} \v{w}$} \Comment{a matrix version of $\vs$}
     \For{$i \gets 1 \textbf{ to } \ns - 1$}
       \Let{$\m{S}(:, i)$}{$\m{E} \m{S}(:, i - 1) + \m{V}(:, i)$}
     \EndFor
