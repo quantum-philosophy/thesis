@@ -9,9 +9,9 @@
     \For{$i \gets 2 \textbf{ to } \ns$}
       \Let{$\v{w}$}{$\m{E} \v{w} + \m{V}(:, i)$}
     \EndFor
-    \Let{$\m{S}(:, 1)$}{$\m{U} \; \diagonal{\frac{1}{1 - e^{\lambda_i \period}}} \transpose{\m{U}} \v{w}$} \Comment{a matrix version of $\vs$}
-    \For{$i \gets 2 \textbf{ to } \ns$}
-      \Let{$\m{S}(:, i)$}{$\m{E} \m{S}(:, i - 1) + \m{V}(:, i - 1)$}
+    \Let{$\m{S}(:, \ns)$}{$\m{U} \; \diagonal{\frac{1}{1 - e^{\lambda_i \period}}} \transpose{\m{U}} \v{w}$} \Comment{a matrix version of $\vs$}
+    \For{$i \gets 1 \textbf{ to } \ns - 1$}
+      \Let{$\m{S}(:, i)$}{$\m{E} \m{S}(:, i - 1) + \m{V}(:, i)$}
     \EndFor
     \Let{$\mq$}{$\transpose{\m{B}} \m{S} + \mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
     \State \Return $\mq$
