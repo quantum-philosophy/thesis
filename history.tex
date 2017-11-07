@@ -57,16 +57,14 @@
 \newcommand{\series}[1]{\section*{\footnotesize #1}}
 \newcommand{\subseries}[1]{\subsection*{\footnotesize\normalfont\textit{#1}}}
 
-\newenvironment{theses}
-  {
-    \begin{itemize}
-      \setlength{\itemsep}{0.2em}
-      \setlength{\parskip}{0em}
-      \setlength{\parsep}{0em}
-  }
-  {
-    \end{itemize}
-  }
+\newenvironment{theses}{
+  \begin{itemize}
+    \setlength{\itemsep}{0.2em}
+    \setlength{\parskip}{0em}
+    \setlength{\parsep}{0em}
+}{
+  \end{itemize}
+}
 
 \newcommand{\thesis}[5]{\item[No. #1] \textbf{#2}: #3, #4, ISBN~#5.}
 
