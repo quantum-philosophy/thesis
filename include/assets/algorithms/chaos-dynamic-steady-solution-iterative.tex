@@ -4,7 +4,7 @@
     outcome of the uncertain parameters
   }
   \alab{chaos-dynamic-steady-solution-iterative}
-  \begin{algorithmic}[1]
+  \begin{pseudocode}
     \Require{$\vu \in \real^\nu$}
     \Ensure{$\mp \in \real^{\np \times \ns}$, $\mq \in \real^{\np \times \ns}$}
     \Let{$\mq$}{$\mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
@@ -13,5 +13,5 @@
       \Let{$\mq$}{\aref{dream-dynamic-steady-solution}($\mp$)}
     \Until{a stopping condition is satisfied}
     \State \Return $\mp$, $\mq$
-  \end{algorithmic}
+  \end{pseudocode}
 \end{algorithm}

@@ -134,6 +134,18 @@
 
 \newcommand{\inputalgorithm}[1]{\input{include/assets/algorithms/#1}}
 
+\newenvironment{pseudocode}
+  {
+    \titlerule[0.8pt]
+    \vspace{0.2em}
+    \begin{algorithmic}[1]
+  }
+  {
+    \end{algorithmic}
+    \vspace{0.2em}
+    \titlerule[0.8pt]
+  }
+
 %
 % Figures
 %

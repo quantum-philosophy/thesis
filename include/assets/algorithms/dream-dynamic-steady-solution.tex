@@ -1,7 +1,7 @@
 \begin{algorithm}[t]
   \caption{Calculation of a dynamic steady-state temperature profile}
   \alab{dream-dynamic-steady-solution}
-  \begin{algorithmic}[1]
+  \begin{pseudocode}
     \Require{$\mp \in \real^{\np \times \ns}$}
     \Ensure{$\mq \in \real^{\np \times \ns}$}
     \Let{$\m{V}$}{$\m{F} \mp$} \Comment{an auxiliary variable}
@@ -15,5 +15,5 @@
     \EndFor
     \Let{$\mq$}{$\transpose{\m{B}} \m{S} + \mq_\ambient$} \Comment{a matrix version of $\vq_\ambient$}
     \State \Return $\mq$
-  \end{algorithmic}
+  \end{pseudocode}
 \end{algorithm}

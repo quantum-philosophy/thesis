@@ -1,7 +1,7 @@
 \begin{algorithm}[t]
   \caption{Evaluation of an adaptive hierarchical interpolant}
   \alab{frame-evaluation}
-  \begin{algorithmic}[1]
+  \begin{pseudocode}
     \Require{interpolant, points}
     \Ensure{estimates} \Comment{approximated values}
     \For{point \textbf{in} points}
@@ -13,5 +13,5 @@
       \State estimates.Append(estimate)
     \EndFor
     \State \Return estimates
-  \end{algorithmic}
+  \end{pseudocode}
 \end{algorithm}

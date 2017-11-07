@@ -7,7 +7,6 @@
 \usepackage{geometry}
 
 \usepackage[no-math]{fontspec}
-\usepackage{algorithm}
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{ifthen}
@@ -183,16 +182,15 @@
 % Algorithms
 %
 
+\newfloat{algorithm}{loa}{Algorithm}
+\newlistof{listofalgorithms}{loa}{List of Algorithms}
+\newlistentry[chapter]{algorithm}{loa}{0}
+
 \renewcommand{\insertchapterspace}{%
   \addtocontents{loa}{\protect\addvspace{1em}}%
   \addtocontents{lof}{\protect\addvspace{1em}}%
   \addtocontents{lot}{\protect\addvspace{1em}}%
 }
-
-\makeatletter
-\let\old@dottedtocline\@dottedtocline
-\renewcommand{\@dottedtocline}[5]{\old@dottedtocline{#1}{0em}{#3}{#4}{#5}}
-\makeatother
 
 %
 % Chapters
@@ -281,7 +279,6 @@
   }
   {
     \listofalgorithms
-    \addcontentsline{toc}{chapter}{List of Algorithms}
     \cleardoublepage
   }
   {

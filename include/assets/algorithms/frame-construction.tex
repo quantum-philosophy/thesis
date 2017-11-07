@@ -1,7 +1,7 @@
 \begin{algorithm}[t]
   \caption{Construction of an adaptive hierarchical interpolant}
   \alab{frame-construction}
-  \begin{algorithmic}[1]
+  \begin{pseudocode}
     \Require{Algorithm~G} \Comment{a subroutine evaluating $\g \circ \transform$}
     \Ensure{interpolant}
     \While{strategy.Continue?(state)}
@@ -14,5 +14,5 @@
       \State interpolant.Append(state.indices, state.surpluses)
     \EndWhile
     \State \Return interpolant
-  \end{algorithmic}
+  \end{pseudocode}
 \end{algorithm}

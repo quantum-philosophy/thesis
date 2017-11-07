@@ -1,7 +1,7 @@
 \begin{algorithm}[t]
   \caption{Construction of a polynomial chaos expansion}
   \alab{chaos-construction}
-  \begin{algorithmic}[1]
+  \begin{pseudocode}
     \Require{Algorithm~G} \Comment{a subroutine evaluating $\g \circ \transform$}
     \Ensure{$\hat{\vg} \in \real^\nc$}
     \For{$i \gets 1 \textbf{ to } \nq$} \Comment{for each quadrature point $\vz_i$}
@@ -9,5 +9,5 @@
     \EndFor
     \Let{$\hat{\vg}$}{$\Pi \vg$}
     \State \Return $\hat{\vg}$
-  \end{algorithmic}
+  \end{pseudocode}
 \end{algorithm}
