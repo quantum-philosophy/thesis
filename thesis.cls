@@ -44,16 +44,6 @@
 % Typography
 %
 
-\setmainlanguage{english}
-\setotherlanguages{swedish}
-
-\linespread{1.05}
-
-\clubpenalty=10000
-\widowpenalty=10000
-\raggedbottom
-\midsloppy
-
 \settrimmedsize{240mm}{165mm}{*}
 \settypeblocksize{*}{28pc}{1.618}
 
@@ -67,6 +57,9 @@
   \setulmargins{2cm}{*}{*}
 }
 
+\setmainlanguage{english}
+\setotherlanguages{swedish}
+
 \newfontfamily{\headingfont}[]{KorolevLiU Medium}
 
 \setmainfont{MillerText}[
@@ -78,6 +71,13 @@
 \setmonofont{InputMonoNarrow}[
   Scale=MatchLowercase,
 ]
+
+\linespread{1.05}
+
+\clubpenalty=10000
+\widowpenalty=10000
+\raggedbottom
+\midsloppy
 
 %
 % Title
