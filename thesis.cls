@@ -85,7 +85,7 @@
 \renewcommand{\maketitle}{
   \center
   {
-    \@publicationseries, No. \@publicationnumber
+    \@publicationseries, No.~\@publicationnumber
   }\\[10em]
   {
     \headingfont
