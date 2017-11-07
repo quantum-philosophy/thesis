@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/11/06 Thesis]
+\ProvidesClass{thesis}[2017/11/07 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -16,6 +16,10 @@
 
 \usepackage{hyperref}
 \usepackage[all]{hypcap}
+
+%
+% Variables
+%
 
 \def\createvariable#1{
   \expandafter\def\csname #1\endcsname{\expandafter\gdef\csname @#1\endcsname}
@@ -35,6 +39,10 @@
 \gdef\@acknowledgments{\input{include/acknowledgments}}
 \gdef\@dedication{\input{include/dedication}}
 \gdef\@logoenglish{include/assets/layout/logo-english}
+
+%
+% Typography
+%
 
 \setmainlanguage{english}
 \setotherlanguages{swedish}
@@ -71,6 +79,10 @@
   Scale=MatchLowercase,
 ]
 
+%
+% Title
+%
+
 \renewcommand{\maketitle}{
   \center
   {
@@ -96,6 +108,10 @@
   }
 }
 
+%
+% Permissions
+%
+
 \newcommand{\makepermission}{
   \mbox{}
   \vfill
@@ -112,6 +128,10 @@
   \end{flushleft}
 }
 
+%
+% Dedication
+%
+
 \newcommand{\makededication}{
   \mbox{}
   \vfill
@@ -121,6 +141,10 @@
   \end{center}
   \vfill
 }
+
+%
+% Abstract
+%
 
 \newcommand{\makeabstractenglish}{
   \begin{english}
@@ -144,12 +168,20 @@
   \end{swedish}
 }
 
+%
+% Acknowledgments
+%
+
 \newcommand{\makeacknowledgments}{
   \chapter*{Acknowledgments}
   \phantomsection
   \addcontentsline{toc}{chapter}{Acknowledgments}
   \@acknowledgments
 }
+
+%
+% Algorithms
+%
 
 \renewcommand{\insertchapterspace}{%
   \addtocontents{loa}{\protect\addvspace{1em}}%
@@ -161,6 +193,10 @@
 \let\old@dottedtocline\@dottedtocline
 \renewcommand{\@dottedtocline}[5]{\old@dottedtocline{#1}{0em}{#3}{#4}{#5}}
 \makeatother
+
+%
+% Chapters
+%
 
 \makepagestyle{simple}
 \makeoddfoot{simple}{}{}{\thepage}
@@ -202,6 +238,10 @@
     \NoChapterNumberfalse
   }
 }
+
+%
+% Document
+%
 
 \AtBeginDocument{
   \chapterstyle{blackbox}
