@@ -179,8 +179,10 @@
 }
 
 %
-% Algorithms
+% Contents
 %
+
+\renewcommand{\contentsname}{Table of Contents}
 
 \newfloat{algorithm}{loa}{Algorithm}
 \newlistof{listofalgorithms}{loa}{List of Algorithms}
@@ -273,7 +275,6 @@
     \cleardoublepage
   }
   {
-    \renewcommand{\contentsname}{Table of Contents}
     \tableofcontents
     \cleardoublepage
   }
