@@ -44,7 +44,6 @@ Let us now turn to the choice of collocation nodes and basis functions.
 \subsection{Collocation Nodes}
 \slab{frame-grid}
 
-\inputfigure{frame-grid}
 In order to gain computational efficiency, the integration grid should be fully
 nested, which is explained in \xref{hierarchical-interpolation}. Such a grid can
 be constructed using the family of Newton--Cotes rules \cite{ma2009}. In one
@@ -65,6 +64,7 @@ they perform well in practice, which is also noted in \cite{klimke2006}. In
 fact, we are able to obtain better results with open rules and, therefore,
 present them here.
 
+\inputfigure{frame-grid}
 The open Newton--Cotes rule of level $i \in \natural$ is
 \[
   \X^1_i = \set{\x_{ij}}{j \in \tensorindex{1}{i}}
@@ -83,7 +83,6 @@ nested. In multiple dimensions, collocation nodes are formed as shown in
 \subsection{Basis Functions}
 \slab{frame-basis}
 
-\inputfigure{frame-basis}
 The basis functions that go hand in hand with open Newton--Cotes rules are
 piecewise linear functions. For $i = 0$ and $j = 0$,
 \[
@@ -120,6 +119,7 @@ functions are formed as shown in \eref{interpolant-tensor}, which results in
   e_{\vi \vj}(\vx) = \prod_{k = 1}^n e_{i_k j_k}(x_k).
 \]
 
+\inputfigure{frame-basis}
 Additionally, let us calculate the volumes (the integrals over the whole domain)
 of the aforementioned piecewise linear functions; these volumes are required in
 the continuation. For $i = 0$ and $j = 0$,
