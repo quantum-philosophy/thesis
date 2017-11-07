@@ -15,8 +15,8 @@
 \uspunctuation
 
 \begin{filecontents*}{thesis.dbx}
-\DeclareDatamodelFields[type=field,datatype=verbatim]{arxiv}
-\DeclareDatamodelEntryfields{arxiv}
+  \DeclareDatamodelFields[type=field,datatype=verbatim]{arxiv}
+  \DeclareDatamodelEntryfields{arxiv}
 \end{filecontents*}
 
 \makeatletter
@@ -38,8 +38,8 @@
 \setcounter{secnumdepth}{3}
 
 \newcommand{\hiddensubsection}[1]{
-\stepcounter{subsection}
-\subsection*{\arabic{chapter}.\arabic{section}.\arabic{subsection}\hspace{1ex}{#1}}
+  \stepcounter{subsection}
+  \subsection*{\arabic{chapter}.\arabic{section}.\arabic{subsection}\hspace{1ex}{#1}}
 }
 
 \newcommand{\applicationtitle}{Illustrative Application}
