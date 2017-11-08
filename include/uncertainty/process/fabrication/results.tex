@@ -99,7 +99,7 @@ default; \three~the number of data instances per point \ns, which is 20 by
 default; and \four~the standard deviation of measurement noise
 $\sigma_\epsilon$, which is \celsius{1} by default.
 
-\hiddensubsection{Number of Measurement Sites}
+\subsection{Number of Measurement Sites}
 
 \inputtable{bayes-sites}
 Let us vary the number of measured sites or dies \hnd. The scenarios being
@@ -122,7 +122,7 @@ increases by less than a factor of two. Regarding accuracy, the error decreases
 definitively and drops below 4\% when around 20 sites are measured, which is
 only 6\%--7\% of the total number of dies on the wafer under consideration.
 
-\hiddensubsection{Number of Measurement Points}
+\subsection{Number of Measurement Points}
 
 \inputtable{bayes-points}
 In this subsection, we consider five platforms with different numbers of
@@ -140,7 +140,7 @@ respect to the \ac{NRMSE}: the error tends to decrease as \np grows. The reason
 is that, with each measurement point, $H$ delivers more information for the
 inference to work with.
 
-\hiddensubsection{Number of Data Instances}
+\subsection{Number of Data Instances}
 
 \inputtable{bayes-instances}
 Now we change the number of data instances \ns, which, in this case, is the
@@ -163,7 +163,7 @@ representative samples can be accumulated in $H$, helping or misleading the
 inference. Additionally, we can conclude that a larger number of spatial
 measurements is more advantageous than a larger number of temporal measurements.
 
-\hiddensubsection{Deviation of Measurement Noise}
+\subsection{Deviation of Measurement Noise}
 
 \inputtable{bayes-noise}
 In this subsection, we vary the standard deviation of measurement noise, which
@@ -181,7 +181,7 @@ a noise of \celsius{2}---meaning that measurements are dispersed over a wide
 band of \celsius{8} with a probability of more than 0.95---the \ac{NRMSE} is
 still only 4\%.
 
-\hiddensubsection{Sequential and Parallel Sampling}
+\subsection{Sequential and Parallel Sampling}
 
 Lastly, we elaborate on the sequential and parallel sampling strategies. In the
 sequential Metropolis--Hastings algorithm, the optimization time is typically

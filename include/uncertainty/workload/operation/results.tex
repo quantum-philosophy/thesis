@@ -6,7 +6,7 @@ of \up{RAM}, and an \up{HDD} of 500~\up{GB}. All the source code, configuration
 files, and input data used in the experiments are available online at
 \cite{eslab2017b}; see also \cite{eslab2017c}.
 
-\hiddensubsection{Data Pipeline}
+\subsection{Data Pipeline}
 
 Recall that we study the Google cluster-usage traces \cite{reiss2011}, which are
 introduced in \sref{brain-data-pipeline}. Without loss of generality, we focus
@@ -30,7 +30,7 @@ profiles and storing them on disk takes around four hours. Recall that this
 operation has to be repeated only when the selection criteria change, which
 happens rarely.
 
-\hiddensubsection{Learning Pipeline}
+\subsection{Learning Pipeline}
 
 The training step (see the leftmost blue box in \fref{brain-overview}) is
 configured as follows. Ten buckets are used according to the following
