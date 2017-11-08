@@ -159,8 +159,6 @@
 \newcommand{\makeabstractswedish}{
   \begin{swedish}
     \centerline{\Large\textsc{Sammanfattning}}
-    \phantomsection
-    \addcontentsline{toc}{chapter}{Sammanfattning}
     \vspace{1em}
     \noindent
     \@abstractswedish
