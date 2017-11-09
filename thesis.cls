@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{thesis}[2017/11/07 Thesis]
+\ProvidesClass{thesis}[2017/11/09 Thesis]
 
 \LoadClass[a4paper,showtrims]{memoir}
 
@@ -122,7 +122,6 @@
       ISSN & \texttt{\@issn} \\
       URL  & \texttt{https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-\@divanumber} \\
     \end{tabular}\\[2em]
-    Typeset in Korolev LiU, Miller Text, Computer Modern, and Input Mono\\
     Printed by LiU-Tryck, Linköping \@publicationyear
   \end{flushleft}
 }
