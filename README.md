@@ -22,9 +22,9 @@ layout of the thesis.
 latexmk -xelatex thesis.tex
 ```
 
-## Copyright
+## License
 
-© 2017 Ivan Ukhov
+The content is distributed under the terms of the [MIT license](LICENSE.md).
 
 [thesis]: https://IvanUkhov.github.io/thesis/thesis.pdf
 
