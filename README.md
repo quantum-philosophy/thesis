@@ -26,7 +26,7 @@ latexmk -xelatex thesis.tex
 
 The content is distributed under the terms of the [MIT license](LICENSE.md).
 
-[thesis]: https://IvanUkhov.github.io/thesis/thesis.pdf
+[thesis]: https://quantum-philosophy.github.io/thesis/thesis.pdf
 
 [input]: http://input.fontbureau.com/
 [korolev]: https://liu.se/en/
